@@ -1,0 +1,290 @@
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+
+@font-face {font-family: "TexturLombardischLTW01"; 
+  src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot"); 
+  src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot?#iefix") format("embedded-opentype"), 
+  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.woff2") format("woff2"), 
+  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.woff") format("woff"), 
+  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.ttf") format("truetype"), 
+  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.svg#TexturLombardischLTW01") format("svg"); }
+
+/*
+@font-face {font-family: "LombardischW00-Lombardic"; 
+  src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot"); 
+  src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff") format("woff"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.svg#LombardischW00-Lombardic") format("svg"); }
+*/
+
+/* Global styles */
+.body {
+  font-weight: normal;
+}
+
+.window-app {
+  font-family: "Roboto", sans-serif;
+}
+
+.rollable:hover, .rollable:focus {
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
+}
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #999;
+}
+
+.flex-group-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.flex-group-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flex-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.flex-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+/* Styles limited to arm5e sheets */
+.arm5e .item-form {
+  font-family: "Roboto", sans-serif;
+}
+
+.arm5e .sheet-header {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 260px;
+  flex: 0 0 260px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.arm5e .sheet-header .profile-img {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+
+.arm5e .sheet-header .header-fields {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.arm5e .sheet-header h1.charname {
+  height: 50px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+
+.arm5e .sheet-header h1.charname input {
+  width: 100%;
+  margin: 0;
+  padding-top: 30px;
+  line-height: 30;
+  font-family: "TexturLombardischLTW01";
+  letter-spacing: 1px;
+}
+
+.arm5e .sheet-header h2.covenantname {
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+
+.arm5e .sheet-header h2.covenantname input {
+  width: 100%;
+  margin: 0;
+  padding-top: 25px;
+  line-height: 50;
+  font-family: "TexturLombardischLTW01";
+  letter-spacing: 1px;
+}
+
+.arm5e .sheet-tabs {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+}
+
+.arm5e .sheet-body,
+.arm5e .sheet-body .tab,
+.arm5e .sheet-body .tab .editor {
+  height: 100%;
+}
+
+.arm5e .tox .tox-editor-container {
+  background: #fff;
+}
+
+.arm5e .tox .tox-edit-area {
+  padding: 0 8px;
+}
+
+.arm5e .resource-label {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.arm5e .header-label {
+  font-weight: bold;
+}
+
+.arm5e .tabs {
+  height: 40px;
+  border-top: 1px solid #AAA;
+  border-bottom: 1px solid #AAA;
+}
+
+.arm5e .tabs .item {
+  line-height: 60px;
+  font-family: "TexturLombardischLTW01";
+  font-size: 18pt;
+}
+
+.arm5e .tabs .item.active {
+  text-decoration: underline;
+  text-shadow: none;
+}
+
+.arm5e .items-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.arm5e .items-list .item-header {
+  font-weight: bold;
+}
+
+.arm5e .items-list .item {
+  height: 30px;
+  line-height: 24px;
+  padding: 3px 0;
+  border-bottom: 1px solid #BBB;
+}
+
+.arm5e .items-list .item .item-image {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+
+.arm5e .items-list .item img {
+  display: block;
+}
+
+.arm5e .items-list .item-name {
+  margin: 0;
+}
+
+.arm5e .items-list .item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+}

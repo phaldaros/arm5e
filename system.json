@@ -1,0 +1,75 @@
+{
+  "name": "arm5e",
+  "title": "Ars Magica 5th Edition",
+  "description": "Ars Magica 5e for Foundry VTT",
+  "version": "0.1.0",
+  "minimumCoreVersion": "0.5.5",
+  "compatibleCoreVersion": "0.6.5",
+  "templateVersion": 2,
+  "author": "phaldaros",
+  "esmodules": ["module/arm5e.js"],
+  "styles": ["css/arm5e.css"],
+  "packs": [
+    {
+      "name": "magi",
+      "label": "Magi",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/magi.db",
+      "entity": "Actor"
+    },
+    {
+      "name": "companions",
+      "label": "Companions",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/companions.db",
+      "entity": "Actor"
+    },
+    {
+      "name": "grogs",
+      "label": "Grogs",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/grogs.db",
+      "entity": "Actor"
+    },
+    {
+      "name": "spells",
+      "label": "Spells",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/spells.db",
+      "entity": "Item"
+    },
+    {
+      "name": "items",
+      "label": "Items",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/items.db",
+      "entity": "Item"
+    },
+    {
+      "name": "scenes",
+      "label": "Scenes",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/scenes.db",
+      "entity": "Scene"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "gridDistance": 5,
+  "gridUnits": "ft",
+  "url": "https://github.com/phaldaros/arm5e",
+  "manifest": "https://raw.githubusercontent.com/phaldaros/arm5e/master/system.json",
+  "download": "",
+  "license": "LICENSE.txt"
+}

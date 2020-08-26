@@ -1,0 +1,97 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <div class="grid grid-2col">
+                <div class="resource flexcol flexrow">
+                    <label for="data.technique.value" class="header-label">Technique</label>
+                        <select name="data.technique.value"  data-type="String">
+                            {{#select item.data.technique.value}}
+                            {{#each item.data.techniques as |techniques key|}}
+                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+                        </select>
+                </div>
+                <div class="resource flexcol flexrow">
+                    <label for="data.form.value" class="header-label">Form</label>
+                        <select name="data.form.value"  data-type="String">
+                            {{#select item.data.form.value}}
+                            {{#each item.data.forms as |forms key|}}
+                        <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
+                        </select>
+                </div>
+                <div class="resource flexcol flexrow">
+                    <label for="data.technique-requisite.value" class="header-label">Technique Requisite</label>
+                        <select name="data.technique-requisite.value"  data-type="String">
+                            {{#select item.data.technique-requisite.value}}
+                            {{#each item.data.technique-requisites as |techniques key|}}
+                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+                        </select>
+                </div>
+                <div class="resource flexcol flexrow">
+                    <label for="data.form-requisite.value" class="header-label">Form Requisite</label>
+                        <select name="data.form-requisite.value"  data-type="String">
+                            {{#select item.data.form-requisite.value}}
+                            {{#each item.data.form-requisites as |forms key|}}
+                        <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
+                        </select>
+                </div>
+                <div class="resource">
+                    <label class="header-label">Level</label>
+                      <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number"/>
+                  </div>
+                <div class="resource flexcol flex-center">
+                    <label class="header-label">Ritual</label>
+                        <input type="checkbox" name="data.ritual" {{checked data.ritual}}>
+                  </div>
+            </div>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="attributes">Attributes</a>
+        <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Attributes Tab --}}
+        <div class="tab attributes" data-group="primary" data-tab="attributes">
+            <div class="grid grid-3col">
+                <div class="resource">
+                  <label class="header-label">Range</label>
+                    <input type="text" name="data.range" value="{{data.range}}" data-dtype="Number"/>
+                </div>
+                <div class="resource">
+                    <label class="header-label">Duration</label>
+                      <input type="text" name="data.duration" value="{{data.duration}}" data-dtype="Number"/>
+                  </div>
+                  <div class="resource">
+                    <label class="header-label">Target</label>
+                      <input type="text" name="data.target" value="{{data.target}}" data-dtype="String"/>
+                  </div>
+                  <div class="resource">
+                    <label class="header-label">Bonus</label>
+                      <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="String"/>
+                  </div>
+                  <div class="resource">
+                    <label class="header-label">Experience</label>
+                      <input type="text" name="data.exp" value="{{data.exp}}" data-dtype="Number"/>
+                  </div>
+                  <div class="resource">
+                    <label class="header-label">Mastery</label>
+                      <input type="text" name="data.mastery" value="{{data.mastery}}" data-dtype="Number"/>
+                  </div>
+                  <div class="resource">
+                    <label class="header-label">Source</label>
+                      <input type="text" name="data.source" value="{{data.source}}" data-dtype="String"/>
+                  </div>
+        {{!-- Description Tab --}}
+        <div class="tab" data-group="primary" data-tab="description">
+            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+        </div>
+
+    </section>
+</form>

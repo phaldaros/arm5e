@@ -1,0 +1,308 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            <h2 class="covenantname"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
+            <div class="resources grid grid-3col">
+              <div class="resource flex-group-left flexcol">
+                  <div class="resource-content flexrow">
+                    <span class="flexcol flex-center">
+                    <label for="data.house.value" class="header-label">House</label>
+                      <select name="data.house.value"  data-type="String">
+                        {{#select actor.data.house.value}}
+                        {{#each actor.data.houses as |house key|}}
+                        <option value="{{key}}">{{house.label}}</option> {{/each}} {{/select}}
+                      </select>
+                    </span>
+                    </div>
+                </div>
+              <div class="resource flex-group-left flexcol">
+                  <div class="resource-content flexrow">
+                    <span class="flexcol flex-center">
+                      <label for="data.season.value" class="header-label">Season</label>
+                      <select name="data.season.value"  data-type="String">
+                        {{#select actor.data.season.value}}
+                        {{#each actor.data.seasons as |season key|}}
+                        <option value="{{key}}">{{season.label}}</option> {{/each}} {{/select}}
+                      </select>
+                    </span>
+                    <span class="flexcol flex-center">
+                      <label for="data.year.value" class="header-label">Year</label>
+                      <input type="text" name="data.year.value" value="{{data.year.value}}" data-dtype="String"/>
+                    </span>
+                  </div>
+                </div>
+              <div class="resource flex-group-center">
+                <label  for="data.con.score" class="header-label">Confidence</label>
+                <div class="resource-content flexrow flex-center flex-between">
+                  <input type="text" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"/>
+                  <span> ( </span>
+                  <input type="text" name="data.con.points" value="{{data.con.points}}" data-dtype="Number"/>
+                  <span> ) </span>
+                </div>
+              </div>
+            </div>
+          <div class="characteristics grid grid-4col">
+            {{#each data.characteristics as |characteristic key|}}
+              <div class="characteristic flexrow flex-group-center">
+                <label for="data.characteristics.{{key}}.value" class="resource-label rollable tooltip" data-roll="d10+@characteristics.{{key}}.value">{{key}}</label>
+                <input type="text" name="data.characteristics.{{key}}.value" value="{{numberFormat characteristic.value decimals=0 sign=true}}" data-dtype="Number" />
+              </div>
+            {{/each}}
+          </div>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="abilities">Abilities</a>
+        <a class="item" data-tab="virtues">Virtues & Flaws</a>
+        <a class="item" data-tab="arts">Arts</a>
+        <a class="item" data-tab="items">Items</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Description Tab --}}
+        <div class="tab biography" data-group="primary" data-tab="description">
+          <div class="flexcol grid grid-2col">
+            <div class="flexrow flex-group-left">
+              {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+            </div>
+            <div>
+              <div class="flex-group-left">
+                {{#each data.vitals as |vitals key|}}
+                  <div class="flexrow">
+                    <label for="data.vitals.{{key}}.label" class="header-label">{{label}}</label>
+                    <span><input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" /></span>
+                  </div>
+                {{/each}}
+              </div>
+              <div class="flexcol flex-group-left"><label class="header-label">Personality
+                <ol>
+                    {{#each actor.data.personality as |pers key|}}
+                    <li class="flexrow flex-group-left"  data-attribute="{{key}}">
+                        <span class="flexrow"  name="data.personality.{{key}}.label">
+                            <div class="flexrow">
+                            <input  type="text"  name="data.personality.{{key}}.label"  value="{{pers.label}}"  data-dtype="String"  />
+                            </div>
+                        </span>
+                        <div  class="flexrow">
+                          <span></span>  
+                          <input   type="text"  name="data.personality.{{key}}.score"  value="{{numberFormat pers.score decimals=0 sign=true}}"  data-dtype="Number"  />
+                        </div>  
+                    </li>
+                    {{/each}}
+                </ol></label>
+              </div>
+              <div class="flex-group-left">
+                {{#each data.description as |description key|}}
+                <div class="flexrow">
+                  <label for="data.description.{{key}}.label" class="header-label">{{label}}</label>
+                  <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="Number" /></span>
+                </div>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Abilities Tab --}}
+        <div class="tab abilities" data-group="primary" data-tab="abilities">
+          <ol>
+            {{#each actor.data.abilities as |abilities key|}}
+            <li class="flexrow flex-center flex-group-left" data-attribute="{{key}}">
+                <span  class="flexrow header-label rollable" data-roll="d10+@abilities.{{key}}.score.value" name="data.abilities.{{key}}.label">{{label}}</span>
+                <span class="body">
+                {{#if trainingRequired}}
+                Training Required
+                {{/if}}</span>
+                <div  class="flexrow flex-center">
+                  <label>Score<input type="text" name="data.abilities.{{key}}.score.value"  value="{{abilities.score.value}}"  data-dtype="Number" /></label>
+                  <span></span>
+                  <label>Experience<input type="text" name="data.abilities.{{key}}.xp.value"  value="{{abilities.xp.value}}"  data-dtype="Number"  /></label>
+                </div>  
+            </li>
+            {{/each}}
+          </ol>
+        </div>
+
+        {{!-- Virtues & Flaws Tab --}}
+        <div class="tab virtues" data-group="primary" data-tab="virtues">
+          <!-- <span class="flexrow flex-group-center"><label class="header-label">Net Points Spent</label></span>
+          <span class="flexrow">
+            {{#if taken}}
+              {{sum virtues.cost flaws.cost}}
+            {{/if}}
+          </span>-->
+          <div class="flexrow grid grid-2col">
+            <div class="flexcol flex-group-left"><label class="header-label">Virtues
+              <ol>
+                {{#each data.virtues as |virtues key|}}
+                <li class="flexrow flex-group-left resource" data-attribute="{{key}}">
+                    <span class="header-label" name="data.virtues.{{key}}.label">{{label}}</span>
+                    <span></span>
+                    <span class="body" name="data.virtues.{{key}}.type">{{type}}</span>
+                    <span></span>
+                    <span class="body" name="data.virtues.{{key}}.impact">{{impact}}</span>
+                    <input type="checkbox" name="data.virtues.{{key}}.taken" {{checked virtues.taken}}>
+                </li>
+                {{/each}}
+            </ol></label>
+            </div>
+            <div class="flexcol flex-group-left"><label class="header-label">Flaws
+              <ol>
+                {{#each actor.data.flaws as |flaws key|}}
+                <li class="flexrow flex-group-left" data-attribute="{{key}}">
+                    <span class="header-label" name="data.flaws.{{key}}.label">{{label}}</span>
+                    <span></span>
+                    <span class="body" name="data.flaws.{{key}}.type">{{type}}</span>
+                    <span></span>
+                    <span class="body" name="data.flaws.{{key}}.impact">{{impact}}</span>
+                    <input type="checkbox" name="data.flaws.{{key}}.taken" {{checked flaws.taken}}>
+                </li>
+                {{/each}}
+              </ol></label>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Arts Tab --}}
+        <div class="tab arts" data-group="primary" data-tab="arts">
+          <div class="flexrow grid grid-2col">
+            <div>
+              <label class="header-label"><ol>Techniques
+                {{#each actor.data.arts.techniques as |techniques key|}}
+                <li  class="flexrow flex-group-left" data-attribute="{{key}}">
+                    <span  class="flexrow header-label" name="data.arts.techniques.{{key}}.label">{{label}}</span></label>
+                    <div class="flexrow">
+                      <label class="body">Score<input class="flexrow" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number"  /></label>
+                        <label class="body">Experience<input class="flexrow" type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}"  data-dtype="Number"  /></label>
+                    </div>
+                </li>
+                {{/each}}
+              </ol>
+              <label class="header-label"><ol>Forms
+                {{#each actor.data.arts.forms as |forms key|}}
+                <li  class="flexrow flex-group-left" data-attribute="{{key}}">
+                    <span  class="flexrow header-label" name="data.arts.forms.{{key}}.label">{{label}}</span></label>
+                    <div class="flexrow">
+                      <label class="body">Score<input class="flexrow" type="text"name="data.arts.forms.{{key}}.score"  value="{{forms.score}}"  data-dtype="Number"  />
+                      <label class="body">Experience<input class="flexrow" type="text" name="data.arts.forms.{{key}}.experience"  value="{{forms.experience}}"  data-dtype="Number"  />
+                    </div>  
+                </li>
+                {{/each}}
+                </ol>
+            </div>
+            <div>
+              <ol class="items-list">
+                <li class="item flexrow item-header">
+                  <div class="item-image"></div>
+                  <div class="item-name">Spells</div>
+                  <div class="item-controls">
+                    <a class="item-control item-create" title="Create spell" data-type="item"><i class="fas fa-plus"></i></a>
+                  </div>
+                </li>
+                {{#each actor.spells as |item id|}}
+                  <li class="item flexrow" data-item-id="{{item._id}}">
+                      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                      <h4 class="item-name">{{item.name}}</h4>
+                      <div class="item-controls">
+                          <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                          <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                      </div>
+                  </li>
+                {{/each}}
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        {{!-- Items Tab --}}
+        <div class="tab items" data-group="primary" data-tab="items">
+            <ol class="items-list">
+                <li class="item flexrow item-header">
+                  <div class="item-image"></div>
+                  <div class="item-name">Weapons</div>
+                  <div class="item-controls">
+                    <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
+                  </div>
+                </li>
+            {{#each actor.weapons as |item id|}}
+                <li class="item flexrow" data-item-id="{{item._id}}">
+                    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                    <h4 class="item-name">{{item.name}}</h4>
+                    <div class="item-controls">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+            {{/each}}
+            </ol>
+            <ol class="items-list">
+              <li class="item flexrow item-header">
+                <div class="item-image"></div>
+                <div class="item-name">Armor</div>
+                <div class="item-controls">
+                  <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
+                </div>
+              </li>
+          {{#each actor.armor as |item id|}}
+              <li class="item flexrow" data-item-id="{{item._id}}">
+                  <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                  <h4 class="item-name">{{item.name}}</h4>
+                  <div class="item-controls">
+                      <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                      <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                  </div>
+              </li>
+          {{/each}}
+          </ol>
+          <ol class="items-list">
+            <li class="item flexrow item-header">
+              <div class="item-image"></div>
+              <div class="item-name">Items</div>
+              <div class="item-controls">
+                <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
+              </div>
+            </li>
+          {{#each actor.items as |item id|}}
+              <li class="item flexrow" data-item-id="{{item._id}}">
+                  <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                  <h4 class="item-name">{{item.name}}</h4>
+                  <div class="item-controls">
+                      <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                      <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                  </div>
+              </li>
+          {{/each}}
+          </ol>
+          <ol class="items-list">
+            <li class="item flexrow item-header">
+              <div class="item-image"></div>
+              <div class="item-name">Raw Vis</div>
+              <div class="item-controls">
+                <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
+              </div>
+            </li>
+        {{#each actor.vis as |item id|}}
+            <li class="item flexrow" data-item-id="{{item._id}}">
+                <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+                <h4 class="item-name">{{item.name}}</h4>
+                <div class="item-controls">
+                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                </div>
+            </li>
+        {{/each}}
+        </ol>
+    </div>
+
+    </section>
+</form>
+
