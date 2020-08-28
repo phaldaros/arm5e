@@ -72,7 +72,7 @@ export class ArM5eActorSheet extends ActorSheet {
         vis.push(i);
       }
       // Append to items.
-      else if (i.type === 'items') {
+      else if (i.type === 'item') {
         items.push(i);
       }
     }
