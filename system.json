@@ -2,9 +2,9 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "minimumCoreVersion": "0.5.5",
-  "compatibleCoreVersion": "0.6.5",
+  "compatibleCoreVersion": "0.6.6",
   "templateVersion": 2,
   "author": "phaldaros",
   "esmodules": ["module/arm5e.js"],
@@ -70,6 +70,6 @@
   "gridUnits": "ft",
   "url": "https://github.com/phaldaros/arm5e",
   "manifest": "https://raw.githubusercontent.com/phaldaros/arm5e/master/system.json",
-  "download": "",
+  "download": "https://github.com/phaldaros/arm5e/archive/master.zip",
   "license": "LICENSE.txt"
 }
