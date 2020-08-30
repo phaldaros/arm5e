@@ -3,68 +3,6 @@
     "types": ["magus", "companion", "grog", "covenant"],
     "templates": {
       "base": {
-        "house": {
-          "value": "",
-          "label": "House"
-        },
-        "houses": {
-          "n-a": {
-            "label": "N/A",
-            "dtype": "String"
-          },
-          "bjo": {
-            "label": "Bjornaer",
-            "dtype": "String"
-          },
-          "bon": {
-            "label": "Bonisagus",
-            "dtype": "String"
-          },
-          "cri": {
-            "label": "Criamon",
-            "dtype": "String"
-          },
-          "exm": {
-            "label": "Ex Miscellanea",
-            "dtype": "String"
-          },
-          "fla": {
-            "label": "Flambeau",
-            "dtype": "String"
-          },
-          "gen": {
-            "label": "Generic Magus",
-            "dtype": "String"
-          },
-          "gue": {
-            "label": "Guernicus",
-            "dtype": "String"
-          },
-          "jer": {
-            "label": "Jerbiton",
-            "dtype": "String"
-          },
-          "mer": {
-            "label": "Mercere",
-            "dtype": "String"
-          },
-          "mta": {
-            "label": "Merinita",
-            "dtype": "String"
-          },
-          "tre": {
-            "label": "Tremere",
-            "dtype": "String"
-          },
-          "tyt": {
-            "label": "Tytalus",
-            "dtype": "String"
-          },
-          "ver": {
-            "label": "Verditius",
-            "dtype": "String"
-          }
-        },
         "con": {
           "label": "Confidence ",
           "score": 1,
@@ -103,18 +41,18 @@
           "dtype": "String",
           "value": "1225"
         },
+        "age": {
+          "label": "Age",
+          "dtype": "Number",
+          "value": 25
+        },
+        "apparent": {
+          "label": "Apparent Age",
+          "dtype": "Number",
+          "value": 25
+        },
         "biography": "Character biography, notes, &c.",
         "description": {
-          "age": {
-            "label": "Age",
-            "dtype": "Number",
-            "value": 25
-          },
-          "apparent": {
-            "label": "Apparent Age",
-            "dtype": "Number",
-            "value": 25
-          },
           "born": {
             "label": "Year Born",
             "dtype": "Number",
@@ -3181,6 +3119,68 @@
     },
     "magus": {
       "templates": ["base"],
+      "house": {
+        "value": "",
+        "label": "House"
+      },
+      "houses": {
+        "n-a": {
+          "label": "N/A",
+          "dtype": "String"
+        },
+        "bjo": {
+          "label": "Bjornaer",
+          "dtype": "String"
+        },
+        "bon": {
+          "label": "Bonisagus",
+          "dtype": "String"
+        },
+        "cri": {
+          "label": "Criamon",
+          "dtype": "String"
+        },
+        "exm": {
+          "label": "Ex Miscellanea",
+          "dtype": "String"
+        },
+        "fla": {
+          "label": "Flambeau",
+          "dtype": "String"
+        },
+        "gen": {
+          "label": "Generic Magus",
+          "dtype": "String"
+        },
+        "gue": {
+          "label": "Guernicus",
+          "dtype": "String"
+        },
+        "jer": {
+          "label": "Jerbiton",
+          "dtype": "String"
+        },
+        "mer": {
+          "label": "Mercere",
+          "dtype": "String"
+        },
+        "mta": {
+          "label": "Merinita",
+          "dtype": "String"
+        },
+        "tre": {
+          "label": "Tremere",
+          "dtype": "String"
+        },
+        "tyt": {
+          "label": "Tytalus",
+          "dtype": "String"
+        },
+        "ver": {
+          "label": "Verditius",
+          "dtype": "String"
+        }
+      },
       "dom-mag": {
         "label": "Domus Magna",
         "dtype": "String",
@@ -3204,7 +3204,7 @@
       "sigil": {
         "label": "Wizard's Sigil",
         "dtype": "String",
-        "value": ""
+        "value": "A flash of blue light."
       },
       "attributes": {
         "level": {
@@ -3561,8 +3561,7 @@
       "exp": "",
       "mastery": "",
       "source": ""
-    }
-  },
+    },
     "vis": {
       "templates": ["base"],
       "art": {
@@ -3640,3 +3639,4 @@
     "weight": 0
     }
   }
+}

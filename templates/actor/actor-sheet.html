@@ -7,18 +7,15 @@
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
             <h2 class="covenantname"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
             <div class="resources grid grid-3col">
-              <div class="resource flex-group-left flexcol">
-                  <div class="resource-content flexrow">
-                    <span class="flexcol flex-center">
-                    <label for="data.house.value" class="header-label">House</label>
-                      <select name="data.house.value"  data-type="String">
-                        {{#select actor.data.house.value}}
-                        {{#each actor.data.houses as |house key|}}
-                        <option value="{{key}}">{{house.label}}</option> {{/each}} {{/select}}
-                      </select>
-                    </span>
-                    </div>
+              <div class="resource flex-group-center">
+                <label  for="data.age.value" class="header-label">Age</label>
+                <div class="resource-content flexrow flex-center flex-between">
+                  <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number"/>
+                  <span> ( </span>
+                  <input type="text" name="data.apparent.value" value="{{data.apparent.value}}" data-dtype="Number"/>
+                  <span> ) </span>
                 </div>
+              </div>
               <div class="resource flex-group-left flexcol">
                   <div class="resource-content flexrow">
                     <span class="flexcol flex-center">
@@ -61,15 +58,55 @@
         <a class="item" data-tab="description">Description</a>
         <a class="item" data-tab="abilities">Abilities</a>
         <a class="item" data-tab="virtues">Virtues & Flaws</a>
+        {{#if (eq actor.type "magus")}}
         <a class="item" data-tab="arts">Arts</a>
-        <a class="item" data-tab="items">Items</a>
+        {{/if}}
+        <a class="item" data-tab="inventory">Inventory</a>
     </nav>
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
 
         {{!-- Description Tab --}}
-        <div class="tab biography" data-group="primary" data-tab="description">
+        <div class="tab description" data-group="primary" data-tab="description">
+          {{#if (eq actor.type "magus")}}
+            <div class="flexrow flexcol">
+              <div class="flexcol grid grid-2col">
+                <div style="height: 150px;">
+                  <div class="flex-group-left">
+                    <div class="flexrow">
+                      <label for="data.house.value" class="header-label">House</label>
+                      <span><select name="data.house.value"  data-type="String">
+                        {{#select data.house.value}}
+                        {{#each data.houses as |house key|}}
+                        <option value="{{key}}">{{house.label}}</option> {{/each}} {{/select}}
+                      </select></span>
+                    </div>
+                    <div class="flexrow">
+                      <label for="data.dom-mag.label" class="header-label">Domus Magnus</label>
+                      <span><input type="text" name="data.dom-mag.value" value="{{actor.data.dom-mag.value}}" data-dtype="String" /></span>
+                    </div>
+                    <div class="flexrow">
+                      <label for="data.primus.value" class="header-label">Primus</label>
+                      <span><input type="text" name="data.primus.value" value="{{actor.data.primus.value}}" data-dtype="String" /></span>
+                    </div>
+                    <div class="flexrow">
+                      <label for="data.parens.value" class="header-label">Parens</label>
+                      <span><input type="text" name="data.parens.value" value="{{actor.data.parens.value}}" data-dtype="String" /></span>
+                    </div>
+                    <div class="flexrow">
+                      <label for="data.apprenticeship.value" class="header-label">Covenant of Apprenticeship</label>
+                      <span><input type="text" name="data.apprenticeship.value" value="{{actor.data.apprenticeship.value}}" data-dtype="String" /></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-group-left">
+                  <label for="data.sigil" class="header-label">Wizard's Sigil</label>
+                    {{editor content=data.sigil.value target="data.sigil.value" button=true owner=owner editable=editable}}
+                </div>
+              </div>
+            </div>
+          {{/if}}
           <div class="flexcol grid grid-2col">
             <div class="flexrow flex-group-left">
               {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
@@ -172,6 +209,7 @@
           </div>
         </div>
 
+      {{#if (eq actor.type "magus")}}
         {{!-- Arts Tab --}}
         <div class="tab arts" data-group="primary" data-tab="arts">
           <div class="flexrow grid grid-2col">
@@ -222,9 +260,10 @@
             </div>
           </div>
         </div>
+      {{/if}}
 
-        {{!-- Items Tab --}}
-        <div class="tab items" data-group="primary" data-tab="items">
+        {{!-- Inventory Tab --}}
+        <div class="tab inventory" data-group="primary" data-tab="inventory">
             <ol class="items-list">
                 <li class="item flexrow item-header">
                   <div class="item-image"></div>
