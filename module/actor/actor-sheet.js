@@ -26,7 +26,7 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     // Prepare items.
-    if (this.actor.data.type in ['magus','companion','grog','covenant']) {
+    if (this.actor.data.type == 'magus') {
       this._prepareCharacterItems(data);
     }
 

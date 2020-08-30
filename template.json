@@ -124,16 +124,6 @@
               "label": "Size",
               "value": 0
             },
-            "dec": {
-              "label": "Decrepitude",
-              "value": 0,
-              "effects": ""
-            },
-            "war": {
-              "label": "Warping ",
-              "value": 0,
-              "effects": ""
-            },
             "soa": {
               "label": "Soak ",
               "value": 0
@@ -141,15 +131,20 @@
             "enc": {
               "label": "Encumbrance ",
               "value": 0
-            },
-            "rep": {
-              "label": "Reputation",
-              "name": "",
-              "value": 0,
-              "points": 0,
-              "type": 0
             }
           },
+        "decrepitude": {
+          "label": "Decrepitude",
+          "score": 0,
+          "points": 0,
+          "effects": "Decrepitude effects"
+        },
+        "warping": {
+          "label": "Warping ",
+          "score": 0,
+          "points": 0,
+          "effects": "Warping effects"
+        },
         "characteristics": {
           "int": {
             "label": "Intelligence",
@@ -2369,6 +2364,41 @@
           },
           "per3": {
             "label": "Trait 3",
+            "score": "0"
+          },
+          "per4": {
+            "label": "Trait 4",
+            "score": "0"
+          },
+          "per5": {
+            "label": "Trait 5",
+            "score": "0"
+          }
+        },
+        "reputation": {
+          "rep1": {
+            "label": "Reputation 1",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep2": {
+            "label": "Reputation 2",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep3": {
+            "label": "Reputation 3",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep4": {
+            "label": "Reputation 4",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep5": {
+            "label": "Reputation 5",
+            "type": "Type",
             "score": "0"
           }
         },

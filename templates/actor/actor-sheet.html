@@ -108,45 +108,95 @@
             </div>
           {{/if}}
           <div class="flexcol grid grid-2col">
-            <div class="flexrow flex-group-left">
-              {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+            <div class="flex-group-left">
+              <label class="header-label">Warping</label>
+              <div class="flexrow">
+                <label for="data.warping.score" class="body">Score</label>
+                <span><input type="text" name="data.warping.score" value="{{actor.data.warping.score}}" data-dtype="String" /></span>
+                <span></span>
+                <label for="data.warping.points" class="body">Points</label>
+                <span><input type="text" name="data.warping.points" value="{{actor.data.warping.points}}" data-dtype="String" /></span>
+              </div>
+              <div class="flexrow flex-group-left" style="height:120px;">
+                {{editor content=data.warping.effects target="data.warping.effects" button=true owner=owner editable=editable}}
+              </div>
             </div>
-            <div>
-              <div class="flex-group-left">
-                {{#each data.vitals as |vitals key|}}
-                  <div class="flexrow">
-                    <label for="data.vitals.{{key}}.label" class="header-label">{{label}}</label>
-                    <span><input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" /></span>
-                  </div>
-                {{/each}}
+            <div class="flex-group-left">
+              <label class="header-label">Decrepitude</label>
+              <div class="flexrow">
+                <label for="data.decrepitude.score" class="body">Score</label>
+                <span><input type="text" name="data.decrepitude.score" value="{{actor.data.decrepitude.score}}" data-dtype="String" /></span>
+                <span></span>
+                <label for="data.decrepitude.points" class="body">Points</label>
+                <span><input type="text" name="data.decrepitude.points" value="{{actor.data.decrepitude.points}}" data-dtype="String" /></span>
               </div>
-              <div class="flexcol flex-group-left"><label class="header-label">Personality
-                <ol>
-                    {{#each actor.data.personality as |pers key|}}
-                    <li class="flexrow flex-group-left"  data-attribute="{{key}}">
-                        <span class="flexrow"  name="data.personality.{{key}}.label">
-                            <div class="flexrow">
-                            <input  type="text"  name="data.personality.{{key}}.label"  value="{{pers.label}}"  data-dtype="String"  />
-                            </div>
-                        </span>
-                        <div  class="flexrow">
-                          <span></span>  
-                          <input   type="text"  name="data.personality.{{key}}.score"  value="{{numberFormat pers.score decimals=0 sign=true}}"  data-dtype="Number"  />
-                        </div>  
-                    </li>
-                    {{/each}}
-                </ol></label>
-              </div>
-              <div class="flex-group-left">
-                {{#each data.description as |description key|}}
-                <div class="flexrow">
-                  <label for="data.description.{{key}}.label" class="header-label">{{label}}</label>
-                  <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="Number" /></span>
-                </div>
-                {{/each}}
+              <div class="flexrow flex-group-left" style="height:120px;">
+                {{editor content=data.decrepitude.effects target="data.decrepitude.effects" button=true owner=owner editable=editable}}
               </div>
             </div>
           </div>
+          <div class="flexcol grid grid-2col">
+            <div class="flex-group-left">
+              <label class="header-label">Biography</label>
+              {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+            </div>
+          <div>
+            <div class="flex-group-left">
+              {{#each data.vitals as |vitals key|}}
+                <div class="flexrow">
+                  <label for="data.vitals.{{key}}.label" class="header-label">{{label}}</label>
+                  <span><input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" /></span>
+                </div>
+              {{/each}}
+            </div>
+            <div class="flexcol flex-group-left"><label class="header-label">Personality
+              <ol>
+                  {{#each actor.data.personality as |pers key|}}
+                  <li class="flexrow flex-group-left"  data-attribute="{{key}}">
+                      <span class="flexrow"  name="data.personality.{{key}}.label">
+                          <div class="flexrow">
+                          <input  type="text"  name="data.personality.{{key}}.label"  value="{{pers.label}}"  data-dtype="String"  />
+                          </div>
+                      </span>
+                      <div  class="flexrow">
+                        <span></span>  
+                        <input   type="text"  name="data.personality.{{key}}.score"  value="{{numberFormat pers.score decimals=0 sign=true}}"  data-dtype="Number"  />
+                      </div>  
+                  </li>
+                  {{/each}}
+              </ol></label>
+            </div>
+            <div class="flex-group-left">
+              {{#each data.description as |description key|}}
+              <div class="flexrow">
+                <label for="data.description.{{key}}.label" class="header-label">{{label}}</label>
+                <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="Number" /></span>
+              </div>
+              {{/each}}
+            </div>
+            <div class="flexcol flex-group-left"><label class="header-label">Reputation
+              <ol>
+                  {{#each actor.data.reputation as |rep key|}}
+                  <li class="flexrow flex-group-left"  data-attribute="{{key}}">
+                      <span class="flexrow"  name="data.reputation.{{key}}.label">
+                          <div class="flexrow">
+                          <input  type="text"  name="data.reputation.{{key}}.label"  value="{{rep.label}}"  data-dtype="String"  />
+                          </div>
+                      </span>
+                      <div  class="flexrow">
+                        <span></span>  
+                        <input   type="text"  name="data.reputation.{{key}}.type"  value="{{rep.type}}"  data-dtype="String"  />
+                      </div>  
+                      <div  class="flexrow">
+                        <span></span>  
+                        <input   type="text"  name="data.reputation.{{key}}.score"  value="{{numberFormat rep.score decimals=0 sign=true}}"  data-dtype="Number"  />
+                      </div>  
+                  </li>
+                  {{/each}}
+              </ol></label>
+            </div>
+            </div>
+            </div>
         </div>
 
         {{!-- Abilities Tab --}}
