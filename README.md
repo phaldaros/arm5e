@@ -28,6 +28,9 @@ This project was based on the [Boilerplate System](https://gitlab.com/asacolips-
 - Fixed warping, decrepitude, and reputation.
 - Added book item type to support level, quality, type (summa/tractatus)
 
+0.1.4
+- Corrected some description fields that weren't set as strings.
+
 **TO DO:**
 - re-do Virtues & Flaws as user-defined
 - decide on House drop-down vs text entry; better macros with drop-down?
