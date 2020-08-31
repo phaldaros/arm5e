@@ -1,4 +1,4 @@
-This is a Foundry VTT system for Ars Magica 5th Edition.
+This is an early release Foundry VTT system for Ars Magica 5th Edition.
 
 This package is intended to enable Ars Magica play using Foundry VTT. In order to play, official Ars Magica materials are still required.
 
@@ -8,13 +8,32 @@ Official material for Ars Magica 5th edition is published by and may be purchase
 
 This project was based on the [Boilerplate System](https://gitlab.com/asacolips-projects/foundry-mods/boilerplate) by Asacolips.
 
-TO DO:
-- implement the non-Magus actor types (companion, grog, covenant)
-- fix warp, decrepitude, reputation
+**Release Notes**
+
+0.1.0
+- Initial release.
+
+0.1.1
+- Corrected manifest. Added license.
+
+0.1.2
+- Corrected item template and spell template.
+
+0.1.3
+- Fixed + buttons to add inventory/spells directly in character sheet.
+- Modified header - moved Age (Apparent) up there and moved House down to a Magus-specific section in Description tab.
+- Exposed remaining Magus-specific fields I had in DB but forgot to add to sheet (parens, primus, etc.)
+- Added conditional logic to only display Magus fields on description as well as Arts tab on character sheet if actor type = magus.
+- Renamed "Items" tab to "Inventory".
+- Fixed warping, decrepitude, and reputation.
+- Added book item type to support level, quality, type (summa/tractatus)
+
+**TO DO:**
+- re-do Virtues & Flaws as user-defined
+- decide on House drop-down vs text entry; better macros with drop-down?
+- figure out how to make the other actor types work (only Magus works currently)
 - abilities requiring specializations
 - ability net cost/point spend
-- "+" buttons
-- add books item type for summae/tractati
 - find a better Lombardi font
 - deal with encumbrance/load/"weight"
 - implement stress die / botch die / exploding mechanic

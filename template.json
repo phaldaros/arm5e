@@ -3,68 +3,6 @@
     "types": ["magus", "companion", "grog", "covenant"],
     "templates": {
       "base": {
-        "house": {
-          "value": "",
-          "label": "House"
-        },
-        "houses": {
-          "n-a": {
-            "label": "N/A",
-            "dtype": "String"
-          },
-          "bjo": {
-            "label": "Bjornaer",
-            "dtype": "String"
-          },
-          "bon": {
-            "label": "Bonisagus",
-            "dtype": "String"
-          },
-          "cri": {
-            "label": "Criamon",
-            "dtype": "String"
-          },
-          "exm": {
-            "label": "Ex Miscellanea",
-            "dtype": "String"
-          },
-          "fla": {
-            "label": "Flambeau",
-            "dtype": "String"
-          },
-          "gen": {
-            "label": "Generic Magus",
-            "dtype": "String"
-          },
-          "gue": {
-            "label": "Guernicus",
-            "dtype": "String"
-          },
-          "jer": {
-            "label": "Jerbiton",
-            "dtype": "String"
-          },
-          "mer": {
-            "label": "Mercere",
-            "dtype": "String"
-          },
-          "mta": {
-            "label": "Merinita",
-            "dtype": "String"
-          },
-          "tre": {
-            "label": "Tremere",
-            "dtype": "String"
-          },
-          "tyt": {
-            "label": "Tytalus",
-            "dtype": "String"
-          },
-          "ver": {
-            "label": "Verditius",
-            "dtype": "String"
-          }
-        },
         "con": {
           "label": "Confidence ",
           "score": 1,
@@ -103,18 +41,18 @@
           "dtype": "String",
           "value": "1225"
         },
+        "age": {
+          "label": "Age",
+          "dtype": "Number",
+          "value": 25
+        },
+        "apparent": {
+          "label": "Apparent Age",
+          "dtype": "Number",
+          "value": 25
+        },
         "biography": "Character biography, notes, &c.",
         "description": {
-          "age": {
-            "label": "Age",
-            "dtype": "Number",
-            "value": 25
-          },
-          "apparent": {
-            "label": "Apparent Age",
-            "dtype": "Number",
-            "value": 25
-          },
           "born": {
             "label": "Year Born",
             "dtype": "Number",
@@ -186,16 +124,6 @@
               "label": "Size",
               "value": 0
             },
-            "dec": {
-              "label": "Decrepitude",
-              "value": 0,
-              "effects": ""
-            },
-            "war": {
-              "label": "Warping ",
-              "value": 0,
-              "effects": ""
-            },
             "soa": {
               "label": "Soak ",
               "value": 0
@@ -203,15 +131,20 @@
             "enc": {
               "label": "Encumbrance ",
               "value": 0
-            },
-            "rep": {
-              "label": "Reputation",
-              "name": "",
-              "value": 0,
-              "points": 0,
-              "type": 0
             }
           },
+        "decrepitude": {
+          "label": "Decrepitude",
+          "score": 0,
+          "points": 0,
+          "effects": "Decrepitude effects"
+        },
+        "warping": {
+          "label": "Warping ",
+          "score": 0,
+          "points": 0,
+          "effects": "Warping effects"
+        },
         "characteristics": {
           "int": {
             "label": "Intelligence",
@@ -2432,6 +2365,41 @@
           "per3": {
             "label": "Trait 3",
             "score": "0"
+          },
+          "per4": {
+            "label": "Trait 4",
+            "score": "0"
+          },
+          "per5": {
+            "label": "Trait 5",
+            "score": "0"
+          }
+        },
+        "reputation": {
+          "rep1": {
+            "label": "Reputation 1",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep2": {
+            "label": "Reputation 2",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep3": {
+            "label": "Reputation 3",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep4": {
+            "label": "Reputation 4",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep5": {
+            "label": "Reputation 5",
+            "type": "Type",
+            "score": "0"
           }
         },
         "abilities": {
@@ -3181,6 +3149,68 @@
     },
     "magus": {
       "templates": ["base"],
+      "house": {
+        "value": "",
+        "label": "House"
+      },
+      "houses": {
+        "n-a": {
+          "label": "N/A",
+          "dtype": "String"
+        },
+        "bjo": {
+          "label": "Bjornaer",
+          "dtype": "String"
+        },
+        "bon": {
+          "label": "Bonisagus",
+          "dtype": "String"
+        },
+        "cri": {
+          "label": "Criamon",
+          "dtype": "String"
+        },
+        "exm": {
+          "label": "Ex Miscellanea",
+          "dtype": "String"
+        },
+        "fla": {
+          "label": "Flambeau",
+          "dtype": "String"
+        },
+        "gen": {
+          "label": "Generic Magus",
+          "dtype": "String"
+        },
+        "gue": {
+          "label": "Guernicus",
+          "dtype": "String"
+        },
+        "jer": {
+          "label": "Jerbiton",
+          "dtype": "String"
+        },
+        "mer": {
+          "label": "Mercere",
+          "dtype": "String"
+        },
+        "mta": {
+          "label": "Merinita",
+          "dtype": "String"
+        },
+        "tre": {
+          "label": "Tremere",
+          "dtype": "String"
+        },
+        "tyt": {
+          "label": "Tytalus",
+          "dtype": "String"
+        },
+        "ver": {
+          "label": "Verditius",
+          "dtype": "String"
+        }
+      },
       "dom-mag": {
         "label": "Domus Magna",
         "dtype": "String",
@@ -3204,7 +3234,7 @@
       "sigil": {
         "label": "Wizard's Sigil",
         "dtype": "String",
-        "value": ""
+        "value": "A flash of blue light."
       },
       "attributes": {
         "level": {
@@ -3304,7 +3334,7 @@
     }
   },
   "Item": {
-    "types": ["weapon", "armor", "spell", "vis", "item"],
+    "types": ["weapon", "armor", "spell", "vis", "item", "book"],
     "templates": {
       "base": {
         "description": ""
@@ -3561,8 +3591,7 @@
       "exp": "",
       "mastery": "",
       "source": ""
-    }
-  },
+    },
     "vis": {
       "templates": ["base"],
       "art": {
@@ -3634,9 +3663,29 @@
       "pawns": 1,
       "form": "Physical form of the raw vis."
     },
+  "book": {
+    "templates": ["base"],
+    "type": {
+      "value": "",
+      "label": "Book Type"
+    },
+    "types": {
+      "summa": {
+        "label": "Summa",
+        "dtype": "String"
+      },
+      "tract": {
+        "label": "Tractatus",
+        "dtype": "String"
+      }
+    },
+    "quality": 0,
+    "level": 0
+  },
   "item": {
     "templates": ["base"],
     "quantity": 1,
     "weight": 0
     }
   }
+}

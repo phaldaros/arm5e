@@ -49,6 +49,7 @@ export class ArM5eActorSheet extends ActorSheet {
     const spells = [];
     const vis = [];
     const items = [];
+    const books = [];
 
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
@@ -75,6 +76,10 @@ export class ArM5eActorSheet extends ActorSheet {
       else if (i.type === 'item') {
         items.push(i);
       }
+      // Append to items.
+      else if (i.type === 'book') {
+        books.push(i);
+      }
     }
 
     // Assign and return
@@ -83,6 +88,7 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.spells = spells;
     actorData.vis = vis;
     actorData.items = items;
+    actorData.books = books;
   }
 
   /* -------------------------------------------- */
