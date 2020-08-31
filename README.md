@@ -8,7 +8,7 @@ Official material for Ars Magica 5th edition is published by and may be purchase
 
 This project was based on the [Boilerplate System](https://gitlab.com/asacolips-projects/foundry-mods/boilerplate) by Asacolips.
 
-Release Notes
+**Release Notes**
 
 0.1.0
 - Initial release.
@@ -26,15 +26,14 @@ Release Notes
 - Added conditional logic to only display Magus fields on description as well as Arts tab on character sheet if actor type = magus.
 - Renamed "Items" tab to "Inventory".
 - Fixed warping, decrepitude, and reputation.
+- Added book item type to support level, quality, type (summa/tractatus)
 
-
-TO DO:
+**TO DO:**
 - re-do Virtues & Flaws as user-defined
 - decide on House drop-down vs text entry; better macros with drop-down?
 - figure out how to make the other actor types work (only Magus works currently)
 - abilities requiring specializations
 - ability net cost/point spend
-- add books item type for summae/tractati
 - find a better Lombardi font
 - deal with encumbrance/load/"weight"
 - implement stress die / botch die / exploding mechanic

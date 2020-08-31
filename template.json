@@ -3334,7 +3334,7 @@
     }
   },
   "Item": {
-    "types": ["weapon", "armor", "spell", "vis", "item"],
+    "types": ["weapon", "armor", "spell", "vis", "item", "book"],
     "templates": {
       "base": {
         "description": ""
@@ -3663,6 +3663,25 @@
       "pawns": 1,
       "form": "Physical form of the raw vis."
     },
+  "book": {
+    "templates": ["base"],
+    "type": {
+      "value": "",
+      "label": "Book Type"
+    },
+    "types": {
+      "summa": {
+        "label": "Summa",
+        "dtype": "String"
+      },
+      "tract": {
+        "label": "Tractatus",
+        "dtype": "String"
+      }
+    },
+    "quality": 0,
+    "level": 0
+  },
   "item": {
     "templates": ["base"],
     "quantity": 1,
