@@ -170,7 +170,7 @@
               {{#each data.description as |description key|}}
               <div class="flexrow">
                 <label for="data.description.{{key}}.label" class="header-label">{{label}}</label>
-                <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="Number" /></span>
+                <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="String" /></span>
               </div>
               {{/each}}
             </div>
