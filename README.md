@@ -31,12 +31,15 @@ This project was based on the [Boilerplate System](https://gitlab.com/asacolips-
 0.1.4
 - Corrected some description fields that weren't set as strings.
 
+0.1.5
+- Updated header and tab font to Goudy Text MT Lombardic Capitals.
+
+
 **TO DO:**
 - re-do Virtues & Flaws as user-defined
 - decide on House drop-down vs text entry; better macros with drop-down?
 - figure out how to make the other actor types work (only Magus works currently)
 - abilities requiring specializations
 - ability net cost/point spend
-- find a better Lombardi font
 - deal with encumbrance/load/"weight"
 - implement stress die / botch die / exploding mechanic
