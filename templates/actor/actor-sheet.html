@@ -45,7 +45,7 @@
           <div class="characteristics grid grid-4col">
             {{#each data.characteristics as |characteristic key|}}
               <div class="characteristic flexrow flex-group-center">
-                <label for="data.characteristics.{{key}}.value" class="resource-label rollable tooltip" data-roll="d10+@characteristics.{{key}}.value">{{key}}</label>
+                <label for="data.characteristics.{{key}}.value" class="resource-label rollable" data-roll="d10+@characteristics.{{key}}.value">{{key}}</label>
                 <input type="text" name="data.characteristics.{{key}}.value" value="{{numberFormat characteristic.value decimals=0 sign=true}}" data-dtype="Number" />
               </div>
             {{/each}}
@@ -221,40 +221,40 @@
 
         {{!-- Virtues & Flaws Tab --}}
         <div class="tab virtues" data-group="primary" data-tab="virtues">
-          <!-- <span class="flexrow flex-group-center"><label class="header-label">Net Points Spent</label></span>
-          <span class="flexrow">
-            {{#if taken}}
-              {{sum virtues.cost flaws.cost}}
-            {{/if}}
-          </span>-->
           <div class="flexrow grid grid-2col">
-            <div class="flexcol flex-group-left"><label class="header-label">Virtues
+            <div class="flexcol flex-group-left flex-between"><label class="header-label">Virtues</label>
+                <ol>
+                    {{#each actor.data.virtues.taken as |virtues key|}}
+                    <li class="flexrow flex-group-left flex-between"  data-attribute="{{key}}">
+                        <span>
+                          <input  type="text"  name="data.virtues.taken.{{key}}.label"  value="{{virtues.label}}"  data-dtype="String"  />    
+                        </span>
+                        <span>
+                          <input  type="text"  name="data.virtues.taken.{{key}}.impact.value"  value="{{virtues.impact.value}}"  data-dtype="String" placeholder="Impact"  /> 
+                        </span>
+                        <span>
+                          <input  type="text"  name="data.virtues.taken.{{key}}.type.value"  value="{{virtues.type.value}}"  data-dtype="String" placeholder="Type"  />
+                        </span>
+                    </li>
+                    {{/each}}
+                </ol>
+              </div>
+            <div class="flexcol flex-group-left"><label class="header-label">Flaws</label>
               <ol>
-                {{#each data.virtues as |virtues key|}}
-                <li class="flexrow flex-group-left resource" data-attribute="{{key}}">
-                    <span class="header-label" name="data.virtues.{{key}}.label">{{label}}</span>
-                    <span></span>
-                    <span class="body" name="data.virtues.{{key}}.type">{{type}}</span>
-                    <span></span>
-                    <span class="body" name="data.virtues.{{key}}.impact">{{impact}}</span>
-                    <input type="checkbox" name="data.virtues.{{key}}.taken" {{checked virtues.taken}}>
+                {{#each actor.data.flaws.taken as |flaws key|}}
+                <li class="flexrow flex-group-left flex-between"  data-attribute="{{key}}">
+                    <span>
+                      <input  type="text"  name="data.flaws.taken.{{key}}.label"  value="{{flaws.label}}"  data-dtype="String"  />    
+                    </span>
+                    <span>
+                      <input  type="text"  name="data.flaws.taken.{{key}}.impact.value"  value="{{flaws.impact.value}}"  data-dtype="String" placeholder="Impact"  /> 
+                    </span>
+                    <span>
+                      <input  type="text"  name="data.flaws.taken.{{key}}.type.value"  value="{{flaws.type.value}}"  data-dtype="String" placeholder="Type"  />
+                    </span>
                 </li>
                 {{/each}}
-            </ol></label>
-            </div>
-            <div class="flexcol flex-group-left"><label class="header-label">Flaws
-              <ol>
-                {{#each actor.data.flaws as |flaws key|}}
-                <li class="flexrow flex-group-left" data-attribute="{{key}}">
-                    <span class="header-label" name="data.flaws.{{key}}.label">{{label}}</span>
-                    <span></span>
-                    <span class="body" name="data.flaws.{{key}}.type">{{type}}</span>
-                    <span></span>
-                    <span class="body" name="data.flaws.{{key}}.impact">{{impact}}</span>
-                    <input type="checkbox" name="data.flaws.{{key}}.taken" {{checked flaws.taken}}>
-                </li>
-                {{/each}}
-              </ol></label>
+              </ol>
             </div>
           </div>
         </div>

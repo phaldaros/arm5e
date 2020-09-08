@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 
+/*
 @font-face {font-family: "TexturLombardischLTW01"; 
   src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot"); 
   src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot?#iefix") format("embedded-opentype"), 
@@ -7,12 +8,21 @@
   url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.woff") format("woff"), 
   url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.ttf") format("truetype"), 
   url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.svg#TexturLombardischLTW01") format("svg"); }
+*/
 
 /*
 @font-face {font-family: "LombardischW00-Lombardic"; 
   src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot"); 
   src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff") format("woff"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.svg#LombardischW00-Lombardic") format("svg"); }
 */
+
+@font-face {font-family: "Goudy Text MT"; 
+  src: url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.eot"); 
+  src: url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.eot?#iefix") format("embedded-opentype"), 
+  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.woff2") format("woff2"), 
+  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.woff") format("woff"), 
+  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.ttf") format("truetype"), 
+  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.svg#Goudy Text MT") format("svg"); }
 
 /* Global styles */
 .body {
@@ -182,10 +192,10 @@
 .arm5e .sheet-header h1.charname input {
   width: 100%;
   margin: 0;
-  padding-top: 30px;
-  line-height: 30;
-  font-family: "TexturLombardischLTW01";
-  letter-spacing: 1px;
+  /*padding-top: 30px;
+  line-height: 30;*/
+  font-family: "Goudy Text MT";
+  /*letter-spacing: 1px;*/
 }
 
 .arm5e .sheet-header h2.covenantname {
@@ -197,10 +207,10 @@
 .arm5e .sheet-header h2.covenantname input {
   width: 100%;
   margin: 0;
-  padding-top: 25px;
-  line-height: 50;
-  font-family: "TexturLombardischLTW01";
-  letter-spacing: 1px;
+  /*padding-top: 25px;
+  line-height: 50;*/
+  font-family: "Goudy Text MT";
+  /*letter-spacing: 1px;*/
 }
 
 .arm5e .sheet-tabs {
@@ -239,9 +249,9 @@
 }
 
 .arm5e .tabs .item {
-  line-height: 60px;
-  font-family: "TexturLombardischLTW01";
-  font-size: 18pt;
+  /*line-height: 60px;*/
+  font-family: "Goudy Text MT";
+  font-size: 16pt;
 }
 
 .arm5e .tabs .item.active {
