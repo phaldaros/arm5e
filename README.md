@@ -45,6 +45,9 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 - Increased actor sheet profile image size to 256px
 - Added support for Fatigue and Wounds. Will be improved in the near future, but functional.
 
+0.1.7
+- 
+
 ## TO DO
 - Change virtues and flaws to item entities.
 - implement stress / botch dice mechanics

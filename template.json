@@ -1509,17 +1509,17 @@
         }
       },
       "companion": {
-        "templates": ["base"]
+        "description": ""
       },
       "grog": {
-        "templates": ["base"]
+        "description": ""
       },
       "covenant": {
-        "templates": ["base"]
+        "description": ""
       }
     },
   "Item": {
-    "types": ["weapon", "armor", "spell", "vis", "item", "book"],
+    "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw"],
     "templates": {
       "base": {
         "description": ""
@@ -1871,6 +1871,107 @@
     "templates": ["base"],
     "quantity": 1,
     "weight": 0
+  },
+  "virtue": {
+    "templates": ["base"],
+    "type": {
+      "label": "Type",
+      "value": ""
+    },
+    "impact": {
+      "label": "Impact",
+      "value": ""
+    },
+    "types": {
+      "hermetic": {
+        "label": "Hermetic",
+        "dtype": "String"
+      },
+      "supernatural": {
+        "label": "Supernatural",
+        "dtype": "String"
+      },
+      "social": {
+        "label": "Social Status",
+        "dtype": "String"
+      },
+      "general": {
+        "label": "General",
+        "dtype": "String"
+    }
+  },
+    "impacts": {
+      "free": {
+        "label": "Free",
+        "dtype": "String",
+        "cost": 0
+      },
+      "major": {
+        "label": "Major",
+        "dtype": "String",
+        "cost": -3
+      },
+      "minor": {
+        "label": "Minor",
+        "dtype": "String",
+        "cost": -1
+      }
+    }
+  },
+  "flaw": {
+    "templates": ["base"],
+    "type": {
+      "label": "Type",
+      "value": ""
+    },
+    "impact": {
+      "label": "Impact",
+      "value": ""
+    },
+    "types": {
+      "hermetic": {
+        "label": "Hermetic",
+        "dtype": "String"
+      },
+      "supernatural": {
+        "label": "Supernatural",
+        "dtype": "String"
+      },
+      "social": {
+        "label": "Social Status",
+        "dtype": "String"
+      },
+      "general": {
+        "label": "General",
+        "dtype": "String"
+      },
+      "personality": {
+        "label": "Personality",
+        "dtype": "String"
+      },
+      "story": {
+        "label": "Story",
+        "dtype": "String"
+    }
+  },
+    "impacts": {
+      "free": {
+        "label": "Free",
+        "dtype": "String",
+        "cost": 0
+      },
+      "major": {
+        "label": "Major",
+        "dtype": "String",
+        "cost": 3
+      },
+      "minor": {
+        "label": "Minor",
+        "dtype": "String",
+        "cost": 1
+      }
+    }
   }
+
   }
 }
