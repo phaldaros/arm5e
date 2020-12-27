@@ -35,6 +35,9 @@ This project was based on the [Boilerplate System](https://gitlab.com/asacolips-
 - Re-did Virtues & Flaws tab - still very much a work in-progress
 - Updated header and tab font to Goudy Text MT Lombardic Capitals.
 
+0.1.6
+- 
+
 
 **TO DO:**
 - implement stress / botch dice mechanics
