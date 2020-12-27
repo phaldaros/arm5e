@@ -107,6 +107,7 @@
               </div>
             </div>
           {{/if}}
+
           <div class="flexcol grid grid-2col">
             <div class="flex-group-left">
               <label class="header-label">Warping</label>
@@ -135,6 +136,44 @@
               </div>
             </div>
           </div>
+
+
+          <div class="flexcol grid grid-2col">
+            <div class="flex-group-left">
+              <label class="header-label">Fatigue</label>
+              <ol>
+              {{#each data.fatigue as |fatigue key|}}
+              <li class="flexrow"  data-attribute="{{key}}">
+                <div class="flexrow flex-between">
+                  <label for="data.fatigue.{{key}}.label">{{label}}</label>
+                  <span><input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} /></span>
+                  <span><input type="text" name="data.fatigue.{{key}}.number" value="{{numberFormat fatigue.number decimals=0 sign=true}}" data-dtype="Number" /></span>
+                  <span><input type="text" name="data.fatigue.{{key}}.time" value="{{fatigue.time}}" data-dtype="String" /></span>
+                
+                </div>
+                </li>
+              {{/each}}
+              </ol>
+            </div>
+            <div class="flex-group-left">
+              <label class="header-label">Wounds</label>
+              <ol>
+              {{#each data.wounds as |wounds key|}}
+              <li class="flexrow flex-group-left"  data-attribute="{{key}}">
+                <div class="flexrow flex-between">
+                  <label for="data.wounds.{{key}}.label">{{label}}</label>
+                  <span><label><input type="text" name="data.wounds.{{key}}.range.value" value="{{wounds.range.value}}" data-dtype="String" placeholder="Range" />Range</label></span>
+                  <span><label><input type="text" name="data.wounds.{{key}}.number.value" value="{{wounds.number.value}}" data-dtype="Number" />Number</label></span>
+                  <span><label><input type="text" name="data.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}" data-dtype="Number" />Penalty</label></span>
+                  <span><label><input type="text" name="data.wounds.{{key}}.notes.value" value="{{wounds.notes.value}}" data-dtype="String" placeholder="Notes" />Notes</label></span>
+                </div>
+              </li>
+              {{/each}}
+            </ol>
+            </div>
+          </div>
+
+
           <div class="flexcol grid grid-2col">
             <div class="flex-group-left">
               <label class="header-label">Biography</label>

@@ -133,6 +133,169 @@
               "value": 0
             }
           },
+        "wounds": {
+          "light": {
+            "label": "Light",
+            "range": {
+              "label": "Range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "Number",
+              "dtype": "Number",
+              "value": 0
+            },
+            "penalty": {
+              "label": "Penalty",
+              "dtype": "Number",
+              "value": -1
+            },
+            "notes": {
+              "label":"Notes",
+              "dtype": "String",
+              "value": ""
+            }
+          },
+          "medium": {
+            "label": "Medium",
+            "range": {
+              "label": "Range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "Number",
+              "dtype": "Number",
+              "value": 0
+            },
+            "penalty": {
+              "label": "Penalty",
+              "dtype": "Number",
+              "value": -3
+            },
+            "notes": {
+              "label":"Notes",
+              "dtype": "String",
+              "value": ""
+            }
+          },
+          "heavy": {
+            "label": "Heavy",
+            "range": {
+              "label": "Range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "Number",
+              "dtype": "Number",
+              "value": 0
+            },
+            "penalty": {
+              "label": "Penalty",
+              "dtype": "Number",
+              "value": -5
+            },
+            "notes": {
+              "label":"Notes",
+              "dtype": "String",
+              "value": ""
+            }
+          },
+          "incap": {
+            "label": "Incap.",
+            "range": {
+              "label": "Range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "Number",
+              "dtype": "Number",
+              "value": 0
+            },
+            "notes": {
+              "label":"Notes",
+              "dtype": "String",
+              "value": ""
+            }
+          },
+          "dead":{
+            "label": "Dead",
+            "range": {
+              "label": "Range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "Number",
+              "dtype": "Number",
+              "value": 0
+            },
+            "notes": {
+              "label":"Notes",
+              "dtype": "String",
+              "value": ""
+            }
+          }
+        },
+        "fatigue": {
+          "fresh": {
+            "label": "Fresh",
+            "number": "",
+            "time": null,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "winded": {
+            "label": "Winded",
+            "number": 0,
+            "time": "2 min.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "weary": {
+            "label": "Weary",
+            "number": -1,
+            "time": "10 min.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "tired": {
+            "label": "Tired",
+            "number": -3,
+            "time": "30 min.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "dazed": {
+            "label": "Dazed",
+            "number": -5,
+            "time": "1 hr.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "unconscious": {
+            "label": "Unconscious",
+            "number": "",
+            "time": "2 hr.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          }
+        },
         "decrepitude": {
           "label": "Decrepitude",
           "score": 0,
