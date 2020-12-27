@@ -1,3 +1,5 @@
+# Ars Magica 5e for Foundry VTT
+
 This is an early release Foundry VTT system for Ars Magica 5th Edition.
 
 This package is intended to enable Ars Magica play using Foundry VTT. In order to play, official Ars Magica materials are still required.
@@ -8,7 +10,10 @@ Official material for Ars Magica 5th edition is published by and may be purchase
 
 This project was based on the [Boilerplate System](https://gitlab.com/asacolips-projects/foundry-mods/boilerplate) by Asacolips.
 
-**Release Notes**
+## Contribute
+Please contribute in any way you can. I am but a novice developer. You can also [join our Discord for development of this system](https://discord.gg/DdDetc9SYP).
+
+## Release Notes
 
 0.1.0
 - Initial release.
@@ -36,13 +41,15 @@ This project was based on the [Boilerplate System](https://gitlab.com/asacolips-
 - Updated header and tab font to Goudy Text MT Lombardic Capitals.
 
 0.1.6
-- 
+- Validated compatibility with FoundryVTT version 0.7.9
+- Increased actor sheet profile image size to 256px
+- Added support for Fatigue and Wounds. Will be improved in the near future, but functional.
 
-
-**TO DO:**
+## TO DO
+- Change virtues and flaws to item entities.
 - implement stress / botch dice mechanics
-- Virtues & Flaws - add dropdowns for Impact and Type as well as description (should these be item entities instead?)
 - figure out how to make the other actor types work (only Magus works currently)
 - abilities requiring specializations
 - virtue/flaw net cost/point spend
-- deal with encumbrance/load/"weight"
+- deal with encumbrance/load/"weight" of items per actor
+

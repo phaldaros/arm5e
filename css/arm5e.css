@@ -170,10 +170,11 @@
 
 .arm5e .sheet-header .profile-img {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 100px;
-  flex: 0 0 100px;
-  height: 100px;
+  -ms-flex: 0 0 256px;
+  flex: 0 0 256px;
+  height: 256px;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .arm5e .sheet-header .header-fields {
