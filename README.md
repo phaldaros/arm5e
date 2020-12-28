@@ -72,7 +72,7 @@ Abandoned modules are a (potential) problem for Foundry, because users and/or ot
 I consider this module abandoned if all of the below cases apply:
 <ul>
   <li>This module/github page has not received any updates in at least 3 months</li>
-  <li>I have not posted anything on "the Foundry", "the League of Extraordinary Foundry VTT Developers" or the "Material Foundry" Discord servers in at least 3 months</li>
+  <li>I have not posted anything on "the Foundry", "the League of Extraordinary Foundry VTT Developers" or the "ArM5e FoundryVTT System Development" Discord servers in at least 3 months</li>
   <li>I have not responded to emails or PMs on Discord in at least 1 month</li>
   <li>I have not announced a temporary break from development, unless the announced end date of this break has been passed by at least 3 months</li>
 </ul>
