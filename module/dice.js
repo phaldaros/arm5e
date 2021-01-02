@@ -100,3 +100,5 @@ function explodingRoll() {
 }
   return roll;
 }
+
+export {multiplyRoll, explodingRoll}

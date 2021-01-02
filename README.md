@@ -6,8 +6,6 @@ This package is intended to enable Ars Magica play using Foundry VTT. In order t
 
 Ars Magica content is copyright Trident, Inc d/b/a Atlas Games. Ars Magica, Mythic Europe, and Covenants are trademarks of Trident, Inc. Order of Hermes and Tremere are trademarks of White Wolf, Inc.
 
-
-
 This Foundry VTT system project was based on the [Boilerplate System](https://gitlab.com/asacolips-projects/foundry-mods/boilerplate) by Asacolips.
 
 "Official" Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
@@ -62,7 +60,7 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 - Removed non-Magus actor types until they can be properly implemented.
 
 ## TO DO
-- figure out how to make the other actor types work (only Magus works currently)
+- implement non-Magus actor types
 - abilities requiring specializations
 - virtue/flaw net cost/point spend
 - deal with encumbrance/load/"weight" of items per actor
