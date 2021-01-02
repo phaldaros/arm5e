@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["magus", "companion", "grog", "covenant"],
+    "types": ["magus"],
     "templates": {
       "base": {
         "con": {
@@ -1507,15 +1507,6 @@
             }
           }
         }
-      },
-      "companion": {
-        "templates": ["base"]
-      },
-      "grog": {
-        "templates": ["base"]
-      },
-      "covenant": {
-        "templates": ["base"]
       }
     },
   "Item": {

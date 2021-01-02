@@ -58,7 +58,8 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 - Re-did Virtues & Flaws as item entities.
 
 0.2.0
-- Implemented Stress Dice and Botch Mechanics
+- Implemented Stress Dice and Botch Mechanics.
+- Removed non-Magus actor types until they can be properly implemented.
 
 ## TO DO
 - figure out how to make the other actor types work (only Magus works currently)

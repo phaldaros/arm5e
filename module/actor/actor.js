@@ -17,9 +17,9 @@ export class ArM5eActor extends Actor {
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
     if (actorData.type === 'magus') this._prepareCharacterData(actorData);
-    if (actorData.type === 'companion') this._prepareCharacterData(actorData);
+    /*if (actorData.type === 'companion') this._prepareCharacterData(actorData);
     if (actorData.type === 'grog') this._prepareCharacterData(actorData);
-    if (actorData.type === 'covenant') this._prepareCharacterData(actorData);
+    if (actorData.type === 'covenant') this._prepareCharacterData(actorData);*/
   }
 
   /**
