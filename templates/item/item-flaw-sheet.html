@@ -1,0 +1,39 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <div class="grid grid-2col">
+              <div class="resource">
+                  <label for="data.type.value" class="header-label">{{data.type.label}}</label>
+                  <select name="data.type.value"  data-type="String">
+                    {{#select item.data.type.value}}
+                    {{#each item.data.types as |type key|}}
+                    <option value="{{key}}">{{type.label}}</option> {{/each}} {{/select}}
+                  </select>
+                  <label for="data.impact.value" class="header-label">{{data.impact.label}}</label>
+                  <select name="data.impact.value"  data-type="String">
+                    {{#select item.data.impact.value}}
+                    {{#each item.data.impacts as |impact key|}}
+                    <option value="{{key}}">{{impact.label}}</option> {{/each}} {{/select}}
+                  </select>
+              </div>
+            </div>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Description Tab --}}
+        <div class="tab" data-group="primary" data-tab="description">
+            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+        </div>
+
+    </section>
+</form>

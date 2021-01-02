@@ -9,7 +9,7 @@ export class ArM5eActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "actor"],
       template: "systems/arm5e/templates/actor/actor-sheet.html",
-      width: 700,
+      width: 720,
       height: 700,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
@@ -50,6 +50,8 @@ export class ArM5eActorSheet extends ActorSheet {
     const vis = [];
     const items = [];
     const books = [];
+    const virtues = [];
+    const flaws = [];
 
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
@@ -80,6 +82,14 @@ export class ArM5eActorSheet extends ActorSheet {
       else if (i.type === 'book') {
         books.push(i);
       }
+      // Append to virtues.
+      else if (i.type === 'virtue') {
+        virtues.push(i);
+      }
+      // Append to flaws.
+      else if (i.type === 'flaw') {
+        flaws.push(i);
+      }
     }
 
     // Assign and return
@@ -89,6 +99,8 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.vis = vis;
     actorData.items = items;
     actorData.books = books;
+    actorData.virtues = virtues;
+    actorData.flaws = flaws;
   }
 
   /* -------------------------------------------- */
