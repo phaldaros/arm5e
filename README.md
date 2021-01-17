@@ -6,18 +6,9 @@ This package is intended to enable Ars Magica play using Foundry VTT. In order t
 
 Ars Magica content is copyright Trident, Inc d/b/a Atlas Games. Ars Magica, Mythic Europe, and Covenants are trademarks of Trident, Inc. Order of Hermes and Tremere are trademarks of White Wolf, Inc.
 
-
-
 This Foundry VTT system project was based on the [Boilerplate System](https://gitlab.com/asacolips-projects/foundry-mods/boilerplate) by Asacolips.
 
 "Official" Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
-
-## TO DO
-- fix other actor types (only Magus currently works)
-- implement stress / botch dice mechanics
-- abilities requiring specializations
-- virtue/flaw net cost/point spend
-- deal with encumbrance/load/"weight" of items per actor
 
 ## Contribute
 Please contribute in any way you can. I am but a novice developer. You can also [join our Discord for development of this system](https://discord.gg/DdDetc9SYP).
@@ -57,6 +48,17 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 0.1.7
 - Re-did Virtues & Flaws as item entities.
 
+0.2.0
+- Implemented Stress Dice and Botch Mechanics when making Characteristic or Ability rolls from character sheet
+- Removed non-Magus actor types until they can be properly implemented.
+
+## TO DO
+- display characteristic or ability rolled
+- implement non-Magus actor types
+- add support for auras
+- abilities requiring specializations
+- virtue/flaw net cost/point spend
+- deal with encumbrance/load/"weight" of items per actor
 
 
 ## Credits
@@ -73,9 +75,11 @@ I consider this module abandoned if all of the below cases apply:
 <ul>
   <li>This module/github page has not received any updates in at least 3 months</li>
   <li>I have not posted anything on "the Foundry", "the League of Extraordinary Foundry VTT Developers" or the "ArM5e FoundryVTT System Development" Discord servers in at least 3 months</li>
+
   <li>I have not responded to emails or PMs on Discord in at least 1 month</li>
   <li>I have not announced a temporary break from development, unless the announced end date of this break has been passed by at least 3 months</li>
 </ul>
 If the above cases apply (as judged by the "League of Extraordinary Foundry VTT Developers" admins), I give permission to the "League of Extraordinary Foundry VTT Developers" admins to assign one or more developers to take over this module, including requesting the Foundry team to reassign the module to the new developer(s).<br>
 I require the "League of Extraordinary Foundry VTT Developers" admins to send me an email 2 weeks before the reassignment takes place, to give me one last chance to prevent the reassignment.<br>
 I require to be credited for my work in all future releases.
+
