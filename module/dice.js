@@ -1,6 +1,6 @@
-let mult = 1;
-let msg = "";
-let resultMessage = "";
+export let mult = 1;
+export let msg = "";
+export let resultMessage = "";
 let roll = explodingRoll();
 multiplyRoll(mult, roll).toMessage({
     flavor: msg

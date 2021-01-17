@@ -56,11 +56,13 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 - Re-did Virtues & Flaws as item entities.
 
 0.2.0
-- Implemented Stress Dice and Botch Mechanics.
+- Implemented Stress Dice and Botch Mechanics when making Characteristic or Ability rolls from character sheet
 - Removed non-Magus actor types until they can be properly implemented.
 
 ## TO DO
+- display characteristic or ability rolled
 - implement non-Magus actor types
+- add support for auras
 - abilities requiring specializations
 - virtue/flaw net cost/point spend
 - deal with encumbrance/load/"weight" of items per actor

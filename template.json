@@ -1507,15 +1507,6 @@
             }
           }
         }
-      },
-      "companion": {
-        "description": ""
-      },
-      "grog": {
-        "description": ""
-      },
-      "covenant": {
-        "description": ""
       }
     },
   "Item": {
