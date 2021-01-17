@@ -10,13 +10,6 @@ This Foundry VTT system project was based on the [Boilerplate System](https://gi
 
 "Official" Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
 
-## TO DO
-- fix other actor types (only Magus currently works)
-- implement stress / botch dice mechanics
-- abilities requiring specializations
-- virtue/flaw net cost/point spend
-- deal with encumbrance/load/"weight" of items per actor
-
 ## Contribute
 Please contribute in any way you can. I am but a novice developer. You can also [join our Discord for development of this system](https://discord.gg/DdDetc9SYP).
 
@@ -68,9 +61,6 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 - deal with encumbrance/load/"weight" of items per actor
 
 
-
-
-
 ## Credits
 <b>Author:</b> phaldaros (phaldaros#6437 on Discord)<br>
 <br>
@@ -84,10 +74,12 @@ Abandoned modules are a (potential) problem for Foundry, because users and/or ot
 I consider this module abandoned if all of the below cases apply:
 <ul>
   <li>This module/github page has not received any updates in at least 3 months</li>
-  <li>I have not posted anything on "the Foundry", "the League of Extraordinary Foundry VTT Developers" or the "Material Foundry" Discord servers in at least 3 months</li>
+  <li>I have not posted anything on "the Foundry", "the League of Extraordinary Foundry VTT Developers" or the "ArM5e FoundryVTT System Development" Discord servers in at least 3 months</li>
+
   <li>I have not responded to emails or PMs on Discord in at least 1 month</li>
   <li>I have not announced a temporary break from development, unless the announced end date of this break has been passed by at least 3 months</li>
 </ul>
 If the above cases apply (as judged by the "League of Extraordinary Foundry VTT Developers" admins), I give permission to the "League of Extraordinary Foundry VTT Developers" admins to assign one or more developers to take over this module, including requesting the Foundry team to reassign the module to the new developer(s).<br>
 I require the "League of Extraordinary Foundry VTT Developers" admins to send me an email 2 weeks before the reassignment takes place, to give me one last chance to prevent the reassignment.<br>
 I require to be credited for my work in all future releases.
+
