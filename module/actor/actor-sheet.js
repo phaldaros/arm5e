@@ -191,7 +191,6 @@ export class ArM5eActorSheet extends ActorSheet {
                 label: `Simple Die`,
                 callback: (html) => {
                   let roll = new Roll(dataset.roll, this.actor.data.data);
-                  const newLocal = this.actor.data.data.label;
                   let msg = `Simple Die`;
                   roll.roll().toMessage({
                     speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -230,8 +229,11 @@ export class ArM5eActorSheet extends ActorSheet {
                     
                     function explodingRoll(modifier) {
                       let roll = new Roll(dataset.roll, modifier).roll();
-                      let label = dataset.label ? `Rolling ${dataset.label}` : '';
-                      if(roll.total === 1)
+                      //let label = dataset.label ? `Rolling ${dataset.label}` : '';
+                      //console.log(roll.results);
+                      //console.log(dataset.roll);
+                      //console.log(dataset);
+                      if(roll.results[0] === 1)
                       {
                         mult*=2;
                         roll = explodingRoll();
