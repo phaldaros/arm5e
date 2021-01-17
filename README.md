@@ -52,10 +52,15 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 - Implemented Stress Dice and Botch Mechanics when making Characteristic or Ability rolls from character sheet
 - Removed non-Magus actor types until they can be properly implemented.
 
+0.2.1
+- Fixed stress die explosions but can't get the characteristic or ability modifier to be auto-added to stress dice, so will display e.g. "4 * (1d10 + 0)" if two ones are rolled in succession. Chat will show the correct multiplied roll, but it will not add the modifier to the roll. Stress dice rolls that do not explode DO correctly add the modifier, as do simple dice rolls, only exploding stress dice rolls are not working.
+
 ## TO DO
+- fix modifiers on exploding stress dice rolls
 - display characteristic or ability rolled
-- implement non-Magus actor types
+- implement non-Magus actor types (companion, grog, and covenant)
 - add support for auras
+- learn CSS
 - abilities requiring specializations
 - virtue/flaw net cost/point spend
 - deal with encumbrance/load/"weight" of items per actor
