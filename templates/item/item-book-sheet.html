@@ -5,11 +5,11 @@
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
             <div class="grid grid-2col">
               <div class="resource">
-                <label class="resource-label">Quantity</label>
+                <label class="resource-label">{{localize "arm5e.sheet.quantity"}}</label>
                   <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number"/>
               </div>
               <div class="resource">
-                <label class="resource-label">Weight</label>
+                <label class="resource-label">{{localize "arm5e.sheet.weight"}}</label>
                   <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number"/>
               </div>
             </div>
@@ -18,8 +18,8 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="attributes">Attributes</a>
-        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="attributes">{{localize "arm5e.sheet.attributes"}}</a>
+        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
   
     </nav>
 
@@ -30,7 +30,7 @@
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             <div class="grid grid-2col">
                 <div class="resource flexcol flexrow">
-                    <label for="data.type.value" class="header-label">Book Type</label>
+                    <label for="data.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
                         <select name="data.type.value"  data-type="String">
                             {{#select item.data.type.value}}
                             {{#each item.data.types as |type key|}}
@@ -38,11 +38,11 @@
                         </select>
                 </div>
                 <div class="resource">
-                  <label class="header-label">Level</label>
+                  <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
                     <input type="text" name="data.level" value="{{item.data.level}}" data-dtype="Number"/>
                 </div>
                 <div class="resource">
-                    <label class="header-label">Quality</label>
+                    <label class="header-label">{{localize "arm5e.sheet.quality"}}</label>
                       <input type="text" name="data.quality" value="{{item.data.quality}}" data-dtype="Number"/>
                   </div>
         </div>

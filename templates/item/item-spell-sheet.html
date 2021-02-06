@@ -5,7 +5,7 @@
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
             <div class="grid grid-2col">
                 <div class="resource flexcol flexrow">
-                    <label for="data.technique.value" class="header-label">Technique</label>
+                    <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
                         <select name="data.technique.value"  data-type="String">
                             {{#select item.data.technique.value}}
                             {{#each item.data.techniques as |techniques key|}}
@@ -13,7 +13,7 @@
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
-                    <label for="data.form.value" class="header-label">Form</label>
+                    <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
                         <select name="data.form.value"  data-type="String">
                             {{#select item.data.form.value}}
                             {{#each item.data.forms as |forms key|}}
@@ -21,7 +21,7 @@
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
-                    <label for="data.technique-requisite.value" class="header-label">Technique Requisite</label>
+                    <label for="data.technique-requisite.value" class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
                         <select name="data.technique-requisite.value"  data-type="String">
                             {{#select item.data.technique-requisite.value}}
                             {{#each item.data.technique-requisites as |techniques key|}}
@@ -29,7 +29,7 @@
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
-                    <label for="data.form-requisite.value" class="header-label">Form Requisite</label>
+                    <label for="data.form-requisite.value" class="header-label">{{localize "arm5e.sheet.formRequisite"}}</label>
                         <select name="data.form-requisite.value"  data-type="String">
                             {{#select item.data.form-requisite.value}}
                             {{#each item.data.form-requisites as |forms key|}}
@@ -37,11 +37,11 @@
                         </select>
                 </div>
                 <div class="resource">
-                    <label class="header-label">Level</label>
+                    <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
                       <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number"/>
                   </div>
                 <div class="resource flexcol flex-center">
-                    <label class="header-label">Ritual</label>
+                    <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
                         <input type="checkbox" name="data.ritual" {{checked data.ritual}}>
                   </div>
             </div>
@@ -50,8 +50,8 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="attributes">Attributes</a>
-        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="attributes">{{localize "arm5e.sheet.attributes"}}</a>
+        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -61,31 +61,31 @@
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             <div class="grid grid-3col">
                 <div class="resource">
-                  <label class="header-label">Range</label>
+                  <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
                     <input type="text" name="data.range" value="{{item.data.range}}" data-dtype="Number"/>
                 </div>
                 <div class="resource">
-                    <label class="header-label">Duration</label>
+                    <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
                       <input type="text" name="data.duration" value="{{item.data.duration}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Target</label>
+                    <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
                       <input type="text" name="data.target" value="{{item.data.target}}" data-dtype="String"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Bonus</label>
+                    <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
                       <input type="text" name="data.bonus" value="{{item.data.bonus}}" data-dtype="String"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Experience</label>
+                    <label class="header-label">{{localize "arm5e.sheet.experience"}}</label>
                       <input type="text" name="data.exp" value="{{item.data.exp}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Mastery</label>
+                    <label class="header-label">{{localize "arm5e.sheet.mastery"}}</label>
                       <input type="text" name="data.mastery" value="{{item.data.mastery}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Source</label>
+                    <label class="header-label">{{localize "arm5e.sheet.source"}}</label>
                       <input type="text" name="data.source" value="{{item.data.source}}" data-dtype="String"/>
                   </div>
                 </div>

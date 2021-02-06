@@ -5,7 +5,7 @@
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
             <div class="grid grid-2col">
                 <div class="resource flexcol">
-                    <label for="data.art.value" class="header-label">Art</label>
+                    <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
                     <select name="data.art.value"  data-type="String">
                       {{#select item.data.art.value}}
                       {{#each item.data.arts as |arts key|}}
@@ -14,7 +14,7 @@
                   </div>
               </div>
               <div class="resource">
-                <label class="header-label">Pawns</label>
+                <label class="header-label">{{localize "arm5e.sheet.pawns"}}</label>
                   <input type="text" name="data.pawns" value="{{data.pawns}}" data-dtype="Number"/>
               </div>
             </div>
@@ -23,8 +23,8 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="attributes">Attributes</a>
-        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="attributes">{{localize "arm5e.sheet.attributes"}}</a>
+        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -32,7 +32,7 @@
 
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
-                <label for="data.form" class="header-label">Physical Form</label>
+                <label for="data.form" class="header-label">{{localize "arm5e.sheet.physicalForm"}}</label>
                 {{editor content=data.form target="data.form" button=true owner=owner editable=editable}}
         </div>
 

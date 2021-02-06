@@ -20,19 +20,19 @@
         },
         "seasons": {
           "spring": {
-            "label": "Spring",
+            "label": "arm5e.sheet.spring",
             "dtype": "String"
           },
           "summer": {
-            "label": "Summer",
+            "label": "arm5e.sheet.summer",
             "dtype": "String"
           },
           "autumn": {
-            "label": "Autumn",
+            "label": "arm5e.sheet.autumn",
             "dtype": "String"
           },
           "winter": {
-            "label": "Winter",
+            "label": "arm5e.sheet.winter",
             "dtype": "String"
           }
         },
@@ -54,187 +54,187 @@
         "biography": "Character biography, notes, &c.",
         "description": {
           "born": {
-            "label": "Year Born",
+            "label": "arm5e.sheet.yearBorn",
             "dtype": "Number",
             "value": 1200
           },
           "apprentice": {
-            "label": "Apprenticeship",
+            "label": "arm5e.sheet.apprenticeshipYears",
             "dtype": "Number",
             "value": 10
           },
           "birthname": {
-            "label": "Birth Name",
+            "label": "arm5e.sheet.birthName",
             "dtype": "String",
             "value": ""
           },
           "birthplace": {
-            "label": "Place of Origin",
+            "label": "arm5e.sheet.birthplace",
             "dtype": "String",
             "value": ""
           },
           "nationality": {
-            "label": "Race/Nationality",
+            "label": "arm5e.sheet.nationality",
             "dtype": "String",
             "value": ""
           },
           "religion": {
-            "label": "Religion",
+            "label": "arm5e.sheet.religion",
             "dtype": "String",
             "value": ""
           },
           "height": {
-            "label": "Height",
+            "label": "arm5e.sheet.height",
             "dtype": "String",
             "value": ""
           },
           "weight": {
-            "label": "Weight",
+            "label": "arm5e.sheet.weight",
             "dtype": "String",
             "value": ""
           },
           "gender": {
-            "label": "Gender",
+            "label": "arm5e.sheet.gender",
             "dtype": "String",
             "value": ""
           },
           "hair":{
-            "label": "Hair",
+            "label": "arm5e.sheet.hair",
             "dtype": "String",
             "value": ""
           },
           "eyes": {
-            "label": "Eyes",
+            "label": "arm5e.sheet.eyes",
             "dtype": "String",
             "value": ""
           },
           "title": {
-            "label": "Title/Profession",
+            "label": "arm5e.sheet.profession",
             "dtype": "String",
             "value": ""
           },
           "handed": {
-            "label": "Handedness",
+            "label": "arm5e.sheet.handedness",
             "dtype": "String",
             "value": ""
           }
         },
         "vitals": {
             "siz": {
-              "label": "Size",
+              "label": "arm5e.sheet.size",
               "value": 0
             },
             "soa": {
-              "label": "Soak ",
+              "label": "arm5e.sheet.soak",
               "value": 0
             },
             "enc": {
-              "label": "Encumbrance ",
+              "label": "arm5e.sheet.encumbrance",
               "value": 0
             }
           },
         "wounds": {
           "light": {
-            "label": "Light",
+            "label": "arm5e.sheet.light",
             "range": {
-              "label": "Range",
+              "label": "arm5e.sheet.range",
               "dtype": "String",
               "value": ""
             },
             "number": {
-              "label": "Number",
+              "label": "arm5e.sheet.number",
               "dtype": "Number",
               "value": 0
             },
             "penalty": {
-              "label": "Penalty",
+              "label": "arm5e.sheet.penalty",
               "dtype": "Number",
               "value": -1
             },
             "notes": {
-              "label":"Notes",
+              "label":"arm5e.sheet.notes",
               "dtype": "String",
               "value": ""
             }
           },
           "medium": {
-            "label": "Medium",
+            "label": "arm5e.sheet.medium",
             "range": {
-              "label": "Range",
+              "label": "arm5e.sheet.range",
               "dtype": "String",
               "value": ""
             },
             "number": {
-              "label": "Number",
+              "label": "arm5e.sheet.number",
               "dtype": "Number",
               "value": 0
             },
             "penalty": {
-              "label": "Penalty",
+              "label": "arm5e.sheet.penalty",
               "dtype": "Number",
               "value": -3
             },
             "notes": {
-              "label":"Notes",
+              "label":"arm5e.sheet.notes",
               "dtype": "String",
               "value": ""
             }
           },
           "heavy": {
-            "label": "Heavy",
+            "label": "arm5e.sheet.heavy",
             "range": {
-              "label": "Range",
+              "label": "arm5e.sheet.range",
               "dtype": "String",
               "value": ""
             },
             "number": {
-              "label": "Number",
+              "label": "arm5e.sheet.number",
               "dtype": "Number",
               "value": 0
             },
             "penalty": {
-              "label": "Penalty",
+              "label": "arm5e.sheet.penalty",
               "dtype": "Number",
               "value": -5
             },
             "notes": {
-              "label":"Notes",
+              "label":"arm5e.sheet.notes",
               "dtype": "String",
               "value": ""
             }
           },
           "incap": {
-            "label": "Incap.",
+            "label": "arm5e.sheet.incap",
             "range": {
-              "label": "Range",
+              "label": "arm5e.sheet.range",
               "dtype": "String",
               "value": ""
             },
             "number": {
-              "label": "Number",
+              "label": "arm5e.sheet.number",
               "dtype": "Number",
               "value": 0
             },
             "notes": {
-              "label":"Notes",
+              "label":"arm5e.sheet.notes",
               "dtype": "String",
               "value": ""
             }
           },
           "dead":{
-            "label": "Dead",
+            "label": "arm5e.sheet.dead",
             "range": {
-              "label": "Range",
+              "label": "arm5e.sheet.range",
               "dtype": "String",
               "value": ""
             },
             "number": {
-              "label": "Number",
+              "label": "arm5e.sheet.number",
               "dtype": "Number",
               "value": 0
             },
             "notes": {
-              "label":"Notes",
+              "label":"arm5e.sheet.notes",
               "dtype": "String",
               "value": ""
             }
@@ -242,7 +242,7 @@
         },
         "fatigue": {
           "fresh": {
-            "label": "Fresh",
+            "label": "arm5e.sheet.fresh",
             "number": "",
             "time": null,
             "level": {
@@ -251,7 +251,7 @@
             }
           },
           "winded": {
-            "label": "Winded",
+            "label": "arm5e.sheet.winded",
             "number": 0,
             "time": "2 min.",
             "level": {
@@ -260,7 +260,7 @@
             }
           },
           "weary": {
-            "label": "Weary",
+            "label": "arm5e.sheet.weary",
             "number": -1,
             "time": "10 min.",
             "level": {
@@ -269,7 +269,7 @@
             }
           },
           "tired": {
-            "label": "Tired",
+            "label": "arm5e.sheet.tired",
             "number": -3,
             "time": "30 min.",
             "level": {
@@ -278,7 +278,7 @@
             }
           },
           "dazed": {
-            "label": "Dazed",
+            "label": "arm5e.sheet.dazed",
             "number": -5,
             "time": "1 hr.",
             "level": {
@@ -287,7 +287,7 @@
             }
           },
           "unconscious": {
-            "label": "Unconscious",
+            "label": "arm5e.sheet.unconscious",
             "number": "",
             "time": "2 hr.",
             "level": {
@@ -311,34 +311,42 @@
         "characteristics": {
           "int": {
             "label": "Intelligence",
+            "short": "arm5e.sheet.int",
             "value": 0
           },
           "per": {
             "label": "Perception",
+            "short": "arm5e.sheet.per",
             "value": 0
           },
           "str": {
             "label": "Strength",
+            "short": "arm5e.sheet.str",
             "value": 0
           },
           "sta": {
             "label": "Stamina",
+            "short": "arm5e.sheet.sta",
             "value": 0
           },
           "pre": {
             "label": "Presence",
+            "short": "arm5e.sheet.pre",
             "value": 0
           },
           "com": {
             "label": "Communication",
+            "short": "arm5e.sheet.com",
             "value": 0
           },
           "dex": {
             "label": "Dexterity",
+            "short": "arm5e.sheet.dex",
             "value": 0
           },
           "qik": {
             "label": "Quickness",
+            "short": "arm5e.sheet.qik",
             "value": 0
           }
         },
@@ -1332,6 +1340,7 @@
         }
       }
     },
+  
     "magus": {
       "templates": ["base"],
       "house": {
@@ -1509,6 +1518,7 @@
         }
       }
     },
+  
   "Item": {
     "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw"],
     "templates": {
@@ -1558,19 +1568,19 @@
       },
       "costs": {
         "n-a": {
-          "label": "N/A",
+          "label": "arm5e.sheet.n-a",
           "dtype": "String"
         },
         "inexp": {
-          "label": "Inexpensive",
+          "label": "arm5e.sheet.inexpensive",
           "dtype": "String"
         },
         "std": {
-          "label": "Standard",
+          "label": "arm5e.sheet.standard",
           "dtype": "String"
         },
         "exp": {
-          "label": "Expensive",
+          "label": "arm5e.sheet.expensive",
           "dtype": "String"
         }
       }
@@ -1587,19 +1597,19 @@
       },
       "costs": {
         "n-a": {
-          "label": "N/A",
+          "label": "arm5e.sheet.n-a",
           "dtype": "String"
         },
         "inexp": {
-          "label": "Inexpensive",
+          "label": "arm5e.sheet.inexpensive",
           "dtype": "String"
         },
         "std": {
-          "label": "Standard",
+          "label": "arm5e.sheet.standard",
           "dtype": "String"
         },
         "exp": {
-          "label": "Expensive",
+          "label": "arm5e.sheet.expensive",
           "dtype": "String"
         }
       }
@@ -1866,44 +1876,44 @@
   "virtue": {
     "templates": ["base"],
     "type": {
-      "label": "Type",
+      "label": "arm5e.sheet.type",
       "value": ""
     },
     "impact": {
-      "label": "Impact",
+      "label": "arm5e.sheet.impact",
       "value": ""
     },
     "types": {
       "hermetic": {
-        "label": "Hermetic",
+        "label": "arm5e.sheet.hermetic",
         "dtype": "String"
       },
       "supernatural": {
-        "label": "Supernatural",
+        "label": "arm5e.sheet.supernatural",
         "dtype": "String"
       },
       "social": {
-        "label": "Social Status",
+        "label": "arm5e.sheet.socialStatus",
         "dtype": "String"
       },
       "general": {
-        "label": "General",
+        "label": "arm5e.sheet.general",
         "dtype": "String"
     }
   },
     "impacts": {
       "free": {
-        "label": "Free",
+        "label": "arm5e.sheet.free",
         "dtype": "String",
         "cost": 0
       },
       "major": {
-        "label": "Major",
+        "label": "arm5e.sheet.major",
         "dtype": "String",
         "cost": -3
       },
       "minor": {
-        "label": "Minor",
+        "label": "arm5e.sheet.minor",
         "dtype": "String",
         "cost": -1
       }
@@ -1912,52 +1922,52 @@
   "flaw": {
     "templates": ["base"],
     "type": {
-      "label": "Type",
+      "label": "arm5e.sheet.type",
       "value": ""
     },
     "impact": {
-      "label": "Impact",
+      "label": "arm5e.sheet.impact",
       "value": ""
     },
     "types": {
       "hermetic": {
-        "label": "Hermetic",
+        "label": "arm5e.sheet.hermetic",
         "dtype": "String"
       },
       "supernatural": {
-        "label": "Supernatural",
+        "label": "arm5e.sheet.supernatural",
         "dtype": "String"
       },
       "social": {
-        "label": "Social Status",
+        "label": "arm5e.sheet.socialStatus",
         "dtype": "String"
       },
       "general": {
-        "label": "General",
+        "label": "arm5e.sheet.general",
         "dtype": "String"
       },
       "personality": {
-        "label": "Personality",
+        "label": "arm5e.sheet.personality",
         "dtype": "String"
       },
       "story": {
-        "label": "Story",
+        "label": "arm5e.sheet.story",
         "dtype": "String"
     }
   },
     "impacts": {
       "free": {
-        "label": "Free",
+        "label": "arm5e.sheet.free",
         "dtype": "String",
         "cost": 0
       },
       "major": {
-        "label": "Major",
+        "label": "arm5e.sheet.major",
         "dtype": "String",
         "cost": 3
       },
       "minor": {
-        "label": "Minor",
+        "label": "arm5e.sheet.minor",
         "dtype": "String",
         "cost": 1
       }

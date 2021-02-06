@@ -5,11 +5,11 @@
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
             <div class="grid grid-2col">
               <div class="resource">
-                <label class="header-label">Quantity</label>
+                <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
                   <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number"/>
               </div>
               <div class="resource">
-                <label class="header-label">Weight</label>
+                <label class="header-label">{{localize "arm5e.sheet.weight"}}</label>
                   <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number"/>
               </div>
             </div>
@@ -18,8 +18,8 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="attributes">Attributes</a>
-        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="attributes">{{localize "arm5e.sheet.attributes"}}</a>
+        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -29,35 +29,35 @@
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             <div class="grid grid-3col">
                 <div class="resource">
-                  <label class="header-label">Initiative</label>
+                  <label class="header-label">{{localize "arm5e.sheet.initiative"}}</label>
                     <input type="text" name="data.init" value="{{data.init}}" data-dtype="Number"/>
                 </div>
                 <div class="resource">
-                    <label class="header-label">Attack</label>
+                    <label class="header-label">{{localize "arm5e.sheet.attack"}}</label>
                       <input type="text" name="data.atk" value="{{data.atk}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Defense</label>
+                    <label class="header-label">{{localize "arm5e.sheet.defense"}}</label>
                       <input type="text" name="data.dfn" value="{{data.dfn}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Damage</label>
+                    <label class="header-label">{{localize "arm5e.sheet.damage"}}</label>
                       <input type="text" name="data.dam" value="{{data.dam}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Strength Needed</label>
+                    <label class="header-label">{{localize "arm5e.sheet.strengthNeeded"}}</label>
                       <input type="text" name="data.str" value="{{data.str}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">Load</label>
+                    <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
                       <input type="text" name="data.load" value="{{data.load}}" data-dtype="Number"/>
                   </div>
                 <div class="resource flexcol">
-                  <label for="data.cost.value" class="header-label">Cost</label>
+                  <label for="data.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
                   <select name="data.cost.value"  data-type="String">
                     {{#select item.data.cost.value}}
                     {{#each item.data.costs as |costs key|}}
-                    <option value="{{key}}">{{costs.label}}</option> {{/each}} {{/select}}
+                    <option value="{{key}}">{{localize costs.label}}</option> {{/each}} {{/select}}
                   </select>
                 </div>
               </div>

@@ -5,17 +5,17 @@
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
             <div class="grid grid-2col">
               <div class="resource">
-                  <label for="data.type.value" class="header-label">{{data.type.label}}</label>
+                  <label for="data.type.value" class="header-label">{{localize data.type.label}}</label>
                   <select name="data.type.value"  data-type="String">
                     {{#select item.data.type.value}}
                     {{#each item.data.types as |type key|}}
-                    <option value="{{key}}">{{type.label}}</option> {{/each}} {{/select}}
+                    <option value="{{key}}">{{localize type.label}}</option> {{/each}} {{/select}}
                   </select>
-                  <label for="data.impact.value" class="header-label">{{data.impact.label}}</label>
+                  <label for="data.impact.value" class="header-label">{{localize data.impact.label}}</label>
                   <select name="data.impact.value"  data-type="String">
                     {{#select item.data.impact.value}}
                     {{#each item.data.impacts as |impact key|}}
-                    <option value="{{key}}">{{impact.label}}</option> {{/each}} {{/select}}
+                    <option value="{{key}}">{{localize impact.label}}</option> {{/each}} {{/select}}
                   </select>
               </div>
             </div>
@@ -24,7 +24,7 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}

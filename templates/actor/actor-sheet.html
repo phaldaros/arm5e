@@ -8,7 +8,7 @@
             <h2 class="covenantname"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
             <div class="resources grid grid-3col">
               <div class="resource flex-group-center">
-                <label  for="data.age.value" class="header-label">Age</label>
+                <label  for="data.age.value" class="header-label">{{localize "arm5e.sheet.age"}}</label>
                 <div class="resource-content flexrow flex-center flex-between">
                   <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number"/>
                   <span> ( </span>
@@ -19,21 +19,21 @@
               <div class="resource flex-group-left flexcol">
                   <div class="resource-content flexrow">
                     <span class="flexcol flex-center">
-                      <label for="data.season.value" class="header-label">Season</label>
+                      <label for="data.season.value" class="header-label">{{localize "arm5e.sheet.season"}}</label>
                       <select name="data.season.value"  data-type="String">
                         {{#select actor.data.season.value}}
                         {{#each actor.data.seasons as |season key|}}
-                        <option value="{{key}}">{{season.label}}</option> {{/each}} {{/select}}
+                        <option value="{{key}}">{{localize season.label}}</option> {{/each}} {{/select}}
                       </select>
                     </span>
                     <span class="flexcol flex-center">
-                      <label for="data.year.value" class="header-label">Year</label>
+                      <label for="data.year.value" class="header-label">{{localize "arm5e.sheet.year"}}</label>
                       <input type="text" name="data.year.value" value="{{data.year.value}}" data-dtype="String"/>
                     </span>
                   </div>
                 </div>
               <div class="resource flex-group-center">
-                <label  for="data.con.score" class="header-label">Confidence</label>
+                <label  for="data.con.score" class="header-label">{{localize "arm5e.sheet.confidence"}}</label>
                 <div class="resource-content flexrow flex-center flex-between">
                   <input type="text" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"/>
                   <span> ( </span>
@@ -45,7 +45,7 @@
           <div class="characteristics grid grid-4col">
             {{#each data.characteristics as |characteristic key|}}
               <div class="characteristic flexrow flex-group-center">
-                <label for="data.characteristics.{{key}}.value" class="resource-label rollable" data-roll="1d10+@characteristics.{{key}}.value">{{key}}</label>
+                <label for="data.characteristics.{{key}}.value" class="resource-label rollable" data-roll="1d10+@characteristics.{{key}}.value">{{localize short}}</label>
                 <input type="text" name="data.characteristics.{{key}}.value" value="{{numberFormat characteristic.value decimals=0 sign=true}}" data-dtype="Number" />
               </div>
             {{/each}}
@@ -55,13 +55,13 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="abilities">Abilities</a>
-        <a class="item" data-tab="virtues">Virtues & Flaws</a>
+        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
+        <a class="item" data-tab="abilities">{{localize "arm5e.sheet.abilities"}}</a>
+        <a class="item" data-tab="virtues">{{localize "arm5e.sheet.virtuesFlaws"}}</a>
         {{#if (eq actor.type "magus")}}
-        <a class="item" data-tab="arts">Arts</a>
+        <a class="item" data-tab="arts">{{localize "arm5e.sheet.arts"}}</a>
         {{/if}}
-        <a class="item" data-tab="inventory">Inventory</a>
+        <a class="item" data-tab="inventory">{{localize "arm5e.sheet.inventory"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -75,7 +75,7 @@
                 <div style="height: 150px;">
                   <div class="flex-group-left">
                     <div class="flexrow">
-                      <label for="data.house.value" class="header-label">House</label>
+                      <label for="data.house.value" class="header-label">{{localize "arm5e.sheet.house"}}</label>
                       <span><select name="data.house.value"  data-type="String">
                         {{#select data.house.value}}
                         {{#each data.houses as |house key|}}
@@ -83,25 +83,25 @@
                       </select></span>
                     </div>
                     <div class="flexrow">
-                      <label for="data.dom-mag.label" class="header-label">Domus Magnus</label>
+                      <label for="data.dom-mag.label" class="header-label">{{localize "arm5e.sheet.domusMagnus"}}</label>
                       <span><input type="text" name="data.dom-mag.value" value="{{actor.data.dom-mag.value}}" data-dtype="String" /></span>
                     </div>
                     <div class="flexrow">
-                      <label for="data.primus.value" class="header-label">Primus</label>
+                      <label for="data.primus.value" class="header-label">{{localize "arm5e.sheet.primus"}}</label>
                       <span><input type="text" name="data.primus.value" value="{{actor.data.primus.value}}" data-dtype="String" /></span>
                     </div>
                     <div class="flexrow">
-                      <label for="data.parens.value" class="header-label">Parens</label>
+                      <label for="data.parens.value" class="header-label">{{localize "arm5e.sheet.parens"}}</label>
                       <span><input type="text" name="data.parens.value" value="{{actor.data.parens.value}}" data-dtype="String" /></span>
                     </div>
                     <div class="flexrow">
-                      <label for="data.apprenticeship.value" class="header-label">Covenant of Apprenticeship</label>
+                      <label for="data.apprenticeship.value" class="header-label">{{localize "arm5e.sheet.apprenticeship"}}</label>
                       <span><input type="text" name="data.apprenticeship.value" value="{{actor.data.apprenticeship.value}}" data-dtype="String" /></span>
                     </div>
                   </div>
                 </div>
                 <div class="flex-group-left">
-                  <label for="data.sigil" class="header-label">Wizard's Sigil</label>
+                  <label for="data.sigil" class="header-label">{{localize "arm5e.sheet.sigil"}}</label>
                     {{editor content=data.sigil.value target="data.sigil.value" button=true owner=owner editable=editable}}
                 </div>
               </div>
@@ -110,28 +110,28 @@
 
           <div class="flexcol grid grid-2col">
             <div class="flex-group-left">
-              <label class="header-label">Warping</label>
+              <label class="header-label">{{localize "arm5e.sheet.warping"}}</label>
               <div class="flexrow flexcol">
-                <label for="data.warping.score" class="body">Score</label>
+                <label for="data.warping.score" class="body">{{localize "arm5e.sheet.score"}}</label>
                 <span><input type="text" name="data.warping.score" value="{{actor.data.warping.score}}" data-dtype="String" /></span>
                 <span></span>
-                <label for="data.warping.points" class="body">Points</label>
+                <label for="data.warping.points" class="body">{{localize "arm5e.sheet.points"}}</label>
                 <span><input type="text" name="data.warping.points" value="{{actor.data.warping.points}}" data-dtype="String" /></span>
                 <br>
-                <label for="data.warping.effects" class="body">Effects</label>
+                <label for="data.warping.effects" class="body">{{localize "arm5e.sheet.effects"}}</label>
                 <span><input type="text" name="data.warping.effects" value="{{actor.data.warping.effects}}" data-dtype="String" /></span>
               </div>
             </div>
             <div class="flex-group-left">
-              <label class="header-label">Decrepitude</label>
+              <label class="header-label">{{localize "arm5e.sheet.decrepitude"}}</label>
               <div class="flexrow flexcol">
-                <label for="data.decrepitude.score" class="body">Score</label>
+                <label for="data.decrepitude.score" class="body">{{localize "arm5e.sheet.score"}}</label>
                 <span><input type="text" name="data.decrepitude.score" value="{{actor.data.decrepitude.score}}" data-dtype="String" /></span>
                 <span></span>
-                <label for="data.decrepitude.points" class="body">Points</label>
+                <label for="data.decrepitude.points" class="body">{{localize "arm5e.sheet.points"}}</label>
                 <span><input type="text" name="data.decrepitude.points" value="{{actor.data.decrepitude.points}}" data-dtype="String" /></span>
                 <br>
-                <label for="data.decrepitude.effects" class="body">Effects</label>
+                <label for="data.decrepitude.effects" class="body">{{localize "arm5e.sheet.effects"}}</label>
                 <span><input type="text" name="data.decrepitude.effects" value="{{actor.data.decrepitude.effects}}" data-dtype="String" /></span>
               </div>
             </div>
@@ -140,12 +140,12 @@
 
           <div class="flexcol grid grid-2col">
             <div class="flex-group-left">
-              <label class="header-label">Fatigue</label>
+              <label class="header-label">{{localize "arm5e.sheet.fatigue"}}</label>
                 <ol>
                   {{#each data.fatigue as |fatigue key|}}
                     <li class="flexrow"  data-attribute="{{key}}">
                       <div class="flexrow flex-between">
-                        <label for="data.fatigue.{{key}}.label">{{label}}</label>
+                        <label for="data.fatigue.{{key}}.label">{{localize label}}</label>
                         <span><input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} /></span>
                         <span><input type="text" name="data.fatigue.{{key}}.number" value="{{numberFormat fatigue.number decimals=0 sign=true}}" data-dtype="Number" readonly /></span>
                         <span><input type="text" name="data.fatigue.{{key}}.time" value="{{fatigue.time}}" data-dtype="String" readonly /></span>
@@ -156,16 +156,16 @@
                 </ol>
             </div>
             <div class="flex-group-left">
-              <label class="header-label">Wounds</label>
+              <label class="header-label">{{localize "arm5e.sheet.wounds"}}</label>
               <ol>
               {{#each data.wounds as |wounds key|}}
               <li class="flexrow flex-group-left"  data-attribute="{{key}}">
                 <div class="flexrow flex-between">
-                  <label for="data.wounds.{{key}}.label">{{label}}</label>
-                  <span><label><input type="text" name="data.wounds.{{key}}.range.value" value="{{wounds.range.value}}" data-dtype="String" placeholder="Range" />Range</label></span>
-                  <span><label><input type="text" name="data.wounds.{{key}}.number.value" value="{{wounds.number.value}}" data-dtype="Number" />Number</label></span>
-                  <span><label><input type="text" name="data.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}" data-dtype="Number" readonly />Penalty</label></span>
-                  <span><label><input type="text" name="data.wounds.{{key}}.notes.value" value="{{wounds.notes.value}}" data-dtype="String" placeholder="Notes" />Notes</label></span>
+                  <label for="data.wounds.{{key}}.label">{{localize label}}</label>
+                  <span><label><input type="text" name="data.wounds.{{key}}.range.value" value="{{wounds.range.value}}" data-dtype="String" placeholder="Range" />{{localize wounds.range.label}}</label></span>
+                  <span><label><input type="text" name="data.wounds.{{key}}.number.value" value="{{wounds.number.value}}" data-dtype="Number" />{{localize wounds.number.label}}</label></span>
+                  <span><label><input type="text" name="data.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}" data-dtype="Number" readonly />{{localize wounds.penalty.label}}</label></span>
+                  <span><label><input type="text" name="data.wounds.{{key}}.notes.value" value="{{wounds.notes.value}}" data-dtype="String" placeholder="Notes" />{{localize wounds.notes.label}}</label></span>
                 </div>
               </li>
               {{/each}}
@@ -176,19 +176,19 @@
 
           <div class="flexcol grid grid-2col">
             <div class="flex-group-left">
-              <label class="header-label">Biography</label>
+              <label class="header-label">{{localize "arm5e.sheet.biography"}}</label>
               {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
             </div>
           <div>
             <div class="flex-group-left">
               {{#each data.vitals as |vitals key|}}
                 <div class="flexrow">
-                  <label for="data.vitals.{{key}}.label" class="header-label">{{label}}</label>
+                  <label for="data.vitals.{{key}}.label" class="header-label">{{localize label}}</label>
                   <span><input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" /></span>
                 </div>
               {{/each}}
             </div>
-            <div class="flexcol flex-group-left"><label class="header-label">Personality
+            <div class="flexcol flex-group-left"><label class="header-label">{{localize "arm5e.sheet.personality"}}
               <ol>
                   {{#each actor.data.personality as |pers key|}}
                   <li class="flexrow flex-group-left"  data-attribute="{{key}}">
@@ -208,12 +208,12 @@
             <div class="flex-group-left">
               {{#each data.description as |description key|}}
               <div class="flexrow">
-                <label for="data.description.{{key}}.label" class="header-label">{{label}}</label>
+                <label for="data.description.{{key}}.label" class="header-label">{{localize label}}</label>
                 <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="String" /></span>
               </div>
               {{/each}}
             </div>
-            <div class="flexcol flex-group-left"><label class="header-label">Reputation
+            <div class="flexcol flex-group-left"><label class="header-label">{{localize "arm5e.sheet.reputation"}}
               <ol>
                   {{#each actor.data.reputation as |rep key|}}
                   <li class="flexrow flex-group-left"  data-attribute="{{key}}">
@@ -246,12 +246,12 @@
                 <span  class="flexrow header-label rollable" data-roll="1d10+@abilities.{{key}}.score.value" name="data.abilities.{{key}}.label">{{label}}</span>
                 <span class="body">
                 {{#if trainingRequired}}
-                Training Required
+                  {{localize "arm5e.sheet.trainingRequired"}}
                 {{/if}}</span>
                 <div  class="flexrow flex-center">
-                  <label>Score<input type="text" name="data.abilities.{{key}}.score.value"  value="{{abilities.score.value}}"  data-dtype="Number" /></label>
+                  <label>{{localize "arm5e.sheet.score"}}<input type="text" name="data.abilities.{{key}}.score.value"  value="{{abilities.score.value}}"  data-dtype="Number" /></label>
                   <span></span>
-                  <label>Experience<input type="text" name="data.abilities.{{key}}.xp.value"  value="{{abilities.xp.value}}"  data-dtype="Number"  /></label>
+                  <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.abilities.{{key}}.xp.value"  value="{{abilities.xp.value}}"  data-dtype="Number"  /></label>
                 </div>  
             </li>
             {{/each}}
@@ -265,7 +265,7 @@
               <ol class="items-list">
                 <li class="item flexrow item-header">
                   <div class="item-image"></div>
-                  <div class="item-name">Virtues</div>
+                  <div class="item-name">{{localize "arm5e.sheet.virtues"}}</div>
                   <div class="item-controls">
                     <a class="item-control item-create" title="Add virtue" data-type="virtue"><i class="fas fa-plus"></i></a>
                   </div>
@@ -286,7 +286,7 @@
               <ol class="items-list">
                 <li class="item flexrow item-header">
                   <div class="item-image"></div>
-                  <div class="item-name">Flaws</div>
+                  <div class="item-name">{{localize "arm5e.sheet.flaws"}}</div>
                   <div class="item-controls">
                     <a class="item-control item-create" title="Add flaw" data-type="flaw"><i class="fas fa-plus"></i></a>
                   </div>
@@ -311,24 +311,24 @@
         <div class="tab arts" data-group="primary" data-tab="arts">
           <div class="flexrow grid grid-2col">
             <div>
-              <label class="header-label"><ol>Techniques
+              <label class="header-label"><ol>{{localize "arm5e.sheet.techniques"}}
                 {{#each actor.data.arts.techniques as |techniques key|}}
                 <li  class="flexrow flex-group-left" data-attribute="{{key}}">
                     <span  class="flexrow header-label" name="data.arts.techniques.{{key}}.label">{{label}}</span></label>
                     <div class="flexrow">
-                      <label class="body">Score<input class="flexrow" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number"  /></label>
-                        <label class="body">Experience<input class="flexrow" type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}"  data-dtype="Number"  /></label>
+                      <label class="body">{{localize "arm5e.sheet.score"}}<input class="flexrow" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number"  /></label>
+                        <label class="body">{{localize "arm5e.sheet.experience"}}<input class="flexrow" type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}"  data-dtype="Number"  /></label>
                     </div>
                 </li>
                 {{/each}}
               </ol>
-              <label class="header-label"><ol>Forms
+              <label class="header-label"><ol>{{localize "arm5e.sheet.forms"}}
                 {{#each actor.data.arts.forms as |forms key|}}
                 <li  class="flexrow flex-group-left" data-attribute="{{key}}">
                     <span  class="flexrow header-label" name="data.arts.forms.{{key}}.label">{{label}}</span></label>
                     <div class="flexrow">
-                      <label class="body">Score<input class="flexrow" type="text"name="data.arts.forms.{{key}}.score"  value="{{forms.score}}"  data-dtype="Number"  />
-                      <label class="body">Experience<input class="flexrow" type="text" name="data.arts.forms.{{key}}.experience"  value="{{forms.experience}}"  data-dtype="Number"  />
+                      <label class="body">{{localize "arm5e.sheet.score"}}<input class="flexrow" type="text"name="data.arts.forms.{{key}}.score"  value="{{forms.score}}"  data-dtype="Number"  />
+                      <label class="body">{{localize "arm5e.sheet.experience"}}<input class="flexrow" type="text" name="data.arts.forms.{{key}}.experience"  value="{{forms.experience}}"  data-dtype="Number"  />
                     </div>  
                 </li>
                 {{/each}}
@@ -338,7 +338,7 @@
               <ol class="items-list">
                 <li class="item flexrow item-header">
                   <div class="item-image"></div>
-                  <div class="item-name">Spells</div>
+                  <div class="item-name">{{localize "arm5e.sheet.spells"}}</div>
                   <div class="item-controls">
                     <a class="item-control item-create" title="Create spell" data-type="spell"><i class="fas fa-plus"></i></a>
                   </div>
@@ -364,7 +364,7 @@
             <ol class="items-list">
                 <li class="item flexrow item-header">
                   <div class="item-image"></div>
-                  <div class="item-name">Weapons</div>
+                  <div class="item-name">{{localize "arm5e.sheet.weapons"}}</div>
                   <div class="item-controls">
                     <a class="item-control item-create" title="Create weapon" data-type="weapon"><i class="fas fa-plus"></i></a>
                   </div>
@@ -383,7 +383,7 @@
             <ol class="items-list">
               <li class="item flexrow item-header">
                 <div class="item-image"></div>
-                <div class="item-name">Armor</div>
+                <div class="item-name">{{localize "arm5e.sheet.armor"}}</div>
                 <div class="item-controls">
                   <a class="item-control item-create" title="Create armor" data-type="armor"><i class="fas fa-plus"></i></a>
                 </div>
@@ -402,7 +402,7 @@
           <ol class="items-list">
             <li class="item flexrow item-header">
               <div class="item-image"></div>
-              <div class="item-name">Items</div>
+              <div class="item-name">{{localize "arm5e.sheet.items"}}</div>
               <div class="item-controls">
                 <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
               </div>
@@ -421,7 +421,7 @@
           <ol class="items-list">
             <li class="item flexrow item-header">
               <div class="item-image"></div>
-              <div class="item-name">Books</div>
+              <div class="item-name">{{localize "arm5e.sheet.books"}}</div>
               <div class="item-controls">
                 <a class="item-control item-create" title="Create book" data-type="book"><i class="fas fa-plus"></i></a>
               </div>
@@ -440,7 +440,7 @@
           <ol class="items-list">
             <li class="item flexrow item-header">
               <div class="item-image"></div>
-              <div class="item-name">Raw Vis</div>
+              <div class="item-name">{{localize "arm5e.sheet.rawVis"}}</div>
               <div class="item-controls">
                 <a class="item-control item-create" title="Create vis" data-type="vis"><i class="fas fa-plus"></i></a>
               </div>
