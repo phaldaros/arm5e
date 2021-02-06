@@ -303,3 +303,6 @@
 .width4 {
   flex-grow: 4;
 }
+.width3{
+  flex-grow: 3;
+}

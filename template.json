@@ -236,203 +236,11 @@
             "score": "0"
           }
         },
-        "virtues": {
-          "taken": {
-            "virt1": {
-              "label": "The Gift",
-              "type": {
-                "value": "Hermetic",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "Free",
-                "dtype": "String"
-              }
-            },
-            "virt2": {
-              "label": "Virtue 2",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            },
-            "virt3": {
-              "label": "Virtue 3",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            },
-            "virt4": {
-              "label": "Virtue 4",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            },
-            "virt5": {
-              "label": "Virtue 5",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            }
-          },
-          "types": {
-            "hermetic": {
-              "label": "Hermetic",
-              "dtype": "String"
-            },
-            "supernatural": {
-              "label": "Supernatural",
-              "dtype": "String"
-            },
-            "social": {
-              "label": "Social Status",
-              "dtype": "String"
-            },
-            "general": {
-              "label": "General",
-              "dtype": "String"
-          }
-        },
-          "impacts": {
-            "free": {
-              "label": "Free",
-              "dtype": "String",
-              "cost": 0
-            },
-            "major": {
-              "label": "Major",
-              "dtype": "String",
-              "cost": -3
-            },
-            "minor": {
-              "label": "Minor",
-              "dtype": "String",
-              "cost": -1
-            }
-          }
-        },
-        "flaws": {
-          "taken": {
-            "flaw1": {
-              "label": "Flaw 1",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            },
-            "flaw2": {
-              "label": "Flaw 2",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            },
-            "flaw3": {
-              "label": "Flaw 3",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            },
-            "flaw4": {
-              "label": "Flaw 4",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            },
-            "flaw5": {
-              "label": "Flaw 5",
-              "type": {
-                "value": "",
-                "dtype": "String"
-              },
-              "impact": {
-                "value": "",
-                "dtype": "String"
-              }
-            }
-          },
-          "types": {
-            "hermetic": {
-              "label": "Hermetic",
-              "dtype": "String"
-            },
-            "supernatural": {
-              "label": "Supernatural",
-              "dtype": "String"
-            },
-            "social": {
-              "label": "Social Status",
-              "dtype": "String"
-            },
-            "general": {
-              "label": "General",
-              "dtype": "String"
-            },
-            "personality": {
-              "label": "Personality",
-              "dtype": "String"
-            },
-            "story": {
-              "label": "Story",
-              "dtype": "String"
-          }
-        },
-          "impacts": {
-            "free": {
-              "label": "Free",
-              "dtype": "String",
-              "cost": 0
-            },
-            "major": {
-              "label": "Major",
-              "dtype": "String",
-              "cost": 3
-            },
-            "minor": {
-              "label": "Minor",
-              "dtype": "String",
-              "cost": 1
-            }
-          }
-        },
-        "abilities": []
+        "pendingXP": 0,
+        "virtues": [],
+        "flaws": [],
+        "abilities": [],
+        "dairyEntries": []
       },
       "wounds":{
         "wounds": {
@@ -607,79 +415,94 @@
             "cr": {
               "label": "Creo",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "in": {
               "label": "Intellego",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "mu": {
               "label": "Muto",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "pe": {
               "label": "Perdo",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "re": {
               "label": "Rego",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             }
           },
           "forms": {
             "an": {
               "label": "Animal",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "au": {
               "label": "Auram",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "aq": {
               "label": "Aquam",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "co": {
               "label": "Corpus",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "he": {
               "label": "Herbam",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "ig": {
               "label": "Ignem",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "im": {
               "label": "Imaginem",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "me": {
               "label": "Mentem",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "te": {
               "label": "Terram",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             },
             "vi": {
               "label": "Vim",
               "score": 0,
-              "experience": 0
+              "experience": 0,
+              "experienceNextLevel": 0
             }
           }
         }
@@ -784,7 +607,7 @@
   },
   
   "Item": {
-    "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability"],
+    "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability", "dairyEntry"],
     "templates": {
       "base": {
         "description": ""
@@ -1225,6 +1048,13 @@
       "score": 0,
       "experience": 0,
       "experienceNextLevel": 0
+    },
+    "dairyEntry":{
+      "templates": ["base"],
+      "year": "",
+      "season": "",
+      "date": "",
+      "experience": 0
     }
   }
 }

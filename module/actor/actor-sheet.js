@@ -53,6 +53,7 @@ export class ArM5eActorSheet extends ActorSheet {
     let virtues = [];
     let flaws = [];
     let abilities = [];
+    let dairyEntries = [];
 
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
@@ -96,6 +97,10 @@ export class ArM5eActorSheet extends ActorSheet {
         i.data.experienceNextLevel = (i.data.score + 1) * 5;
         abilities.push(i);
       }
+      // Append to flaws.
+      else if (i.type === 'dairyEntry') {
+        dairyEntries.push(i);
+      }
     }
 
     // Assign and return
@@ -108,6 +113,7 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.virtues = virtues;
     actorData.flaws = flaws;
     actorData.abilities = abilities;
+    actorData.dairyEntries = dairyEntries;
     //console.log(actorData);
   }
 

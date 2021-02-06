@@ -27,7 +27,19 @@ export class ArM5eActor extends Actor {
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
-    const data = actorData.data;
+    let data = actorData.data;
+
+    for (let [key, technique] of Object.entries(data.arts.techniques)) {
+      // Calculate the next level experience needed
+      technique.experienceNextLevel = (technique.score + 1);
+    }
+
+    for (let [key, form] of Object.entries(data.arts.forms)) {
+      // Calculate the next level experience needed
+      form.experienceNextLevel = (form.score + 1);
+    }
+
+    console.log(data);
 
     // Make modifications to data here. For example:
 

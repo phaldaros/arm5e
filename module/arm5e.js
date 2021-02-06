@@ -4,6 +4,9 @@ import { ArM5eActorSheet } from "./actor/actor-sheet.js";
 import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
 
+import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
+
+
 Hooks.once('init', async function() {
 
   game.arm5e = {
@@ -30,6 +33,9 @@ Hooks.once('init', async function() {
   Actors.registerSheet("arm5e", ArM5eActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("arm5e", ArM5eItemSheet, { makeDefault: true });
+
+  // Preload handlebars templates
+  ArM5ePreloadHandlebarsTemplates();
 
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function() {
