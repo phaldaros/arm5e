@@ -120,180 +120,17 @@
           }
         },
         "vitals": {
-            "siz": {
-              "label": "arm5e.sheet.size",
-              "value": 0
-            },
-            "soa": {
-              "label": "arm5e.sheet.soak",
-              "value": 0
-            },
-            "enc": {
-              "label": "arm5e.sheet.encumbrance",
-              "value": 0
-            }
+          "siz": {
+            "label": "arm5e.sheet.size",
+            "value": 0
           },
-        "wounds": {
-          "light": {
-            "label": "arm5e.sheet.light",
-            "range": {
-              "label": "arm5e.sheet.range",
-              "dtype": "String",
-              "value": ""
-            },
-            "number": {
-              "label": "arm5e.sheet.number",
-              "dtype": "Number",
-              "value": 0
-            },
-            "penalty": {
-              "label": "arm5e.sheet.penalty",
-              "dtype": "Number",
-              "value": -1
-            },
-            "notes": {
-              "label":"arm5e.sheet.notes",
-              "dtype": "String",
-              "value": ""
-            }
+          "soa": {
+            "label": "arm5e.sheet.soak",
+            "value": 0
           },
-          "medium": {
-            "label": "arm5e.sheet.medium",
-            "range": {
-              "label": "arm5e.sheet.range",
-              "dtype": "String",
-              "value": ""
-            },
-            "number": {
-              "label": "arm5e.sheet.number",
-              "dtype": "Number",
-              "value": 0
-            },
-            "penalty": {
-              "label": "arm5e.sheet.penalty",
-              "dtype": "Number",
-              "value": -3
-            },
-            "notes": {
-              "label":"arm5e.sheet.notes",
-              "dtype": "String",
-              "value": ""
-            }
-          },
-          "heavy": {
-            "label": "arm5e.sheet.heavy",
-            "range": {
-              "label": "arm5e.sheet.range",
-              "dtype": "String",
-              "value": ""
-            },
-            "number": {
-              "label": "arm5e.sheet.number",
-              "dtype": "Number",
-              "value": 0
-            },
-            "penalty": {
-              "label": "arm5e.sheet.penalty",
-              "dtype": "Number",
-              "value": -5
-            },
-            "notes": {
-              "label":"arm5e.sheet.notes",
-              "dtype": "String",
-              "value": ""
-            }
-          },
-          "incap": {
-            "label": "arm5e.sheet.incap",
-            "range": {
-              "label": "arm5e.sheet.range",
-              "dtype": "String",
-              "value": ""
-            },
-            "number": {
-              "label": "arm5e.sheet.number",
-              "dtype": "Number",
-              "value": 0
-            },
-            "notes": {
-              "label":"arm5e.sheet.notes",
-              "dtype": "String",
-              "value": ""
-            }
-          },
-          "dead":{
-            "label": "arm5e.sheet.dead",
-            "range": {
-              "label": "arm5e.sheet.range",
-              "dtype": "String",
-              "value": ""
-            },
-            "number": {
-              "label": "arm5e.sheet.number",
-              "dtype": "Number",
-              "value": 0
-            },
-            "notes": {
-              "label":"arm5e.sheet.notes",
-              "dtype": "String",
-              "value": ""
-            }
-          }
-        },
-        "fatigue": {
-          "fresh": {
-            "label": "arm5e.sheet.fresh",
-            "number": "",
-            "time": null,
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
-          },
-          "winded": {
-            "label": "arm5e.sheet.winded",
-            "number": 0,
-            "time": "2 min.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
-          },
-          "weary": {
-            "label": "arm5e.sheet.weary",
-            "number": -1,
-            "time": "10 min.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
-          },
-          "tired": {
-            "label": "arm5e.sheet.tired",
-            "number": -3,
-            "time": "30 min.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
-          },
-          "dazed": {
-            "label": "arm5e.sheet.dazed",
-            "number": -5,
-            "time": "1 hr.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
-          },
-          "unconscious": {
-            "label": "arm5e.sheet.unconscious",
-            "number": "",
-            "time": "2 hr.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+          "enc": {
+            "label": "arm5e.sheet.encumbrance",
+            "value": 0
           }
         },
         "decrepitude": {
@@ -595,746 +432,254 @@
             }
           }
         },
-        "abilities": {
-          "ani": {
-            "label": "Animal Handling",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
+        "abilities": []
+      },
+      "wounds":{
+        "wounds": {
+          "light": {
+            "label": "arm5e.sheet.light",
+            "range": {
+              "label": "arm5e.sheet.range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "arm5e.sheet.number",
+              "dtype": "Number",
               "value": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+            "penalty": {
+              "label": "arm5e.sheet.penalty",
+              "dtype": "Number",
+              "value": -1
+            },
+            "notes": {
+              "label":"arm5e.sheet.notes",
+              "dtype": "String",
+              "value": ""
             }
           },
-          "lor": {
-            "label": "(Area) Lore",
-            "type": "General",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
+          "medium": {
+            "label": "arm5e.sheet.medium",
+            "range": {
+              "label": "arm5e.sheet.range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "arm5e.sheet.number",
+              "dtype": "Number",
               "value": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+            "penalty": {
+              "label": "arm5e.sheet.penalty",
+              "dtype": "Number",
+              "value": -3
+            },
+            "notes": {
+              "label":"arm5e.sheet.notes",
+              "dtype": "String",
+              "value": ""
             }
           },
-          "ath": {
-            "label": "Athletics",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
+          "heavy": {
+            "label": "arm5e.sheet.heavy",
+            "range": {
+              "label": "arm5e.sheet.range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "arm5e.sheet.number",
+              "dtype": "Number",
               "value": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+            "penalty": {
+              "label": "arm5e.sheet.penalty",
+              "dtype": "Number",
+              "value": -5
+            },
+            "notes": {
+              "label":"arm5e.sheet.notes",
+              "dtype": "String",
+              "value": ""
             }
           },
-          "awa": {
-            "label": "Awareness",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
+          "incap": {
+            "label": "arm5e.sheet.incap",
+            "range": {
+              "label": "arm5e.sheet.range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "arm5e.sheet.number",
+              "dtype": "Number",
               "value": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+            "notes": {
+              "label":"arm5e.sheet.notes",
+              "dtype": "String",
+              "value": ""
             }
           },
-          "bar": {
-            "label": "Bargain",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
+          "dead":{
+            "label": "arm5e.sheet.dead",
+            "range": {
+              "label": "arm5e.sheet.range",
+              "dtype": "String",
+              "value": ""
+            },
+            "number": {
+              "label": "arm5e.sheet.number",
+              "dtype": "Number",
               "value": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+            "notes": {
+              "label":"arm5e.sheet.notes",
+              "dtype": "String",
+              "value": ""
+            }
+          }
+        }
+      },
+      "fatigue": {
+        "fatigue": {
+          "fresh": {
+            "label": "arm5e.sheet.fresh",
+            "number": "",
+            "time": null,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
             }
           },
-          "bra": {
-            "label": "Brawl",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+          "winded": {
+            "label": "arm5e.sheet.winded",
+            "number": 0,
+            "time": "2 min.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
             }
           },
-          "car": {
-            "label": "Carouse",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+          "weary": {
+            "label": "arm5e.sheet.weary",
+            "number": -1,
+            "time": "10 min.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
             }
           },
-          "cha": {
-            "label": "Charm",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+          "tired": {
+            "label": "arm5e.sheet.tired",
+            "number": -3,
+            "time": "30 min.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
             }
           },
-          "chi": {
-            "label": "Chirurgy",
-            "type": "General",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+          "dazed": {
+            "label": "arm5e.sheet.dazed",
+            "number": -5,
+            "time": "1 hr.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
             }
           },
-          "con": {
-            "label": "Concentration",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+          "unconscious": {
+            "label": "arm5e.sheet.unconscious",
+            "number": "",
+            "time": "2 hr.",
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          }
+        }
+      },
+      "arts":{
+        "arts": {
+          "techniques": {
+            "cr": {
+              "label": "Creo",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+            "in": {
+              "label": "Intellego",
+              "score": 0,
+              "experience": 0
+            },
+            "mu": {
+              "label": "Muto",
+              "score": 0,
+              "experience": 0
+            },
+            "pe": {
+              "label": "Perdo",
+              "score": 0,
+              "experience": 0
+            },
+            "re": {
+              "label": "Rego",
+              "score": 0,
+              "experience": 0
             }
           },
-          "cra": {
-            "label": "Craft (Type)",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+          "forms": {
+            "an": {
+              "label": "Animal",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "eti": {
-            "label": "Etiquette",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "au": {
+              "label": "Auram",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "fol": {
-            "label": "Folk Ken",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "aq": {
+              "label": "Aquam",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "gui": {
-            "label": "Guile",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "co": {
+              "label": "Corpus",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "hun": {
-            "label": "Hunt",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "he": {
+              "label": "Herbam",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "int": {
-            "label": "Intrigue",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "ig": {
+              "label": "Ignem",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "lea": {
-            "label": "Leadership",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "im": {
+              "label": "Imaginem",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "leg": {
-            "label": "Legerdemain",
-            "type": "General",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "me": {
+              "label": "Mentem",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "lan": {
-            "label": "(Living Language)",
-            "type": "General",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
+            "te": {
+              "label": "Terram",
+              "score": 0,
+              "experience": 0
             },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "mus": {
-            "label": "Music",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "org": {
-            "label": "(Organization) Lore",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "pro": {
-            "label": "Profession (Type)",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "rid": {
-            "label": "Ride",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "ste": {
-            "label": "Stealth",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "sur": {
-            "label": "Survival",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "swi": {
-            "label": "Swim",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "tea": {
-            "label": "Teaching",
-            "type": "General",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "art": {
-            "label": "Artes Liberales",
-            "type": "Academic",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "civ": {
-            "label": "Civil & Canon Law",
-            "type": "Academic",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "com": {
-            "label": "Common Law",
-            "type": "Academic",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "dea": {
-            "label": "(Dead Language)",
-            "type": "Academic",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "med": {
-            "label": "Medicine",
-            "type": "Academic",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "phi": {
-            "label": "Philosophiae",
-            "type": "Academic",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "the": {
-            "label": "Theology",
-            "type": "Academic",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "cod": {
-            "label": "Code of Hermes",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "dom": {
-            "label": "Dominion Lore",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "fae": {
-            "label": "Faerie Lore",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "fin": {
-            "label": "Finesse",
-            "type": "Arcane",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "inf": {
-            "label": "Infernal Lore",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "mag": {
-            "label": "Magic Lore",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "mth": {
-            "label": "Magic Theory",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "par": {
-            "label": "Parma Magica",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "pen": {
-            "label": "Penetration",
-            "type": "Arcane",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "bow": {
-            "label": "Bows",
-            "type": "Martial",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "gre": {
-            "label": "Great Weapon",
-            "type": "Martial",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "sin": {
-            "label": "Single Weapon",
-            "type": "Martial",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "thr": {
-            "label": "Thrown Weapon",
-            "type": "Martial",
-            "trainingRequired": false,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "ken": {
-            "label": "Animal Ken",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "dow": {
-            "label": "Dowsing",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "enc": {
-            "label": "Enchanting Music",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "ent": {
-            "label": "Entrancement",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "sen": {
-            "label": "Magic Sensitivity",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "pre": {
-            "label": "Premonitions",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "sec": {
-            "label": "Second Sight",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "hol": {
-            "label": "Sense Holiness & Unholiness",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "sha": {
-            "label": "Shapeshifter",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
-            }
-          },
-          "wil": {
-            "label": "Wilderness Sense",
-            "type": "Supernatural",
-            "trainingRequired": true,
-            "score": {
-              "label": "Score",
-              "value": 0
-            },
-            "xp": {
-              "label": "Experience",
-              "value": 0
+            "vi": {
+              "label": "Vim",
+              "score": 0,
+              "experience": 0
             }
           }
         }
@@ -1342,7 +687,7 @@
     },
   
     "magus": {
-      "templates": ["base"],
+      "templates": ["base", "wounds", "fatigue", "arts"],
       "house": {
         "value": "",
         "label": "House"
@@ -1434,100 +779,111 @@
         "level": {
           "value": 1
         }
-      },
-      "arts": {
-        "techniques": {
-          "cr": {
-            "label": "Creo",
-            "score": 0,
-            "experience": 0
-          },
-          "in": {
-            "label": "Intellego",
-            "score": 0,
-            "experience": 0
-          },
-          "mu": {
-            "label": "Muto",
-            "score": 0,
-            "experience": 0
-          },
-          "pe": {
-            "label": "Perdo",
-            "score": 0,
-            "experience": 0
-          },
-          "re": {
-            "label": "Rego",
-            "score": 0,
-            "experience": 0
-          }
-        },
-        "forms": {
-          "an": {
-            "label": "Animal",
-            "score": 0,
-            "experience": 0
-          },
-          "au": {
-            "label": "Auram",
-            "score": 0,
-            "experience": 0
-          },
-          "aq": {
-            "label": "Aquam",
-            "score": 0,
-            "experience": 0
-          },
-          "co": {
-            "label": "Corpus",
-            "score": 0,
-            "experience": 0
-          },
-          "he": {
-            "label": "Herbam",
-            "score": 0,
-            "experience": 0
-          },
-          "ig": {
-            "label": "Ignem",
-            "score": 0,
-            "experience": 0
-          },
-          "im": {
-            "label": "Imaginem",
-            "score": 0,
-            "experience": 0
-          },
-          "me": {
-            "label": "Mentem",
-            "score": 0,
-            "experience": 0
-          },
-          "te": {
-            "label": "Terram",
-            "score": 0,
-            "experience": 0
-          },
-          "vi": {
-            "label": "Vim",
-            "score": 0,
-            "experience": 0
-            }
-          }
-        }
       }
-    },
+    }
+  },
   
   "Item": {
-    "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw"],
+    "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability"],
     "templates": {
       "base": {
         "description": ""
+      },
+      "cost":{
+        "cost": {
+          "value": "",
+          "label": "Cost"
+        },
+        "costs": {
+          "n-a": {
+            "label": "arm5e.sheet.n-a",
+            "dtype": "String"
+          },
+          "inexp": {
+            "label": "arm5e.sheet.inexpensive",
+            "dtype": "String"
+          },
+          "std": {
+            "label": "arm5e.sheet.standard",
+            "dtype": "String"
+          },
+          "exp": {
+            "label": "arm5e.sheet.expensive",
+            "dtype": "String"
+          }
+        }
+      },
+      "art":{
+        "art": {
+          "value": "",
+          "label": "Art"
+        },
+        "arts": {
+          "cr": {
+            "label": "Creo",
+            "dtype": "String"
+          },
+          "in": {
+            "label": "Intellego",
+            "dtype": "String"
+          },
+          "mu": {
+            "label": "Muto",
+            "dtype": "String"
+          },
+          "pe": {
+            "label": "Perdo",
+            "dtype": "String"
+          },
+          "re": {
+            "label": "Rego",
+            "dtype": "String"
+          },
+          "an": {
+            "label": "Animal",
+            "dtype": "String"
+          },
+          "au": {
+            "label": "Auram",
+            "dtype": "String"
+          },
+          "aq": {
+            "label": "Aquam",
+            "dtype": "String"
+          },
+          "co": {
+            "label": "Corpus",
+            "dtype": "String"
+          },
+          "he": {
+            "label": "Herbam",
+            "dtype": "String"
+          },
+          "ig": {
+            "label": "Ignem",
+            "dtype": "String"
+          },
+          "im": {
+            "label": "Imaginem",
+            "dtype": "String"
+          },
+          "me": {
+            "label": "Mentem",
+            "dtype": "String"
+          },
+          "te": {
+            "label": "Terram",
+            "dtype": "String"
+          },
+          "vi": {
+            "label": "Vim",
+            "dtype": "String"
+            }
+        }
       }
     },
     "weapon": {
-      "templates": ["base"],
+      "templates": ["base", "cost"],
       "quantity": 1,
       "weight": 0,
       "ability": {
@@ -1561,58 +917,14 @@
       "dfn": 0,
       "dam": 0,
       "str": 0,
-      "load": 0,
-      "cost": {
-        "value": "",
-        "label": "Cost"
-      },
-      "costs": {
-        "n-a": {
-          "label": "arm5e.sheet.n-a",
-          "dtype": "String"
-        },
-        "inexp": {
-          "label": "arm5e.sheet.inexpensive",
-          "dtype": "String"
-        },
-        "std": {
-          "label": "arm5e.sheet.standard",
-          "dtype": "String"
-        },
-        "exp": {
-          "label": "arm5e.sheet.expensive",
-          "dtype": "String"
-        }
-      }
+      "load": 0
     },
     "armor": {
-      "templates": ["base"],
+      "templates": ["base", "cost"],
       "quantity": 1,
       "weight": 0,
       "prot": 0,
-      "full": false,
-      "cost": {
-        "value": "",
-        "label": "Cost"
-      },
-      "costs": {
-        "n-a": {
-          "label": "arm5e.sheet.n-a",
-          "dtype": "String"
-        },
-        "inexp": {
-          "label": "arm5e.sheet.inexpensive",
-          "dtype": "String"
-        },
-        "std": {
-          "label": "arm5e.sheet.standard",
-          "dtype": "String"
-        },
-        "exp": {
-          "label": "arm5e.sheet.expensive",
-          "dtype": "String"
-        }
-      }
+      "full": false
     },
     "spell": {
       "templates": ["base"],
@@ -1779,200 +1091,140 @@
       "source": ""
     },
     "vis": {
-      "templates": ["base"],
-      "art": {
-        "value": "",
-        "label": "Art"
-      },
-      "arts": {
-        "cr": {
-          "label": "Creo",
-          "dtype": "String"
-        },
-        "in": {
-          "label": "Intellego",
-          "dtype": "String"
-        },
-        "mu": {
-          "label": "Muto",
-          "dtype": "String"
-        },
-        "pe": {
-          "label": "Perdo",
-          "dtype": "String"
-        },
-        "re": {
-          "label": "Rego",
-          "dtype": "String"
-        },
-        "an": {
-          "label": "Animal",
-          "dtype": "String"
-        },
-        "au": {
-          "label": "Auram",
-          "dtype": "String"
-        },
-        "aq": {
-          "label": "Aquam",
-          "dtype": "String"
-        },
-        "co": {
-          "label": "Corpus",
-          "dtype": "String"
-        },
-        "he": {
-          "label": "Herbam",
-          "dtype": "String"
-        },
-        "ig": {
-          "label": "Ignem",
-          "dtype": "String"
-        },
-        "im": {
-          "label": "Imaginem",
-          "dtype": "String"
-        },
-        "me": {
-          "label": "Mentem",
-          "dtype": "String"
-        },
-        "te": {
-          "label": "Terram",
-          "dtype": "String"
-        },
-        "vi": {
-          "label": "Vim",
-          "dtype": "String"
-          }
-      },
+      "templates": ["base", "art"],
       "pawns": 1,
       "form": "Physical form of the raw vis."
     },
-  "book": {
-    "templates": ["base"],
-    "type": {
-      "value": "",
-      "label": "Book Type"
-    },
-    "types": {
-      "summa": {
-        "label": "Summa",
-        "dtype": "String"
+    "book": {
+      "templates": ["base", "art"],
+      "type": {
+        "value": "",
+        "label": "Book Type"
       },
-      "tract": {
-        "label": "Tractatus",
-        "dtype": "String"
+      "types": {
+        "summa": {
+          "label": "Summa",
+          "dtype": "String"
+        },
+        "tract": {
+          "label": "Tractatus",
+          "dtype": "String"
+        }
+      },
+      "quality": 0,
+      "level": 0
+    },
+    "item": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": 0
+    },
+    "virtue": {
+      "templates": ["base"],
+      "type": {
+        "label": "arm5e.sheet.type",
+        "value": ""
+      },
+      "impact": {
+        "label": "arm5e.sheet.impact",
+        "value": ""
+      },
+      "types": {
+        "hermetic": {
+          "label": "arm5e.sheet.hermetic",
+          "dtype": "String"
+        },
+        "supernatural": {
+          "label": "arm5e.sheet.supernatural",
+          "dtype": "String"
+        },
+        "social": {
+          "label": "arm5e.sheet.socialStatus",
+          "dtype": "String"
+        },
+        "general": {
+          "label": "arm5e.sheet.general",
+          "dtype": "String"
+        }
+      },
+      "impacts": {
+        "free": {
+          "label": "arm5e.sheet.free",
+          "dtype": "String",
+          "cost": 0
+        },
+        "major": {
+          "label": "arm5e.sheet.major",
+          "dtype": "String",
+          "cost": -3
+        },
+        "minor": {
+          "label": "arm5e.sheet.minor",
+          "dtype": "String",
+          "cost": -1
+        }
       }
     },
-    "quality": 0,
-    "level": 0
-  },
-  "item": {
-    "templates": ["base"],
-    "quantity": 1,
-    "weight": 0
-  },
-  "virtue": {
-    "templates": ["base"],
-    "type": {
-      "label": "arm5e.sheet.type",
-      "value": ""
-    },
-    "impact": {
-      "label": "arm5e.sheet.impact",
-      "value": ""
-    },
-    "types": {
-      "hermetic": {
-        "label": "arm5e.sheet.hermetic",
-        "dtype": "String"
+    "flaw": {
+      "templates": ["base"],
+      "type": {
+        "label": "arm5e.sheet.type",
+        "value": ""
       },
-      "supernatural": {
-        "label": "arm5e.sheet.supernatural",
-        "dtype": "String"
+      "impact": {
+        "label": "arm5e.sheet.impact",
+        "value": ""
       },
-      "social": {
-        "label": "arm5e.sheet.socialStatus",
-        "dtype": "String"
+      "types": {
+        "hermetic": {
+          "label": "arm5e.sheet.hermetic",
+          "dtype": "String"
+        },
+        "supernatural": {
+          "label": "arm5e.sheet.supernatural",
+          "dtype": "String"
+        },
+        "social": {
+          "label": "arm5e.sheet.socialStatus",
+          "dtype": "String"
+        },
+        "general": {
+          "label": "arm5e.sheet.general",
+          "dtype": "String"
+        },
+        "personality": {
+          "label": "arm5e.sheet.personality",
+          "dtype": "String"
+        },
+        "story": {
+          "label": "arm5e.sheet.story",
+          "dtype": "String"
+        }
       },
-      "general": {
-        "label": "arm5e.sheet.general",
-        "dtype": "String"
-    }
-  },
-    "impacts": {
-      "free": {
-        "label": "arm5e.sheet.free",
-        "dtype": "String",
-        "cost": 0
-      },
-      "major": {
-        "label": "arm5e.sheet.major",
-        "dtype": "String",
-        "cost": -3
-      },
-      "minor": {
-        "label": "arm5e.sheet.minor",
-        "dtype": "String",
-        "cost": -1
+      "impacts": {
+        "free": {
+          "label": "arm5e.sheet.free",
+          "dtype": "String",
+          "cost": 0
+        },
+        "major": {
+          "label": "arm5e.sheet.major",
+          "dtype": "String",
+          "cost": 3
+        },
+        "minor": {
+          "label": "arm5e.sheet.minor",
+          "dtype": "String",
+          "cost": 1
+        }
       }
-    }
-  },
-  "flaw": {
-    "templates": ["base"],
-    "type": {
-      "label": "arm5e.sheet.type",
-      "value": ""
     },
-    "impact": {
-      "label": "arm5e.sheet.impact",
-      "value": ""
-    },
-    "types": {
-      "hermetic": {
-        "label": "arm5e.sheet.hermetic",
-        "dtype": "String"
-      },
-      "supernatural": {
-        "label": "arm5e.sheet.supernatural",
-        "dtype": "String"
-      },
-      "social": {
-        "label": "arm5e.sheet.socialStatus",
-        "dtype": "String"
-      },
-      "general": {
-        "label": "arm5e.sheet.general",
-        "dtype": "String"
-      },
-      "personality": {
-        "label": "arm5e.sheet.personality",
-        "dtype": "String"
-      },
-      "story": {
-        "label": "arm5e.sheet.story",
-        "dtype": "String"
+    "ability":{
+      "templates": ["base"],
+      "speciality":"",
+      "score": 0,
+      "experience": 0,
+      "experienceNextLevel": 0
     }
-  },
-    "impacts": {
-      "free": {
-        "label": "arm5e.sheet.free",
-        "dtype": "String",
-        "cost": 0
-      },
-      "major": {
-        "label": "arm5e.sheet.major",
-        "dtype": "String",
-        "cost": 3
-      },
-      "minor": {
-        "label": "arm5e.sheet.minor",
-        "dtype": "String",
-        "cost": 1
-      }
-    }
-  }
-
   }
 }

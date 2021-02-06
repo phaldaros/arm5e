@@ -9,8 +9,8 @@ export class ArM5eActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "actor"],
       template: "systems/arm5e/templates/actor/actor-sheet.html",
-      width: 720,
-      height: 700,
+      width: 1100,
+      height: 900,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -41,17 +41,18 @@ export class ArM5eActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
-    const actorData = sheetData.actor;
+    let actorData = sheetData.actor;
 
     // Initialize containers.
-    const weapons = [];
-    const armor = [];
-    const spells = [];
-    const vis = [];
-    const items = [];
-    const books = [];
-    const virtues = [];
-    const flaws = [];
+    let weapons = [];
+    let armor = [];
+    let spells = [];
+    let vis = [];
+    let items = [];
+    let books = [];
+    let virtues = [];
+    let flaws = [];
+    let abilities = [];
 
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
@@ -78,7 +79,7 @@ export class ArM5eActorSheet extends ActorSheet {
       else if (i.type === 'item') {
         items.push(i);
       }
-      // Append to items.
+      // Append to books.
       else if (i.type === 'book') {
         books.push(i);
       }
@@ -89,6 +90,11 @@ export class ArM5eActorSheet extends ActorSheet {
       // Append to flaws.
       else if (i.type === 'flaw') {
         flaws.push(i);
+      }
+      // Append to flaws.
+      else if (i.type === 'ability') {
+        i.data.experienceNextLevel = (i.data.score + 1) * 5;
+        abilities.push(i);
       }
     }
 
@@ -101,6 +107,8 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.books = books;
     actorData.virtues = virtues;
     actorData.flaws = flaws;
+    actorData.abilities = abilities;
+    //console.log(actorData);
   }
 
   /* -------------------------------------------- */

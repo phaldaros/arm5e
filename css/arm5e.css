@@ -299,3 +299,7 @@
   flex: 0 0 86px;
   text-align: right;
 }
+
+.width4 {
+  flex-grow: 4;
+}
