@@ -2,13 +2,13 @@
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class ArM5eActorSheet extends ActorSheet {
+export class ArM5eNPCActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "actor"],
-      template: "systems/arm5e/templates/actor/actor-sheet.html",
+      template: "systems/arm5e/templates/actor/actor-npc-sheet.html",
       width: 1100,
       height: 900,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
@@ -20,15 +20,15 @@ export class ArM5eActorSheet extends ActorSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean"];
-    for (let attr of Object.values(data.data.attributes)) {
-      attr.isCheckbox = attr.dtype === "Boolean";
-    }
+    //data.dtypes = ["String", "Number", "Boolean"];
+    //for (let attr of Object.values(data.data.attributes)) {
+    //  attr.isCheckbox = attr.dtype === "Boolean";
+    //}
 
     // Prepare items.
-    if (this.actor.data.type == 'magus') {
+    //if (this.actor.data.type == 'magus') {
       this._prepareCharacterItems(data);
-    }
+    //}
 
     return data;
   }
@@ -41,7 +41,7 @@ export class ArM5eActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
-    let actorData = sheetData.actor;
+    let actorData = sheetData.actor.data;
 
     // Initialize containers.
     let weapons = [];
@@ -54,53 +54,28 @@ export class ArM5eActorSheet extends ActorSheet {
     let flaws = [];
     let abilities = [];
     let dairyEntries = [];
+    let mights = [];
 
     // Iterate through items, allocating to containers
     // let totalWeight = 0;
     for (let i of sheetData.items) {
       let item = i.data;
       i.img = i.img || DEFAULT_TOKEN;
-      // Append to weapons.
-      if (i.type === 'weapon') {
-        weapons.push(i);
-      }
-      // Append to armor.
-      else if (i.type === 'armor') {
-        armor.push(i);
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        spells.push(i);
-      }
-      // Append to vis.
-      else if (i.type === 'vis') {
-        vis.push(i);
-      }
-      // Append to items.
-      else if (i.type === 'item') {
-        items.push(i);
-      }
-      // Append to books.
-      else if (i.type === 'book') {
-        books.push(i);
-      }
-      // Append to virtues.
-      else if (i.type === 'virtue') {
-        virtues.push(i);
-      }
-      // Append to flaws.
-      else if (i.type === 'flaw') {
-        flaws.push(i);
-      }
-      // Append to flaws.
+
+      if (i.type === 'weapon') { weapons.push(i); }
+      else if (i.type === 'armor') { armor.push(i); }
+      else if (i.type === 'spell') { spells.push(i); }
+      else if (i.type === 'vis') { vis.push(i); }
+      else if (i.type === 'item') { items.push(i); }
+      else if (i.type === 'book') { books.push(i); }
+      else if (i.type === 'virtue') { virtues.push(i); }
+      else if (i.type === 'flaw') { flaws.push(i); }
       else if (i.type === 'ability') {
         i.data.experienceNextLevel = (i.data.score + 1) * 5;
         abilities.push(i);
       }
-      // Append to flaws.
-      else if (i.type === 'dairyEntry') {
-        dairyEntries.push(i);
-      }
+      else if (i.type === 'dairyEntry') { dairyEntries.push(i); }
+      else if (i.type === 'might') { mights.push(i); }
     }
 
     // Assign and return
@@ -114,7 +89,12 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.flaws = flaws;
     actorData.abilities = abilities;
     actorData.dairyEntries = dairyEntries;
-    //console.log(actorData);
+    actorData.mights = mights;
+
+    console.log("actorData from pc sheet");
+    console.log(actorData);
+    console.log("sheetData from pc sheet");
+    console.log(sheetData);
   }
 
   /* -------------------------------------------- */

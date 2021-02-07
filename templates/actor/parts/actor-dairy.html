@@ -1,9 +1,11 @@
+{{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-3col">
 <div class="flex-group-left">
   <label class="header-label">{{localize "arm5e.sheet.pendingExperience"}}</label>
     <span><input type="text" name="data.pendingXP" value="{{actor.data.pendingXP}}" data-dtype="String" /></span>
 </div>
 </div>
+{{/if}}
 
 <ol class="items-list">
   <li class="item flexrow item-header">
@@ -13,7 +15,7 @@
       <a class="item-control item-create" title="Add dairy" data-type="dairyEntry"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each actor.dairyEntries as |item id|}}
+  {{#each actor.data.dairyEntries as |item id|}}
   <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
         <span  class="flexrow header-label">{{item.data.year}} ( {{item.data.season}} )  {{item.data.date}}</span>

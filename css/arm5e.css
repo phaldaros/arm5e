@@ -306,3 +306,6 @@
 .width3{
   flex-grow: 3;
 }
+.width2{
+  flex-grow: 2;
+}

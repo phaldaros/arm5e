@@ -1,6 +1,9 @@
 // Import Modules
-import { ArM5eActor } from "./actor/actor.js";
-import { ArM5eActorSheet } from "./actor/actor-sheet.js";
+import { ArM5ePCActor } from "./actor/actor-pc.js";
+import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
+import { ArM5eNPCActor } from "./actor/actor-npc.js";
+import { ArM5eNPCActorSheet } from "./actor/actor-npc-sheet.js";
+
 import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
 
@@ -10,7 +13,7 @@ import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 Hooks.once('init', async function() {
 
   game.arm5e = {
-    ArM5eActor,
+    ArM5ePCActor, ArM5eNPCActor,
     ArM5eItem,
     rollItemMacro
   };
@@ -25,12 +28,26 @@ Hooks.once('init', async function() {
   };
 
   // Define custom Entity classes
-  CONFIG.Actor.entityClass = ArM5eActor;
+  CONFIG.Actor.entityClass = ArM5ePCActor;
   CONFIG.Item.entityClass = ArM5eItem;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("arm5e", ArM5eActorSheet, { makeDefault: true });
+  //Actors.registerSheet("arm5e", ArM5ePCActorSheet, { 
+  //  makeDefault: true 
+  //});
+  // ["player","npc","laboratoy","covenant"],
+  Actors.registerSheet("arm5ePC", ArM5ePCActorSheet, { 
+    types: ["player"],
+    makeDefault: true,
+    label: "arm5e.sheet.player"
+  });
+  Actors.registerSheet("arm5eNPC", ArM5eNPCActorSheet, { 
+    types: ["npc"],
+    makeDefault: true,
+    label: "arm5e.sheet.npc"
+  });
+
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("arm5e", ArM5eItemSheet, { makeDefault: true });
 

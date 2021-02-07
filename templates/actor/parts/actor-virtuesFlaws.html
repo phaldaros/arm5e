@@ -9,7 +9,7 @@
         </div>
       </li>
 
-      {{#each actor.virtues as |item id|}}
+      {{#each actor.data.virtues as |item id|}}
         <li class="item flexrow" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <h4 class="item-name">{{item.name}}</h4>
@@ -33,7 +33,7 @@
         </div>
       </li>
 
-      {{#each actor.flaws as |item id|}}
+      {{#each actor.data.flaws as |item id|}}
         <li class="item flexrow" data-item-id="{{item._id}}">
             <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <h4 class="item-name">{{item.name}}</h4>

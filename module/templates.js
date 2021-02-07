@@ -6,13 +6,16 @@
 export const ArM5ePreloadHandlebarsTemplates = async function() {
   return loadTemplates([
     // Actor Sheet Partials
+    "systems/arm5e/templates/actor/parts/actor-characteristics.html",
     "systems/arm5e/templates/actor/parts/actor-fatigue.html",
     "systems/arm5e/templates/actor/parts/actor-description.html",
     "systems/arm5e/templates/actor/parts/actor-abilities.html",
     "systems/arm5e/templates/actor/parts/actor-arts.html",
     "systems/arm5e/templates/actor/parts/actor-inventory.html",
     "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html",
+    "systems/arm5e/templates/actor/parts/actor-familiar.html",
     "systems/arm5e/templates/actor/parts/actor-labarotary.html",
+    "systems/arm5e/templates/actor/parts/actor-labarotaryTotals.html",
     "systems/arm5e/templates/actor/parts/actor-dairy.html"
 
   ]);

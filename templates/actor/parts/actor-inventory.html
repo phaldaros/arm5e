@@ -6,7 +6,7 @@
       <a class="item-control item-create" title="Create weapon" data-type="weapon"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-{{#each actor.weapons as |item id|}}
+{{#each actor.data.weapons as |item id|}}
   <li class="item flexrow" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
       <h4 class="item-name">{{item.name}}</h4>
@@ -27,7 +27,7 @@
     <a class="item-control item-create" title="Create armor" data-type="armor"><i class="fas fa-plus"></i></a>
   </div>
 </li>
-{{#each actor.armor as |item id|}}
+{{#each actor.data.armor as |item id|}}
 <li class="item flexrow" data-item-id="{{item._id}}">
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <h4 class="item-name">{{item.name}}</h4>
@@ -48,7 +48,7 @@
   <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
 </div>
 </li>
-{{#each actor.items as |item id|}}
+{{#each actor.data.items as |item id|}}
 <li class="item flexrow" data-item-id="{{item._id}}">
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <h4 class="item-name">{{item.name}}</h4>
@@ -69,7 +69,7 @@
   <a class="item-control item-create" title="Create book" data-type="book"><i class="fas fa-plus"></i></a>
 </div>
 </li>
-{{#each actor.books as |item id|}}
+{{#each actor.data.books as |item id|}}
 <li class="item flexrow" data-item-id="{{item._id}}">
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <h4 class="item-name">{{item.name}}</h4>
@@ -90,7 +90,7 @@
   <a class="item-control item-create" title="Create vis" data-type="vis"><i class="fas fa-plus"></i></a>
 </div>
 </li>
-{{#each actor.vis as |item id|}}
+{{#each actor.data.vis as |item id|}}
 <li class="item flexrow" data-item-id="{{item._id}}">
   <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
   <h4 class="item-name">{{item.name}}</h4>

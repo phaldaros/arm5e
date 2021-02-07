@@ -1,4 +1,4 @@
-{{#if (eq actor.type "magus")}}
+{{#if (eq data.charType.value "magus")}}
 <div class="flexrow flexcol">
   <div class="flexcol grid grid-2col">
     <div style="height: 150px;">
@@ -37,7 +37,9 @@
 </div>
 {{/if}}
 
+{{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-2col">
+
 <div class="flex-group-left">
   <label class="header-label">{{localize "arm5e.sheet.warping"}}</label>
   <div class="flexrow flexcol">
@@ -51,6 +53,7 @@
     <span><input type="text" name="data.warping.effects" value="{{actor.data.warping.effects}}" data-dtype="String" /></span>
   </div>
 </div>
+
 <div class="flex-group-left">
   <label class="header-label">{{localize "arm5e.sheet.decrepitude"}}</label>
   <div class="flexrow flexcol">
@@ -64,18 +67,21 @@
     <span><input type="text" name="data.decrepitude.effects" value="{{actor.data.decrepitude.effects}}" data-dtype="String" /></span>
   </div>
 </div>
-</div>
 
+</div>
+{{/if}}
 
 {{> "systems/arm5e/templates/actor/parts/actor-fatigue.html" }}
 
 
+{{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-2col">
 <div class="flex-group-left">
   <label class="header-label">{{localize "arm5e.sheet.biography"}}</label>
   {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
 </div>
 <div>
+
 <div class="flex-group-left">
   {{#each data.vitals as |vitals key|}}
     <div class="flexrow">
@@ -84,8 +90,11 @@
     </div>
   {{/each}}
 </div>
-<div class="flexcol flex-group-left"><label class="header-label">{{localize "arm5e.sheet.personality"}}
-  <ol>
+
+
+<div class="flexcol flex-group-left">
+  <label class="header-label" style="width: 100%;">{{localize "arm5e.sheet.personality"}}</label>
+  <ol style="width: 100%;">
       {{#each actor.data.personality as |pers key|}}
       <li class="flexrow flex-group-left"  data-attribute="{{key}}">
           <span class="flexrow"  name="data.personality.{{key}}.label">
@@ -99,8 +108,9 @@
           </div>  
       </li>
       {{/each}}
-  </ol></label>
+  </ol>
 </div>
+
 <div class="flex-group-left">
   {{#each data.description as |description key|}}
   <div class="flexrow">
@@ -109,8 +119,10 @@
   </div>
   {{/each}}
 </div>
-<div class="flexcol flex-group-left"><label class="header-label">{{localize "arm5e.sheet.reputation"}}
-  <ol>
+
+<div class="flexcol flex-group-left">
+  <label class="header-label" style="width: 100%;">{{localize "arm5e.sheet.reputation"}}</label>
+  <ol style="width: 100%;">
       {{#each actor.data.reputation as |rep key|}}
       <li class="flexrow flex-group-left"  data-attribute="{{key}}">
           <span class="flexrow"  name="data.reputation.{{key}}.label">
@@ -128,7 +140,18 @@
           </div>  
       </li>
       {{/each}}
-  </ol></label>
+  </ol>
 </div>
 </div>
 </div>
+{{/if}}
+
+
+{{#if (eq actor.type "npc")}}
+<div class="flexcol">
+<div class="flex-group-left" style="min-height: 200px;">
+  <label class="header-label">{{localize "arm5e.sheet.biography"}}</label>
+  {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+</div>
+</div>
+{{/if}}

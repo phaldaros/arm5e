@@ -1,0 +1,109 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+      <div class="header-fields">
+          <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+
+          <div class="resources flexrow flex-between">
+            <h2 class="covenantname flexrow width2"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
+            <span class="covenantname flexrow" style="padding-top:4px;">
+              <label for="data.charType.value" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
+              <select name="data.charType.value"  data-type="String">
+                {{#select actor.data.charType.value}}
+                {{#each actor.data.charTypes as |data key|}}
+                <option value="{{key}}">{{localize data.label}}</option> {{/each}} {{/select}}
+              </select>
+            </span>
+          </div>
+
+          <div class="resources grid grid-4col">
+            <div class="resource flex-group-center">
+              <label  for="data.age.value" class="header-label">{{localize "arm5e.sheet.age"}}</label>
+              <div class="resource-content flexrow flex-center flex-between">
+                <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number"/>
+                <span> ( </span>
+                <input type="text" name="data.apparent.value" value="{{data.apparent.value}}" data-dtype="Number"/>
+                <span> ) </span>
+              </div>
+            </div>
+
+            <div class="resource flex-group-center">
+              <label  for="data.size.value" class="header-label">{{localize "arm5e.sheet.size"}}</label>
+              <div class="resource-content flexrow flex-center flex-between">
+                <input type="text" name="data.size.value" value="{{data.size.value}}" data-dtype="Number"/>
+              </div>
+            </div>
+
+            <div class="resource flex-group-center">
+              <label  for="data.soak.value" class="header-label">{{localize "arm5e.sheet.soak"}}</label>
+              <div class="resource-content flexrow flex-center flex-between">
+                <input type="text" name="data.soak.value" value="{{data.soak.value}}" data-dtype="Number"/>
+              </div>
+            </div>
+
+            <div class="resource flex-group-center">
+              <label  for="data.might.value" class="header-label">{{localize "arm5e.sheet.might"}}</label>
+              <div class="resource-content flexrow flex-center flex-between">
+                <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"/>
+              </div>
+            </div>
+
+          </div>
+
+          {{> "systems/arm5e/templates/actor/parts/actor-characteristics.html" }}
+
+      </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+      <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
+      <a class="item" data-tab="abilities">{{localize "arm5e.sheet.abilities"}}</a>
+      <a class="item" data-tab="virtues">{{localize "arm5e.sheet.virtuesFlaws"}}</a>
+    {{#if (eq data.charType.value "entity")}}
+      <a class="item" data-tab="arts">{{localize "arm5e.sheet.arts"}}</a>
+    {{/if}}
+      <a class="item" data-tab="inventory">{{localize "arm5e.sheet.inventory"}}</a>
+      <a class="item" data-tab="dairy">{{localize "arm5e.sheet.dairy"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+      {{!-- Description Tab --}}
+      <div class="tab description" data-group="primary" data-tab="description">
+        {{> "systems/arm5e/templates/actor/parts/actor-description.html" }}
+      </div>
+
+      {{!-- Abilities Tab --}}
+      <div class="tab abilities" data-group="primary" data-tab="abilities">
+        {{> "systems/arm5e/templates/actor/parts/actor-abilities.html" }}
+      </div>
+
+      {{!-- Virtues & Flaws Tab --}}
+      <div class="tab virtues" data-group="primary" data-tab="virtues">
+        {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
+      </div>
+
+    {{#if (eq data.charType.value "entity")}}
+      {{!-- Arts Tab --}}
+      <div class="tab arts" data-group="primary" data-tab="arts">
+        {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+      </div>
+    {{/if}}
+
+      {{!-- Inventory Tab --}}
+      <div class="tab inventory" data-group="primary" data-tab="inventory">
+        {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}
+      </div>
+
+      {{!-- Dairy Tab --}}
+      <div class="tab dairy" data-group="primary" data-tab="dairy">
+        {{> "systems/arm5e/templates/actor/parts/actor-dairy.html" }}
+      </div>
+
+  </section>
+</form>
+

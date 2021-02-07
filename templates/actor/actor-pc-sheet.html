@@ -5,7 +5,19 @@
         <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-            <h2 class="covenantname"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
+
+            <div class="resources flexrow flex-between">
+              <h2 class="covenantname flexrow width2"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
+              <span class="covenantname flexrow" style="padding-top:4px;">
+                <label for="data.charType.value" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
+                <select name="data.charType.value"  data-type="String">
+                  {{#select actor.data.charType.value}}
+                  {{#each actor.data.charTypes as |data key|}}
+                  <option value="{{key}}">{{localize data.label}}</option> {{/each}} {{/select}}
+                </select>
+              </span>
+            </div>
+
             <div class="resources grid grid-3col">
               <div class="resource flex-group-center">
                 <label  for="data.age.value" class="header-label">{{localize "arm5e.sheet.age"}}</label>
@@ -42,14 +54,9 @@
                 </div>
               </div>
             </div>
-          <div class="characteristics grid grid-4col">
-            {{#each data.characteristics as |characteristic key|}}
-              <div class="characteristic flexrow flex-group-center">
-                <label for="data.characteristics.{{key}}.value" class="resource-label rollable" data-roll="1d10+@characteristics.{{key}}.value">{{localize short}}</label>
-                <input type="text" name="data.characteristics.{{key}}.value" value="{{numberFormat characteristic.value decimals=0 sign=true}}" data-dtype="Number" />
-              </div>
-            {{/each}}
-          </div>
+
+            {{> "systems/arm5e/templates/actor/parts/actor-characteristics.html" }}
+
         </div>
     </header>
 
@@ -58,8 +65,9 @@
         <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
         <a class="item" data-tab="abilities">{{localize "arm5e.sheet.abilities"}}</a>
         <a class="item" data-tab="virtues">{{localize "arm5e.sheet.virtuesFlaws"}}</a>
-      {{#if (eq actor.type "magus")}}
+      {{#if (eq data.charType.value "magus")}}
         <a class="item" data-tab="arts">{{localize "arm5e.sheet.arts"}}</a>
+        <a class="item" data-tab="labarotary">{{localize "arm5e.sheet.labarotary"}}</a>
       {{/if}}
         <a class="item" data-tab="inventory">{{localize "arm5e.sheet.inventory"}}</a>
         <a class="item" data-tab="dairy">{{localize "arm5e.sheet.dairy"}}</a>
@@ -83,10 +91,15 @@
           {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
         </div>
 
-      {{#if (eq actor.type "magus")}}
+      {{#if (eq data.charType.value "magus")}}
         {{!-- Arts Tab --}}
         <div class="tab arts" data-group="primary" data-tab="arts">
           {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+        </div>
+
+        {{!-- Labarotary Tab --}}
+        <div class="tab labarotary" data-group="primary" data-tab="labarotary">
+          {{> "systems/arm5e/templates/actor/parts/actor-labarotary.html" }}
         </div>
       {{/if}}
 
