@@ -1,6 +1,7 @@
 {
     "arm5e.sheet.player": "Player",
     "arm5e.sheet.npc": "NPC",
+    "arm5e.sheet.laboratory": "Laboratory",
 
     "arm5e.sheet.charType": "Char Type",
     "arm5e.sheet.age": "Age",

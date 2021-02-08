@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["player","npc","laboratoy","covenant"],
+    "types": ["player","npc","laboratory","covenant"],
     "templates": {
       "base": {
         "covenant": {"label": "Covenant","dtype": "String","value": "Covenant Name" },
@@ -460,7 +460,7 @@
       "might": {"label": "Might","dtype": "Number","value": 0 },
       "mights": []
     },
-    "laboratoy": {
+    "laboratory": {
       "templates": ["base", "personality"],
       "owner": "",
       "location": "",

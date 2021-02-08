@@ -1,6 +1,7 @@
 {
     "arm5e.sheet.player": "Jugador",
     "arm5e.sheet.npc": "PNJ",
+    "arm5e.sheet.laboratory": "Laboratorio",
 
     "arm5e.sheet.charType": "Tipo PJ",
     "arm5e.sheet.age": "Edad",

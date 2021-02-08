@@ -3,6 +3,10 @@ import { ArM5ePCActor } from "./actor/actor-pc.js";
 import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
 import { ArM5eNPCActor } from "./actor/actor-npc.js";
 import { ArM5eNPCActorSheet } from "./actor/actor-npc-sheet.js";
+import { ArM5eLaboratoryActor } from "./actor/actor-laboratory.js";
+import { ArM5eLaboratoryActorSheet } from "./actor/actor-laboratory-sheet.js";
+import { ArM5eCovenantActor } from "./actor/actor-covenant.js";
+import { ArM5eCovenantActorSheet } from "./actor/actor-covenant-sheet.js";
 
 import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
@@ -13,7 +17,7 @@ import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 Hooks.once('init', async function() {
 
   game.arm5e = {
-    ArM5ePCActor, ArM5eNPCActor,
+    ArM5ePCActor, ArM5eNPCActor, ArM5eLaboratoryActor, ArM5eCovenantActor,
     ArM5eItem,
     rollItemMacro
   };
@@ -47,6 +51,18 @@ Hooks.once('init', async function() {
     makeDefault: true,
     label: "arm5e.sheet.npc"
   });
+  Actors.registerSheet("arm5eLaboratory", ArM5eLaboratoryActorSheet, { 
+    types: ["laboratory"],
+    makeDefault: true,
+    label: "arm5e.sheet.laboratory"
+  });
+  Actors.registerSheet("arm5eCovenant", ArM5eCovenantActorSheet, { 
+    types: ["covenant"],
+    makeDefault: true,
+    label: "arm5e.sheet.covenant"
+  });
+
+  
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("arm5e", ArM5eItemSheet, { makeDefault: true });
