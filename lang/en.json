@@ -175,5 +175,10 @@
     "arm5e.sheet.awareness": "Awareness",
     "arm5e.sheet.artesLib": "Artes Lib",
     "arm5e.sheet.philosophy": "Philosophy",
-    "arm5e.sheet.parma": "Parma"
+    "arm5e.sheet.parma": "Parma",
+
+    "arm5e.sheet.longevityRitual": "Longevity Ritual",
+    "arm5e.sheet.labTotal": "LabTotal",
+    "arm5e.sheet.modifier": "Age Roll Modifier",
+    "arm5e.sheet.twilightScars": "Twilight Scars"
 }

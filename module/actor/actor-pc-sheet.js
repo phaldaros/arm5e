@@ -82,12 +82,41 @@ export class ArM5ePCActorSheet extends ActorSheet {
       else if (i.type === 'ability') {
         i.data.experienceNextLevel = (i.data.score + 1) * 5;
         abilities.push(i);
+
+        if(i._id == actorData.laboratory.abilitiesSelected.finesse.abilityID){ actorData.laboratory.abilitiesSelected.finesse.value = i.data.score; }
+        if(i._id == actorData.laboratory.abilitiesSelected.awareness.abilityID){ actorData.laboratory.abilitiesSelected.awareness.value = i.data.score; }
+        if(i._id == actorData.laboratory.abilitiesSelected.concentration.abilityID){ actorData.laboratory.abilitiesSelected.concentration.value = i.data.score; }
+        if(i._id == actorData.laboratory.abilitiesSelected.artesLib.abilityID){ actorData.laboratory.abilitiesSelected.artesLib.value = i.data.score; }
+        if(i._id == actorData.laboratory.abilitiesSelected.philosophy.abilityID){ actorData.laboratory.abilitiesSelected.philosophy.value = i.data.score; }
+        if(i._id == actorData.laboratory.abilitiesSelected.parma.abilityID){ actorData.laboratory.abilitiesSelected.parma.value = i.data.score; }
+        if(i._id == actorData.laboratory.abilitiesSelected.magicTheory.abilityID){ actorData.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
       }
       else if (i.type === 'dairyEntry') { dairyEntries.push(i); }
       else if (i.type === 'might') { mights.push(i); }
       else if (i.type === 'abilityFamiliar') { abilitiesFamiliar.push(i); }
       else if (i.type === 'mightFamiliar') { mightsFamiliar.push(i); }
     }
+
+    /*
+    "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
+    "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },
+    "targeting":{"value": 0, "calc": "Per + Finesse + die" },
+    "concentration":{"value": 0, "calc": "Sta + Concentration + die" },
+    "magicResistance":{"value": 0, "calc": "Parma * 5 + Form" },
+    "multipleCasting":{"value": 0, "calc": "Int + Finesse + stress die - no of spells VS 9" },
+    "basicLabTotal":{"value": 0, "calc": "Int + Magic theory + Aura (+ Technique + Form)" },
+    "visLimit":{"value": 0, "calc": "Magic theory * 2" }
+    */
+
+    // calculate laboratori totals
+    actorData.laboratory.fastCastingSpeed.value = actorData.characteristics.qik.value + actorData.laboratory.abilitiesSelected.finesse.value;
+    actorData.laboratory.determiningEffect.value = actorData.characteristics.per.value + actorData.laboratory.abilitiesSelected.awareness.value;
+    actorData.laboratory.targeting.value = actorData.characteristics.per.value + actorData.laboratory.abilitiesSelected.finesse.value;
+    actorData.laboratory.concentration.value = actorData.characteristics.sta.value + actorData.laboratory.abilitiesSelected.concentration.value;
+    actorData.laboratory.magicResistance.value = actorData.laboratory.abilitiesSelected.parma.value * 5;
+    actorData.laboratory.multipleCasting.value = actorData.characteristics.int.value + actorData.laboratory.abilitiesSelected.finesse.value;
+    actorData.laboratory.basicLabTotal.value = actorData.characteristics.int.value + actorData.laboratory.abilitiesSelected.magicTheory.value; // aura pending
+    actorData.laboratory.visLimit.value = actorData.laboratory.abilitiesSelected.magicTheory.value * 2;
 
     // Assign and return
     actorData.weapons = weapons;

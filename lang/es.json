@@ -175,5 +175,10 @@
     "arm5e.sheet.awareness": "Alerta",
     "arm5e.sheet.artesLib": "Artes Lib.",
     "arm5e.sheet.philosophy": "Filosofía",
-    "arm5e.sheet.parma": "Parma Mágica"
+    "arm5e.sheet.parma": "Parma Mágica",
+
+    "arm5e.sheet.longevityRitual": "Ritual de Longevidad",
+    "arm5e.sheet.labTotal": "Total de Laboratorio",
+    "arm5e.sheet.modifier": "Modificador a las tiradas de Envejecimiento",
+    "arm5e.sheet.twilightScars": "Cicatrices del Crepúsculo"
 }

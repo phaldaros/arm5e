@@ -300,6 +300,11 @@
       },
       "laboratoryPC":{
         "laboratory":{
+          "longevityRitual":{
+            "labTotal": 0,
+            "modifier": 0,
+            "twilightScars": ""
+          },
           "abilitiesSelected":{
             "finesse":{"abilityID": "", "value": 0,"label": "" },
             "awareness":{"abilityID": "", "value": 0,"label": "" },
@@ -320,11 +325,13 @@
         }
       },
       "apprentice":{
-        "name": "",
-        "age": 0,
-        "years": 0,
-        "int": 0,
-        "magicTheory": 0
+        "apprentice":{
+          "name": "",
+          "age": 0,
+          "years": 0,
+          "int": 0,
+          "magicTheory": 0
+        }
       }
     },
   
