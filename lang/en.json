@@ -181,5 +181,19 @@
     "arm5e.sheet.longevityRitual": "Longevity Ritual",
     "arm5e.sheet.labTotal": "LabTotal",
     "arm5e.sheet.modifier": "Age Roll Modifier",
-    "arm5e.sheet.twilightScars": "Twilight Scars"
+    "arm5e.sheet.twilightScars": "Twilight Scars",
+
+    "arm5e.sheet.owner": "Owner",
+    "arm5e.sheet.sanctum": "Sanctum",
+    "arm5e.sheet.location": "Location",
+    "arm5e.sheet.generalQuality": "General Quality",
+    "arm5e.sheet.security": "Security",
+    "arm5e.sheet.salubrity": "Salubrity",
+    "arm5e.sheet.improvement": "Improvement",
+    "arm5e.sheet.maintenance": "Maintenance",
+    "arm5e.sheet.aesthetics": "Aesthetics",
+    "arm5e.sheet.magicItems": "Magic Items",
+    "arm5e.sheet.specialities": "Specialities",
+    "arm5e.sheet.distinctive": "Distinctive",
+    "arm5e.sheet.rooms": "Rooms"
 }

@@ -168,6 +168,11 @@
   margin-bottom: 10px;
 }
 
+.arm5e .sheet-header-lab {
+  -ms-flex: 0 0 315px;
+  flex: 0 0 315px;
+}
+
 .arm5e .sheet-header .profile-img {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 256px;
@@ -308,4 +313,7 @@
 }
 .width2{
   flex-grow: 2;
+}
+.flex04{
+  flex: 0.4;
 }

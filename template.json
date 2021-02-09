@@ -461,23 +461,27 @@
       "mights": []
     },
     "laboratory": {
-      "templates": ["base", "personality"],
+      "templates": ["base"],
       "owner": "",
       "location": "",
       "points": 0,
       "sanctum": "",
-      "size": 0,
-      "generalQuality": 0,
-      "security": 0,
-      "salubrity": 0,
-      "improvement": 0,
-      "maintenance": 0,
-      "warping": 0,
-      "aesthetics": 0,
+      "size": {"description": "", "value": 0 },
+      "generalQuality": {"description": "", "value": 0 },
+      "security": {"description": "", "value": 0 },
+      "salubrity": {"description": "", "value": 0 },
+      "improvement": {"description": "", "value": 0 },
+      "maintenance": {"description": "", "value": 0 },
+      "warping": {"description": "", "value": 0 },
+      "aesthetics": {"description": "", "value": 0 },
       "specialities":[],
       "distinctive": [],
       "rooms": [],
-      "magicItems": []
+      "magicItems": [],
+      "items":[],
+      "books": [],
+      "rawVis": [],
+      "personalities": []
     },
     "covenant": {
       "templates": ["base"]
@@ -486,7 +490,7 @@
   
   "Item": {
     "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability","abilityFamiliar", 
-              "dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem"],
+              "dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", "personality"],
     "templates": {
       "base": {
         "description": ""
@@ -710,6 +714,11 @@
       "templates": ["base", "magicBase", "technique", "form"],
       "effect": "",
       "uses": 0
+    },
+    "personality":{
+      "templates": ["base"],
+      "points": "0", 
+      "notes": ""
     }
   }
 }

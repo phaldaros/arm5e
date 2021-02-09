@@ -181,5 +181,20 @@
     "arm5e.sheet.longevityRitual": "Ritual de Longevidad",
     "arm5e.sheet.labTotal": "Total de Laboratorio",
     "arm5e.sheet.modifier": "Modificador a las tiradas de Envejecimiento",
-    "arm5e.sheet.twilightScars": "Cicatrices del Crepúsculo"
+    "arm5e.sheet.twilightScars": "Cicatrices del Crepúsculo",
+
+
+    "arm5e.sheet.owner": "Propietario",
+    "arm5e.sheet.sanctum": "Sanctum",
+    "arm5e.sheet.location": "Localización",
+    "arm5e.sheet.generalQuality": "Calidad general",
+    "arm5e.sheet.security": "Seguridad",
+    "arm5e.sheet.salubrity": "Salubridad",
+    "arm5e.sheet.improvement": "Perfeccionamiento",
+    "arm5e.sheet.maintenance": "Mantenimiento",
+    "arm5e.sheet.aesthetics": "Estética",
+    "arm5e.sheet.magicItems": "Objetos Mágicos",
+    "arm5e.sheet.specialities": "Especializaciones",
+    "arm5e.sheet.distinctive": "Distintivos",
+    "arm5e.sheet.rooms": "Cámaras del Sanctum"
 }
