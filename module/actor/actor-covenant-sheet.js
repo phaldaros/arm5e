@@ -21,21 +21,7 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
   getData() {
     const data = super.getData();
 
-    //console.log("data from pc sheet getData");
-    //console.log(data);
-
-    //data.dtypes = ["String", "Number", "Boolean"];
-    //for (let attr of Object.values(data.data.attributes)) {
-    //  attr.isCheckbox = attr.dtype === "Boolean";
-    //}
-
-    //console.log("data.data.attributes from pc sheet getData");
-    //console.log(data.data.attributes);
-
-    // Prepare items.
-    //if (this.actor.data.type == 'magus') {
-      //this._prepareCharacterItems(data);
-    //}
+    this._prepareCharacterItems(data);
 
     return data;
   }
@@ -49,6 +35,55 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
    */
   _prepareCharacterItems(sheetData) {
     let actorData = sheetData.actor.data;
+
+    let virtues = [];
+    let flaws = [];
+    let reputations = [];
+    let magi = [];
+    let companion = [];
+    let specialists = [];
+    let habitants = [];
+    let horses = [];
+    let livestock = [];
+
+    /*
+      "habitants": {
+        "npcgrogs": 0,
+        "totalHabitants": 0,
+        "magi": [],
+        "companion": [],
+        "specialists": [],
+        "habitants": [],
+        "horses": [],
+        "livestock": []
+      },
+    */
+
+    for (let i of sheetData.items) {
+      let item = i.data;
+      i.img = i.img || DEFAULT_TOKEN;
+
+      if (i.type === 'virtue') { virtues.push(i); }
+      else if (i.type === 'flaw') { flaws.push(i); }
+
+      else if (i.type === 'reputation') { reputations.push(i); }
+      else if (i.type === 'habitantMagi') { magi.push(i); }
+      else if (i.type === 'habitantCompanion') { companion.push(i); }
+      else if (i.type === 'habitantSpecialists') { specialists.push(i); }
+      else if (i.type === 'habitantHabitants') { habitants.push(i); }
+      else if (i.type === 'habitantHorses') { horses.push(i); }
+      else if (i.type === 'habitantLivestock') { livestock.push(i); }
+    }
+
+    actorData.virtues = virtues;
+    actorData.flaws = flaws;
+    actorData.reputations = reputations;
+    actorData.habitants.magi = magi;
+    actorData.habitants.companion = companion;
+    actorData.habitants.specialists = specialists;
+    actorData.habitants.habitants = habitants;
+    actorData.habitants.horses = horses;
+    actorData.habitants.livestock = livestock;
 
   }
 

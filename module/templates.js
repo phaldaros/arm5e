@@ -19,7 +19,10 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/actor/parts/actor-dairy.html",
 
     "systems/arm5e/templates/actor/parts/actor-atributesLaboratory.html",
-    "systems/arm5e/templates/actor/parts/actor-inventoryLaboratory.html"
+    "systems/arm5e/templates/actor/parts/actor-inventoryLaboratory.html",
+
+    "systems/arm5e/templates/actor/parts/actor-covenantAtributes.html",
+    "systems/arm5e/templates/actor/parts/actor-covenantHabitants.html"
 
   ]);
 };

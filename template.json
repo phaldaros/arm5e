@@ -314,14 +314,14 @@
             "parma":{"abilityID": "", "value": 0,"label": "" },
             "magicTheory":{"abilityID": "", "value": 0,"label": "" }
           },
-          "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
-          "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },
-          "targeting":{"value": 0, "calc": "Per + Finesse + die" },
-          "concentration":{"value": 0, "calc": "Sta + Concentration + die" },
-          "magicResistance":{"value": 0, "calc": "Parma * 5 + Form" },
-          "multipleCasting":{"value": 0, "calc": "Int + Finesse + stress die - no of spells VS 9" },
-          "basicLabTotal":{"value": 0, "calc": "Int + Magic theory + Aura (+ Technique + Form)" },
-          "visLimit":{"value": 0, "calc": "Magic theory * 2" }
+          "fastCastingSpeed":{"value": 0, "sumary": "Qik + Finesse + stress die" },
+          "determiningEffect":{"value": 0, "sumary": "Per + Awareness + die VS 15-magnitude" },
+          "targeting":{"value": 0, "sumary": "Per + Finesse + die" },
+          "concentration":{"value": 0, "sumary": "Sta + Concentration + die" },
+          "magicResistance":{"value": 0, "sumary": "Parma * 5 + Form" },
+          "multipleCasting":{"value": 0, "sumary": "Int + Finesse + stress die - no of spells VS 9" },
+          "basicLabTotal":{"value": 0, "sumary": "Int + Magic theory + Aura (+ Technique + Form)" },
+          "visLimit":{"value": 0, "sumary": "Magic theory * 2" }
         }
       },
       "apprentice":{
@@ -331,6 +331,34 @@
           "years": 0,
           "int": 0,
           "magicTheory": 0
+        }
+      },
+      "visRegistry":{
+        "visRegistry":{
+          "sources":{
+            "name": "",
+            "art": "",
+            "peons": 0,
+            "collectionTime": "",
+            "notes": ""
+          },
+          "reserves":{
+            "cr": {"notes": "", "peons": 0, "label": "Creo"},
+            "in": {"notes": "", "peons": 0, "label": "Intellego"},
+            "mu": {"notes": "", "peons": 0, "label": "Muto"},
+            "pe": {"notes": "", "peons": 0, "label": "Perdo"},
+            "re": {"notes": "", "peons": 0, "label": "Rego"},
+            "an": {"notes": "", "peons": 0, "label": "Animal"},
+            "au": {"notes": "", "peons": 0, "label": "Auram"},
+            "aq": {"notes": "", "peons": 0, "label": "Aquam"},
+            "co": {"notes": "", "peons": 0, "label": "Corpus"},
+            "he": {"notes": "", "peons": 0, "label": "Herbam"},
+            "ig": {"notes": "", "peons": 0, "label": "Ignem"},
+            "im": {"notes": "", "peons": 0, "label": "Imaginem"},
+            "me": {"notes": "", "peons": 0, "label": "Mentem"},
+            "te": {"notes": "", "peons": 0, "label": "Terram"},
+            "vi": {"notes": "", "peons": 0, "label": "Vim" }
+          }
         }
       }
     },
@@ -484,17 +512,89 @@
       "personalities": []
     },
     "covenant": {
-      "templates": ["base"]
+      "templates": ["base", "visRegistry"],
+      "narrator": "",
+      "saga": "",
+      "sagaType": "",
+      "foundationYear": "",
+      "currentYear": "",
+      "season": "",
+      "tribunal": "",
+      "typeAura": "",
+      "levelAura": "",
+      "levelsRegio": "",
+      "modifiersLife": { "magi": "", "mundane": "" },
+      "aegisCovenant": "",
+      "reputations": [],
+      "constructionPoints":{
+        "total": 0,
+        "data": {
+          "library": {"initials": 0, "actuals": 0, "notes": "", "label": "arm5e.sheet.library" },
+          "laboratoryTexts": {"initials": 0, "actuals": 0, "notes": "", "label": "arm5e.sheet.laboratoryTexts" },
+          "vis": {"initials": 0, "actuals": 0, "notes": "", "label": "arm5e.sheet.vis" },
+          "magicItems": {"initials": 0, "actuals": 0, "notes": "", "label": "arm5e.sheet.magicItems" },
+          "specialists": {"initials": 0, "actuals": 0, "notes": "", "label": "arm5e.sheet.specialists" },
+          "laboratories": {"initials": 0, "actuals": 0, "notes": "", "label": "arm5e.sheet.laboratories" },
+          "money": {"initials": 0, "actuals": 0, "notes": "", "label": "arm5e.sheet.money" }
+        }
+      },
+      "governForm": "",
+      "loyaltyPoints": { "base": 0, "actuals": 0, "predominant": 0 },
+      "loyaltyModifiers": { "livingConditions": 0, "equipment": 0, "money": 0, "specialists": 0 },
+      "habitants": {
+        "npcgrogs": 0,
+        "totalHabitants": 0,
+        "magi": [],
+        "companion": [],
+        "specialists": [],
+        "habitants": [],
+        "horses": [],
+        "livestock": []
+      },
+      "possessions": [],
+      "magicItems": [],
+      "items": [],
+      "calendar": [],
+      "incomingSources": [],
+      "yearExpenditure":{
+        "buildings": { "sumary": "1 pound per 10 points Inhabitants (50% per craft)", "expenditure": 0, "notes": "" },
+        "consumables": { "sumary": "2 pounds per 10 points Inhabitants (20% per craft)", "expenditure": 0, "notes": "" },
+        "inflation": { "sumary": "increases yearly", "expenditure": 0, "notes": "" },
+        "laboratories": { "sumary": "1 pound per 10 points Laboratories (20% per craft)", "expenditure": 0, "notes": "" },
+        "provisions": { "sumary": "5 pounds per 10 points Inhabitants (50% + 20% per craft)", "expenditure": 0, "notes": "" },
+        "titles": { "sumary": "debts and taxes", "expenditure": 0, "notes": "" },
+        "wages": { "sumary": "2 points per 10 pts. Inhabitants", "expenditure": 0, "notes": "" },
+        "weapons": { "sumary": "1 pound per 320 points Weapons and Armor (50% per craft)", "expenditure": 0, "notes": "" },
+        "writingMaterials": { "sumary": "1 pound per Magus and book specialist (50% per craft)", "expenditure": 0, "notes": "" }
+      },
+      "costsSavings":{
+        "laborers": { "sumary": "1 pound per person", "quantity": 0, "saving": 0, "notes": "" },
+        "craftsmenCommon": { "sumary": "1 + (Ability / 2) pounds per season", "quantity": 0, "saving": 0, "notes": "" },
+        "craftemsnRare": { "sumary": "Ability pounds per season", "quantity": 0, "saving": 0, "notes": "" },
+        "magicItems": { "sumary": "1 pound per magnitude", "quantity": 0, "saving": 0, "notes": "" }
+      },
+      "wealth":{
+        "totalIncome": 0,
+        "baseExpenditure": 0,
+        "costSavings": 0,
+        "totalExpenditure": 0,
+        "inhabitantsPoints": 0,
+        "laboratoriesPoints": 0,
+        "weaponsPoints": 0
+      },
+      "magicBooks": [],
+      "laboratoryTexts": [],
+      "mundaneBooks": []
     }
   },
-  
+
   "Item": {
     "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability","abilityFamiliar", 
-              "dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", "personality"],
+              "dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", 
+              "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists", 
+              "habitantHabitants", "habitantHorses", "habitantLivestock"],
     "templates": {
-      "base": {
-        "description": ""
-      },
+      "base": { "description": "" },
       "cost":{
         "cost": {"value": "","label": "Cost" },
         "costs": {
@@ -524,12 +624,7 @@
           "vi": {"label": "Vim","dtype": "String" }
         }
       },
-      "ability":{
-        "speciality":"",
-        "score": 0,
-        "experience": 0,
-        "experienceNextLevel": 0
-      },
+      "ability":{ "speciality":"", "score": 0, "experience": 0, "experienceNextLevel": 0 },
       "technique":{
         "technique": {"value": "","label": "Technique" },
         "techniques": {
@@ -582,12 +677,8 @@
           "vi":  {"label": "Vim","dtype": "String" }
         }
       },
-      "magicBase":{
-        "level": 1,
-        "range": "",
-        "duration": "",
-        "target": ""
-      }
+      "magicBase":{ "level": 1, "range": "", "duration": "", "target": "" },
+      "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "quantity": 0 }
     },
     "weapon": {
       "templates": ["base", "cost"],
@@ -719,6 +810,29 @@
       "templates": ["base"],
       "points": "0", 
       "notes": ""
+    },
+    "reputation":{
+      "templates": ["base"],
+      "points": "0", 
+      "notes": ""
+    },
+    "habitantMagi":{
+      "templates": ["base", "habitant"]
+    },
+    "habitantCompanion":{
+      "templates": ["base", "habitant"]
+    },
+    "habitantSpecialists":{
+      "templates": ["base", "habitant"]
+    },
+    "habitantHabitants":{
+      "templates": ["base", "habitant"]
+    },
+    "habitantHorses":{
+      "templates": ["base", "habitant"]
+    },
+    "habitantLivestock":{
+      "templates": ["base", "habitant"]
     }
   }
 }
