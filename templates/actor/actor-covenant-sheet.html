@@ -80,8 +80,9 @@
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="attributes">{{localize "arm5e.sheet.attributes"}}</a>
         <a class="item" data-tab="habitants">{{localize "arm5e.sheet.habitants"}}</a>
-        
-        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
+        <a class="item" data-tab="posessions">{{localize "arm5e.sheet.posessions"}}</a>
+        <a class="item" data-tab="economics">{{localize "arm5e.sheet.economics"}}</a>
+        <a class="item" data-tab="library">{{localize "arm5e.sheet.library"}}</a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -98,9 +99,19 @@
             {{> "systems/arm5e/templates/actor/parts/actor-covenantHabitants.html" }}
         </div>
 
-        {{!-- Description Tab --}}
-        <div class="tab description" data-group="primary" data-tab="description">
-          algo
+        {{!-- posessions Tab --}}
+        <div class="tab posessions" data-group="primary" data-tab="posessions">
+            {{> "systems/arm5e/templates/actor/parts/actor-covenantPosessions.html" }}
+        </div>
+
+        {{!-- economics Tab --}}
+        <div class="tab economics" data-group="primary" data-tab="economics">
+            {{> "systems/arm5e/templates/actor/parts/actor-covenantEconomics.html" }}
+        </div>
+
+        {{!-- library Tab --}}
+        <div class="tab library" data-group="primary" data-tab="library">
+            {{> "systems/arm5e/templates/actor/parts/actor-covenantLibrary.html" }}
         </div>
 
     </section>

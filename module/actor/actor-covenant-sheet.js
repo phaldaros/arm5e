@@ -45,19 +45,14 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
     let habitants = [];
     let horses = [];
     let livestock = [];
-
-    /*
-      "habitants": {
-        "npcgrogs": 0,
-        "totalHabitants": 0,
-        "magi": [],
-        "companion": [],
-        "specialists": [],
-        "habitants": [],
-        "horses": [],
-        "livestock": []
-      },
-    */
+    let possessions = [];
+    let magicItems = [];
+    let items = [];
+    let calendar = [];
+    let incomingSources = [];
+    let magicBooks = [];
+    let laboratoryTexts = [];
+    let mundaneBooks = [];
 
     for (let i of sheetData.items) {
       let item = i.data;
@@ -73,6 +68,14 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
       else if (i.type === 'habitantHabitants') { habitants.push(i); }
       else if (i.type === 'habitantHorses') { horses.push(i); }
       else if (i.type === 'habitantLivestock') { livestock.push(i); }
+      else if (i.type === 'possessionsCovenant') { possessions.push(i); }
+      else if (i.type === 'magicItem') { magicItems.push(i); }
+      else if (i.type === 'item') { items.push(i); }
+      else if (i.type === 'calendarCovenant') { calendar.push(i); }
+      else if (i.type === 'incomingSource') { incomingSources.push(i); }
+      else if (i.type === 'book') { magicBooks.push(i); }
+      else if (i.type === 'laboratoryText') { laboratoryTexts.push(i); }
+      else if (i.type === 'mundaneBook') { mundaneBooks.push(i); }
     }
 
     actorData.virtues = virtues;
@@ -84,6 +87,14 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
     actorData.habitants.habitants = habitants;
     actorData.habitants.horses = horses;
     actorData.habitants.livestock = livestock;
+    actorData.possessions = possessions;
+    actorData.magicItems = magicItems;
+    actorData.items = items;
+    actorData.calendar = calendar;
+    actorData.incomingSources = incomingSources;
+    actorData.magicBooks = magicBooks;
+    actorData.laboratoryTexts = laboratoryTexts;
+    actorData.mundaneBooks = mundaneBooks;
 
   }
 

@@ -557,21 +557,21 @@
       "calendar": [],
       "incomingSources": [],
       "yearExpenditure":{
-        "buildings": { "sumary": "1 pound per 10 points Inhabitants (50% per craft)", "expenditure": 0, "notes": "" },
-        "consumables": { "sumary": "2 pounds per 10 points Inhabitants (20% per craft)", "expenditure": 0, "notes": "" },
-        "inflation": { "sumary": "increases yearly", "expenditure": 0, "notes": "" },
-        "laboratories": { "sumary": "1 pound per 10 points Laboratories (20% per craft)", "expenditure": 0, "notes": "" },
-        "provisions": { "sumary": "5 pounds per 10 points Inhabitants (50% + 20% per craft)", "expenditure": 0, "notes": "" },
-        "titles": { "sumary": "debts and taxes", "expenditure": 0, "notes": "" },
-        "wages": { "sumary": "2 points per 10 pts. Inhabitants", "expenditure": 0, "notes": "" },
-        "weapons": { "sumary": "1 pound per 320 points Weapons and Armor (50% per craft)", "expenditure": 0, "notes": "" },
-        "writingMaterials": { "sumary": "1 pound per Magus and book specialist (50% per craft)", "expenditure": 0, "notes": "" }
+        "buildings": { "sumary": "arm5e.sheet.buildingsSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.buildings" },
+        "consumables": { "sumary": "arm5e.sheet.consumablesSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.consumables" },
+        "inflation": { "sumary": "arm5e.sheet.inflationSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.inflation" },
+        "laboratories": { "sumary": "arm5e.sheet.laboratoriesSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.laboratories" },
+        "provisions": { "sumary": "arm5e.sheet.provisionsSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.provisions" },
+        "titles": { "sumary": "arm5e.sheet.titlesSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.titles" },
+        "wages": { "sumary": "arm5e.sheet.wagesSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.wages" },
+        "weapons": { "sumary": "arm5e.sheet.weaponsSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.weapons" },
+        "writingMaterials": { "sumary": "arm5e.sheet.writingMaterialsSumary", "expenditure": 0, "notes": "","label":"arm5e.sheet.writingMaterials" }
       },
       "costsSavings":{
-        "laborers": { "sumary": "1 pound per person", "quantity": 0, "saving": 0, "notes": "" },
-        "craftsmenCommon": { "sumary": "1 + (Ability / 2) pounds per season", "quantity": 0, "saving": 0, "notes": "" },
-        "craftemsnRare": { "sumary": "Ability pounds per season", "quantity": 0, "saving": 0, "notes": "" },
-        "magicItems": { "sumary": "1 pound per magnitude", "quantity": 0, "saving": 0, "notes": "" }
+        "laborers": { "sumary": "arm5e.sheet.laborersSumary", "quantity": 0, "saving": 0, "notes": "","label":"arm5e.sheet.laborers" },
+        "craftsmenCommon": { "sumary": "arm5e.sheet.craftsmenCommonSumary", "quantity": 0, "saving": 0, "notes": "","label":"arm5e.sheet.craftsmenCommon" },
+        "craftsmenRare": { "sumary": "arm5e.sheet.craftsmenRareSumary", "quantity": 0, "saving": 0, "notes": "","label":"arm5e.sheet.craftsmenRare" },
+        "magicItems": { "sumary": "arm5e.sheet.magicItemsSumary", "quantity": 0, "saving": 0, "notes": "","label":"arm5e.sheet.magicItems" }
       },
       "wealth":{
         "totalIncome": 0,
@@ -588,11 +588,14 @@
     }
   },
 
+
+
   "Item": {
     "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability","abilityFamiliar", 
               "dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", 
               "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists", 
-              "habitantHabitants", "habitantHorses", "habitantLivestock"],
+              "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
+              "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook"],
     "templates": {
       "base": { "description": "" },
       "cost":{
@@ -677,7 +680,7 @@
           "vi":  {"label": "Vim","dtype": "String" }
         }
       },
-      "magicBase":{ "level": 1, "range": "", "duration": "", "target": "" },
+      "magicBase":{ "level": 1, "range": "", "duration": "", "target": "", "creator": "", "year": "" },
       "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "quantity": 0 }
     },
     "weapon": {
@@ -833,6 +836,36 @@
     },
     "habitantLivestock":{
       "templates": ["base", "habitant"]
+    },
+    "possessionsCovenant":{
+      "templates": ["base"],
+      "location": "",
+      "dimensions": "",
+      "inhabitants": ""
+    },
+    "calendarCovenant":{
+      "templates": ["base"],
+      "season": ""
+    },
+    "incomingSource":{
+      "templates": ["base"],
+      "type":"",
+      "incoming": 0
+    },
+    "laboratoryText": {
+      "templates": ["base", "magicBase", "technique", "technique-requisite", "form", "form-requisite"],
+      "ritual": false
+    },
+    "mundaneBook":{
+      "templates": ["base"],
+      "type": {"value": "","label": "Book Type" },
+      "types": {
+        "summa": {"label": "Summa","dtype": "String" },
+        "tract": {"label": "Tractatus","dtype": "String" }
+      },
+      "ability": "",
+      "level": 0,
+      "quality": 0
     }
   }
 }
