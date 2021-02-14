@@ -3,7 +3,10 @@
     <ol><label class="header-label">{{localize "arm5e.sheet.techniques"}}</label>
       {{#each actor.data.arts.techniques as |techniques key|}}
       <li  class="flexrow flex-group-left" data-attribute="{{key}}">
-          <span  class="flexrow header-label" name="data.arts.techniques.{{key}}.label">{{label}}</span>
+          <span  class="flexrow header-label rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
+            <!-- <a href="/systems/arm5e/pdf/test.pdf" target="_blank">?</a> -->
+            {{label}}
+          </span>
           <div class="flexrow">
             <label class="body">{{localize "arm5e.sheet.score"}}
               <input class="flexrow" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number" >
@@ -24,7 +27,7 @@
       <label class="header-label">{{localize "arm5e.sheet.forms"}}</label>
       {{#each actor.data.arts.forms as |forms key|}}
       <li  class="flexrow flex-group-left" data-attribute="{{key}}">
-          <span  class="flexrow header-label" name="data.arts.forms.{{key}}.label">{{label}}</span>
+          <span  class="flexrow header-label rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">{{label}}</span>
           <div class="flexrow">
             <label class="body">{{localize "arm5e.sheet.score"}}
               <input class="flexrow" type="text"name="data.arts.forms.{{key}}.score"  value="{{forms.score}}"  data-dtype="Number" >
@@ -63,7 +66,7 @@
     {{#each actor.data.spells as |item id|}}
       <li class="item flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow header-label width4" data-roll="1d10+{{item.data.score}}" name="item.name">
+            <span  class="flexrow header-label width4 rollable" data-roll="spell" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" name="item.name">
               {{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})
             </span>
             <label><span class="header-label">{{localize "arm5e.sheet.range"}}:</span> {{item.data.range}}</label>

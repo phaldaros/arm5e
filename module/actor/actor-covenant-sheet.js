@@ -34,67 +34,7 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
-    let actorData = sheetData.actor.data;
-
-    let virtues = [];
-    let flaws = [];
-    let reputations = [];
-    let magi = [];
-    let companion = [];
-    let specialists = [];
-    let habitants = [];
-    let horses = [];
-    let livestock = [];
-    let possessions = [];
-    let magicItems = [];
-    let items = [];
-    let calendar = [];
-    let incomingSources = [];
-    let magicBooks = [];
-    let laboratoryTexts = [];
-    let mundaneBooks = [];
-
-    for (let i of sheetData.items) {
-      let item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
-
-      if (i.type === 'virtue') { virtues.push(i); }
-      else if (i.type === 'flaw') { flaws.push(i); }
-
-      else if (i.type === 'reputation') { reputations.push(i); }
-      else if (i.type === 'habitantMagi') { magi.push(i); }
-      else if (i.type === 'habitantCompanion') { companion.push(i); }
-      else if (i.type === 'habitantSpecialists') { specialists.push(i); }
-      else if (i.type === 'habitantHabitants') { habitants.push(i); }
-      else if (i.type === 'habitantHorses') { horses.push(i); }
-      else if (i.type === 'habitantLivestock') { livestock.push(i); }
-      else if (i.type === 'possessionsCovenant') { possessions.push(i); }
-      else if (i.type === 'magicItem') { magicItems.push(i); }
-      else if (i.type === 'item') { items.push(i); }
-      else if (i.type === 'calendarCovenant') { calendar.push(i); }
-      else if (i.type === 'incomingSource') { incomingSources.push(i); }
-      else if (i.type === 'book') { magicBooks.push(i); }
-      else if (i.type === 'laboratoryText') { laboratoryTexts.push(i); }
-      else if (i.type === 'mundaneBook') { mundaneBooks.push(i); }
-    }
-
-    actorData.virtues = virtues;
-    actorData.flaws = flaws;
-    actorData.reputations = reputations;
-    actorData.habitants.magi = magi;
-    actorData.habitants.companion = companion;
-    actorData.habitants.specialists = specialists;
-    actorData.habitants.habitants = habitants;
-    actorData.habitants.horses = horses;
-    actorData.habitants.livestock = livestock;
-    actorData.possessions = possessions;
-    actorData.magicItems = magicItems;
-    actorData.items = items;
-    actorData.calendar = calendar;
-    actorData.incomingSources = incomingSources;
-    actorData.magicBooks = magicBooks;
-    actorData.laboratoryTexts = laboratoryTexts;
-    actorData.mundaneBooks = mundaneBooks;
+    //let actorData = sheetData.actor.data;
 
   }
 

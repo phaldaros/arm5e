@@ -35,53 +35,10 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
-    let actorData = sheetData.actor.data;
+    //let actorData = sheetData.actor.data;
 
-    let virtues = [];
-    let flaws = [];
-    let specialities = [];
-    let distinctive = [];
-    let rooms = [];
-    let magicItems = [];
-    let vis = [];
-    let items = [];
-    let books = [];
-    let personalities = [];
-    let dairyEntries = [];
-
-    for (let i of sheetData.items) {
-      let item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
-
-      if (i.type === 'virtue') { virtues.push(i); }
-      else if (i.type === 'flaw') { flaws.push(i); }
-
-      else if (i.type === 'speciality') { specialities.push(i); }
-      else if (i.type === 'distinctive') { distinctive.push(i); }
-      else if (i.type === 'sanctumRoom') { rooms.push(i); }
-      else if (i.type === 'magicItem') { magicItems.push(i); }
-      else if (i.type === 'vis') { vis.push(i); }
-      else if (i.type === 'item') { items.push(i); }
-      else if (i.type === 'book') { books.push(i); }
-      else if (i.type === 'personality') { personalities.push(i); }
-      else if (i.type === 'dairyEntry') { dairyEntries.push(i); }
-    }
-    
-
-    actorData.virtues = virtues;
-    actorData.flaws = flaws;
-    actorData.specialities = specialities;
-    actorData.distinctive = distinctive;
-    actorData.rooms = rooms;
-    actorData.magicItems = magicItems;
-    actorData.vis = vis;
-    actorData.items = items;
-    actorData.books = books;
-    actorData.personalities = personalities;
-    actorData.dairyEntries = dairyEntries;
-
-    console.log("sheetData from laboratory sheet");
-    console.log(sheetData);
+    //console.log("sheetData from laboratory sheet");
+    //console.log(sheetData);
   }
 
   /* -------------------------------------------- */

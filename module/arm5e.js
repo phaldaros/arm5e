@@ -13,6 +13,7 @@ import { ArM5eItemSheet } from "./item/item-sheet.js";
 
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 
+import {migration} from './migration.js';
 
 Hooks.once('init', async function() {
 
@@ -37,9 +38,7 @@ Hooks.once('init', async function() {
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  //Actors.registerSheet("arm5e", ArM5ePCActorSheet, { 
-  //  makeDefault: true 
-  //});
+
   // ["player","npc","laboratoy","covenant"],
   Actors.registerSheet("arm5ePC", ArM5ePCActorSheet, { 
     types: ["player"],
@@ -62,7 +61,6 @@ Hooks.once('init', async function() {
     label: "arm5e.sheet.covenant"
   });
 
-  
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("arm5e", ArM5eItemSheet, { makeDefault: true });
@@ -89,6 +87,11 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
+
+  // Determine whether a system migration is required and feasible
+  if ( !game.user.isGM ) return;
+
+  migration();
 });
 
 /* -------------------------------------------- */

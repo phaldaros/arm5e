@@ -41,60 +41,10 @@ export class ArM5eNPCActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
-    let actorData = sheetData.actor.data;
+    //let actorData = sheetData.actor.data;
 
-    // Initialize containers.
-    let weapons = [];
-    let armor = [];
-    let spells = [];
-    let vis = [];
-    let items = [];
-    let books = [];
-    let virtues = [];
-    let flaws = [];
-    let abilities = [];
-    let dairyEntries = [];
-    let mights = [];
-
-    // Iterate through items, allocating to containers
-    // let totalWeight = 0;
-    for (let i of sheetData.items) {
-      let item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
-
-      if (i.type === 'weapon') { weapons.push(i); }
-      else if (i.type === 'armor') { armor.push(i); }
-      else if (i.type === 'spell') { spells.push(i); }
-      else if (i.type === 'vis') { vis.push(i); }
-      else if (i.type === 'item') { items.push(i); }
-      else if (i.type === 'book') { books.push(i); }
-      else if (i.type === 'virtue') { virtues.push(i); }
-      else if (i.type === 'flaw') { flaws.push(i); }
-      else if (i.type === 'ability') {
-        i.data.experienceNextLevel = (i.data.score + 1) * 5;
-        abilities.push(i);
-      }
-      else if (i.type === 'dairyEntry') { dairyEntries.push(i); }
-      else if (i.type === 'might') { mights.push(i); }
-    }
-
-    // Assign and return
-    actorData.weapons = weapons;
-    actorData.armor = armor;
-    actorData.spells = spells;
-    actorData.vis = vis;
-    actorData.items = items;
-    actorData.books = books;
-    actorData.virtues = virtues;
-    actorData.flaws = flaws;
-    actorData.abilities = abilities;
-    actorData.dairyEntries = dairyEntries;
-    actorData.mights = mights;
-
-    console.log("actorData from pc sheet");
-    console.log(actorData);
-    console.log("sheetData from pc sheet");
-    console.log(sheetData);
+    //console.log("sheetData from pc sheet");
+    //console.log(sheetData);
   }
 
   /* -------------------------------------------- */

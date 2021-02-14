@@ -1,28 +1,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 
-/*
-@font-face {font-family: "TexturLombardischLTW01"; 
-  src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot"); 
-  src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot?#iefix") format("embedded-opentype"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.woff2") format("woff2"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.woff") format("woff"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.ttf") format("truetype"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.svg#TexturLombardischLTW01") format("svg"); }
-*/
 
-/*
-@font-face {font-family: "LombardischW00-Lombardic"; 
-  src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot"); 
-  src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff") format("woff"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.svg#LombardischW00-Lombardic") format("svg"); }
-*/
+@font-face{
+  font-family: "Goudy Text MT";
+  src: url("../assets/fonts/goudy-text-mt.ttf");
+}
 
-@font-face {font-family: "Goudy Text MT"; 
-  src: url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.eot"); 
-  src: url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.eot?#iefix") format("embedded-opentype"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.woff2") format("woff2"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.woff") format("woff"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.ttf") format("truetype"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.svg#Goudy Text MT") format("svg"); }
+@font-face{
+  font-family: "vinque";
+  src: url("../assets/fonts/vinque_rg.ttf");
+}
+
+@font-face{
+  font-family: "bookAntiqua";
+  src: url("../assets/fonts/book-antiqua.ttf");
+}
+
+@font-face{
+  font-family: "bookAntiquaBold";
+  src: url("../assets/fonts/book-antiqua-bold.ttf");
+}
 
 /* Global styles */
 .body {
@@ -144,6 +141,22 @@
 }
 
 /* Styles limited to arm5e sheets */
+
+.arm5e .main{
+  background-image: url("../assets/background.jpg");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding: 32px;
+}
+.arm5e .footer{
+  background-image: url("../assets/footer.jpg");
+  background-repeat: repeat-y;
+  background-size: cover;
+  min-height: 120px;
+  border: 0px;
+}
+
 .arm5e .item-form {
   font-family: "Roboto", sans-serif;
 }
@@ -200,7 +213,7 @@
   margin: 0;
   /*padding-top: 30px;
   line-height: 30;*/
-  font-family: "Goudy Text MT";
+  font-family: "vinque";
   /*letter-spacing: 1px;*/
 }
 
@@ -215,7 +228,7 @@
   margin: 0;
   /*padding-top: 25px;
   line-height: 50;*/
-  font-family: "Goudy Text MT";
+  font-family: "vinque";
   /*letter-spacing: 1px;*/
 }
 
@@ -248,6 +261,35 @@
   font-weight: bold;
 }
 
+.arm5eTabs{
+  border:0px !important;
+  background-image: url("../assets/barra.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  min-height: 40px;
+  margin-bottom: 12px !important;
+}
+
+.arm5e .backSection{
+  background-color: rgb(239 205 40 / 50%);
+  border: 0px;
+  border-radius: 8px;
+  /* border-bottom: 1px solid #aaa; */
+  /* border-right: 1px solid #aaa; */
+  box-shadow: 5px 5px rgb(245 192 97 / 80%);
+}
+.arm5e .padding12{
+  padding: 12px;
+}
+.arm5e .marginbot6{
+  margin-bottom: 6px;
+}
+.arm5e .smallTitle{
+  font-family: "vinque";
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
 .arm5e .tabs {
   height: 40px;
   border-top: 1px solid #AAA;
@@ -256,7 +298,7 @@
 
 .arm5e .tabs .item {
   /*line-height: 60px;*/
-  font-family: "Goudy Text MT";
+  font-family: "vinque";
   font-size: 16pt;
 }
 

@@ -3,6 +3,7 @@
     "types": ["player","npc","laboratory","covenant"],
     "templates": {
       "base": {
+        "version": "0.1",
         "covenant": {"label": "Covenant","dtype": "String","value": "Covenant Name" },
         "virtues": [],
         "flaws": [],
@@ -22,7 +23,13 @@
           "dex": {"label": "Dexterity","short": "arm5e.sheet.dex","value": 0 },
           "qik": {"label": "Quickness","short": "arm5e.sheet.qik","value": 0 }
         },
-        "abilities": []
+        "abilities": [],
+        "weapons": [],
+        "armor": [],
+        "vis": [],
+        "items": [],
+        "books": [],
+        "spells": []
       },
       "pc": {
         "con": {"label": "Confidence ","score": 1,"points": 3 },
@@ -75,6 +82,7 @@
         }
       },
       "wounds":{
+        "woundsTotal": 0,
         "wounds": {
           "light": {
             "label": "arm5e.sheet.light",
@@ -101,71 +109,56 @@
             "label": "arm5e.sheet.incap",
             "range": {"label": "arm5e.sheet.range","dtype": "String","value": "" },
             "number": {"label": "arm5e.sheet.number","dtype": "Number","value": 0 },
+            "penalty": {"label": "arm5e.sheet.penalty","dtype": "Number","value": 0 },
             "notes": {"label":"arm5e.sheet.notes","dtype": "String","value": "" }
           },
           "dead":{
             "label": "arm5e.sheet.dead",
             "range": {"label": "arm5e.sheet.range","dtype": "String","value": "" },
             "number": {"label": "arm5e.sheet.number","dtype": "Number","value": 0 },
+            "penalty": {"label": "arm5e.sheet.penalty","dtype": "Number","value": 0 },
             "notes": {"label":"arm5e.sheet.notes","dtype": "String","value": "" }
           }
         }
       },
       "fatigue": {
+        "fatigueTotal": 0,
         "fatigue": {
           "fresh": {
             "label": "arm5e.sheet.fresh",
-            "number": "",
+            "number": 0,
             "time": null,
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "level": { "dtype": "Boolean", "value": false }
           },
           "winded": {
             "label": "arm5e.sheet.winded",
             "number": 0,
             "time": "2 min.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "level": { "dtype": "Boolean", "value": false }
           },
           "weary": {
             "label": "arm5e.sheet.weary",
             "number": -1,
             "time": "10 min.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "level": { "dtype": "Boolean", "value": false }
           },
           "tired": {
             "label": "arm5e.sheet.tired",
             "number": -3,
             "time": "30 min.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "level": { "dtype": "Boolean", "value": false }
           },
           "dazed": {
             "label": "arm5e.sheet.dazed",
             "number": -5,
             "time": "1 hr.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "level": { "dtype": "Boolean", "value": false }
           },
           "unconscious": {
             "label": "arm5e.sheet.unconscious",
-            "number": "",
+            "number": 0,
             "time": "2 hr.",
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "level": { "dtype": "Boolean", "value": false }
           }
         }
       },
@@ -360,11 +353,23 @@
             "vi": {"notes": "", "peons": 0, "label": "Vim" }
           }
         }
+      },
+      "roll":{
+        "roll":{
+          "characteristic": "",
+          "ability": "",
+          "technique": "",
+          "form": "",
+          "total": "",
+          "aura": 0,
+          "rollLabel": "",
+          "rollFormula": ""
+        }
       }
     },
   
     "player": {
-      "templates": ["base", "npcbase", "pc", "personality", "wounds", "fatigue", "arts", "familiar", "laboratoryPC", "apprentice"],
+      "templates": ["base", "npcbase", "pc", "personality", "wounds", "fatigue", "arts", "familiar", "laboratoryPC", "apprentice", "roll"],
       "charType": {
         "value": "magus",
         "label": "Char. Type"
@@ -383,101 +388,34 @@
           "dtype": "String"
         }
       },
-      "house": {
-        "value": "",
-        "label": "House"
-      },
+      "house": { "value": "", "label": "House" },
       "houses": {
-        "n-a": {
-          "label": "N/A",
-          "dtype": "String"
-        },
-        "bjo": {
-          "label": "Bjornaer",
-          "dtype": "String"
-        },
-        "bon": {
-          "label": "Bonisagus",
-          "dtype": "String"
-        },
-        "cri": {
-          "label": "Criamon",
-          "dtype": "String"
-        },
-        "exm": {
-          "label": "Ex Miscellanea",
-          "dtype": "String"
-        },
-        "fla": {
-          "label": "Flambeau",
-          "dtype": "String"
-        },
-        "gen": {
-          "label": "Generic Magus",
-          "dtype": "String"
-        },
-        "gue": {
-          "label": "Guernicus",
-          "dtype": "String"
-        },
-        "jer": {
-          "label": "Jerbiton",
-          "dtype": "String"
-        },
-        "mer": {
-          "label": "Mercere",
-          "dtype": "String"
-        },
-        "mta": {
-          "label": "Merinita",
-          "dtype": "String"
-        },
-        "tre": {
-          "label": "Tremere",
-          "dtype": "String"
-        },
-        "tyt": {
-          "label": "Tytalus",
-          "dtype": "String"
-        },
-        "ver": {
-          "label": "Verditius",
-          "dtype": "String"
-        }
+        "n-a": { "label": "N/A", "dtype": "String" },
+        "bjo": { "label": "Bjornaer", "dtype": "String" },
+        "bon": { "label": "Bonisagus", "dtype": "String" },
+        "cri": { "label": "Criamon", "dtype": "String" },
+        "exm": { "label": "Ex Miscellanea", "dtype": "String" },
+        "fla": { "label": "Flambeau", "dtype": "String" },
+        "gen": { "label": "Generic Magus", "dtype": "String" },
+        "gue": { "label": "Guernicus", "dtype": "String" },
+        "jer": { "label": "Jerbiton", "dtype": "String" },
+        "mer": { "label": "Mercere", "dtype": "String" },
+        "mta": { "label": "Merinita", "dtype": "String" },
+        "tre": { "label": "Tremere", "dtype": "String" },
+        "tyt": { "label": "Tytalus", "dtype": "String" },
+        "ver": { "label": "Verditius", "dtype": "String" }
       },
-      "dom-mag": {
-        "label": "Domus Magna",
-        "dtype": "String",
-        "value": ""
-      },
-      "primus": {
-        "label": "Primus",
-        "dtype": "String",
-        "value": ""
-      },
-      "parens": {
-        "label": "Parens",
-        "dtype": "String",
-        "value": ""
-      },
-      "apprenticeship": {
-        "label": "Covenant of Apprenticeship",
-        "dtype": "String",
-        "value": ""
-      },
-      "sigil": {
-        "label": "Wizard's Sigil",
-        "dtype": "String",
-        "value": "A flash of blue light."
-      },
+      "dom-mag": { "label": "Domus Magna", "dtype": "String", "value": "" },
+      "primus": { "label": "Primus", "dtype": "String", "value": "" },
+      "parens": { "label": "Parens", "dtype": "String", "value": "" },
+      "apprenticeship": { "label": "Covenant of Apprenticeship", "dtype": "String", "value": "" },
+      "sigil": { "label": "Wizard's Sigil", "dtype": "String", "value": "A flash of blue light." },
       "attributes": {
-        "level": {
-          "value": 1
-        }
+        "level": { "value": 1 }
       }
     },
     "npc": {
-      "templates": ["base", "npcbase", "wounds", "fatigue", "arts"],
+      "templates": ["base", "npcbase", "wounds", "fatigue", "arts", "roll"],
       "charType": {"value": "human","label": "Char. Type" },
       "charTypes": {
         "human": {"label": "arm5e.sheet.human","dtype": "String" },
@@ -554,6 +492,8 @@
       "possessions": [],
       "magicItems": [],
       "items": [],
+      "visSources": [],
+      "visStock": [],
       "calendar": [],
       "incomingSources": [],
       "yearExpenditure":{
@@ -588,13 +528,12 @@
     }
   },
 
-
-
   "Item": {
     "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability","abilityFamiliar", 
               "dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", 
               "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists", 
               "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
+              "visSourcesCovenant", "visStockCovenant",
               "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook"],
     "templates": {
       "base": { "description": "" },
@@ -681,7 +620,16 @@
         }
       },
       "magicBase":{ "level": 1, "range": "", "duration": "", "target": "", "creator": "", "year": "" },
-      "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "quantity": 0 }
+      "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "quantity": 0 },
+      "season":{
+        "season": "",
+        "seasons": {
+          "spring": {"label": "arm5e.sheet.spring" },
+          "summer": {"label": "arm5e.sheet.summer" },
+          "autumn": {"label": "arm5e.sheet.autumn" },
+          "winter": {"label": "arm5e.sheet.winter" }
+        }
+      }
     },
     "weapon": {
       "templates": ["base", "cost"],
@@ -842,6 +790,17 @@
       "location": "",
       "dimensions": "",
       "inhabitants": ""
+    },
+    "visSourcesCovenant":{
+      "templates": ["base", "art", "season"],
+      "pawns": 1,
+      "form": "",
+      "place": ""
+    },
+    "visStockCovenant":{
+      "templates": ["base", "art"],
+      "pawns": 1,
+      "form": ""
     },
     "calendarCovenant":{
       "templates": ["base"],

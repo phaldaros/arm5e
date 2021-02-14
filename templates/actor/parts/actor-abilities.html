@@ -9,7 +9,7 @@
   {{#each actor.data.abilities as |item id|}}
   <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label rollable width4" data-roll="1d10+{{item.data.score}}" name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>
+        <span  class="flexrow header-label rollable width4" data-roll="char" data-ability="{{item._id}}" name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>
         <label>{{localize "arm5e.sheet.score"}}</label><input type="text" name="item.{{id}}.score"  value="{{item.data.score}}" readonly data-dtype="Number" />
         <span></span>
         <label>{{localize "arm5e.sheet.experience"}}</label><input type="text" name="item.{{id}}.experience"  value="{{item.data.experience}} / {{ item.data.experienceNextLevel }}" readonly data-dtype="Number"  /> 

@@ -1,9 +1,9 @@
 {{#if (eq data.charType.value "magus")}}
 <div class="flexrow flexcol">
   <div class="flexcol grid grid-2col">
-    <div style="height: 150px;">
-      <div class="flex-group-left">
-        <div class="flexrow">
+    <div>
+      <div class="flex-group-left padding12">
+        <div class="flexrow marginbot6">
           <label for="data.house.value" class="header-label">{{localize "arm5e.sheet.house"}}</label>
           <span><select name="data.house.value"  data-type="String">
             {{#select data.house.value}}
@@ -11,25 +11,25 @@
             <option value="{{key}}">{{house.label}}</option> {{/each}} {{/select}}
           </select></span>
         </div>
-        <div class="flexrow">
+        <div class="flexrow marginbot6">
           <label for="data.dom-mag.label" class="header-label">{{localize "arm5e.sheet.domusMagnus"}}</label>
           <span><input type="text" name="data.dom-mag.value" value="{{actor.data.dom-mag.value}}" data-dtype="String" /></span>
         </div>
-        <div class="flexrow">
+        <div class="flexrow marginbot6">
           <label for="data.primus.value" class="header-label">{{localize "arm5e.sheet.primus"}}</label>
           <span><input type="text" name="data.primus.value" value="{{actor.data.primus.value}}" data-dtype="String" /></span>
         </div>
-        <div class="flexrow">
+        <div class="flexrow marginbot6">
           <label for="data.parens.value" class="header-label">{{localize "arm5e.sheet.parens"}}</label>
           <span><input type="text" name="data.parens.value" value="{{actor.data.parens.value}}" data-dtype="String" /></span>
         </div>
-        <div class="flexrow">
+        <div class="flexrow marginbot6">
           <label for="data.apprenticeship.value" class="header-label">{{localize "arm5e.sheet.apprenticeship"}}</label>
           <span><input type="text" name="data.apprenticeship.value" value="{{actor.data.apprenticeship.value}}" data-dtype="String" /></span>
         </div>
       </div>
     </div>
-    <div class="flex-group-left">
+    <div class="flex-group-left padding12">
       <label for="data.sigil" class="header-label">{{localize "arm5e.sheet.sigil"}}</label>
         {{editor content=data.sigil.value target="data.sigil.value" button=true owner=owner editable=editable}}
     </div>
@@ -40,31 +40,31 @@
 {{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-2col">
 
-<div class="flex-group-left">
-  <label class="header-label">{{localize "arm5e.sheet.warping"}}</label>
+<div class="flex-group-left padding12">
+  <label class="header-label smallTitle">{{localize "arm5e.sheet.warping"}}</label>
   <div class="flexrow flexcol">
     <label for="data.warping.score" class="body">{{localize "arm5e.sheet.score"}}</label>
-    <span><input type="text" name="data.warping.score" value="{{actor.data.warping.score}}" data-dtype="String" /></span>
+    <span class="marginbot6"><input type="text" name="data.warping.score" value="{{actor.data.warping.score}}" data-dtype="String" /></span>
     <span></span>
     <label for="data.warping.points" class="body">{{localize "arm5e.sheet.points"}}</label>
-    <span><input type="text" name="data.warping.points" value="{{actor.data.warping.points}}" data-dtype="String" /></span>
+    <span class="marginbot6"><input type="text" name="data.warping.points" value="{{actor.data.warping.points}}" data-dtype="String" /></span>
     <br>
     <label for="data.warping.effects" class="body">{{localize "arm5e.sheet.effects"}}</label>
-    <span><input type="text" name="data.warping.effects" value="{{actor.data.warping.effects}}" data-dtype="String" /></span>
+    <span class="marginbot6"><input type="text" name="data.warping.effects" value="{{actor.data.warping.effects}}" data-dtype="String" /></span>
   </div>
 </div>
 
-<div class="flex-group-left">
-  <label class="header-label">{{localize "arm5e.sheet.decrepitude"}}</label>
+<div class="flex-group-left padding12">
+  <label class="header-label smallTitle">{{localize "arm5e.sheet.decrepitude"}}</label>
   <div class="flexrow flexcol">
     <label for="data.decrepitude.score" class="body">{{localize "arm5e.sheet.score"}}</label>
-    <span><input type="text" name="data.decrepitude.score" value="{{actor.data.decrepitude.score}}" data-dtype="String" /></span>
+    <span class="marginbot6"><input type="text" name="data.decrepitude.score" value="{{actor.data.decrepitude.score}}" data-dtype="String" /></span>
     <span></span>
     <label for="data.decrepitude.points" class="body">{{localize "arm5e.sheet.points"}}</label>
-    <span><input type="text" name="data.decrepitude.points" value="{{actor.data.decrepitude.points}}" data-dtype="String" /></span>
+    <span class="marginbot6"><input type="text" name="data.decrepitude.points" value="{{actor.data.decrepitude.points}}" data-dtype="String" /></span>
     <br>
     <label for="data.decrepitude.effects" class="body">{{localize "arm5e.sheet.effects"}}</label>
-    <span><input type="text" name="data.decrepitude.effects" value="{{actor.data.decrepitude.effects}}" data-dtype="String" /></span>
+    <span class="marginbot6"><input type="text" name="data.decrepitude.effects" value="{{actor.data.decrepitude.effects}}" data-dtype="String" /></span>
   </div>
 </div>
 
