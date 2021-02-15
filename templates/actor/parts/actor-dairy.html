@@ -1,13 +1,13 @@
 {{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-3col">
-<div class="flex-group-left">
+<div class="flex-group-left backSection">
   <label class="header-label">{{localize "arm5e.sheet.pendingExperience"}}</label>
     <span><input type="text" name="data.pendingXP" value="{{actor.data.pendingXP}}" data-dtype="String" /></span>
 </div>
 </div>
 {{/if}}
 
-<ol class="items-list">
+<ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.dairy"}}</div>

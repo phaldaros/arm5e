@@ -11,7 +11,7 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
       template: "systems/arm5e/templates/actor/actor-covenant-sheet.html",
       width: 1100,
       height: 900,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }]
     });
   }
 

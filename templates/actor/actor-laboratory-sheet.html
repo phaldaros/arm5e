@@ -1,4 +1,7 @@
 <form class="{{cssClass}} flexcol main" autocomplete="off">
+    <div class="header-background">
+        <img src="/systems/arm5e/assets/header.png">
+    </div>
 
     {{!-- Sheet Header --}}
     <header class="sheet-header sheet-header-lab">
@@ -87,27 +90,27 @@
         {{!-- Virtues & Flaws Tab --}}
         <div class="tab virtues" data-group="primary" data-tab="virtues">
             {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
-            {{> "systems/arm5e/templates/actor/parts/actor-footer.html" }}
         </div>
 
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             {{> "systems/arm5e/templates/actor/parts/actor-atributesLaboratory.html" }}
-            {{> "systems/arm5e/templates/actor/parts/actor-footer.html" }}
         </div>
 
         {{!-- Inventory Tab --}}
         <div class="tab inventory" data-group="primary" data-tab="inventory">
             {{> "systems/arm5e/templates/actor/parts/actor-inventoryLaboratory.html" }}
-            {{> "systems/arm5e/templates/actor/parts/actor-footer.html" }}
         </div>
 
         {{!-- Dairy Tab --}}
         <div class="tab dairy" data-group="primary" data-tab="dairy">
             {{> "systems/arm5e/templates/actor/parts/actor-dairy.html" }}
-            {{> "systems/arm5e/templates/actor/parts/actor-footer.html" }}
         </div>
 
     </section>
+
+    <div class="footer-background">
+        <img src="/systems/arm5e/assets/footer.png">
+    </div>
 </form>
 

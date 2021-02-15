@@ -1,4 +1,4 @@
-<div class="flexrow grid grid-3col">
+<div class="flexrow grid grid-3col backSection">
   <div>
     <ol><label class="header-label">{{localize "arm5e.sheet.techniques"}}</label>
       {{#each actor.data.arts.techniques as |techniques key|}}
@@ -54,7 +54,7 @@
 {{> "systems/arm5e/templates/actor/parts/actor-labarotaryTotals.html" show="arts" }}
 
 
-<div class="flexrow">
+<div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
       <div class="item-image"></div>
@@ -84,7 +84,7 @@
 </div>
 
 {{#if (eq actor.type "npc")}}
-<div class="flexrow">
+<div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
       <div class="item-image"></div>
