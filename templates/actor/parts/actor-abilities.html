@@ -1,7 +1,10 @@
 <ol class="items-list backSection ">
   <li class="item flexrow item-header">
+    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
     <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.abilities"}}</div>
+    <div><span class="item-name">{{localize "arm5e.sheet.abilities"}}</span><span> ({{ data.totalXPAbilities }}xp)</span></div>
     <div class="item-controls">
       <a class="item-control item-create" title="Add ability" data-type="ability"><i class="fas fa-plus"></i></a>
     </div>
@@ -9,7 +12,7 @@
   {{#each actor.data.abilities as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow bold rollable width4" data-roll="char" data-ability="{{item._id}}" name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>
+        <span  class="flexrow item-title rollable width4" data-roll="char" data-ability="{{item._id}}" name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>
         <label>{{localize "arm5e.sheet.score"}}</label><input type="text" name="item.{{id}}.score"  value="{{item.data.score}}" readonly data-dtype="Number" />
         <span></span>
         <label>{{localize "arm5e.sheet.experience"}}</label><input type="text" name="item.{{id}}.experience"  value="{{item.data.experience}} / {{ item.data.experienceNextLevel }}" readonly data-dtype="Number"  /> 

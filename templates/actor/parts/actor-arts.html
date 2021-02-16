@@ -1,21 +1,26 @@
 <div class="flexrow grid grid-3col backSection">
   <div>
-    <ol><label class="header-label">{{localize "arm5e.sheet.techniques"}}</label>
+    <ol>
+      <li class="flexrow">
+          <div class=" width15"><span class="smallTitle">{{localize "arm5e.sheet.techniques"}}</span><span> ({{ data.totalXPArts }}xp)</span></div>
+          <label class="body">{{localize "arm5e.sheet.score"}}</label>
+          <label class="body">{{localize "arm5e.sheet.experience"}}</label>
+      </li>
       {{#each actor.data.arts.techniques as |techniques key|}}
-      <li  class="flexrow flex-group-left" data-attribute="{{key}}">
-          <span  class="flexrow header-label rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
-            <!-- <a href="/systems/arm5e/pdf/test.pdf" target="_blank">?</a> -->
+      <li  class="flexrow flex-group-center" data-attribute="{{key}}">
+        <div class="flexrow flex-group-left">
+          <a class="flex03 link" href="/systems/arm5e/pdf/test.pdf" target="_blank">
+            <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
+          </a>
+          <span  class="flexrow item-title rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
             {{label}}
           </span>
+        </div>
           <div class="flexrow">
-            <label class="body">{{localize "arm5e.sheet.score"}}
-              <input class="flexrow" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number" >
-            </label>
-            <label class="body">{{localize "arm5e.sheet.experience"}}
+              <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number" >
               <span class="flexrow">
                 <input type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}"  data-dtype="Number" > &nbsp;/ {{ techniques.experienceNextLevel }}
               </span>
-            </label>
           </div>
       </li>
       {{/each}}
@@ -24,27 +29,38 @@
 
   <div>              
     <ol>
-      <label class="header-label">{{localize "arm5e.sheet.forms"}}</label>
+      <li class="flexrow">
+        <label class="smallTitle width15">{{localize "arm5e.sheet.forms"}}</label>
+        <label class="body">{{localize "arm5e.sheet.score"}}</label>
+        <label class="body">{{localize "arm5e.sheet.experience"}}</label>
+      </li>
       {{#each actor.data.arts.forms as |forms key|}}
-      <li  class="flexrow flex-group-left" data-attribute="{{key}}">
-          <span  class="flexrow header-label rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">{{label}}</span>
+      <li  class="flexrow flex-group-center" data-attribute="{{key}}">
+        <div class="flexrow flex-group-left">
+          <a class="flex03 link" href="/systems/arm5e/pdf/test.pdf" target="_blank">
+            <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
+          </a>
+          <span  class="flexrow item-title rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">
+            {{label}}
+          </span>
+        </div>
           <div class="flexrow">
-            <label class="body">{{localize "arm5e.sheet.score"}}
-              <input class="flexrow" type="text"name="data.arts.forms.{{key}}.score"  value="{{forms.score}}"  data-dtype="Number" >
-            </label>
-            <label class="body">{{localize "arm5e.sheet.experience"}}
+              <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.forms.{{key}}.score" value="{{forms.score}}"  data-dtype="Number" >
               <span class="flexrow">
-                <input type="text" name="data.arts.forms.{{key}}.experience"  value="{{forms.experience}}"  data-dtype="Number" > &nbsp;/ {{ forms.experienceNextLevel }}
+                <input type="text" name="data.arts.forms.{{key}}.experience" value="{{forms.experience}}"  data-dtype="Number" > &nbsp;/ {{ forms.experienceNextLevel }}
               </span>
-            </label>
-          </div>  
+          </div>
       </li>
 {{#if (eq key "he")}}
     </ol>
   </div>
   <div>
     <ol>
-      <label class="header-label">{{localize "arm5e.sheet.forms"}}</label>
+      <li class="flexrow">
+        <label class="smallTitle width15">{{localize "arm5e.sheet.forms"}}</label>
+        <label class="body">{{localize "arm5e.sheet.score"}}</label>
+        <label class="body">{{localize "arm5e.sheet.experience"}}</label>
+      </li>
 {{/if}}
       {{/each}}
       </ol>
@@ -57,22 +73,25 @@
 <div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
       <div class="item-image"></div>
-      <div class="item-name">{{localize "arm5e.sheet.spells"}}</div>
+      <div><span class="item-name">{{localize "arm5e.sheet.spells"}}</span><span> ({{ data.totalXPSpells }}lv)</span></div>
       <div class="item-controls">
         <a class="item-control item-create" title="Create spell" data-type="spell"><i class="fas fa-plus"></i></a>
       </div>
     </li>
     {{#each actor.data.spells as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow header-label width4 rollable" data-roll="spell" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" name="item.name">
+            <span  class="flexrow item-title width4 rollable" data-roll="spell" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" name="item.name">
               {{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})
             </span>
-            <label><span class="header-label">{{localize "arm5e.sheet.range"}}:</span> {{item.data.range}}</label>
-            <label><span class="header-label">{{localize "arm5e.sheet.duration"}}:</span> {{item.data.duration}}</label>
-            <label><span class="header-label">{{localize "arm5e.sheet.target"}}:</span> {{item.data.target}}</label>
-            <label><span class="header-label">{{localize "arm5e.sheet.bonus"}}:</span> {{item.data.bonus}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span> {{item.data.range}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{item.data.duration}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{item.data.target}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.bonus"}}:</span> {{item.data.bonus}}</label>
           </div>
           <div class="item-controls">
               <a class="item-control item-edit" title="Edit spell"><i class="fas fa-edit"></i></a>
@@ -87,6 +106,9 @@
 <div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.mights"}}</div>
       <div class="item-controls">
@@ -94,9 +116,9 @@
       </div>
     </li>
     {{#each actor.mights as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow header-label width4" name="item.name">
+            <span  class="flexrow item-title width4" name="item.name">
               {{item.name}}
             </span>
           </div>

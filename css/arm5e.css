@@ -289,8 +289,40 @@
 }
 
 .arm5e .tabs .item.active {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
   text-shadow: none;
+}
+
+.posRelative{
+  position: relative;
+}
+.navItem-right-ball{
+  position: absolute;
+  border: 0px;
+  top: 0px;
+  left: -1px;
+  text-decoration: none;
+}
+.navItem-right-ball img{
+  border: 0px;
+  width: 14px;
+}
+.navItem-left-ball{
+  position: absolute;
+  border: 0px;
+  top: 0px;
+  left: calc(100% - 14px);
+  text-decoration: none;
+}
+.navItem-left-ball img{
+  border: 0px;
+  width: 14px;
+}
+.posRelative div{
+  display: none;
+}
+.posRelative.active div{
+  display: block;
 }
 
 .arm5e .items-list {
@@ -312,6 +344,31 @@
   background-position-y: bottom;
   min-height: 40px;
   margin-bottom: 12px !important;
+  position: relative;
+}
+
+.item-right-ball{
+  position: absolute;
+  border: 0px;
+  top: 33px;
+  left: -1px;
+  text-decoration: none;
+}
+.item-right-ball img{
+  border: 0px;
+  width: 10px;
+}
+
+.item-left-ball{
+  position: absolute;
+  border: 0px;
+  top: 33px;
+  left: calc(100% - 10px);
+  text-decoration: none;
+}
+.item-left-ball img{
+  border: 0px;
+  width: 10px;
 }
 
 .arm5e .item-name{
@@ -353,7 +410,15 @@
 
 .arm5e .item-value{
   min-height: 56px;
-  border-bottom: 2px solid #a0a0a094;
+  border-bottom: 2px solid #cba44b;
+}
+.arm5e .item-title{
+  font-weight: bold;
+  font-size: 17px;
+  padding-left: 20px;
+}
+.arm5e .link:hover .link:focus{
+  text-shadow: 0 0 10px red;
 }
 
 .width4 {
@@ -397,7 +462,7 @@
   background-color: rgb(226 199 130 / 50%);
   border: 0px;
   border-radius: 4px;
-  box-shadow: 3px 3px rgb(0 0 0 / 28%);
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
 }
 .arm5e .padding12{
   padding: 12px;

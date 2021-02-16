@@ -9,6 +9,9 @@
 
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
+    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.dairy"}}</div>
     <div class="item-controls">
@@ -16,11 +19,11 @@
     </div>
   </li>
   {{#each actor.data.dairyEntries as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label">{{item.data.year}} ( {{item.data.season}} )  {{item.data.date}}</span>
+        <span  class="flexrow item-title">{{item.data.year}} ( {{item.data.season}} )  {{item.data.date}}</span>
         <span></span>
-        <span  class="flexrow header-label width3">{{item.name}}</span>
+        <span  class="flexrow bold width3">{{item.name}}</span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit dairy"><i class="fas fa-edit"></i></a>

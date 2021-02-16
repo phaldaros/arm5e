@@ -7,7 +7,7 @@ export class ArM5ePCActor extends Actor {
   /**
    * Augment the basic actor data with additional dynamic data.
    **/
-  
+
   prepareData() {
     super.prepareData();
 
@@ -20,6 +20,30 @@ export class ArM5ePCActor extends Actor {
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
+    let CreationPx = {
+      "0":  { art: 0,   abi: 0 },
+      "1":  { art: 1,   abi: 5 },
+      "2":  { art: 3,   abi: 15 },
+      "3":  { art: 6,   abi: 30 },
+      "4":  { art: 10,  abi: 50 },
+      "5":  { art: 15,  abi: 75 },
+      "6":  { art: 21,  abi: 105 },
+      "7":  { art: 28,  abi: 140 },
+      "8":  { art: 36,  abi: 180 },
+      "9":  { art: 45,  abi: 225 },
+      "10": { art: 55,  abi: 275 },
+      "11": { art: 66,  abi: 330 },
+      "12": { art: 78,  abi: 390 },
+      "13": { art: 91,  abi: 455 },
+      "14": { art: 105, abi: 525 },
+      "15": { art: 120, abi: 600 },
+      "16": { art: 136, abi: 680 },
+      "17": { art: 153, abi: 765 },
+      "18": { art: 171, abi: 855 },
+      "19": { art: 190, abi: 950 },
+      "20": { art: 210, abi: 1050 },
+    };
+
     // Initialize containers.
     let weapons = [];
     let armor = [];
@@ -57,17 +81,25 @@ export class ArM5ePCActor extends Actor {
     let laboratoryTexts = [];
     let mundaneBooks = [];
 
+    let totalXPAbilities = 0;
+    let totalXPArts = 0;
+    let totalVirtues = 0;
+    let totalFlaws = 0;
+    let totalXPSpells = 0;
+
     let data = actorData.data;
 
     if(data.arts){
       for (let [key, technique] of Object.entries(data.arts.techniques)) {
         // Calculate the next level experience needed
         technique.experienceNextLevel = (technique.score + 1);
+        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[technique.score].art);
       }
 
       for (let [key, form] of Object.entries(data.arts.forms)) {
         // Calculate the next level experience needed
         form.experienceNextLevel = (form.score + 1);
+        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[form.score].art);
       }
     }
 
@@ -93,15 +125,27 @@ export class ArM5ePCActor extends Actor {
 
       if (i.type === 'weapon') { weapons.push(i); }
       else if (i.type === 'armor') { armor.push(i); }
-      else if (i.type === 'spell') { spells.push(i); }
+      else if (i.type === 'spell') {
+        spells.push(i);
+        totalXPSpells = parseInt(totalXPSpells) + parseInt(i.data.level);
+      }
       else if (i.type === 'vis') { vis.push(i); }
       else if (i.type === 'item') { items.push(i); }
       else if (i.type === 'book') { books.push(i); }
-      else if (i.type === 'virtue') { virtues.push(i); }
-      else if (i.type === 'flaw') { flaws.push(i); }
+      else if (i.type === 'virtue') {
+        virtues.push(i);
+        totalVirtues = parseInt(totalVirtues) + parseInt(i.data.impacts[i.data.impact.value].cost);
+
+      }
+      else if (i.type === 'flaw') {
+        flaws.push(i);
+        totalFlaws = parseInt(totalFlaws) + parseInt(i.data.impacts[i.data.impact.value].cost);
+      }
       else if (i.type === 'ability') {
         i.data.experienceNextLevel = (i.data.score + 1) * 5;
         abilities.push(i);
+
+        totalXPAbilities = parseInt(totalXPAbilities) + parseInt(CreationPx[i.data.score].abi);
 
         if(actorData.type == "player"){
           if(i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID){       actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.score; }
@@ -165,6 +209,12 @@ export class ArM5ePCActor extends Actor {
     }
 
     // Assign and return
+    actorData.data.totalXPAbilities = totalXPAbilities;
+    actorData.data.totalXPArts = totalXPArts;
+    actorData.data.totalVirtues = totalVirtues;
+    actorData.data.totalFlaws = totalFlaws;
+    actorData.data.totalXPSpells = totalXPSpells;
+
     if(actorData.data.weapons){ actorData.data.weapons = weapons; }
     if(actorData.data.armor){ actorData.data.armor = armor; }
     if(actorData.data.spells){ actorData.data.spells = spells; }

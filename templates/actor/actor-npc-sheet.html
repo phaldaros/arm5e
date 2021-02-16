@@ -61,15 +61,39 @@
   </header>
 
   {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-      <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
-      <a class="item" data-tab="abilities">{{localize "arm5e.sheet.abilities"}}</a>
-      <a class="item" data-tab="virtues">{{localize "arm5e.sheet.virtuesFlaws"}}</a>
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+      <a class="item posRelative" data-tab="description">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        {{localize "arm5e.sheet.description"}}
+      </a>
+      <a class="item posRelative" data-tab="abilities">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        {{localize "arm5e.sheet.abilities"}}
+      </a>
+      <a class="item posRelative" data-tab="virtues">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        {{localize "arm5e.sheet.virtuesFlaws"}}
+      </a>
     {{#if (eq data.charType.value "entity")}}
-      <a class="item" data-tab="arts">{{localize "arm5e.sheet.arts"}}</a>
+      <a class="item posRelative" data-tab="arts">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        {{localize "arm5e.sheet.arts"}}
+      </a>
     {{/if}}
-      <a class="item" data-tab="inventory">{{localize "arm5e.sheet.inventory"}}</a>
-      <a class="item" data-tab="dairy">{{localize "arm5e.sheet.dairy"}}</a>
+      <a class="item posRelative" data-tab="inventory">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        {{localize "arm5e.sheet.inventory"}}
+      </a>
+      <a class="item posRelative" data-tab="dairy">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        {{localize "arm5e.sheet.dairy"}}
+      </a>
   </nav>
 
   {{!-- Sheet Body --}}

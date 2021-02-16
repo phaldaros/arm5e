@@ -1,24 +1,24 @@
-<div style="border: 1px solid #999; margin-top:24px;">
+<div class="backSection margintop18">
 <div class="characteristics grid grid-4col">
   <div class="flexrow flex-group-center" style="border:0px">
-    <label class="header-label">{{localize "arm5e.sheet.familiar"}}</label>
+    <label class="smallTitle">{{localize "arm5e.sheet.familiar"}}</label>
   </div>
 </div>
 
 
 <div class="characteristics grid grid-4col">
   <div class="flexrow flex-group-center" style="border:0px">
-    <label for="data.familiar.nameFam" class="header-label" >{{localize "arm5e.sheet.name"}}</label>
+    <label for="data.familiar.nameFam" class="bold" >{{localize "arm5e.sheet.name"}}</label>
     <input type="text" name="data.familiar.nameFam" value="{{actor.data.familiar.nameFam }}" data-dtype="String" />
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px">
-    <label for="data.familiar.specieFam" class="header-label" >{{localize "arm5e.sheet.specie"}}</label>
+    <label for="data.familiar.specieFam" class="bold" >{{localize "arm5e.sheet.specie"}}</label>
     <input type="text" name="data.familiar.specieFam" value="{{actor.data.familiar.specieFam }}" data-dtype="String" />
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px">
-    <label for="data.familiar.techniqueFam.value" class="header-label" >{{localize "arm5e.sheet.technique"}}</label>
+    <label for="data.familiar.techniqueFam.value" class="bold" >{{localize "arm5e.sheet.technique"}}</label>
     <select name="data.familiar.techniqueFam.value"  data-type="String">
       {{#select data.familiar.techniqueFam.value}}
       {{#each data.arts.techniques as |techniques key|}}
@@ -27,7 +27,7 @@
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px">
-    <label for="data.familiar.formFam.value" class="header-label" >{{localize "arm5e.sheet.form"}}</label>
+    <label for="data.familiar.formFam.value" class="bold" >{{localize "arm5e.sheet.form"}}</label>
     <select name="data.familiar.formFam.value"  data-type="String">
       {{#select data.familiar.formFam.value}}
       {{#each data.arts.forms as |techniques key|}}
@@ -40,21 +40,21 @@
 
 <div class="characteristics grid grid-4col">
   <div class="flexrow flex-group-center" style="border:0px">
-    <label class="header-label" >{{localize "arm5e.sheet.cord"}}</label>
+    <label class="bold" >{{localize "arm5e.sheet.cord"}}</label>
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px">
-    <label for="data.familiar.cordFam.bronze" class="header-label" >{{localize "arm5e.sheet.bronze"}}</label>
+    <label for="data.familiar.cordFam.bronze" class="bold" >{{localize "arm5e.sheet.bronze"}}</label>
     <input type="text" name="data.familiar.cordFam.bronze" value="{{actor.data.familiar.cordFam.bronze }}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px">
-    <label for="data.familiar.cordFam.silver" class="header-label" >{{localize "arm5e.sheet.silver"}}</label>
+    <label for="data.familiar.cordFam.silver" class="bold" >{{localize "arm5e.sheet.silver"}}</label>
     <input type="text" name="data.familiar.cordFam.silver" value="{{actor.data.familiar.cordFam.silver }}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px">
-    <label for="data.familiar.cordFam.gold" class="header-label" >{{localize "arm5e.sheet.gold"}}</label>
+    <label for="data.familiar.cordFam.gold" class="bold" >{{localize "arm5e.sheet.gold"}}</label>
     <input type="text" name="data.familiar.cordFam.gold" value="{{actor.data.familiar.cordFam.gold }}" data-dtype="Number" />
   </div>
 </div>
@@ -64,7 +64,7 @@
     <ol style="width: 100%;">
       {{#each actor.data.familiar.characteristicsFam as |data key|}}
       <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
-        <label for="data.familiar.characteristicsFam.{{key}}.value" class="header-label rollable" data-roll="1d10+@characteristics.{{key}}.value">{{localize data.short}}</label>
+        <label for="data.familiar.characteristicsFam.{{key}}.value" class="bold rollable" data-roll="1d10+@characteristics.{{key}}.value">{{localize data.short}}</label>
         <input type="text" name="data.familiar.characteristicsFam.{{key}}.value" value="{{numberFormat data.value decimals=0 sign=true}}" data-dtype="Number" />
       </li>
       {{/each}}
@@ -75,7 +75,7 @@
     <ol style="width: 100%;">
       {{#each actor.data.familiar.vitalsFam as |data key|}}
       <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
-        <label for="data.familiar.vitalsFam.{{key}}.value" class="header-label rollable" data-roll="1d10+@vitalsFam.{{key}}.value">{{localize data.label}}</label>
+        <label for="data.familiar.vitalsFam.{{key}}.value" class="bold rollable" data-roll="1d10+@vitalsFam.{{key}}.value">{{localize data.label}}</label>
         <input type="text" name="data.familiar.vitalsFam.{{key}}.value" value="{{numberFormat data.value decimals=0 sign=true}}" data-dtype="Number" />
       </li>
       {{/each}}
@@ -83,17 +83,20 @@
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px; align-content: flex-start;">
-    <ol class="items-list backSection" style="width: 100%;">
+    <ol class="items-list" style="width: 100%;">
       <li class="item flexrow item-header">
+        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    
         <div class="item-name">{{localize "arm5e.sheet.abilities"}}</div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add abilityFamiliar" data-type="abilityFamiliar"><i class="fas fa-plus"></i></a>
         </div>
       </li>
       {{#each actor.data.familiar.abilitiesFam as |ability key|}}
-      <li class="item flexrow" data-item-id="{{ability._id}}">
+      <li class="item item-value flexrow" data-item-id="{{ability._id}}">
         <div  class="flexrow flex-center">
-          <span  class="flexrow header-label rollable" data-roll="1d10+{{item.data.score}}" name="item.name">{{ability.name}} </span>
+          <span  class="flexrow item-title rollable" data-roll="1d10+{{item.data.score}}" name="item.name">{{ability.name}} </span>
         </div>  
         <div class="item-controls">
             <a class="item-control item-edit" title="Edit abilityFamiliar"><i class="fas fa-edit"></i></a>
@@ -105,17 +108,20 @@
   </div>
 
   <div class="flexrow flex-group-center" style="border:0px; align-content: flex-start;">
-    <ol class="items-list backSection" style="width: 100%;">
+    <ol class="items-list" style="width: 100%;">
       <li class="item flexrow item-header">
+        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    
         <div class="item-name">{{localize "arm5e.sheet.mights"}}</div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add mightFamiliar" data-type="mightFamiliar"><i class="fas fa-plus"></i></a>
         </div>
       </li>
       {{#each actor.data.familiar.mightsFam as |data key|}}
-      <li class="item flexrow" data-item-id="{{data._id}}">
+      <li class="item item-value flexrow" data-item-id="{{data._id}}">
         <div  class="flexrow flex-center">
-          <span  class="flexrow header-label" name="item.name">{{data.name}} </span>
+          <span  class="flexrow item-title" name="item.name">{{data.name}} </span>
         </div>  
         <div class="item-controls">
             <a class="item-control item-edit" title="Edit mightsFamiliar"><i class="fas fa-edit"></i></a>
