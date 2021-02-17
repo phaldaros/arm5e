@@ -425,8 +425,15 @@
   font-size: 17px;
   padding-left: 20px;
 }
+.arm5e .link{
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+}
 .arm5e .link:hover .link:focus{
+  color: #000;
   text-shadow: 0 0 10px red;
+  cursor: pointer;
 }
 
 .width4 {
