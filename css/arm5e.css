@@ -204,6 +204,14 @@
   margin-right: 10px;
   margin-bottom: 10px;
 }
+.arm5e .sheet-header .item-img{
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  height: 200px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+}
 
 .arm5e .sheet-header .header-fields {
   -webkit-box-flex: 1;

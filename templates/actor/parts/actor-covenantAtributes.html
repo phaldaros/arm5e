@@ -1,6 +1,9 @@
 
 <ol class="items-list backSection">
   <li class="item flexrow item-header">
+    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.reputation"}}</div>
     <div class="item-controls">
@@ -8,11 +11,11 @@
     </div>
   </li>
   {{#each actor.data.reputations as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width3">{{item.name}}</span>
+        <span  class="flexrow item-title width3">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit reputation"><i class="fas fa-edit"></i></a>
@@ -22,29 +25,27 @@
 {{/each}}
 </ol>
 
-<div style="border: 1px solid #999; margin-top:24px;">
+<div class="backSection margintop18">
 <div class="flexrow flex-group-center" style="border:0px">
   <ol style="width: 100%;">
-    <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
-      <span>
-        <label for="data.constructionPoints.data.{{key}}.initials" class="header-label">{{localize "arm5e.sheet.constructionPoints" }}</label>
-      </span>
+    <li class="flexrow flex-group-left" style="border:0px">
+        <label for="data.constructionPoints.data.{{key}}.initials" class="smallTitle flex08">{{localize "arm5e.sheet.constructionPoints" }}</label>
+        <label for="data.constructionPoints.data.{{key}}.initials" class="bold flex03">{{localize "arm5e.sheet.initials" }}</label>
+        <label for="data.constructionPoints.data.{{key}}.initials" class="bold flex05">{{localize "arm5e.sheet.actuals" }}</label>
+        <label for="data.constructionPoints.data.{{key}}.initials" class="bold width2">{{localize "arm5e.sheet.notes" }}</label>
     </li>
     {{#each actor.data.constructionPoints.data as |data key|}}
     <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
       <span class="flex07">
-        <label for="data.constructionPoints.data.{{key}}.initials" class="header-label">{{localize data.label}}</label>
+        <label for="data.constructionPoints.data.{{key}}.initials" class="bold">{{localize data.label}}</label>
       </span>
-      <span class="flex05">
-        <label for="data.constructionPoints.data.{{key}}.initials" class="header-label">{{localize "arm5e.sheet.initials"}}</label>
+      <span class="flex03" style="margin-right: 6px;">
         <input type="text" name="data.constructionPoints.data.{{key}}.initials" value="{{numberFormat data.initials decimals=0 sign=true}}" data-dtype="Number" />
       </span>
-      <span class="flex05">
-        <label for="data.constructionPoints.data.{{key}}.actuals" class="header-label">{{localize "arm5e.sheet.actuals"}}</label>
+      <span class="flex03" style="margin-right: 6px;">
         <input type="text" name="data.constructionPoints.data.{{key}}.actuals" value="{{numberFormat data.actuals decimals=0 sign=true}}" data-dtype="Number" />
       </span>
       <span class="flex2">
-        <label for="data.constructionPoints.data.{{key}}.notes" class="header-label">{{localize "arm5e.sheet.notes"}}</label>
         <input type="text" name="data.constructionPoints.data.{{key}}.notes" value="{{ data.notes }}" data-dtype="String" />
       </span>
     </li>

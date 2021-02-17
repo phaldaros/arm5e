@@ -545,7 +545,7 @@
         }
       },
       "magicBase":{ "level": 1, "range": "", "duration": "", "target": "", "creator": "", "year": "" },
-      "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "quantity": 0 },
+      "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "score": 0, "quantity": 0 },
       "season":{
         "season": "",
         "seasons": {

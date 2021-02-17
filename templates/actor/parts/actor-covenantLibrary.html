@@ -2,6 +2,9 @@
 {{!-- magicBooks --}}
 <ol class="items-list backSection">
   <li class="item flexrow item-header">
+    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.magicBooks"}}</div>
     <div class="item-controls">
@@ -9,14 +12,14 @@
     </div>
   </li>
   {{#each actor.data.magicBooks as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
-        <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.type"}}: {{item.data.type.value}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.quality"}}: {{item.data.quality}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
+        <span  class="flexrow item-title width15">{{item.name}}</span>
+
+        <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type.value}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.data.quality}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit book"><i class="fas fa-edit"></i></a>
@@ -30,6 +33,9 @@
 {{!-- laboratoryTexts --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
+    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.laboratoryTexts"}}</div>
     <div class="item-controls">
@@ -37,12 +43,9 @@
     </div>
   </li>
   {{#each actor.data.laboratoryTexts as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
-        <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
+        <span  class="flexrow item-title width15">{{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})</span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit laboratoryText"><i class="fas fa-edit"></i></a>
@@ -56,6 +59,9 @@
 {{!-- mundaneBooks --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
+    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.mundaneBooks"}}</div>
     <div class="item-controls">
@@ -63,14 +69,13 @@
     </div>
   </li>
   {{#each actor.data.mundaneBooks as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
-        <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.type"}}: {{item.data.type.value}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.quality"}}: {{item.data.quality}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.ability"}}: {{item.data.ability}} </span>
+        <span  class="flexrow item-title width15">{{item.name}}</span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.ability"}}: {{item.data.ability}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type.value}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.data.quality}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit mundaneBook"><i class="fas fa-edit"></i></a>

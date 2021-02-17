@@ -2,6 +2,9 @@
 {{!-- possessions --}}
 <ol class="items-list backSection">
   <li class="item flexrow item-header">
+    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.posessions"}}</div>
     <div class="item-controls">
@@ -9,13 +12,13 @@
     </div>
   </li>
   {{#each actor.data.possessions as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item flexrow item-value flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
+        <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.location"}}: {{item.data.location}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.dimensions"}}: {{item.data.dimensions}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.inhabitants"}}: {{item.data.inhabitants}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.location"}}: {{item.data.location}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.dimensions"}}: {{item.data.dimensions}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.inhabitants"}}: {{item.data.inhabitants}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit possessionsCovenant"><i class="fas fa-edit"></i></a>
@@ -28,6 +31,9 @@
 
 {{!-- magicItems --}}
 <ol class="items-list backSection margintop18">
+  <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
   <li class="item flexrow item-header">
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.magicItems"}}</div>
@@ -36,12 +42,12 @@
     </div>
   </li>
   {{#each actor.data.magicItems as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item flexrow item-value flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
+        <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.creator"}}: {{item.data.creator}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.year"}}: {{item.data.year}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.creator"}}: {{item.data.creator}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.year"}}: {{item.data.year}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit magicItem"><i class="fas fa-edit"></i></a>
@@ -54,6 +60,9 @@
 
 {{!-- vis sources --}}
 <ol class="items-list backSection margintop18">
+  <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
   <li class="item flexrow item-header">
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.visSources"}}</div>
@@ -62,12 +71,12 @@
     </div>
   </li>
   {{#each actor.data.visSources as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
+        <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit visSourcesCovenant"><i class="fas fa-edit"></i></a>
@@ -80,6 +89,9 @@
 
 {{!-- visStock --}}
 <ol class="items-list backSection margintop18">
+  <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
   <li class="item flexrow item-header">
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.visStock"}}</div>
@@ -88,12 +100,12 @@
     </div>
   </li>
   {{#each actor.data.visStock as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
+        <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit visStockCovenant"><i class="fas fa-edit"></i></a>
@@ -106,6 +118,9 @@
 
 {{!-- items --}}
 <ol class="items-list backSection margintop18">
+  <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
   <li class="item flexrow item-header">
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.items"}}</div>
@@ -114,11 +129,11 @@
     </div>
   </li>
   {{#each actor.data.items as |item id|}}
-  <li class="item flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
-        <span  class="flexrow header-label width15">{{item.name}}</span>
+        <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow header-label">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
+        <span  class="flexrow item-title">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit item"><i class="fas fa-edit"></i></a>
