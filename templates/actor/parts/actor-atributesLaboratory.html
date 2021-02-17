@@ -1,6 +1,9 @@
-<div class="flexrow">
+<div class="flexrow backSection">
   <ol class="items-list">
     <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.specialities"}}</div>
       <div class="item-controls">
@@ -8,12 +11,12 @@
       </div>
     </li>
     {{#each actor.data.specialities as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow header-label width4" name="item.name">
+            <span  class="flexrow item-title width4" name="item.name">
               {{item.name}} 
             </span>
-            <label><span class="header-label">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
 
           </div>
           <div class="item-controls">
@@ -26,9 +29,12 @@
 </div>
 
 
-<div class="flexrow">
+<div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.personality"}}</div>
       <div class="item-controls">
@@ -36,12 +42,12 @@
       </div>
     </li>
     {{#each actor.data.personalities as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow header-label width4" data-roll="1d10+{{item.data.score}}" name="item.name">
+            <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
               {{item.name}} 
             </span>
-            <label><span class="header-label">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
 
           </div>
           <div class="item-controls">
@@ -55,9 +61,12 @@
 
 
 
-<div class="flexrow">
+<div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.distinctive"}}</div>
       <div class="item-controls">
@@ -65,14 +74,14 @@
       </div>
     </li>
     {{#each actor.data.distinctive as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow header-label width2" name="item.name">
+            <span  class="flexrow item-title width2" name="item.name">
               {{item.name}} 
             </span>
-            <label><span class="header-label">{{localize "arm5e.sheet.foco"}}:</span> {{item.data.foco}}</label>
-            <label><span class="header-label">{{localize "arm5e.sheet.speciality"}}:</span> {{item.data.speciality}}</label>
-            <label><span class="header-label">{{localize "arm5e.sheet.bonus"}}:</span> {{item.data.bonus}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.foco"}}:</span> {{item.data.foco}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.speciality"}}:</span> {{item.data.speciality}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.bonus"}}:</span> {{item.data.bonus}}</label>
 
           </div>
           <div class="item-controls">
@@ -85,9 +94,12 @@
 </div>
 
 
-<div class="flexrow">
+<div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.rooms"}}</div>
       <div class="item-controls">
@@ -95,9 +107,9 @@
       </div>
     </li>
     {{#each actor.data.rooms as |item id|}}
-      <li class="item flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow header-label width4" data-roll="1d10+{{item.data.score}}" name="item.name">
+            <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
               {{item.name}} 
             </span>
 

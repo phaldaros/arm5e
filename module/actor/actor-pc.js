@@ -237,6 +237,7 @@ export class ArM5ePCActor extends Actor {
     if(actorData.data.rooms){ actorData.data.rooms = rooms; }
     if(actorData.data.magicItems){ actorData.data.magicItems = magicItems; }
     if(actorData.data.personalities){ actorData.data.personalities = personalities; }
+    if(actorData.data.rawVis){ actorData.data.rawVis = vis; }
 
     if(actorData.data.reputations){ actorData.data.reputations = reputations; }
     if(actorData.data.habitants){ 
