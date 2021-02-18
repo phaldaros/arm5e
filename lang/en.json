@@ -212,8 +212,8 @@
     "arm5e.sheet.typeAura": "Aura Type",
     "arm5e.sheet.levelAura": "Aura Level",
     "arm5e.sheet.levelsRegio": "Regio Levels",
-    "arm5e.sheet.modifiersLifeMagi": "Living Conditions Modifier (Magi)",
-    "arm5e.sheet.modifiersLifeMundane": "Living Conditions Modifier (Mundanes)",
+    "arm5e.sheet.modifiersLifeMagi": "Living Conditions Mod (Magi)",
+    "arm5e.sheet.modifiersLifeMundane": "Living Conditions Mod (Mundanes)",
 
     "arm5e.sheet.constructionPoints": "Build Points",
     "arm5e.sheet.library": "Library",

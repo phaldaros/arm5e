@@ -89,20 +89,6 @@ export class ArM5ePCActor extends Actor {
 
     let data = actorData.data;
 
-    if(data.arts){
-      for (let [key, technique] of Object.entries(data.arts.techniques)) {
-        // Calculate the next level experience needed
-        technique.experienceNextLevel = (technique.score + 1);
-        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[technique.score].art);
-      }
-
-      for (let [key, form] of Object.entries(data.arts.forms)) {
-        // Calculate the next level experience needed
-        form.experienceNextLevel = (form.score + 1);
-        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[form.score].art);
-      }
-    }
-
     if(data.fatigue){
       data.fatigueTotal = 0;
       for (let [key, item] of Object.entries(data.fatigue)) {
@@ -210,6 +196,21 @@ export class ArM5ePCActor extends Actor {
       actorData.data.laboratory.multipleCasting.value = actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
       actorData.data.laboratory.basicLabTotal.value = actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
       actorData.data.laboratory.visLimit.value = actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
+    }
+
+    if(data.arts){
+      for (let [key, technique] of Object.entries(data.arts.techniques)) {
+        // Calculate the next level experience needed
+        technique.experienceNextLevel = (technique.score + 1);
+        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[technique.score].art);
+      }
+
+      for (let [key, form] of Object.entries(data.arts.forms)) {
+        // Calculate the next level experience needed
+        form.experienceNextLevel = (form.score + 1);
+        form.magicResistance = (actorData.data.laboratory.abilitiesSelected.parma.value * 5) + form.score;
+        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[form.score].art);
+      }
     }
 
     // Assign and return

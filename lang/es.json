@@ -213,8 +213,8 @@
     "arm5e.sheet.typeAura": "Tipo de Aura",
     "arm5e.sheet.levelAura": "Nivel de Aura",
     "arm5e.sheet.levelsRegio": "Niveles de la Regio",
-    "arm5e.sheet.modifiersLifeMagi": "Mod Condiciones de Vida (Magos)",
-    "arm5e.sheet.modifiersLifeMundane": "Mod Condiciones de Vida (Mundanos)",
+    "arm5e.sheet.modifiersLifeMagi": "Mod Cond. de Vida (Magos)",
+    "arm5e.sheet.modifiersLifeMundane": "Mod Cond. de Vida (Mundanos)",
 
     "arm5e.sheet.constructionPoints": "Puntos de Construcción",
     "arm5e.sheet.library": "Biblioteca",

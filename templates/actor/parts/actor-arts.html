@@ -9,7 +9,7 @@
       {{#each actor.data.arts.techniques as |techniques key|}}
       <li  class="flexrow flex-group-center" data-attribute="{{key}}">
         <div class="flexrow flex-group-left">
-          <a class="flex03 link" href="" target="_blank">
+          <a class="flex01 link" href="" target="_blank">
             <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
           </a>
           <span  class="flexrow item-title rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
@@ -37,11 +37,11 @@
       {{#each actor.data.arts.forms as |forms key|}}
       <li  class="flexrow flex-group-center" data-attribute="{{key}}">
         <div class="flexrow flex-group-left">
-          <a class="flex03 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
+          <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
             <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
           </a>
           <span  class="flexrow item-title rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">
-            {{label}}
+            {{label}}&nbsp;({{ forms.magicResistance }})
           </span>
         </div>
           <div class="flexrow">
@@ -85,7 +85,14 @@
     {{#each actor.data.spells as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
-            <span  class="flexrow item-title width4 rollable" data-roll="spell" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" name="item.name">
+            <span  class="flexrow item-title width4 rollable" 
+              data-roll="spell" 
+              data-technique="{{item.data.technique.value}}" 
+              data-mform="{{item.data.form.value}}" 
+              data-bonus="{{ item.data.bonus }}"
+              data-bonus2="{{ item.data.mastery }}"
+              name="item.name"
+            >
               {{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})
             </span>
             <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span> {{item.data.range}}</label>

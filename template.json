@@ -283,6 +283,7 @@
         "roll":{
           "characteristic": "",
           "ability": "",
+          "abilitySpeciality": false,
           "technique": "",
           "form": "",
           "total": "",
@@ -585,9 +586,9 @@
     "spell": {
       "templates": ["base", "magicBase", "technique", "technique-requisite", "form", "form-requisite"],
       "ritual": false,
-      "bonus": "",
-      "exp": "",
-      "mastery": "",
+      "bonus": 0,
+      "exp": 0,
+      "mastery": 0,
       "source": ""
     },
     "vis": {

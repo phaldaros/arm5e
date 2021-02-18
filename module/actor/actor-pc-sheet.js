@@ -138,10 +138,13 @@ export class ArM5ePCActorSheet extends ActorSheet {
       // clean roll data
       this.actor.data.data.roll.characteristic = "";
       this.actor.data.data.roll.ability = "";
+      this.actor.data.data.roll.abilitySpeciality = false;
       this.actor.data.data.roll.technique = "";
       this.actor.data.data.roll.form = "";
       this.actor.data.data.roll.total = "";
       this.actor.data.data.roll.aura = 0;
+      this.actor.data.data.roll.bonus = 0;
+      this.actor.data.data.roll.divide = 1;
       this.actor.data.data.roll.rollLabel = "";
       this.actor.data.data.roll.rollFormula = "";
 
@@ -150,6 +153,9 @@ export class ArM5ePCActorSheet extends ActorSheet {
       if(dataset.ability){ this.actor.data.data.roll.ability = dataset.ability; }
       if(dataset.technique){ this.actor.data.data.roll.technique = dataset.technique; }
       if(dataset.mform){ this.actor.data.data.roll.form = dataset.mform; }
+      if(dataset.bonus){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus); }
+      if(dataset.bonus2){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2); }
+      if(dataset.bonus3){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3); }
 
       var actorData = this.actor
       console.log('onRoll');

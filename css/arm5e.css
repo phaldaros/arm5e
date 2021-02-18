@@ -140,6 +140,14 @@
   justify-content: space-between;
 }
 
+.arm5eMain{
+  background-image: url("../assets/background.jpg");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding: 32px;
+}
+
 /* Styles limited to arm5e sheets */
 
 .arm5e .main{

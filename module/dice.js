@@ -7,7 +7,11 @@ function simpleDie(html, actorData) {
     //console.log('simple die');
     //console.log(actorData);
 
-    let roll = new Roll("1D10+" + actorData.data.data.roll.rollFormula, actorData.data.data);
+    let formula = "1D10+" + actorData.data.data.roll.rollFormula;
+    if(actorData.data.data.roll.divide > 1){
+        formula = "(1D10+" + actorData.data.data.roll.rollFormula + ")/" + actorData.data.data.roll.divide;
+    }
+    let roll = new Roll(formula, actorData.data.data);
     roll.roll().toMessage({
         speaker: ChatMessage.getSpeaker({ actor: actorData }),
         flavor: 'Simple die: <br />' + actorData.data.data.roll.rollLabel
@@ -23,7 +27,7 @@ function stressDie(html, actorData) {
     //console.log(actorData);
 
     let roll = explodingRoll(actorData);
-    multiplyRoll(mult, roll, actorData.data.data.roll.rollFormula).toMessage({
+    multiplyRoll(mult, roll, actorData.data.data.roll.rollFormula, actorData.data.data.roll.divide).toMessage({
         flavor: 'Stress die: <br />' + actorData.data.data.roll.rollLabel,
         speaker: ChatMessage.getSpeaker({ actor: actorData }),
     });
@@ -36,6 +40,13 @@ function getFormData(html, actorData){
 
     find = html.find('.SelectedAbility');
     if(find.length > 0){ actorData.data.data.roll.ability = find[0].value; }
+
+    find = html.find('.abilitySpeciality');
+    if(find.length > 0){ actorData.data.data.roll.abilitySpeciality = find[0].checked; }
+
+    actorData.data.data.roll.divide = 1;
+    find = html.find('.Divide');
+    if(find.length > 0){ actorData.data.data.roll.divide = find[0].value; }
 
     find = html.find('.SelectedTechnique');
     if(find.length > 0){ actorData.data.data.roll.technique = find[0].value; }
@@ -100,6 +111,11 @@ function getRollFormula(actorData){
                 msg = msg + " (" + value + ")";
             }
         }
+
+        if(actorData.data.data.roll.abilitySpeciality == true){
+            total = parseInt(total) + 1;
+            msg = msg + " ( + 1 speciality)";
+        }
     }
 
     if(actorData.data.data.roll.aura != ""){
@@ -108,6 +124,12 @@ function getRollFormula(actorData){
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + "Aura";
         msg = msg + " (" + value + ")";
+    }
+
+    if(actorData.data.data.roll.bonus > 0){
+        total = total + actorData.data.data.roll.bonus
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + "Bonus ("+ actorData.data.data.roll.bonus + ")";
     }
 
     total = total + actorData.data.data.fatigueTotal
@@ -120,6 +142,10 @@ function getRollFormula(actorData){
     msg = msg + "Wounds";
     msg = msg + " (" + actorData.data.data.woundsTotal + ")";
 
+    if(actorData.data.data.roll.divide > 1){
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + "Divide by "+ actorData.data.data.roll.divide;
+    }
     actorData.data.data.roll.rollFormula = total;
     actorData.data.data.roll.rollLabel = msg;
 
@@ -191,15 +217,19 @@ function explodingRoll(actorData) {
     return roll;
 }
 
-function multiplyRoll(mult, roll, rollFormula)
+function multiplyRoll(mult, roll, rollFormula, divide)
 {
     if(!roll._rolled) return;
     let output_roll = new Roll(`${mult} * (${roll._formula}) + ${rollFormula}`);
     output_roll.data = {};
     output_roll.results = [ mult, `*`, ...roll.results];
     output_roll.terms = [mult, `*`, ...roll.terms];
+    //console.log(output_roll)
+    //if(parseInt(divide) > 1){
+    //    output_roll.terms.push("/"+ divide);
+    //}
     output_roll._rolled = true;
-    output_roll._total = (mult * roll._total) + parseInt(rollFormula);
+    output_roll._total = ((mult * roll._total) + parseInt(rollFormula)) / parseInt(divide);
     if(mult == 0){
         output_roll._total = 0;
     }

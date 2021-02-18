@@ -19,8 +19,12 @@
     </header>
 
     {{!-- Sheet Tab Navigation --}}
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="description">{{localize "arm5e.sheet.description"}}</a>
+    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+        <a class="item posRelative" data-tab="description">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.description"}}
+        </a>
     </nav>
 
     {{!-- Sheet Body --}}
