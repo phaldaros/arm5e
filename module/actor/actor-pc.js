@@ -43,6 +43,7 @@ export class ArM5ePCActor extends Actor {
       "19": { art: 190, abi: 950 },
       "20": { art: 210, abi: 1050 },
     };
+    let overload = [ 0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 9999 ];
 
     // Initialize containers.
     let weapons = [];
@@ -54,6 +55,7 @@ export class ArM5ePCActor extends Actor {
     let virtues = [];
     let flaws = [];
     let abilities = [];
+    let abilitiesSelect = {};
     let dairyEntries = [];
     let abilitiesFamiliar = [];
     let mightsFamiliar = [];
@@ -87,6 +89,17 @@ export class ArM5ePCActor extends Actor {
     let totalFlaws = 0;
     let totalXPSpells = 0;
 
+    let combat = {
+      weight: 0,
+      overload: 0,
+      init: 0,
+      atk: 0,
+      dfn: 0,
+      dam: 0,
+      prot: 0,
+      ability: 0,
+    };
+
     let data = actorData.data;
 
     if(data.fatigue){
@@ -104,13 +117,82 @@ export class ArM5ePCActor extends Actor {
           data.woundsTotal = data.woundsTotal + (item.number.value * item.penalty.value);
       }
     }
-    
 
-    for (let i of actorData.items) {
+    //abilities
+    const temp = { id: "", name: "N/A", value: 0 };
+    abilitiesSelect['a0'] = temp;
+    for (let [key, i] of Object.entries(actorData.items)) {
+      if (i.type === 'ability') {
+        i.data.experienceNextLevel = (i.data.score + 1) * 5;
+        abilities.push(i);
+
+        const temp = {
+          id: i._id,
+          name: i.name,
+          value: i.score
+        };
+        //abilitiesSelect.push(temp);
+        abilitiesSelect['a'+key] = temp;
+
+        totalXPAbilities = parseInt(totalXPAbilities) + parseInt(CreationPx[i.data.score].abi);
+
+        if((actorData.type == "player") && (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)){
+          if(i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID){       actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.score; }
+          if(i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID){     actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.score; }
+          if(i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID){ actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.score; }
+          if(i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID){      actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.score; }
+          if(i._id == actorData.data.laboratory.abilitiesSelected.philosophy.abilityID){    actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.score; }
+          if(i._id == actorData.data.laboratory.abilitiesSelected.parma.abilityID){         actorData.data.laboratory.abilitiesSelected.parma.value = i.data.score; }
+          if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
+        }
+      }
+    }
+
+    for (let [key, i] of Object.entries(actorData.items)) {
+    //for (let i of actorData.items) {
       i.img = i.img || DEFAULT_TOKEN;
+      i._index = key;
 
-      if (i.type === 'weapon') { weapons.push(i); }
-      else if (i.type === 'armor') { armor.push(i); }
+      if (i.type === 'weapon') {
+        if(i.data.equiped == true){
+          combat.weight = parseInt(combat.weight) + parseInt(i.data.weight);
+          combat.init = parseInt(combat.init) + parseInt(i.data.init);
+          combat.atk = parseInt(combat.atk) + parseInt(i.data.atk);
+          combat.dfn = parseInt(combat.dfn) + parseInt(i.data.dfn);
+          combat.dam = parseInt(combat.dam) + parseInt(i.data.dam);
+
+          if(i.data.ability == ""){
+            if(i.data.weaponExpert){
+              combat.ability = parseInt(combat.ability) + 1;
+            }
+          } else {
+            for(var a=0; a<abilities.length; a++){
+              if(abilities[a]._id == i.data.ability){
+                let hab = abilities[a].data.score;
+                if(i.data.weaponExpert){
+                  hab = parseInt(hab) + 1;
+                }
+                if(i.data.horse){
+                  if(hab > 3){
+                    hab = 3;
+                  }
+                }
+                combat.ability = parseInt(combat.ability) + parseInt(hab);
+              }
+            }
+          }
+        }
+
+        i.data.abilities = abilitiesSelect;
+        weapons.push(i);
+      }
+      else if (i.type === 'armor') {
+        if(i.data.equiped == true){
+          combat.weight = parseInt(combat.weight) + parseInt(i.data.weight);
+          combat.prot = parseInt(combat.prot) + parseInt(i.data.prot);
+        }
+        armor.push(i);
+      }
       else if (i.type === 'spell') {
         spells.push(i);
         totalXPSpells = parseInt(totalXPSpells) + parseInt(i.data.level);
@@ -131,22 +213,22 @@ export class ArM5ePCActor extends Actor {
           totalFlaws = parseInt(totalFlaws) + parseInt(i.data.impacts[i.data.impact.value].cost);
         }
       }
-      else if (i.type === 'ability') {
-        i.data.experienceNextLevel = (i.data.score + 1) * 5;
-        abilities.push(i);
-
-        totalXPAbilities = parseInt(totalXPAbilities) + parseInt(CreationPx[i.data.score].abi);
-
-        if(actorData.type == "player"){
-          if(i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID){       actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.score; }
-          if(i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID){     actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.score; }
-          if(i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID){ actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.score; }
-          if(i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID){      actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.score; }
-          if(i._id == actorData.data.laboratory.abilitiesSelected.philosophy.abilityID){    actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.score; }
-          if(i._id == actorData.data.laboratory.abilitiesSelected.parma.abilityID){         actorData.data.laboratory.abilitiesSelected.parma.value = i.data.score; }
-          if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
-        }
-      }
+      //else if (i.type === 'ability') {
+      //  i.data.experienceNextLevel = (i.data.score + 1) * 5;
+      //  abilities.push(i);
+      //
+      //  totalXPAbilities = parseInt(totalXPAbilities) + parseInt(CreationPx[i.data.score].abi);
+      //
+      //  if((actorData.type == "player") && (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)){
+      //    if(i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID){       actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.score; }
+      //    if(i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID){     actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.score; }
+      //    if(i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID){ actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.score; }
+      //    if(i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID){      actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.score; }
+      //    if(i._id == actorData.data.laboratory.abilitiesSelected.philosophy.abilityID){    actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.score; }
+      //    if(i._id == actorData.data.laboratory.abilitiesSelected.parma.abilityID){         actorData.data.laboratory.abilitiesSelected.parma.value = i.data.score; }
+      //    if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
+      //  }
+      //}
       else if (i.type === 'dairyEntry') { dairyEntries.push(i); }
       else if (i.type === 'abilityFamiliar') { abilitiesFamiliar.push(i); }
       else if (i.type === 'mightFamiliar') { mightsFamiliar.push(i); }
@@ -174,6 +256,23 @@ export class ArM5ePCActor extends Actor {
       else if (i.type === 'laboratoryText') { laboratoryTexts.push(i); }
       else if (i.type === 'mundaneBook') { mundaneBooks.push(i); }
     }
+
+    // combat
+    for(var a=0; a<overload.length; a++){
+      if(combat.overload == 0){
+        if(overload[a] > combat.weight){
+          combat.overload = parseInt(a)-1;
+        }
+      }
+    }
+    if(combat.overload < 0){ combat.overload = 0; }
+    if(actorData.data.characteristics){
+      if(actorData.data.characteristics.str.value > 0){
+        combat.overload = parseInt(combat.overload) - parseInt(actorData.data.characteristics.str.value);
+      }
+      if(combat.overload < 0){ combat.overload = 0; }
+    }
+    combat.overload = parseInt(combat.overload) * -1;
 
     if(actorData.type == "player"){
       /*
@@ -208,7 +307,9 @@ export class ArM5ePCActor extends Actor {
       for (let [key, form] of Object.entries(data.arts.forms)) {
         // Calculate the next level experience needed
         form.experienceNextLevel = (form.score + 1);
-        form.magicResistance = (actorData.data.laboratory.abilitiesSelected.parma.value * 5) + form.score;
+        if((actorData.type == "player") && (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)){
+          form.magicResistance = (actorData.data.laboratory.abilitiesSelected.parma.value * 5) + form.score;
+        }
         totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[form.score].art);
       }
     }
@@ -220,7 +321,10 @@ export class ArM5ePCActor extends Actor {
     actorData.data.totalFlaws = totalFlaws;
     actorData.data.totalXPSpells = totalXPSpells;
 
-    if(actorData.data.weapons){ actorData.data.weapons = weapons; }
+    if(actorData.data.weapons){
+      actorData.data.weapons = weapons;
+      actorData.data.combat = combat;
+    }
     if(actorData.data.armor){ actorData.data.armor = armor; }
     if(actorData.data.spells){ actorData.data.spells = spells; }
     if(actorData.data.vis){ actorData.data.vis = vis; }

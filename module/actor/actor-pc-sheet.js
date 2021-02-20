@@ -147,6 +147,17 @@ export class ArM5ePCActorSheet extends ActorSheet {
       this.actor.data.data.roll.divide = 1;
       this.actor.data.data.roll.rollLabel = "";
       this.actor.data.data.roll.rollFormula = "";
+      this.actor.data.data.roll.useFatigue = true;
+      this.actor.data.data.roll.option1 = 0;
+      this.actor.data.data.roll.txtOption1 = "";
+      this.actor.data.data.roll.option2 = 0;
+      this.actor.data.data.roll.txtOption2 = "";
+      this.actor.data.data.roll.option3 = 0;
+      this.actor.data.data.roll.txtOption3 = "";
+      this.actor.data.data.roll.option4 = 0;
+      this.actor.data.data.roll.txtOption4 = "";
+      this.actor.data.data.roll.option5 = 0;
+      this.actor.data.data.roll.txtOption5 = "";
 
       // set data to roll
       if(dataset.characteristic){ this.actor.data.data.roll.characteristic = dataset.characteristic; }
@@ -156,24 +167,26 @@ export class ArM5ePCActorSheet extends ActorSheet {
       if(dataset.bonus){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus); }
       if(dataset.bonus2){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2); }
       if(dataset.bonus3){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3); }
+      if(dataset.divide){ this.actor.data.data.roll.divide = dataset.divide; }
+      if(dataset.usefatigue){ this.actor.data.data.roll.useFatigue = dataset.usefatigue; }
+      if(dataset.option1){ this.actor.data.data.roll.option1 = dataset.option1; }
+      if(dataset.txtoption1){ this.actor.data.data.roll.txtOption1 = dataset.txtoption1; }
+      if(dataset.option2){ this.actor.data.data.roll.option2 = dataset.option2; }
+      if(dataset.txtoption2){ this.actor.data.data.roll.txtOption2 = dataset.txtoption2; }
+      if(dataset.option3){ this.actor.data.data.roll.option3 = dataset.option3; }
+      if(dataset.txtoption3){ this.actor.data.data.roll.txtOption3 = dataset.txtoption3; }
+      if(dataset.option4){ this.actor.data.data.roll.option4 = dataset.option4; }
+      if(dataset.txtoption4){ this.actor.data.data.roll.txtOption4 = dataset.txtoption4; }
+      if(dataset.option5){ this.actor.data.data.roll.option5 = dataset.option5; }
+      if(dataset.txtoption5){ this.actor.data.data.roll.txtOption5 = dataset.txtoption5; }
 
       var actorData = this.actor
-      console.log('onRoll');
-      console.log(actorData);
-      /*
-        "roll":{
-          "characteristic": "",
-          "ability": "",
-          "tecnique": "",
-          "form": "",
-          "total": "",
-          "rollLabel": "",
-          "rollFormula": ""
-        }
-      */
+      //console.log('onRoll');
+      //console.log(actorData);
 
       // find the template
       let template = "";
+      if(dataset.roll == 'option'){ template = "systems/arm5e/templates/roll/roll-options.html"; }
       if(dataset.roll == 'char'){ template = "systems/arm5e/templates/roll/roll-characteristic.html"; }
       if(dataset.roll == 'magic'){
         //spontaneous magic

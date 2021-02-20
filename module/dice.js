@@ -126,21 +126,51 @@ function getRollFormula(actorData){
         msg = msg + " (" + value + ")";
     }
 
+
+    if(actorData.data.data.roll.txtOption1 != ""){
+        total = total + parseInt(actorData.data.data.roll.option1)
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + actorData.data.data.roll.txtOption1 + " ("+ actorData.data.data.roll.option1 + ")";
+    }
+    if(actorData.data.data.roll.txtOption2 != ""){
+        total = total + parseInt(actorData.data.data.roll.option2)
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + actorData.data.data.roll.txtOption2 + " ("+ actorData.data.data.roll.option2 + ")";
+    }
+    if(actorData.data.data.roll.txtOption3 != ""){
+        total = total + parseInt(actorData.data.data.roll.option3)
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + actorData.data.data.roll.txtOption3 + " ("+ actorData.data.data.roll.option3 + ")";
+    }
+    if(actorData.data.data.roll.txtOption4 != ""){
+        total = total + parseInt(actorData.data.data.roll.option4)
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + actorData.data.data.roll.txtOption4 + " ("+ actorData.data.data.roll.option4 + ")";
+    }
+    if(actorData.data.data.roll.txtOption5 != ""){
+        total = total + parseInt(actorData.data.data.roll.option5)
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + actorData.data.data.roll.txtOption5 + " ("+ actorData.data.data.roll.option5 + ")";
+    }
+
+
     if(actorData.data.data.roll.bonus > 0){
         total = total + actorData.data.data.roll.bonus
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + "Bonus ("+ actorData.data.data.roll.bonus + ")";
     }
 
-    total = total + actorData.data.data.fatigueTotal
-    if(msg != ""){ msg = msg + " + <br />"; }
-    msg = msg + "Fatigue";
-    msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
+    if(actorData.data.data.roll.useFatigue == true){
+        total = total + actorData.data.data.fatigueTotal
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + "Fatigue";
+        msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
 
-    total = total + actorData.data.data.woundsTotal
-    if(msg != ""){ msg = msg + " + <br />"; }
-    msg = msg + "Wounds";
-    msg = msg + " (" + actorData.data.data.woundsTotal + ")";
+        total = total + actorData.data.data.woundsTotal
+        if(msg != ""){ msg = msg + " + <br />"; }
+        msg = msg + "Wounds";
+        msg = msg + " (" + actorData.data.data.woundsTotal + ")";
+    }
 
     if(actorData.data.data.roll.divide > 1){
         if(msg != ""){ msg = msg + " + <br />"; }

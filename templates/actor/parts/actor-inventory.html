@@ -1,4 +1,7 @@
-<ol class="items-list backSection">
+
+{{> "systems/arm5e/templates/actor/parts/actor-combat.html" }}
+
+<ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
     <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
     <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
@@ -17,7 +20,9 @@
         <label><span class="bold">{{localize "arm5e.sheet.initiative"}}:</span> {{item.data.init}}</label>
         <label><span class="bold">{{localize "arm5e.sheet.attack"}}:</span> {{item.data.atk}}</label>
         <label><span class="bold">{{localize "arm5e.sheet.defense"}}:</span> {{item.data.dfn}}</label>
-        <label><span class="bold">{{localize "arm5e.sheet.damage"}}:</span> {{item.data.dam}}</label>
+        <label><span class="bold">{{localize "arm5e.sheet.damage"}}:</span> {{item.data.dam}} (+{{ ../data.characteristics.str.value }})</label>
+        <span class="bold"><label>{{localize "arm5e.sheet.equiped"}}:</label> <input type="checkbox" name="data.weapons.{{id}}.data.equiped" {{checked item.data.equiped}}></span>
+        
       </div>
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit weapon"><i class="fas fa-edit"></i></a>
@@ -43,7 +48,9 @@
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <div  class="flexrow flex-center">
       <span class="flexrow item-title">{{item.name}}</span>
-      <label><span class="bold">{{localize "arm5e.sheet.protection"}}:</span> {{item.data.prot}}</label>
+      <label><span class="bold">{{localize "arm5e.sheet.protection"}}:</span> {{item.data.prot}} (+{{ ../data.characteristics.sta.value }})</label>
+      <label><span class="bold">{{localize "arm5e.sheet.weight"}}:</span> {{item.data.weight}}</label>
+      <span class="bold"><label>{{localize "arm5e.sheet.equiped"}}:</label> <input type="checkbox" name="data.armor.{{id}}.data.equiped" {{checked item.data.equiped}}></span>
     </div>
     <div class="item-controls">
         <a class="item-control item-edit" title="Edit armor"><i class="fas fa-edit"></i></a>

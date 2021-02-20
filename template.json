@@ -561,27 +561,25 @@
       "templates": ["base", "cost"],
       "quantity": 1,
       "weight": 0,
-      "ability": {"value": "","label": "Ability Req'd" },
-      "abilities": {
-        "bow": {"label": "Bow","dtype": "String" },
-        "brawl": {"label": "Brawl","dtype": "String" },
-        "great": {"label": "Great","dtype": "String" },
-        "single": {"label": "Single","dtype": "String" },
-        "thrown": {"label": "Thrown","dtype": "String" }
-      },
+      "ability": "",
+      "abilities": [],
+      "weaponExpert": false,
+      "horse": false,
       "init": 0,
       "atk": 0,
       "dfn": 0,
       "dam": 0,
       "str": 0,
-      "load": 0
+      "load": 0,
+      "equiped": false
     },
     "armor": {
       "templates": ["base", "cost"],
       "quantity": 1,
       "weight": 0,
       "prot": 0,
-      "full": false
+      "full": false,
+      "equiped": false
     },
     "spell": {
       "templates": ["base", "magicBase", "technique", "technique-requisite", "form", "form-requisite"],

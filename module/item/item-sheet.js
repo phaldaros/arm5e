@@ -30,6 +30,39 @@ export class ArM5eItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
+
+
+    if(data.item.type == "weapon"){
+      let abilitiesSelect = {};
+
+      const temp = { id: "", name: "N/A" };
+      abilitiesSelect['a0'] = temp;
+
+      // find the actor habilities and create the select
+      for (let [key, i] of Object.entries(this.actor.data.items)) {
+        if (i.type === 'ability') {
+          const temp = {
+            id: i._id,
+            name: i.name
+          };
+          //abilitiesSelect.push(temp);
+          abilitiesSelect['a'+key] = temp;
+        }
+      }
+
+      data.data.abilities = abilitiesSelect;
+      data.item.data.abilities = abilitiesSelect;
+
+      //console.log("item-sheet get data weapon")
+      //console.log(data)
+    }
+
+    //console.log('item-sheet get data');
+    //console.log(data);
+
+    //console.log("item-sheet get data this.actor")
+    //console.log(this.actor)
+
     return data;
   }
 
