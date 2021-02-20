@@ -44,13 +44,18 @@
 <div class="flexcol grid grid-2col">
 
   <div class="flex-group-left padding12 backSection">
-    <label class="smallTitle">{{localize "arm5e.sheet.warping"}}</label>
+    <label class="smallTitle">
+      <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank">
+        {{localize "arm5e.sheet.warping"}}
+      </a>
+    </label>
     <div class="flexrow marginbot6 margintop6">
       <label for="data.warping.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
-      <span class="marginbot6"><input type="text" name="data.warping.score" value="{{actor.data.warping.score}}" data-dtype="String" /></span>
-      <span></span>
-      <label for="data.warping.points" class="bold">{{localize "arm5e.sheet.points"}}</label>
-      <span class="marginbot6"><input type="text" name="data.warping.points" value="{{actor.data.warping.points}}" data-dtype="String" /></span>
+      <span class="marginbot6" style="margin-right: 24px"><input type="text" name="data.warping.score" value="{{actor.data.warping.score}}" data-dtype="String" /></span>
+      <label for="data.warping.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
+      <span class="marginbot6">
+        <input type="text" name="data.warping.points" value="{{actor.data.warping.points}}" data-dtype="String" style="width:74px" />&nbsp;/&nbsp;({{ actor.data.warping.experienceNextLevel }})
+      </span>
     </div>
 
     <div class="flexrow">
@@ -62,13 +67,18 @@
   </div>
 
   <div class="flex-group-left padding12 backSection">
-    <label class="smallTitle">{{localize "arm5e.sheet.decrepitude"}}</label>
+    <label class="smallTitle">
+      <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank">
+        {{localize "arm5e.sheet.decrepitude"}}
+      </a>
+    </label>
     <div class="flexrow marginbot6 margintop6">
       <label for="data.decrepitude.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
-      <span class="marginbot6"><input type="text" name="data.decrepitude.score" value="{{actor.data.decrepitude.score}}" data-dtype="String" /></span>
-      <span></span>
-      <label for="data.decrepitude.points" class="bold">{{localize "arm5e.sheet.points"}}</label>
-      <span class="marginbot6"><input type="text" name="data.decrepitude.points" value="{{actor.data.decrepitude.points}}" data-dtype="String" /></span>
+      <span class="marginbot6" style="margin-right: 24px"><input type="text" name="data.decrepitude.score" value="{{actor.data.decrepitude.score}}" data-dtype="String" /></span>
+      <label for="data.decrepitude.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
+      <span class="marginbot6">
+        <input type="text" name="data.decrepitude.points" value="{{actor.data.decrepitude.points}}" data-dtype="String" style="width:74px" />&nbsp;/&nbsp;({{ actor.data.decrepitude.experienceNextLevel }})
+      </span>
     </div>
 
     <div class="flexrow">

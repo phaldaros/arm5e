@@ -91,7 +91,7 @@ export class ArM5ePCActor extends Actor {
 
     let combat = {
       weight: 0,
-      overload: 0,
+      overload: -1,
       init: 0,
       atk: 0,
       dfn: 0,
@@ -259,7 +259,7 @@ export class ArM5ePCActor extends Actor {
 
     // combat
     for(var a=0; a<overload.length; a++){
-      if(combat.overload == 0){
+      if(combat.overload == -1){
         if(overload[a] > combat.weight){
           combat.overload = parseInt(a)-1;
         }
@@ -295,6 +295,10 @@ export class ArM5ePCActor extends Actor {
       actorData.data.laboratory.multipleCasting.value = actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
       actorData.data.laboratory.basicLabTotal.value = actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
       actorData.data.laboratory.visLimit.value = actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
+
+      //warping & decrepitude
+      actorData.data.warping.experienceNextLevel = (actorData.data.warping.score + 1) * 5;
+      actorData.data.decrepitude.experienceNextLevel = (actorData.data.decrepitude.score + 1) * 5;
     }
 
     if(data.arts){
