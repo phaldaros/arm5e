@@ -21,6 +21,11 @@
   src: url("../assets/fonts/book-antiqua-bold.ttf");
 }
 
+@font-face{
+  font-family: "blackmoor";
+  src: url("../assets/fonts/BlackmoorLetPlain.ttf") format('truetype');
+}
+
 /* Global styles */
 .body {
   font-weight: normal;
@@ -239,7 +244,8 @@
   margin: 0;
   /*padding-top: 30px;
   line-height: 30;*/
-  font-family: "vinque";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   /*letter-spacing: 1px;*/
 }
 
@@ -254,7 +260,8 @@
   margin: 0;
   /*padding-top: 25px;
   line-height: 50;*/
-  font-family: "vinque";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   /*letter-spacing: 1px;*/
 }
 
@@ -300,7 +307,8 @@
 
 .arm5e .tabs .item {
   /*line-height: 60px;*/
-  font-family: "vinque";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   font-size: 16pt;
 }
 
@@ -388,7 +396,8 @@
 }
 
 .arm5e .item-name{
-  font-family: "vinque";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   margin-bottom: 6px;
   font-size: 18px;
   font-weight: bold;
@@ -500,7 +509,8 @@
   margin-top: 18px;
 }
 .arm5e .smallTitle{
-  font-family: "vinque";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   margin-bottom: 6px;
   font-size: 18px;
   font-weight: bold;

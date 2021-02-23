@@ -20,6 +20,7 @@ function simpleDie(html, actorData) {
 
 
 function stressDie(html, actorData) {
+    mult = 1;
     actorData = getFormData(html, actorData);
     actorData = getRollFormula(actorData);
 

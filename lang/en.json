@@ -189,7 +189,7 @@
     "arm5e.sheet.basicLabTotal":"Basic Lab Total",
     "arm5e.sheet.visLimit":"Vis Use Limit",
 
-    "arm5e.sheet.setAbilities": "Please, set the abilities that mach the label. This allow the system to do all the calculations correctly",
+    "arm5e.sheet.setAbilities": "Please, set the abilities that mach the label. This allow the system to do all the calculations correctly. If you don't have any ability, create it by leaving it at zero and then assign it where it belongs.",
     "arm5e.sheet.finesse": "Finesse",
     "arm5e.sheet.awareness": "Awareness",
     "arm5e.sheet.artesLib": "Artes Lib",

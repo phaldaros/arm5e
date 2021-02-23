@@ -2,11 +2,21 @@
 {{> "systems/arm5e/templates/actor/parts/actor-labarotaryTotals.html" show="laboratory" }}
 
 <div class="backSection margintop18">
-<div class="characteristics grid grid-2col">
+<div class="characteristics grid grid-3col">
+  <div class="flexrow flex-group-center" style="border:0px">
+    <label class="smallTitle">
+      <a class="link" href="/systems/arm5e/pdf/longevityRitual.pdf" target="_blank">
+        {{localize "arm5e.sheet.longevityRitual"}}
+      </a>
+    </label>
+  </div>
+
+  <div><br /></div>
+
   <div class="flexrow flex-group-center" style="border:0px">
     <label class="smallTitle">
       <a class="link" href="/systems/arm5e/pdf/laboratory.pdf" target="_blank">
-        {{localize "arm5e.sheet.longevityRitual"}}
+        {{localize "arm5e.sheet.laboratory"}}
       </a>
     </label>
   </div>
@@ -27,7 +37,7 @@
   <div class="flexcol">
     <div class="flex-group-left" style="border:0px; height: 200px;">
       <label class="bold">{{localize "arm5e.sheet.twilightScars"}}</label>
-      {{editor content=data.biography target="data.laboratory.longevityRitual.twilightScars" button=true owner=owner editable=editable}}
+      {{editor content=data.laboratory.longevityRitual.twilightScars target="data.laboratory.longevityRitual.twilightScars" button=true owner=owner editable=editable}}
     </div>
   </div>
 </div>

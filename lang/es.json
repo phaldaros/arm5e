@@ -189,7 +189,7 @@
     "arm5e.sheet.basicLabTotal":"Total Básico Lab",
     "arm5e.sheet.visLimit":"Límite de Vis",
 
-    "arm5e.sheet.setAbilities": "Por favor, escoge las habilidades que se corresponden con la etiqueta. De esta manera, el sistema puede realizar todos los cálculos correctamente",
+    "arm5e.sheet.setAbilities": "Por favor, escoge las habilidades que se corresponden con la etiqueta. De esta manera, el sistema puede realizar todos los cálculos correctamente. Si no tienes alguna habilidad, creala dejandola a cero y despues asignala donde corresponde.",
     "arm5e.sheet.finesse": "Precisión",
     "arm5e.sheet.awareness": "Alerta",
     "arm5e.sheet.artesLib": "Artes Lib.",

@@ -1,8 +1,12 @@
 {{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-3col">
-<div class="flex-group-left backSection">
-  <label class="header-label">{{localize "arm5e.sheet.pendingExperience"}}</label>
-    <span><input type="text" name="data.pendingXP" value="{{actor.data.pendingXP}}" data-dtype="String" /></span>
+<div class="flex-group-left backSection padding12">
+  <label class="smallTitle">
+    <a class="link" href="/systems/arm5e/pdf/experience.pdf" target="_blank">
+      {{localize "arm5e.sheet.pendingExperience"}}
+    </a>
+  </label>
+    <span><input type="text" name="data.pendingXP" value="{{actor.data.pendingXP}}" data-dtype="String" style="margin-top: 12px;" /></span>
 </div>
 </div>
 {{/if}}

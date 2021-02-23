@@ -9,9 +9,9 @@
       {{#each actor.data.arts.techniques as |techniques key|}}
       <li  class="flexrow flex-group-center" data-attribute="{{key}}">
         <div class="flexrow flex-group-left">
-          <a class="flex01 link" href="" target="_blank">
-            <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
-          </a>
+          <span class="flex01">
+            <img  src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
+          </span>
           <span  class="flexrow item-title rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
             {{label}}
           </span>
