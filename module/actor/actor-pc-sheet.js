@@ -180,6 +180,10 @@ export class ArM5ePCActorSheet extends ActorSheet {
       if(dataset.option5){ this.actor.data.data.roll.option5 = dataset.option5; }
       if(dataset.txtoption5){ this.actor.data.data.roll.txtOption5 = dataset.txtoption5; }
 
+      // clean booleans
+      if(this.actor.data.data.roll.useFatigue == "false"){ this.actor.data.data.roll.useFatigue = false; }
+      if(this.actor.data.data.roll.useFatigue == "true"){ this.actor.data.data.roll.useFatigue = true; }
+
       var actorData = this.actor
       //console.log('onRoll');
       //console.log(actorData);

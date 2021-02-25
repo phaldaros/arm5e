@@ -119,6 +119,13 @@
   <ol style="width: 100%;">
       {{#each actor.data.personality as |pers key|}}
       <li class="flexrow flex-group-left"  data-attribute="{{key}}">
+          <span class="flex01 rollable" style="margin-right: 12px;"
+          data-roll="option"
+          data-usefatigue="false"
+          data-option1="{{ pers.score }}"  data-txtoption1='{{ pers.label }}'
+          >
+            <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px;" />
+          </span>
           <span class="flexrow"  name="data.personality.{{key}}.label">
               <div class="flexrow">
               <input  type="text"  name="data.personality.{{key}}.label"  value="{{pers.label}}"  data-dtype="String"  />
@@ -147,6 +154,13 @@
   <ol style="width: 100%;">
       {{#each actor.data.reputation as |rep key|}}
       <li class="flexrow flex-group-left"  data-attribute="{{key}}">
+          <span class="flex02 rollable" style="margin-right: 12px;"
+          data-roll="option"
+          data-usefatigue="false"
+          data-option1="{{ rep.score }}"  data-txtoption1='{{ rep.label }}'
+          >
+            <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px;" />
+          </span>
           <span class="flexrow"  name="data.reputation.{{key}}.label">
               <div class="flexrow">
               <input  type="text"  name="data.reputation.{{key}}.label"  value="{{rep.label}}"  data-dtype="String"  />
