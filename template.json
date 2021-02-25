@@ -23,6 +23,28 @@
           "dex": {"label": "Dexterity","short": "arm5e.sheet.dex","value": 0 },
           "qik": {"label": "Quickness","short": "arm5e.sheet.qik","value": 0 }
         },
+        "description": {
+          "born": {"label": "arm5e.sheet.yearBorn","dtype": "Number","value": 1200 },
+          "apprentice": {"label": "arm5e.sheet.apprenticeshipYears","dtype": "Number","value": 10 },
+          "birthname": {"label": "arm5e.sheet.birthName","dtype": "String","value": "" },
+          "birthplace": {"label": "arm5e.sheet.birthplace","dtype": "String","value": "" },
+          "nationality": {"label": "arm5e.sheet.nationality","dtype": "String","value": "" },
+          "religion": {"label": "arm5e.sheet.religion","dtype": "String","value": "" },
+          "height": {"label": "arm5e.sheet.height","dtype": "String","value": "" },
+          "weight": {"label": "arm5e.sheet.weight","dtype": "String","value": "" },
+          "gender": {"label": "arm5e.sheet.gender","dtype": "String","value": "" },
+          "hair":{"label": "arm5e.sheet.hair","dtype": "String","value": "" },
+          "eyes": {"label": "arm5e.sheet.eyes","dtype": "String","value": "" },
+          "title": {"label": "arm5e.sheet.profession","dtype": "String","value": "" },
+          "handed": {"label": "arm5e.sheet.handedness","dtype": "String","value": "" }
+        },
+        "reputation": {
+          "rep1": {"label": "Reputation 1","type": "Type","score": "0" },
+          "rep2": {"label": "Reputation 2","type": "Type","score": "0" },
+          "rep3": {"label": "Reputation 3","type": "Type","score": "0" },
+          "rep4": {"label": "Reputation 4","type": "Type","score": "0" },
+          "rep5": {"label": "Reputation 5","type": "Type","score": "0" }
+        },
         "abilities": [],
         "weapons": [],
         "armor": [],
@@ -40,36 +62,14 @@
           "autumn": {"label": "arm5e.sheet.autumn","dtype": "String" },
           "winter": {"label": "arm5e.sheet.winter","dtype": "String" }
         },
-        "year": {"label": "Year","dtype": "String","value": "1225" },
-        "description": {
-          "born": {"label": "arm5e.sheet.yearBorn","dtype": "Number","value": 1200 },
-          "apprentice": {"label": "arm5e.sheet.apprenticeshipYears","dtype": "Number","value": 10 },
-          "birthname": {"label": "arm5e.sheet.birthName","dtype": "String","value": "" },
-          "birthplace": {"label": "arm5e.sheet.birthplace","dtype": "String","value": "" },
-          "nationality": {"label": "arm5e.sheet.nationality","dtype": "String","value": "" },
-          "religion": {"label": "arm5e.sheet.religion","dtype": "String","value": "" },
-          "height": {"label": "arm5e.sheet.height","dtype": "String","value": "" },
-          "weight": {"label": "arm5e.sheet.weight","dtype": "String","value": "" },
-          "gender": {"label": "arm5e.sheet.gender","dtype": "String","value": "" },
-          "hair":{"label": "arm5e.sheet.hair","dtype": "String","value": "" },
-          "eyes": {"label": "arm5e.sheet.eyes","dtype": "String","value": "" },
-          "title": {"label": "arm5e.sheet.profession","dtype": "String","value": "" },
-          "handed": {"label": "arm5e.sheet.handedness","dtype": "String","value": "" }
-        },
-        "decrepitude": {"label": "Decrepitude","score": 0,"points": 0,"effects": "Decrepitude effects" },
-        "warping": {"label": "Warping ","score": 0,"points": 0,"effects": "Warping effects" },
         "vitals": {
           "siz": {"label": "arm5e.sheet.size","value": 0 },
           "soa": {"label": "arm5e.sheet.soak","value": 0 },
           "enc": {"label": "arm5e.sheet.encumbrance","value": 0 }
         },
-        "reputation": {
-          "rep1": {"label": "Reputation 1","type": "Type","score": "0" },
-          "rep2": {"label": "Reputation 2","type": "Type","score": "0" },
-          "rep3": {"label": "Reputation 3","type": "Type","score": "0" },
-          "rep4": {"label": "Reputation 4","type": "Type","score": "0" },
-          "rep5": {"label": "Reputation 5","type": "Type","score": "0" }
-        },
+        "year": {"label": "Year","dtype": "String","value": "1225" },
+        "decrepitude": {"label": "Decrepitude","score": 0,"points": 0,"effects": "Decrepitude effects" },
+        "warping": {"label": "Warping ","score": 0,"points": 0,"effects": "Warping effects" },
         "pendingXP": 0
       },
       "personality":{
@@ -341,7 +341,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "npcbase", "wounds", "fatigue", "arts", "roll"],
+      "templates": ["base", "npcbase", "personality", "wounds", "fatigue", "arts", "roll"],
       "charType": {"value": "human","label": "Char. Type" },
       "charTypes": {
         "human": {"label": "arm5e.sheet.human","dtype": "String" },

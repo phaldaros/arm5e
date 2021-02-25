@@ -95,7 +95,6 @@
 {{> "systems/arm5e/templates/actor/parts/actor-fatigue.html" }}
 
 
-{{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-2col margintop18">
 
 <div class="flex-group-left padding12 backSection">
@@ -104,6 +103,8 @@
 </div>
 
 <div>
+
+  {{#if (eq actor.type "player")}}
 <div class="flex-group-left padding12 backSection">
   {{#each data.vitals as |vitals key|}}
     <div class="flexrow marginbot6">
@@ -112,7 +113,7 @@
     </div>
   {{/each}}
 </div>
-
+{{/if}}
 
 <div class="flexcol flex-group-left padding12 backSection margintop18">
   <label class="smallTitle" style="width: 100%;">{{localize "arm5e.sheet.personality"}}</label>
@@ -180,14 +181,4 @@
 </div>
 </div>
 </div>
-{{/if}}
 
-
-{{#if (eq actor.type "npc")}}
-<div class="flexcol padding12 backSection margintop18">
-<div class="flex-group-left" style="min-height: 200px;">
-  <label class="smallTitle">{{localize "arm5e.sheet.biography"}}</label>
-  {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
-</div>
-</div>
-{{/if}}
