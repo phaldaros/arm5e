@@ -122,7 +122,7 @@
         <a class="item-control item-create" title="Create might" data-type="might"><i class="fas fa-plus"></i></a>
       </div>
     </li>
-    {{#each actor.mights as |item id|}}
+    {{#each actor.data.mights as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
             <span  class="flexrow item-title width4" name="item.name">
