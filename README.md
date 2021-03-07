@@ -10,6 +10,10 @@ This Foundry VTT system project was based on the [Boilerplate System](https://gi
 
 Official Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
 
+## Versión Española
+
+La utilización e inclusión del logo, iconos y elementos artísticos, así como el uso de terminología, ha sido autorizado expresamente y por escrito por Holocubierta Ediciones, S.L. (https://www.holocubierta.com), licenciataria del juego Ars Magica 5ª Edición para su publicación en castellano.
+
 ## Contributing
 This is an open-source project and we encourage fellow developers to contribute and help improve it!
 
@@ -68,7 +72,7 @@ You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for dev
 - Incredible overhaul from ialbiol! An update truly worth of a v 1, and now able to use official ArM5 core rulebook material by the kind permission of Atlas Games!
 
 ## Credits
-<b>Authors:</b> ialbiol, phaldaros<br>
+<b>Authors:</b> ialbiol, phaldaros, sylph<br>
 
 ## Feedback
 If you have any suggestions or bugs to report, feel free to create an issue on GitHub or [report them on Discord](https://discord.gg/DdDetc9SYP).
@@ -86,4 +90,3 @@ I consider this module abandoned if all of the below cases apply:
 If the above cases apply (as judged by the "League of Extraordinary Foundry VTT Developers" admins), I give permission to the "League of Extraordinary Foundry VTT Developers" admins to assign one or more developers to take over this module, including requesting the Foundry team to reassign the module to the new developer(s).<br>
 I require the "League of Extraordinary Foundry VTT Developers" admins to send me an email 2 weeks before the reassignment takes place, to give me one last chance to prevent the reassignment.<br>
 I require to be credited for my work in all future releases.
-
