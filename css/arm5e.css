@@ -1,28 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 
-/*
-@font-face {font-family: "TexturLombardischLTW01"; 
-  src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot"); 
-  src: url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.eot?#iefix") format("embedded-opentype"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.woff2") format("woff2"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.woff") format("woff"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.ttf") format("truetype"), 
-  url("//db.onlinewebfonts.com/t/b56803972cfdb6455de2709f28253609.svg#TexturLombardischLTW01") format("svg"); }
-*/
 
-/*
-@font-face {font-family: "LombardischW00-Lombardic"; 
-  src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot"); 
-  src: url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.woff") format("woff"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/0b376a0d399bd24e3376da3f4847c775.svg#LombardischW00-Lombardic") format("svg"); }
-*/
+@font-face{
+  font-family: "Goudy Text MT";
+  src: url("../assets/fonts/goudy-text-mt.ttf");
+}
 
-@font-face {font-family: "Goudy Text MT"; 
-  src: url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.eot"); 
-  src: url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.eot?#iefix") format("embedded-opentype"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.woff2") format("woff2"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.woff") format("woff"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.ttf") format("truetype"), 
-  url("//db.onlinewebfonts.com/t/1c869c3808c2670f9036650cf2a755ee.svg#Goudy Text MT") format("svg"); }
+@font-face{
+  font-family: "vinque";
+  src: url("../assets/fonts/vinque_rg.ttf");
+}
+
+@font-face{
+  font-family: "bookAntiqua";
+  src: url("../assets/fonts/book-antiqua.ttf");
+}
+
+@font-face{
+  font-family: "bookAntiquaBold";
+  src: url("../assets/fonts/book-antiqua-bold.ttf");
+}
+
+@font-face{
+  font-family: "blackmoor";
+  src: url("../assets/fonts/BlackmoorLetPlain.ttf") format('truetype');
+}
 
 /* Global styles */
 .body {
@@ -44,7 +46,7 @@
   display: grid;
   grid-column: span 2 / span 2;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 16px;
   margin: 10px 0;
   padding: 0;
 }
@@ -110,7 +112,7 @@
   align-items: center;
   text-align: center;
   padding: 5px;
-  border: 1px solid #999;
+  /* border: 1px solid #999; */
 }
 
 .flex-group-left {
@@ -143,15 +145,49 @@
   justify-content: space-between;
 }
 
-/* Styles limited to arm5e sheets */
-.arm5e .item-form {
-  font-family: "Roboto", sans-serif;
+.arm5eMain{
+  background-image: url("../assets/background.jpg");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding: 32px;
 }
+
+/* Styles limited to arm5e sheets */
+
+.arm5e .main{
+  background-image: url("../assets/background.jpg");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+  
+}
+.arm5e .header-background{
+  margin-left: -32px;
+  /*margin-top: -32px;*/
+  width: calc(100% + 64px);
+}
+.arm5e .footer-background{
+  margin-left: -32px;
+  margin-top: 16px;
+  width: calc(100% + 64px);
+}
+.arm5e .header-background img{
+  width: 100%;
+  border: 0px;
+}
+.arm5e .footer-background img{
+  width: 100%;
+  border: 0px;
+}
+
 
 .arm5e .sheet-header {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 260px;
-  flex: 0 0 260px;
+  -ms-flex: 0 0 280px;
+  flex: 0 0 280px;
   overflow: hidden;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -168,13 +204,26 @@
   margin-bottom: 10px;
 }
 
+.arm5e .sheet-header-lab {
+  -ms-flex: 0 0 315px;
+  flex: 0 0 315px;
+}
+
 .arm5e .sheet-header .profile-img {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 256px;
-  flex: 0 0 256px;
-  height: 256px;
+  -ms-flex: 0 0 270px;
+  flex: 0 0 270px;
+  height: 270px;
   margin-right: 10px;
   margin-bottom: 10px;
+}
+.arm5e .sheet-header .item-img{
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  height: 200px;
+  margin-right: 16px;
+  margin-bottom: 16px;
 }
 
 .arm5e .sheet-header .header-fields {
@@ -195,7 +244,8 @@
   margin: 0;
   /*padding-top: 30px;
   line-height: 30;*/
-  font-family: "Goudy Text MT";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   /*letter-spacing: 1px;*/
 }
 
@@ -210,7 +260,8 @@
   margin: 0;
   /*padding-top: 25px;
   line-height: 50;*/
-  font-family: "Goudy Text MT";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   /*letter-spacing: 1px;*/
 }
 
@@ -239,8 +290,13 @@
   text-transform: uppercase;
 }
 
-.arm5e .header-label {
-  font-weight: bold;
+.arm5eTabs{
+  border:0px !important;
+  background-image: url("../assets/bBronce.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  min-height: 40px;
+  margin-bottom: 12px !important;
 }
 
 .arm5e .tabs {
@@ -251,13 +307,46 @@
 
 .arm5e .tabs .item {
   /*line-height: 60px;*/
-  font-family: "Goudy Text MT";
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
   font-size: 16pt;
 }
 
 .arm5e .tabs .item.active {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
   text-shadow: none;
+}
+
+.posRelative{
+  position: relative;
+}
+.navItem-right-ball{
+  position: absolute;
+  border: 0px;
+  top: 0px;
+  left: -1px;
+  text-decoration: none;
+}
+.navItem-right-ball img{
+  border: 0px;
+  width: 14px;
+}
+.navItem-left-ball{
+  position: absolute;
+  border: 0px;
+  top: 0px;
+  left: calc(100% - 14px);
+  text-decoration: none;
+}
+.navItem-left-ball img{
+  border: 0px;
+  width: 14px;
+}
+.posRelative div{
+  display: none;
+}
+.posRelative.active div{
+  display: block;
 }
 
 .arm5e .items-list {
@@ -265,9 +354,52 @@
   margin: 7px 0;
   padding: 0;
   overflow-y: auto;
+  min-height: 200px;
 }
 
 .arm5e .items-list .item-header {
+  font-weight: bold;
+}
+
+.item-header{
+  border:0px !important;
+  background-image: url("../assets/bSilver.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  min-height: 40px;
+  margin-bottom: 12px !important;
+  position: relative;
+}
+
+.item-right-ball{
+  position: absolute;
+  border: 0px;
+  top: 33px;
+  left: -1px;
+  text-decoration: none;
+}
+.item-right-ball img{
+  border: 0px;
+  width: 10px;
+}
+
+.item-left-ball{
+  position: absolute;
+  border: 0px;
+  top: 33px;
+  left: calc(100% - 10px);
+  text-decoration: none;
+}
+.item-left-ball img{
+  border: 0px;
+  width: 10px;
+}
+
+.arm5e .item-name{
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  margin-bottom: 6px;
+  font-size: 18px;
   font-weight: bold;
 }
 
@@ -275,7 +407,7 @@
   height: 30px;
   line-height: 24px;
   padding: 3px 0;
-  border-bottom: 1px solid #BBB;
+  /*border-bottom: 1px solid #BBB;*/
 }
 
 .arm5e .items-list .item .item-image {
@@ -289,7 +421,7 @@
   display: block;
 }
 
-.arm5e .items-list .item-name {
+.arm5e .items-list {
   margin: 0;
 }
 
@@ -298,4 +430,91 @@
   -ms-flex: 0 0 86px;
   flex: 0 0 86px;
   text-align: right;
+  margin-right: 8px;
+}
+
+.arm5e .item-value{
+  min-height: 56px;
+  border-bottom: 2px solid #cba44b;
+}
+.arm5e .item-title{
+  font-weight: bold;
+  font-size: 17px;
+  padding-left: 20px;
+}
+.arm5e .link{
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+}
+.arm5e .link:hover .link:focus{
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
+}
+
+.width4 {
+  flex-grow: 4;
+}
+.width3{
+  flex-grow: 3;
+}
+.width2{
+  flex-grow: 2;
+}
+.width15{
+  flex-grow: 1.5;
+}
+.flex01{
+  flex: 0.1;
+}
+.flex02{
+  flex: 0.2;
+}
+.flex03{
+  flex: 0.3;
+}
+.flex04{
+  flex: 0.4;
+}
+.flex05{
+  flex: 0.5;
+}
+.flex06{
+  flex: 0.6;
+}
+.flex07{
+  flex: 0.7;
+}
+.flex08{
+  flex: 0.8;
+}
+
+.arm5e .backSection{
+  background-color: rgb(226 199 130 / 50%);
+  border: 0px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
+}
+.arm5e .padding12{
+  padding: 12px;
+}
+.arm5e .margintop6{
+  margin-top: 6px;
+}
+.arm5e .marginbot6{
+  margin-bottom: 6px;
+}
+.arm5e .margintop18{
+  margin-top: 18px;
+}
+.arm5e .smallTitle{
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  margin-bottom: 6px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.arm5e .bold{
+  font-weight: bold;
 }

@@ -2,15 +2,15 @@
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class ArM5eActorSheet extends ActorSheet {
+export class ArM5eNPCActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "actor"],
-      template: "systems/arm5e/templates/actor/actor-sheet.html",
-      width: 720,
-      height: 700,
+      template: "systems/arm5e/templates/actor/actor-npc-sheet.html",
+      width: 1100,
+      height: 900,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -20,15 +20,15 @@ export class ArM5eActorSheet extends ActorSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean"];
-    for (let attr of Object.values(data.data.attributes)) {
-      attr.isCheckbox = attr.dtype === "Boolean";
-    }
+    //data.dtypes = ["String", "Number", "Boolean"];
+    //for (let attr of Object.values(data.data.attributes)) {
+    //  attr.isCheckbox = attr.dtype === "Boolean";
+    //}
 
     // Prepare items.
-    if (this.actor.data.type == 'magus') {
+    //if (this.actor.data.type == 'magus') {
       this._prepareCharacterItems(data);
-    }
+    //}
 
     return data;
   }
@@ -41,66 +41,10 @@ export class ArM5eActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
-    const actorData = sheetData.actor;
+    //let actorData = sheetData.actor.data;
 
-    // Initialize containers.
-    const weapons = [];
-    const armor = [];
-    const spells = [];
-    const vis = [];
-    const items = [];
-    const books = [];
-    const virtues = [];
-    const flaws = [];
-
-    // Iterate through items, allocating to containers
-    // let totalWeight = 0;
-    for (let i of sheetData.items) {
-      let item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
-      // Append to weapons.
-      if (i.type === 'weapon') {
-        weapons.push(i);
-      }
-      // Append to armor.
-      else if (i.type === 'armor') {
-        armor.push(i);
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        spells.push(i);
-      }
-      // Append to vis.
-      else if (i.type === 'vis') {
-        vis.push(i);
-      }
-      // Append to items.
-      else if (i.type === 'item') {
-        items.push(i);
-      }
-      // Append to items.
-      else if (i.type === 'book') {
-        books.push(i);
-      }
-      // Append to virtues.
-      else if (i.type === 'virtue') {
-        virtues.push(i);
-      }
-      // Append to flaws.
-      else if (i.type === 'flaw') {
-        flaws.push(i);
-      }
-    }
-
-    // Assign and return
-    actorData.weapons = weapons;
-    actorData.armor = armor;
-    actorData.spells = spells;
-    actorData.vis = vis;
-    actorData.items = items;
-    actorData.books = books;
-    actorData.virtues = virtues;
-    actorData.flaws = flaws;
+    //console.log("sheetData from pc sheet");
+    //console.log(sheetData);
   }
 
   /* -------------------------------------------- */
@@ -203,8 +147,6 @@ export class ArM5eActorSheet extends ActorSheet {
                 label: `Stress Die`,
                 callback: (html) => {
                     
-                  // This should all be included, imported, whatever from dice.js. I have no idea what I'm doing.
-
                     let mult = 1;
                     let msg = "Stress Die";
                     let resultMessage = "";
@@ -229,10 +171,7 @@ export class ArM5eActorSheet extends ActorSheet {
                     
                     function explodingRoll(modifier) {
                       let roll = new Roll(dataset.roll, modifier).roll();
-                      //let label = dataset.label ? `Rolling ${dataset.label}` : '';
-                      //console.log(roll.results);
-                      //console.log(dataset.roll);
-                      //console.log(dataset);
+               
                       if(roll.results[0] === 1)
                       {
                         mult*=2;
@@ -291,8 +230,7 @@ export class ArM5eActorSheet extends ActorSheet {
                                             }
                                             botchRoll.toMessage({
                                                 flavor: resultMessage,
-                                                //speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                                                //rollMode: html.find('[name="rollMode"]:checked').val()
+                                          
                                             });			
                                             } 
                                         },
@@ -324,4 +262,3 @@ export class ArM5eActorSheet extends ActorSheet {
     }
   }
 }
-//import {explodingRoll, multiplyRoll} from '../dice.js';

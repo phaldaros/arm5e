@@ -1,0 +1,95 @@
+<form class="{{cssClass}} main" autocomplete="off">
+    <header class="sheet-header">
+        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <div class="grid grid-col">
+
+                <div class="resource flexcol flexrow">
+                    <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
+                        <select name="data.technique.value"  data-type="String">
+                            {{#select item.data.technique.value}}
+                            {{#each item.data.techniques as |techniques key|}}
+                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+                        </select>
+                </div>
+
+                <div class="resource flexcol flexrow">
+                    <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
+                        <select name="data.form.value"  data-type="String">
+                            {{#select item.data.form.value}}
+                            {{#each item.data.forms as |forms key|}}
+                        <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
+                        </select>
+                </div>
+
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
+                    <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number"/>
+                </div>
+
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.uses"}}</label>
+                    <input type="text" name="data.uses" value="{{data.uses}}" data-dtype="Number"/>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+        <a class="item posRelative" data-tab="description">
+          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+          {{localize "arm5e.sheet.description"}}
+        </a>
+        <a class="item posRelative" data-tab="attributes">
+          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+          {{localize "arm5e.sheet.attributes"}}
+        </a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Attributes Tab --}}
+        <div class="tab attributes" data-group="primary" data-tab="attributes">
+            <div class="grid grid-3col">
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
+                    <input type="text" name="data.range" value="{{item.data.range}}" data-dtype="String"/>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
+                    <input type="text" name="data.duration" value="{{item.data.duration}}" data-dtype="String"/>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
+                    <input type="text" name="data.target" value="{{item.data.target}}" data-dtype="String"/>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.effects"}}</label>
+                    <input type="text" name="data.effects" value="{{item.data.effect}}" data-dtype="String"/>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.creator"}}</label>
+                    <input type="text" name="data.creator" value="{{item.data.creator}}" data-dtype="String"/>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
+                    <input type="text" name="data.year" value="{{item.data.year}}" data-dtype="String"/>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+        {{!-- Description Tab --}}
+        <div class="tab" data-group="primary" data-tab="description">
+            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+        </div>
+
+    </section>
+</form>

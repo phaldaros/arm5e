@@ -1,17 +1,26 @@
 # Ars Magica 5e for Foundry VTT
 
-This is an early release Foundry VTT system for Ars Magica 5th Edition.
+This is a Foundry VTT system for Ars Magica 5th Edition.
 
 This package is intended to enable Ars Magica play using Foundry VTT. In order to play, official Ars Magica materials are still required. Official material for Ars Magica 5th edition is published by and may be purchased from Atlas Games (https://atlas-games.com).
 
-Ars Magica content is copyright Trident, Inc d/b/a Atlas Games. Ars Magica, Mythic Europe, and Covenants are trademarks of Trident, Inc. Order of Hermes and Tremere are trademarks of White Wolf, Inc.
+Ars Magica content is copyright Trident, Inc d/b/a Atlas Games. Ars Magica, Mythic Europe, and Covenants are trademarks of Trident, Inc. Order of Hermes and Tremere are trademarks of White Wolf, Inc. USED WITH PERMISSION.
 
 This Foundry VTT system project was based on the [Boilerplate System](https://gitlab.com/asacolips-projects/foundry-mods/boilerplate) by Asacolips.
 
-"Official" Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
+Official Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
 
-## Contribute
-Please contribute in any way you can. I am but a novice developer. You can also [join our Discord for development of this system](https://discord.gg/DdDetc9SYP).
+## Contributing
+This is an open-source project and we encourage fellow developers to contribute and help improve it!
+
+1. Fork it.
+2. Create your feature branch (```git checkout -b my-new-feature```).
+3. Contribute!
+4. Commit your changes (```git commit -m 'Add new feature'```).
+5. Push to the branch (```git push origin my-new-feature```).
+6. Create a pull request.
+
+You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for development of this system.
 
 ## Release Notes
 
@@ -55,24 +64,14 @@ Please contribute in any way you can. I am but a novice developer. You can also 
 0.2.1
 - Fixed stress die explosions but can't get the characteristic or ability modifier to be auto-added to stress dice, so will display e.g. "4 * (1d10 + 0)" if two ones are rolled in succession. Chat will show the correct multiplied roll, but it will not add the modifier to the roll. Stress dice rolls that do not explode DO correctly add the modifier, as do simple dice rolls, only exploding stress dice rolls are not working.
 
-## TO DO
-- fix modifiers on exploding stress dice rolls
-- display characteristic or ability rolled
-- implement non-Magus actor types (companion, grog, and covenant)
-- add support for auras
-- learn CSS
-- abilities requiring specializations
-- virtue/flaw net cost/point spend
-- deal with encumbrance/load/"weight" of items per actor
-
+1.0.0
+- Incredible overhaul from ialbiol! An update truly worth of a v 1, and now able to use official ArM5 core rulebook material by the kind permission of Atlas Games!
 
 ## Credits
-<b>Author:</b> phaldaros (phaldaros#6437 on Discord)<br>
-<br>
-Special thanks to VAD#3906 who volunteered to set up and admin our <a href="https://discord.gg/DdDetc9SYP">Discord server</a> to discuss development of the ArM5 system for Foundry and hopefully attract some more developers to this project!
+<b>Authors:</b> ialbiol, phaldaros<br>
 
 ## Feedback
-If you have any suggestions or bugs to report, feel free to create an issue on GitHub or contact me on Discord (phaldaros#6437).
+If you have any suggestions or bugs to report, feel free to create an issue on GitHub or [report them on Discord](https://discord.gg/DdDetc9SYP).
 
 ## Abandonment
 Abandoned modules are a (potential) problem for Foundry, because users and/or other modules might rely on abandoned modules, which might break in future Foundry updates.<br>
