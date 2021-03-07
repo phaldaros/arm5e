@@ -141,8 +141,6 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
                 label: `Stress Die`,
                 callback: (html) => {
                     
-                  // This should all be included, imported, whatever from dice.js. I have no idea what I'm doing.
-
                     let mult = 1;
                     let msg = "Stress Die";
                     let resultMessage = "";
@@ -167,10 +165,7 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
                     
                     function explodingRoll(modifier) {
                       let roll = new Roll(dataset.roll, modifier).roll();
-                      //let label = dataset.label ? `Rolling ${dataset.label}` : '';
-                      //console.log(roll.results);
-                      //console.log(dataset.roll);
-                      //console.log(dataset);
+                     
                       if(roll.results[0] === 1)
                       {
                         mult*=2;
@@ -229,8 +224,7 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
                                             }
                                             botchRoll.toMessage({
                                                 flavor: resultMessage,
-                                                //speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                                                //rollMode: html.find('[name="rollMode"]:checked').val()
+                                 
                                             });			
                                             } 
                                         },
@@ -262,4 +256,3 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
     }
   }
 }
-//import {explodingRoll, multiplyRoll} from '../dice.js';

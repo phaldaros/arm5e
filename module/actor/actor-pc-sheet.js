@@ -221,7 +221,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
                 callback: (html) => simpleDie(html, actorData)
               },
               no: {
-                icon: "<i class='fas fa-check'></i>",
+                icon: "<i class='fas fa-bomb'></i>",
                 label: `Stress Die`,
                 callback: (html) => stressDie(html, actorData)
               },
@@ -232,4 +232,3 @@ export class ArM5ePCActorSheet extends ActorSheet {
     }
   }
 }
-//import {explodingRoll, multiplyRoll} from '../dice.js';
