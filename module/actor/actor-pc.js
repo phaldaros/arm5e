@@ -42,6 +42,12 @@ export class ArM5ePCActor extends Actor {
       "18": { art: 171, abi: 855 },
       "19": { art: 190, abi: 950 },
       "20": { art: 210, abi: 1050 },
+      "21": { art: 231, abi: 1155 },
+      "22": { art: 253, abi: 1265 },
+      "23": { art: 276, abi: 1380 },
+      "24": { art: 300, abi: 1500 },
+      "25": { art: 325, abi: 1625 },
+      "26": { art: 351, abi: 1755 },
     };
     let overload = [ 0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 9999 ];
 
@@ -123,6 +129,9 @@ export class ArM5ePCActor extends Actor {
     abilitiesSelect['a0'] = temp;
     for (let [key, i] of Object.entries(actorData.items)) {
       if (i.type === 'ability') {
+        if(i.data.score < 0) { i.data.score = 0; }
+        if(i.data.score > 25) { i.data.score = 25; }
+
         i.data.experienceNextLevel = (i.data.score + 1) * 5;
         abilities.push(i);
 
