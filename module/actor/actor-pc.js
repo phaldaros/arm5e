@@ -308,6 +308,19 @@ export class ArM5ePCActor extends Actor {
       //warping & decrepitude
       actorData.data.warping.experienceNextLevel = (actorData.data.warping.score + 1) * 5;
       actorData.data.decrepitude.experienceNextLevel = (actorData.data.decrepitude.score + 1) * 5;
+
+      //confidence
+      if(!actorData.data.con){
+        actorData.data.con.score = 0;
+        actorData.data.con.points = 3;
+      }
+    }
+
+    if(actorData.type == "npc"){
+      //confidence
+      if(!actorData.data.con){
+        actorData.data.con = { score: 0, points: 3};
+      }
     }
 
     if(data.arts){

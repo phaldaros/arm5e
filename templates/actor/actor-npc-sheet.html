@@ -1,6 +1,6 @@
-<form class="{{cssClass}} flexcol main" autocomplete="off">
+<form class="{{cssClass}} flexcol mainNPC" autocomplete="off">
   <div class="header-background">
-    <img src="/systems/arm5e/assets/header.png">
+    <img src="/systems/arm5e/assets/npc/header150.png">
   </div>
 
   {{!-- Sheet Header --}}
@@ -10,7 +10,8 @@
           <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
 
           <div class="resources flexrow flex-between">
-            <h2 class="covenantname flexrow width2"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
+            <h2 class="covenantname flexrow "><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
+
             <span class="covenantname flexrow" style="padding-top:4px;">
               <label for="data.charType.value" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
               <select name="data.charType.value"  data-type="String">
@@ -19,6 +20,12 @@
                 <option value="{{key}}">{{localize data.label}}</option> {{/each}} {{/select}}
               </select>
             </span>
+
+            <span class="covenantname flexrow" style="padding-top:4px;">
+              <label  for="data.might.value" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.might"}}</label>
+              <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"/>
+            </span>
+
           </div>
 
           <div class="resources grid grid-4col">
@@ -46,10 +53,12 @@
               </div>
             </div>
 
+            
             <div class="resource flex-group-center">
-              <label  for="data.might.value" class="header-label">{{localize "arm5e.sheet.might"}}</label>
+              <label  for="data.con.score" class="header-label">{{localize "arm5e.sheet.confidence"}}</label>
               <div class="resource-content flexrow flex-center flex-between">
-                <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"/>
+                <input type="text" name="data.con.score" value="{{data.con.score}}" data-dtype="Number" style="flex: 0.6; margin-left: 8px; margin-right: 24px;" />
+                (<input type="text" name="data.con.points" value="{{data.con.points}}" data-dtype="Number" style="flex: 0.6;" />)
               </div>
             </div>
 
@@ -61,37 +70,37 @@
   </header>
 
   {{!-- Sheet Tab Navigation --}}
-  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+  <nav class="arm5eTabs arm5eTabsNPC sheet-tabs tabs" data-group="primary">
       <a class="item posRelative" data-tab="description">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.description"}}
       </a>
       <a class="item posRelative" data-tab="abilities">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.abilities"}}
       </a>
       <a class="item posRelative" data-tab="virtues">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.virtuesFlaws"}}
       </a>
     {{#if (eq data.charType.value "entity")}}
       <a class="item posRelative" data-tab="arts">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.arts"}}
       </a>
     {{/if}}
       <a class="item posRelative" data-tab="inventory">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.inventory"}}
       </a>
       <a class="item posRelative" data-tab="dairy">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.dairy"}}
       </a>
   </nav>
@@ -118,6 +127,7 @@
       {{!-- Arts Tab --}}
       <div class="tab arts" data-group="primary" data-tab="arts">
         {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+        {{> "systems/arm5e/templates/actor/parts/actor-setAbilities.html" }}
       </div>
     {{/if}}
 
@@ -134,7 +144,7 @@
   </section>
 
   <div class="footer-background">
-    <img src="/systems/arm5e/assets/footer.png">
+    <img src="/systems/arm5e/assets/npc/footer.png">
   </div>
 </form>
 

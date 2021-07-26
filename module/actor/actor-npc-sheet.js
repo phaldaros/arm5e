@@ -2,6 +2,9 @@
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
+
+ import {simpleDie, stressDie} from '../dice.js';
+
 export class ArM5eNPCActorSheet extends ActorSheet {
 
   /** @override */
@@ -9,8 +12,8 @@ export class ArM5eNPCActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "actor"],
       template: "systems/arm5e/templates/actor/actor-npc-sheet.html",
-      width: 1100,
-      height: 900,
+      width: 790,
+      height: 800,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
@@ -20,10 +23,17 @@ export class ArM5eNPCActorSheet extends ActorSheet {
   /** @override */
   getData() {
     const data = super.getData();
+
+    //console.log("data from pc sheet getData");
+    //console.log(data);
+
     //data.dtypes = ["String", "Number", "Boolean"];
     //for (let attr of Object.values(data.data.attributes)) {
     //  attr.isCheckbox = attr.dtype === "Boolean";
     //}
+
+    //console.log("data.data.attributes from pc sheet getData");
+    //console.log(data.data.attributes);
 
     // Prepare items.
     //if (this.actor.data.type == 'magus') {
@@ -125,145 +135,101 @@ export class ArM5eNPCActorSheet extends ActorSheet {
     const dataset = element.dataset;
 
     if (dataset.roll) {
+      // clean roll data
+      this.actor.data.data.roll.characteristic = "";
+      this.actor.data.data.roll.ability = "";
+      this.actor.data.data.roll.abilitySpeciality = false;
+      this.actor.data.data.roll.technique = "";
+      this.actor.data.data.roll.form = "";
+      this.actor.data.data.roll.total = "";
+      this.actor.data.data.roll.aura = 0;
+      this.actor.data.data.roll.bonus = 0;
+      this.actor.data.data.roll.divide = 1;
+      this.actor.data.data.roll.rollLabel = "";
+      this.actor.data.data.roll.rollFormula = "";
+      this.actor.data.data.roll.useFatigue = true;
+      this.actor.data.data.roll.option1 = 0;
+      this.actor.data.data.roll.txtOption1 = "";
+      this.actor.data.data.roll.option2 = 0;
+      this.actor.data.data.roll.txtOption2 = "";
+      this.actor.data.data.roll.option3 = 0;
+      this.actor.data.data.roll.txtOption3 = "";
+      this.actor.data.data.roll.option4 = 0;
+      this.actor.data.data.roll.txtOption4 = "";
+      this.actor.data.data.roll.option5 = 0;
+      this.actor.data.data.roll.txtOption5 = "";
 
-      new Dialog({
-        title: 'Select Die',
-        content: ``,
-        buttons: {
-            yes: {
+
+      // set data to roll
+      if(dataset.characteristic){ this.actor.data.data.roll.characteristic = dataset.characteristic; }
+      if(dataset.ability){ this.actor.data.data.roll.ability = dataset.ability; }
+      if(dataset.technique){ this.actor.data.data.roll.technique = dataset.technique; }
+      if(dataset.mform){ this.actor.data.data.roll.form = dataset.mform; }
+      if(dataset.bonus){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus); }
+      if(dataset.bonus2){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2); }
+      if(dataset.bonus3){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3); }
+      if(dataset.divide){ this.actor.data.data.roll.divide = dataset.divide; }
+      if(dataset.usefatigue){ this.actor.data.data.roll.useFatigue = dataset.usefatigue; }
+      if(dataset.option1){ this.actor.data.data.roll.option1 = dataset.option1; }
+      if(dataset.txtoption1){ this.actor.data.data.roll.txtOption1 = dataset.txtoption1; }
+      if(dataset.option2){ this.actor.data.data.roll.option2 = dataset.option2; }
+      if(dataset.txtoption2){ this.actor.data.data.roll.txtOption2 = dataset.txtoption2; }
+      if(dataset.option3){ this.actor.data.data.roll.option3 = dataset.option3; }
+      if(dataset.txtoption3){ this.actor.data.data.roll.txtOption3 = dataset.txtoption3; }
+      if(dataset.option4){ this.actor.data.data.roll.option4 = dataset.option4; }
+      if(dataset.txtoption4){ this.actor.data.data.roll.txtOption4 = dataset.txtoption4; }
+      if(dataset.option5){ this.actor.data.data.roll.option5 = dataset.option5; }
+      if(dataset.txtoption5){ this.actor.data.data.roll.txtOption5 = dataset.txtoption5; }
+
+      // clean booleans
+      if(this.actor.data.data.roll.useFatigue == "false"){ this.actor.data.data.roll.useFatigue = false; }
+      if(this.actor.data.data.roll.useFatigue == "true"){ this.actor.data.data.roll.useFatigue = true; }
+
+      var actorData = this.actor
+      //console.log('onRoll');
+      //console.log(actorData);
+
+      // find the template
+      let template = "";
+      if(dataset.roll == 'option'){ template = "systems/arm5e/templates/roll/roll-options.html"; }
+      if(dataset.roll == 'char'){ template = "systems/arm5e/templates/roll/roll-characteristic.html"; }
+      if(dataset.roll == 'magic'){
+        //spontaneous magic
+        template = "systems/arm5e/templates/roll/roll-magic.html";
+        this.actor.data.data.roll.characteristic = "sta";
+      }
+      if(dataset.roll == 'spell'){
+        template = "systems/arm5e/templates/roll/roll-spell.html";
+        this.actor.data.data.roll.characteristic = "sta";
+
+        this.actor.data.data.roll.techniqueText = this.actor.data.data.arts.techniques[this.actor.data.data.roll.technique].label + "(";
+        this.actor.data.data.roll.techniqueText = this.actor.data.data.roll.techniqueText + this.actor.data.data.arts.techniques[this.actor.data.data.roll.technique].score + ")";
+        this.actor.data.data.roll.formText = this.actor.data.data.arts.forms[this.actor.data.data.roll.form].label + "(";
+        this.actor.data.data.roll.formText = this.actor.data.data.roll.formText + this.actor.data.data.arts.forms[this.actor.data.data.roll.form].score + ")";
+      }
+
+      if(template != ""){
+        // render template
+        renderTemplate(template, this.actor.data).then(function(html){
+          // show dialog
+          new Dialog({
+            title: 'Select Die',
+            content: html,
+            buttons: {
+              yes: {
                 icon: "<i class='fas fa-check'></i>",
                 label: `Simple Die`,
-                callback: (html) => {
-                  let roll = new Roll(dataset.roll, this.actor.data.data);
-                  let msg = `Simple Die`;
-                  roll.roll().toMessage({
-                    speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                    flavor: msg
-                  });                   	
-                } 
-                },
-            no: {
-                icon: "<i class='fas fa-bomb'></i>",
+                callback: (html) => simpleDie(html, actorData)
+              },
+              no: {
+                icon: "<i class='fas fa-check'></i>",
                 label: `Stress Die`,
-                callback: (html) => {
-                    
-                  // This should all be included, imported, whatever from dice.js. I have no idea what I'm doing.
-
-                    let mult = 1;
-                    let msg = "Stress Die";
-                    let resultMessage = "";
-                    let roll = explodingRoll(this.actor.data.data);
-                    multiplyRoll(mult, roll).toMessage({
-                        flavor: msg,
-                        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                    });
-                    
-                    function multiplyRoll(mult, roll)
-                    {
-                        if(!roll._rolled) return;
-                        let output_roll = new Roll(`${mult} * (${roll._formula})`);
-                        output_roll.data = {};
-                        output_roll.results = [ mult, `*`, ...roll.results];
-                        output_roll.terms = [mult, `*`, ...roll.terms];
-                        output_roll._rolled = true;
-                        output_roll._total = mult * roll._total;
-                    
-                        return output_roll;
-                    }
-                    
-                    function explodingRoll(modifier) {
-                      let roll = new Roll(dataset.roll, modifier).roll();
-                      //let label = dataset.label ? `Rolling ${dataset.label}` : '';
-                      //console.log(roll.results);
-                      //console.log(dataset.roll);
-                      //console.log(dataset);
-                      if(roll.results[0] === 1)
-                      {
-                        mult*=2;
-                        roll = explodingRoll();
-                      } else {
-                        if (mult === 1 && roll.total === 10) {
-                            mult *= 0;
-                            msg = `Checking for Botch`;
-                            new Dialog({
-                                title: msg,
-                                content: `
-                                    <p>You rolled a 0. Check for Botch.</p>
-                                    <form>
-                                        <div style="display: flex; width: 100%; margin-bottom: 10px">
-                                            <p><label for="botchDice" style="white-space: nowrap; margin-right: 10px; padding-top:4px">Number of Botch Dice: </label>
-                                            <input type="number" id="botchDice" name="botchDice" min="1" max="10" autofocus /></p>
-                                        </div>
-                                    </form>			
-                                    `,
-                                buttons: {
-                                    yes: {
-                                        icon: "<i class='fas fa-check'></i>",
-                                        label: `Roll for Botch!`,
-                                        callback: (html) => {
-                                            let botchDice = html.find('#botchDice').val();
-                                            if (!botchDice) {
-                                                  return ui.notifications.info("Please enter the number of botch dice.");
-                                              }
-                                            let rollCommand = botchDice;
-                                            rollCommand = rollCommand.concat ('d10cf=10');
-                                            const botchRoll =  new Roll(rollCommand);
-                                            botchRoll.roll();
-                                            
-                                            if (botchRoll.result == 1) {
-                                                resultMessage = "<p>BOTCH: one 0 was rolled.</p>";
-                                            } else if (botchRoll.result == 2) {
-                                                resultMessage = "<p>BOTCH: two 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 3) {
-                                                resultMessage = "<p>BOTCH: three 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 4) {
-                                                resultMessage = "<p>BOTCH: four 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 5) {
-                                                resultMessage = "<p>BOTCH: five 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 6) {
-                                                resultMessage = "<p>BOTCH: six 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 7) {
-                                                resultMessage = "<p>BOTCH: seven 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 8) {
-                                                resultMessage = "<p>BOTCH: eight 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 9) {
-                                                resultMessage = "<p>BOTCH: nine 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 10) {
-                                                resultMessage = "<p>BOTCH: ten 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 0) {
-                                                resultMessage = "<p>No botch!</p>";
-                                            }
-                                            botchRoll.toMessage({
-                                                flavor: resultMessage,
-                                                //speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                                                //rollMode: html.find('[name="rollMode"]:checked').val()
-                                            });			
-                                            } 
-                                        },
-                                    
-                                    no: {
-                                        icon: "<i class='fas fa-times'></i>",
-                                        label: `Cancel`,
-                                        callback: (html) => {
-                                            ChatMessage.create({
-                                                content: `Botch not checked.`
-                                              });
-                                        }
-                                    }
-                                }
-                            }
-                            ).render(true);
-                        }
-                    }
-                      return roll;
-                    }
-                  }
-                }
+                callback: (html) => stressDie(html, actorData)
+              },
             }
-        }
-    
-    ).render(true);
-
+          }).render(true);
+        });
+      }
 
     }
   }

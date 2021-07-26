@@ -1,65 +1,68 @@
 <div class="flexrow grid grid-3col backSection">
   <div>
-    <ol>
+    <ol style="padding: 0 1em 0 1em;">
       <li class="flexrow">
           <div class=" width15"><span class="smallTitle">{{localize "arm5e.sheet.techniques"}}</span><span> ({{ data.totalXPArts }}xp)</span></div>
-          <label class="body">{{localize "arm5e.sheet.score"}}</label>
-          <label class="body">{{localize "arm5e.sheet.experience"}}</label>
       </li>
       {{#each actor.data.arts.techniques as |techniques key|}}
-      <li  class="flexrow flex-group-center" data-attribute="{{key}}">
-        <div class="flexrow flex-group-left">
-          <span class="flex01">
-            <img  src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
-          </span>
-          <span  class="flexrow item-title rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
-            {{label}}
-          </span>
-        </div>
-          <div class="flexrow">
-              <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number" >
-              <span class="flexrow">
-                <input type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}"  data-dtype="Number" > &nbsp;/ {{ techniques.experienceNextLevel }}
-              </span>
+      <li  class="flexrow" data-attribute="{{key}}">
+        <span class="flex03">
+          <img  src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px;" />
+        </span>
+        <div class="flexcol">
+          <div class="flexrow marginbot4">
+            <span  class="flexrow fontSize10 rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
+              {{label}}            
+            </span>
+            <input class="flex05" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}"  data-dtype="Number" >
           </div>
+          
+          <div class="flexrow">
+            <span class="flexrow marginbot12">
+              <label class="fontSize8">{{localize "arm5e.sheet.experienceShort"}}</label>
+              <input class="flex03" type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}"  data-dtype="Number" > &nbsp;/ {{ techniques.experienceNextLevel }}
+            </span>
+          </div>
+        </div>
       </li>
       {{/each}}
     </ol>
   </div>
 
   <div>              
-    <ol>
+    <ol style="padding: 0 1em 0 1em;">
       <li class="flexrow">
         <label class="smallTitle width15">{{localize "arm5e.sheet.forms"}}</label>
-        <label class="body">{{localize "arm5e.sheet.score"}}</label>
-        <label class="body">{{localize "arm5e.sheet.experience"}}</label>
       </li>
       {{#each actor.data.arts.forms as |forms key|}}
-      <li  class="flexrow flex-group-center" data-attribute="{{key}}">
-        <div class="flexrow flex-group-left">
+      <li  class="flexrow" data-attribute="{{key}}">
+        <span class="flex03">
           <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
-            <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
+            <img  src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px;" />
           </a>
-          <span  class="flexrow item-title rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">
-            {{label}}&nbsp;({{ forms.magicResistance }})
-          </span>
-        </div>
-          <div class="flexrow">
-              <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.forms.{{key}}.score" value="{{forms.score}}"  data-dtype="Number" >
-              <span class="flexrow">
-                <input type="text" name="data.arts.forms.{{key}}.experience" value="{{forms.experience}}"  data-dtype="Number" > &nbsp;/ {{ forms.experienceNextLevel }}
-              </span>
+        </span>
+        <div class="flexcol">
+          <div class="flexrow marginbot4">
+            <span  class="flexrow fontSize10 rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">
+              {{label}}&nbsp;({{ forms.magicResistance }})        
+            </span>
+            <input class="flex05" type="text" name="data.arts.forms.{{key}}.score" value="{{forms.score}}"  data-dtype="Number" >
           </div>
+          <div class="flexrow">
+            <span class="flexrow marginbot12">
+              <label class="fontSize8">{{localize "arm5e.sheet.experienceShort"}}</label>
+              <input class="flex03" type="text" name="data.arts.forms.{{key}}.experience" value="{{forms.experience}}"  data-dtype="Number" > &nbsp;/ {{ forms.experienceNextLevel }}
+            </span>
+          </div>
+        </div>
       </li>
 {{#if (eq key "he")}}
     </ol>
   </div>
   <div>
-    <ol>
+    <ol style="padding: 0 1em 0 1em;">
       <li class="flexrow">
         <label class="smallTitle width15">{{localize "arm5e.sheet.forms"}}</label>
-        <label class="body">{{localize "arm5e.sheet.score"}}</label>
-        <label class="body">{{localize "arm5e.sheet.experience"}}</label>
       </li>
 {{/if}}
       {{/each}}

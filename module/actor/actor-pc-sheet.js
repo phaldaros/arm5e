@@ -12,8 +12,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "actor"],
       template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
-      width: 1100,
-      height: 900,
+      width: 790,
+      height: 800,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
