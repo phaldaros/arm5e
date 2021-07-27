@@ -341,7 +341,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "npcbase", "personality", "wounds", "fatigue", "arts", "roll"],
+      "templates": ["base", "npcbase", "personality", "wounds", "fatigue", "arts", "laboratoryPC", "roll"],
       "charType": {"value": "human","label": "Char. Type" },
       "charTypes": {
         "human": {"label": "arm5e.sheet.human","dtype": "String" },

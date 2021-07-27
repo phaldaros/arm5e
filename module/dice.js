@@ -8,7 +8,7 @@ function simpleDie(html, actorData) {
     //console.log(actorData);
 
     let formula = "1D10+" + actorData.data.data.roll.rollFormula;
-    if(actorData.data.data.roll.divide > 1){
+    if(parseInt(actorData.data.data.roll.divide) > 1){
         formula = "(1D10+" + actorData.data.data.roll.rollFormula + ")/" + actorData.data.data.roll.divide;
     }
     let roll = new Roll(formula, actorData.data.data);
@@ -129,55 +129,55 @@ function getRollFormula(actorData){
 
 
     if(actorData.data.data.roll.txtOption1 != ""){
-        total = total + parseInt(actorData.data.data.roll.option1)
+        total = parseInt(total) + parseInt(actorData.data.data.roll.option1)
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + actorData.data.data.roll.txtOption1 + " ("+ actorData.data.data.roll.option1 + ")";
     }
     if(actorData.data.data.roll.txtOption2 != ""){
-        total = total + parseInt(actorData.data.data.roll.option2)
+        total = parseInt(total) + parseInt(actorData.data.data.roll.option2)
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + actorData.data.data.roll.txtOption2 + " ("+ actorData.data.data.roll.option2 + ")";
     }
     if(actorData.data.data.roll.txtOption3 != ""){
-        total = total + parseInt(actorData.data.data.roll.option3)
+        total = parseInt(total) + parseInt(actorData.data.data.roll.option3)
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + actorData.data.data.roll.txtOption3 + " ("+ actorData.data.data.roll.option3 + ")";
     }
     if(actorData.data.data.roll.txtOption4 != ""){
-        total = total + parseInt(actorData.data.data.roll.option4)
+        total = parseInt(total) + parseInt(actorData.data.data.roll.option4)
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + actorData.data.data.roll.txtOption4 + " ("+ actorData.data.data.roll.option4 + ")";
     }
     if(actorData.data.data.roll.txtOption5 != ""){
-        total = total + parseInt(actorData.data.data.roll.option5)
+        total = parseInt(total) + parseInt(actorData.data.data.roll.option5)
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + actorData.data.data.roll.txtOption5 + " ("+ actorData.data.data.roll.option5 + ")";
     }
 
 
     if(actorData.data.data.roll.bonus > 0){
-        total = total + actorData.data.data.roll.bonus
+        total = parseInt(total) + parseInt(actorData.data.data.roll.bonus);
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + "Bonus ("+ actorData.data.data.roll.bonus + ")";
     }
 
     if(actorData.data.data.roll.useFatigue == true){
-        total = total + actorData.data.data.fatigueTotal
+        total = parseInt(total) + parseInt(actorData.data.data.fatigueTotal);
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + "Fatigue";
         msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
 
-        total = total + actorData.data.data.woundsTotal
+        total = parseInt(total) + parseInt(actorData.data.data.woundsTotal);
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + "Wounds";
         msg = msg + " (" + actorData.data.data.woundsTotal + ")";
     }
 
-    if(actorData.data.data.roll.divide > 1){
+    if(parseInt(actorData.data.data.roll.divide) > 1){
         if(msg != ""){ msg = msg + " + <br />"; }
         msg = msg + "Divide by "+ actorData.data.data.roll.divide;
     }
-    actorData.data.data.roll.rollFormula = total;
+    actorData.data.data.roll.rollFormula = parseInt(total);
     actorData.data.data.roll.rollLabel = msg;
 
     return actorData;
