@@ -67,7 +67,7 @@
   </div>
 </div>
 
-{{> "systems/arm5e/templates/actor/parts/actor-labarotaryTotals.html" show="arts" }}
+{{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="arts" }}
 
 
 <div class="flexrow backSection margintop18">
@@ -85,6 +85,7 @@
     {{#each actor.data.spells as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <span  class="flexrow item-title width4 rollable" 
               data-roll="spell" 
               data-technique="{{item.data.technique.value}}" 
@@ -125,6 +126,7 @@
     {{#each actor.data.mights as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <span  class="flexrow item-title width4" name="item.name">
               {{item.name}}
             </span>

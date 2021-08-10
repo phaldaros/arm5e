@@ -14,6 +14,7 @@
   {{#each actor.data.possessions as |item id|}}
   <li class="item flexrow item-value flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.location"}}: {{item.data.location}} </span>
@@ -44,6 +45,7 @@
   {{#each actor.data.magicItems as |item id|}}
   <li class="item flexrow item-value flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.creator"}}: {{item.data.creator}} </span>
@@ -72,8 +74,9 @@
   </li>
   {{#each actor.data.visSources as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
+    <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+      <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
@@ -101,8 +104,9 @@
   </li>
   {{#each actor.data.visStock as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
+    <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+      <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
@@ -130,8 +134,9 @@
   </li>
   {{#each actor.data.items as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
+    <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+      <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
         <span  class="flexrow item-title">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
       </div>  

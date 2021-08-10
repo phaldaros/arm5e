@@ -1,4 +1,8 @@
 {
+
+    "arm5e.sheet.covenant": "Alianza",
+    "arm5e.sheet.covenantName": "Nombre de Alianza",
+
     "arm5e.sheet.player": "Jugador",
     "arm5e.sheet.npc": "PNJ",
     "arm5e.sheet.laboratory": "Laboratorio",
@@ -14,9 +18,9 @@
     "arm5e.sheet.virtuesFlaws": "Virtudes y Defectos",
     "arm5e.sheet.arts": "Artes",
     "arm5e.sheet.art": "Arte",
-    "arm5e.sheet.labarotary": "Laboratorio",
+    "arm5e.sheet.laboratory": "Laboratorio",
     "arm5e.sheet.inventory": "Inventario",
-    "arm5e.sheet.dairy": "Diario",
+    "arm5e.sheet.diary": "Diario",
     "arm5e.sheet.house": "Casa",
     "arm5e.sheet.domusMagnus": "Domus Magnus",
     "arm5e.sheet.primus": "Primus",
@@ -168,13 +172,16 @@
     "arm5e.sheet.expensive": "Caro",
 
     "arm5e.sheet.free": "Gratis",
-    "arm5e.sheet.major": "Mayor",
-    "arm5e.sheet.minor": "Menor",
+    "arm5e.sheet.virtueMajor": "Mayor",
+    "arm5e.sheet.virtueMinor": "Menor",
+    "arm5e.sheet.flawMajor": "Mayor",
+    "arm5e.sheet.flawMinor": "Menor",
 
     "arm5e.sheet.type": "Tipo",
     "arm5e.sheet.impact": "Coste",
 
-    "arm5e.sheet.hermetic": "Hermetica",
+    "arm5e.sheet.virtueHermetic": "Hermetica",
+    "arm5e.sheet.flawHermetic": "Hermetica",
     "arm5e.sheet.socialStatus": "Estatus Social",
     "arm5e.sheet.supernatural": "Supernatural",
     "arm5e.sheet.general": "General",

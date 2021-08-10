@@ -86,6 +86,7 @@
   {{#each actor.data.habitants.magi as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
@@ -116,6 +117,7 @@
   {{#each actor.data.habitants.companion as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
@@ -146,6 +148,7 @@
   {{#each actor.data.habitants.specialists as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
@@ -176,6 +179,7 @@
   {{#each actor.data.habitants.habitants as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
@@ -206,6 +210,7 @@
   {{#each actor.data.habitants.horses as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width2">{{item.name}}</span>
         <span></span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
@@ -234,8 +239,9 @@
   </li>
   {{#each actor.data.habitants.livestock as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width2">{{item.name}}</span>
+    <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+      <span  class="flexrow item-title width2">{{item.name}}</span>
         <span></span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>

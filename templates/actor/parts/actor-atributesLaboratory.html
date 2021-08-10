@@ -13,6 +13,7 @@
     {{#each actor.data.specialities as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <span  class="flexrow item-title width4" name="item.name">
               {{item.name}} 
             </span>
@@ -44,6 +45,7 @@
     {{#each actor.data.personalities as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
               {{item.name}} 
             </span>
@@ -76,6 +78,7 @@
     {{#each actor.data.distinctive as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <span  class="flexrow item-title width2" name="item.name">
               {{item.name}} 
             </span>
@@ -109,6 +112,7 @@
     {{#each actor.data.rooms as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
             <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
               {{item.name}} 
             </span>
