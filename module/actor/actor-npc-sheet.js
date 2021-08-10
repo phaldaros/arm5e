@@ -16,6 +16,23 @@ export class ArM5eNPCActorSheet extends ActorSheet {
   }
 
   /* -------------------------------------------- */
+  /** @override */
+  get template() {
+
+    // quartelmestre 2021-08-10
+    // If the current user permission for this actor
+    // is LIMITED or less, this overrides the normal
+    // actor sheet and shows a limited sheet,
+    // which includes only name, image and description.
+
+    if ( this.actor.data.permission[game.user.id] <= CONST.ENTITY_PERMISSIONS.LIMITED ) {
+      return `systems/arm5e/templates/actor/actor-limited-sheet.html`;      
+    }
+
+    return `systems/arm5e/templates/actor/actor-npc-sheet.html`;
+  }
+
+  /* -------------------------------------------- */
 
   /** @override */
   getData() {

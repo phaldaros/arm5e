@@ -1,0 +1,36 @@
+<form class="{{cssClass}} flexcol main" autocomplete="off">
+  <div class="header-background">
+    <img src="/systems/arm5e/assets/header.png">
+  </div>
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        <div class="header-fields">
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+        </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+        <a class="item posRelative" data-tab="description">
+          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+          {{localize "arm5e.sheet.description"}}
+        </a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Description Tab --}}
+        <div class="tab description" data-group="primary" data-tab="description">
+          {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+        </div>
+
+    </section>
+
+    <div class="footer-background">
+      <img src="/systems/arm5e/assets/footer.png">
+    </div>
+</form>
