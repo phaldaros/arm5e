@@ -56,7 +56,7 @@ export class ArM5ePCActor extends Actor {
     let flaws = [];
     let abilities = [];
     let abilitiesSelect = {};
-    let dairyEntries = [];
+    let diaryEntries = [];
     let abilitiesFamiliar = [];
     let mightsFamiliar = [];
 
@@ -229,7 +229,7 @@ export class ArM5ePCActor extends Actor {
       //    if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
       //  }
       //}
-      else if (i.type === 'dairyEntry') { dairyEntries.push(i); }
+      else if (i.type === 'diaryEntry') { diaryEntries.push(i); }
       else if (i.type === 'abilityFamiliar') { abilitiesFamiliar.push(i); }
       else if (i.type === 'mightFamiliar') { mightsFamiliar.push(i); }
 
@@ -337,7 +337,7 @@ export class ArM5ePCActor extends Actor {
     if(actorData.data.virtues){ actorData.data.virtues = virtues; }
     if(actorData.data.flaws){ actorData.data.flaws = flaws; }
     if(actorData.data.abilities){ actorData.data.abilities = abilities; }
-    if(actorData.data.dairyEntries){ actorData.data.dairyEntries = dairyEntries; }
+    if(actorData.data.diaryEntries){ actorData.data.diaryEntries = diaryEntries; }
     if(actorData.data.familiar){
       actorData.data.familiar.abilitiesFam = abilitiesFamiliar;
       actorData.data.familiar.mightsFam = mightsFamiliar;

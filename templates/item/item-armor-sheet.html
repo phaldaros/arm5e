@@ -22,6 +22,25 @@
         </div>
     </header>
 
+    <div class="grid grid-3col">
+      <div class="resource">
+        <label class="header-label">{{localize "arm5e.sheet.protection"}}</label>
+          <input type="text" name="data.prot" value="{{data.prot}}" data-dtype="Number"/>
+      </div>
+      <div class="resource flexcol flex-center">
+          <label class="header-label">{{localize "arm5e.sheet.fullSet"}}</label>
+              <input type="checkbox" name="data.full" {{checked data.full}}>
+        </div>
+      <div class="resource flexcol">
+          <label for="data.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
+          <select name="data.cost.value"  data-type="String">
+            {{#select item.data.cost.value}}
+            {{#each item.data.costs as |costs key|}}
+            <option value="{{key}}">{{localize costs.label}}</option> {{/each}} {{/select}}
+          </select>
+      </div>
+    </div>
+
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
       <a class="item posRelative" data-tab="description">
@@ -29,37 +48,10 @@
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
         {{localize "arm5e.sheet.description"}}
       </a>
-      <a class="item posRelative" data-tab="attributes">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        {{localize "arm5e.sheet.attributes"}}
-      </a>
   </nav>
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            <div class="grid grid-3col">
-                <div class="resource">
-                  <label class="header-label">{{localize "arm5e.sheet.protection"}}</label>
-                    <input type="text" name="data.prot" value="{{data.prot}}" data-dtype="Number"/>
-                </div>
-                <div class="resource flexcol flex-center">
-                    <label class="header-label">{{localize "arm5e.sheet.fullSet"}}</label>
-                        <input type="checkbox" name="data.full" {{checked data.full}}>
-                  </div>
-                <div class="resource flexcol">
-                    <label for="data.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
-                    <select name="data.cost.value"  data-type="String">
-                      {{#select item.data.cost.value}}
-                      {{#each item.data.costs as |costs key|}}
-                      <option value="{{key}}">{{localize costs.label}}</option> {{/each}} {{/select}}
-                    </select>
-                </div>
-              </div>
-        </div>
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
