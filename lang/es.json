@@ -1,7 +1,6 @@
 {
     "arm5e.sheet.player": "Jugador",
     "arm5e.sheet.npc": "PNJ",
-    "arm5e.sheet.laboratory": "Laboratorio",
 
     "arm5e.sheet.charType": "Tipo PJ",
     "arm5e.sheet.age": "Edad",
@@ -14,7 +13,7 @@
     "arm5e.sheet.virtuesFlaws": "Virtudes y Defectos",
     "arm5e.sheet.arts": "Artes",
     "arm5e.sheet.art": "Arte",
-    "arm5e.sheet.labarotary": "Laboratorio",
+    "arm5e.sheet.laboratory": "Laboratorio",
     "arm5e.sheet.inventory": "Inventario",
     "arm5e.sheet.diary": "Diario",
     "arm5e.sheet.house": "Casa",
