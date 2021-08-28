@@ -9,3 +9,4 @@ foundry.js
 jsconfig.json
 test.js
 .npmignore
+packs/
