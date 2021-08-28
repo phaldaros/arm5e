@@ -333,8 +333,6 @@ export class ArM5ePCActor extends Actor {
     actorData.data.totalFlaws = totalFlaws;
     actorData.data.totalXPSpells = totalXPSpells;
 
-    console.log("Abilities: " );
-    console.log( abilities);
     if(actorData.data.weapons){
       actorData.data.weapons = weapons;
       actorData.data.combat = combat;
@@ -380,21 +378,21 @@ export class ArM5ePCActor extends Actor {
     if(actorData.data.laboratoryTexts){ actorData.data.laboratoryTexts = laboratoryTexts; }
     if(actorData.data.mundaneBooks){ actorData.data.mundaneBooks = mundaneBooks; }
 
-    console.log("pc end of prepare actorData");
-    console.log(actorData);
+    // console.log("pc end of prepare actorData");
+    // console.log(actorData);
   }
 
-  _prepareNPCData(npcData) {
-    console.log("_prepareNPCData");
-  }
+  // _prepareNPCData(npcData) {
+  //   console.log("_prepareNPCData");
+  // }
 
-  _prepareLabData(labData) {
-    console.log("_prepareLabData");
-  }
+  // _prepareLabData(labData) {
+  //   console.log("_prepareLabData");
+  // }
 
-  _prepareCovenantData(covenantData) {
-    console.log("_prepareCovenantData");
+  // _prepareCovenantData(covenantData) {
+  //   console.log("_prepareCovenantData");
 
-  }
+  // }
 
 }

@@ -31,8 +31,8 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
     // Prepare items.
     this._prepareCharacterItems(context);
 
-    console.log("lab-sheet getData");
-    console.log(context);
+    // console.log("lab-sheet getData");
+    // console.log(context);
 
     return context;
   }
