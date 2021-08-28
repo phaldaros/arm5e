@@ -14,9 +14,9 @@
             <span class="covenantname flexrow" style="padding-top:4px;">
               <label for="data.charType.value" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
               <select name="data.charType.value"  data-type="String">
-                {{#select actor.data.charType.value}}
-                {{#each actor.data.charTypes as |data key|}}
-                <option value="{{key}}">{{localize data.label}}</option> {{/each}} {{/select}}
+                {{#select data.charType.value}}
+                {{#each data.charTypes as |ctype key|}}
+                <option value="{{key}}">{{localize ctype.label}}</option> {{/each}} {{/select}}
               </select>
             </span>
           </div>
@@ -89,10 +89,10 @@
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
         {{localize "arm5e.sheet.inventory"}}
       </a>
-      <a class="item posRelative" data-tab="dairy">
+      <a class="item posRelative" data-tab="diary">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        {{localize "arm5e.sheet.dairy"}}
+        {{localize "arm5e.sheet.diary"}}
       </a>
   </nav>
 
@@ -127,8 +127,8 @@
       </div>
 
       {{!-- Dairy Tab --}}
-      <div class="tab dairy" data-group="primary" data-tab="dairy">
-        {{> "systems/arm5e/templates/actor/parts/actor-dairy.html" }}
+      <div class="tab diary" data-group="primary" data-tab="diary">
+        {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }}
       </div>
 
   </section>

@@ -19,11 +19,19 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
 
   /** @override */
   getData() {
-    const data = super.getData();
+    const context = super.getData();
 
-    this._prepareCharacterItems(data);
+    // Use a safe clone of the actor data for further operations.
+    const actorData = context.actor.data;
 
-    return data;
+    // Add the actor's data to context.data for easier access, as well as flags.
+    context.data = actorData.data;
+    context.flags = actorData.flags;
+    
+    // Prepare items.
+    this._prepareCharacterItems(context);
+
+    return context;
   }
 
   /**
@@ -53,14 +61,16 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
     // Update Inventory Item
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.getOwnedItem(li.data("itemId"));
+      const item = this.actor.items.get(li.data("itemId"))
       item.sheet.render(true);
     });
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      this.actor.deleteOwnedItem(li.data("itemId"));
+      let itemId = li.data("itemId");
+      itemId = itemId instanceof Array ? itemId : [itemId];
+      this.actor.deleteEmbeddedDocuments("Item", itemId, {});
       li.slideUp(200, () => this.render(false));
     });
 
@@ -68,7 +78,7 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
     html.find('.rollable').click(this._onRoll.bind(this));
 
     // Drag events for macros.
-    if (this.actor.owner) {
+    if (this.actor.isOwner) {
       let handler = ev => this._onDragItemStart(ev);
       html.find('li.item').each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
@@ -93,16 +103,16 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
-    const itemData = {
+    const itemData = [{
       name: name,
       type: type,
       data: data
-    };
+    }];
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
+    delete itemData[0].data["type"];
 
     // Finally, create the item!
-    return this.actor.createOwnedItem(itemData);
+    return this.actor.createEmbeddedDocuments("Item", itemData, {});
   }
 
   /**

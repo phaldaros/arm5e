@@ -3,11 +3,11 @@
     "types": ["player","npc","laboratory","covenant"],
     "templates": {
       "base": {
-        "version": "0.1",
+        "version": "0.2",
         "covenant": {"label": "Covenant","dtype": "String","value": "Covenant Name" },
         "virtues": [],
         "flaws": [],
-        "dairyEntries": []
+        "diaryEntries": []
       },
       "npcbase":{
         "age": {"label": "Age","dtype": "Number","value": 25 },
@@ -456,13 +456,16 @@
 
   "Item": {
     "types": ["weapon", "armor", "spell", "vis", "item", "book","virtue","flaw","ability","abilityFamiliar", 
-              "dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", 
+              "diaryEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", 
               "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists", 
               "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
               "visSourcesCovenant", "visStockCovenant",
               "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook"],
     "templates": {
-      "base": { "description": "" },
+      "base": { 
+        "description": "",
+        "source" : "custom",
+        "page": 0 },
       "cost":{
         "cost": {"value": "","label": "Cost" },
         "costs": {
@@ -649,7 +652,7 @@
     "abilityFamiliar":{
       "templates": ["base", "ability"]
     },
-    "dairyEntry":{
+    "diaryEntry":{
       "templates": ["base"],
       "year": "",
       "season": "",

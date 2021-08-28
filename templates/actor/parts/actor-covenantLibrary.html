@@ -11,7 +11,7 @@
       <a class="item-control item-create" title="Add book" data-type="book"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each actor.data.magicBooks as |item id|}}
+  {{#each data.magicBooks as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width15">{{item.name}}</span>
@@ -42,7 +42,7 @@
       <a class="item-control item-create" title="Add laboratoryText" data-type="laboratoryText"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each actor.data.laboratoryTexts as |item id|}}
+  {{#each data.laboratoryTexts as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width15">{{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})</span>
@@ -68,7 +68,7 @@
       <a class="item-control item-create" title="Add mundaneBook" data-type="mundaneBook"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each actor.data.mundaneBooks as |item id|}}
+  {{#each data.mundaneBooks as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width15">{{item.name}}</span>

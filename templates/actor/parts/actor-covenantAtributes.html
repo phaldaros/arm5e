@@ -10,7 +10,7 @@
       <a class="item-control item-create" title="Add reputations" data-type="reputation"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each actor.data.reputations as |item id|}}
+  {{#each data.reputations as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width3">{{item.name}}</span>
@@ -34,7 +34,7 @@
         <label for="data.constructionPoints.data.{{key}}.initials" class="bold flex05">{{localize "arm5e.sheet.actuals" }}</label>
         <label for="data.constructionPoints.data.{{key}}.initials" class="bold width2">{{localize "arm5e.sheet.notes" }}</label>
     </li>
-    {{#each actor.data.constructionPoints.data as |data key|}}
+    {{#each data.constructionPoints.data as |data key|}}
     <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
       <span class="flex07">
         <label for="data.constructionPoints.data.{{key}}.initials" class="bold">{{localize data.label}}</label>

@@ -7,26 +7,26 @@
                 <div class="resource flexcol flexrow">
                     <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
                         <select name="data.art.value"  data-type="String">
-                            {{#select item.data.art.value}}
-                            {{#each item.data.arts as |techniques key|}}
+                            {{#select data.art.value}}
+                            {{#each data.arts as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
                         <select name="data.type.value"  data-type="String">
-                            {{#select item.data.type.value}}
-                            {{#each item.data.types as |type key|}}
+                            {{#select data.type.value}}
+                            {{#each data.types as |type key|}}
                         <option value="{{key}}">{{type.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-                    <input type="text" name="data.level" value="{{item.data.level}}" data-dtype="Number"/>
+                    <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number"/>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.quality"}}</label>
-                    <input type="text" name="data.quality" value="{{item.data.quality}}" data-dtype="Number"/>
+                    <input type="text" name="data.quality" value="{{data.quality}}" data-dtype="Number"/>
                 </div>
             </div>
 
@@ -58,11 +58,11 @@
             <div class="grid grid-2col">
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.creator"}}</label>
-                    <input type="text" name="data.creator" value="{{item.data.creator}}" data-dtype="Number"/>
+                    <input type="text" name="data.creator" value="{{data.creator}}" data-dtype="Number"/>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-                    <input type="text" name="data.year" value="{{item.data.year}}" data-dtype="Number"/>
+                    <input type="text" name="data.year" value="{{data.year}}" data-dtype="Number"/>
                 </div>
                 <div class="resource">
                     <label class="resource-label">{{localize "arm5e.sheet.quantity"}}</label>

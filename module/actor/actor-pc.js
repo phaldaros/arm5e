@@ -11,9 +11,11 @@ export class ArM5ePCActor extends Actor {
   prepareData() {
     super.prepareData();
 
-    const actorData = this.data;
+  }
 
-    this._prepareCharacterData(actorData);
+   /** @override */
+   prepareBaseData() {
+    return this._prepareCharacterData(this.data);
   }
 
   /**
@@ -44,7 +46,6 @@ export class ArM5ePCActor extends Actor {
       "20": { art: 210, abi: 1050 },
     };
     let overload = [ 0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 9999 ];
-
     // Initialize containers.
     let weapons = [];
     let armor = [];
@@ -56,7 +57,7 @@ export class ArM5ePCActor extends Actor {
     let flaws = [];
     let abilities = [];
     let abilitiesSelect = {};
-    let dairyEntries = [];
+    let diaryEntries = [];
     let abilitiesFamiliar = [];
     let mightsFamiliar = [];
 
@@ -100,7 +101,7 @@ export class ArM5ePCActor extends Actor {
       ability: 0,
     };
 
-    let data = actorData.data;
+    const data = actorData.data;
 
     if(data.fatigue){
       data.fatigueTotal = 0;
@@ -119,17 +120,24 @@ export class ArM5ePCActor extends Actor {
     }
 
     //abilities
-    const temp = { id: "", name: "N/A", value: 0 };
+    const temp = { _id: "", name: "N/A", value: 0 };
     abilitiesSelect['a0'] = temp;
-    for (let [key, i] of Object.entries(actorData.items)) {
+    for (const [key, item] of actorData.items.entries()) {
+      // Since 0.8, Item#data is now a class named ItemData
+      // ItemData#data now contains the data
+      let i = item.data;
       if (i.type === 'ability') {
+        // score is null in some compendiums
+        if (!i.data.score) {
+          i.data.score = 0;
+        }
         i.data.experienceNextLevel = (i.data.score + 1) * 5;
         abilities.push(i);
-
+        
         const temp = {
           id: i._id,
           name: i.name,
-          value: i.score
+          value: i.data.score
         };
         //abilitiesSelect.push(temp);
         abilitiesSelect['a'+key] = temp;
@@ -148,8 +156,8 @@ export class ArM5ePCActor extends Actor {
       }
     }
 
-    for (let [key, i] of Object.entries(actorData.items)) {
-    //for (let i of actorData.items) {
+    for (let [key, item] of actorData.items.entries()) {
+      const i = item.data
       i.img = i.img || DEFAULT_TOKEN;
       i._index = key;
 
@@ -229,7 +237,7 @@ export class ArM5ePCActor extends Actor {
       //    if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
       //  }
       //}
-      else if (i.type === 'dairyEntry') { dairyEntries.push(i); }
+      else if (i.type === 'diaryEntry') { diaryEntries.push(i); }
       else if (i.type === 'abilityFamiliar') { abilitiesFamiliar.push(i); }
       else if (i.type === 'mightFamiliar') { mightsFamiliar.push(i); }
 
@@ -337,7 +345,7 @@ export class ArM5ePCActor extends Actor {
     if(actorData.data.virtues){ actorData.data.virtues = virtues; }
     if(actorData.data.flaws){ actorData.data.flaws = flaws; }
     if(actorData.data.abilities){ actorData.data.abilities = abilities; }
-    if(actorData.data.dairyEntries){ actorData.data.dairyEntries = dairyEntries; }
+    if(actorData.data.diaryEntries){ actorData.data.diaryEntries = diaryEntries; }
     if(actorData.data.familiar){
       actorData.data.familiar.abilitiesFam = abilitiesFamiliar;
       actorData.data.familiar.mightsFam = mightsFamiliar;
@@ -370,8 +378,21 @@ export class ArM5ePCActor extends Actor {
     if(actorData.data.laboratoryTexts){ actorData.data.laboratoryTexts = laboratoryTexts; }
     if(actorData.data.mundaneBooks){ actorData.data.mundaneBooks = mundaneBooks; }
 
-    console.log("pc prepare actorData");
-    console.log(actorData);
+    // console.log("pc end of prepare actorData");
+    // console.log(actorData);
   }
+
+  // _prepareNPCData(npcData) {
+  //   console.log("_prepareNPCData");
+  // }
+
+  // _prepareLabData(labData) {
+  //   console.log("_prepareLabData");
+  // }
+
+  // _prepareCovenantData(covenantData) {
+  //   console.log("_prepareCovenantData");
+
+  // }
 
 }
