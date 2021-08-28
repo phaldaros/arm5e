@@ -44,7 +44,6 @@ export class ArM5eItemSheet extends ItemSheet {
 
 
     
-    console.log(context);
     if(itemData.type == "weapon"){
       let abilitiesSelect = {};
 
@@ -70,8 +69,8 @@ export class ArM5eItemSheet extends ItemSheet {
       //console.log(data)
     }
 
-    console.log('item-sheet get data');
-    console.log(context);
+    // console.log('item-sheet get data');
+    // console.log(context);
 
     //console.log("item-sheet get data this.actor")
     //console.log(this.actor)
