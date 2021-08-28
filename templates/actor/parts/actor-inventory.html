@@ -16,7 +16,7 @@
       <a class="item-control item-create" title="Create weapon" data-type="weapon"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-{{#each actor.data.weapons as |item id|}}
+{{#each data.weapons as |item id|}}
   <li class="item item-value flexrow" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
       <div  class="flexrow flex-center">
@@ -47,14 +47,14 @@
     <a class="item-control item-create" title="Create armor" data-type="armor"><i class="fas fa-plus"></i></a>
   </div>
 </li>
-{{#each actor.data.armor as |item id|}}
+{{#each data.armor as |item id|}}
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <div  class="flexrow flex-center">
       <span class="flexrow item-title">{{item.name}}</span>
       <label><span class="bold">{{localize "arm5e.sheet.protection"}}:</span> {{item.data.prot}} (+{{ ../data.characteristics.sta.value }})</label>
       <label><span class="bold">{{localize "arm5e.sheet.weight"}}:</span> {{item.data.weight}}</label>
-      <span class="bold"><label>{{localize "arm5e.sheet.equiped"}}:</label> <input type="checkbox" name="data.armor.{{id}}.data.equiped" {{checked item.data.equiped}}></span>
+      <span class="bold"><label>{{localize "arm5e.sheet.equiped"}}:</label> <input type="checkbox" name="data.armor.{{id}}.data.equiped" {{checked data.equiped}}></span>
     </div>
     <div class="item-controls">
         <a class="item-control item-edit" title="Edit armor"><i class="fas fa-edit"></i></a>
@@ -75,7 +75,7 @@
   <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
 </div>
 </li>
-{{#each actor.data.items as |item id|}}
+{{#each data.items as |item id|}}
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <h4 class="item-title">{{item.name}}</h4>
@@ -99,7 +99,7 @@
   <a class="item-control item-create" title="Create book" data-type="book"><i class="fas fa-plus"></i></a>
 </div>
 </li>
-{{#each actor.data.books as |item id|}}
+{{#each data.books as |item id|}}
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <div  class="flexrow flex-center">
@@ -129,7 +129,7 @@
   <a class="item-control item-create" title="Create vis" data-type="vis"><i class="fas fa-plus"></i></a>
 </div>
 </li>
-{{#each actor.data.vis as |item id|}}
+{{#each data.vis as |item id|}}
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
   <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
   <div  class="flexrow flex-center">

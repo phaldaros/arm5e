@@ -13,35 +13,29 @@ export class ArM5eItem extends Item {
     let itemData = this.data;
     let actorData = this.actor ? this.actor.data : {};
     let data = itemData.data;
+    if (actorData ) {
+        if(this.data.type == "weapon"){
+          let abilitiesSelect = {};
 
-    if(this.data.type == "weapon"){
-      let abilitiesSelect = {};
+          const temp = { id: "", name: "N/A" };
+          abilitiesSelect['a0'] = temp;
 
-      const temp = { id: "", name: "N/A" };
-      abilitiesSelect['a0'] = temp;
+          // find the actor abilities and create the select
+          for (let [key, i] of Object.entries(this.actor.data.items)) {
+            if (i.type === 'ability') {
+              const temp = {
+                id: i.id,
+                name: i.name
+              };
+              //abilitiesSelect.push(temp);
+              abilitiesSelect['a'+key] = temp;
+            }
+          }
 
-      // find the actor habilities and create the select
-      for (let [key, i] of Object.entries(this.actor.data.items)) {
-        if (i.type === 'ability') {
-          const temp = {
-            id: i._id,
-            name: i.name
-          };
-          //abilitiesSelect.push(temp);
-          abilitiesSelect['a'+key] = temp;
+          itemData.data.abilities = abilitiesSelect;
+
         }
       }
-
-      this.data.data.abilities = abilitiesSelect;
-
-      //console.log("item prepare data this.data")
-      //console.log(this.data)
-    }
-
-    //console.log("item prepare data this.data")
-    //console.log(this.data)
-    //console.log("item prepare data this.actor")
-    //console.log(this.actor)
   }
 
   /**

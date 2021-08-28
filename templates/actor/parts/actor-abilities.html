@@ -16,7 +16,7 @@
       <a class="item-control item-create" title="Add ability" data-type="ability"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each actor.data.abilities as |item id|}}
+  {{#each data.abilities as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title rollable width4" data-roll="char" data-ability="{{item._id}}" name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>

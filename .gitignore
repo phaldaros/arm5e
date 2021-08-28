@@ -5,3 +5,7 @@
 # Node Modules
 node_modules/
 npm-debug.log
+foundry.js
+jsconfig.json
+test.js
+.npmignore

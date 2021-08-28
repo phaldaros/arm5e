@@ -33,8 +33,8 @@ Hooks.once('init', async function() {
   };
 
   // Define custom Entity classes
-  CONFIG.Actor.entityClass = ArM5ePCActor;
-  CONFIG.Item.entityClass = ArM5eItem;
+  CONFIG.Actor.documentClass = ArM5ePCActor;
+  CONFIG.Item.documentClass = ArM5eItem;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -112,7 +112,7 @@ async function createArM5eMacro(data, slot) {
 
   // Create the macro command
   const command = `game.arm5e.rollItemMacro("${item.name}");`;
-  let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
+  let macro = game.macros.contents.find(m => (m.name === item.name) && (m.command === command));
   if (!macro) {
     macro = await Macro.create({
       name: item.name,

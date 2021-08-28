@@ -10,7 +10,7 @@
         <a class="item-control item-create" title="Create speciality" data-type="speciality"><i class="fas fa-plus"></i></a>
       </div>
     </li>
-    {{#each actor.data.specialities as |item id|}}
+    {{#each data.specialities as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
             <span  class="flexrow item-title width4" name="item.name">
@@ -41,7 +41,7 @@
         <a class="item-control item-create" title="Create personality" data-type="personality"><i class="fas fa-plus"></i></a>
       </div>
     </li>
-    {{#each actor.data.personalities as |item id|}}
+    {{#each data.personalities as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
             <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
@@ -73,7 +73,7 @@
         <a class="item-control item-create" title="Create distinctive" data-type="distinctive"><i class="fas fa-plus"></i></a>
       </div>
     </li>
-    {{#each actor.data.distinctive as |item id|}}
+    {{#each data.distinctive as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
             <span  class="flexrow item-title width2" name="item.name">
@@ -106,7 +106,7 @@
         <a class="item-control item-create" title="Create rooms" data-type="sanctumRoom"><i class="fas fa-plus"></i></a>
       </div>
     </li>
-    {{#each actor.data.rooms as |item id|}}
+    {{#each data.rooms as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
           <div  class="flexrow flex-center">
             <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">

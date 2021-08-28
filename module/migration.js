@@ -2,7 +2,7 @@
 async function migration() {
 
     // Migrate World Actors
-    for ( let a of game.actors.entities ) {
+    for ( let a of game.actors.contents ) {
         try {
             if(a.data.type == "magus"){	a.data.type = "player"; }
 
@@ -33,7 +33,7 @@ function migrateActorData(actorData){
 
 	updateData["type"] = "player";
     updateData["data.version"] = "0.1";
-    if(actorData.data.dairyEntries === undefined){ updateData["data.dairyEntries"] = []; }
+    if(actorData.data.diaryEntries === undefined){ updateData["data.diaryEntries"] = []; }
 
     if(actorData.data.characteristics.int.short === undefined){ updateData["data.characteristics.int.short"] = "arm5e.sheet.int"; }
     if(actorData.data.characteristics.per.short === undefined){ updateData["data.characteristics.per.short"] = "arm5e.sheet.per"; }

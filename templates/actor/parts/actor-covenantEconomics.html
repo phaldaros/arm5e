@@ -57,7 +57,7 @@
       <a class="item-control item-create" title="Add incomingSource" data-type="incomingSource"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each actor.data.incomingSources as |item id|}}
+  {{#each data.incomingSources as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width15">{{item.name}}</span>
@@ -84,7 +84,7 @@
             <label class="bold flex05">{{localize "arm5e.sheet.expenditure"}}</label>
             <label class="bold width2">{{localize "arm5e.sheet.notes"}}</label>
         </li>
-        {{#each actor.data.yearExpenditure as |data key|}}
+        {{#each data.yearExpenditure as |data key|}}
         <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
           <span class="width2">
             <label class="bold">{{localize data.label}} ({{localize data.sumary}})</label>
@@ -112,7 +112,7 @@
               <label class="bold flex05">{{localize "arm5e.sheet.saving"}}</label>
               <label class="bold">{{localize "arm5e.sheet.notes"}}</label>
           </li>
-          {{#each actor.data.costsSavings as |data key|}}
+          {{#each data.costsSavings as |data key|}}
           <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
             <span class="flex07">
               <label class="bold">{{localize data.label}} ({{localize data.sumary}})</label>

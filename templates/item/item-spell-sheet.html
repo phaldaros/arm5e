@@ -7,32 +7,32 @@
                 <div class="resource flexcol flexrow">
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
                         <select name="data.technique.value"  data-type="String">
-                            {{#select item.data.technique.value}}
-                            {{#each item.data.techniques as |techniques key|}}
+                            {{#select data.technique.value}}
+                            {{#each data.techniques as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
                         <select name="data.form.value"  data-type="String">
-                            {{#select item.data.form.value}}
-                            {{#each item.data.forms as |forms key|}}
+                            {{#select data.form.value}}
+                            {{#each data.forms as |forms key|}}
                         <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.technique-requisite.value" class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
                         <select name="data.technique-requisite.value"  data-type="String">
-                            {{#select item.data.technique-requisite.value}}
-                            {{#each item.data.technique-requisites as |techniques key|}}
+                            {{#select data.technique-requisite.value}}
+                            {{#each data.technique-requisites as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.form-requisite.value" class="header-label">{{localize "arm5e.sheet.formRequisite"}}</label>
                         <select name="data.form-requisite.value"  data-type="String">
-                            {{#select item.data.form-requisite.value}}
-                            {{#each item.data.form-requisites as |forms key|}}
+                            {{#select data.form-requisite.value}}
+                            {{#each data.form-requisites as |forms key|}}
                         <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
@@ -70,31 +70,31 @@
             <div class="grid grid-3col">
                 <div class="resource">
                   <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-                    <input type="text" name="data.range" value="{{item.data.range}}" data-dtype="String"/>
+                    <input type="text" name="data.range" value="{{data.range}}" data-dtype="String"/>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-                      <input type="text" name="data.duration" value="{{item.data.duration}}" data-dtype="String"/>
+                      <input type="text" name="data.duration" value="{{data.duration}}" data-dtype="String"/>
                   </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-                      <input type="text" name="data.target" value="{{item.data.target}}" data-dtype="String"/>
+                      <input type="text" name="data.target" value="{{data.target}}" data-dtype="String"/>
                   </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
-                      <input type="text" name="data.bonus" value="{{item.data.bonus}}" data-dtype="Number"/>
+                      <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.experience"}}</label>
-                      <input type="text" name="data.exp" value="{{item.data.exp}}" data-dtype="Number"/>
+                      <input type="text" name="data.exp" value="{{data.exp}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.mastery"}}</label>
-                      <input type="text" name="data.mastery" value="{{item.data.mastery}}" data-dtype="Number"/>
+                      <input type="text" name="data.mastery" value="{{data.mastery}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.source"}}</label>
-                      <input type="text" name="data.source" value="{{item.data.source}}" data-dtype="String"/>
+                      <input type="text" name="data.source" value="{{data.source}}" data-dtype="String"/>
                   </div>
                 </div>
             </div>

@@ -22,25 +22,34 @@ export class ArM5ePCActorSheet extends ActorSheet {
 
   /** @override */
   getData() {
-    const data = super.getData();
+    // Retrieve the data structure from the base sheet. You can inspect or log
+    // the context variable to see the structure, but some key properties for
+    // sheets are the actor object, the data object, whether or not it's
+    // editable, the items array, and the effects array.
+    const context = super.getData();
 
-    //console.log("data from pc sheet getData");
-    //console.log(data);
+    // Use a safe clone of the actor data for further operations.
+    const actorData = context.actor.data;
 
-    data.dtypes = ["String", "Number", "Boolean"];
-    for (let attr of Object.values(data.data.attributes)) {
+    // Add the actor's data to context.data for easier access, as well as flags.
+    context.data = actorData.data;
+    context.flags = actorData.flags;
+    
+    context.data.dtypes = ["String", "Number", "Boolean"];
+    for (let attr of Object.values(context.data.attributes)) {
       attr.isCheckbox = attr.dtype === "Boolean";
     }
+    // Add roll data for TinyMCE editors.
+    context.rollData = context.actor.getRollData();
 
-    //console.log("data.data.attributes from pc sheet getData");
-    //console.log(data.data.attributes);
+    // Prepare active effects
+    //context.effects = prepareActiveEffectCategories(this.actor.effects);
+    
+    this._prepareCharacterItems(context);
+    console.log("sheetData from pc sheet");
+    console.log(context);
 
-    // Prepare items.
-    //if (this.actor.data.type == 'magus') {
-      this._prepareCharacterItems(data);
-    //}
-
-    return data;
+    return context;
   }
 
   /**
@@ -53,8 +62,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
   _prepareCharacterItems(sheetData) {
     //let actorData = sheetData.actor.data;
 
-    //console.log("sheetData from pc sheet");
-    //console.log(sheetData);
+    
   }
 
   /* -------------------------------------------- */
@@ -72,14 +80,17 @@ export class ArM5ePCActorSheet extends ActorSheet {
     // Update Inventory Item
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.getOwnedItem(li.data("itemId"));
+      
+      const item = this.actor.items.get(li.data("itemId"))
       item.sheet.render(true);
     });
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      this.actor.deleteOwnedItem(li.data("itemId"));
+      let itemId = li.data("itemId");
+      itemId = itemId instanceof Array ? itemId : [itemId];
+      this.actor.deleteEmbeddedDocuments("Item", itemId, {});
       li.slideUp(200, () => this.render(false));
     });
 
@@ -87,7 +98,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
     html.find('.rollable').click(this._onRoll.bind(this));
 
     // Drag events for macros.
-    if (this.actor.owner) {
+    if (this.actor.isOwner) {
       let handler = ev => this._onDragItemStart(ev);
       html.find('li.item').each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
@@ -112,16 +123,18 @@ export class ArM5ePCActorSheet extends ActorSheet {
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
-    const itemData = {
+    const itemData = [{
       name: name,
       type: type,
       data: data
-    };
+    }];
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
+    delete itemData[0].data["type"];
 
     // Finally, create the item!
-    return this.actor.createOwnedItem(itemData);
+    // console.log("Add item");
+    // console.log(itemData);
+    return this.actor.createEmbeddedDocuments("Item", itemData, {});
   }
 
   /**

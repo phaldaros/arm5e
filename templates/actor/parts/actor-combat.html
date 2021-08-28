@@ -17,7 +17,7 @@
 
     <div class="flexrow flex-group-center" style="border:0px">
       <label class="item-title">{{localize "arm5e.sheet.weight"}}</label>
-      <input type="text" name="data.combat.weight" readonly value="{{actor.data.combat.weight }}" data-dtype="Number" />
+      <input type="text" name="data.combat.weight" readonly value="{{data.combat.weight }}" data-dtype="Number" />
     </div>
 
   </div>
@@ -41,14 +41,14 @@
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.initiative"}}</label>
-          <input type="text" name="data.combat.init" readonly value="{{numberFormat actor.data.combat.init decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.init" readonly value="{{numberFormat data.combat.init decimals=0 sign=true}}" data-dtype="Number" />
         </div>
         <div class="flexcol flex-group-center" style="flex: 0 0 20px">
           <label class="item-title">+</label>
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.weight"}}</label>
-          <input type="text" name="data.combat.overload" readonly value="{{numberFormat actor.data.combat.overload decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.overload" readonly value="{{numberFormat data.combat.overload decimals=0 sign=true}}" data-dtype="Number" />
         </div>
       </div>
 
@@ -71,14 +71,14 @@
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.ability"}}</label>
-          <input type="text" name="data.combat.ability" readonly value="{{numberFormat actor.data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.ability" readonly value="{{numberFormat data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
         </div>
         <div class="flexcol flex-group-center" style="flex: 0 0 20px">
           <label class="item-title">+</label>
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.attack"}}</label>
-          <input type="text" name="data.combat.atk" readonly value="{{numberFormat actor.data.combat.atk decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.atk" readonly value="{{numberFormat data.combat.atk decimals=0 sign=true}}" data-dtype="Number" />
         </div>
       </div>
 
@@ -99,14 +99,14 @@
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.ability"}}</label>
-          <input type="text" name="data.combat.ability" readonly value="{{numberFormat actor.data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.ability" readonly value="{{numberFormat data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
         </div>
         <div class="flexcol flex-group-center" style="flex: 0 0 20px">
           <label class="item-title">+</label>
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.defense"}}</label>
-          <input type="text" name="data.combat.dfn" readonly value="{{numberFormat actor.data.combat.dfn decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.dfn" readonly value="{{numberFormat data.combat.dfn decimals=0 sign=true}}" data-dtype="Number" />
         </div>
       </div>
 
@@ -122,7 +122,7 @@
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.damage"}}</label>
-          <input type="text" name="data.combat.dam" readonly value="{{numberFormat actor.data.combat.dam decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.dam" readonly value="{{numberFormat data.combat.dam decimals=0 sign=true}}" data-dtype="Number" />
         </div>
         <div class="flexcol flex-group-center" style="flex: 0 0 20px">
           <label class="item-title">+</label>
@@ -144,7 +144,7 @@
         </div>
         <div class="flexcol flex-group-center">
           <label>{{localize "arm5e.sheet.protection"}}</label>
-          <input type="text" name="data.combat.prot" readonly value="{{numberFormat actor.data.combat.prot decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="data.combat.prot" readonly value="{{numberFormat data.combat.prot decimals=0 sign=true}}" data-dtype="Number" />
         </div>
       </div>
 

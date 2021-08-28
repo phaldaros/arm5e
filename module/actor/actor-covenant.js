@@ -15,8 +15,6 @@ export class ArM5eCovenantActor extends Actor {
     const data = actorData.data;
     const flags = actorData.flags;
 
-    // Make separate methods for each Actor type (character, npc, etc.) to keep
-    // things organized.
     this._prepareCharacterData(actorData);
 
   }

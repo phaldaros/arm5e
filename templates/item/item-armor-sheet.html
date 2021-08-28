@@ -53,8 +53,8 @@
                 <div class="resource flexcol">
                     <label for="data.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
                     <select name="data.cost.value"  data-type="String">
-                      {{#select item.data.cost.value}}
-                      {{#each item.data.costs as |costs key|}}
+                      {{#select data.cost.value}}
+                      {{#each data.costs as |costs key|}}
                       <option value="{{key}}">{{localize costs.label}}</option> {{/each}} {{/select}}
                     </select>
                 </div>
