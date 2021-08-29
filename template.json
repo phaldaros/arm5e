@@ -3,7 +3,7 @@
     "types": ["player","npc","laboratory","covenant"],
     "templates": {
       "base": {
-        "version": "0.1",
+        "version": "0.2",
         "covenant": {"label": "Covenant","dtype": "String","value": "Covenant Name" },
         "virtues": [],
         "flaws": [],

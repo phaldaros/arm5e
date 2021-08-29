@@ -22,7 +22,7 @@ function migrateActorData(actorData){
     const updateData = {};
 
     if(actorData.data.version){
-        if(actorData.data.version == "0.1"){
+        if(actorData.data.version == "0.2"){
             return updateData;
         }
     }
@@ -32,8 +32,15 @@ function migrateActorData(actorData){
     }
 
 	updateData["type"] = "player";
-    updateData["data.version"] = "0.1";
+    updateData["data.version"] = "0.2";
+    
     if(actorData.data.diaryEntries === undefined){ updateData["data.diaryEntries"] = []; }
+    // convert after fixing typo dairy => diary
+    if (actorData.data.version == "0.1") {
+        if (actorData.data.dairyEntries) {
+            updateData["data.diaryEntries"] = actorData.data.dairyEntries;
+        }
+    }
 
     if(actorData.data.characteristics.int.short === undefined){ updateData["data.characteristics.int.short"] = "arm5e.sheet.int"; }
     if(actorData.data.characteristics.per.short === undefined){ updateData["data.characteristics.per.short"] = "arm5e.sheet.per"; }
@@ -137,6 +144,13 @@ function migrateActorData(actorData){
     updateData["data.laboratory.multipleCasting.value"] = 0;
     updateData["data.laboratory.basicLabTotal.value"] = 0;
     updateData["data.laboratory.visLimit.value"] = 0;
+
+    // convert after fixing typo labarotary => laboratory
+    if (actorData.data.version == "0.1") {
+        if (actorData.data.labarotary) {
+            updateData["data.laboratory"] = actorData.data.labarotary;
+        }
+    }
 
     updateData["data.familiar.nameFam"] = "";
     updateData["data.familiar.specieFam"] = "";
