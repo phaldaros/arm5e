@@ -16,9 +16,62 @@ async function migration() {
             console.error(err);
         }
     }
+
+//     // Migrate World Items
+//   for ( let i of game.items ) {
+//     try {
+//       const updateData = migrateItemData(i.toObject());
+//       if ( !foundry.utils.isObjectEmpty(updateData) ) {
+//         console.log(`Migrating Item entity ${i.name}`);
+//         await i.update(updateData, {enforceTypes: false});
+//       }
+//     } catch(err) {
+//       err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
+//       console.error(err);
+//     }
+//   }
+
+//   // Migrate Actor Override Tokens
+//   for ( let s of game.scenes ) {
+//     try {
+//       const updateData = migrateSceneData(s.data);
+//       if ( !foundry.utils.isObjectEmpty(updateData) ) {
+//         console.log(`Migrating Scene entity ${s.name}`);
+//         await s.update(updateData, {enforceTypes: false});
+//         // If we do not do this, then synthetic token actors remain in cache
+//         // with the un-updated actorData.
+//         s.tokens.forEach(t => t._actor = null);
+//       }
+//     } catch(err) {
+//       err.message = `Failed system migration for Scene ${s.name}: ${err.message}`;
+//       console.error(err);
+//     }
+//   }
+
+//   // Migrate World Compendium Packs
+//   for ( let p of game.packs ) {
+//     if ( p.metadata.package !== "world" ) continue;
+//     if ( !["Actor", "Item", "Scene"].includes(p.metadata.entity) ) continue;
+//     await migrateCompendium(p);
+//   }
+
+  // Set the migration as complete
+  //game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
+  //ui.notifications.info(`Ars Magica 5e System Migration to version ${game.system.data.version} completed!`, {permanent: true});
 }
 
-function migrateActorData(actorData){
+
+/* -------------------------------------------- */
+/*  Entity Type Migration Helpers               */
+/* -------------------------------------------- */
+
+/**
+ * Migrate a single Actor entity to incorporate latest data model changes
+ * Return an Object of updateData to be applied
+ * @param {object} actor    The actor data object to update
+ * @return {Object}         The updateData to apply
+ */
+export const migrateActorData = function(actorData){
     const updateData = {};
 
     if(actorData.data.version){
@@ -110,6 +163,7 @@ function migrateActorData(actorData){
     updateData["data.roll.rollLabel"] = "";
     updateData["data.roll.rollFormula"] = "";
 
+
     updateData["data.laboratory.longevityRitual.labTotal"] = 0;
     updateData["data.laboratory.longevityRitual.modifier"] = 0;
     updateData["data.laboratory.longevityRitual.twilightScars"] = "";
@@ -198,5 +252,32 @@ function migrateActorData(actorData){
 
     return updateData;
 }
+
+/**
+ * Scrub an Actor's system data, removing all keys which are not explicitly defined in the system template
+ * @param {Object} actorData    The data object for an Actor
+ * @return {Object}             The scrubbed Actor data
+ */
+ function cleanActorData(actorData) {
+
+    // Scrub system data
+    const model = game.system.model.Actor[actorData.type];
+    actorData.data = filterObject(actorData.data, model);
+  
+    // Xzotl: Is it needed?
+
+    // // Scrub system flags
+    // const allowedFlags = CONFIG.DND5E.allowedActorFlags.reduce((obj, f) => {
+    //   obj[f] = null;
+    //   return obj;
+    // }, {});
+    // if ( actorData.flags.dnd5e ) {
+    //   actorData.flags.dnd5e = filterObject(actorData.flags.dnd5e, allowedFlags);
+    // }
+  
+    // Return the scrubbed data
+    return actorData;
+  }
+  
 
 export {migration}

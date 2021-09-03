@@ -548,7 +548,17 @@
           "vi":  {"label": "Vim","dtype": "String" }
         }
       },
-      "magicBase":{ "level": 1, "range": "", "duration": "", "target": "", "creator": "", "year": "" },
+      "magicBase":{ "level": 1,
+        "range" : {"range": "", 
+                 "ranges":  {
+                  "self" : {"label": "Self","dtype": "String" },
+                  "touch": {"label": "Touch","dtype": "String" },
+                  "voice": {"label": "Voice","dtype": "String" },
+                  "sight": {"label": "Sight","dtype": "String" },
+                  "arc" : {"label": "Arcane Link","dtype": "String" }
+                  }
+                }
+    , "target": "", "creator": "", "year": "" },
       "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "score": 0, "quantity": 0 },
       "season":{
         "season": "",
