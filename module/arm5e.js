@@ -15,6 +15,8 @@ import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 
 import {migration} from './migration.js';
 
+const MODULE_ID = 'arm5e';
+
 Hooks.once('init', async function() {
 
   game.arm5e = {
@@ -93,6 +95,20 @@ Hooks.once("ready", async function() {
 
   migration();
 });
+
+Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
+  registerPackageDebugFlag( MODULE_ID);
+});
+
+function log(force, ...args) {
+  try {
+    const isDebugging = game.modules.get('_dev-mode')?.api?.getPackageDebugValue(MODULE_ID);
+
+    if (force || isDebugging) {
+      console.log(MODULE_ID, '|', ...args);
+    }
+  } catch (e) {}
+}
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */

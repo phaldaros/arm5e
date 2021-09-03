@@ -378,21 +378,21 @@ export class ArM5ePCActor extends Actor {
     if(actorData.data.laboratoryTexts){ actorData.data.laboratoryTexts = laboratoryTexts; }
     if(actorData.data.mundaneBooks){ actorData.data.mundaneBooks = mundaneBooks; }
 
-    // console.log("pc end of prepare actorData");
-    // console.log(actorData);
+    log(false,"pc end of prepare actorData");
+    log(false, actorData);
   }
 
-  // _prepareNPCData(npcData) {
-  //   console.log("_prepareNPCData");
-  // }
+  _prepareNPCData(npcData) {
+    log(false,"_prepareNPCData");
+  }
 
-  // _prepareLabData(labData) {
-  //   console.log("_prepareLabData");
-  // }
+  _prepareLabData(labData) {
+    log(false,"_prepareLabData");
+  }
 
-  // _prepareCovenantData(covenantData) {
-  //   console.log("_prepareCovenantData");
+  _prepareCovenantData(covenantData) {
+    log(false,"_prepareCovenantData");
 
-  // }
+  }
 
 }

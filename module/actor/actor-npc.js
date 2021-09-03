@@ -26,6 +26,7 @@ export class ArM5eNPCActor extends Actor {
   _prepareCharacterData(actorData) {
     let data = actorData.data;
 
+    console.log(data);
 
     // Make modifications to data here. For example:
 
