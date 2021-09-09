@@ -8,7 +8,7 @@ async function migration() {
 
             const updateData = migrateActorData(a.data);
             if ( !isObjectEmpty(updateData) ) {
-                console.log(`Migrating Actor entity ${a.name}`);
+                log(false,`Migrating Actor entity ${a.name}`);
                 await a.update(updateData, {enforceTypes: false});
             }
         } catch(err) {
@@ -17,26 +17,26 @@ async function migration() {
         }
     }
 
-//     // Migrate World Items
-//   for ( let i of game.items ) {
-//     try {
-//       const updateData = migrateItemData(i.toObject());
-//       if ( !foundry.utils.isObjectEmpty(updateData) ) {
-//         console.log(`Migrating Item entity ${i.name}`);
-//         await i.update(updateData, {enforceTypes: false});
-//       }
-//     } catch(err) {
-//       err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
-//       console.error(err);
-//     }
-//   }
+    // Migrate World Items
+    for ( let i of game.items ) {
+        try {
+        const updateData = migrateItemData(i.toObject());
+        if ( !foundry.utils.isObjectEmpty(updateData) ) {
+            log(false,`Migrating Item entity ${i.name}`);
+            await i.update(updateData, {enforceTypes: false});
+        }
+        } catch(err) {
+        err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
+        console.error(err);
+        }
+    }
 
 //   // Migrate Actor Override Tokens
 //   for ( let s of game.scenes ) {
 //     try {
 //       const updateData = migrateSceneData(s.data);
 //       if ( !foundry.utils.isObjectEmpty(updateData) ) {
-//         console.log(`Migrating Scene entity ${s.name}`);
+//         log(false,`Migrating Scene entity ${s.name}`);
 //         await s.update(updateData, {enforceTypes: false});
 //         // If we do not do this, then synthetic token actors remain in cache
 //         // with the un-updated actorData.
@@ -249,6 +249,14 @@ export const migrateActorData = function(actorData){
 
     updateData["data.familiar.abilitiesFam"] = [];
     updateData["data.familiar.mightsFam"] = [];
+
+    return updateData;
+}
+
+export const migrateItemData = function(itemData){
+    const updateData = {};
+
+    
 
     return updateData;
 }

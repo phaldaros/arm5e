@@ -100,7 +100,7 @@ Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag( MODULE_ID);
 });
 
-function log(force, ...args) {
+export function log(force, ...args) {
   try {
     const isDebugging = game.modules.get('_dev-mode')?.api?.getPackageDebugValue(MODULE_ID);
 

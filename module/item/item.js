@@ -53,8 +53,7 @@ export class ArM5eItem extends Item {
     "bargain":{"label": "arm5e.sheet.durations.bargain","dtype": "String", "impact" : 3 },
     "year" :{"label": "arm5e.sheet.durations.year","dtype": "String", "impact" : 4 },
     "condition" : {"label": "arm5e.sheet.durations.condition","dtype": "String", "impact" : 4 },
-    "year+1" : {"label": "arm5e.sheet.durations.year+1","dtype": "String", "impact" : 4 },
-    "special" : {"label": "arm5e.sheet.durations.special","dtype": "String", "impact" : 0 }
+    "year+1" : {"label": "arm5e.sheet.durations.year+1","dtype": "String", "impact" : 4 }
   },
   "ranges":  {
     "personal" : {"label": "arm5e.sheet.ranges.personal","dtype": "String", "impact" : 0 },
@@ -63,8 +62,7 @@ export class ArM5eItem extends Item {
     "voice": {"label": "arm5e.sheet.ranges.voice","dtype": "String", "impact" : 2 },
     "road": {"label": "arm5e.sheet.ranges.road","dtype": "String", "impact" : 2 },
     "sight": {"label": "arm5e.sheet.ranges.sight","dtype": "String", "impact" : 3 },
-    "arc" : {"label": "arm5e.sheet.ranges.arc","dtype": "String", "impact" : 4 },
-    "special" : {"label": "arm5e.sheet.ranges.special","dtype": "String", "impact" : 0 }
+    "arc" : {"label": "arm5e.sheet.ranges.arc","dtype": "String", "impact" : 4 }
   },
   "targets" : {
     "ind" : {"label": "arm5e.sheet.targets.ind","dtype": "String", "impact" : 0 },
@@ -78,8 +76,7 @@ export class ArM5eItem extends Item {
     "touch" : {"label": "arm5e.sheet.targets.touch","dtype": "String", "impact" : 1 },
     "smell" : {"label": "arm5e.sheet.targets.smell","dtype": "String", "impact" : 2 },
     "hearing" : {"label": "arm5e.sheet.targets.hearing","dtype": "String", "impact" : 3 },
-    "sight" : {"label": "arm5e.sheet.targets.sight","dtype": "String", "impact" : 4 },
-    "special" : {"label": "arm5e.sheet.targets.special","dtype": "String", "impact" : 0 }
+    "sight" : {"label": "arm5e.sheet.targets.sight","dtype": "String", "impact" : 4 }
   }
   }
     ;
