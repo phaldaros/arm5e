@@ -1,3 +1,5 @@
+
+import { ArM5eItem } from "./item.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -42,7 +44,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.data = itemData.data;
     context.flags = itemData.flags;
 
-
+    context.metadata = ArM5eItem.magicMetadata;
     
     if(itemData.type == "weapon"){
       let abilitiesSelect = {};
@@ -65,15 +67,17 @@ export class ArM5eItemSheet extends ItemSheet {
       context.data.abilities = abilitiesSelect;
       itemData.data.abilities = abilitiesSelect;
 
-      //console.log("item-sheet get data weapon")
-      //console.log(data)
+      //log(false,"item-sheet get data weapon")
+      //log(false,data)
     }
 
     console.log('item-sheet get data');
     console.log(context);
+    // log(false,'item-sheet get data');
+    // log(false,context);
 
-    //console.log("item-sheet get data this.actor")
-    //console.log(this.actor)
+    //log(false,"item-sheet get data this.actor")
+    //log(false,this.actor)
 
     return context;
   }

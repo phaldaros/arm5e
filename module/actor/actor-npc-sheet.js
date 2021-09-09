@@ -38,8 +38,8 @@ export class ArM5eNPCActorSheet extends ActorSheet {
     //if (this.actor.data.type == 'magus') {
       this._prepareCharacterItems(context);
     //}
-    console.log("Npc-sheet getData");
-    console.log(context);
+    log(false,"Npc-sheet getData");
+    log(false,context);
     
     return context;
   }

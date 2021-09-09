@@ -93,11 +93,22 @@
               data-bonus2="{{ item.data.mastery }}"
               name="item.name"
             >
-              {{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})
+              {{item.name}} ( {{#with (lookup @root.metadata.techniques item.data.technique.value)~}}{{label~}} 
+              {{/with}}
+              {{#with (lookup @root.metadata.forms item.data.form.value)~}}{{label~}} 
+              {{/with}}
+              - {{item.data.level}})
             </span>
-            <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span> {{item.data.range}}</label>
-            <label><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{item.data.duration}}</label>
-            <label><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{item.data.target}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span> {{#with (lookup @root.metadata.ranges item.data.range.value)~}}
+              {{localize label~}} 
+              {{/with}}
+            </label>
+            <label><span class="bold">{{localize "arm5e.sheet.duration"}}:</span>  {{#with (lookup @root.metadata.durations item.data.duration.value)~}}
+              {{localize label~}} 
+              {{/with}}</label>
+            <label><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{#with (lookup @root.metadata.targets item.data.target.value)~}}
+              {{localize label~}} 
+              {{/with}}</label></label>
             <label><span class="bold">{{localize "arm5e.sheet.bonus"}}:</span> {{item.data.bonus}}</label>
           </div>
           <div class="item-controls">

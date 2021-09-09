@@ -4,8 +4,8 @@ function simpleDie(html, actorData) {
     actorData = getFormData(html, actorData);
     actorData = getRollFormula(actorData);
 
-    //console.log('simple die');
-    //console.log(actorData);
+    //log(false,'simple die');
+    //log(false,actorData);
 
     let formula = "1D10+" + actorData.data.data.roll.rollFormula;
     if(actorData.data.data.roll.divide > 1){
@@ -24,8 +24,8 @@ function stressDie(html, actorData) {
     actorData = getFormData(html, actorData);
     actorData = getRollFormula(actorData);
 
-    //console.log('stress die');
-    //console.log(actorData);
+    //log(false,'stress die');
+    //log(false,actorData);
 
     let roll = explodingRoll(actorData);
     multiplyRoll(mult, roll, actorData.data.data.roll.rollFormula, actorData.data.data.roll.divide).toMessage({
@@ -255,7 +255,7 @@ function multiplyRoll(mult, roll, rollFormula, divide)
     output_roll.data = {};
     output_roll.results = [ mult, `*`, ...roll.results];
     output_roll.terms = [mult, `*`, ...roll.terms];
-    //console.log(output_roll)
+    //log(false,output_roll)
     //if(parseInt(divide) > 1){
     //    output_roll.terms.push("/"+ divide);
     //}

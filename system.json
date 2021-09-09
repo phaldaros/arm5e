@@ -57,6 +57,14 @@
       "module": "arm5e",
       "path": "packs/scenes.db",
       "entity": "Scene"
+    },
+    {
+      "name": "macros",
+      "label": "Macros",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/macros.db",
+      "entity": "Macro"
     }
   ],
   "languages": [

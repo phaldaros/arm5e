@@ -1,3 +1,5 @@
+import { ArM5eItem } from "../item/item.js";
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -34,6 +36,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
     // Add the actor's data to context.data for easier access, as well as flags.
     context.data = actorData.data;
     context.flags = actorData.flags;
+
+    context.metadata = ArM5eItem.magicMetadata;
     
     context.data.dtypes = ["String", "Number", "Boolean"];
     for (let attr of Object.values(context.data.attributes)) {
@@ -48,6 +52,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
     this._prepareCharacterItems(context);
     console.log("sheetData from pc sheet");
     console.log(context);
+    // log(false,"sheetData from pc sheet");
+    // log(false,context);
 
     return context;
   }
@@ -62,8 +68,9 @@ export class ArM5ePCActorSheet extends ActorSheet {
   _prepareCharacterItems(sheetData) {
     //let actorData = sheetData.actor.data;
 
-    
   }
+
+
 
   /* -------------------------------------------- */
 
@@ -132,8 +139,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
     delete itemData[0].data["type"];
 
     // Finally, create the item!
-    // console.log("Add item");
-    // console.log(itemData);
+    // log(false,"Add item");
+    // log(false,itemData);
     return this.actor.createEmbeddedDocuments("Item", itemData, {});
   }
 
@@ -198,8 +205,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
       if(this.actor.data.data.roll.useFatigue == "true"){ this.actor.data.data.roll.useFatigue = true; }
 
       var actorData = this.actor
-      //console.log('onRoll');
-      //console.log(actorData);
+      //log(false,'onRoll');
+      //log(false,actorData);
 
       // find the template
       let template = "";
