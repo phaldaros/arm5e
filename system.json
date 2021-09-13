@@ -6,7 +6,7 @@
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.8.9",
   "templateVersion": 2,
-  "author": "ialbiol, phaldaros, sylph, xzotl",
+  "author": "ialbiol, phaldaros, sylph, xzotl, jupotter",
   "esmodules": ["module/arm5e.js"],
   "styles": ["css/arm5e.css"],
   "packs": [
