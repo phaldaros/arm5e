@@ -5,13 +5,13 @@
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
             <div class="grid grid-col">
                 <div class="resource">
-                    <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="data.speciality"  value="{{item.data.data.speciality}}"  data-dtype="String" /></label>
+                    <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="data.speciality"  value="{{data.speciality}}"  data-dtype="String" /></label>
                 </div>
                 <div class="resource">
-                    <label>{{localize "arm5e.sheet.score"}}<input type="text" name="data.score"  value="{{item.data.data.score}}"  data-dtype="Number" /></label>
+                    <label>{{localize "arm5e.sheet.score"}}<input type="text" name="data.score"  value="{{data.score}}"  data-dtype="Number" /></label>
                 </div>
                 <div class="resource">
-                    <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.experience"  value="{{item.data.data.experience}}"  data-dtype="Number" /></label>
+                    <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.experience"  value="{{data.experience}}"  data-dtype="Number" /></label>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=item.data.data.description target="item.data.data.description" button=true owner=owner editable=editable}}
+            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
         </div>
 
     </section>
