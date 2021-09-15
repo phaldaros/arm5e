@@ -31,8 +31,8 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
     // Prepare items.
     this._prepareCharacterItems(context);
 
-    log(false,"lab-sheet getData");
-    log(false,context);
+    // console.log("lab-sheet getData");
+    // console.log(context);
 
     return context;
   }
@@ -47,8 +47,8 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
   _prepareCharacterItems(sheetData) {
     //let actorData = sheetData.actor.data;
 
-    //log(false,"sheetData from laboratory sheet");
-    //log(false,sheetData);
+    //console.log("sheetData from laboratory sheet");
+    //console.log(sheetData);
   }
 
   /* -------------------------------------------- */
@@ -164,12 +164,12 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
                     
                     function multiplyRoll(mult, roll)
                     {
-                        if(!roll._rolled) return;
+                        if(!roll._evaluated) return;
                         let output_roll = new Roll(`${mult} * (${roll._formula})`);
                         output_roll.data = {};
                         output_roll.results = [ mult, `*`, ...roll.results];
                         output_roll.terms = [mult, `*`, ...roll.terms];
-                        output_roll._rolled = true;
+                        output_roll._evaluated = true;
                         output_roll._total = mult * roll._total;
                     
                         return output_roll;

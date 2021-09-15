@@ -3,7 +3,7 @@
     "types": ["player","npc","laboratory","covenant"],
     "templates": {
       "base": {
-        "version": "0.2",
+        "version": "0.3",
         "covenant": {"label": "Covenant","dtype": "String","value": "Covenant Name" },
         "virtues": [],
         "flaws": [],
@@ -51,7 +51,8 @@
         "vis": [],
         "items": [],
         "books": [],
-        "spells": []
+        "spells": [],
+        "magicalEffects" : []
       },
       "pc": {
         "con": {"label": "Confidence ","score": 1,"points": 3 },
@@ -479,26 +480,14 @@
         "art": {"value": "","label": "Art" }
       },
       "ability":{ "speciality":"", "score": 0, "experience": 0, "experienceNextLevel": 0 },
-      "technique":{
-        "technique": {"value": "","label": "Technique" }
-      },
-      "technique-requisite":{
-        "technique-requisite": {"value": "","label": "Technique Requisite" }
-      },
-      "form":{
-        "form":  {"value": "","label": "Form" }
-      },
-      "form-requisite":{
-        "form-requisite": {"value": "","label": "Form Requisite" }
-      },
-      "range" : {
-        "range": {"value": "","label": "arm5e.sheet.range" }       
-      },
-      "duration" : { 
-        "duration" : {"value": "","label": "arm5e.sheet.duration" }
-      },
-      "target" : {
-        "target" :{"value": "","label": "arm5e.sheet.target" }
+      "magicalEffectAttributes":{
+        "technique": {"value": "cr","label": "Technique" },
+        "technique-requisite": {"value": "","label": "Technique Requisite" },
+        "form":  {"value": "an","label": "Form" },
+        "form-requisite": {"value": "","label": "Form Requisite" },
+        "range": {"value": "personal","label": "arm5e.sheet.range" },
+        "duration" : {"value": "moment","label": "arm5e.sheet.duration" },   
+        "target" :{"value": "ind","label": "arm5e.sheet.target" }
       },
       "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "score": 0, "quantity": 0 },
       "season":{
@@ -536,21 +525,25 @@
       "equiped": false
     },
     "baseEffect" : {
-      "templates" : ["technique", "technique-requisite", "form", "form-requisite"],
+      "technique": {"value": "cr","label": "Technique" },
+      "technique-requisite": {"value": "","label": "Technique Requisite" },
+      "form":  {"value": "an","label": "Form" },
+      "form-requisite": {"value": "","label": "Form Requisite" },
       "effectDescription" : "",
       "baseLevel" : 1
     },
     "magicalEffect" : {
-        "templates" : ["base","technique", "technique-requisite", "form", "form-requisite","range","duration","target"],
+        "templates" : ["base","magicalEffectAttributes"],
         "level" : 1,
         "ritual": false,
         "targetSize" : 0,
         "complexity" : 0,
         "enhancingRequisite" : 0,
-        "baseEffect" : {}
+        "baseLevel" : 1,
+        "effectDescription" : ""
     },  
     "spell": {
-      "templates": ["base", "authorship","technique", "technique-requisite", "form", "form-requisite","range","duration","target"],
+      "templates": ["base", "authorship","magicalEffectAttributes"],
       "level" : 1,
       "ritual": false,
       "bonus": 0,

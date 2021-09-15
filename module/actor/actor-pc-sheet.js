@@ -1,4 +1,3 @@
-import { ArM5eItem } from "../item/item.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -37,7 +36,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
     context.data = actorData.data;
     context.flags = actorData.flags;
 
-    context.metadata = ArM5eItem.magicMetadata;
+    context.metadata = CONFIG.ARM5E;
     
     context.data.dtypes = ["String", "Number", "Boolean"];
     for (let attr of Object.values(context.data.attributes)) {
@@ -52,8 +51,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
     this._prepareCharacterItems(context);
     console.log("sheetData from pc sheet");
     console.log(context);
-    // log(false,"sheetData from pc sheet");
-    // log(false,context);
+    // console.log("sheetData from pc sheet");
+    // console.log(context);
 
     return context;
   }
@@ -106,7 +105,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = ev => this._onDragItemStart(ev);
+      let handler = ev => this._onDragStart(ev);
       html.find('li.item').each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
@@ -125,22 +124,20 @@ export class ArM5ePCActorSheet extends ActorSheet {
     const header = event.currentTarget;
     // Get the type of item to create.
     const type = header.dataset.type;
-    // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
     const itemData = [{
       name: name,
       type: type,
-      data: data
+      data: foundry.utils.deepClone(header.dataset)
     }];
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData[0].data["type"];
 
     // Finally, create the item!
-    // log(false,"Add item");
-    // log(false,itemData);
+    // console.log("Add item");
+    // console.log(itemData);
     return this.actor.createEmbeddedDocuments("Item", itemData, {});
   }
 
@@ -205,8 +202,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
       if(this.actor.data.data.roll.useFatigue == "true"){ this.actor.data.data.roll.useFatigue = true; }
 
       var actorData = this.actor
-      //log(false,'onRoll');
-      //log(false,actorData);
+      //console.log('onRoll');
+      //console.log(actorData);
 
       // find the template
       let template = "";

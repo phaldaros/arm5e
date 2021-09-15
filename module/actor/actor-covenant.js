@@ -25,8 +25,8 @@ export class ArM5eCovenantActor extends Actor {
   _prepareCharacterData(actorData) {
     let data = actorData.data;
 
-    log(false,"data from pc object");
-    log(false,data);
+    console.log("data from pc object");
+    console.log(data);
 
     // Make modifications to data here. For example:
 
