@@ -27,8 +27,8 @@ export class ArM5eLaboratoryActor extends Actor {
   _prepareCharacterData(actorData) {
     let data = actorData.data;
 
-    log(false,"data from laboratory object");
-    //log(false,data);
+    console.log("data from laboratory object");
+    //console.log(data);
 
     // Make modifications to data here. For example:
 

@@ -3,15 +3,15 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class ArM5eItemSheet extends ItemSheet {
+export class ArM5eItemMagicSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
-      width: 650,
+      width: 610,
       height: 650,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }]
     });
   }
 
@@ -45,12 +45,14 @@ export class ArM5eItemSheet extends ItemSheet {
 
     context.metadata = CONFIG.ARM5E;
     
-
+    
     console.log('item-sheet get data');
     console.log(context);
     // console.log('item-sheet get data');
     // console.log(context);
 
+    //console.log("item-sheet get data this.actor")
+    //console.log(this.actor)
 
     return context;
   }

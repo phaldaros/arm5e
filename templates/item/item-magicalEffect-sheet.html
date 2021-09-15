@@ -2,6 +2,7 @@
     <header class="sheet-header">
         <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
         <div class="header-fields">
+          <h1 class="charname">Spell design</h1>
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
             <div class="grid grid-2col">
                 <div class="resource flexcol flexrow">
@@ -54,16 +55,17 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+      <a class="item posRelative" data-tab="attributes">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        {{localize "arm5e.sheet.attributes"}}
+      </a>
         <a class="item posRelative" data-tab="description">
           <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
           <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
           {{localize "arm5e.sheet.description"}}
         </a>
-        <a class="item posRelative" data-tab="attributes">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.attributes"}}
-        </a>
+        
     </nav>
 
     {{!-- Sheet Body --}}
@@ -71,13 +73,24 @@
 
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
+          <div class="item-controls">
+            <a class="item-control item-edit" title="Edit Base Effect"><i class="fas fa-edit"></i></a>
+          </div>
+          <div class="resource">
+            <label class="header-label">Base level</label>
+              <input type="text" name="data.baseLevel" size="4" value="{{data.baseLevel}}" data-dtype="Number"/>
+          </div>
+          <div class="resource">
+            <label class="header-label">Effect Description</label>
+              <input type="text" name="data.effectDescription" value="{{data.effectDescription}}" data-dtype="String"/>
+          </div>
             <div class="grid grid-3col">
                 <div class="resource">
                   <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
                     <select name="data.range.value"  data-type="String">
                         {{#select data.range.value}}
                         {{#each metadata.ranges as |range key|}}
-                        <option value="{{key}}">{{localize range.label}}</option> {{/each}} {{/select}}
+                        <option value="{{key}}">{{localize range.label}} ({{range.impact}})</option> {{/each}} {{/select}}
                         <option></option>
                     </select>
                     <!--input type="text" name="data.range" value="{{data.range}}" data-dtype="String"/-->
@@ -87,7 +100,7 @@
                   <select name="data.duration.value"  data-type="String" >
                       {{#select data.duration.value}}
                       {{#each metadata.durations as |duration key|}}
-                      <option value="{{key}}">{{localize duration.label}}</option> {{/each}} {{/select}}
+                      <option value="{{key}}">{{localize duration.label}} ({{duration.impact}})</option> {{/each}} {{/select}}
                   </select>
                       <!-- <input type="text" name="data.duration" value="{{data.duration}}" data-dtype="String"/> -->
                 </div>
@@ -96,30 +109,24 @@
                   <select name="data.target.value"  data-type="String">
                     {{#select data.target.value}}
                     {{#each metadata.targets as |target key|}}
-                    <option value="{{key}}">{{localize target.label}}</option> {{/each}} {{/select}}
+                    <option value="{{key}}">{{localize target.label}} ({{target.impact}})</option> {{/each}} {{/select}}
                   </select>  
                   <!-- <input type="text" name="data.target" value="{{data.target}}" data-dtype="String"/> -->
                 </div>
+                
                   <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
-                      <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="Number"/>
+                    <label class="header-label">{{localize "arm5e.config.targets.targetSize"}}</label>
+                      <input type="text" name="data.targetSize" value="{{data.targetSize}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.experience"}}</label>
-                      <input type="text" name="data.exp" value="{{data.exp}}" data-dtype="Number"/>
+                    <label class="header-label">{{localize "arm5e.config.targets.complexity"}}</label>
+                      <input type="text" name="data.complexity" value="{{data.complexity}}" data-dtype="Number"/>
                   </div>
                   <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.mastery"}}</label>
-                      <input type="text" name="data.mastery" value="{{data.mastery}}" data-dtype="Number"/>
+                    <label class="header-label">{{localize "arm5e.config.targets.enhancingReq"}}</label>
+                      <input type="text" name="data.enhancingRequisite" value="{{data.enhancingRequisite}}" data-dtype="Number"/>
                   </div>
-                  <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.source"}}</label>
-                    <input type="text" name="data.source" value="{{data.source}}" data-dtype="String"/>
-                  </div>
-                  <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.page"}}</label>
-                    <input type="text" name="data.page" value="{{data.page}}" data-dtype="Number"/>
-                  </div>
+                  
                 </div>
             </div>
         </div>

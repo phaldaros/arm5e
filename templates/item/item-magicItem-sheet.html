@@ -9,7 +9,7 @@
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
                         <select name="data.technique.value"  data-type="String">
                             {{#select item.data.technique.value}}
-                            {{#each item.data.techniques as |techniques key|}}
+                            {{#each item.metadata.techniques as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
@@ -18,7 +18,7 @@
                     <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
                         <select name="data.form.value"  data-type="String">
                             {{#select item.data.form.value}}
-                            {{#each item.data.forms as |forms key|}}
+                            {{#each item.metadata.forms as |forms key|}}
                         <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>

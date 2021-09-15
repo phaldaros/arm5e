@@ -8,7 +8,7 @@
                     <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
                     <select name="data.art.value"  data-type="String">
                       {{#select item.data.art.value}}
-                      {{#each item.data.arts as |arts key|}}
+                      {{#each item.metadata.arts as |arts key|}}
                       <option value="{{key}}">{{arts.label}}</option> {{/each}} {{/select}}
                     </select>
                   </div>
