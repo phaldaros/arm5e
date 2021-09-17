@@ -1,9 +1,42 @@
 export const ARM5E = {};
 
 /**
- * The set of Ability Scores used within the sytem.
+ * The set of metadata used within the sytem that will
+ * probably not change
  * @type {Object}
  */
+ ARM5E.MODULE_ID = 'arm5e';
+
+ ARM5E.houses = {
+  "n-a": { "label": "N/A", "dtype": "String" },
+  "bjo": { "label": "Bjornaer", "dtype": "String" },
+  "bon": { "label": "Bonisagus", "dtype": "String" },
+  "cri": { "label": "Criamon", "dtype": "String" },
+  "exm": { "label": "Ex Miscellanea", "dtype": "String" },
+  "fla": { "label": "Flambeau", "dtype": "String" },
+  "gen": { "label": "Generic Magus", "dtype": "String" },
+  "gue": { "label": "Guernicus", "dtype": "String" },
+  "jer": { "label": "Jerbiton", "dtype": "String" },
+  "mer": { "label": "Mercere", "dtype": "String" },
+  "mta": { "label": "Merinita", "dtype": "String" },
+  "tre": { "label": "Tremere", "dtype": "String" },
+  "tyt": { "label": "Tytalus", "dtype": "String" },
+  "ver": { "label": "Verditius", "dtype": "String" }
+};
+
+ARM5E.impacts = {
+  "free": {"label": "arm5e.sheet.free","dtype": "String","cost": 0 },
+  "major": {"label": "arm5e.sheet.major","dtype": "String","cost": 3 },
+  "minor": {"label": "arm5e.sheet.minor","dtype": "String","cost": 1 }
+};
+
+ARM5E.seasons = {
+  "spring": {"label": "arm5e.sheet.spring" },
+  "summer": {"label": "arm5e.sheet.summer" },
+  "autumn": {"label": "arm5e.sheet.autumn" },
+  "winter": {"label": "arm5e.sheet.winter" }
+};
+
  ARM5E.arts = {
   "cr": {"label": "Creo","dtype": "String" },
   "in": {"label": "Intellego","dtype": "String" },

@@ -1,4 +1,4 @@
-import { log} from "../arm5e.js"
+import { log} from "../tools.js"
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -214,15 +214,15 @@ export class ArM5ePCActor extends Actor {
       else if (i.type === 'book') { books.push(i); }
       else if (i.type === 'virtue') {
         virtues.push(i);
-        if(i.data.impacts[i.data.impact.value]){
-          totalVirtues = parseInt(totalVirtues) + parseInt(i.data.impacts[i.data.impact.value].cost);
+        if(i.metadata.impacts[i.data.impact.value]){
+          totalVirtues = parseInt(totalVirtues) + parseInt(i.metadata.impacts[i.data.impact.value].cost);
         }
 
       }
       else if (i.type === 'flaw') {
         flaws.push(i);
-        if(i.data.impacts[i.data.impact.value]){
-          totalFlaws = parseInt(totalFlaws) + parseInt(i.data.impacts[i.data.impact.value].cost);
+        if(i.metadata.impacts[i.data.impact.value]){
+          totalFlaws = parseInt(totalFlaws) + parseInt(i.metadata.impacts[i.data.impact.value].cost);
         }
       }
       //else if (i.type === 'ability') {
@@ -383,20 +383,20 @@ export class ArM5ePCActor extends Actor {
     if(actorData.data.laboratoryTexts){ actorData.data.laboratoryTexts = laboratoryTexts; }
     if(actorData.data.mundaneBooks){ actorData.data.mundaneBooks = mundaneBooks; }
 
-    console.log("pc end of prepare actorData");
-    console.log( actorData);
+    log(false,"pc end of prepare actorData");
+    log(false, actorData);
   }
 
   _prepareNPCData(npcData) {
-    console.log("_prepareNPCData");
+    log(false,"_prepareNPCData");
   }
 
   _prepareLabData(labData) {
-    console.log("_prepareLabData");
+    log(false,"_prepareLabData");
   }
 
   _prepareCovenantData(covenantData) {
-    console.log("_prepareCovenantData");
+    log(false,"_prepareCovenantData");
 
   }
 

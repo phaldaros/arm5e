@@ -1,3 +1,5 @@
+
+import { log} from "../tools.js"
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -23,14 +25,14 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
 
     // Use a safe clone of the actor data for further operations.
     const actorData = context.actor.data;
-
     // Add the actor's data to context.data for easier access, as well as flags.
     context.data = actorData.data;
     context.flags = actorData.flags;
     context.metadata = CONFIG.ARM5E;
     // Prepare items.
     this._prepareCharacterItems(context);
-
+    log(false,"Covenant-sheet getData");
+    log(false,context);
     return context;
   }
 

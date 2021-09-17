@@ -7,7 +7,7 @@
           <label for="data.house.value" class="bold">{{localize "arm5e.sheet.house"}}</label>
           <span class="width2"><select name="data.house.value"  data-type="String" style="width: 100%;">
             {{#select data.house.value}}
-            {{#each data.houses as |house key|}}
+            {{#each metadata.houses as |house key|}}
             <option value="{{key}}">{{house.label}}</option> {{/each}} {{/select}}
           </select></span>
         </div>
