@@ -37,7 +37,7 @@
                   <div class="resource-content flexrow flex-center flex-between margintop6">
                       <select name="data.season.value"  data-type="String" style="width: 100%">
                         {{#select data.season.value}}
-                        {{#each data.seasons as |season key|}}
+                        {{#each metadata.seasons as |season key|}}
                         <option value="{{key}}">{{localize season.label}}</option> {{/each}} {{/select}}
                       </select>
                   </div>

@@ -1,3 +1,4 @@
+import { log} from "../tools.js"
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -27,12 +28,12 @@ export class ArM5eLaboratoryActorSheet extends ActorSheet {
     // Add the actor's data to context.data for easier access, as well as flags.
     context.data = actorData.data;
     context.flags = actorData.flags;
-    
+    context.metadata = CONFIG.ARM5E;
     // Prepare items.
     this._prepareCharacterItems(context);
 
-    // console.log("lab-sheet getData");
-    // console.log(context);
+    log(false,"lab-sheet getData");
+    log(false,context);
 
     return context;
   }

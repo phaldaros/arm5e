@@ -7,32 +7,34 @@
                 <div class="resource flexcol flexrow">
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
                         <select name="data.technique.value"  data-type="String">
-                            {{#select item.data.technique.value}}
-                            {{#each item.metadata.techniques as |techniques key|}}
+                            {{#select data.technique.value}}
+                            {{#each metadata.techniques as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
                         <select name="data.form.value"  data-type="String">
-                            {{#select item.data.form.value}}
-                            {{#each item.metadata.forms as |forms key|}}
+                            {{#select data.form.value}}
+                            {{#each metadata.forms as |forms key|}}
                         <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.technique-requisite.value" class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
                         <select name="data.technique-requisite.value"  data-type="String">
-                            {{#select item.data.technique-requisite.value}}
-                            {{#each item.metadata.technique-requisites as |techniques key|}}
+                            {{#select data.technique-requisite.value}}
+                            <option value="">N/A</option> 
+                            {{#each metadata.techniques as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.form-requisite.value" class="header-label">{{localize "arm5e.sheet.formRequisite"}}</label>
                         <select name="data.form-requisite.value"  data-type="String">
-                            {{#select item.data.form-requisite.value}}
-                            {{#each item.metadata.form-requisites as |forms key|}}
+                            {{#select data.form-requisite.value}}
+                            <option value="">N/A</option> 
+                            {{#each metadata.forms as |forms key|}}
                         <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>

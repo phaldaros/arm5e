@@ -1,4 +1,4 @@
-
+import { log} from "../tools.js"
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -46,8 +46,8 @@ export class ArM5eItemSheet extends ItemSheet {
     context.metadata = CONFIG.ARM5E;
     
 
-    console.log('item-sheet get data');
-    console.log(context);
+    log(false,'item-sheet get data');
+    log(false,context);
     // console.log('item-sheet get data');
     // console.log(context);
 

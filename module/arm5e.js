@@ -16,8 +16,9 @@ import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 
 import {migration} from './migration.js';
+import {log} from "./tools.js"
 
-const MODULE_ID = 'arm5e';
+
 
 Hooks.once('init', async function() {
 
@@ -113,12 +114,12 @@ Hooks.once("ready", async function() {
   // Determine whether a system migration is required and feasible
   if ( !game.user.isGM ) return;
   const currentVersion = game.settings.get("arm5e", "systemMigrationVersion");
-  const DATA_MODEL_VERSION_NEEDED = 1.1;
+  const SYSTEM_VERSION_NEEDED = 1.1;
   const COMPATIBLE_MIGRATION_VERSION = 0.1;
   const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
 
   if ( !currentVersion && totalDocuments === 0 ) return game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
-  const needsMigration = !currentVersion || DATA_MODEL_VERSION_NEEDED> currentVersion;
+  const needsMigration = !currentVersion || SYSTEM_VERSION_NEEDED> currentVersion;
   if ( !needsMigration ) return;
   // Perform the migration
   if ( currentVersion && COMPATIBLE_MIGRATION_VERSION> currentVersion ) {
@@ -126,7 +127,7 @@ Hooks.once("ready", async function() {
     ui.notifications.error(warning, {permanent: true});
   }
   migration();
-
+  log(false,"toto")
   // store the baseEffects
 
 });
@@ -139,18 +140,10 @@ Hooks.once("ready", async function() {
 });
 
 Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
-  registerPackageDebugFlag( MODULE_ID);
+  registerPackageDebugFlag( ARM5E.MODULE_ID);
 });
 
-export function log(force, ...args) {
-  try {
-    const isDebugging = game.modules.get('_dev-mode')?.api?.getPackageDebugValue(MODULE_ID);
 
-    if (force || isDebugging) {
-      console.log(MODULE_ID, '|', ...args);
-    }
-  } catch (e) {}
-}
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
