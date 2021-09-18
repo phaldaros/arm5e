@@ -44,6 +44,7 @@
     "arm5e.sheet.form": "Form",
     "arm5e.sheet.formRequisite": "Form Requisite",
     "arm5e.sheet.spells": "Spells",
+    "arm5e.sheet.spell-design" : "Spell design",
     "arm5e.sheet.magicalEffects" : "Spontaneous magical effects",
     "arm5e.sheet.weapons": "Weapons",
     "arm5e.sheet.armor": "Armor",
@@ -344,7 +345,7 @@
     "arm5e.config.targets.hearing" :"Hearing (In)",
     "arm5e.config.targets.sight" :"Sight (In)",
 
-    "arm5e.config.targets.targetSize" :"TargetSize",
+    "arm5e.config.targets.targetSize" :"Target size",
     "arm5e.config.targets.complexity" :"Complexity",
     "arm5e.config.targets.enhancingReq" :"Enhancing requisite",
     "arm5e.config.targets.baseLevel" : "Base level",

@@ -11,7 +11,7 @@ export class ArM5eItemMagicSheet extends ItemSheet {
       classes: ["arm5e", "sheet", "item"],
       width: 610,
       height: 650,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "spell-design" }]
     });
   }
 

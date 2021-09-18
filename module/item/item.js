@@ -67,8 +67,8 @@ export class ArM5eItem extends Item {
           itemData.data.castingTotal = this._computeCastingTotal(actorData,itemData);
         }
       }
-      log(false,"prepare-item");
-      log(false,itemData);
+      // log(false,"prepare-item");
+      // log(false,itemData);
   }
 
   _addSpellMagnitude(base,num) {

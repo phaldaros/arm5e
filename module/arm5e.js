@@ -113,9 +113,9 @@ Hooks.once("ready", async function() {
 
   // Determine whether a system migration is required and feasible
   if ( !game.user.isGM ) return;
-  const currentVersion = game.settings.get("arm5e", "systemMigrationVersion");
-  const SYSTEM_VERSION_NEEDED = 1.1;
-  const COMPATIBLE_MIGRATION_VERSION = 0.1;
+  const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g,''));
+  const SYSTEM_VERSION_NEEDED = 111;
+  const COMPATIBLE_MIGRATION_VERSION = 10;
   const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
 
   if ( !currentVersion && totalDocuments === 0 ) return game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
@@ -127,7 +127,6 @@ Hooks.once("ready", async function() {
     ui.notifications.error(warning, {permanent: true});
   }
   migration();
-  log(false,"toto")
   // store the baseEffects
 
 });

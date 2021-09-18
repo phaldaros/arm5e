@@ -78,9 +78,7 @@
                         {{#select data.range.value}}
                         {{#each metadata.ranges as |range key|}}
                         <option value="{{key}}">{{localize range.label}}</option> {{/each}} {{/select}}
-                        <option></option>
                     </select>
-                    <!--input type="text" name="data.range" value="{{data.range}}" data-dtype="String"/-->
                 </div>
                 <div class="resource">  
                   <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
@@ -89,7 +87,6 @@
                       {{#each metadata.durations as |duration key|}}
                       <option value="{{key}}">{{localize duration.label}}</option> {{/each}} {{/select}}
                   </select>
-                      <!-- <input type="text" name="data.duration" value="{{data.duration}}" data-dtype="String"/> -->
                 </div>
                 <div class="resource">
                   <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
@@ -98,7 +95,6 @@
                     {{#each metadata.targets as |target key|}}
                     <option value="{{key}}">{{localize target.label}}</option> {{/each}} {{/select}}
                   </select>  
-                  <!-- <input type="text" name="data.target" value="{{data.target}}" data-dtype="String"/> -->
                 </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
@@ -122,12 +118,13 @@
                   </div>
                 </div>
             </div>
-        </div>
-
+ 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
             {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
         </div>
+
+
 
     </section>
 </form>

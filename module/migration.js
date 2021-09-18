@@ -1,6 +1,9 @@
-
+import { log} from "./tools.js"
 
 async function migration() {
+
+    ui.notifications.info(`Applying ARM5E System Migration for version ${game.system.data.version}. Please be patient and do not close your game or shut down your server.`, {permanent: true});
+
 
     // Migrate World Actors
     for ( let a of game.actors.contents ) {
@@ -89,11 +92,11 @@ async function migration() {
 export const migrateActorData = function(actorData){
     const updateData = {};
 
-    if(actorData.data.version){
-        if(actorData.data.version == "0.3"){
-            return updateData;
-        }
-    }
+    // if(actorData.data.version){
+    //     if(actorData.data.version == "0.3"){
+    //         return updateData;
+    //     }
+    // }
 
     if((actorData.type == 'npc') || (actorData.type == 'laboratory') || (actorData.type == 'covenant')){
         return updateData;
@@ -126,10 +129,6 @@ export const migrateActorData = function(actorData){
     if(actorData.data.books === undefined){ updateData["data.books"] = []; }
     if(actorData.data.spells === undefined){ updateData["data.spells"] = []; }
 
-    updateData["data.seasons.spring.label"] = "arm5e.sheet.spring";
-    updateData["data.seasons.summer.label"] = "arm5e.sheet.summer";
-    updateData["data.seasons.autumn.label"] = "arm5e.sheet.autumn";
-    updateData["data.seasons.winter.label"] = "arm5e.sheet.winter";
 
     updateData["data.description.born.label"] = "arm5e.sheet.yearBorn";
     updateData["data.description.apprentice.label"] = "arm5e.sheet.apprenticeshipYears";
@@ -268,21 +267,30 @@ export const migrateActorData = function(actorData){
 
   // Migrate Owned Items
   if ( !actorData.items ) return updateData;
-  const items = actorData.items.reduce((arr, i) => {
-    // Migrate the Owned Item
-    const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
-    let itemUpdate = migrateItemData(itemData);
-
-    //const cleanData = cleanItemData(itemData)
-
-    // Update the Owned Item
-    if ( !isObjectEmpty(itemUpdate) ) {
-      itemUpdate._id = itemData._id;
-      arr.push(expandObject(itemUpdate));
+  const items = actorData.items
+  for ( let i of items ) {
+    try {
+    log(false,`Migrating owned Item ${i.name}`);
+    log(false,i.data);
+    const updateData = migrateItemData(i.toObject());
+    if ( !foundry.utils.isObjectEmpty(updateData) ) {
+        console.log(`Migrating Item entity ${i.name}`);
+        i.update(updateData, {enforceTypes: false});
     }
 
-    return arr;
-  }, []);
+    const cleanData = cleanItemData(i.data)
+    if ( !isObjectEmpty(cleanData) ) {
+        console.log(`Cleaning up Item entity ${i.name}`);
+        i.data.data = cleanData.data;
+    }
+    } catch(err) {
+    err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
+    console.error(err);
+    }
+    log(false,"After migration");
+    log(false,i.data);
+  }
+  
   if ( items.length > 0 ) updateData.items = items;
 
     return updateData;

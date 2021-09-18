@@ -5,6 +5,7 @@
  */
 
 import {simpleDie, stressDie} from '../dice.js';
+import { ARM5E } from '../metadata.js';
 
 export class ArM5ePCActorSheet extends ActorSheet {
 
@@ -218,9 +219,9 @@ export class ArM5ePCActorSheet extends ActorSheet {
         template = "systems/arm5e/templates/roll/roll-spell.html";
         this.actor.data.data.roll.characteristic = "sta";
 
-        this.actor.data.data.roll.techniqueText = this.actor.data.data.arts.techniques[this.actor.data.data.roll.technique].label + "(";
+        this.actor.data.data.roll.techniqueText = ARM5E.techniques[this.actor.data.data.roll.technique].label + "(";
         this.actor.data.data.roll.techniqueText = this.actor.data.data.roll.techniqueText + this.actor.data.data.arts.techniques[this.actor.data.data.roll.technique].score + ")";
-        this.actor.data.data.roll.formText = this.actor.data.data.arts.forms[this.actor.data.data.roll.form].label + "(";
+        this.actor.data.data.roll.formText = ARM5E.forms[this.actor.data.data.roll.form].label + "(";
         this.actor.data.data.roll.formText = this.actor.data.data.roll.formText + this.actor.data.data.arts.forms[this.actor.data.data.roll.form].score + ")";
       }
 
