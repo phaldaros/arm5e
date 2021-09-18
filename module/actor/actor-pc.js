@@ -1,3 +1,4 @@
+import { ARM5E } from "../metadata.js";
 import { log} from "../tools.js"
 
 /**
@@ -214,15 +215,15 @@ export class ArM5ePCActor extends Actor {
       else if (i.type === 'book') { books.push(i); }
       else if (i.type === 'virtue') {
         virtues.push(i);
-        if(i.metadata.impacts[i.data.impact.value]){
-          totalVirtues = parseInt(totalVirtues) + parseInt(i.metadata.impacts[i.data.impact.value].cost);
+        if(ARM5E.impacts[i.data.impact.value]){
+          totalVirtues = parseInt(totalVirtues) + parseInt(ARM5E.impacts[i.data.impact.value].cost);
         }
 
       }
       else if (i.type === 'flaw') {
         flaws.push(i);
-        if(i.metadata.impacts[i.data.impact.value]){
-          totalFlaws = parseInt(totalFlaws) + parseInt(i.metadata.impacts[i.data.impact.value].cost);
+        if(ARM5E.impacts[i.data.impact.value]){
+          totalFlaws = parseInt(totalFlaws) + parseInt(ARM5E.impacts[i.data.impact.value].cost);
         }
       }
       //else if (i.type === 'ability') {

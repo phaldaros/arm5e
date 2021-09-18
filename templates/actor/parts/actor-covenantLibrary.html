@@ -78,7 +78,8 @@
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.ability"}}: {{item.data.ability}} </span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type.value}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{#with (lookup item.data.types item.data.type.value)~}}{{label~}} 
+          {{/with}}</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.data.quality}} </span>
       </div>  

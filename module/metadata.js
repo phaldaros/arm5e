@@ -23,6 +23,14 @@ export const ARM5E = {};
   "tyt": { "label": "Tytalus", "dtype": "String" },
   "ver": { "label": "Verditius", "dtype": "String" }
 };
+// influence is the impact the aura has on powers of magic, faery, divine and infernal respectively
+ARM5E.realms = {
+  "magic" : { "label" : "arm5e.sheet.realm.magical", "dtype" : "String", "influence" : [1,0.5,0,-1]},
+  "faeric" : { "label" : "arm5e.sheet.realm.faeric", "dtype" : "String", "influence" : [0.5,1,0,-1]},
+  "divine" : { "label" : "arm5e.sheet.realm.divine", "dtype" : "String", "influence" : [-3,-4,1,-5]},
+  "infernal" : { "label" : "arm5e.sheet.realm.infernal", "dtype" : "String", "influence" : [-1,-2,0,1]}
+
+};
 
 ARM5E.impacts = {
   "free": {"label": "arm5e.sheet.free","dtype": "String","cost": 0 },
@@ -115,3 +123,29 @@ ARM5E.targets = {
   "hearing" : {"label": "arm5e.config.targets.hearing","dtype": "String", "impact" : 3 },
   "sight" : {"label": "arm5e.config.targets.sight","dtype": "String", "impact" : 4 }
 };
+
+ARM5E.fatigueLevels =  {"fresh": {
+  "label": "arm5e.sheet.fresh",
+  "time": null
+},
+"winded": {
+  "label": "arm5e.sheet.winded",
+  "time": "2 min."
+},
+"weary": {
+  "label": "arm5e.sheet.weary",
+  "time": "10 min."
+},
+"tired": {
+  "label": "arm5e.sheet.tired",
+  "time": "30 min."
+},
+"dazed": {
+  "label": "arm5e.sheet.dazed",
+  "time": "1 hr."
+},
+"unconscious": {
+  "label": "arm5e.sheet.unconscious",
+  "time": "2 hr."
+}
+}

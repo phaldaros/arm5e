@@ -120,39 +120,27 @@
         "fatigueTotal": 0,
         "fatigue": {
           "fresh": {
-            "label": "arm5e.sheet.fresh",
             "number": 0,
-            "time": null,
             "level": { "dtype": "Boolean", "value": false }
           },
           "winded": {
-            "label": "arm5e.sheet.winded",
             "number": 0,
-            "time": "2 min.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "weary": {
-            "label": "arm5e.sheet.weary",
             "number": -1,
-            "time": "10 min.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "tired": {
-            "label": "arm5e.sheet.tired",
             "number": -3,
-            "time": "30 min.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "dazed": {
-            "label": "arm5e.sheet.dazed",
             "number": -5,
-            "time": "1 hr.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "unconscious": {
-            "label": "arm5e.sheet.unconscious",
             "number": 0,
-            "time": "2 hr.",
             "level": { "dtype": "Boolean", "value": false }
           }
         }
@@ -314,10 +302,8 @@
       "primus": { "label": "Primus", "dtype": "String", "value": "" },
       "parens": { "label": "Parens", "dtype": "String", "value": "" },
       "apprenticeship": { "label": "Covenant of Apprenticeship", "dtype": "String", "value": "" },
-      "sigil": { "label": "Wizard's Sigil", "dtype": "String", "value": "A flash of blue light." },
-      "attributes": {
-        "level": { "value": 1 }
-      }
+      "sigil": { "label": "Wizard's Sigil", "dtype": "String", "value": "A flash of blue light." }
+      
     },
     "npc": {
       "templates": ["base", "npcbase", "personality", "wounds", "fatigue", "arts", "roll"],
@@ -502,7 +488,7 @@
       "technique-requisite": {"value": "","label": "Technique Requisite" },
       "form":  {"value": "an","label": "Form" },
       "form-requisite": {"value": "","label": "Form Requisite" },
-      "effectDescription" : "",
+      "baseEffectDescription" : "",
       "baseLevel" : 1
     },
     "magicalEffect" : {
@@ -513,7 +499,7 @@
         "complexity" : 0,
         "enhancingRequisite" : 0,
         "baseLevel" : 1,
-        "effectDescription" : ""
+        "BaseEffectDescription" : ""
     },  
     "spell": {
       "templates": ["base", "authorship","magicalEffectAttributes"],
@@ -522,7 +508,11 @@
       "bonus": 0,
       "exp": 0,
       "mastery": 0,
-      "design" : {}
+      "targetSize" : 0,
+      "complexity" : 0,
+      "enhancingRequisite" : 0,
+      "baseLevel" : 0,
+      "baseEffectDescription" : ""
     },
     "laboratoryText": {
       "templates": ["base", "authorship"],
