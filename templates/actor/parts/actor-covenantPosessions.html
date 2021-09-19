@@ -75,7 +75,8 @@
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{#with (lookup @root.metadata.arts item.data.art.value)~}}{{label~}} 
+          {{/with}}</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
       </div>  
       <div class="item-controls">
@@ -104,7 +105,8 @@
       <div  class="flexrow flex-center">
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{item.data.art.value}} </span>
+        <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{#with (lookup @root.metadata.arts item.data.art.value)~}}{{label~}} 
+          {{/with}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
       </div>  
       <div class="item-controls">

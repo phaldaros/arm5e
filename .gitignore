@@ -10,3 +10,4 @@ jsconfig.json
 test.js
 .npmignore
 packs/
+module/foundry_view.js

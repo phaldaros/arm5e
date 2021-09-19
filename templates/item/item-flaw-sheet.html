@@ -14,7 +14,7 @@
                   <label for="data.impact.value" class="header-label">{{localize data.impact.label}}</label>
                   <select name="data.impact.value"  data-type="String">
                     {{#select data.impact.value}}
-                    {{#each data.impacts as |impact key|}}
+                    {{#each metadata.impacts as |impact key|}}
                     <option value="{{key}}">{{localize impact.label}}</option> {{/each}} {{/select}}
                   </select>
               </div>

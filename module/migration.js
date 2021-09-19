@@ -1,5 +1,9 @@
+import { log} from "./tools.js"
 
 async function migration() {
+
+    ui.notifications.info(`Applying ARM5E System Migration for version ${game.system.data.version}. Please be patient and do not close your game or shut down your server.`, {permanent: true});
+
 
     // Migrate World Actors
     for ( let a of game.actors.contents ) {
@@ -7,32 +11,99 @@ async function migration() {
             if(a.data.type == "magus"){	a.data.type = "player"; }
 
             const updateData = migrateActorData(a.data);
+            
             if ( !isObjectEmpty(updateData) ) {
                 console.log(`Migrating Actor entity ${a.name}`);
                 await a.update(updateData, {enforceTypes: false});
             }
+
+            const cleanData = cleanActorData(a.data)
+            if ( !isObjectEmpty(cleanData) ) {
+                console.log(`Cleaning up Actor entity ${a.name}`);
+                a.data.data = cleanData.data;
+            }
+
         } catch(err) {
             err.message = `Failed system migration for Actor ${a.name}: ${err.message}`;
             console.error(err);
         }
     }
-}
 
-function migrateActorData(actorData){
-    const updateData = {};
+    // Migrate World Items
+    for ( let i of game.items ) {
+        try {
+        const updateData = migrateItemData(i.toObject());
+        if ( !foundry.utils.isObjectEmpty(updateData) ) {
+            console.log(`Migrating Item entity ${i.name}`);
+            await i.update(updateData, {enforceTypes: false});
+        }
 
-    if(actorData.data.version){
-        if(actorData.data.version == "0.2"){
-            return updateData;
+          const cleanData = cleanItemData(i.data)
+          if ( !isObjectEmpty(cleanData) ) {
+              console.log(`Cleaning up Item entity ${i.name}`);
+              i.data.data = cleanData.data;
+          }
+        } catch(err) {
+        err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
+        console.error(err);
         }
     }
+
+//   // Migrate Actor Override Tokens
+//   for ( let s of game.scenes ) {
+//     try {
+//       const updateData = migrateSceneData(s.data);
+//       if ( !foundry.utils.isObjectEmpty(updateData) ) {
+//         console.log(`Migrating Scene entity ${s.name}`);
+//         await s.update(updateData, {enforceTypes: false});
+//         // If we do not do this, then synthetic token actors remain in cache
+//         // with the un-updated actorData.
+//         s.tokens.forEach(t => t._actor = null);
+//       }
+//     } catch(err) {
+//       err.message = `Failed system migration for Scene ${s.name}: ${err.message}`;
+//       console.error(err);
+//     }
+//   }
+
+//   // Migrate World Compendium Packs
+//   for ( let p of game.packs ) {
+//     if ( p.metadata.package !== "world" ) continue;
+//     if ( !["Actor", "Item", "Scene"].includes(p.metadata.entity) ) continue;
+//     await migrateCompendium(p);
+//   }
+
+  // Set the migration as complete
+  game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
+  ui.notifications.info(`Ars Magica 5e System Migration to version ${game.system.data.version} completed!`, {permanent: true});
+}
+
+
+/* -------------------------------------------- */
+/*  Entity Type Migration Helpers               */
+/* -------------------------------------------- */
+
+/**
+ * Migrate a single Actor entity to incorporate latest data model changes
+ * Return an Object of updateData to be applied
+ * @param {object} actor    The actor data object to update
+ * @return {Object}         The updateData to apply
+ */
+export const migrateActorData = function(actorData){
+    const updateData = {};
+
+    // if(actorData.data.version){
+    //     if(actorData.data.version == "0.3"){
+    //         return updateData;
+    //     }
+    // }
 
     if((actorData.type == 'npc') || (actorData.type == 'laboratory') || (actorData.type == 'covenant')){
         return updateData;
     }
 
 	updateData["type"] = "player";
-    updateData["data.version"] = "0.2";
+    updateData["data.version"] = "0.3";
     
     if(actorData.data.diaryEntries === undefined){ updateData["data.diaryEntries"] = []; }
     // convert after fixing typo dairy => diary
@@ -58,10 +129,6 @@ function migrateActorData(actorData){
     if(actorData.data.books === undefined){ updateData["data.books"] = []; }
     if(actorData.data.spells === undefined){ updateData["data.spells"] = []; }
 
-    updateData["data.seasons.spring.label"] = "arm5e.sheet.spring";
-    updateData["data.seasons.summer.label"] = "arm5e.sheet.summer";
-    updateData["data.seasons.autumn.label"] = "arm5e.sheet.autumn";
-    updateData["data.seasons.winter.label"] = "arm5e.sheet.winter";
 
     updateData["data.description.born.label"] = "arm5e.sheet.yearBorn";
     updateData["data.description.apprentice.label"] = "arm5e.sheet.apprenticeshipYears";
@@ -109,6 +176,7 @@ function migrateActorData(actorData){
     updateData["data.roll.aura"] = 0;
     updateData["data.roll.rollLabel"] = "";
     updateData["data.roll.rollFormula"] = "";
+
 
     updateData["data.laboratory.longevityRitual.labTotal"] = 0;
     updateData["data.laboratory.longevityRitual.modifier"] = 0;
@@ -196,7 +264,77 @@ function migrateActorData(actorData){
     updateData["data.familiar.abilitiesFam"] = [];
     updateData["data.familiar.mightsFam"] = [];
 
+
+  // Migrate Owned Items
+  if ( !actorData.items ) return updateData;
+  const items = actorData.items
+  for ( let i of items ) {
+    try {
+    log(false,`Migrating owned Item ${i.name}`);
+    log(false,i.data);
+    const updateData = migrateItemData(i.toObject());
+    if ( !foundry.utils.isObjectEmpty(updateData) ) {
+        console.log(`Migrating Item entity ${i.name}`);
+        i.update(updateData, {enforceTypes: false});
+    }
+
+    const cleanData = cleanItemData(i.data)
+    if ( !isObjectEmpty(cleanData) ) {
+        console.log(`Cleaning up Item entity ${i.name}`);
+        i.data.data = cleanData.data;
+    }
+    } catch(err) {
+    err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
+    console.error(err);
+    }
+    log(false,"After migration");
+    log(false,i.data);
+  }
+  
+  if ( items.length > 0 ) updateData.items = items;
+
     return updateData;
 }
 
+export const migrateItemData = function(itemData){
+    const updateData = {};
+
+
+
+    return updateData;
+}
+
+/**
+ * Scrub an Actor's system data, removing all keys which are not explicitly defined in the system template
+ * @param {Object} actorData    The data object for an Actor
+ * @return {Object}             The scrubbed Actor data
+ */
+ function cleanActorData(actorData) {
+
+    // Scrub system data
+    const model = game.system.model.Actor[actorData.type];
+    actorData.data = filterObject(actorData.data, model);
+  
+  
+    // Return the scrubbed data
+    return actorData;
+  }
+
+
+  /**
+ * Scrub an Item's system data, removing all keys which are not explicitly defined in the system template
+ * @param {Object} itemData    The data object for an Item
+ * @return {Object}             The scrubbed Item data
+ */
+ function cleanItemData(itemData) {
+
+  // Scrub system data
+  const model = game.system.model.Item[itemData.type];
+  itemData.data = filterObject(itemData.data, model);
+
+
+
+  // Return the scrubbed data
+  return itemData;
+}
 export {migration}

@@ -1,9 +1,11 @@
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
 
 import {simpleDie, stressDie} from '../dice.js';
+import { ARM5E } from '../metadata.js';
 
 export class ArM5ePCActorSheet extends ActorSheet {
 
@@ -34,6 +36,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
     // Add the actor's data to context.data for easier access, as well as flags.
     context.data = actorData.data;
     context.flags = actorData.flags;
+
+    context.metadata = CONFIG.ARM5E;
     
     context.data.dtypes = ["String", "Number", "Boolean"];
     for (let attr of Object.values(context.data.attributes)) {
@@ -46,6 +50,8 @@ export class ArM5ePCActorSheet extends ActorSheet {
     //context.effects = prepareActiveEffectCategories(this.actor.effects);
     
     this._prepareCharacterItems(context);
+    console.log("sheetData from pc sheet");
+    console.log(context);
     // console.log("sheetData from pc sheet");
     // console.log(context);
 
@@ -62,8 +68,9 @@ export class ArM5ePCActorSheet extends ActorSheet {
   _prepareCharacterItems(sheetData) {
     //let actorData = sheetData.actor.data;
 
-    
   }
+
+
 
   /* -------------------------------------------- */
 
@@ -99,7 +106,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = ev => this._onDragItemStart(ev);
+      let handler = ev => this._onDragStart(ev);
       html.find('li.item').each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
@@ -118,15 +125,13 @@ export class ArM5ePCActorSheet extends ActorSheet {
     const header = event.currentTarget;
     // Get the type of item to create.
     const type = header.dataset.type;
-    // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
     const itemData = [{
       name: name,
       type: type,
-      data: data
+      data: foundry.utils.deepClone(header.dataset)
     }];
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData[0].data["type"];
@@ -214,9 +219,9 @@ export class ArM5ePCActorSheet extends ActorSheet {
         template = "systems/arm5e/templates/roll/roll-spell.html";
         this.actor.data.data.roll.characteristic = "sta";
 
-        this.actor.data.data.roll.techniqueText = this.actor.data.data.arts.techniques[this.actor.data.data.roll.technique].label + "(";
+        this.actor.data.data.roll.techniqueText = ARM5E.techniques[this.actor.data.data.roll.technique].label + "(";
         this.actor.data.data.roll.techniqueText = this.actor.data.data.roll.techniqueText + this.actor.data.data.arts.techniques[this.actor.data.data.roll.technique].score + ")";
-        this.actor.data.data.roll.formText = this.actor.data.data.arts.forms[this.actor.data.data.roll.form].label + "(";
+        this.actor.data.data.roll.formText = ARM5E.forms[this.actor.data.data.roll.form].label + "(";
         this.actor.data.data.roll.formText = this.actor.data.data.roll.formText + this.actor.data.data.arts.forms[this.actor.data.data.roll.form].score + ")";
       }
 

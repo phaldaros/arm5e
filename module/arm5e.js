@@ -1,4 +1,5 @@
 // Import Modules
+import { ARM5E } from "./metadata.js";
 import { ArM5ePCActor } from "./actor/actor-pc.js";
 import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
 import { ArM5eNPCActor } from "./actor/actor-npc.js";
@@ -10,10 +11,14 @@ import { ArM5eCovenantActorSheet } from "./actor/actor-covenant-sheet.js";
 
 import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
+import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 
 import {migration} from './migration.js';
+import {log} from "./tools.js"
+
+
 
 Hooks.once('init', async function() {
 
@@ -31,6 +36,20 @@ Hooks.once('init', async function() {
     formula: "1d10 + @characteristics.qik.value",
     decimals: 2
   };
+
+/**
+   * Track the system version upon which point a migration was last applied
+   */
+ game.settings.register("arm5e", "systemMigrationVersion", {
+  name: "System Migration Version",
+  scope: "world",
+  config: false,
+  type: String,
+  default: ""
+});
+
+  // Add custom metadata
+  CONFIG.ARM5E = ARM5E;
 
   // Define custom Entity classes
   CONFIG.Actor.documentClass = ArM5ePCActor;
@@ -63,7 +82,11 @@ Hooks.once('init', async function() {
 
 
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("arm5e", ArM5eItemSheet, { makeDefault: true });
+  Items.registerSheet("arm5e", ArM5eItemMagicSheet, { 
+    types: ["magicalEffect"],
+    makeDefault: true 
+  });
+  Items.registerSheet("arm5e", ArM5eItemSheet , { makeDefault: true });
 
   // Preload handlebars templates
   ArM5ePreloadHandlebarsTemplates();
@@ -90,9 +113,36 @@ Hooks.once("ready", async function() {
 
   // Determine whether a system migration is required and feasible
   if ( !game.user.isGM ) return;
+  const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g,''));
+  const SYSTEM_VERSION_NEEDED = 111;
+  const COMPATIBLE_MIGRATION_VERSION = 10;
+  const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
 
+  if ( !currentVersion && totalDocuments === 0 ) return game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
+  const needsMigration = !currentVersion || SYSTEM_VERSION_NEEDED> currentVersion;
+  if ( !needsMigration ) return;
+  // Perform the migration
+  if ( currentVersion && COMPATIBLE_MIGRATION_VERSION> currentVersion ) {
+    const warning = `Your Ars Magica system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.`;
+    ui.notifications.error(warning, {permanent: true});
+  }
   migration();
+  // store the baseEffects
+
 });
+
+/**
+ * This function runs after game data has been requested and loaded from the servers, so entities exist
+ */
+ Hooks.once("setup", function() {
+
+});
+
+Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
+  registerPackageDebugFlag( ARM5E.MODULE_ID);
+});
+
+
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */

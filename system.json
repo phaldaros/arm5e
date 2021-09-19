@@ -2,7 +2,7 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.8.9",
   "templateVersion": 2,
@@ -57,6 +57,14 @@
       "module": "arm5e",
       "path": "packs/scenes.db",
       "entity": "Scene"
+    },
+    {
+      "name": "macros",
+      "label": "Macros",
+      "system": "arm5e",
+      "module": "arm5e",
+      "path": "packs/macros.db",
+      "entity": "Macro"
     }
   ],
   "languages": [

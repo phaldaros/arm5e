@@ -6,7 +6,7 @@
         {{#each data.fatigue as |fatigue key|}}
           <li class="flexrow"  data-attribute="{{key}}">
             <div class="flexrow flex-between marginbot6">
-              <label for="data.fatigue.{{key}}.label">{{localize label}}</label>
+              <label for="metadata.fatigueLevels.{{key}}.label">{{localize label}}</label>
               <span>
                 <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} />
               </span>
@@ -14,7 +14,7 @@
                 <input type="text" name="data.fatigue.{{key}}.number" value="{{numberFormat fatigue.number decimals=0 sign=true}}" data-dtype="Number" readonly />
               </span>
               <span>
-                <input type="text" name="data.fatigue.{{key}}.time" value="{{fatigue.time}}" data-dtype="String" readonly />
+                <input type="text" name="metadata.fatigueLevels.{{key}}.time" value="{{fatigue.time}}" data-dtype="String" readonly />
               </span>
             
             </div>

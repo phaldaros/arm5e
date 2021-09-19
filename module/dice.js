@@ -12,7 +12,7 @@ function simpleDie(html, actorData) {
         formula = "(1D10+" + actorData.data.data.roll.rollFormula + ")/" + actorData.data.data.roll.divide;
     }
     let roll = new Roll(formula, actorData.data.data);
-    roll.roll().toMessage({
+    roll.roll({async : false}).toMessage({
         speaker: ChatMessage.getSpeaker({ actor: actorData }),
         flavor: 'Simple die: <br />' + actorData.data.data.roll.rollLabel
     });  
@@ -199,9 +199,9 @@ function CheckBotch(html, actorData){
     if (botchRoll.result == 0) {
         resultMessage = "<p>No botch!</p>";
     } else if (botchRoll.result == 1) {
-        resultMessage = "<p>BOTCH: "+  botchRoll.result +" cero was rolled.</p>";
+        resultMessage = "<p>BOTCH: "+  botchRoll.result +" zero was rolled.</p>";
     } else if (botchRoll.result > 1) {
-        resultMessage = "<p>BOTCH: "+  botchRoll.result +" ceros were rolled.</p>";
+        resultMessage = "<p>BOTCH: "+  botchRoll.result +" zeros were rolled.</p>";
     } 
     botchRoll.toMessage({
         flavor: resultMessage,
@@ -210,7 +210,7 @@ function CheckBotch(html, actorData){
 }
 
 function explodingRoll(actorData) {
-    let roll = new Roll(`1d10`).roll();
+    let roll = new Roll(`1d10`).roll({async : false});
 
     if(roll.total === 1){
         mult*=2;
@@ -250,16 +250,16 @@ function explodingRoll(actorData) {
 
 function multiplyRoll(mult, roll, rollFormula, divide)
 {
-    if(!roll._rolled) return;
+    if(!roll._evaluated) return;
     let output_roll = new Roll(`${mult} * (${roll._formula}) + ${rollFormula}`);
     output_roll.data = {};
-    output_roll.results = [ mult, `*`, ...roll.results];
+    // output_roll._total = [ mult, `*`, ...roll.result];
     output_roll.terms = [mult, `*`, ...roll.terms];
     //console.log(output_roll)
     //if(parseInt(divide) > 1){
     //    output_roll.terms.push("/"+ divide);
     //}
-    output_roll._rolled = true;
+    output_roll._evaluated = true;
     output_roll._total = ((mult * roll._total) + parseInt(rollFormula)) / parseInt(divide);
     if(mult == 0){
         output_roll._total = 0;

@@ -14,6 +14,12 @@
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
     <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <h4 class="item-title">{{item.name}}</h4>
+    <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{#with (lookup item.data.types item.data.type.value)~}}{{label~}} 
+      {{/with}}</span>
+    <span  class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
+    <span  class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.data.quality}} </span>
+    <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{#with (lookup @root.metadata.arts item.data.art.value)~}}{{label~}} 
+    {{/with}}</span>
     <div class="item-controls">
         <a class="item-control item-edit" title="Edit book"><i class="fas fa-edit"></i></a>
         <a class="item-control item-delete" title="Delete book"><i class="fas fa-trash"></i></a>
@@ -38,6 +44,10 @@
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
   <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
   <h4 class="item-title">{{item.name}}</h4>
+  <span></span>
+  <span  class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{#with (lookup @root.metadata.arts item.data.art.value)~}}{{label~}} 
+    {{/with}} </span>
+  <span  class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
   <div class="item-controls">
       <a class="item-control item-edit" title="Edit vis"><i class="fas fa-edit"></i></a>
       <a class="item-control item-delete" title="Delete vis"><i class="fas fa-trash"></i></a>
@@ -62,6 +72,9 @@
   <li class="item item-value flexrow" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
       <h4 class="item-title">{{item.name}}</h4>
+      <span></span>
+      <span  class="flexrow bold">{{localize "arm5e.sheet.creator"}}: {{item.data.creator}} </span>
+      <span  class="flexrow bold">{{localize "arm5e.sheet.year"}}: {{item.data.year}} </span>
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit magicItems"><i class="fas fa-edit"></i></a>
           <a class="item-control item-delete" title="Delete magicItems"><i class="fas fa-trash"></i></a>

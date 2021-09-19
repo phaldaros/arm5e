@@ -8,7 +8,7 @@
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
                         <select name="data.technique.value"  data-type="String">
                             {{#select data.technique.value}}
-                            {{#each data.techniques as |techniques key|}}
+                            {{#each metadata.techniques as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
@@ -16,23 +16,27 @@
                     <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
                         <select name="data.form.value"  data-type="String">
                             {{#select data.form.value}}
-                            {{#each data.forms as |forms key|}}
-                        <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.forms as |forms key|}}
+                              <option value="{{key}}">{{forms.label}}</option> 
+                            {{/each}} {{/select}}
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.technique-requisite.value" class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
                         <select name="data.technique-requisite.value"  data-type="String">
                             {{#select data.technique-requisite.value}}
-                            {{#each data.technique-requisites as |techniques key|}}
+                            <option value="">N/A</option>    
+                            {{#each metadata.techniques as |techniques key|}}
                         <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+
                         </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.form-requisite.value" class="header-label">{{localize "arm5e.sheet.formRequisite"}}</label>
                         <select name="data.form-requisite.value"  data-type="String">
                             {{#select data.form-requisite.value}}
-                            {{#each data.form-requisites as |forms key|}}
+                            <option value="">N/A</option>
+                            {{#each metadata.forms as |forms key|}}
                         <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
                         </select>
                 </div>
@@ -70,16 +74,28 @@
             <div class="grid grid-3col">
                 <div class="resource">
                   <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-                    <input type="text" name="data.range" value="{{data.range}}" data-dtype="String"/>
+                    <select name="data.range.value"  data-type="String">
+                        {{#select data.range.value}}
+                        {{#each metadata.ranges as |range key|}}
+                        <option value="{{key}}">{{localize range.label}}</option> {{/each}} {{/select}}
+                    </select>
+                </div>
+                <div class="resource">  
+                  <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
+                  <select name="data.duration.value"  data-type="String" >
+                      {{#select data.duration.value}}
+                      {{#each metadata.durations as |duration key|}}
+                      <option value="{{key}}">{{localize duration.label}}</option> {{/each}} {{/select}}
+                  </select>
                 </div>
                 <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-                      <input type="text" name="data.duration" value="{{data.duration}}" data-dtype="String"/>
-                  </div>
-                  <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-                      <input type="text" name="data.target" value="{{data.target}}" data-dtype="String"/>
-                  </div>
+                  <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
+                  <select name="data.target.value"  data-type="String">
+                    {{#select data.target.value}}
+                    {{#each metadata.targets as |target key|}}
+                    <option value="{{key}}">{{localize target.label}}</option> {{/each}} {{/select}}
+                  </select>  
+                </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
                       <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="Number"/>
@@ -94,16 +110,21 @@
                   </div>
                   <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.source"}}</label>
-                      <input type="text" name="data.source" value="{{data.source}}" data-dtype="String"/>
+                    <input type="text" name="data.source" value="{{data.source}}" data-dtype="String"/>
+                  </div>
+                  <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.page"}}</label>
+                    <input type="text" name="data.page" value="{{data.page}}" data-dtype="Number"/>
                   </div>
                 </div>
             </div>
-        </div>
-
+ 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
             {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
         </div>
+
+
 
     </section>
 </form>

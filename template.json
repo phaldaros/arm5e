@@ -3,7 +3,7 @@
     "types": ["player","npc","laboratory","covenant"],
     "templates": {
       "base": {
-        "version": "0.2",
+        "version": "0.3",
         "covenant": {"label": "Covenant","dtype": "String","value": "Covenant Name" },
         "virtues": [],
         "flaws": [],
@@ -51,17 +51,12 @@
         "vis": [],
         "items": [],
         "books": [],
-        "spells": []
+        "spells": [],
+        "magicalEffects" : []
       },
       "pc": {
         "con": {"label": "Confidence ","score": 1,"points": 3 },
         "season": {"value": "","label": "Season","dtype": "String" },
-        "seasons": {
-          "spring": {"label": "arm5e.sheet.spring","dtype": "String" },
-          "summer": {"label": "arm5e.sheet.summer","dtype": "String" },
-          "autumn": {"label": "arm5e.sheet.autumn","dtype": "String" },
-          "winter": {"label": "arm5e.sheet.winter","dtype": "String" }
-        },
         "vitals": {
           "siz": {"label": "arm5e.sheet.size","value": 0 },
           "soa": {"label": "arm5e.sheet.soak","value": 0 },
@@ -125,39 +120,27 @@
         "fatigueTotal": 0,
         "fatigue": {
           "fresh": {
-            "label": "arm5e.sheet.fresh",
             "number": 0,
-            "time": null,
             "level": { "dtype": "Boolean", "value": false }
           },
           "winded": {
-            "label": "arm5e.sheet.winded",
             "number": 0,
-            "time": "2 min.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "weary": {
-            "label": "arm5e.sheet.weary",
             "number": -1,
-            "time": "10 min.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "tired": {
-            "label": "arm5e.sheet.tired",
             "number": -3,
-            "time": "30 min.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "dazed": {
-            "label": "arm5e.sheet.dazed",
             "number": -5,
-            "time": "1 hr.",
             "level": { "dtype": "Boolean", "value": false }
           },
           "unconscious": {
-            "label": "arm5e.sheet.unconscious",
             "number": 0,
-            "time": "2 hr.",
             "level": { "dtype": "Boolean", "value": false }
           }
         }
@@ -315,30 +298,12 @@
         }
       },
       "house": { "value": "", "label": "House" },
-      "houses": {
-        "n-a": { "label": "N/A", "dtype": "String" },
-        "bjo": { "label": "Bjornaer", "dtype": "String" },
-        "bon": { "label": "Bonisagus", "dtype": "String" },
-        "cri": { "label": "Criamon", "dtype": "String" },
-        "exm": { "label": "Ex Miscellanea", "dtype": "String" },
-        "fla": { "label": "Flambeau", "dtype": "String" },
-        "gen": { "label": "Generic Magus", "dtype": "String" },
-        "gue": { "label": "Guernicus", "dtype": "String" },
-        "jer": { "label": "Jerbiton", "dtype": "String" },
-        "mer": { "label": "Mercere", "dtype": "String" },
-        "mta": { "label": "Merinita", "dtype": "String" },
-        "tre": { "label": "Tremere", "dtype": "String" },
-        "tyt": { "label": "Tytalus", "dtype": "String" },
-        "ver": { "label": "Verditius", "dtype": "String" }
-      },
       "dom-mag": { "label": "Domus Magna", "dtype": "String", "value": "" },
       "primus": { "label": "Primus", "dtype": "String", "value": "" },
       "parens": { "label": "Parens", "dtype": "String", "value": "" },
       "apprenticeship": { "label": "Covenant of Apprenticeship", "dtype": "String", "value": "" },
-      "sigil": { "label": "Wizard's Sigil", "dtype": "String", "value": "A flash of blue light." },
-      "attributes": {
-        "level": { "value": 1 }
-      }
+      "sigil": { "label": "Wizard's Sigil", "dtype": "String", "value": "A flash of blue light." }
+      
     },
     "npc": {
       "templates": ["base", "npcbase", "personality", "wounds", "fatigue", "arts", "roll"],
@@ -459,7 +424,7 @@
               "diaryEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem", 
               "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists", 
               "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
-              "visSourcesCovenant", "visStockCovenant",
+              "visSourcesCovenant", "visStockCovenant","magicalEffect","baseEffect",
               "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook"],
     "templates": {
       "base": { 
@@ -476,88 +441,22 @@
         }
       },
       "art":{
-        "art": {"value": "","label": "Art" },
-        "arts": {
-          "cr": {"label": "Creo","dtype": "String" },
-          "in": {"label": "Intellego","dtype": "String" },
-          "mu": {"label": "Muto","dtype": "String" },
-          "pe": {"label": "Perdo","dtype": "String" },
-          "re": {"label": "Rego","dtype": "String" },
-          "an": {"label": "Animal","dtype": "String" },
-          "au": {"label": "Auram","dtype": "String" },
-          "aq": {"label": "Aquam","dtype": "String" },
-          "co": {"label": "Corpus","dtype": "String" },
-          "he": {"label": "Herbam","dtype": "String" },
-          "ig": {"label": "Ignem","dtype": "String" },
-          "im": {"label": "Imaginem","dtype": "String" },
-          "me": {"label": "Mentem","dtype": "String" },
-          "te": {"label": "Terram","dtype": "String" },
-          "vi": {"label": "Vim","dtype": "String" }
-        }
+        "art": {"value": "","label": "Art" }
       },
       "ability":{ "speciality":"", "score": 0, "experience": 0, "experienceNextLevel": 0 },
-      "technique":{
-        "technique": {"value": "","label": "Technique" },
-        "techniques": {
-          "cr": {"label": "Creo","dtype": "String" },
-          "in": {"label": "Intellego","dtype": "String" },
-          "mu": {"label": "Muto","dtype": "String" },
-          "pe": {"label": "Perdo","dtype": "String" },
-          "re": {"label": "Rego","dtype": "String" }
-        }
-      },
-      "technique-requisite":{
+      "magicalEffectAttributes":{
+        "technique": {"value": "cr","label": "Technique" },
         "technique-requisite": {"value": "","label": "Technique Requisite" },
-        "technique-requisites": {
-          "n-a": {"label": "N/A","dtype": "String" },
-          "cr": {"label": "Creo","dtype": "String" },
-          "in": {"label": "Intellego","dtype": "String" },
-          "mu": {"label": "Muto","dtype": "String" },
-          "pe": {"label": "Perdo","dtype": "String" },
-          "re": {"label": "Rego","dtype": "String" }
-        }
-      },
-      "form":{
-        "form":  {"value": "","label": "Form" },
-        "forms": {
-          "an": {"label": "Animal","dtype": "String" },
-          "au": {"label": "Auram","dtype": "String" },
-          "aq": {"label": "Aquam","dtype": "String" },
-          "co": {"label": "Corpus","dtype": "String" },
-          "he": {"label": "Herbam","dtype": "String" },
-          "ig": {"label": "Ignem","dtype": "String" },
-          "im": {"label": "Imaginem","dtype": "String" },
-          "me": {"label": "Mentem","dtype": "String" },
-          "te": {"label": "Terram","dtype": "String" },
-          "vi": {"label": "Vim","dtype": "String" }
-        }
-      },
-      "form-requisite":{
+        "form":  {"value": "an","label": "Form" },
         "form-requisite": {"value": "","label": "Form Requisite" },
-        "form-requisites": {
-          "n-a": {"label": "N/A","dtype": "String" },
-          "an":  {"label": "Animal","dtype": "String" },
-          "au":  {"label": "Auram","dtype": "String" },
-          "aq":  {"label": "Aquam","dtype": "String" },
-          "co":  {"label": "Corpus","dtype": "String" },
-          "he":  {"label": "Herbam","dtype": "String" },
-          "ig":  {"label": "Ignem","dtype": "String" },
-          "im":  {"label": "Imaginem","dtype": "String" },
-          "me":  {"label": "Mentem","dtype": "String" },
-          "te":  {"label": "Terram","dtype": "String" },
-          "vi":  {"label": "Vim","dtype": "String" }
-        }
+        "range": {"value": "personal","label": "arm5e.sheet.range" },
+        "duration" : {"value": "moment","label": "arm5e.sheet.duration" },   
+        "target" :{"value": "ind","label": "arm5e.sheet.target" }
       },
-      "magicBase":{ "level": 1, "range": "", "duration": "", "target": "", "creator": "", "year": "" },
       "habitant":{ "loyalty": 0, "points": 0, "giftType": "", "yearBorn": "", "job": "", "score": 0, "quantity": 0 },
       "season":{
-        "season": "",
-        "seasons": {
-          "spring": {"label": "arm5e.sheet.spring" },
-          "summer": {"label": "arm5e.sheet.summer" },
-          "autumn": {"label": "arm5e.sheet.autumn" },
-          "winter": {"label": "arm5e.sheet.winter" }
-        }
+        "season": ""
+        
       }
     },
     "weapon": {
@@ -584,13 +483,41 @@
       "full": false,
       "equiped": false
     },
+    "baseEffect" : {
+      "technique": {"value": "cr","label": "Technique" },
+      "technique-requisite": {"value": "","label": "Technique Requisite" },
+      "form":  {"value": "an","label": "Form" },
+      "form-requisite": {"value": "","label": "Form Requisite" },
+      "baseEffectDescription" : "",
+      "baseLevel" : 1
+    },
+    "magicalEffect" : {
+        "templates" : ["base","magicalEffectAttributes"],
+        "level" : 1,
+        "ritual": false,
+        "targetSize" : 0,
+        "complexity" : 0,
+        "enhancingRequisite" : 0,
+        "baseLevel" : 1,
+        "BaseEffectDescription" : ""
+    },  
     "spell": {
-      "templates": ["base", "magicBase", "technique", "technique-requisite", "form", "form-requisite"],
+      "templates": ["base", "authorship","magicalEffectAttributes"],
+      "level" : 1,
       "ritual": false,
       "bonus": 0,
       "exp": 0,
       "mastery": 0,
-      "source": ""
+      "targetSize" : 0,
+      "complexity" : 0,
+      "enhancingRequisite" : 0,
+      "baseLevel" : 0,
+      "baseEffectDescription" : ""
+    },
+    "laboratoryText": {
+      "templates": ["base", "authorship"],
+      "magicalEffect" :{},
+      "ritual": false
     },
     "vis": {
       "templates": ["base", "art"],
@@ -598,7 +525,7 @@
       "form": "Physical form of the raw vis."
     },
     "book": {
-      "templates": ["base", "art"],
+      "templates": ["base", "art","authorship"],
       "type": {"value": "","label": "Book Type" },
       "types": {
         "summa": {"label": "Summa","dtype": "String" },
@@ -621,11 +548,6 @@
         "supernatural": {"label": "arm5e.sheet.supernatural","dtype": "String" },
         "social": {"label": "arm5e.sheet.socialStatus","dtype": "String" },
         "general": {"label": "arm5e.sheet.general","dtype": "String" }
-      },
-      "impacts": {
-        "free": {"label": "arm5e.sheet.free","dtype": "String","cost": 0 },
-        "major": {"label": "arm5e.sheet.major","dtype": "String","cost": 3 },
-        "minor": {"label": "arm5e.sheet.minor","dtype": "String","cost": 1 }
       }
     },
     "flaw": {
@@ -639,11 +561,6 @@
         "general": {"label": "arm5e.sheet.general","dtype": "String" },
         "personality": {"label": "arm5e.sheet.personality","dtype": "String" },
         "story": {"label": "arm5e.sheet.story","dtype": "String" }
-      },
-      "impacts": {
-        "free": {"label": "arm5e.sheet.free","dtype": "String","cost": 0 },
-        "major": {"label": "arm5e.sheet.major","dtype": "String","cost": 3 },
-        "minor": {"label": "arm5e.sheet.minor","dtype": "String","cost": 1 }
       }
     },
     "ability":{
@@ -680,7 +597,7 @@
       "size": ""
     },
     "magicItem":{
-      "templates": ["base", "magicBase", "technique", "form"],
+      "templates": ["base"],
       "effect": "",
       "uses": 0
     },
@@ -737,10 +654,6 @@
       "templates": ["base"],
       "type":"",
       "incoming": 0
-    },
-    "laboratoryText": {
-      "templates": ["base", "magicBase", "technique", "technique-requisite", "form", "form-requisite"],
-      "ritual": false
     },
     "mundaneBook":{
       "templates": ["base"],
