@@ -44,7 +44,30 @@ export class ArM5eItemSheet extends ItemSheet {
     context.flags = itemData.flags;
 
     context.metadata = CONFIG.ARM5E;
-    
+    if(itemData.type == "weapon"){
+      let abilitiesSelect = {};
+      const temp = { id: "", name: "N/A" };
+      abilitiesSelect['a0'] = temp;
+      if (this.actor != null ) {
+      // find the actor habilities and create the select
+        for (let [key, i] of this.actor.data.items.entries()) {
+          if (i.type === 'ability') {
+            const temp = {
+              id: i.id,
+              name: i.name
+            };
+            //abilitiesSelect.push(temp);
+            abilitiesSelect['a'+key] = temp;
+          }
+        }
+      }
+
+      context.data.abilities = abilitiesSelect;
+      itemData.data.abilities = abilitiesSelect;
+
+      //console.log("item-sheet get data weapon")
+      //console.log(data)
+    }
 
     log(false,'item-sheet get data');
     log(false,context);
