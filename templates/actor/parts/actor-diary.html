@@ -1,13 +1,14 @@
 {{#if (eq actor.type "player")}}
 <div class="flexcol grid grid-3col">
-<div class="flex-group-left backSection padding12">
-  <label class="smallTitle">
-    <a class="link" href="/systems/arm5e/pdf/experience.pdf" target="_blank">
-      {{localize "arm5e.sheet.pendingExperience"}}
-    </a>
-  </label>
-    <span><input type="text" name="data.pendingXP" value="{{data.pendingXP}}" data-dtype="String" style="margin-top: 12px;" /></span>
-</div>
+  <div class="flex-group-left backSection padding12">
+    <label class="smallTitle">
+      <a class="link" href="/systems/arm5e/pdf/experience.pdf" target="_blank">
+        {{localize "arm5e.sheet.pendingExperience"}}
+      </a>
+    </label>
+    <span><input type="text" name="data.pendingXP" value="{{data.pendingXP}}" data-dtype="String"
+        style="margin-top: 12px;" /></span>
+  </div>
 </div>
 {{/if}}
 
@@ -24,15 +25,15 @@
   </li>
   {{#each data.diaryEntries as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title">{{item.data.year}} ( {{item.data.season}} )  {{item.data.date}}</span>
-        <span></span>
-        <span  class="flexrow bold width3">{{item.name}}</span>
-      </div>  
-      <div class="item-controls">
-          <a class="item-control item-edit" title="Edit diary"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete diary"><i class="fas fa-trash"></i></a>
-      </div>
+    <div class="flexrow flex-center">
+      <span class="flexrow item-title">{{item.data.year}} ( {{item.data.season}} ) {{item.data.date}}</span>
+      <span></span>
+      <span class="flexrow bold width3">{{item.name}}</span>
+    </div>
+    <div class="item-controls">
+      <a class="item-control item-edit" title="Edit diary"><i class="fas fa-edit"></i></a>
+      <a class="item-control item-delete" title="Delete diary"><i class="fas fa-trash"></i></a>
+    </div>
   </li>
-{{/each}}
+  {{/each}}
 </ol>

@@ -1,5 +1,6 @@
-
-import { log} from "../tools.js"
+import {
+  log
+} from "../tools.js"
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -13,7 +14,11 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
       template: "systems/arm5e/templates/actor/actor-covenant-sheet.html",
       width: 1100,
       height: 900,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }]
+      tabs: [{
+        navSelector: ".sheet-tabs",
+        contentSelector: ".sheet-body",
+        initial: "attributes"
+      }]
     });
   }
 
@@ -31,8 +36,8 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
     context.metadata = CONFIG.ARM5E;
     // Prepare items.
     this._prepareCharacterItems(context);
-    log(false,"Covenant-sheet getData");
-    log(false,context);
+    log(false, "Covenant-sheet getData");
+    log(false, context);
     return context;
   }
 
@@ -130,62 +135,64 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
     if (dataset.roll) {
 
       new Dialog({
-        title: 'Select Die',
-        content: ``,
-        buttons: {
+          title: 'Select Die',
+          content: ``,
+          buttons: {
             yes: {
-                icon: "<i class='fas fa-check'></i>",
-                label: `Simple Die`,
-                callback: (html) => {
-                  let roll = new Roll(dataset.roll, this.actor.data.data);
-                  let msg = `Simple Die`;
-                  roll.roll().toMessage({
-                    speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                    flavor: msg
-                  });                   	
-                } 
-                },
+              icon: "<i class='fas fa-check'></i>",
+              label: `Simple Die`,
+              callback: (html) => {
+                let roll = new Roll(dataset.roll, this.actor.data.data);
+                let msg = `Simple Die`;
+                roll.roll().toMessage({
+                  speaker: ChatMessage.getSpeaker({
+                    actor: this.actor
+                  }),
+                  flavor: msg
+                });
+              }
+            },
             no: {
-                icon: "<i class='fas fa-bomb'></i>",
-                label: `Stress Die`,
-                callback: (html) => {
-                    
-                    let mult = 1;
-                    let msg = "Stress Die";
-                    let resultMessage = "";
-                    let roll = explodingRoll(this.actor.data.data);
-                    multiplyRoll(mult, roll).toMessage({
-                        flavor: msg,
-                        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                    });
-                    
-                    function multiplyRoll(mult, roll)
-                    {
-                        if(!roll._evaluated) return;
-                        let output_roll = new Roll(`${mult} * (${roll._formula})`);
-                        output_roll.data = {};
-                        output_roll.results = [ mult, `*`, ...roll.results];
-                        output_roll.terms = [mult, `*`, ...roll.terms];
-                        output_roll._evaluated = true;
-                        output_roll._total = mult * roll._total;
-                    
-                        return output_roll;
-                    }
-                    
-                    function explodingRoll(modifier) {
-                      let roll = new Roll(dataset.roll, modifier).roll();
-                  
-                      if(roll.results[0] === 1)
-                      {
-                        mult*=2;
-                        roll = explodingRoll();
-                      } else {
-                        if (mult === 1 && roll.total === 10) {
-                            mult *= 0;
-                            msg = `Checking for Botch`;
-                            new Dialog({
-                                title: msg,
-                                content: `
+              icon: "<i class='fas fa-bomb'></i>",
+              label: `Stress Die`,
+              callback: (html) => {
+
+                let mult = 1;
+                let msg = "Stress Die";
+                let resultMessage = "";
+                let roll = explodingRoll(this.actor.data.data);
+                multiplyRoll(mult, roll).toMessage({
+                  flavor: msg,
+                  speaker: ChatMessage.getSpeaker({
+                    actor: this.actor
+                  }),
+                });
+
+                function multiplyRoll(mult, roll) {
+                  if (!roll._evaluated) return;
+                  let output_roll = new Roll(`${mult} * (${roll._formula})`);
+                  output_roll.data = {};
+                  output_roll.results = [mult, `*`, ...roll.results];
+                  output_roll.terms = [mult, `*`, ...roll.terms];
+                  output_roll._evaluated = true;
+                  output_roll._total = mult * roll._total;
+
+                  return output_roll;
+                }
+
+                function explodingRoll(modifier) {
+                  let roll = new Roll(dataset.roll, modifier).roll();
+
+                  if (roll.results[0] === 1) {
+                    mult *= 2;
+                    roll = explodingRoll();
+                  } else {
+                    if (mult === 1 && roll.total === 10) {
+                      mult *= 0;
+                      msg = `Checking for Botch`;
+                      new Dialog({
+                        title: msg,
+                        content: `
                                     <p>You rolled a 0. Check for Botch.</p>
                                     <form>
                                         <div style="display: flex; width: 100%; margin-bottom: 10px">
@@ -194,72 +201,71 @@ export class ArM5eCovenantActorSheet extends ActorSheet {
                                         </div>
                                     </form>			
                                     `,
-                                buttons: {
-                                    yes: {
-                                        icon: "<i class='fas fa-check'></i>",
-                                        label: `Roll for Botch!`,
-                                        callback: (html) => {
-                                            let botchDice = html.find('#botchDice').val();
-                                            if (!botchDice) {
-                                                  return ui.notifications.info("Please enter the number of botch dice.");
-                                              }
-                                            let rollCommand = botchDice;
-                                            rollCommand = rollCommand.concat ('d10cf=10');
-                                            const botchRoll =  new Roll(rollCommand);
-                                            botchRoll.roll();
-                                            
-                                            if (botchRoll.result == 1) {
-                                                resultMessage = "<p>BOTCH: one 0 was rolled.</p>";
-                                            } else if (botchRoll.result == 2) {
-                                                resultMessage = "<p>BOTCH: two 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 3) {
-                                                resultMessage = "<p>BOTCH: three 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 4) {
-                                                resultMessage = "<p>BOTCH: four 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 5) {
-                                                resultMessage = "<p>BOTCH: five 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 6) {
-                                                resultMessage = "<p>BOTCH: six 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 7) {
-                                                resultMessage = "<p>BOTCH: seven 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 8) {
-                                                resultMessage = "<p>BOTCH: eight 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 9) {
-                                                resultMessage = "<p>BOTCH: nine 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 10) {
-                                                resultMessage = "<p>BOTCH: ten 0s were rolled.</p>";
-                                            } else if (botchRoll.result == 0) {
-                                                resultMessage = "<p>No botch!</p>";
-                                            }
-                                            botchRoll.toMessage({
-                                                flavor: resultMessage,
-                           
-                                            });			
-                                            } 
-                                        },
-                                    
-                                    no: {
-                                        icon: "<i class='fas fa-times'></i>",
-                                        label: `Cancel`,
-                                        callback: (html) => {
-                                            ChatMessage.create({
-                                                content: `Botch not checked.`
-                                              });
-                                        }
-                                    }
-                                }
+                        buttons: {
+                          yes: {
+                            icon: "<i class='fas fa-check'></i>",
+                            label: `Roll for Botch!`,
+                            callback: (html) => {
+                              let botchDice = html.find('#botchDice').val();
+                              if (!botchDice) {
+                                return ui.notifications.info("Please enter the number of botch dice.");
+                              }
+                              let rollCommand = botchDice;
+                              rollCommand = rollCommand.concat('d10cf=10');
+                              const botchRoll = new Roll(rollCommand);
+                              botchRoll.roll();
+
+                              if (botchRoll.result == 1) {
+                                resultMessage = "<p>BOTCH: one 0 was rolled.</p>";
+                              } else if (botchRoll.result == 2) {
+                                resultMessage = "<p>BOTCH: two 0s were rolled.</p>";
+                              } else if (botchRoll.result == 3) {
+                                resultMessage = "<p>BOTCH: three 0s were rolled.</p>";
+                              } else if (botchRoll.result == 4) {
+                                resultMessage = "<p>BOTCH: four 0s were rolled.</p>";
+                              } else if (botchRoll.result == 5) {
+                                resultMessage = "<p>BOTCH: five 0s were rolled.</p>";
+                              } else if (botchRoll.result == 6) {
+                                resultMessage = "<p>BOTCH: six 0s were rolled.</p>";
+                              } else if (botchRoll.result == 7) {
+                                resultMessage = "<p>BOTCH: seven 0s were rolled.</p>";
+                              } else if (botchRoll.result == 8) {
+                                resultMessage = "<p>BOTCH: eight 0s were rolled.</p>";
+                              } else if (botchRoll.result == 9) {
+                                resultMessage = "<p>BOTCH: nine 0s were rolled.</p>";
+                              } else if (botchRoll.result == 10) {
+                                resultMessage = "<p>BOTCH: ten 0s were rolled.</p>";
+                              } else if (botchRoll.result == 0) {
+                                resultMessage = "<p>No botch!</p>";
+                              }
+                              botchRoll.toMessage({
+                                flavor: resultMessage,
+
+                              });
                             }
-                            ).render(true);
+                          },
+
+                          no: {
+                            icon: "<i class='fas fa-times'></i>",
+                            label: `Cancel`,
+                            callback: (html) => {
+                              ChatMessage.create({
+                                content: `Botch not checked.`
+                              });
+                            }
+                          }
                         }
-                    }
-                      return roll;
+                      }).render(true);
                     }
                   }
+                  return roll;
                 }
+              }
             }
+          }
         }
-    
-    ).render(true);
+
+      ).render(true);
 
 
     }

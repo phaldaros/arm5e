@@ -5,77 +5,103 @@
 
     {{!-- Sheet Header --}}
     <header class="sheet-header">
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
 
             <div class="resources flexrow flex-between">
                 <span class="covenantname flexrow">
-                    <label for="data.saga" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.saga"}}</label>
-                    <input name="data.saga" type="text" value="{{data.saga}}" data-dtype="String" style="flex: 0 0 240px;" />
+                    <label for="data.saga" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.saga"}}</label>
+                    <input name="data.saga" type="text" value="{{data.saga}}" data-dtype="String"
+                        style="flex: 0 0 240px;" />
                 </span>
                 <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.narrator" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.narrator"}}</label>
-                    <input name="data.narrator" type="text" value="{{data.narrator}}" data-dtype="String" style="flex: 0 0 200px;" />
-                </span>
-            </div>
-
-            <div class="resources flexrow flex-between">
-                <span class="covenantname flexrow">
-                    <label for="data.tribunal" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.tribunal"}}</label>
-                    <input name="data.tribunal" type="text" value="{{data.tribunal}}" data-dtype="String" style="flex: 0 0 240px;" />
-                </span>
-                <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.aegisCovenant" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.aegisCovenant"}}</label>
-                    <input name="data.aegisCovenant" type="text" value="{{data.aegisCovenant}}" data-dtype="String" style="flex: 0 0 200px;" />
+                    <label for="data.narrator" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.narrator"}}</label>
+                    <input name="data.narrator" type="text" value="{{data.narrator}}" data-dtype="String"
+                        style="flex: 0 0 200px;" />
                 </span>
             </div>
 
             <div class="resources flexrow flex-between">
                 <span class="covenantname flexrow">
-                    <label for="data.sagaType" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.sagaType"}}</label>
-                    <input name="data.sagaType" type="text" value="{{data.sagaType}}" data-dtype="String" style="flex: 0 0 240px;" />
+                    <label for="data.tribunal" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.tribunal"}}</label>
+                    <input name="data.tribunal" type="text" value="{{data.tribunal}}" data-dtype="String"
+                        style="flex: 0 0 240px;" />
                 </span>
                 <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.foundationYear" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.foundationYear"}}</label>
-                    <input class="flex08" name="data.foundationYear" type="text" value="{{data.foundationYear}}" data-dtype="String" style="flex: 0 0 200px;" />
+                    <label for="data.aegisCovenant" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.aegisCovenant"}}</label>
+                    <input name="data.aegisCovenant" type="text" value="{{data.aegisCovenant}}" data-dtype="String"
+                        style="flex: 0 0 200px;" />
+                </span>
+            </div>
+
+            <div class="resources flexrow flex-between">
+                <span class="covenantname flexrow">
+                    <label for="data.sagaType" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.sagaType"}}</label>
+                    <input name="data.sagaType" type="text" value="{{data.sagaType}}" data-dtype="String"
+                        style="flex: 0 0 240px;" />
+                </span>
+                <span class="covenantname flexrow" style="padding-top:4px;">
+                    <label for="data.foundationYear" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.foundationYear"}}</label>
+                    <input class="flex08" name="data.foundationYear" type="text" value="{{data.foundationYear}}"
+                        data-dtype="String" style="flex: 0 0 200px;" />
                 </span>
             </div>
 
             <div class="resources flexrow flex-between">
                 <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.currentYear" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.currentYear"}}</label>
-                    <input class="flex08" name="data.currentYear" type="text" value="{{data.currentYear}}" data-dtype="String" style="flex: 0 0 240px;" />
+                    <label for="data.currentYear" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.currentYear"}}</label>
+                    <input class="flex08" name="data.currentYear" type="text" value="{{data.currentYear}}"
+                        data-dtype="String" style="flex: 0 0 240px;" />
                 </span>
                 <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.season" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.season"}}</label>
-                    <input name="data.season" type="text" value="{{data.season}}" data-dtype="String" style="flex: 0 0 200px;" />
-                </span>
-            </div>
-
-            <div class="resources flexrow flex-between">
-                <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.modifiersLife.magi" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.modifiersLifeMagi"}}</label>
-                    <input class="flex04" name="data.modifiersLife.magi" type="text" value="{{data.modifiersLife.magi}}" data-dtype="String" />
-                </span>
-                <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.modifiersLife.mundane" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.modifiersLifeMundane"}}</label>
-                    <input class="flex04" name="data.modifiersLife.mundane" type="text" value="{{data.modifiersLife.mundane}}" data-dtype="String" />
+                    <label for="data.season" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.season"}}</label>
+                    <input name="data.season" type="text" value="{{data.season}}" data-dtype="String"
+                        style="flex: 0 0 200px;" />
                 </span>
             </div>
 
             <div class="resources flexrow flex-between">
                 <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.typeAura" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.typeAura"}}</label>
-                    <input name="data.typeAura" type="text" value="{{data.typeAura}}" data-dtype="String" style="flex: 0 0 90px;" />
+                    <label for="data.modifiersLife.magi" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.modifiersLifeMagi"}}</label>
+                    <input class="flex04" name="data.modifiersLife.magi" type="text" value="{{data.modifiersLife.magi}}"
+                        data-dtype="String" />
+                </span>
+                <span class="covenantname flexrow" style="padding-top:4px;">
+                    <label for="data.modifiersLife.mundane" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.modifiersLifeMundane"}}</label>
+                    <input class="flex04" name="data.modifiersLife.mundane" type="text"
+                        value="{{data.modifiersLife.mundane}}" data-dtype="String" />
+                </span>
+            </div>
+
+            <div class="resources flexrow flex-between">
+                <span class="covenantname flexrow" style="padding-top:4px;">
+                    <label for="data.typeAura" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.typeAura"}}</label>
+                    <input name="data.typeAura" type="text" value="{{data.typeAura}}" data-dtype="String"
+                        style="flex: 0 0 90px;" />
                 </span>
                 <span class="covenantname flexrow">
-                    <label for="data.levelAura" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.levelAura"}}</label>
-                    <input class="flex04" name="data.levelAura" type="text" value="{{data.levelAura}}" data-dtype="String" style="flex: 0 0 90px;" />
+                    <label for="data.levelAura" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.levelAura"}}</label>
+                    <input class="flex04" name="data.levelAura" type="text" value="{{data.levelAura}}"
+                        data-dtype="String" style="flex: 0 0 90px;" />
                 </span>
                 <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.levelsRegio" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.levelsRegio"}}</label>
-                    <input class="flex04" name="data.levelsRegio" type="text" value="{{data.levelsRegio}}" data-dtype="String" style="flex: 0 0 90px;" />
+                    <label for="data.levelsRegio" class="header-label"
+                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.levelsRegio"}}</label>
+                    <input class="flex04" name="data.levelsRegio" type="text" value="{{data.levelsRegio}}"
+                        data-dtype="String" style="flex: 0 0 90px;" />
                 </span>
             </div>
 
@@ -156,4 +182,3 @@
         <img src="/systems/arm5e/assets/footer.png">
     </div>
 </form>
-

@@ -9,8 +9,7 @@
   "author": "ialbiol, phaldaros, sylph, xzotl, jupotter",
   "esmodules": ["module/arm5e.js"],
   "styles": ["css/arm5e.css"],
-  "packs": [
-    {
+  "packs": [{
       "name": "magi",
       "label": "Magi",
       "system": "arm5e",
@@ -67,8 +66,7 @@
       "entity": "Macro"
     }
   ],
-  "languages": [
-    {
+  "languages": [{
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"

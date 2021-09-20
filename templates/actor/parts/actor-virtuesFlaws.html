@@ -19,15 +19,15 @@
       </li>
 
       {{#each data.virtues as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}">
-            <div  class="flexrow flex-center">
-              <span class="flexrow item-title">{{item.name}}</span>
-            </div>
-            <div class="item-controls">
-                <a class="item-control item-edit" title="Edit virtue"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" title="Delete virtue"><i class="fas fa-trash"></i></a>
-            </div>
-        </li>
+      <li class="item item-value flexrow" data-item-id="{{item._id}}">
+        <div class="flexrow flex-center">
+          <span class="flexrow item-title">{{item.name}}</span>
+        </div>
+        <div class="item-controls">
+          <a class="item-control item-edit" title="Edit virtue"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete" title="Delete virtue"><i class="fas fa-trash"></i></a>
+        </div>
+      </li>
       {{/each}}
 
     </ol>
@@ -53,15 +53,15 @@
       </li>
 
       {{#each data.flaws as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}">
-          <div  class="flexrow flex-center">
-            <span class="flexrow item-title">{{item.name}}</span>
-          </div>
-            <div class="item-controls">
-                <a class="item-control item-edit" title="Edit flaw"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" title="Delete flaw"><i class="fas fa-trash"></i></a>
-            </div>
-        </li>
+      <li class="item item-value flexrow" data-item-id="{{item._id}}">
+        <div class="flexrow flex-center">
+          <span class="flexrow item-title">{{item.name}}</span>
+        </div>
+        <div class="item-controls">
+          <a class="item-control item-edit" title="Edit flaw"><i class="fas fa-edit"></i></a>
+          <a class="item-control item-delete" title="Delete flaw"><i class="fas fa-trash"></i></a>
+        </div>
+      </li>
       {{/each}}
     </ol>
   </div>

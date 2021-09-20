@@ -1,107 +1,107 @@
 <form class="{{cssClass}} main" autocomplete="off">
-    <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
 
-            <div class="resource flexcol flexrow">
-              <label for="data.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
-                  <select name="data.ability"  data-type="String">
-                      {{#select data.ability}}
-                      {{#each data.abilities as |abil key|}}
-                  <option value="{{abil.id}}">{{abil.name}}</option> {{/each}} {{/select}}
-                  </select>
-            </div>
+      <div class="resource flexcol flexrow">
+        <label for="data.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
+        <select name="data.ability" data-type="String">
+          {{#select data.ability}}
+          {{#each data.abilities as |abil key|}}
+          <option value="{{abil.id}}">{{abil.name}}</option> {{/each}} {{/select}}
+        </select>
+      </div>
 
-            <div class="grid grid-2col">
-              <div class="resource">
-                <label class="header-label">{{localize "arm5e.sheet.equiped"}}</label>
-                <input type="checkbox" name="data.equiped" {{checked data.data.equiped}}>
-              </div>              
-              <div class="resource">
-                <label class="header-label">{{localize "arm5e.sheet.weaponExpert"}}</label>
-                <input type="checkbox" name="data.weaponExpert" {{checked data.weaponExpert}}>
-              </div>
-
-              <div class="resource">
-                <label class="header-label">{{localize "arm5e.sheet.initiative"}}</label>
-                  <input type="text" name="data.init" value="{{data.init}}" data-dtype="Number"/>
-              </div>
-              <div class="resource">
-                  <label class="header-label">{{localize "arm5e.sheet.attack"}}</label>
-                    <input type="text" name="data.atk" value="{{data.atk}}" data-dtype="Number"/>
-                </div>
-
-                <div class="resource">
-                  <label class="header-label">{{localize "arm5e.sheet.defense"}}</label>
-                    <input type="text" name="data.dfn" value="{{data.dfn}}" data-dtype="Number"/>
-                </div>
-                <div class="resource">
-                  <label class="header-label">{{localize "arm5e.sheet.damage"}}</label>
-                    <input type="text" name="data.dam" value="{{data.dam}}" data-dtype="Number"/>
-                </div>
-            </div>
+      <div class="grid grid-2col">
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.equiped"}}</label>
+          <input type="checkbox" name="data.equiped" {{checked data.data.equiped}}>
         </div>
-    </header>
-
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="description">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.description"}}
-        </a>
-        <a class="item posRelative" data-tab="attributes">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.attributes"}}
-        </a>
-    </nav>
-
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            <div class="grid grid-3col">
-
-                  <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.strengthNeeded"}}</label>
-                      <input type="text" name="data.str" value="{{data.str}}" data-dtype="Number"/>
-                  </div>
-                  <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
-                      <input type="text" name="data.load" value="{{data.load}}" data-dtype="Number"/>
-                  </div>
-                <div class="resource flexcol">
-                  <label for="data.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
-                  <select name="data.cost.value"  data-type="String">
-                    {{#select data.cost.value}}
-                    {{#each data.costs as |costs key|}}
-                    <option value="{{key}}">{{localize costs.label}}</option> {{/each}} {{/select}}
-                  </select>
-                </div>
-
-                <div class="resource">
-                  <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
-                    <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number"/>
-                </div>
-                <div class="resource">
-                  <label class="header-label">{{localize "arm5e.sheet.weight"}}</label>
-                    <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number"/>
-                </div>
-                <div class="resource">
-                  <label class="header-label">{{localize "arm5e.sheet.horse"}}</label>
-                  <input type="checkbox" name="data.horse" {{checked data.horse}}>
-                </div>
-  
-              </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.weaponExpert"}}</label>
+          <input type="checkbox" name="data.weaponExpert" {{checked data.weaponExpert}}>
         </div>
 
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable}}
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.initiative"}}</label>
+          <input type="text" name="data.init" value="{{data.init}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.attack"}}</label>
+          <input type="text" name="data.atk" value="{{data.atk}}" data-dtype="Number" />
         </div>
 
-    </section>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.defense"}}</label>
+          <input type="text" name="data.dfn" value="{{data.dfn}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.damage"}}</label>
+          <input type="text" name="data.dam" value="{{data.dam}}" data-dtype="Number" />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+    <a class="item posRelative" data-tab="attributes">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+      {{localize "arm5e.sheet.attributes"}}
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Attributes Tab --}}
+    <div class="tab attributes" data-group="primary" data-tab="attributes">
+      <div class="grid grid-3col">
+
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.strengthNeeded"}}</label>
+          <input type="text" name="data.str" value="{{data.str}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
+          <input type="text" name="data.load" value="{{data.load}}" data-dtype="Number" />
+        </div>
+        <div class="resource flexcol">
+          <label for="data.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
+          <select name="data.cost.value" data-type="String">
+            {{#select data.cost.value}}
+            {{#each data.costs as |costs key|}}
+            <option value="{{key}}">{{localize costs.label}}</option> {{/each}} {{/select}}
+          </select>
+        </div>
+
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
+          <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.weight"}}</label>
+          <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.horse"}}</label>
+          <input type="checkbox" name="data.horse" {{checked data.horse}}>
+        </div>
+
+      </div>
+    </div>
+
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor content=data.data.description target="data.data.description" button=true owner=owner editable=editable}}
+    </div>
+
+  </section>
 </form>

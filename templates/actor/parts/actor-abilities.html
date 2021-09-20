@@ -18,16 +18,19 @@
   </li>
   {{#each data.abilities as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title rollable width4" data-roll="char" data-ability="{{item._id}}" name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>
-        <label>{{localize "arm5e.sheet.score"}}</label><input type="text" name="item.{{id}}.score"  value="{{item.data.score}}" readonly data-dtype="Number" />
-        <span></span>
-        <label>{{localize "arm5e.sheet.experience"}}</label><input type="text" name="item.{{id}}.experience"  value="{{item.data.experience}} / {{ item.data.experienceNextLevel }}" readonly data-dtype="Number"  /> 
-      </div>  
-      <div class="item-controls">
-          <a class="item-control item-edit" title="Edit ability"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete ability"><i class="fas fa-trash"></i></a>
-      </div>
+    <div class="flexrow flex-center">
+      <span class="flexrow item-title rollable width4" data-roll="char" data-ability="{{item._id}}"
+        name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>
+      <label>{{localize "arm5e.sheet.score"}}</label><input type="text" name="item.{{id}}.score"
+        value="{{item.data.score}}" readonly data-dtype="Number" />
+      <span></span>
+      <label>{{localize "arm5e.sheet.experience"}}</label><input type="text" name="item.{{id}}.experience"
+        value="{{item.data.experience}} / {{ item.data.experienceNextLevel }}" readonly data-dtype="Number" />
+    </div>
+    <div class="item-controls">
+      <a class="item-control item-edit" title="Edit ability"><i class="fas fa-edit"></i></a>
+      <a class="item-control item-delete" title="Delete ability"><i class="fas fa-trash"></i></a>
+    </div>
   </li>
-{{/each}}
+  {{/each}}
 </ol>

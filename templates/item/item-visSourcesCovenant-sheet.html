@@ -1,33 +1,33 @@
 <form class="{{cssClass}} main" autocomplete="off">
     <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
             <div class="grid grid-2col">
                 <div class="resource flexcol">
                     <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
-                    <select name="data.art.value"  data-type="String">
-                    {{#select data.art.value}}
-                    {{#each metadata.arts as |arts key|}}
-                    <option value="{{key}}">{{arts.label}}</option> {{/each}} {{/select}}
+                    <select name="data.art.value" data-type="String">
+                        {{#select data.art.value}}
+                        {{#each metadata.arts as |arts key|}}
+                        <option value="{{key}}">{{arts.label}}</option> {{/each}} {{/select}}
                     </select>
                 </div>
             </div>
             <div class="resource">
                 <label class="header-label">{{localize "arm5e.sheet.pawns"}}</label>
-                <input type="text" name="data.pawns" value="{{data.pawns}}" data-dtype="Number"/>
+                <input type="text" name="data.pawns" value="{{data.pawns}}" data-dtype="Number" />
             </div>
             <div class="resource">
                 <label class="header-label">{{localize "arm5e.sheet.location"}}</label>
-                <input type="text" name="data.place" value="{{data.place}}" data-dtype="String"/>
+                <input type="text" name="data.place" value="{{data.place}}" data-dtype="String" />
             </div>
-            
+
             <div class="resource flexcol">
                 <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.season"}}</label>
-                <select name="data.season"  data-type="String">
-                {{#select data.season}}
-                {{#each metadata.seasons as |arts key|}}
-                <option value="{{key}}">{{localize arts.label}}</option> {{/each}} {{/select}}
+                <select name="data.season" data-type="String">
+                    {{#select data.season}}
+                    {{#each metadata.seasons as |arts key|}}
+                    <option value="{{key}}">{{localize arts.label}}</option> {{/each}} {{/select}}
                 </select>
             </div>
         </div>
@@ -36,14 +36,14 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
         <a class="item posRelative" data-tab="description">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.description"}}
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.description"}}
         </a>
         <a class="item posRelative" data-tab="attributes">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.attributes"}}
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.attributes"}}
         </a>
     </nav>
 
@@ -52,8 +52,8 @@
 
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
-                <label for="data.form" class="header-label">{{localize "arm5e.sheet.physicalForm"}}</label>
-                {{editor content=data.form target="data.form" button=true owner=owner editable=editable}}
+            <label for="data.form" class="header-label">{{localize "arm5e.sheet.physicalForm"}}</label>
+            {{editor content=data.form target="data.form" button=true owner=owner editable=editable}}
         </div>
 
         {{!-- Description Tab --}}

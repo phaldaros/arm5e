@@ -8,14 +8,18 @@ function simpleDie(html, actorData) {
     //console.log(actorData);
 
     let formula = "1D10+" + actorData.data.data.roll.rollFormula;
-    if(actorData.data.data.roll.divide > 1){
+    if (actorData.data.data.roll.divide > 1) {
         formula = "(1D10+" + actorData.data.data.roll.rollFormula + ")/" + actorData.data.data.roll.divide;
     }
     let roll = new Roll(formula, actorData.data.data);
-    roll.roll({async : false}).toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: actorData }),
+    roll.roll({
+        async: false
+    }).toMessage({
+        speaker: ChatMessage.getSpeaker({
+            actor: actorData
+        }),
         flavor: 'Simple die: <br />' + actorData.data.data.roll.rollLabel
-    });  
+    });
 }
 
 
@@ -30,152 +34,196 @@ function stressDie(html, actorData) {
     let roll = explodingRoll(actorData);
     multiplyRoll(mult, roll, actorData.data.data.roll.rollFormula, actorData.data.data.roll.divide).toMessage({
         flavor: 'Stress die: <br />' + actorData.data.data.roll.rollLabel,
-        speaker: ChatMessage.getSpeaker({ actor: actorData }),
+        speaker: ChatMessage.getSpeaker({
+            actor: actorData
+        }),
     });
 }
 
 
-function getFormData(html, actorData){
+function getFormData(html, actorData) {
     let find = html.find('.SelectedCharacteristic');
-    if(find.length > 0){ actorData.data.data.roll.characteristic = find[0].value; }
+    if (find.length > 0) {
+        actorData.data.data.roll.characteristic = find[0].value;
+    }
 
     find = html.find('.SelectedAbility');
-    if(find.length > 0){ actorData.data.data.roll.ability = find[0].value; }
+    if (find.length > 0) {
+        actorData.data.data.roll.ability = find[0].value;
+    }
 
     find = html.find('.abilitySpeciality');
-    if(find.length > 0){ actorData.data.data.roll.abilitySpeciality = find[0].checked; }
+    if (find.length > 0) {
+        actorData.data.data.roll.abilitySpeciality = find[0].checked;
+    }
 
     actorData.data.data.roll.divide = 1;
     find = html.find('.Divide');
-    if(find.length > 0){ actorData.data.data.roll.divide = find[0].value; }
+    if (find.length > 0) {
+        actorData.data.data.roll.divide = find[0].value;
+    }
 
     find = html.find('.SelectedTechnique');
-    if(find.length > 0){ actorData.data.data.roll.technique = find[0].value; }
+    if (find.length > 0) {
+        actorData.data.data.roll.technique = find[0].value;
+    }
 
     find = html.find('.SelectedForm');
-    if(find.length > 0){ actorData.data.data.roll.form = find[0].value; }
+    if (find.length > 0) {
+        actorData.data.data.roll.form = find[0].value;
+    }
 
     find = html.find('.SelectedAura');
-    if(find.length > 0){ actorData.data.data.roll.aura = find[0].value; }
+    if (find.length > 0) {
+        actorData.data.data.roll.aura = find[0].value;
+    }
 
     return actorData;
 }
 
-    /*
-        "roll":{
-            "characteristic": "",
-            "ability": "",
-            "tecnique": "",
-            "form": "",
-            "total": "",
-            "rollLabel": "",
-            "rollFormula": ""
-        }
-    */
+/*
+    "roll":{
+        "characteristic": "",
+        "ability": "",
+        "tecnique": "",
+        "form": "",
+        "total": "",
+        "rollLabel": "",
+        "rollFormula": ""
+    }
+*/
 
-function getRollFormula(actorData){
+function getRollFormula(actorData) {
     let total = 0;
     let value = 0;
     let msg = "";
 
-    if(actorData.data.data.roll.technique != ""){
+    if (actorData.data.data.roll.technique != "") {
         value = actorData.data.data.arts.techniques[actorData.data.data.roll.technique].score
         total = parseInt(total) + parseInt(value);
-        if(msg != ""){ msg = msg + " + <br />"; }
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
         msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
         msg = msg + " (" + value + ")";
     }
 
-    if(actorData.data.data.roll.form != ""){
+    if (actorData.data.data.roll.form != "") {
         value = actorData.data.data.arts.forms[actorData.data.data.roll.form].score
         total = parseInt(total) + parseInt(value);
-        if(msg != ""){ msg = msg + " + <br />"; }
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
         msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
         msg = msg + " (" + value + ")";
     }
 
-    if(actorData.data.data.roll.characteristic != ""){
+    if (actorData.data.data.roll.characteristic != "") {
         value = actorData.data.data.characteristics[actorData.data.data.roll.characteristic].value
         total = parseInt(total) + parseInt(value);
-        if(msg != ""){ msg = msg + " + <br />"; }
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
         msg = msg + actorData.data.data.characteristics[actorData.data.data.roll.characteristic].label;
         msg = msg + " (" + value + ")";
     }
 
-    if(actorData.data.data.roll.ability != ""){
-        for(var i=0; i<actorData.data.data.abilities.length; i++){
-            if(actorData.data.data.abilities[i]._id == actorData.data.data.roll.ability){
+    if (actorData.data.data.roll.ability != "") {
+        for (var i = 0; i < actorData.data.data.abilities.length; i++) {
+            if (actorData.data.data.abilities[i]._id == actorData.data.data.roll.ability) {
                 value = actorData.data.data.abilities[i].data.score;
                 total = parseInt(total) + parseInt(value);
-                if(msg != ""){ msg = msg + " + <br />"; }
+                if (msg != "") {
+                    msg = msg + " + <br />";
+                }
                 msg = msg + actorData.data.data.abilities[i].name;
                 msg = msg + " (" + value + ")";
             }
         }
 
-        if(actorData.data.data.roll.abilitySpeciality == true){
+        if (actorData.data.data.roll.abilitySpeciality == true) {
             total = parseInt(total) + 1;
             msg = msg + " ( + 1 speciality)";
         }
     }
 
-    if(actorData.data.data.roll.aura != ""){
+    if (actorData.data.data.roll.aura != "") {
         value = actorData.data.data.roll.aura
         total = parseInt(total) + parseInt(value);
-        if(msg != ""){ msg = msg + " + <br />"; }
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
         msg = msg + "Aura";
         msg = msg + " (" + value + ")";
     }
 
 
-    if(actorData.data.data.roll.txtOption1 != ""){
+    if (actorData.data.data.roll.txtOption1 != "") {
         total = total + parseInt(actorData.data.data.roll.option1)
-        if(msg != ""){ msg = msg + " + <br />"; }
-        msg = msg + actorData.data.data.roll.txtOption1 + " ("+ actorData.data.data.roll.option1 + ")";
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + actorData.data.data.roll.txtOption1 + " (" + actorData.data.data.roll.option1 + ")";
     }
-    if(actorData.data.data.roll.txtOption2 != ""){
+    if (actorData.data.data.roll.txtOption2 != "") {
         total = total + parseInt(actorData.data.data.roll.option2)
-        if(msg != ""){ msg = msg + " + <br />"; }
-        msg = msg + actorData.data.data.roll.txtOption2 + " ("+ actorData.data.data.roll.option2 + ")";
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + actorData.data.data.roll.txtOption2 + " (" + actorData.data.data.roll.option2 + ")";
     }
-    if(actorData.data.data.roll.txtOption3 != ""){
+    if (actorData.data.data.roll.txtOption3 != "") {
         total = total + parseInt(actorData.data.data.roll.option3)
-        if(msg != ""){ msg = msg + " + <br />"; }
-        msg = msg + actorData.data.data.roll.txtOption3 + " ("+ actorData.data.data.roll.option3 + ")";
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + actorData.data.data.roll.txtOption3 + " (" + actorData.data.data.roll.option3 + ")";
     }
-    if(actorData.data.data.roll.txtOption4 != ""){
+    if (actorData.data.data.roll.txtOption4 != "") {
         total = total + parseInt(actorData.data.data.roll.option4)
-        if(msg != ""){ msg = msg + " + <br />"; }
-        msg = msg + actorData.data.data.roll.txtOption4 + " ("+ actorData.data.data.roll.option4 + ")";
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + actorData.data.data.roll.txtOption4 + " (" + actorData.data.data.roll.option4 + ")";
     }
-    if(actorData.data.data.roll.txtOption5 != ""){
+    if (actorData.data.data.roll.txtOption5 != "") {
         total = total + parseInt(actorData.data.data.roll.option5)
-        if(msg != ""){ msg = msg + " + <br />"; }
-        msg = msg + actorData.data.data.roll.txtOption5 + " ("+ actorData.data.data.roll.option5 + ")";
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + actorData.data.data.roll.txtOption5 + " (" + actorData.data.data.roll.option5 + ")";
     }
 
 
-    if(actorData.data.data.roll.bonus > 0){
+    if (actorData.data.data.roll.bonus > 0) {
         total = total + actorData.data.data.roll.bonus
-        if(msg != ""){ msg = msg + " + <br />"; }
-        msg = msg + "Bonus ("+ actorData.data.data.roll.bonus + ")";
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + "Bonus (" + actorData.data.data.roll.bonus + ")";
     }
 
-    if(actorData.data.data.roll.useFatigue == true){
+    if (actorData.data.data.roll.useFatigue == true) {
         total = total + actorData.data.data.fatigueTotal
-        if(msg != ""){ msg = msg + " + <br />"; }
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
         msg = msg + "Fatigue";
         msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
 
         total = total + actorData.data.data.woundsTotal
-        if(msg != ""){ msg = msg + " + <br />"; }
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
         msg = msg + "Wounds";
         msg = msg + " (" + actorData.data.data.woundsTotal + ")";
     }
 
-    if(actorData.data.data.roll.divide > 1){
-        if(msg != ""){ msg = msg + " + <br />"; }
-        msg = msg + "Divide by "+ actorData.data.data.roll.divide;
+    if (actorData.data.data.roll.divide > 1) {
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + "Divide by " + actorData.data.data.roll.divide;
     }
     actorData.data.data.roll.rollFormula = total;
     actorData.data.data.roll.rollLabel = msg;
@@ -183,7 +231,7 @@ function getRollFormula(actorData){
     return actorData;
 }
 
-function CheckBotch(html, actorData){
+function CheckBotch(html, actorData) {
     let resultMessage = "";
 
     let botchDice = html.find('#botchDice').val();
@@ -192,34 +240,38 @@ function CheckBotch(html, actorData){
     }
 
     let rollCommand = botchDice;
-    rollCommand = rollCommand.concat ('d10cf=10');
-    const botchRoll =  new Roll(rollCommand);
+    rollCommand = rollCommand.concat('d10cf=10');
+    const botchRoll = new Roll(rollCommand);
     botchRoll.roll();
-    
+
     if (botchRoll.result == 0) {
         resultMessage = "<p>No botch!</p>";
     } else if (botchRoll.result == 1) {
-        resultMessage = "<p>BOTCH: "+  botchRoll.result +" zero was rolled.</p>";
+        resultMessage = "<p>BOTCH: " + botchRoll.result + " zero was rolled.</p>";
     } else if (botchRoll.result > 1) {
-        resultMessage = "<p>BOTCH: "+  botchRoll.result +" zeros were rolled.</p>";
-    } 
+        resultMessage = "<p>BOTCH: " + botchRoll.result + " zeros were rolled.</p>";
+    }
     botchRoll.toMessage({
         flavor: resultMessage,
-        speaker: ChatMessage.getSpeaker({ actor: actorData }),
-    });	
+        speaker: ChatMessage.getSpeaker({
+            actor: actorData
+        }),
+    });
 }
 
 function explodingRoll(actorData) {
-    let roll = new Roll(`1d10`).roll({async : false});
+    let roll = new Roll(`1d10`).roll({
+        async: false
+    });
 
-    if(roll.total === 1){
-        mult*=2;
+    if (roll.total === 1) {
+        mult *= 2;
         roll = explodingRoll();
     } else {
         if (mult === 1 && roll.total === 10) {
             mult *= 0;
 
-            renderTemplate("systems/arm5e/templates/roll/roll-botch.html").then(function(html){
+            renderTemplate("systems/arm5e/templates/roll/roll-botch.html").then(function (html) {
                 // show dialog
                 new Dialog({
                     title: 'Checking for Botch',
@@ -236,7 +288,9 @@ function explodingRoll(actorData) {
                             callback: (html) => {
                                 ChatMessage.create({
                                     content: `Botch not checked.`,
-                                    speaker: ChatMessage.getSpeaker({ actor: actorData }),
+                                    speaker: ChatMessage.getSpeaker({
+                                        actor: actorData
+                                    }),
                                 });
                             }
                         },
@@ -248,9 +302,8 @@ function explodingRoll(actorData) {
     return roll;
 }
 
-function multiplyRoll(mult, roll, rollFormula, divide)
-{
-    if(!roll._evaluated) return;
+function multiplyRoll(mult, roll, rollFormula, divide) {
+    if (!roll._evaluated) return;
     let output_roll = new Roll(`${mult} * (${roll._formula}) + ${rollFormula}`);
     output_roll.data = {};
     // output_roll._total = [ mult, `*`, ...roll.result];
@@ -261,7 +314,7 @@ function multiplyRoll(mult, roll, rollFormula, divide)
     //}
     output_roll._evaluated = true;
     output_roll._total = ((mult * roll._total) + parseInt(rollFormula)) / parseInt(divide);
-    if(mult == 0){
+    if (mult == 0) {
         output_roll._total = 0;
     }
 
@@ -269,4 +322,7 @@ function multiplyRoll(mult, roll, rollFormula, divide)
 }
 
 
-export {simpleDie, stressDie}
+export {
+    simpleDie,
+    stressDie
+}

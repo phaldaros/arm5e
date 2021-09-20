@@ -1,11 +1,15 @@
-
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
 
-import {simpleDie, stressDie} from '../dice.js';
-import { ARM5E } from '../metadata.js';
+import {
+  simpleDie,
+  stressDie
+} from '../dice.js';
+import {
+  ARM5E
+} from '../metadata.js';
 
 export class ArM5ePCActorSheet extends ActorSheet {
 
@@ -16,7 +20,11 @@ export class ArM5ePCActorSheet extends ActorSheet {
       template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
       width: 1100,
       height: 900,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{
+        navSelector: ".sheet-tabs",
+        contentSelector: ".sheet-body",
+        initial: "description"
+      }]
     });
   }
 
@@ -38,7 +46,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
     context.flags = actorData.flags;
 
     context.metadata = CONFIG.ARM5E;
-    
+
     context.data.dtypes = ["String", "Number", "Boolean"];
     for (let attr of Object.values(context.data.attributes)) {
       attr.isCheckbox = attr.dtype === "Boolean";
@@ -48,7 +56,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
 
     // Prepare active effects
     //context.effects = prepareActiveEffectCategories(this.actor.effects);
-    
+
     this._prepareCharacterItems(context);
     console.log("sheetData from pc sheet");
     console.log(context);
@@ -87,7 +95,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
     // Update Inventory Item
     html.find('.item-edit').click(ev => {
       const li = $(ev.currentTarget).parents(".item");
-      
+
       const item = this.actor.items.get(li.data("itemId"))
       item.sheet.render(true);
     });
@@ -147,7 +155,7 @@ export class ArM5ePCActorSheet extends ActorSheet {
    * @param {Event} event   The originating click event
    * @private
    */
-  _onRoll(event){
+  _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
@@ -178,29 +186,71 @@ export class ArM5ePCActorSheet extends ActorSheet {
       this.actor.data.data.roll.txtOption5 = "";
 
       // set data to roll
-      if(dataset.characteristic){ this.actor.data.data.roll.characteristic = dataset.characteristic; }
-      if(dataset.ability){ this.actor.data.data.roll.ability = dataset.ability; }
-      if(dataset.technique){ this.actor.data.data.roll.technique = dataset.technique; }
-      if(dataset.mform){ this.actor.data.data.roll.form = dataset.mform; }
-      if(dataset.bonus){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus); }
-      if(dataset.bonus2){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2); }
-      if(dataset.bonus3){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3); }
-      if(dataset.divide){ this.actor.data.data.roll.divide = dataset.divide; }
-      if(dataset.usefatigue){ this.actor.data.data.roll.useFatigue = dataset.usefatigue; }
-      if(dataset.option1){ this.actor.data.data.roll.option1 = dataset.option1; }
-      if(dataset.txtoption1){ this.actor.data.data.roll.txtOption1 = dataset.txtoption1; }
-      if(dataset.option2){ this.actor.data.data.roll.option2 = dataset.option2; }
-      if(dataset.txtoption2){ this.actor.data.data.roll.txtOption2 = dataset.txtoption2; }
-      if(dataset.option3){ this.actor.data.data.roll.option3 = dataset.option3; }
-      if(dataset.txtoption3){ this.actor.data.data.roll.txtOption3 = dataset.txtoption3; }
-      if(dataset.option4){ this.actor.data.data.roll.option4 = dataset.option4; }
-      if(dataset.txtoption4){ this.actor.data.data.roll.txtOption4 = dataset.txtoption4; }
-      if(dataset.option5){ this.actor.data.data.roll.option5 = dataset.option5; }
-      if(dataset.txtoption5){ this.actor.data.data.roll.txtOption5 = dataset.txtoption5; }
+      if (dataset.characteristic) {
+        this.actor.data.data.roll.characteristic = dataset.characteristic;
+      }
+      if (dataset.ability) {
+        this.actor.data.data.roll.ability = dataset.ability;
+      }
+      if (dataset.technique) {
+        this.actor.data.data.roll.technique = dataset.technique;
+      }
+      if (dataset.mform) {
+        this.actor.data.data.roll.form = dataset.mform;
+      }
+      if (dataset.bonus) {
+        this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus);
+      }
+      if (dataset.bonus2) {
+        this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2);
+      }
+      if (dataset.bonus3) {
+        this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3);
+      }
+      if (dataset.divide) {
+        this.actor.data.data.roll.divide = dataset.divide;
+      }
+      if (dataset.usefatigue) {
+        this.actor.data.data.roll.useFatigue = dataset.usefatigue;
+      }
+      if (dataset.option1) {
+        this.actor.data.data.roll.option1 = dataset.option1;
+      }
+      if (dataset.txtoption1) {
+        this.actor.data.data.roll.txtOption1 = dataset.txtoption1;
+      }
+      if (dataset.option2) {
+        this.actor.data.data.roll.option2 = dataset.option2;
+      }
+      if (dataset.txtoption2) {
+        this.actor.data.data.roll.txtOption2 = dataset.txtoption2;
+      }
+      if (dataset.option3) {
+        this.actor.data.data.roll.option3 = dataset.option3;
+      }
+      if (dataset.txtoption3) {
+        this.actor.data.data.roll.txtOption3 = dataset.txtoption3;
+      }
+      if (dataset.option4) {
+        this.actor.data.data.roll.option4 = dataset.option4;
+      }
+      if (dataset.txtoption4) {
+        this.actor.data.data.roll.txtOption4 = dataset.txtoption4;
+      }
+      if (dataset.option5) {
+        this.actor.data.data.roll.option5 = dataset.option5;
+      }
+      if (dataset.txtoption5) {
+        this.actor.data.data.roll.txtOption5 = dataset.txtoption5;
+      }
 
       // clean booleans
-      if(this.actor.data.data.roll.useFatigue == "false"){ this.actor.data.data.roll.useFatigue = false; }
-      if(this.actor.data.data.roll.useFatigue == "true"){ this.actor.data.data.roll.useFatigue = true; }
+      if (this.actor.data.data.roll.useFatigue == "false") {
+        this.actor.data.data.roll.useFatigue = false;
+      }
+      if (this.actor.data.data.roll.useFatigue == "true") {
+        this.actor.data.data.roll.useFatigue = true;
+      }
 
       var actorData = this.actor
       //console.log('onRoll');
@@ -208,14 +258,18 @@ export class ArM5ePCActorSheet extends ActorSheet {
 
       // find the template
       let template = "";
-      if(dataset.roll == 'option'){ template = "systems/arm5e/templates/roll/roll-options.html"; }
-      if(dataset.roll == 'char'){ template = "systems/arm5e/templates/roll/roll-characteristic.html"; }
-      if(dataset.roll == 'magic'){
+      if (dataset.roll == 'option') {
+        template = "systems/arm5e/templates/roll/roll-options.html";
+      }
+      if (dataset.roll == 'char') {
+        template = "systems/arm5e/templates/roll/roll-characteristic.html";
+      }
+      if (dataset.roll == 'magic') {
         //spontaneous magic
         template = "systems/arm5e/templates/roll/roll-magic.html";
         this.actor.data.data.roll.characteristic = "sta";
       }
-      if(dataset.roll == 'spell'){
+      if (dataset.roll == 'spell') {
         template = "systems/arm5e/templates/roll/roll-spell.html";
         this.actor.data.data.roll.characteristic = "sta";
 
@@ -225,9 +279,9 @@ export class ArM5ePCActorSheet extends ActorSheet {
         this.actor.data.data.roll.formText = this.actor.data.data.roll.formText + this.actor.data.data.arts.forms[this.actor.data.data.roll.form].score + ")";
       }
 
-      if(template != ""){
+      if (template != "") {
         // render template
-        renderTemplate(template, this.actor.data).then(function(html){
+        renderTemplate(template, this.actor.data).then(function (html) {
           // show dialog
           new Dialog({
             title: 'Select Die',
