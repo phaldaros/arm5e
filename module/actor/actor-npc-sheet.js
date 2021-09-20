@@ -3,7 +3,14 @@
  * @extends {ActorSheet}
  */
 
-import {simpleDie, stressDie} from '../dice.js';
+import {
+  simpleDie,
+  stressDie
+} from '../dice.js';
+import {
+  log
+} from "../tools.js"
+
 export class ArM5eNPCActorSheet extends ActorSheet {
 
   /** @override */
@@ -13,7 +20,11 @@ export class ArM5eNPCActorSheet extends ActorSheet {
       template: "systems/arm5e/templates/actor/actor-npc-sheet.html",
       width: 1100,
       height: 900,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{
+        navSelector: ".sheet-tabs",
+        contentSelector: ".sheet-body",
+        initial: "description"
+      }]
     });
   }
 
@@ -30,19 +41,19 @@ export class ArM5eNPCActorSheet extends ActorSheet {
     // Add the actor's data to context.data for easier access, as well as flags.
     context.data = actorData.data;
     context.flags = actorData.flags;
-    
+
     context.metadata = CONFIG.ARM5E;
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
-    
+
     // Prepare items.
     //if (this.actor.data.type == 'magus') {
-      this._prepareCharacterItems(context);
+    this._prepareCharacterItems(context);
     //}
-    log(false,"Npc-sheet getData");
-    log(false,context);
-    
+    log(false, "Npc-sheet getData");
+    log(false, context);
+
     return context;
   }
 
@@ -56,7 +67,7 @@ export class ArM5eNPCActorSheet extends ActorSheet {
   _prepareCharacterItems(sheetData) {
     //let actorData = sheetData.actor.data;
 
-  
+
   }
 
   /* -------------------------------------------- */
@@ -164,29 +175,71 @@ export class ArM5eNPCActorSheet extends ActorSheet {
       this.actor.data.data.roll.txtOption5 = "";
 
       // set data to roll
-      if(dataset.characteristic){ this.actor.data.data.roll.characteristic = dataset.characteristic; }
-      if(dataset.ability){ this.actor.data.data.roll.ability = dataset.ability; }
-      if(dataset.technique){ this.actor.data.data.roll.technique = dataset.technique; }
-      if(dataset.mform){ this.actor.data.data.roll.form = dataset.mform; }
-      if(dataset.bonus){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus); }
-      if(dataset.bonus2){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2); }
-      if(dataset.bonus3){ this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3); }
-      if(dataset.divide){ this.actor.data.data.roll.divide = dataset.divide; }
-      if(dataset.usefatigue){ this.actor.data.data.roll.useFatigue = dataset.usefatigue; }
-      if(dataset.option1){ this.actor.data.data.roll.option1 = dataset.option1; }
-      if(dataset.txtoption1){ this.actor.data.data.roll.txtOption1 = dataset.txtoption1; }
-      if(dataset.option2){ this.actor.data.data.roll.option2 = dataset.option2; }
-      if(dataset.txtoption2){ this.actor.data.data.roll.txtOption2 = dataset.txtoption2; }
-      if(dataset.option3){ this.actor.data.data.roll.option3 = dataset.option3; }
-      if(dataset.txtoption3){ this.actor.data.data.roll.txtOption3 = dataset.txtoption3; }
-      if(dataset.option4){ this.actor.data.data.roll.option4 = dataset.option4; }
-      if(dataset.txtoption4){ this.actor.data.data.roll.txtOption4 = dataset.txtoption4; }
-      if(dataset.option5){ this.actor.data.data.roll.option5 = dataset.option5; }
-      if(dataset.txtoption5){ this.actor.data.data.roll.txtOption5 = dataset.txtoption5; }
+      if (dataset.characteristic) {
+        this.actor.data.data.roll.characteristic = dataset.characteristic;
+      }
+      if (dataset.ability) {
+        this.actor.data.data.roll.ability = dataset.ability;
+      }
+      if (dataset.technique) {
+        this.actor.data.data.roll.technique = dataset.technique;
+      }
+      if (dataset.mform) {
+        this.actor.data.data.roll.form = dataset.mform;
+      }
+      if (dataset.bonus) {
+        this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus);
+      }
+      if (dataset.bonus2) {
+        this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2);
+      }
+      if (dataset.bonus3) {
+        this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3);
+      }
+      if (dataset.divide) {
+        this.actor.data.data.roll.divide = dataset.divide;
+      }
+      if (dataset.usefatigue) {
+        this.actor.data.data.roll.useFatigue = dataset.usefatigue;
+      }
+      if (dataset.option1) {
+        this.actor.data.data.roll.option1 = dataset.option1;
+      }
+      if (dataset.txtoption1) {
+        this.actor.data.data.roll.txtOption1 = dataset.txtoption1;
+      }
+      if (dataset.option2) {
+        this.actor.data.data.roll.option2 = dataset.option2;
+      }
+      if (dataset.txtoption2) {
+        this.actor.data.data.roll.txtOption2 = dataset.txtoption2;
+      }
+      if (dataset.option3) {
+        this.actor.data.data.roll.option3 = dataset.option3;
+      }
+      if (dataset.txtoption3) {
+        this.actor.data.data.roll.txtOption3 = dataset.txtoption3;
+      }
+      if (dataset.option4) {
+        this.actor.data.data.roll.option4 = dataset.option4;
+      }
+      if (dataset.txtoption4) {
+        this.actor.data.data.roll.txtOption4 = dataset.txtoption4;
+      }
+      if (dataset.option5) {
+        this.actor.data.data.roll.option5 = dataset.option5;
+      }
+      if (dataset.txtoption5) {
+        this.actor.data.data.roll.txtOption5 = dataset.txtoption5;
+      }
 
       // clean booleans
-      if(this.actor.data.data.roll.useFatigue == "false"){ this.actor.data.data.roll.useFatigue = false; }
-      if(this.actor.data.data.roll.useFatigue == "true"){ this.actor.data.data.roll.useFatigue = true; }
+      if (this.actor.data.data.roll.useFatigue == "false") {
+        this.actor.data.data.roll.useFatigue = false;
+      }
+      if (this.actor.data.data.roll.useFatigue == "true") {
+        this.actor.data.data.roll.useFatigue = true;
+      }
 
       var actorData = this.actor
       //console.log('onRoll');
@@ -194,14 +247,18 @@ export class ArM5eNPCActorSheet extends ActorSheet {
 
       // find the template
       let template = "";
-      if(dataset.roll == 'option'){ template = "systems/arm5e/templates/roll/roll-options.html"; }
-      if(dataset.roll == 'char'){ template = "systems/arm5e/templates/roll/roll-characteristic.html"; }
-      if(dataset.roll == 'magic'){
+      if (dataset.roll == 'option') {
+        template = "systems/arm5e/templates/roll/roll-options.html";
+      }
+      if (dataset.roll == 'char') {
+        template = "systems/arm5e/templates/roll/roll-characteristic.html";
+      }
+      if (dataset.roll == 'magic') {
         //spontaneous magic
         template = "systems/arm5e/templates/roll/roll-magic.html";
         this.actor.data.data.roll.characteristic = "sta";
       }
-      if(dataset.roll == 'spell'){
+      if (dataset.roll == 'spell') {
         template = "systems/arm5e/templates/roll/roll-spell.html";
         this.actor.data.data.roll.characteristic = "sta";
 
@@ -211,9 +268,9 @@ export class ArM5eNPCActorSheet extends ActorSheet {
         this.actor.data.data.roll.formText = this.actor.data.data.roll.formText + this.actor.data.data.arts.forms[this.actor.data.data.roll.form].score + ")";
       }
 
-      if(template != ""){
+      if (template != "") {
         // render template
-        renderTemplate(template, this.actor.data).then(function(html){
+        renderTemplate(template, this.actor.data).then(function (html) {
           // show dialog
           new Dialog({
             title: 'Select Die',
