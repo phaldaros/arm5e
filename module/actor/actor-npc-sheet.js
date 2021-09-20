@@ -1,3 +1,8 @@
+import {
+  log
+} from "../tools.js"
+
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}

@@ -29,92 +29,7 @@ export class ArM5ePCActor extends Actor {
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
-    let CreationPx = {
-      "0": {
-        art: 0,
-        abi: 0
-      },
-      "1": {
-        art: 1,
-        abi: 5
-      },
-      "2": {
-        art: 3,
-        abi: 15
-      },
-      "3": {
-        art: 6,
-        abi: 30
-      },
-      "4": {
-        art: 10,
-        abi: 50
-      },
-      "5": {
-        art: 15,
-        abi: 75
-      },
-      "6": {
-        art: 21,
-        abi: 105
-      },
-      "7": {
-        art: 28,
-        abi: 140
-      },
-      "8": {
-        art: 36,
-        abi: 180
-      },
-      "9": {
-        art: 45,
-        abi: 225
-      },
-      "10": {
-        art: 55,
-        abi: 275
-      },
-      "11": {
-        art: 66,
-        abi: 330
-      },
-      "12": {
-        art: 78,
-        abi: 390
-      },
-      "13": {
-        art: 91,
-        abi: 455
-      },
-      "14": {
-        art: 105,
-        abi: 525
-      },
-      "15": {
-        art: 120,
-        abi: 600
-      },
-      "16": {
-        art: 136,
-        abi: 680
-      },
-      "17": {
-        art: 153,
-        abi: 765
-      },
-      "18": {
-        art: 171,
-        abi: 855
-      },
-      "19": {
-        art: 190,
-        abi: 950
-      },
-      "20": {
-        art: 210,
-        abi: 1050
-      },
-    };
+
     let overload = [0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 9999];
     // Initialize containers.
     let weapons = [];
@@ -217,7 +132,7 @@ export class ArM5ePCActor extends Actor {
         //abilitiesSelect.push(temp);
         abilitiesSelect['a' + key] = temp;
 
-        totalXPAbilities = parseInt(totalXPAbilities) + parseInt(CreationPx[i.data.score].abi);
+        totalXPAbilities = parseInt(totalXPAbilities) + this._getAbilityXp(i.data.score);
 
         if ((actorData.type == "player") && (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)) {
           if (i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID) {
@@ -428,7 +343,7 @@ export class ArM5ePCActor extends Actor {
       for (let [key, technique] of Object.entries(data.arts.techniques)) {
         // Calculate the next level experience needed
         technique.experienceNextLevel = (technique.score + 1);
-        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[technique.score].art);
+        totalXPArts = parseInt(totalXPArts) + this._getArtXp(technique.score);
       }
 
       for (let [key, form] of Object.entries(data.arts.forms)) {
@@ -437,7 +352,7 @@ export class ArM5ePCActor extends Actor {
         if ((actorData.type == "player") && (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)) {
           form.magicResistance = (actorData.data.laboratory.abilitiesSelected.parma.value * 5) + form.score;
         }
-        totalXPArts = parseInt(totalXPArts) + parseInt(CreationPx[form.score].art);
+        totalXPArts = parseInt(totalXPArts) + this._getArtXp(form.score);
       }
     }
 
@@ -563,4 +478,10 @@ export class ArM5ePCActor extends Actor {
 
   }
 
+  _getAbilityXp(score) {
+    return this._getArtXp(score) * 5;
+  }
+  _getArtXp(score) {
+    return score * (score + 1) / 2;
+  }
 }
