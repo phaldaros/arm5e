@@ -242,7 +242,11 @@ export class ArM5ePCActor extends Actor {
       //    if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
       //  }
       //}
-      else if (i.type === 'diaryEntry') { diaryEntries.push(i); }
+      
+      // ugly fix, but I don't know how to do better since prepare data is called before migration
+      // to be removed when we break backward compatibility with 0.7
+      
+      else if (i.type === 'diaryEntry' ||i.type === 'dairyEntry') { diaryEntries.push(i); }
       else if (i.type === 'abilityFamiliar') { abilitiesFamiliar.push(i); }
       else if (i.type === 'mightFamiliar') { mightsFamiliar.push(i); }
 

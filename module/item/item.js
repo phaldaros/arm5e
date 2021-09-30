@@ -51,7 +51,7 @@ export class ArM5eItem extends Item {
         if (data.enhancingRequisite) {effectLevel = this._addSpellMagnitude(effectLevel,data.enhancingRequisite);}
         
         // Duration above moon are rituals and rituals are minimum level 20
-        if (CONFIG.ARM5E.durations[data.duration.value].impact > 3 ||
+        if (data.duration.value && CONFIG.ARM5E.durations[data.duration.value].impact > 3 ||
           data.target.value == "bound" || 
           effectLevel >= 50) {
           shouldBeRitual = true;
