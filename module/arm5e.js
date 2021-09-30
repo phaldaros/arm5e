@@ -147,6 +147,7 @@ Hooks.once("ready", async function () {
   Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
 
   // Determine whether a system migration is required and feasible
+
   if (!game.user.isGM) return;
   const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g, ''));
 
