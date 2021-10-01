@@ -48,9 +48,12 @@ export class ArM5ePCActorSheet extends ActorSheet {
     context.metadata = CONFIG.ARM5E;
 
     context.data.dtypes = ["String", "Number", "Boolean"];
-    for (let attr of Object.values(context.data.attributes)) {
-      attr.isCheckbox = attr.dtype === "Boolean";
-    }
+
+    // Xzotl : not sure what this was used for
+    // for (let attr of Object.values(context.data.attributes)) {
+    //   attr.isCheckbox = attr.dtype === "Boolean";
+    // }
+
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
