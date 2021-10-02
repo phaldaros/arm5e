@@ -8,6 +8,7 @@ async function migration(originalVersion) {
         permanent: true
     });
 
+    console.log("Starting migration...");
 
     // Migrate World Actors
     for (let a of game.actors.contents) {
@@ -48,16 +49,19 @@ async function migration(originalVersion) {
                 });
             }
 
+
             // const cleanData = cleanItemData(i.data)
             // if (!isObjectEmpty(cleanData)) {
             //     console.log(`Cleaning up Item entity ${i.name}`);
             //     i.data.data = cleanData.data;
             // }
+
         } catch (err) {
             err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
             console.error(err);
         }
     }
+
 
     //   // Migrate Actor Override Tokens
     //   for ( let s of game.scenes ) {
@@ -83,6 +87,7 @@ async function migration(originalVersion) {
     //     await migrateCompendium(p);
     //   }
 
+
     // Set the migration as complete
     game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
     ui.notifications.info(`Ars Magica 5e System Migration to version ${game.system.data.version} completed!`, {
@@ -90,7 +95,60 @@ async function migration(originalVersion) {
     });
 }
 
+/**
+ * Apply migration rules to all Entities within a single Compendium pack
+ * @param pack
+ * @return {Promise}
+ */
+export const migrateCompendium = async function (pack) {
+    const entity = pack.metadata.entity;
+    if (!["Actor", "Item", "Scene"].includes(entity)) return;
 
+    // Unlock the pack for editing
+    const wasLocked = pack.locked;
+    await pack.configure({
+        locked: false
+    });
+
+    // Begin by requesting server-side data model migration and get the migrated content
+    await pack.migrate();
+    const documents = await pack.getDocuments();
+
+    // Iterate over compendium entries - applying fine-tuned migration functions
+    for (let doc of documents) {
+        let updateData = {};
+        try {
+            switch (entity) {
+                case "Actor":
+                    updateData = migrateActorData(doc.toObject());
+                    break;
+                case "Item":
+                    updateData = migrateItemData(doc.toObject());
+                    break;
+                    // case "Scene":
+                    //     updateData = migrateSceneData(doc.data);
+                    //     break;
+            }
+
+            // Save the entry, if data was changed
+            if (foundry.utils.isObjectEmpty(updateData)) continue;
+            await doc.update(updateData);
+            console.log(`Migrated ${entity} entity ${doc.name} in Compendium ${pack.collection}`);
+        }
+
+        // Handle migration failures
+        catch (err) {
+            err.message = `Failed arm5e system migration for entity ${doc.name} in pack ${pack.collection}: ${err.message}`;
+            console.error(err);
+        }
+    }
+
+    // Apply the original locked status for the pack
+    await pack.configure({
+        locked: wasLocked
+    });
+    console.log(`Migrated all ${entity} entities from Compendium ${pack.collection}`);
+};
 /* -------------------------------------------- */
 /*  Entity Type Migration Helpers               */
 /* -------------------------------------------- */
@@ -101,16 +159,13 @@ async function migration(originalVersion) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
+
 export const migrateActorData = function(actorData) {
     const updateData = {};
 
-    // if(actorData.data.version){
-    //     if(actorData.data.version == "0.3"){
-    //         return updateData;
-    //     }
-    // }
 
     if ((actorData.type == 'npc') || (actorData.type == 'laboratory') || (actorData.type == 'covenant')) {
+
         return updateData;
     }
 
@@ -124,9 +179,14 @@ export const migrateActorData = function(actorData) {
     if (actorData.data.version == "0.1") {
         if (actorData.data.dairyEntries) {
             updateData["data.diaryEntries"] = actorData.data.dairyEntries;
+            updateData["data.dairyEntries"] = null;
         }
+        
     }
-
+    // remove redundant data
+    if (actorData.data.houses != undefined) {
+        updateData["data.houses"] = null;
+    }
 
     if (actorData.data.weapons === undefined) {
         updateData["data.weapons"] = [];
@@ -146,7 +206,6 @@ export const migrateActorData = function(actorData) {
     if (actorData.data.spells === undefined) {
         updateData["data.spells"] = [];
     }
-
 
     updateData["data.charType.value"] = "magus";
     updateData["data.charType.label"] = "Char. Type";
@@ -176,7 +235,9 @@ export const migrateActorData = function(actorData) {
     // updateData["data.laboratory.abilitiesSelected.awareness.value"] = 0;
     updateData["data.laboratory.abilitiesSelected.awareness.label"] = "";
     updateData["data.laboratory.abilitiesSelected.concentration.abilityID"] = "";
+
     // updateData["data.laboratory.abilitiesSelected.concentration.value"] = 0;
+
     updateData["data.laboratory.abilitiesSelected.concentration.label"] = "";
     updateData["data.laboratory.abilitiesSelected.artesLib.abilityID"] = "";
     // updateData["data.laboratory.abilitiesSelected.artesLib.value"] = 0;
@@ -207,7 +268,6 @@ export const migrateActorData = function(actorData) {
         }
     }
 
-
     updateData["data.familiar.characteristicsFam.int"] = {
         "value": actorData.data.familiar.characteristicsFam.int.value
     };
@@ -236,44 +296,66 @@ export const migrateActorData = function(actorData) {
 
     // Migrate Owned Items
     if (!actorData.items) return updateData;
-    const items = actorData.items
-    for (let i of items) {
-        try {
-            log(false, `Migrating owned Item ${i.name}`);
-            log(false, i.data);
-            const updateData = migrateItemData(i.toObject());
-            if (!foundry.utils.isObjectEmpty(updateData)) {
-                console.log(`Migrating Item entity ${i.name}`);
-                i.update(updateData, {
-                    enforceTypes: false
-                });
-            }
 
-            // const cleanData = cleanItemData(i.data)
-            // if (!isObjectEmpty(cleanData)) {
-            //     console.log(`Cleaning up Item entity ${i.name}`);
-            //     i.data.data = cleanData.data;
-            // }
-        } catch (err) {
-            err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
-            console.error(err);
+const items = actorData.items.reduce((arr, i) => {
+        // Migrate the Owned Item
+        const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
+        let itemUpdate = migrateItemData(itemData);
+        // Update the Owned Item
+        if ( !isObjectEmpty(itemUpdate) ) {
+          itemUpdate._id = itemData._id;
+          arr.push(expandObject(itemUpdate));
         }
-        log(false, "After migration");
-        log(false, i.data);
-    }
-
+        return arr;
+  }, []);
     if (items.length > 0) updateData.items = items;
 
-    return updateData;
+
+
+
+  return updateData;
 }
 
-export const migrateItemData = function(itemData) {
+export const migrateItemData = function (itemData) {
+
     const updateData = {};
-
-
+    if (itemData.type == "spell") {
+        if (itemData.data.duration.value === undefined) {
+            // console.log(`Guessing duration: ${itemData.data.duration}`);
+            updateData["data.duration.value"] = _guessDuration(itemData.name, itemData.data.duration);
+            updateData["data.duration.label"] = "arm5e.sheet.duration";
+        }
+        if (itemData.data.range.value === undefined) {
+            // console.log(`Guessing range: ${itemData.data.range}`);
+            updateData["data.range.value"] = _guessRange(itemData.name, itemData.data.range);
+            updateData["data.range.label"] = "arm5e.sheet.range";
+        }
+        if (itemData.data.target.value === undefined) {
+            // console.log(`Guessing target: ${itemData.data.target}`);
+            updateData["data.target.value"] = _guessTarget(itemData.name, itemData.data.target);
+            updateData["data.target.label"] = "arm5e.sheet.target";
+        }
+        // remove redundant data
+        if (itemData.data.techniques != undefined) {
+        updateData["data.-techniques"] = null;
+        }
+        if (itemData.data.forms != undefined) {
+            updateData["data.forms"] = null;
+        }
+        if (itemData.data["technique-requisites"] != undefined) {
+            updateData["data.technique-requisites"] = null;
+        }
+        if (itemData.data["form-requisites"] != undefined) {
+            updateData["data.form-requisites"] = null;
+        }
+    }
+    if (itemData.type == "dairyEntry") {
+        updateData["type"] = "diaryEntry";
+    }
 
     return updateData;
 }
+
 
 /**
  * Scrub an Actor's system data, removing all keys which are not explicitly defined in the system template
@@ -307,6 +389,173 @@ function cleanItemData(itemData) {
 
     // Return the scrubbed data
     return itemData;
+}
+
+
+// Unfortunaltly, since the range was a free input field, it has to be guessed
+function _guessRange(name, value) {
+    switch (value.toLowerCase()) {
+        case "personal":
+        case "pers":
+        case "per":
+        case game.i18n.localize("arm5e.config.ranges.personal"):
+            return "personal";
+        case "touch":
+        case game.i18n.localize("arm5e.config.ranges.touch"):
+            return "touch";
+        case "eye":
+        case game.i18n.localize("arm5e.config.ranges.eye"):
+            return "eye"
+        case "voice":
+        case game.i18n.localize("arm5e.config.ranges.voice"):
+            return "voice";
+        case "road":
+        case game.i18n.localize("arm5e.config.ranges.road"):
+            return "road";
+        case "sight":
+        case game.i18n.localize("arm5e.config.ranges.sight"):
+            return "sight";
+        case "arc":
+        case "arcane connection":
+        case game.i18n.localize("arm5e.config.ranges.arc"):
+            return "arc";
+        case "special":
+        case "spe":
+        case "spec":
+        case game.i18n.localize("arm5e.config.special"):
+            return "special";
+        default:
+            ui.notifications.warn(`Warning: Unable to guess range \"${value}\" of ${name}, you will have to set it manually`, {
+                permanent: true
+            });
+            console.warn(`Range \"${value}\" of spell ${name} could not be guessed`);
+            return "personnal";
+    }
+}
+
+// Unfortunaltly, since the target was a free input field, it has to be guessed
+function _guessTarget(name, value) {
+
+    switch (value.toLowerCase().trim()) {
+        case "individual":
+        case "ind":
+        case "indiv":
+        case game.i18n.localize("arm5e.config.ranges.ind"):
+            return "ind";
+        case "circle":
+        case "cir":
+        case game.i18n.localize("arm5e.config.ranges.circle"):
+            return "circle";
+        case "part":
+        case "par":
+        case game.i18n.localize("arm5e.config.ranges.part"):
+            return "part"
+        case "group":
+        case "gro":
+        case "grp":
+        case game.i18n.localize("arm5e.config.ranges.group"):
+            return "group";
+        case "room":
+        case game.i18n.localize("arm5e.config.ranges.room"):
+            return "room";
+        case "struct":
+        case "str":
+        case game.i18n.localize("arm5e.config.ranges.struct"):
+            return "struct";
+        case "boundary":
+        case "bound":
+        case "bou":
+        case game.i18n.localize("arm5e.config.ranges.bound"):
+            return "bound";
+        case "taste":
+        case "tas":
+        case game.i18n.localize("arm5e.config.ranges.taste"):
+            return "taste";
+        case "hearing":
+        case "hea":
+        case game.i18n.localize("arm5e.config.ranges.hearing"):
+            return "hearing";
+        case "touch":
+        case "tou":
+        case game.i18n.localize("arm5e.config.ranges.touch"):
+            return "touch";
+        case "smell":
+        case "sme":
+        case game.i18n.localize("arm5e.config.ranges.smell"):
+            return "smell";
+        case "sight":
+        case "sig":
+        case game.i18n.localize("arm5e.config.ranges.sight"):
+            return "sight";
+        case "special":
+        case "spe":
+        case "spec":
+        case game.i18n.localize("arm5e.config.special"):
+            return "special";
+        default:
+            ui.notifications.warn(`Warning: Unable to guess target \"${value}\" of ${name}, you will have to set it manually`, {
+                permanent: true
+            });
+            console.warn(`Target \"${value}\" of spell ${name} could not be guessed`);
+            return "ind";
+    }
+}
+
+
+
+// Unfortunaltly, since the duration was a free input field, it has to be guessed
+function _guessDuration(name, value) {
+
+    switch (value.toLowerCase().trim()) {
+        case "moment":
+        case "momentary":
+        case "mom":
+        case game.i18n.localize("arm5e.config.ranges.moment"):
+            return "moment";
+        case "diameter":
+        case "dia":
+        case "diam":
+            return "diam";
+        case "concentration":
+        case game.i18n.localize("arm5e.config.ranges.conc"):
+            return "conc";
+        case "sun":
+        case game.i18n.localize("arm5e.config.ranges.sun"):
+            return "sun"
+        case "ring":
+        case game.i18n.localize("arm5e.config.ranges.ring"):
+            return "ring";
+        case "moon":
+        case game.i18n.localize("arm5e.config.ranges.moon"):
+            return "moon";
+        case "fire":
+        case game.i18n.localize("arm5e.config.ranges.fire"):
+            return "fire";
+        case "bargain":
+        case "barg":
+        case game.i18n.localize("arm5e.config.ranges.barg"):
+            return "bargain";
+        case "year":
+        case game.i18n.localize("arm5e.config.ranges.year"):
+            return "year";
+        case "condition":
+        case game.i18n.localize("arm5e.config.ranges.condition"):
+            return "condition";
+        case "year+1":
+        case game.i18n.localize("arm5e.config.ranges.year+1"):
+            return "year+1";
+        case "special":
+        case "spe":
+        case "spec":
+        case game.i18n.localize("arm5e.config.special"):
+            return "special";
+        default:
+            ui.notifications.warn(`Warning: Unable to guess duration \"${value}\" of ${name}, you will have to set it manually`, {
+                permanent: true
+            });
+            console.warn(`Duration \"${value}\" of spell ${name} could not be guessed`);
+            return "moment";
+    }
 }
 export {
     migration

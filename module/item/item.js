@@ -44,6 +44,7 @@ export class ArM5eItem extends Item {
 
             }
         }
+
         if (this.type == "magicalEffect") {
             let effectLevel = data.baseLevel;
             let shouldBeRitual = false;

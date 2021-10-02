@@ -242,53 +242,37 @@ export class ArM5ePCActor extends Actor {
       //    if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
       //  }
       //}
-      else if (i.type === 'diaryEntry') {
-        diaryEntries.push(i);
-      } else if (i.type === 'abilityFamiliar') {
-        abilitiesFamiliar.push(i);
-      } else if (i.type === 'mightFamiliar') {
-        mightsFamiliar.push(i);
-      } else if (i.type === 'might') {
-        mights.push(i);
-      } else if (i.type === 'speciality') {
-        specialities.push(i);
-      } else if (i.type === 'distinctive') {
-        distinctive.push(i);
-      } else if (i.type === 'sanctumRoom') {
-        rooms.push(i);
-      } else if (i.type === 'magicItem') {
-        magicItems.push(i);
-      } else if (i.type === 'personality') {
-        personalities.push(i);
-      } else if (i.type === 'reputation') {
-        reputations.push(i);
-      } else if (i.type === 'habitantMagi') {
-        magi.push(i);
-      } else if (i.type === 'habitantCompanion') {
-        companion.push(i);
-      } else if (i.type === 'habitantSpecialists') {
-        specialists.push(i);
-      } else if (i.type === 'habitantHabitants') {
-        habitants.push(i);
-      } else if (i.type === 'habitantHorses') {
-        horses.push(i);
-      } else if (i.type === 'habitantLivestock') {
-        livestock.push(i);
-      } else if (i.type === 'possessionsCovenant') {
-        possessions.push(i);
-      } else if (i.type === 'visSourcesCovenant') {
-        visSources.push(i);
-      } else if (i.type === 'visStockCovenant') {
-        visStock.push(i);
-      } else if (i.type === 'calendarCovenant') {
-        calendar.push(i);
-      } else if (i.type === 'incomingSource') {
-        incomingSources.push(i);
-      } else if (i.type === 'laboratoryText') {
-        laboratoryTexts.push(i);
-      } else if (i.type === 'mundaneBook') {
-        mundaneBooks.push(i);
-      }
+
+      
+      // ugly fix, but I don't know how to do better since prepare data is called before migration
+      // to be removed when we break backward compatibility with 0.7
+      
+      else if (i.type === 'diaryEntry' ||i.type === 'dairyEntry') { diaryEntries.push(i); }
+      else if (i.type === 'abilityFamiliar') { abilitiesFamiliar.push(i); }
+      else if (i.type === 'mightFamiliar') { mightsFamiliar.push(i); }
+
+      else if (i.type === 'might') { mights.push(i); }
+
+      else if (i.type === 'speciality') { specialities.push(i); }
+      else if (i.type === 'distinctive') { distinctive.push(i); }
+      else if (i.type === 'sanctumRoom') { rooms.push(i); }
+      else if (i.type === 'magicItem') { magicItems.push(i); }
+      else if (i.type === 'personality') { personalities.push(i); }
+
+      else if (i.type === 'reputation') { reputations.push(i); }
+      else if (i.type === 'habitantMagi') { magi.push(i); }
+      else if (i.type === 'habitantCompanion') { companion.push(i); }
+      else if (i.type === 'habitantSpecialists') { specialists.push(i); }
+      else if (i.type === 'habitantHabitants') { habitants.push(i); }
+      else if (i.type === 'habitantHorses') { horses.push(i); }
+      else if (i.type === 'habitantLivestock') { livestock.push(i); }
+      else if (i.type === 'possessionsCovenant') { possessions.push(i); }
+      else if (i.type === 'visSourcesCovenant') { visSources.push(i); }
+      else if (i.type === 'visStockCovenant') { visStock.push(i); }
+      else if (i.type === 'calendarCovenant') { calendar.push(i); }
+      else if (i.type === 'incomingSource') { incomingSources.push(i); }
+      else if (i.type === 'laboratoryText') { laboratoryTexts.push(i); }
+      else if (i.type === 'mundaneBook') { mundaneBooks.push(i); }
     }
 
     // combat

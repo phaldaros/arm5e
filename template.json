@@ -983,10 +983,9 @@
             "mundaneBooks": []
         }
     },
-
     "Item": {
         "types": ["weapon", "armor", "spell", "vis", "item", "book", "virtue", "flaw", "ability", "abilityFamiliar",
-            "diaryEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
+            "diaryEntry","dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
             "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
             "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
             "visSourcesCovenant", "visStockCovenant", "magicalEffect", "baseEffect",
@@ -1292,5 +1291,6 @@
             "level": 0,
             "quality": 0
         }
+
     }
 }

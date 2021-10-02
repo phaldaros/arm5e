@@ -49,7 +49,6 @@ import {
 } from "./tools.js"
 
 
-
 Hooks.once('init', async function() {
 
     game.arm5e = {
@@ -123,6 +122,7 @@ Hooks.once('init', async function() {
         makeDefault: true
     });
 
+
     // Preload handlebars templates
     ArM5ePreloadHandlebarsTemplates();
 
@@ -136,7 +136,6 @@ Hooks.once('init', async function() {
         }
         return outStr;
     });
-
     Handlebars.registerHelper('toLowerCase', function(str) {
         return str.toLowerCase();
     });
@@ -165,21 +164,22 @@ Hooks.once("ready", async function() {
         });
     }
     migration(currentVersion);
-    // store the baseEffects
+
 
 });
 
 /**
  * This function runs after game data has been requested and loaded from the servers, so entities exist
  */
-Hooks.once("setup", function() {
 
+Hooks.once("setup", function() {
 });
 
 Hooks.once('devModeReady', ({
     registerPackageDebugFlag
 }) => {
     registerPackageDebugFlag(ARM5E.MODULE_ID);
+
 });
 
 
@@ -196,6 +196,7 @@ Hooks.once('devModeReady', ({
  * @returns {Promise}
  */
 async function createArM5eMacro(data, slot) {
+
     if (data.type !== "Item") return;
     if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
     const item = data.data;
@@ -216,6 +217,7 @@ async function createArM5eMacro(data, slot) {
     }
     game.user.assignHotbarMacro(macro, slot);
     return false;
+
 }
 
 /**
