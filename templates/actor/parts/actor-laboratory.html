@@ -1,36 +1,37 @@
-
 {{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="laboratory" }}
 
 <div class="backSection margintop18">
-<div class="characteristics grid grid-3col">
-  <div class="flexrow flex-group-center" style="border:0px">
-    <label class="smallTitle">
-      <a class="link" href="/systems/arm5e/pdf/longevityRitual.pdf" target="_blank">
-        {{localize "arm5e.sheet.longevityRitual"}}
-      </a>
-    </label>
-  </div>
-
-  <div><br /></div>
-
-  <div class="flexrow flex-group-center" style="border:0px">
-    <label class="smallTitle">
-      <a class="link" href="/systems/arm5e/pdf/laboratory.pdf" target="_blank">
-        {{localize "arm5e.sheet.laboratory"}}
-      </a>
-    </label>
-  </div>
-</div>
-
-  <div class="characteristics grid grid-2col"> 
+  <div class="characteristics grid grid-3col">
     <div class="flexrow flex-group-center" style="border:0px">
-      <label for="data.laboratory.longevityRitual.labTotal" class="bold" >{{localize "arm5e.sheet.labTotal"}}</label>
-      <input type="text" name="data.laboratory.longevityRitual.labTotal" value="{{data.laboratory.longevityRitual.labTotal }}" data-dtype="String" />
+      <label class="smallTitle">
+        <a class="link" href="/systems/arm5e/pdf/longevityRitual.pdf" target="_blank">
+          {{localize "arm5e.sheet.longevityRitual"}}
+        </a>
+      </label>
     </div>
-  
+
+    <div><br /></div>
+
     <div class="flexrow flex-group-center" style="border:0px">
-      <label for="data.laboratory.longevityRitual.modifier" class="bold" >{{localize "arm5e.sheet.modifier"}}</label>
-      <input type="text" name="data.laboratory.longevityRitual.modifier" value="{{data.laboratory.longevityRitual.modifier }}" data-dtype="Number" />
+      <label class="smallTitle">
+        <a class="link" href="/systems/arm5e/pdf/laboratory.pdf" target="_blank">
+          {{localize "arm5e.sheet.laboratory"}}
+        </a>
+      </label>
+    </div>
+  </div>
+
+  <div class="characteristics grid grid-2col">
+    <div class="flexrow flex-group-center" style="border:0px">
+      <label for="data.laboratory.longevityRitual.labTotal" class="bold">{{localize "arm5e.sheet.labTotal"}}</label>
+      <input type="text" name="data.laboratory.longevityRitual.labTotal"
+        value="{{data.laboratory.longevityRitual.labTotal }}" data-dtype="String" />
+    </div>
+
+    <div class="flexrow flex-group-center" style="border:0px">
+      <label for="data.laboratory.longevityRitual.modifier" class="bold">{{localize "arm5e.sheet.modifier"}}</label>
+      <input type="text" name="data.laboratory.longevityRitual.modifier"
+        value="{{data.laboratory.longevityRitual.modifier }}" data-dtype="Number" />
     </div>
   </div>
 
@@ -51,12 +52,12 @@
     </div>
 
     <div class="flexrow flex-group-center" style="border:0px">
-      <label for="data.apprentice.name" class="bold" >{{localize "arm5e.sheet.name"}}</label>
+      <label for="data.apprentice.name" class="bold">{{localize "arm5e.sheet.name"}}</label>
       <input type="text" name="data.apprentice.name" value="{{data.apprentice.name }}" data-dtype="String" />
     </div>
 
     <div class="flexrow flex-group-center" style="border:0px">
-      <label for="data.apprentice.age" class="bold" >{{localize "arm5e.sheet.age"}}</label>
+      <label for="data.apprentice.age" class="bold">{{localize "arm5e.sheet.age"}}</label>
       <input type="text" name="data.apprentice.age" value="{{data.apprentice.age }}" data-dtype="Number" />
     </div>
   </div>
@@ -64,23 +65,21 @@
 
   <div class="characteristics grid grid-3col">
     <div class="flexrow flex-group-center" style="border:0px">
-      <label for="data.apprentice.int" class="bold" >{{localize "arm5e.sheet.int"}}</label>
-      <input type="text" name="data.apprentice.int" value="{{numberFormat data.apprentice.int decimals=0 sign=true }}" data-dtype="Number" />
-    </div>
-  
-    <div class="flexrow flex-group-center" style="border:0px">
-      <label for="data.apprentice.magicTheory" class="bold" >{{localize "arm5e.sheet.magicTheory"}}</label>
-      <input type="text" name="data.apprentice.magicTheory" value="{{data.apprentice.magicTheory }}" data-dtype="Number" />
+      <label for="data.apprentice.int" class="bold">{{localize "arm5e.sheet.int"}}</label>
+      <input type="text" name="data.apprentice.int" value="{{numberFormat data.apprentice.int decimals=0 sign=true }}"
+        data-dtype="Number" />
     </div>
 
     <div class="flexrow flex-group-center" style="border:0px">
-      <label for="data.apprentice.years" class="bold" >{{localize "arm5e.sheet.years"}}</label>
+      <label for="data.apprentice.magicTheory" class="bold">{{localize "arm5e.sheet.magicTheory"}}</label>
+      <input type="text" name="data.apprentice.magicTheory" value="{{data.apprentice.magicTheory }}"
+        data-dtype="Number" />
+    </div>
+
+    <div class="flexrow flex-group-center" style="border:0px">
+      <label for="data.apprentice.years" class="bold">{{localize "arm5e.sheet.years"}}</label>
       <input type="text" name="data.apprentice.years" value="{{data.apprentice.years }}" data-dtype="Number" />
-    </div>  
+    </div>
   </div>
 
 </div>
-
-
-
-

@@ -1,7 +1,7 @@
 <form class="{{cssClass}} arm5e arm5eMain" autocomplete="off">
     <div class="flexrow flex-group-center">
         <label class="resource-label">{{localize "arm5e.sheet.characteristic"}}</label>
-        <select name="data.roll.characteristic"  data-type="String" class="SelectedCharacteristic">
+        <select name="data.roll.characteristic" data-type="String" class="SelectedCharacteristic">
             {{#select data.roll.characteristic}}
             {{#each data.characteristics as |item key|}}
             <option value="{{key}}">{{localize item.short}} ({{ item.value }})</option> {{/each}} {{/select}}
@@ -12,7 +12,7 @@
     </div>
     <div class="flexrow flex-group-center">
         <label class="resource-label">{{localize "arm5e.sheet.abilities"}}</label>
-        <select name="data.roll.ability"  data-type="String" class="SelectedAbility">
+        <select name="data.roll.ability" data-type="String" class="SelectedAbility">
             {{#select data.roll.ability}}
             <option value="">N/A (0)</option>
             {{#each data.abilities as |item key|}}
@@ -21,7 +21,8 @@
     </div>
     <div class="flexrow flex-group-center">
         <label class="resource-label">{{localize "arm5e.sheet.speciality"}}</label>
-        <input type="checkbox" class="abilitySpeciality" name="data.roll.abilitySpeciality" {{checked data.roll.abilitySpeciality}} />
+        <input type="checkbox" class="abilitySpeciality" name="data.roll.abilitySpeciality"
+            {{checked data.roll.abilitySpeciality}} />
     </div>
 
     <div class="flexrow flex-group-center">

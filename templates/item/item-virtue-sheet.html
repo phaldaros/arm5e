@@ -1,23 +1,25 @@
 <form class="{{cssClass}} main" autocomplete="off">
     <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
             <div class="grid grid-2col">
-              <div class="resource">
-                  <label for="data.type.value" class="header-label">{{localize data.type.label}}</label>
-                  <select name="data.type.value"  data-type="String">
-                    {{#select data.type.value}}
-                    {{#each data.types as |type key|}}
-                    <option value="{{key}}">{{localize type.label}}</option> {{/each}} {{/select}}
-                  </select>
-                  <label for="data.impact.value" class="header-label">{{localize data.impact.label}}</label>
-                  <select name="data.impact.value"  data-type="String">
-                    {{#select data.impact.value}}
-                    {{#each metadata.impacts as |impact key|}}
-                    <option value="{{key}}">{{localize impact.label}}</option> {{/each}} {{/select}}
-                  </select>
-              </div>
+                <div class="resource">
+                    <label for="data.type.value" class="header-label">{{localize data.type.label}}</label>
+                    <select name="data.type.value" data-type="String">
+                        {{#select data.type.value}}
+                            {{#each metadata.character.flawTypes as |type key|}}
+                                <option value="{{key}}">{{localize label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
+                    <label for="data.impact.value" class="header-label">{{localize data.impact.label}}</label>
+                    <select name="data.impact.value" data-type="String">
+                        {{#select data.impact.value}}
+                            {{#each metadata.impacts as |impact key|}}
+                                <option value="{{key}}">{{localize impact.label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
+                </div>
             </div>
         </div>
     </header>

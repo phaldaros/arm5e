@@ -1,49 +1,57 @@
-
 <div class="backSection padding12">
 
   <div class="resources grid grid-2col" style="border: 0px;">
     <span style="border: 0px;">
-      <label  for="data.governForm" class="bold">{{localize "arm5e.sheet.governForm"}}</label>
-      <input type="text" name="data.governForm" value="{{data.governForm}}" data-dtype="String"/>
+      <label for="data.governForm" class="bold">{{localize "arm5e.sheet.governForm"}}</label>
+      <input type="text" name="data.governForm" value="{{data.governForm}}" data-dtype="String" />
     </span>
   </div>
 
   <div class="resources grid grid-3col" style="border: 0px;">
     <span style="border: 0px;">
-      <label  for="data.loyaltyPoints.base" class="bold">{{localize "arm5e.sheet.loyaltyPoints.base"}}</label>
-      <input type="text" name="data.loyaltyPoints.base" value="{{data.loyaltyPoints.base}}" data-dtype="String"/>
+      <label for="data.loyaltyPoints.base" class="bold">{{localize "arm5e.sheet.loyaltyPoints.base"}}</label>
+      <input type="text" name="data.loyaltyPoints.base" value="{{data.loyaltyPoints.base}}" data-dtype="String" />
     </span>
     <span style="border: 0px;">
-      <label  for="data.loyaltyPoints.actuals" class="bold">{{localize "arm5e.sheet.loyaltyPoints.actuals"}}</label>
-      <input type="text" name="data.loyaltyPoints.actuals" value="{{data.loyaltyPoints.actuals}}" data-dtype="String"/>
+      <label for="data.loyaltyPoints.actuals" class="bold">{{localize "arm5e.sheet.loyaltyPoints.actuals"}}</label>
+      <input type="text" name="data.loyaltyPoints.actuals" value="{{data.loyaltyPoints.actuals}}" data-dtype="String" />
     </span>
     <span style="border: 0px;">
-      <label  for="data.loyaltyPoints.predominant" class="bold">{{localize "arm5e.sheet.loyaltyPoints.predominant"}}</label>
-      <input type="text" name="data.loyaltyPoints.predominant" value="{{data.loyaltyPoints.predominant}}" data-dtype="String"/>
+      <label for="data.loyaltyPoints.predominant"
+        class="bold">{{localize "arm5e.sheet.loyaltyPoints.predominant"}}</label>
+      <input type="text" name="data.loyaltyPoints.predominant" value="{{data.loyaltyPoints.predominant}}"
+        data-dtype="String" />
     </span>
   </div>
 
   <div class="resources grid grid-2col" style="border: 0px;">
     <span style="border: 0px;">
-      <label  for="data.governForm" class="bold">{{localize "arm5e.sheet.loyaltyModifiers.header"}}</label>
+      <label for="data.governForm" class="bold">{{localize "arm5e.sheet.loyaltyModifiers.header"}}</label>
     </span>
   </div>
   <div class="resources grid grid-4col" style="border: 0px;">
     <span style="border: 0px;">
-      <label  for="data.loyaltyModifiers.livingConditions" class="bold">{{localize "arm5e.sheet.loyaltyModifiers.livingConditions"}}</label>
-      <input type="text" name="data.loyaltyModifiers.livingConditions" value="{{data.loyaltyModifiers.livingConditions}}" data-dtype="String"/>
+      <label for="data.loyaltyModifiers.livingConditions"
+        class="bold">{{localize "arm5e.sheet.loyaltyModifiers.livingConditions"}}</label>
+      <input type="text" name="data.loyaltyModifiers.livingConditions"
+        value="{{data.loyaltyModifiers.livingConditions}}" data-dtype="String" />
     </span>
     <span style="border: 0px;">
-      <label  for="data.loyaltyModifiers.equipment" class="bold">{{localize "arm5e.sheet.loyaltyModifiers.equipment"}}</label>
-      <input type="text" name="data.loyaltyModifiers.equipment" value="{{data.loyaltyModifiers.equipment}}" data-dtype="String"/>
+      <label for="data.loyaltyModifiers.equipment"
+        class="bold">{{localize "arm5e.sheet.loyaltyModifiers.equipment"}}</label>
+      <input type="text" name="data.loyaltyModifiers.equipment" value="{{data.loyaltyModifiers.equipment}}"
+        data-dtype="String" />
     </span>
     <span style="border: 0px;">
-      <label  for="data.loyaltyModifiers.money" class="bold">{{localize "arm5e.sheet.loyaltyModifiers.money"}}</label>
-      <input type="text" name="data.loyaltyModifiers.money" value="{{data.loyaltyModifiers.money}}" data-dtype="String"/>
+      <label for="data.loyaltyModifiers.money" class="bold">{{localize "arm5e.sheet.loyaltyModifiers.money"}}</label>
+      <input type="text" name="data.loyaltyModifiers.money" value="{{data.loyaltyModifiers.money}}"
+        data-dtype="String" />
     </span>
     <span style="border: 0px;">
-      <label  for="data.loyaltyModifiers.specialists" class="bold">{{localize "arm5e.sheet.loyaltyModifiers.specialists"}}</label>
-      <input type="text" name="data.loyaltyModifiers.specialists" value="{{data.loyaltyModifiers.specialists}}" data-dtype="String"/>
+      <label for="data.loyaltyModifiers.specialists"
+        class="bold">{{localize "arm5e.sheet.loyaltyModifiers.specialists"}}</label>
+      <input type="text" name="data.loyaltyModifiers.specialists" value="{{data.loyaltyModifiers.specialists}}"
+        data-dtype="String" />
     </span>
   </div>
 
@@ -67,185 +75,192 @@
     </span>
     <span>
       <label for="data.habitants.totalHabitants" class="bold">{{localize "arm5e.sheet.totalHabitants"}}</label>
-      <input type="text" readonly name="data.habitants.totalHabitants" value="{{ data.habitants.totalHabitants }}" data-dtype="Number" />
+      <input type="text" readonly name="data.habitants.totalHabitants" value="{{ data.habitants.totalHabitants }}"
+        data-dtype="Number" />
     </span>
-</div>
+  </div>
 
-{{!-- magi --}}
-<ol class="items-list margintop18">
-  <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  {{!-- magi --}}
+  <ol class="items-list margintop18">
+    <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
-    <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.maguss"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Add habitantMagi" data-type="habitantMagi"><i class="fas fa-plus"></i></a>
-    </div>
-  </li>
-  {{#each data.habitants.magi as |item id|}}
-  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
-        <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
-        <span  class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.giftType"}}: {{item.data.giftType}} </span>
-      </div>  
+      <div class="item-image"></div>
+      <div class="item-name">{{localize "arm5e.sheet.maguss"}}</div>
       <div class="item-controls">
-          <a class="item-control item-edit" title="Edit habitantMagi"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete habitantMagi"><i class="fas fa-trash"></i></a>
+        <a class="item-control item-create" title="Add habitantMagi" data-type="habitantMagi"><i
+            class="fas fa-plus"></i></a>
       </div>
-  </li>
-{{/each}}
-</ol>
-
-
-{{!-- companion --}}
-<ol class="items-list margintop18">
-  <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
-    <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.companion"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Add habitantCompanion" data-type="habitantCompanion"><i class="fas fa-plus"></i></a>
-    </div>
-  </li>
-  {{#each data.habitants.companion as |item id|}}
-  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
-        <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
-        <span  class="flexrow bold flex05">{{localize "arm5e.sheet.loyalty"}}: {{item.data.loyalty}} </span>
-        <span  class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
-      </div>  
+    </li>
+    {{#each data.habitants.magi as |item id|}}
+    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width15">{{item.name}}</span>
+        <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
+        <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.giftType"}}: {{item.data.giftType}} </span>
+      </div>
       <div class="item-controls">
-          <a class="item-control item-edit" title="Edit habitantCompanion"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete habitantCompanion"><i class="fas fa-trash"></i></a>
+        <a class="item-control item-edit" title="Edit habitantMagi"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete habitantMagi"><i class="fas fa-trash"></i></a>
       </div>
-  </li>
-{{/each}}
-</ol>
+    </li>
+    {{/each}}
+  </ol>
 
 
-{{!-- specialists --}}
-<ol class="items-list margintop18">
-  <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  {{!-- companion --}}
+  <ol class="items-list margintop18">
+    <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
-    <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.specialists"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Add habitantSpecialists" data-type="habitantSpecialists"><i class="fas fa-plus"></i></a>
-    </div>
-  </li>
-  {{#each data.habitants.specialists as |item id|}}
-  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
-        <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
-        <span  class="flexrow bold flex05">{{localize "arm5e.sheet.loyalty"}}: {{item.data.loyalty}} </span>
-        <span  class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
-      </div>  
+      <div class="item-image"></div>
+      <div class="item-name">{{localize "arm5e.sheet.companion"}}</div>
       <div class="item-controls">
-          <a class="item-control item-edit" title="Edit habitantSpecialists"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete habitantSpecialists"><i class="fas fa-trash"></i></a>
+        <a class="item-control item-create" title="Add habitantCompanion" data-type="habitantCompanion"><i
+            class="fas fa-plus"></i></a>
       </div>
-  </li>
-{{/each}}
-</ol>
-
-
-{{!-- habitants --}}
-<ol class="items-list margintop18">
-  <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
-    <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.habitants"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Add habitantHabitants" data-type="habitantHabitants"><i class="fas fa-plus"></i></a>
-    </div>
-  </li>
-  {{#each data.habitants.habitants as |item id|}}
-  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
-        <span  class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
-        <span  class="flexrow bold flex05">{{localize "arm5e.sheet.loyalty"}}: {{item.data.loyalty}} </span>
-        <span  class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
-      </div>  
+    </li>
+    {{#each data.habitants.companion as |item id|}}
+    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width15">{{item.name}}</span>
+        <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
+        <span class="flexrow bold flex05">{{localize "arm5e.sheet.loyalty"}}: {{item.data.loyalty}} </span>
+        <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
+      </div>
       <div class="item-controls">
-          <a class="item-control item-edit" title="Edit habitantHabitants"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete habitantHabitants"><i class="fas fa-trash"></i></a>
+        <a class="item-control item-edit" title="Edit habitantCompanion"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete habitantCompanion"><i class="fas fa-trash"></i></a>
       </div>
-  </li>
-{{/each}}
-</ol>
+    </li>
+    {{/each}}
+  </ol>
 
 
-{{!-- horses --}}
-<ol class="items-list margintop18">
-  <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  {{!-- specialists --}}
+  <ol class="items-list margintop18">
+    <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
-    <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.horses"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Add habitantHorses" data-type="habitantHorses"><i class="fas fa-plus"></i></a>
-    </div>
-  </li>
-  {{#each data.habitants.horses as |item id|}}
-  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width2">{{item.name}}</span>
+      <div class="item-image"></div>
+      <div class="item-name">{{localize "arm5e.sheet.specialists"}}</div>
+      <div class="item-controls">
+        <a class="item-control item-create" title="Add habitantSpecialists" data-type="habitantSpecialists"><i
+            class="fas fa-plus"></i></a>
+      </div>
+    </li>
+    {{#each data.habitants.specialists as |item id|}}
+    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width15">{{item.name}}</span>
+        <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
+        <span class="flexrow bold flex05">{{localize "arm5e.sheet.loyalty"}}: {{item.data.loyalty}} </span>
+        <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit habitantSpecialists"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete habitantSpecialists"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+
+
+  {{!-- habitants --}}
+  <ol class="items-list margintop18">
+    <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
+      <div class="item-image"></div>
+      <div class="item-name">{{localize "arm5e.sheet.habitants"}}</div>
+      <div class="item-controls">
+        <a class="item-control item-create" title="Add habitantHabitants" data-type="habitantHabitants"><i
+            class="fas fa-plus"></i></a>
+      </div>
+    </li>
+    {{#each data.habitants.habitants as |item id|}}
+    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width15">{{item.name}}</span>
+        <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
+        <span class="flexrow bold flex05">{{localize "arm5e.sheet.loyalty"}}: {{item.data.loyalty}} </span>
+        <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit habitantHabitants"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete habitantHabitants"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+
+
+  {{!-- horses --}}
+  <ol class="items-list margintop18">
+    <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
+      <div class="item-image"></div>
+      <div class="item-name">{{localize "arm5e.sheet.horses"}}</div>
+      <div class="item-controls">
+        <a class="item-control item-create" title="Add habitantHorses" data-type="habitantHorses"><i
+            class="fas fa-plus"></i></a>
+      </div>
+    </li>
+    {{#each data.habitants.horses as |item id|}}
+    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width2">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
-      </div>  
-      <div class="item-controls">
-          <a class="item-control item-edit" title="Edit habitantHorses"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete habitantHorses"><i class="fas fa-trash"></i></a>
+        <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
       </div>
-  </li>
-{{/each}}
-</ol>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit habitantHorses"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete habitantHorses"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
+    {{/each}}
+  </ol>
 
 
-{{!-- livestock --}}
-<ol class="items-list margintop18">
-  <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+  {{!-- livestock --}}
+  <ol class="items-list margintop18">
+    <li class="item flexrow item-header">
+      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
-    <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.livestock"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Add habitantLivestock" data-type="habitantLivestock"><i class="fas fa-plus"></i></a>
-    </div>
-  </li>
-  {{#each data.habitants.livestock as |item id|}}
-  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width2">{{item.name}}</span>
+      <div class="item-image"></div>
+      <div class="item-name">{{localize "arm5e.sheet.livestock"}}</div>
+      <div class="item-controls">
+        <a class="item-control item-create" title="Add habitantLivestock" data-type="habitantLivestock"><i
+            class="fas fa-plus"></i></a>
+      </div>
+    </li>
+    {{#each data.habitants.livestock as |item id|}}
+    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width2">{{item.name}}</span>
         <span></span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
-        <span  class="flexrow bold">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
-      </div>  
-      <div class="item-controls">
-          <a class="item-control item-edit" title="Edit habitantLivestock"><i class="fas fa-edit"></i></a>
-          <a class="item-control item-delete" title="Delete habitantLivestock"><i class="fas fa-trash"></i></a>
+        <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
       </div>
-  </li>
-{{/each}}
-</ol>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit habitantLivestock"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete habitantLivestock"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
+    {{/each}}
+  </ol>
 
 </div>

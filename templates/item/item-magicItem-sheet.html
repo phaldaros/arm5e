@@ -1,36 +1,38 @@
 <form class="{{cssClass}} main" autocomplete="off">
     <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
             <div class="grid grid-col">
 
                 <div class="resource flexcol flexrow">
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
-                        <select name="data.technique.value"  data-type="String">
-                            {{#select data.technique.value}}
-                            {{#each metadata.techniques as |techniques key|}}
-                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
-                        </select>
+                    <select name="data.technique.value" data-type="String">
+                        {{#select data.technique.value}}
+                            {{#each metadata.magic.techniques as |techniques key|}}
+                                <option value="{{key}}">{{techniques.label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
                 </div>
 
                 <div class="resource flexcol flexrow">
                     <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
-                        <select name="data.form.value"  data-type="String">
-                            {{#select data.form.value}}
-                            {{#each metadata.forms as |forms key|}}
-                        <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
-                        </select>
+                    <select name="data.form.value" data-type="String">
+                        {{#select data.form.value}}
+                            {{#each metadata.magic.forms as |forms key|}}
+                                <option value="{{key}}">{{forms.label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
                 </div>
 
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-                    <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number"/>
+                    <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
                 </div>
 
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.uses"}}</label>
-                    <input type="text" name="data.uses" value="{{data.uses}}" data-dtype="Number"/>
+                    <input type="text" name="data.uses" value="{{data.uses}}" data-dtype="Number" />
                 </div>
 
             </div>
@@ -40,14 +42,14 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
         <a class="item posRelative" data-tab="description">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.description"}}
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.description"}}
         </a>
         <a class="item posRelative" data-tab="attributes">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.attributes"}}
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.attributes"}}
         </a>
     </nav>
 
@@ -59,43 +61,46 @@
             <div class="grid grid-3col">
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-                    <select name="data.range.value"  data-type="String">
+                    <select name="data.range.value" data-type="String">
                         {{#select data.range.value}}
-                        {{#each metadata.ranges as |range key|}}
-                        <option value="{{key}}">{{localize range.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.ranges as |range key|}}
+                                <option value="{{key}}">{{localize range.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-                    <select name="data.duration.value"  data-type="String" >
-                      {{#select data.duration.value}}
-                      {{#each metadata.durations as |duration key|}}
-                      <option value="{{key}}">{{localize duration.label}}</option> {{/each}} {{/select}}
-                  </select>
+                    <select name="data.duration.value" data-type="String">
+                        {{#select data.duration.value}}
+                            {{#each metadata.magic.durations as |duration key|}}
+                                <option value="{{key}}">{{localize duration.label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-                    <select name="data.target.value"  data-type="String">
+                    <select name="data.target.value" data-type="String">
                         {{#select data.target.value}}
-                        {{#each metadata.targets as |target key|}}
-                        <option value="{{key}}">{{localize target.label}}</option> {{/each}} {{/select}}
-                      </select>  
+                            {{#each metadata.magic.targets as |target key|}}
+                                <option value="{{key}}">{{localize target.label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.effects"}}</label>
-                    <input type="text" name="data.effects" value="{{data.effect}}" data-dtype="String"/>
+                    <input type="text" name="data.effects" value="{{data.effect}}" data-dtype="String" />
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.creator"}}</label>
-                    <input type="text" name="data.creator" value="{{data.creator}}" data-dtype="String"/>
+                    <input type="text" name="data.creator" value="{{data.creator}}" data-dtype="String" />
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-                    <input type="text" name="data.year" value="{{data.year}}" data-dtype="String"/>
+                    <input type="text" name="data.year" value="{{data.year}}" data-dtype="String" />
                 </div>
 
-                </div>
             </div>
+        </div>
         </div>
 
         {{!-- Description Tab --}}

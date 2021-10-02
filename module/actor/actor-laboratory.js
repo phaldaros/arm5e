@@ -7,7 +7,7 @@ export class ArM5eLaboratoryActor extends Actor {
   /**
    * Augment the basic actor data with additional dynamic data.
    **/
-  
+
   prepareData() {
     super.prepareData();
 

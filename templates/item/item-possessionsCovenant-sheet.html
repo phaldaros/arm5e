@@ -1,22 +1,22 @@
 <form class="{{cssClass}} main" autocomplete="off">
     <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
 
             <div class="resource">
                 <label for="data.location" class="header-label">{{localize "arm5e.sheet.location"}}</label>
-                <input type="text" name="data.location" value="{{data.location}}" data-dtype="String"/>
+                <input type="text" name="data.location" value="{{data.location}}" data-dtype="String" />
             </div>
 
             <div class="resource">
                 <label for="data.dimensions" class="header-label">{{localize "arm5e.sheet.dimensions"}}</label>
-                <input type="text" name="data.dimensions" value="{{data.dimensions}}" data-dtype="String"/>
+                <input type="text" name="data.dimensions" value="{{data.dimensions}}" data-dtype="String" />
             </div>
 
             <div class="resource">
                 <label class="header-label">{{localize "arm5e.sheet.inhabitants"}}</label>
-                <input type="text" name="data.inhabitants" value="{{data.inhabitants}}" data-dtype="String"/>
+                <input type="text" name="data.inhabitants" value="{{data.inhabitants}}" data-dtype="String" />
             </div>
         </div>
     </header>

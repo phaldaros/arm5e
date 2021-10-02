@@ -1,8 +1,12 @@
 <div class="characteristics grid grid-4col">
-  {{#each data.characteristics as |characteristic key|}}
-    <div class="characteristic flexrow flex-group-center">
-      <label for="data.characteristics.{{key}}.value" class="resource-label rollable" data-roll="char" data-characteristic="{{key}}">{{localize short}}</label>
-      <input type="text" name="data.characteristics.{{key}}.value" value="{{numberFormat characteristic.value decimals=0 sign=true}}" data-dtype="Number" />
-    </div>
-  {{/each}}
+    {{#each data.characteristics as |characteristic key|}}
+        <div class="characteristic flexrow flex-group-center">
+            {{#with (lookup @root.metadata.character.characteristics key)}}
+                <label for="data.characteristics.{{key}}.value" class="resource-label rollable" data-roll="char"
+                    data-characteristic="{{key}}">{{localize short}}</label>
+            {{/with}}
+            <input type="text" name="data.characteristics.{{key}}.value"
+                value="{{numberFormat characteristic.value decimals=0 sign=true}}" data-dtype="Number" />
+        </div>
+    {{/each}}
 </div>

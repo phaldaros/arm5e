@@ -1,4 +1,6 @@
-import { log} from "../tools.js"
+import {
+  log
+} from "../tools.js"
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -11,7 +13,11 @@ export class ArM5eItemSheet extends ItemSheet {
       classes: ["arm5e", "sheet", "item"],
       width: 650,
       height: 650,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{
+        navSelector: ".sheet-tabs",
+        contentSelector: ".sheet-body",
+        initial: "description"
+      }]
     });
   }
 
@@ -44,12 +50,15 @@ export class ArM5eItemSheet extends ItemSheet {
     context.flags = itemData.flags;
 
     context.metadata = CONFIG.ARM5E;
-    if(itemData.type == "weapon"){
+    if (itemData.type == "weapon") {
       let abilitiesSelect = {};
-      const temp = { id: "", name: "N/A" };
+      const temp = {
+        id: "",
+        name: "N/A"
+      };
       abilitiesSelect['a0'] = temp;
-      if (this.actor != null ) {
-      // find the actor habilities and create the select
+      if (this.actor != null) {
+        // find the actor habilities and create the select
         for (let [key, i] of this.actor.data.items.entries()) {
           if (i.type === 'ability') {
             const temp = {
@@ -57,7 +66,7 @@ export class ArM5eItemSheet extends ItemSheet {
               name: i.name
             };
             //abilitiesSelect.push(temp);
-            abilitiesSelect['a'+key] = temp;
+            abilitiesSelect['a' + key] = temp;
           }
         }
       }
@@ -69,8 +78,8 @@ export class ArM5eItemSheet extends ItemSheet {
       //console.log(data)
     }
 
-    log(false,'item-sheet get data');
-    log(false,context);
+    log(false, 'item-sheet get data');
+    log(false, context);
     // console.log('item-sheet get data');
     // console.log(context);
 

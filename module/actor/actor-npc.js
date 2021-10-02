@@ -7,7 +7,7 @@ export class ArM5eNPCActor extends Actor {
   /**
    * Augment the basic actor data with additional dynamic data.
    **/
-  
+
   prepareData() {
     super.prepareData();
 

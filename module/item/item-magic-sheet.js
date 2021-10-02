@@ -1,4 +1,3 @@
-
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -11,7 +10,11 @@ export class ArM5eItemMagicSheet extends ItemSheet {
       classes: ["arm5e", "sheet", "item"],
       width: 610,
       height: 650,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "spell-design" }]
+      tabs: [{
+        navSelector: ".sheet-tabs",
+        contentSelector: ".sheet-body",
+        initial: "spell-design"
+      }]
     });
   }
 
@@ -44,8 +47,8 @@ export class ArM5eItemMagicSheet extends ItemSheet {
     context.flags = itemData.flags;
 
     context.metadata = CONFIG.ARM5E;
-    
-    
+
+
     console.log('item-sheet get data');
     console.log(context);
     // console.log('item-sheet get data');

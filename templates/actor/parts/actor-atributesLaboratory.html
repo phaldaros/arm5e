@@ -3,27 +3,28 @@
     <li class="item flexrow item-header">
       <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
       <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-  
+
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.specialities"}}</div>
       <div class="item-controls">
-        <a class="item-control item-create" title="Create speciality" data-type="speciality"><i class="fas fa-plus"></i></a>
+        <a class="item-control item-create" title="Create speciality" data-type="speciality"><i
+            class="fas fa-plus"></i></a>
       </div>
     </li>
     {{#each data.specialities as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
-          <div  class="flexrow flex-center">
-            <span  class="flexrow item-title width4" name="item.name">
-              {{item.name}} 
-            </span>
-            <label><span class="bold">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
+    <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width4" name="item.name">
+          {{item.name}}
+        </span>
+        <label><span class="bold">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
 
-          </div>
-          <div class="item-controls">
-              <a class="item-control item-edit" title="Edit speciality"><i class="fas fa-edit"></i></a>
-              <a class="item-control item-delete" title="Delete v"><i class="fas fa-trash"></i></a>
-          </div>
-      </li>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit speciality"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete v"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
     {{/each}}
   </ol>
 </div>
@@ -34,27 +35,28 @@
     <li class="item flexrow item-header">
       <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
       <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-  
+
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.personality"}}</div>
       <div class="item-controls">
-        <a class="item-control item-create" title="Create personality" data-type="personality"><i class="fas fa-plus"></i></a>
+        <a class="item-control item-create" title="Create personality" data-type="personality"><i
+            class="fas fa-plus"></i></a>
       </div>
     </li>
     {{#each data.personalities as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
-          <div  class="flexrow flex-center">
-            <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
-              {{item.name}} 
-            </span>
-            <label><span class="bold">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
+    <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
+          {{item.name}}
+        </span>
+        <label><span class="bold">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
 
-          </div>
-          <div class="item-controls">
-              <a class="item-control item-edit" title="Edit personality"><i class="fas fa-edit"></i></a>
-              <a class="item-control item-delete" title="Delete personality"><i class="fas fa-trash"></i></a>
-          </div>
-      </li>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit personality"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete personality"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
     {{/each}}
   </ol>
 </div>
@@ -66,29 +68,30 @@
     <li class="item flexrow item-header">
       <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
       <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-  
+
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.distinctive"}}</div>
       <div class="item-controls">
-        <a class="item-control item-create" title="Create distinctive" data-type="distinctive"><i class="fas fa-plus"></i></a>
+        <a class="item-control item-create" title="Create distinctive" data-type="distinctive"><i
+            class="fas fa-plus"></i></a>
       </div>
     </li>
     {{#each data.distinctive as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
-          <div  class="flexrow flex-center">
-            <span  class="flexrow item-title width2" name="item.name">
-              {{item.name}} 
-            </span>
-            <label><span class="bold">{{localize "arm5e.sheet.foco"}}:</span> {{item.data.foco}}</label>
-            <label><span class="bold">{{localize "arm5e.sheet.speciality"}}:</span> {{item.data.speciality}}</label>
-            <label><span class="bold">{{localize "arm5e.sheet.bonus"}}:</span> {{item.data.bonus}}</label>
+    <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width2" name="item.name">
+          {{item.name}}
+        </span>
+        <label><span class="bold">{{localize "arm5e.sheet.foco"}}:</span> {{item.data.foco}}</label>
+        <label><span class="bold">{{localize "arm5e.sheet.speciality"}}:</span> {{item.data.speciality}}</label>
+        <label><span class="bold">{{localize "arm5e.sheet.bonus"}}:</span> {{item.data.bonus}}</label>
 
-          </div>
-          <div class="item-controls">
-              <a class="item-control item-edit" title="Edit distinctive"><i class="fas fa-edit"></i></a>
-              <a class="item-control item-delete" title="Delete distinctive"><i class="fas fa-trash"></i></a>
-          </div>
-      </li>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit distinctive"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete distinctive"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
     {{/each}}
   </ol>
 </div>
@@ -99,7 +102,7 @@
     <li class="item flexrow item-header">
       <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
       <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-  
+
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.rooms"}}</div>
       <div class="item-controls">
@@ -107,19 +110,18 @@
       </div>
     </li>
     {{#each data.rooms as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
-          <div  class="flexrow flex-center">
-            <span  class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
-              {{item.name}} 
-            </span>
+    <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
+          {{item.name}}
+        </span>
 
-          </div>
-          <div class="item-controls">
-              <a class="item-control item-edit" title="Edit rooms"><i class="fas fa-edit"></i></a>
-              <a class="item-control item-delete" title="Delete rooms"><i class="fas fa-trash"></i></a>
-          </div>
-      </li>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit rooms"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete rooms"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
     {{/each}}
   </ol>
 </div>
-

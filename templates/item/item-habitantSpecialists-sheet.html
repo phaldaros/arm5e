@@ -1,8 +1,9 @@
 <form class="{{cssClass}} main" autocomplete="off">
     <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-            <h1 class="charname" style="margin-top: 36px;"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <h1 class="charname" style="margin-top: 36px;"><input name="name" type="text" value="{{item.name}}"
+                    placeholder="Name" /></h1>
 
             <div class="resource flexcol" style="margin-top: 8px;">
                 <label class="bold">{{localize "arm5e.sheet.job"}}</label>
@@ -12,22 +13,22 @@
             <div class="grid grid-2col" style="margin-top: 8px;">
                 <div class="resource flexcol flexrow">
                     <label for="data.yearBorn" class="bold">{{localize "arm5e.sheet.yearBorn"}}</label>
-                    <input type="text" name="data.yearBorn" value="{{data.yearBorn}}" data-dtype="String"/>
+                    <input type="text" name="data.yearBorn" value="{{data.yearBorn}}" data-dtype="String" />
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
-                    <input type="text" name="data.score" value="{{data.score}}" data-dtype="Number"/>
+                    <input type="text" name="data.score" value="{{data.score}}" data-dtype="Number" />
                 </div>
             </div>
 
             <div class="grid grid-2col" style="margin-top: 8px;">
                 <div class="resource flexcol flexrow">
                     <label for="data.loyalty" class="bold">{{localize "arm5e.sheet.loyalty"}}</label>
-                    <input type="text" name="data.loyalty" value="{{data.loyalty}}" data-dtype="String"/>
+                    <input type="text" name="data.loyalty" value="{{data.loyalty}}" data-dtype="String" />
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.points" class="bold">{{localize "arm5e.sheet.points"}}</label>
-                    <input type="text" name="data.points" value="{{data.points}}" data-dtype="Number"/>
+                    <input type="text" name="data.points" value="{{data.points}}" data-dtype="Number" />
                 </div>
             </div>
 

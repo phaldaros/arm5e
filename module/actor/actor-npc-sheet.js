@@ -1,3 +1,8 @@
+import {
+  log
+} from "../tools.js"
+
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -7,10 +12,6 @@ import {
   simpleDie,
   stressDie
 } from '../dice.js';
-import {
-  log
-} from "../tools.js"
-
 export class ArM5eNPCActorSheet extends ActorSheet {
 
   /** @override */
