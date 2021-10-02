@@ -96,7 +96,8 @@ ARM5E.durations =  {
   "bargain":{"label": "arm5e.config.durations.bargain","dtype": "String", "impact" : 3 },
   "year" :{"label": "arm5e.config.durations.year","dtype": "String", "impact" : 4 },
   "condition" : {"label": "arm5e.config.durations.condition","dtype": "String", "impact" : 4 },
-  "year+1" : {"label": "arm5e.config.durations.year+1","dtype": "String", "impact" : 4 }
+  "year+1" : {"label": "arm5e.config.durations.year+1","dtype": "String", "impact" : 4 },
+  "special" : {"label": "arm5e.config.special","dtype": "String", "impact" : 0 }
 };
 
 ARM5E.ranges = {
@@ -106,7 +107,8 @@ ARM5E.ranges = {
   "voice": {"label": "arm5e.config.ranges.voice","dtype": "String", "impact" : 2 },
   "road": {"label": "arm5e.config.ranges.road","dtype": "String", "impact" : 2 },
   "sight": {"label": "arm5e.config.ranges.sight","dtype": "String", "impact" : 3 },
-  "arc" : {"label": "arm5e.config.ranges.arc","dtype": "String", "impact" : 4 }
+  "arc" : {"label": "arm5e.config.ranges.arc","dtype": "String", "impact" : 4 },
+  "special" : {"label": "arm5e.config.special","dtype": "String", "impact" : 0 }
 };
 
 ARM5E.targets = {
@@ -121,7 +123,8 @@ ARM5E.targets = {
   "touch" : {"label": "arm5e.config.targets.touch","dtype": "String", "impact" : 1 },
   "smell" : {"label": "arm5e.config.targets.smell","dtype": "String", "impact" : 2 },
   "hearing" : {"label": "arm5e.config.targets.hearing","dtype": "String", "impact" : 3 },
-  "sight" : {"label": "arm5e.config.targets.sight","dtype": "String", "impact" : 4 }
+  "sight" : {"label": "arm5e.config.targets.sight","dtype": "String", "impact" : 4 },
+  "special" : {"label": "arm5e.config.special","dtype": "String", "impact" : 0 }
 };
 
 ARM5E.fatigueLevels =  {"fresh": {
