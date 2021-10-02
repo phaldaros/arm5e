@@ -9,17 +9,18 @@
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
                     <select name="data.technique.value" data-type="String">
                         {{#select data.technique.value}}
-                        {{#each metadata.techniques as |techniques key|}}
-                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.techniques as |techniques key|}}
+                                <option value="{{key}}">{{techniques.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
                     <select name="data.form.value" data-type="String">
                         {{#select data.form.value}}
-                        {{#each metadata.forms as |forms key|}}
-                        <option value="{{key}}">{{forms.label}}</option>
-                        {{/each}} {{/select}}
+                            {{#each metadata.magic.forms as |forms key|}}
+                                <option value="{{key}}">{{forms.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource flexcol flexrow">
@@ -27,9 +28,11 @@
                         class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
                     <select name="data.technique-requisite.value" data-type="String">
                         {{#select data.technique-requisite.value}}
-                        <option value="">N/A</option>
-                        {{#each metadata.techniques as |techniques key|}}
-                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+                            <option value="">N/A</option>
+                            {{#each metadata.magic.techniques as |techniques key|}}
+                                <option value="{{key}}">{{techniques.label}}</option>
+                            {{/each}}
+                        {{/select}}
 
                     </select>
                 </div>
@@ -38,9 +41,11 @@
                         class="header-label">{{localize "arm5e.sheet.formRequisite"}}</label>
                     <select name="data.form-requisite.value" data-type="String">
                         {{#select data.form-requisite.value}}
-                        <option value="">N/A</option>
-                        {{#each metadata.forms as |forms key|}}
-                        <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
+                            <option value="">N/A</option>
+                            {{#each metadata.magic.forms as |forms key|}}
+                                <option value="{{key}}">{{forms.label}}</option>
+                            {{/each}}
+                        {{/select}}
                     </select>
                 </div>
                 <div class="resource">

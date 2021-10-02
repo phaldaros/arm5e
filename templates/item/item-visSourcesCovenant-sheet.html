@@ -8,8 +8,9 @@
                     <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
                     <select name="data.art.value" data-type="String">
                         {{#select data.art.value}}
-                        {{#each metadata.arts as |arts key|}}
-                        <option value="{{key}}">{{arts.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.arts as |arts key|}}
+                                <option value="{{key}}">{{arts.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
             </div>
@@ -26,8 +27,9 @@
                 <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.season"}}</label>
                 <select name="data.season" data-type="String">
                     {{#select data.season}}
-                    {{#each metadata.seasons as |arts key|}}
-                    <option value="{{key}}">{{localize arts.label}}</option> {{/each}} {{/select}}
+                        {{#each metadata.seasons as |arts key|}}
+                            <option value="{{key}}">{{localize arts.label}}</option>
+                        {{/each}} {{/select}}
                 </select>
             </div>
         </div>

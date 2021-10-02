@@ -9,8 +9,9 @@
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
                     <select name="data.technique.value" data-type="String">
                         {{#select data.technique.value}}
-                        {{#each metadata.techniques as |techniques key|}}
-                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.techniques as |techniques key|}}
+                                <option value="{{key}}">{{techniques.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
 
@@ -18,8 +19,9 @@
                     <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
                     <select name="data.form.value" data-type="String">
                         {{#select data.form.value}}
-                        {{#each metadata.forms as |forms key|}}
-                        <option value="{{key}}">{{forms.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.forms as |forms key|}}
+                                <option value="{{key}}">{{forms.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
 
@@ -61,24 +63,27 @@
                     <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
                     <select name="data.range.value" data-type="String">
                         {{#select data.range.value}}
-                        {{#each metadata.ranges as |range key|}}
-                        <option value="{{key}}">{{localize range.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.ranges as |range key|}}
+                                <option value="{{key}}">{{localize range.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
                     <select name="data.duration.value" data-type="String">
                         {{#select data.duration.value}}
-                        {{#each metadata.durations as |duration key|}}
-                        <option value="{{key}}">{{localize duration.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.durations as |duration key|}}
+                                <option value="{{key}}">{{localize duration.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
                     <select name="data.target.value" data-type="String">
                         {{#select data.target.value}}
-                        {{#each metadata.targets as |target key|}}
-                        <option value="{{key}}">{{localize target.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.targets as |target key|}}
+                                <option value="{{key}}">{{localize target.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource">

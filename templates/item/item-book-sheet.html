@@ -8,16 +8,18 @@
                     <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
                     <select name="data.art.value" data-type="String">
                         {{#select data.art.value}}
-                        {{#each metadata.arts as |techniques key|}}
-                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
+                            {{#each metadata.magic.arts as |techniques key|}}
+                                <option value="{{key}}">{{techniques.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource flexcol flexrow">
                     <label for="data.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
                     <select name="data.type.value" data-type="String">
                         {{#select data.type.value}}
-                        {{#each data.types as |type key|}}
-                        <option value="{{key}}">{{type.label}}</option> {{/each}} {{/select}}
+                            {{#each data.types as |type key|}}
+                                <option value="{{key}}">{{type.label}}</option>
+                            {{/each}} {{/select}}
                     </select>
                 </div>
                 <div class="resource">
