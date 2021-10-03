@@ -1,171 +1,171 @@
 <div class="backSection padding12 margintop18">
-  <div class="grid grid-4col">
-    <div class="flexrow flex-group-left" style="border:0px">
-      <label class="smallTitle">
-        <a class="link" href="/systems/arm5e/pdf/combat.pdf" target="_blank">
-          {{localize "arm5e.sheet.combat"}}
-        </a>
-      </label>
+    <div class="grid grid-4col">
+        <div class="flexrow flex-group-left" style="border:0px">
+            <label class="smallTitle">
+                <a class="link" href="/systems/arm5e/pdf/combat.pdf" target="_blank">
+                    {{localize "arm5e.sheet.combat"}}
+                </a>
+            </label>
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <br />
+        </div>
+        <div class="flexrow flex-group-center" style="border:0px">
+            <br />
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label class="item-title">{{localize "arm5e.sheet.weight"}}</label>
+            <input type="text" name="data.combat.weight" readonly value="{{data.combat.weight }}" data-dtype="Number" />
+        </div>
+
     </div>
 
-    <div class="flexrow flex-group-center" style="border:0px">
-      <br />
-    </div>
-    <div class="flexrow flex-group-center" style="border:0px">
-      <br />
-    </div>
+    <div class="grid grid-2col " style="gap: 0px;">
 
-    <div class="flexrow flex-group-center" style="border:0px">
-      <label class="item-title">{{localize "arm5e.sheet.weight"}}</label>
-      <input type="text" name="data.combat.weight" readonly value="{{data.combat.weight }}" data-dtype="Number" />
+        <div class="flexrow flex-group-left">
+            <label class="item-title flex-group-left rollable" data-roll="option"
+                data-option1="{{ data.characteristics.qik.value }}" data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
+                data-option2="{{ data.combat.init }}" data-txtoption2='{{ localize "arm5e.sheet.initiative" }}'
+                data-option3="{{ data.combat.overload }}"
+                data-txtoption3='{{ localize "arm5e.sheet.weight" }}'>{{localize "arm5e.sheet.initiative"}}:</label>
+            <!-- quick + init - weight + stres die -->
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.quickness"}}</label>
+                <input type="text" name="data.qik" readonly
+                    value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.initiative"}}</label>
+                <input type="text" name="data.combat.init" readonly
+                    value="{{numberFormat data.combat.init decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.weight"}}</label>
+                <input type="text" name="data.combat.overload" readonly
+                    value="{{numberFormat data.combat.overload decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+        </div>
+
+        <div class="flexrow flex-group-center"><br /></div>
+
+        <div class="flexrow flex-group-left">
+            <label class="item-title flex-group-left rollable" data-roll="option"
+                data-option1="{{ data.characteristics.dex.value }}" data-txtoption1='{{ localize "arm5e.sheet.dexterity" }}'
+                data-option2="{{ data.combat.ability }}" data-txtoption2='{{localize "arm5e.sheet.ability"}}'
+                data-option3="{{ data.combat.atk }}"
+                data-txtoption3='{{localize "arm5e.sheet.attack"}}'>{{localize "arm5e.sheet.attack"}}:</label>
+            <!-- dex + ability + weapon + stres die -->
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.dexterity"}}</label>
+                <input type="text" name="data.dex" readonly
+                    value="{{numberFormat data.characteristics.dex.value decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.ability"}}</label>
+                <input type="text" name="data.combat.ability" readonly
+                    value="{{numberFormat data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.attack"}}</label>
+                <input type="text" name="data.combat.atk" readonly value="{{numberFormat data.combat.atk decimals=0 sign=true}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+        <div class="flexrow flex-group-left">
+            <label class="item-title flex-group-left rollable" data-roll="option"
+                data-option1="{{ data.characteristics.qik.value }}" data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
+                data-option2="{{ data.combat.ability }}" data-txtoption2='{{localize "arm5e.sheet.ability"}}'
+                data-option3="{{ data.combat.dfn }}"
+                data-txtoption3='{{localize "arm5e.sheet.attack"}}'>{{localize "arm5e.sheet.defense"}}:</label>
+            <!-- quick + ability + weapon + stres die -->
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.quickness"}}</label>
+                <input type="text" name="data.qik" readonly
+                    value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.ability"}}</label>
+                <input type="text" name="data.combat.ability" readonly
+                    value="{{numberFormat data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.defense"}}</label>
+                <input type="text" name="data.combat.dfn" readonly value="{{numberFormat data.combat.dfn decimals=0 sign=true}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+
+        <div class="flexrow flex-group-left">
+            <label class="item-title flex-group-left">{{localize "arm5e.sheet.damage"}}:</label>
+            <!-- str + weapon + attack ventage -->
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.strength"}}</label>
+                <input type="text" name="data.str" readonly
+                    value="{{numberFormat data.characteristics.str.value decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.damage"}}</label>
+                <input type="text" name="data.combat.dam" readonly value="{{numberFormat data.combat.dam decimals=0 sign=true}}"
+                    data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.attackAdvantage"}}</label>
+            </div>
+        </div>
+
+        <div class="flexrow flex-group-left">
+            <label class="item-title flex-group-left">{{localize "arm5e.sheet.soak"}}:</label>
+            <!-- str + weapon + attack ventage -->
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.stamina"}}</label>
+                <input type="text" name="data.sta" readonly
+                    value="{{numberFormat data.characteristics.sta.value decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+            <div class="flexcol flex-group-center" style="flex: 0 0 20px">
+                <label class="item-title">+</label>
+            </div>
+            <div class="flexcol flex-group-center">
+                <label>{{localize "arm5e.sheet.protection"}}</label>
+                <input type="text" name="data.combat.prot" readonly
+                    value="{{numberFormat data.combat.prot decimals=0 sign=true}}" data-dtype="Number" />
+            </div>
+        </div>
+
     </div>
-
-  </div>
-
-  <div class="grid grid-2col " style="gap: 0px;">
 
     <div class="flexrow flex-group-left">
-      <label class="item-title flex-group-left rollable" data-roll="option"
-        data-option1="{{ data.characteristics.qik.value }}" data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
-        data-option2="{{ data.combat.init }}" data-txtoption2='{{ localize "arm5e.sheet.initiative" }}'
-        data-option3="{{ data.combat.overload }}"
-        data-txtoption3='{{ localize "arm5e.sheet.weight" }}'>{{localize "arm5e.sheet.initiative"}}:</label>
-      <!-- quick + init - weight + stres die -->
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.quickness"}}</label>
-        <input type="text" name="data.qik" readonly
-          value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.initiative"}}</label>
-        <input type="text" name="data.combat.init" readonly
-          value="{{numberFormat data.combat.init decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.weight"}}</label>
-        <input type="text" name="data.combat.overload" readonly
-          value="{{numberFormat data.combat.overload decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
+        <span>
+            {{localize "arm5e.sheet.combatInstructions1"}}<br />
+            {{localize "arm5e.sheet.combatInstructions2"}}<br />
+            {{localize "arm5e.sheet.combatInstructions3"}}
+        </span>
     </div>
-
-    <div class="flexrow flex-group-center"><br /></div>
-
-    <div class="flexrow flex-group-left">
-      <label class="item-title flex-group-left rollable" data-roll="option"
-        data-option1="{{ data.characteristics.dex.value }}" data-txtoption1='{{ localize "arm5e.sheet.dexterity" }}'
-        data-option2="{{ data.combat.ability }}" data-txtoption2='{{localize "arm5e.sheet.ability"}}'
-        data-option3="{{ data.combat.atk }}"
-        data-txtoption3='{{localize "arm5e.sheet.attack"}}'>{{localize "arm5e.sheet.attack"}}:</label>
-      <!-- dex + ability + weapon + stres die -->
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.dexterity"}}</label>
-        <input type="text" name="data.dex" readonly
-          value="{{numberFormat data.characteristics.dex.value decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.ability"}}</label>
-        <input type="text" name="data.combat.ability" readonly
-          value="{{numberFormat data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.attack"}}</label>
-        <input type="text" name="data.combat.atk" readonly value="{{numberFormat data.combat.atk decimals=0 sign=true}}"
-          data-dtype="Number" />
-      </div>
-    </div>
-
-    <div class="flexrow flex-group-left">
-      <label class="item-title flex-group-left rollable" data-roll="option"
-        data-option1="{{ data.characteristics.qik.value }}" data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
-        data-option2="{{ data.combat.ability }}" data-txtoption2='{{localize "arm5e.sheet.ability"}}'
-        data-option3="{{ data.combat.dfn }}"
-        data-txtoption3='{{localize "arm5e.sheet.attack"}}'>{{localize "arm5e.sheet.defense"}}:</label>
-      <!-- quick + ability + weapon + stres die -->
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.quickness"}}</label>
-        <input type="text" name="data.qik" readonly
-          value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.ability"}}</label>
-        <input type="text" name="data.combat.ability" readonly
-          value="{{numberFormat data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.defense"}}</label>
-        <input type="text" name="data.combat.dfn" readonly value="{{numberFormat data.combat.dfn decimals=0 sign=true}}"
-          data-dtype="Number" />
-      </div>
-    </div>
-
-    <div class="flexrow flex-group-left">
-      <label class="item-title flex-group-left">{{localize "arm5e.sheet.damage"}}:</label>
-      <!-- str + weapon + attack ventage -->
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.strength"}}</label>
-        <input type="text" name="data.str" readonly
-          value="{{numberFormat data.characteristics.str.value decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.damage"}}</label>
-        <input type="text" name="data.combat.dam" readonly value="{{numberFormat data.combat.dam decimals=0 sign=true}}"
-          data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.attackAdvantage"}}</label>
-      </div>
-    </div>
-
-    <div class="flexrow flex-group-left">
-      <label class="item-title flex-group-left">{{localize "arm5e.sheet.soak"}}:</label>
-      <!-- str + weapon + attack ventage -->
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.stamina"}}</label>
-        <input type="text" name="data.sta" readonly
-          value="{{numberFormat data.characteristics.sta.value decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-      <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-        <label class="item-title">+</label>
-      </div>
-      <div class="flexcol flex-group-center">
-        <label>{{localize "arm5e.sheet.protection"}}</label>
-        <input type="text" name="data.combat.prot" readonly
-          value="{{numberFormat data.combat.prot decimals=0 sign=true}}" data-dtype="Number" />
-      </div>
-    </div>
-
-  </div>
-
-  <div class="flexrow flex-group-left">
-    <span>
-      {{localize "arm5e.sheet.combatInstructions1"}}<br />
-      {{localize "arm5e.sheet.combatInstructions2"}}<br />
-      {{localize "arm5e.sheet.combatInstructions3"}}
-    </span>
-  </div>
 
 </div>

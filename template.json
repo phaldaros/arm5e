@@ -670,20 +670,6 @@
                 "value": "magus",
                 "label": "Char. Type"
             },
-            "charTypes": {
-                "magus": {
-                    "label": "arm5e.sheet.magus",
-                    "dtype": "String"
-                },
-                "companion": {
-                    "label": "arm5e.sheet.companion",
-                    "dtype": "String"
-                },
-                "grog": {
-                    "label": "arm5e.sheet.grog",
-                    "dtype": "String"
-                }
-            },
             "house": {
                 "value": "",
                 "label": "House"
@@ -983,9 +969,10 @@
             "mundaneBooks": []
         }
     },
+
     "Item": {
         "types": ["weapon", "armor", "spell", "vis", "item", "book", "virtue", "flaw", "ability", "abilityFamiliar",
-            "diaryEntry","dairyEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
+            "diaryEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
             "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
             "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
             "visSourcesCovenant", "visStockCovenant", "magicalEffect", "baseEffect",
@@ -1291,6 +1278,5 @@
             "level": 0,
             "quality": 0
         }
-
     }
 }

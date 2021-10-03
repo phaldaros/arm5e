@@ -7,37 +7,53 @@ export const ARM5E = {};
  */
 ARM5E.MODULE_ID = 'arm5e';
 ARM5E.character = {};
+
+ARM5E.character.charTypes = {
+    "magus": {
+        "label": "arm5e.sheet.magus",
+        "dtype": "String"
+    },
+    "companion": {
+        "label": "arm5e.sheet.companion",
+        "dtype": "String"
+    },
+    "grog": {
+        "label": "arm5e.sheet.grog",
+        "dtype": "String"
+    }
+};
+
 ARM5E.character.characteristics = {
     "int": {
-        "label": "Intelligence",
+        "label": "arm5e.sheet.intelligence",
         "short": "arm5e.sheet.int"
     },
     "per": {
-        "label": "Perception",
+        "label": "arm5e.sheet.perception",
         "short": "arm5e.sheet.per"
     },
     "str": {
-        "label": "Strength",
+        "label": "arm5e.sheet.strength",
         "short": "arm5e.sheet.str"
     },
     "sta": {
-        "label": "Stamina",
+        "label": "arm5e.sheet.stamina",
         "short": "arm5e.sheet.sta"
     },
     "pre": {
-        "label": "Presence",
+        "label": "arm5e.sheet.presence",
         "short": "arm5e.sheet.pre"
     },
     "com": {
-        "label": "Communication",
+        "label": "arm5e.sheet.communication",
         "short": "arm5e.sheet.com"
     },
     "dex": {
-        "label": "Dexterity",
+        "label": "arm5e.sheet.dexterity",
         "short": "arm5e.sheet.dex"
     },
     "qik": {
-        "label": "Quickness",
+        "label": "arm5e.sheet.quickness",
         "short": "arm5e.sheet.qik"
     }
 };
@@ -153,6 +169,9 @@ ARM5E.character.virtueTypes = {
     },
     "general": {
         "label": "arm5e.sheet.general"
+    },
+    "other": {
+        "label": "arm5e.sheet.other"
     }
 };
 
@@ -174,6 +193,9 @@ ARM5E.character.flawTypes = {
     },
     "story": {
         "label": "arm5e.sheet.story"
+    },
+    "other": {
+        "label": "arm5e.sheet.other"
     }
 };
 
@@ -654,4 +676,3 @@ ARM5E.item.costs = {
         "label": "arm5e.sheet.expensive"
     }
 };
-
