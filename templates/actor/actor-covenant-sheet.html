@@ -64,8 +64,12 @@
                 <span class="covenantname flexrow" style="padding-top:4px;">
                     <label for="data.season" class="header-label"
                         style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.season"}}</label>
-                    <input name="data.season" type="text" value="{{data.season}}" data-dtype="String"
-                        style="flex: 0 0 200px;" />
+                    <select name="data.season" data-type="String" style="width: 100%">
+                        {{#select data.season}}
+                            {{#each metadata.seasons as |season key|}}
+                                <option value="{{key}}">{{localize season.label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
                 </span>
             </div>
 
@@ -88,8 +92,12 @@
                 <span class="covenantname flexrow" style="padding-top:4px;">
                     <label for="data.typeAura" class="header-label"
                         style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.typeAura"}}</label>
-                    <input name="data.typeAura" type="text" value="{{data.typeAura}}" data-dtype="String"
-                        style="flex: 0 0 90px;" />
+                    <select name="data.typeAura" data-type="String" style="flex: 0 0 90px;">
+                        {{#select data.typeAura}}
+                            {{#each metadata.realms as |realm key|}}
+                                <option value="{{key}}">{{localize realm.label}}</option>
+                            {{/each}} {{/select}}
+                    </select>
                 </span>
                 <span class="covenantname flexrow">
                     <label for="data.levelAura" class="header-label"

@@ -313,6 +313,11 @@
     "arm5e.sheet.loyaltyModifiers.money": "Money",
     "arm5e.sheet.loyaltyModifiers.specialists": "Specialists",
 
+    "arm5e.sheet.realm.magical": "Magical",
+    "arm5e.sheet.realm.faeric": "Faery",
+    "arm5e.sheet.realm.divine": "Divine",
+    "arm5e.sheet.realm.infernal": "Infernal",
+
     "arm5e.config.ranges.personal": "Personal",
     "arm5e.config.ranges.touch": "Touch",
     "arm5e.config.ranges.eye": "Eye contact",
