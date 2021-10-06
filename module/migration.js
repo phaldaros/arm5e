@@ -100,7 +100,7 @@ async function migration(originalVersion) {
  * @param pack
  * @return {Promise}
  */
-export const migrateCompendium = async function (pack) {
+export const migrateCompendium = async function(pack) {
     const entity = pack.metadata.entity;
     if (!["Actor", "Item", "Scene"].includes(entity)) return;
 
@@ -164,12 +164,13 @@ export const migrateActorData = function(actorData) {
     const updateData = {};
 
 
-    if ((actorData.type == 'npc') || (actorData.type == 'laboratory') || (actorData.type == 'covenant')) {
+    // 
+    if ((actorData.type == 'laboratory') || (actorData.type == 'covenant')) {
 
         return updateData;
     }
 
-    updateData["type"] = "player";
+    //updateData["type"] = "player";
     updateData["data.version"] = "0.3";
 
     if (actorData.data.diaryEntries === undefined) {
@@ -181,7 +182,7 @@ export const migrateActorData = function(actorData) {
             updateData["data.diaryEntries"] = actorData.data.dairyEntries;
             updateData["data.dairyEntries"] = null;
         }
-        
+
     }
     // remove redundant data
     if (actorData.data.houses != undefined) {
@@ -206,12 +207,6 @@ export const migrateActorData = function(actorData) {
     if (actorData.data.spells === undefined) {
         updateData["data.spells"] = [];
     }
-
-    updateData["data.charType.value"] = "magus";
-    updateData["data.charType.label"] = "Char. Type";
-    updateData["data.charTypes.magus.label"] = "arm5e.sheet.magus";
-    updateData["data.charTypes.companion.label"] = "arm5e.sheet.companion";
-    updateData["data.charTypes.grog.label"] = "arm5e.sheet.grog";
 
 
     updateData["data.roll.characteristic"] = "";
@@ -297,47 +292,44 @@ export const migrateActorData = function(actorData) {
     // Migrate Owned Items
     if (!actorData.items) return updateData;
 
-const items = actorData.items.reduce((arr, i) => {
+    const items = actorData.items.reduce((arr, i) => {
         // Migrate the Owned Item
         const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
         let itemUpdate = migrateItemData(itemData);
         // Update the Owned Item
-        if ( !isObjectEmpty(itemUpdate) ) {
-          itemUpdate._id = itemData._id;
-          arr.push(expandObject(itemUpdate));
+        if (!isObjectEmpty(itemUpdate)) {
+            itemUpdate._id = itemData._id;
+            arr.push(expandObject(itemUpdate));
         }
         return arr;
-  }, []);
+    }, []);
     if (items.length > 0) updateData.items = items;
 
 
 
 
-  return updateData;
+    return updateData;
 }
 
-export const migrateItemData = function (itemData) {
+export const migrateItemData = function(itemData) {
 
     const updateData = {};
     if (itemData.type == "spell") {
         if (itemData.data.duration.value === undefined) {
             // console.log(`Guessing duration: ${itemData.data.duration}`);
             updateData["data.duration.value"] = _guessDuration(itemData.name, itemData.data.duration);
-            updateData["data.duration.label"] = "arm5e.sheet.duration";
         }
         if (itemData.data.range.value === undefined) {
             // console.log(`Guessing range: ${itemData.data.range}`);
             updateData["data.range.value"] = _guessRange(itemData.name, itemData.data.range);
-            updateData["data.range.label"] = "arm5e.sheet.range";
         }
         if (itemData.data.target.value === undefined) {
             // console.log(`Guessing target: ${itemData.data.target}`);
             updateData["data.target.value"] = _guessTarget(itemData.name, itemData.data.target);
-            updateData["data.target.label"] = "arm5e.sheet.target";
         }
         // remove redundant data
         if (itemData.data.techniques != undefined) {
-        updateData["data.-techniques"] = null;
+            updateData["data.-techniques"] = null;
         }
         if (itemData.data.forms != undefined) {
             updateData["data.forms"] = null;

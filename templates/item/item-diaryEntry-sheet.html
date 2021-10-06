@@ -9,8 +9,12 @@
                             data-dtype="String" /></label>
                 </div>
                 <div class="resource">
-                    <label>{{localize "arm5e.sheet.season"}}<input type="text" name="data.season"
-                            value="{{data.season}}" data-dtype="String" /></label>
+                    <label>{{localize "arm5e.sheet.season"}}<select name="data.season" data-type="String" style="width: 100%">
+                            {{#select data.season}}
+                                {{#each metadata.seasons as |season key|}}
+                                    <option value="{{key}}">{{localize season.label}}</option>
+                                {{/each}} {{/select}}
+                        </select>
                 </div>
                 <div class="resource">
                     <label>{{localize "arm5e.sheet.date"}}<input type="text" name="data.date" value="{{data.date}}"
