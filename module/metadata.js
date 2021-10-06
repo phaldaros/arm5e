@@ -23,6 +23,8 @@ ARM5E.character.charTypes = {
     }
 };
 
+
+
 ARM5E.character.characteristics = {
     "int": {
         "label": "arm5e.sheet.intelligence",
@@ -263,6 +265,22 @@ ARM5E.character.vitals = {
 };
 
 ARM5E.character.combat = {};
+
+ARM5E.npc = {};
+ARM5E.npc.types = {
+    "magusNPC": {
+        "label": "arm5e.sheet.magus",
+        "dtype": "String"
+    },
+    "mundane": {
+        "label": "arm5e.sheet.mundane",
+        "dtype": "String"
+    },
+    "entity": {
+        "label": "arm5e.sheet.entity",
+        "dtype": "String"
+    }
+};
 
 ARM5E.familiar = {};
 ARM5E.familiar.labels = {

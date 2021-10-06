@@ -165,12 +165,12 @@ export const migrateActorData = function(actorData) {
 
 
     // 
-    if ((actorData.type == 'npc') || (actorData.type == 'laboratory') || (actorData.type == 'covenant')) {
+    if ((actorData.type == 'laboratory') || (actorData.type == 'covenant')) {
 
         return updateData;
     }
 
-    updateData["type"] = "player";
+    //updateData["type"] = "player";
     updateData["data.version"] = "0.3";
 
     if (actorData.data.diaryEntries === undefined) {

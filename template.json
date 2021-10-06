@@ -704,23 +704,19 @@
         "npc": {
             "templates": ["base", "npcbase", "personality", "wounds", "fatigue", "arts", "roll"],
             "charType": {
-                "value": "human",
+                "value": "mundane",
                 "label": "Char. Type"
-            },
-            "charTypes": {
-                "human": {
-                    "label": "arm5e.sheet.human",
-                    "dtype": "String"
-                },
-                "entity": {
-                    "label": "arm5e.sheet.entity",
-                    "dtype": "String"
-                }
             },
             "size": {
                 "label": "Size",
                 "dtype": "Number",
                 "value": 0
+            },
+            "warping": {
+                "label": "Warping ",
+                "score": 0,
+                "points": 0,
+                "effects": "Warping effects"
             },
             "soak": {
                 "label": "soak",

@@ -10,15 +10,13 @@
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
 
             <div class="resources flexrow flex-between">
-                <h2 class="covenantname flexrow width2"><input name="data.covenant.value" type="text"
-                        value="{{data.covenant.value}}" data-dtype="String" /></h2>
+                <h2 class="covenantname flexrow width2"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
                 <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.charType.value" class="header-label"
-                        style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
+                    <label for="data.charType.value" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
                     <select name="data.charType.value" data-type="String">
                         {{#select data.charType.value}}
-                            {{#each metadata.character.charTypes as |ctype key|}}
-                                <option value="{{key}}">{{localize ctype.label}}</option>
+                            {{#each metadata.npc.types as |data key|}}
+                                <option value="{{key}}">{{localize data.label}}</option>
                             {{/each}} {{/select}}
                     </select>
                 </span>
@@ -87,6 +85,18 @@
                 {{localize "arm5e.sheet.arts"}}
             </a>
         {{/if}}
+        {{#if (eq data.charType.value "magusNPC")}}
+            <a class="item posRelative" data-tab="arts">
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+                {{localize "arm5e.sheet.arts"}}
+            </a>
+            <a class="item posRelative" data-tab="laboratory">
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+                {{localize "arm5e.sheet.laboratory"}}
+            </a>
+        {{/if}}
         <a class="item posRelative" data-tab="inventory">
             <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
             <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
@@ -123,13 +133,23 @@
                 {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
             </div>
         {{/if}}
+        {{#if (eq data.charType.value "magusNPC")}}
+            {{!-- Arts Tab --}}
+            <div class="tab arts" data-group="primary" data-tab="arts">
+                {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+            </div>
 
+            {{!-- Laboratory Tab --}}
+            <div class="tab laboratory" data-group="primary" data-tab="laboratory">
+                {{> "systems/arm5e/templates/actor/parts/actor-laboratory.html" }}
+            </div>
+        {{/if}}
         {{!-- Inventory Tab --}}
         <div class="tab inventory" data-group="primary" data-tab="inventory">
             {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}
         </div>
 
-        {{!-- Dairy Tab --}}
+        {{!-- Diary Tab --}}
         <div class="tab diary" data-group="primary" data-tab="diary">
             {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }}
         </div>

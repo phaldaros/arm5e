@@ -13,17 +13,14 @@
                         <span class="flex01">
                             <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
                         </span>
-                        <span class="flexrow item-title rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic"
-                            data-technique="{{key}}">
+                        <span class="flexrow item-title rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
                             {{label}}
                         </span>
                     </div>
                     <div class="flexrow">
-                        <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.techniques.{{key}}.score"
-                            value="{{techniques.score}}" data-dtype="Number">
+                        <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}" data-dtype="Number">
                         <span class="flexrow">
-                            <input type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}"
-                                data-dtype="Number"> &nbsp;/ {{ techniques.experienceNextLevel }}
+                            <input type="text" name="data.arts.techniques.{{key}}.experience" value="{{techniques.experience}}" data-dtype="Number"> &nbsp;/ {{ techniques.experienceNextLevel }}
                         </span>
                     </div>
                 </li>
@@ -44,17 +41,14 @@
                         <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
                             <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 18px;" />
                         </a>
-                        <span class="flexrow item-title rollable" name="data.arts.forms.{{key}}.label" data-roll="magic"
-                            data-mform="{{key}}">
+                        <span class="flexrow item-title rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">
                             {{label}}&nbsp;({{ forms.magicResistance }})
                         </span>
                     </div>
                     <div class="flexrow">
-                        <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.forms.{{key}}.score"
-                            value="{{forms.score}}" data-dtype="Number">
+                        <input class="flexrow flex07" style="margin-right: 8px;" type="text" name="data.arts.forms.{{key}}.score" value="{{forms.score}}" data-dtype="Number">
                         <span class="flexrow">
-                            <input type="text" name="data.arts.forms.{{key}}.experience" value="{{forms.experience}}"
-                                data-dtype="Number"> &nbsp;/ {{ forms.experienceNextLevel }}
+                            <input type="text" name="data.arts.forms.{{key}}.experience" value="{{forms.experience}}" data-dtype="Number"> &nbsp;/ {{ forms.experienceNextLevel }}
                         </span>
                     </div>
                 </li>
@@ -93,9 +87,7 @@
         {{#each data.spells as |item id|}}
             <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
                 <div class="flexrow flex-center">
-                    <span class="flexrow item-title width4 rollable" data-roll="spell"
-                        data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}"
-                        data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}" name="item.name">
+                    <span class="flexrow item-title width4 rollable" data-roll="spell" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}" name="item.name">
                         {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
                         {{/with}}
                         {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}}
@@ -135,16 +127,13 @@
             <div class="item-image"></div>
             <div><span class="item-name">{{localize "arm5e.sheet.magicalEffects"}}</span></div>
             <div class="item-controls">
-                <a class="item-control item-create" title="Create magical effect" data-type="magicalEffect"><i
-                        class="fas fa-plus"></i></a>
+                <a class="item-control item-create" title="Create magical effect" data-type="magicalEffect"><i class="fas fa-plus"></i></a>
             </div>
         </li>
         {{#each data.magicalEffects as |item id|}}
             <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
                 <div class="flexrow flex-center">
-                    <span class="flexrow item-title width4 rollable" data-roll="magic"
-                        data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}"
-                        data-bonus="{{ item.data.bonus }}" data-divide="2" name="item.name">
+                    <span class="flexrow item-title width4 rollable" data-roll="magic" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-divide="2" name="item.name">
                         {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
                         {{/with}}
                         {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}}
@@ -213,8 +202,7 @@
     </div>
     <div class="characteristics grid grid-3col">
         <div class="flexrow flex-group-center" style="border:0px">
-            <label for="data.laboratory.abilitiesSelected.finesse.abilityID"
-                class="bold">{{localize "arm5e.sheet.finesse"}}</label>
+            <label for="data.laboratory.abilitiesSelected.finesse.abilityID" class="bold">{{localize "arm5e.sheet.finesse"}}</label>
             <select name="data.laboratory.abilitiesSelected.finesse.abilityID" data-type="String">
                 {{#select data.laboratory.abilitiesSelected.finesse.abilityID }}
                     {{#each data.abilities as |ability key|}}
@@ -224,8 +212,7 @@
         </div>
 
         <div class="flexrow flex-group-center" style="border:0px">
-            <label for="data.laboratory.abilitiesSelected.awareness.abilityID"
-                class="bold">{{localize "arm5e.sheet.awareness"}}</label>
+            <label for="data.laboratory.abilitiesSelected.awareness.abilityID" class="bold">{{localize "arm5e.sheet.awareness"}}</label>
             <select name="data.laboratory.abilitiesSelected.awareness.abilityID" data-type="String">
                 {{#select data.laboratory.abilitiesSelected.awareness.abilityID }}
                     {{#each data.abilities as |ability key|}}
@@ -235,8 +222,7 @@
         </div>
 
         <div class="flexrow flex-group-center" style="border:0px">
-            <label for="data.laboratory.abilitiesSelected.concentration.abilityID"
-                class="bold">{{localize "arm5e.sheet.concentration"}}</label>
+            <label for="data.laboratory.abilitiesSelected.concentration.abilityID" class="bold">{{localize "arm5e.sheet.concentration"}}</label>
             <select name="data.laboratory.abilitiesSelected.concentration.abilityID" data-type="String">
                 {{#select data.laboratory.abilitiesSelected.concentration.abilityID }}
                     {{#each data.abilities as |ability key|}}
@@ -246,8 +232,7 @@
         </div>
 
         <div class="flexrow flex-group-center" style="border:0px">
-            <label for="data.laboratory.abilitiesSelected.artesLib.abilityID"
-                class="bold">{{localize "arm5e.sheet.artesLib"}}</label>
+            <label for="data.laboratory.abilitiesSelected.artesLib.abilityID" class="bold">{{localize "arm5e.sheet.artesLib"}}</label>
             <select name="data.laboratory.abilitiesSelected.artesLib.abilityID" data-type="String">
                 {{#select data.laboratory.abilitiesSelected.artesLib.abilityID }}
                     {{#each data.abilities as |ability key|}}
@@ -257,8 +242,7 @@
         </div>
 
         <div class="flexrow flex-group-center" style="border:0px">
-            <label for="data.laboratory.abilitiesSelected.philosophy.abilityID"
-                class="bold">{{localize "arm5e.sheet.philosophy"}}</label>
+            <label for="data.laboratory.abilitiesSelected.philosophy.abilityID" class="bold">{{localize "arm5e.sheet.philosophy"}}</label>
             <select name="data.laboratory.abilitiesSelected.philosophy.abilityID" data-type="String">
                 {{#select data.laboratory.abilitiesSelected.philosophy.abilityID }}
                     {{#each data.abilities as |ability key|}}
@@ -268,8 +252,7 @@
         </div>
 
         <div class="flexrow flex-group-center" style="border:0px">
-            <label for="data.laboratory.abilitiesSelected.parma.abilityID"
-                class="bold">{{localize "arm5e.sheet.parma"}}</label>
+            <label for="data.laboratory.abilitiesSelected.parma.abilityID" class="bold">{{localize "arm5e.sheet.parma"}}</label>
             <select name="data.laboratory.abilitiesSelected.parma.abilityID" data-type="String">
                 {{#select data.laboratory.abilitiesSelected.parma.abilityID }}
                     {{#each data.abilities as |ability key|}}
@@ -279,8 +262,7 @@
         </div>
 
         <div class="flexrow flex-group-center" style="border:0px">
-            <label for="data.laboratory.abilitiesSelected.magicTheory.abilityID"
-                class="bold">{{localize "arm5e.sheet.magicTheory"}}</label>
+            <label for="data.laboratory.abilitiesSelected.magicTheory.abilityID" class="bold">{{localize "arm5e.sheet.magicTheory"}}</label>
             <select name="data.laboratory.abilitiesSelected.magicTheory.abilityID" data-type="String">
                 {{#select data.laboratory.abilitiesSelected.magicTheory.abilityID }}
                     {{#each data.abilities as |ability key|}}
