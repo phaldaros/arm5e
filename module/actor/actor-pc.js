@@ -22,7 +22,11 @@ export class ArM5ePCActor extends Actor {
 
     /** @override */
     prepareBaseData() {
-        return this._prepareCharacterData(this.data);
+        if (this.data.type == "magicCodex") {
+            return this._prepareMagicCodexData(this.data);
+        } else {
+            return this._prepareCharacterData(this.data);
+        }
     }
 
     /**
@@ -167,6 +171,7 @@ export class ArM5ePCActor extends Actor {
             i._index = key;
 
             if (i.type === 'weapon') {
+                i.img = i.img || ARM5E.icons.DEFAULT_WEAPON;
                 if (i.data.equiped == true) {
                     combat.weight = parseInt(combat.weight) + parseInt(i.data.weight);
                     combat.init = parseInt(combat.init) + parseInt(i.data.init);
@@ -472,8 +477,68 @@ export class ArM5ePCActor extends Actor {
         log(false, actorData);
     }
 
-    _prepareNPCData(npcData) {
-        log(false, "_prepareNPCData");
+    _prepareMagicCodexData(codexData) {
+        log(false, "_prepareMagicCodexData");
+        codexData.img = ARM5E.icons.DEFAULT_LABTEXT;
+        const data = codexData.data;
+        let baseEffects = [];
+        let magicEffects = [];
+        for (let [key, item] of codexData.items.entries()) {
+            if (item.data.type == "baseEffect") {
+                baseEffects.push(item);
+            }
+            if (item.data.type == "magicalEffect") {
+                magicEffects.push(item);
+            }
+        }
+
+
+        data.baseEffects = baseEffects.sort(function(e1, e2) {
+            if (e1.data.data.form.value < e2.data.data.form.value) {
+                return -1;
+            } else if (e1.data.data.form.value > e2.data.data.form.value) {
+                return 1;
+            } else {
+                if (e1.data.data.technique.value < e2.data.data.technique.value) {
+                    return -1;
+                } else if (e1.data.data.technique.value < e2.data.data.technique.value) {
+                    return 1;
+                } else {
+                    if (e1.data.data.baseLevel < e2.data.data.baseLevel) {
+                        return -1;
+                    } else if (e1.data.data.baseLevel > e2.data.data.baseLevel) {
+                        return 1;
+                    } else {
+                        return e1.data.name.localeCompare(e2.data.name);
+                    }
+                }
+            }
+        });
+        log(false, data.baseEffects);
+        data.magicEffects = magicEffects.sort(function(e1, e2) {
+            if (e1.data.data.form.value < e2.data.data.form.value) {
+                return -1;
+            } else if (e1.data.data.form.value > e2.data.data.form.value) {
+                return 1;
+            } else {
+                if (e1.data.data.technique.value < e2.data.data.technique.value) {
+                    return -1;
+                } else if (e1.data.data.technique.value < e2.data.data.technique.value) {
+                    return 1;
+                } else {
+                    if (e1.data.data.level < e2.data.data.level) {
+                        return -1;
+                    } else if (e1.data.data.level > e2.data.data.level) {
+                        return 1;
+                    } else {
+                        return e1.data.name.localeCompare(e2.data.name);
+                    }
+                }
+            }
+        });
+        log(false, data.magicEffects);
+
+
     }
 
     _prepareLabData(labData) {
@@ -494,5 +559,29 @@ export class ArM5ePCActor extends Actor {
 
     _isNPCMagus() {
         return (this.data.type == "npc" && this.data.data.charType.value == "magusNPC")
+    }
+
+    loseFatigueLevel() {
+        if ((this.data.type != 'player') && (this.data.type != 'npc')) {
+            return;
+        }
+        if (this.data.data.fatigue.winded.level.value == false) {
+            this.data.data.fatigue.winded.level.value = true;
+            return;
+        } else if (this.data.data.fatigue.weary.level.value == false) {
+            this.data.data.fatigue.weary.level.value = true;
+            return;
+        } else if (this.data.data.fatigue.tired.level.value == false) {
+            this.data.data.fatigue.tired.level.value = true;
+            return;
+        } else if (this.data.data.fatigue.dazed.level.value == false) {
+            this.data.data.fatigue.dazed.level.value = true;
+            return;
+        } else if (this.data.data.fatigue.unconscious.level.value == false) {
+            this.data.data.fatigue.unconscious.level.value = true;
+            return;
+        } else {
+            this.data.data.wounds.light.number++;
+        }
     }
 }

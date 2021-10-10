@@ -109,20 +109,32 @@ export class ArM5eItem extends Item {
     }
 
     _computeCastingTotal(actorData, itemData) {
+        if (actorData.type == "magicCodex") {
+            return 0;
+        }
         let res = actorData.data.sta;
+        let tech = 0;
+        let form = 0;
+        let focusBonus = 0;
         if (itemData.data["technique-requisite"].value != "") {
-            res += Math.min(actorData.data.arts.techniques[itemData.data.technique.value].score,
+            tech = Math.min(actorData.data.arts.techniques[itemData.data.technique.value].score,
                 actorData.data.arts.techniques[itemData.data["technique-requisite"].value].score);
         } else {
-            res += actorData.data.arts.techniques[itemData.data.technique.value].score;
+            tech = actorData.data.arts.techniques[itemData.data.technique.value].score;
         }
 
         if (itemData.data["form-requisite"].value != "") {
-            res += Math.min(actorData.data.arts.forms[itemData.data.form.value].score,
+            form = Math.min(actorData.data.arts.forms[itemData.data.form.value].score,
                 actorData.data.arts.forms[itemData.data["form-requisite"].value].score);
         } else {
-            res += actorData.data.arts.forms[itemData.data.form.value].score;
+            form = actorData.data.arts.forms[itemData.data.form.value].score;
         }
+        if (itemData.data.applyFocus) {
+            res += tech + form + Math.min(tech, form);
+        } else {
+            res += tech + form;
+        }
+
         return res;
 
     }

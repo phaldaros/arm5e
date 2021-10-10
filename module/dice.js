@@ -32,8 +32,12 @@ function stressDie(html, actorData) {
     //console.log(actorData);
 
     let roll = explodingRoll(actorData);
+    let flavorTxt = 'Stress die: <br />';
+    if (mult > 1) {
+        flavorTxt = '<h3>EXPLODING Stress die: </h3><br />';
+    }
     multiplyRoll(mult, roll, actorData.data.data.roll.rollFormula, actorData.data.data.roll.divide).toMessage({
-        flavor: 'Stress die: <br />' + actorData.data.data.roll.rollLabel,
+        flavor: flavorTxt + actorData.data.data.roll.rollLabel,
         speaker: ChatMessage.getSpeaker({
             actor: actorData
         }),
@@ -271,7 +275,7 @@ function explodingRoll(actorData) {
         if (mult === 1 && roll.total === 10) {
             mult *= 0;
 
-            renderTemplate("systems/arm5e/templates/roll/roll-botch.html").then(function (html) {
+            renderTemplate("systems/arm5e/templates/roll/roll-botch.html").then(function(html) {
                 // show dialog
                 new Dialog({
                     title: 'Checking for Botch',

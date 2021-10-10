@@ -6,6 +6,17 @@ export const ARM5E = {};
  * @type {Object}
  */
 ARM5E.MODULE_ID = 'arm5e';
+
+// default icons (TODO set them)
+
+ARM5E.icons = {
+    "DEFAULT_SPELL": "icons/svg/explosion.svg",
+    "DEFAULT_WEAPON": "icons/svg/sword.svg",
+    "DEFAULT_ARMOR": "icons/equipment/chest/breastplate-scale-grey.webp",
+    "DEFAULT_BOOK": "icons/svg/book.svg",
+    "DEFAULT_LABTEXT": "icons/commodities/materials/parchment-secrets.webp"
+};
+
 ARM5E.character = {};
 
 ARM5E.character.charTypes = {
@@ -382,62 +393,77 @@ ARM5E.magic = {};
 ARM5E.magic.arts = {
     "cr": {
         "label": "Creo",
+        "short": "Cr",
         "dtype": "String"
     },
     "in": {
         "label": "Intellego",
+        "short": "In",
         "dtype": "String"
     },
     "mu": {
         "label": "Muto",
+        "short": "Mu",
         "dtype": "String"
     },
     "pe": {
         "label": "Perdo",
+        "short": "Pe",
         "dtype": "String"
     },
     "re": {
         "label": "Rego",
+        "short": "Re",
         "dtype": "String"
     },
     "an": {
         "label": "Animal",
+        "short": "An",
         "dtype": "String"
     },
     "au": {
         "label": "Auram",
+        "short": "Au",
         "dtype": "String"
     },
     "aq": {
         "label": "Aquam",
+        "short": "Aq",
         "dtype": "String"
     },
     "co": {
         "label": "Corpus",
+        "short": "Co",
         "dtype": "String"
     },
     "he": {
         "label": "Herbam",
+        "short": "He",
         "dtype": "String"
     },
     "ig": {
         "label": "Ignem",
+        "short": "Ig",
         "dtype": "String"
     },
     "im": {
         "label": "Imaginem",
+        "short": "Im",
         "dtype": "String"
     },
     "me": {
         "label": "Mentem",
+        "short": "Me",
         "dtype": "String"
     },
     "te": {
         "label": "Terram",
+        "short": "Te",
         "dtype": "String"
     },
     "vi": {
         "label": "Vim",
+        "short": "Vi",
         "dtype": "String"
     }
 };
@@ -518,60 +544,64 @@ ARM5E.magic.forms = {
     }
 };
 
-
+ARM5E.magic.shorts = {
+    "duration": "arm5e.spell.duration.short",
+    "target": "arm5e.spell.target.short",
+    "range": "arm5e.spell.range.short"
+}
 ARM5E.magic.durations = {
     "moment": {
-        "label": "arm5e.config.durations.moment",
+        "label": "arm5e.spell.durations.moment",
         "dtype": "String",
         "impact": 0
     },
     "conc": {
-        "label": "arm5e.config.durations.conc",
+        "label": "arm5e.spell.durations.conc",
         "dtype": "String",
         "impact": 1
     },
     "diam": {
-        "label": "arm5e.config.durations.diam",
+        "label": "arm5e.spell.durations.diam",
         "dtype": "String",
         "impact": 1
     },
     "sun": {
-        "label": "arm5e.config.durations.sun",
+        "label": "arm5e.spell.durations.sun",
         "dtype": "String",
         "impact": 2
     },
     "ring": {
-        "label": "arm5e.config.durations.ring",
+        "label": "arm5e.spell.durations.ring",
         "dtype": "String",
         "impact": 2
     },
     "moon": {
-        "label": "arm5e.config.durations.moon",
+        "label": "arm5e.spell.durations.moon",
         "dtype": "String",
         "impact": 3
     },
     "fire": {
-        "label": "arm5e.config.durations.fire",
+        "label": "arm5e.spell.durations.fire",
         "dtype": "String",
         "impact": 3
     },
     "bargain": {
-        "label": "arm5e.config.durations.bargain",
+        "label": "arm5e.spell.durations.bargain",
         "dtype": "String",
         "impact": 3
     },
     "year": {
-        "label": "arm5e.config.durations.year",
+        "label": "arm5e.spell.durations.year",
         "dtype": "String",
         "impact": 4
     },
     "condition": {
-        "label": "arm5e.config.durations.condition",
+        "label": "arm5e.spell.durations.condition",
         "dtype": "String",
         "impact": 4
     },
     "year+1": {
-        "label": "arm5e.config.durations.year+1",
+        "label": "arm5e.spell.durations.year+1",
         "dtype": "String",
         "impact": 4
     }
@@ -579,37 +609,37 @@ ARM5E.magic.durations = {
 
 ARM5E.magic.ranges = {
     "personal": {
-        "label": "arm5e.config.ranges.personal",
+        "label": "arm5e.spell.ranges.personal",
         "dtype": "String",
         "impact": 0
     },
     "touch": {
-        "label": "arm5e.config.ranges.touch",
+        "label": "arm5e.spell.ranges.touch",
         "dtype": "String",
         "impact": 1
     },
     "eye": {
-        "label": "arm5e.config.ranges.eye",
+        "label": "arm5e.spell.ranges.eye",
         "dtype": "String",
         "impact": 1
     },
     "voice": {
-        "label": "arm5e.config.ranges.voice",
+        "label": "arm5e.spell.ranges.voice",
         "dtype": "String",
         "impact": 2
     },
     "road": {
-        "label": "arm5e.config.ranges.road",
+        "label": "arm5e.spell.ranges.road",
         "dtype": "String",
         "impact": 2
     },
     "sight": {
-        "label": "arm5e.config.ranges.sight",
+        "label": "arm5e.spell.ranges.sight",
         "dtype": "String",
         "impact": 3
     },
     "arc": {
-        "label": "arm5e.config.ranges.arc",
+        "label": "arm5e.spell.ranges.arc",
         "dtype": "String",
         "impact": 4
     }
@@ -617,62 +647,62 @@ ARM5E.magic.ranges = {
 
 ARM5E.magic.targets = {
     "ind": {
-        "label": "arm5e.config.targets.ind",
+        "label": "arm5e.spell.targets.ind",
         "dtype": "String",
         "impact": 0
     },
     "circle": {
-        "label": "arm5e.config.targets.circle",
+        "label": "arm5e.spell.targets.circle",
         "dtype": "String",
         "impact": 0
     },
     "part": {
-        "label": "arm5e.config.targets.part",
+        "label": "arm5e.spell.targets.part",
         "dtype": "String",
         "impact": 1
     },
     "group": {
-        "label": "arm5e.config.targets.group",
+        "label": "arm5e.spell.targets.group",
         "dtype": "String",
         "impact": 2
     },
     "room": {
-        "label": "arm5e.config.targets.room",
+        "label": "arm5e.spell.targets.room",
         "dtype": "String",
         "impact": 2
     },
     "struct": {
-        "label": "arm5e.config.targets.struct",
+        "label": "arm5e.spell.targets.struct",
         "dtype": "String",
         "impact": 3
     },
     "bound": {
-        "label": "arm5e.config.targets.bound",
+        "label": "arm5e.spell.targets.bound",
         "dtype": "String",
         "impact": 4
     },
     "taste": {
-        "label": "arm5e.config.targets.taste",
+        "label": "arm5e.spell.targets.taste",
         "dtype": "String",
         "impact": 0
     },
     "touch": {
-        "label": "arm5e.config.targets.touch",
+        "label": "arm5e.spell.targets.touch",
         "dtype": "String",
         "impact": 1
     },
     "smell": {
-        "label": "arm5e.config.targets.smell",
+        "label": "arm5e.spell.targets.smell",
         "dtype": "String",
         "impact": 2
     },
     "hearing": {
-        "label": "arm5e.config.targets.hearing",
+        "label": "arm5e.spell.targets.hearing",
         "dtype": "String",
         "impact": 3
     },
     "sight": {
-        "label": "arm5e.config.targets.sight",
+        "label": "arm5e.spell.targets.sight",
         "dtype": "String",
         "impact": 4
     }
@@ -693,4 +723,77 @@ ARM5E.item.costs = {
     "exp": {
         "label": "arm5e.sheet.expensive"
     }
+};
+
+ARM5E.BASE_MAGIC = {
+    "an": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "aq": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "au": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "co": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "he": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "ig": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "im": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "me": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "te": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
+    "vi": {
+        cr: [],
+        in: [],
+        muto: [],
+        perdo: [],
+        rego: []
+    },
 };

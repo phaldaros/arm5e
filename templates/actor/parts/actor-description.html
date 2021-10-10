@@ -14,23 +14,19 @@
                     </div>
                     <div class="flexrow marginbot6">
                         <label for="data.dom-mag.label" class="bold">{{localize "arm5e.sheet.domusMagnus"}}</label>
-                        <span class="width2"><input type="text" name="data.dom-mag.value" value="{{data.dom-mag.value}}"
-                                data-dtype="String" /></span>
+                        <span class="width2"><input type="text" name="data.dom-mag.value" value="{{data.dom-mag.value}}" data-dtype="String" /></span>
                     </div>
                     <div class="flexrow marginbot6">
                         <label for="data.primus.value" class="bold">{{localize "arm5e.sheet.primus"}}</label>
-                        <span class="width2"><input type="text" name="data.primus.value" value="{{data.primus.value}}"
-                                data-dtype="String" /></span>
+                        <span class="width2"><input type="text" name="data.primus.value" value="{{data.primus.value}}" data-dtype="String" /></span>
                     </div>
                     <div class="flexrow marginbot6">
                         <label for="data.parens.value" class="bold">{{localize "arm5e.sheet.parens"}}</label>
-                        <span class="width2"><input type="text" name="data.parens.value" value="{{data.parens.value}}"
-                                data-dtype="String" /></span>
+                        <span class="width2"><input type="text" name="data.parens.value" value="{{data.parens.value}}" data-dtype="String" /></span>
                     </div>
                     <div class="flexrow marginbot6">
                         <label for="data.apprenticeship.value" class="bold">{{localize "arm5e.sheet.apprenticeship"}}</label>
-                        <span class="width2"><input type="text" name="data.apprenticeship.value" value="{{data.apprenticeship.value}}"
-                                data-dtype="String" /></span>
+                        <span class="width2"><input type="text" name="data.apprenticeship.value" value="{{data.apprenticeship.value}}" data-dtype="String" /></span>
                     </div>
                 </div>
             </div>
@@ -56,12 +52,10 @@
             </label>
             <div class="flexrow marginbot6 margintop6">
                 <label for="data.warping.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
-                <span class="marginbot6" style="margin-right: 24px"><input type="text" name="data.warping.score"
-                        value="{{data.warping.score}}" data-dtype="String" /></span>
+                <span class="marginbot6" style="margin-right: 24px"><input type="text" name="data.warping.score" value="{{data.warping.score}}" data-dtype="String" /></span>
                 <label for="data.warping.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
                 <span class="marginbot6">
-                    <input type="text" name="data.warping.points" value="{{data.warping.points}}" data-dtype="String"
-                        style="width:74px" />&nbsp;/&nbsp;({{ data.warping.experienceNextLevel }})
+                    <input type="text" name="data.warping.points" value="{{data.warping.points}}" data-dtype="String" style="width:74px" />&nbsp;/&nbsp;({{ actor.data.warping.experienceNextLevel }})
                 </span>
             </div>
 
@@ -81,12 +75,10 @@
             </label>
             <div class="flexrow marginbot6 margintop6">
                 <label for="data.decrepitude.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
-                <span class="marginbot6" style="margin-right: 24px"><input type="text" name="data.decrepitude.score"
-                        value="{{data.decrepitude.score}}" data-dtype="String" /></span>
+                <span class="marginbot6" style="margin-right: 24px"><input type="text" name="data.decrepitude.score" value="{{data.decrepitude.score}}" data-dtype="String" /></span>
                 <label for="data.decrepitude.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
                 <span class="marginbot6">
-                    <input type="text" name="data.decrepitude.points" value="{{data.decrepitude.points}}" data-dtype="String"
-                        style="width:74px" />&nbsp;/&nbsp;({{ data.decrepitude.experienceNextLevel }})
+                    <input type="text" name="data.decrepitude.points" value="{{data.decrepitude.points}}" data-dtype="String" style="width:74px" />&nbsp;/&nbsp;({{data.decrepitude.experienceNextLevel }})
                 </span>
             </div>
 
@@ -120,8 +112,7 @@
                         {{#with (lookup @root.metadata.character.vitals key)}}
                             <label for="data.vitals.{{key}}.label" class="bold">{{localize label}}</label>
                         {{/with}}
-                        <span><input type="text" name="data.vitals.{{key}}.value"
-                                value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" /></span>
+                        <span><input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" /></span>
                     </div>
                 {{/each}}
             </div>
@@ -132,8 +123,7 @@
             <ol style="width: 100%;">
                 {{#each data.personality as |pers key|}}
                     <li class="flexrow flex-group-left" data-attribute="{{key}}">
-                        <span class="flex01 rollable" style="margin-right: 12px;" data-roll="option" data-usefatigue="false"
-                            data-option1="{{ pers.score }}" data-txtoption1='{{ pers.label }}'>
+                        <span class="flex01 rollable" style="margin-right: 12px;" data-roll="option" data-usefatigue="false" data-option1="{{ pers.score }}" data-txtoption1='{{ pers.label }}'>
                             <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px;" />
                         </span>
                         <span class="flexrow" name="data.personality.{{key}}.label">
@@ -143,8 +133,7 @@
                         </span>
                         <div class="flexrow">
                             <span></span>
-                            <input type="text" name="data.personality.{{key}}.score"
-                                value="{{numberFormat pers.score decimals=0 sign=true}}" data-dtype="Number" />
+                            <input type="text" name="data.personality.{{key}}.score" value="{{numberFormat pers.score decimals=0 sign=true}}" data-dtype="Number" />
                         </div>
                     </li>
                 {{/each}}
@@ -157,8 +146,7 @@
                     {{#with (lookup @root.metadata.character.description key)}}
                         <label for="data.description.{{key}}.label" class="bold">{{localize label}}</label>
                     {{/with}}
-                    <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}"
-                            data-dtype="String" /></span>
+                    <span><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="String" /></span>
                 </div>
             {{/each}}
         </div>
@@ -168,8 +156,7 @@
             <ol style="width: 100%;">
                 {{#each data.reputation as |rep key|}}
                     <li class="flexrow flex-group-left" data-attribute="{{key}}">
-                        <span class="flex02 rollable" style="margin-right: 12px;" data-roll="option" data-usefatigue="false"
-                            data-option1="{{ rep.score }}" data-txtoption1='{{ rep.label }}'>
+                        <span class="flex02 rollable" style="margin-right: 12px;" data-roll="option" data-usefatigue="false" data-option1="{{ rep.score }}" data-txtoption1='{{ rep.label }}'>
                             <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px;" />
                         </span>
                         <span class="flexrow" name="data.reputation.{{key}}.label">
@@ -183,8 +170,7 @@
                         </div>
                         <div class="flexrow">
                             <span></span>
-                            <input type="text" name="data.reputation.{{key}}.score"
-                                value="{{numberFormat rep.score decimals=0 sign=true}}" data-dtype="Number" />
+                            <input type="text" name="data.reputation.{{key}}.score" value="{{numberFormat rep.score decimals=0 sign=true}}" data-dtype="Number" />
                         </div>
                     </li>
                 {{/each}}

@@ -1,6 +1,6 @@
 {
     "Actor": {
-        "types": ["player", "npc", "laboratory", "covenant"],
+        "types": ["player", "npc", "laboratory", "covenant", "magicCodex"],
         "templates": {
             "base": {
                 "version": "0.3",
@@ -963,6 +963,10 @@
             "magicBooks": [],
             "laboratoryTexts": [],
             "mundaneBooks": []
+        },
+        "magicCodex": {
+            "techniqueFilter": "",
+            "formFilter": ""
         }
     },
 
@@ -1091,7 +1095,8 @@
             "complexity": 0,
             "enhancingRequisite": 0,
             "baseLevel": 1,
-            "BaseEffectDescription": ""
+            "BaseEffectDescription": "",
+            "applyFocus": false
         },
         "spell": {
             "templates": ["base", "authorship", "magicalEffectAttributes"],
@@ -1104,7 +1109,8 @@
             "complexity": 0,
             "enhancingRequisite": 0,
             "baseLevel": 0,
-            "baseEffectDescription": ""
+            "baseEffectDescription": "",
+            "applyFocus": false
         },
         "laboratoryText": {
             "templates": ["base", "authorship"],

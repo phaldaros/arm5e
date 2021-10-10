@@ -1,0 +1,36 @@
+<ol class="spell-list backSection margintop18">
+    <li class="item flexrow item-header">
+        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "arm5e.sheet.magical-effects"}}</div>
+    </li>
+    {{#each data.magicEffects as |effect id|}}
+        <li class="item spell-value flexrow flex-center" data-name="{{effect.data.name}}" data-item-id="{{effect.id}}">
+            <div class="flexrow flex-center">
+                <span class="flexrow spell-title design" data-name="{{effect.data.name}}">
+                    <!-- data-level="{{effect.data.data.baseLevel}}" data-technique="{{effect.data.data.technique.value}}" data-form="{{effect.data.data.form.value}}"-->
+                    {{effect.data.name}} (
+                    {{#with (lookup @root.metadata.magic.arts effect.data.data.technique.value)~}}{{short~}}
+                    {{/with}}
+                    {{#with (lookup @root.metadata.magic.arts effect.data.data.form.value)~}}{{short~}}
+                    {{/with}}
+                    {{effect.data.data.level}} )
+                    {{localize "arm5e.spell.range.short"~}}:
+                    {{#with (lookup @root.metadata.magic.ranges effect.data.data.range.value)~}}{{localize label}}
+                    {{/with}}
+                    {{localize "arm5e.spell.duration.short"~}}:
+                    {{#with (lookup @root.metadata.magic.durations effect.data.data.duration.value)~}}{{localize label}}
+                    {{/with}}
+                    {{localize "arm5e.spell.target.short"~}}:
+                    {{#with (lookup @root.metadata.magic.targets effect.data.data.target.value)~}}{{localize label}}
+                    {{/with}}</span>
+            </div>
+            <div class="item-controls">
+                <a class="item-control item-edit" title="Edit Base Effect"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Base Effect"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+    {{/each}}
+</ol>

@@ -286,24 +286,46 @@ export class ArM5ePCActorSheet extends ActorSheet {
                 // render template
                 renderTemplate(template, this.actor.data).then(function(html) {
                     // show dialog
-                    new Dialog({
-                        title: 'Select Die',
-                        content: html,
-                        buttons: {
-                            yes: {
-                                icon: "<i class='fas fa-check'></i>",
-                                label: `Simple Die`,
-                                callback: (html) => simpleDie(html, actorData)
-                            },
-                            no: {
-                                icon: "<i class='fas fa-bomb'></i>",
-                                label: `Stress Die`,
-                                callback: (html) => stressDie(html, actorData)
-                            },
-                        }
-                    }).render(true);
+                    if (dataset.roll == "magic") {
+                        //this.loseFatigueLevel(this.actor.data);
+                        new Dialog({
+                            title: 'Select Die',
+                            content: html,
+                            buttons: {
+                                yes: {
+                                    icon: "<i class='fas fa-check'></i>",
+                                    label: `Stress Die`,
+                                    callback: (html) => stressDie(html, actorData)
+                                },
+                                no: {
+                                    icon: "<i class='fas fa-ban'></i>",
+                                    label: `Cancel`,
+                                    callback: null
+                                },
+                            }
+                        }).render(true);
+                    } else {
+                        new Dialog({
+                            title: 'Select Die',
+                            content: html,
+                            buttons: {
+                                yes: {
+                                    icon: "<i class='fas fa-check'></i>",
+                                    label: `Simple Die`,
+                                    callback: (html) => simpleDie(html, actorData)
+                                },
+                                no: {
+                                    icon: "<i class='fas fa-bomb'></i>",
+                                    label: `Stress Die`,
+                                    callback: (html) => stressDie(html, actorData)
+                                },
+                            }
+                        }).render(true);
+                    }
                 });
             }
         }
     }
+
+
 }

@@ -1,0 +1,31 @@
+<ol class="spell-list backSection margintop18">
+    <li class="item flexrow item-header">
+        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "arm5e.sheet.base-effects"}}</div>
+        <div class="item-controls">
+            <a class="item-control item-create" title="Add Base effect" data-type="baseEffect"><i class="fas fa-plus"></i></a>
+        </div>
+    </li>
+    {{#each data.baseEffects as |effect id|}}
+        <li class="item spell-value flexrow flex-center" data-name="{{effect.data.name}}" data-item-id="{{effect.id}}">
+            <div class="flexrow flex-center">
+                <span class="flexrow spell-title design" data-name="{{effect.data.name}}">
+                    {{effect.data.name}} (
+                    {{#with (lookup @root.metadata.magic.arts effect.data.data.technique.value)~}}{{short~}}
+                    {{/with}}
+                    {{#with (lookup @root.metadata.magic.arts effect.data.data.form.value)~}}{{short~}}
+                    {{/with}}
+                    {{effect.data.data.baseLevel}} )
+
+                </span>
+            </div>
+            <div class="item-controls">
+                <a class="item-control item-edit" title="Edit Base Effect"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Base Effect"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+    {{/each}}
+</ol>

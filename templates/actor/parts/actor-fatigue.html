@@ -8,19 +8,18 @@
                     <div class="flexrow flex-between marginbot6">
                         {{#with (lookup @root.metadata.character.fatigueLevels key)}}
                             <label for="metadata.character.fatigueLevels.{{key}}.label">{{localize label}}</label>
-                            <span>
-                                <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} />
-                            </span>
-                            <span>
-
-                                <input type="text" name="data.fatigue.{{key}}.number"
-                                    value="{{numberFormat fatigue.number decimals=0 sign=true}}" data-dtype="Number" readonly />
-                            </span>
-                            <span>
-                                <input type="text" name="metadata.character.fatigueLevels.{{key}}.time" value="{{time}}"
-                                    data-dtype="String" readonly />
-                            </span>
                         {{/with}}
+                        <span>
+                            <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} />
+                        </span>
+                        <span>
+
+                            <input type="text" name="data.fatigue.{{key}}.number" value="{{numberFormat fatigue.number decimals=0 sign=true}}" data-dtype="Number" readonly />
+                        </span>
+                        <span>
+                            <input type="text" name="metadata.character.fatigueLevels.{{key}}.time" value="{{time}}" data-dtype="String" readonly />
+                        </span>
+
                     </div>
                 </li>
             {{/each}}
@@ -46,16 +45,13 @@
                             <label for="{{ label}}" class="flex05">{{localize label}}</label>
                         {{/with}}
                         <span class="flex05">
-                            <input type="text" name="data.wounds.{{key}}.number.value" value="{{wounds.number.value}}"
-                                data-dtype="Number" />
+                            <input type="text" name="data.wounds.{{key}}.number.value" value="{{wounds.number.value}}" data-dtype="Number" />
                         </span>
                         <span class="flex03">
-                            <input type="text" name="data.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}"
-                                data-dtype="Number" readonly />
+                            <input type="text" name="data.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}" data-dtype="Number" readonly />
                         </span>
                         <span class="width2">
-                            <input type="text" name="data.wounds.{{key}}.notes.value" value="{{wounds.notes.value}}" data-dtype="String"
-                                placeholder="Notes" />
+                            <input type="text" name="data.wounds.{{key}}.notes.value" value="{{wounds.notes.value}}" data-dtype="String" placeholder="Notes" />
                         </span>
                     </div>
                 </li>
