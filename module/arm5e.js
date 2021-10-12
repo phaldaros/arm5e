@@ -202,7 +202,6 @@ Hooks.once('devModeReady', ({
 });
 
 
-
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
@@ -256,3 +255,25 @@ function rollItemMacro(itemName) {
     // Trigger the item roll
     return item.roll();
 }
+
+// Not working, why? overloaded _preCreateItem instead for the moment
+
+// Hooks.on('preCreateItem', async (item, itemData, option, userId) => function(item, itemData) {
+//     switch (itemData.data.type) {
+//         case 'spell':
+//             itemData.img = ARM5E.icons.DEFAULT_SPELL;
+//             break;
+//         case "book":
+//             itemData.img = ARM5E.icons.DEFAULT_BOOK;
+//             break;
+//         case "baseEffect":
+//         case "magicalEffect":
+//             itemData.img = ARM5E.icons.DEFAULT_LABTEXT;
+//             break;
+//         case "weapons":
+//             itemData.img = ARM5E.icons.DEFAULT_WEAPON;
+//             break;
+//         default:
+//             break;
+//     }
+// });

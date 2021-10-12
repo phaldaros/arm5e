@@ -10,11 +10,13 @@ ARM5E.MODULE_ID = 'arm5e';
 // default icons (TODO set them)
 
 ARM5E.icons = {
-    "DEFAULT_SPELL": "icons/svg/explosion.svg",
-    "DEFAULT_WEAPON": "icons/svg/sword.svg",
-    "DEFAULT_ARMOR": "icons/equipment/chest/breastplate-scale-grey.webp",
-    "DEFAULT_BOOK": "icons/svg/book.svg",
-    "DEFAULT_LABTEXT": "icons/commodities/materials/parchment-secrets.webp"
+    "spell": "icons/svg/explosion.svg",
+    "weapon": "icons/svg/sword.svg",
+    "armor": "icons/equipment/chest/breastplate-scale-grey.webp",
+    "book": "icons/svg/book.svg",
+    "laboratoryText": "icons/commodities/materials/parchment-secrets.webp",
+    "magicalEffect": "icons/commodities/materials/parchment-secrets.webp",
+    "baseEffect": "icons/commodities/materials/parchment-secrets.webp"
 };
 
 ARM5E.character = {};

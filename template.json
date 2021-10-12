@@ -966,7 +966,8 @@
         },
         "magicCodex": {
             "techniqueFilter": "",
-            "formFilter": ""
+            "formFilter": "",
+            "levelFilter": 0
         }
     },
 
@@ -1095,7 +1096,7 @@
             "complexity": 0,
             "enhancingRequisite": 0,
             "baseLevel": 1,
-            "BaseEffectDescription": "",
+            "baseEffectDescription": "",
             "applyFocus": false
         },
         "spell": {

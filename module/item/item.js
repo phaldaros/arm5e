@@ -138,6 +138,20 @@ export class ArM5eItem extends Item {
         return res;
 
     }
+
+
+    async _preCreate(data, options, userId) {
+        await super._preCreate(data, options, userId);
+        if (data.img === undefined) {
+            if (data.type in CONFIG.ARM5E.icons) {
+                const img = CONFIG.ARM5E.icons[data.type];
+                if (img) await this.data.update({
+                    img
+                });
+            }
+        }
+    }
+
     /**
      * Handle clickable rolls.
      * @param {Event} event   The originating click event

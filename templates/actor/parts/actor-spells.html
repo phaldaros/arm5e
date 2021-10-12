@@ -1,0 +1,36 @@
+<ol class="spell-list backSection margintop18">
+    <li class="item flexrow item-header">
+        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+
+        <div class="item-image"></div>
+        <div class="item-name">{{localize "arm5e.sheet.spells"}}</div>
+    </li>
+    {{#each data.spells as |spell id|}}
+        <li class="item spell-value flexrow flex-center" data-name="{{spell.data.name}}" data-item-id="{{spell.id}}">
+            <div class="flexrow flex-center">
+                <span class="flexrow spell-title design" data-name="{{spell.data.name}}">
+                    <!-- data-level="{{spell.data.data.baseLevel}}" data-technique="{{spell.data.data.technique.value}}" data-form="{{spell.data.data.form.value}}"-->
+                    {{spell.data.name}} (
+                    {{#with (lookup @root.metadata.magic.arts spell.data.data.technique.value)~}}{{short~}}
+                    {{/with}}
+                    {{#with (lookup @root.metadata.magic.arts spell.data.data.form.value)~}}{{short~}}
+                    {{/with}}
+                    {{spell.data.data.level}} )
+                    {{localize "arm5e.spell.range.short"~}}:
+                    {{#with (lookup @root.metadata.magic.ranges spell.data.data.range.value)~}}{{localize label}}
+                    {{/with}}
+                    {{localize "arm5e.spell.duration.short"~}}:
+                    {{#with (lookup @root.metadata.magic.durations spell.data.data.duration.value)~}}{{localize label}}
+                    {{/with}}
+                    {{localize "arm5e.spell.target.short"~}}:
+                    {{#with (lookup @root.metadata.magic.targets spell.data.data.target.value)~}}{{localize label}}
+                    {{/with}}</span>
+            </div>
+            <div class="item-controls">
+                <a class="item-control item-edit" title="Edit Spell"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Spell"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+    {{/each}}
+</ol>

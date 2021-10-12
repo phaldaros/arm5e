@@ -198,15 +198,14 @@ export class ArM5eMagicCodexSheet extends ActorSheet {
         const itemdata = item.data;
         const dataset = itemdata.data;
         let newItemData;
-        if (dataset.type = "baseEffect") {
+        if (itemdata.type == "baseEffect") {
             // Initialize a default name.
             const name = `_New "${itemdata.name}" effect`;
             newItemData = [{
                 name: name,
                 type: "magicalEffect",
-                img: "icons/commodities/materials/parchment-secrets.webp",
                 data: {
-                    "BaseEffectDescription": itemdata.name,
+                    "baseEffectDescription": itemdata.name,
                     "baseLevel": dataset.baseLevel,
                     "technique": {
                         "value": dataset.technique.value
@@ -222,7 +221,7 @@ export class ArM5eMagicCodexSheet extends ActorSheet {
             newItemData = [{
                 name: itemdata.name,
                 type: "spell",
-                data: foundry.utils.deepClone(header.dataset)
+                data: foundry.utils.deepClone(itemdata.data)
             }];
             // Remove the type from the dataset since it's in the itemData.type prop.
             delete newItemData[0].data["type"];
