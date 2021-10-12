@@ -1,0 +1,82 @@
+<form class="{{cssClass}} flexcol main" autocomplete="off">
+    <!--div class="header-background">
+        <img src="/systems/arm5e/assets/header-codex.png">
+    </div-->
+    {{!-- Sheet Header --}}
+    <h1 class="codex-title width: 100%;" text-align="center">Codex Hermetica</h1><br />
+    <header class="sheet-header sheet-header-lab">
+        <div class="item-name">{{localize "arm5e.sheet.filters"}}</div>
+        <div class="header-fields">
+            <div class="grid grid-2col">
+                <div class="resource flexcol flexrow">
+                    <label for="data.techniqueFilter" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
+                    <select name="data.techniqueFilter" data-type="String">
+                        {{#select data.techniqueFilter}}
+                            <option value=""></option>
+                            {{#each metadata.magic.techniques as |technique key|}}
+                                <option value="{{key}}">{{technique.label}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="resource flexcol flexrow">
+                    <label for="data.formFilter" class="header-label">{{localize "arm5e.sheet.form"}}</label>
+                    <select name="data.formFilter" data-type="String">
+                        {{#select data.formFilter}}
+                            <option value=""></option>
+                            {{#each metadata.magic.forms as |form key|}}
+                                <option value="{{key}}">{{form.label}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="resource flexcol flexrow">
+                    <label for="data.levelFilter" class="header-label">{{localize "arm5e.sheet.level"}}</label>
+                    <input type="text" name="data.levelFilter" value="{{data.levelFilter}}" data-dtype="Number" />
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+        <a class="item posRelative" data-tab="base-effects">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.base-effects"}}
+        </a>
+        <a class="item posRelative" data-tab="magical-effect">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.magical-effects"}}
+        </a>
+        <a class="item posRelative" data-tab="spells">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            {{localize "arm5e.sheet.spells"}}
+        </a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        {{!-- Base effects Tab --}}
+        <div class="tab diary" data-group="primary" data-tab="base-effects">
+            {{> "systems/arm5e/templates/actor/parts/actor-base-effects.html" }}
+        </div>
+        {{!--Magical Effect Tab --}}
+        <div class="tab spell-design" data-group="primary" data-tab="magical-effect">
+            {{> "systems/arm5e/templates/actor/parts/actor-magical-effects.html" }}
+        </div>
+        {{!--Spells Tab --}}
+        <div class="tab spells" data-group="primary" data-tab="spells">
+            {{> "systems/arm5e/templates/actor/parts/actor-spells.html" }}
+        </div>
+    </section>
+
+    <!--div class="footer-background">
+        <img src="/systems/arm5e/assets/footer.png">
+    </div-->
+</form>

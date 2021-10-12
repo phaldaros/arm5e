@@ -26,7 +26,9 @@ import {
 import {
     ArM5eCovenantActorSheet
 } from "./actor/actor-covenant-sheet.js";
-
+import {
+    ArM5eMagicCodexSheet
+} from "./actor/actor-magic-codex-sheet.js";
 import {
     ArM5eItem
 } from "./item/item.js";
@@ -113,6 +115,13 @@ Hooks.once('init', async function() {
     });
 
 
+    Actors.registerSheet("arm5eMagicCodex", ArM5eMagicCodexSheet, {
+        types: ["magicCodex"],
+        makeDefault: true,
+        label: "arm5e.sheet.magic-codex"
+    });
+
+
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
         types: ["magicalEffect"],
@@ -145,6 +154,14 @@ Hooks.once("ready", async function() {
     // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
     Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
 
+    // sort base Magical Effects
+    // let baseEffects = game.items.filter(item => item.type == 'baseEffect');
+    // for (let b of baseEffects) {
+    //     log(false, b.data);
+    //     ARM5E.BASE_MAGIC[b.data.]
+    // }
+
+
     // Determine whether a system migration is required and feasible
     if (!game.user.isGM) return;
     // this assumes that we stay on single digit version numbers...
@@ -165,14 +182,16 @@ Hooks.once("ready", async function() {
     }
     migration(currentVersion);
 
-
 });
+
+
 
 /**
  * This function runs after game data has been requested and loaded from the servers, so entities exist
  */
 
 Hooks.once("setup", function() {
+
 });
 
 Hooks.once('devModeReady', ({
@@ -181,7 +200,6 @@ Hooks.once('devModeReady', ({
     registerPackageDebugFlag(ARM5E.MODULE_ID);
 
 });
-
 
 
 /* -------------------------------------------- */
@@ -237,3 +255,25 @@ function rollItemMacro(itemName) {
     // Trigger the item roll
     return item.roll();
 }
+
+// Not working, why? overloaded _preCreateItem instead for the moment
+
+// Hooks.on('preCreateItem', async (item, itemData, option, userId) => function(item, itemData) {
+//     switch (itemData.data.type) {
+//         case 'spell':
+//             itemData.img = ARM5E.icons.DEFAULT_SPELL;
+//             break;
+//         case "book":
+//             itemData.img = ARM5E.icons.DEFAULT_BOOK;
+//             break;
+//         case "baseEffect":
+//         case "magicalEffect":
+//             itemData.img = ARM5E.icons.DEFAULT_LABTEXT;
+//             break;
+//         case "weapons":
+//             itemData.img = ARM5E.icons.DEFAULT_WEAPON;
+//             break;
+//         default:
+//             break;
+//     }
+// });

@@ -23,8 +23,7 @@
                     </select>
                 </div>
                 <div class="resource flexcol flexrow">
-                    <label for="data.technique-requisite.value"
-                        class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
+                    <label for="data.technique-requisite.value" class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
                     <select name="data.technique-requisite.value" data-type="String">
                         {{#select data.technique-requisite.value}}
                             <option value="">N/A</option>
@@ -104,6 +103,10 @@
                                 <option value="{{key}}">{{localize target.label}}</option>
                             {{/each}} {{/select}}
                     </select>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+                    <input type="checkbox" name="data.applyFocus" {{checked data.applyFocus}}>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
