@@ -363,6 +363,7 @@
     "arm5e.spell.targets.enhancingReq": "Enhancing requisite",
     "arm5e.spell.targets.baseLevel": "Base level",
     "arm5e.sheet.page": "Page",
+    "arm5e.spell.targets.baseSize.label": "Base size",
     "arm5e.spell.targets.baseSize.an": "Size +1 animal (small pony)",
     "arm5e.spell.targets.baseSize.aq": "5 paces across, 2 paces deep",
     "arm5e.spell.targets.baseSize.au": "Area one hundred paces across",

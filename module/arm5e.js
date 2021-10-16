@@ -1,6 +1,7 @@
 // Import Modules
 import {
-    ARM5E
+    ARM5E,
+    ARM5E_DEFAULT_ICONS
 } from "./metadata.js";
 import {
     ArM5ePCActor
@@ -82,8 +83,29 @@ Hooks.once('init', async function() {
         default: ""
     });
 
+
+    /**
+     * 2 Different sets of default icons for new documents
+     */
+    game.settings.register("arm5e", "defaultIconStyle", {
+        name: "Default icons style",
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            "MONO": "Monochrome",
+            "COLOR": "Color"
+        },
+        default: "MONO",
+        onChange: value => {
+            CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[value];
+        }
+    });
+
     // Add custom metadata
     CONFIG.ARM5E = ARM5E;
+
+    CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
     // Define custom Entity classes
     CONFIG.Actor.documentClass = ArM5ePCActor;
@@ -153,14 +175,7 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
     // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
     Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
-
-    // sort base Magical Effects
-    // let baseEffects = game.items.filter(item => item.type == 'baseEffect');
-    // for (let b of baseEffects) {
-    //     log(false, b.data);
-    //     ARM5E.BASE_MAGIC[b.data.]
-    // }
-
+    Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
 
     // Determine whether a system migration is required and feasible
     if (!game.user.isGM) return;
@@ -238,6 +253,20 @@ async function createArM5eMacro(data, slot) {
 
 }
 
+function onDropActorSheetData(actor, sheet, data) {
+
+    if (actor.data.type == "magicCodex") {
+        if (data.type != "baseEffect" && data.type != "magicalEffect" && data.type != "spell") {
+            console.log("Prevented invalid item drop");
+            return false;
+        }
+        return true;
+    }
+    // TODO: more filtering for other Actor types
+    return true;
+
+}
+
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.
@@ -255,25 +284,3 @@ function rollItemMacro(itemName) {
     // Trigger the item roll
     return item.roll();
 }
-
-// Not working, why? overloaded _preCreateItem instead for the moment
-
-// Hooks.on('preCreateItem', async (item, itemData, option, userId) => function(item, itemData) {
-//     switch (itemData.data.type) {
-//         case 'spell':
-//             itemData.img = ARM5E.icons.DEFAULT_SPELL;
-//             break;
-//         case "book":
-//             itemData.img = ARM5E.icons.DEFAULT_BOOK;
-//             break;
-//         case "baseEffect":
-//         case "magicalEffect":
-//             itemData.img = ARM5E.icons.DEFAULT_LABTEXT;
-//             break;
-//         case "weapons":
-//             itemData.img = ARM5E.icons.DEFAULT_WEAPON;
-//             break;
-//         default:
-//             break;
-//     }
-// });

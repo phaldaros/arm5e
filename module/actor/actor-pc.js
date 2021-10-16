@@ -1,5 +1,6 @@
 import {
-    ARM5E
+    ARM5E,
+    ARM5E_DEFAULT_ICONS
 } from "../metadata.js";
 import {
     log
@@ -478,7 +479,7 @@ export class ArM5ePCActor extends Actor {
 
     _prepareMagicCodexData(codexData) {
         log(false, "_prepareMagicCodexData");
-        codexData.img = ARM5E.icons['laboratoryText'];
+        codexData.img = CONFIG.ARM5E_DEFAULT_ICONS['magicCodex'];
         const data = codexData.data;
         let baseEffects = [];
         let magicEffects = [];
@@ -619,6 +620,19 @@ export class ArM5ePCActor extends Actor {
             return;
         } else {
             this.data.data.wounds.light.number++;
+        }
+    }
+
+
+    async _preCreate(data, options, userId) {
+        await super._preCreate(data, options, userId);
+        if (data.img === undefined) {
+            if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
+                const img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
+                if (img) await this.data.update({
+                    img
+                });
+            }
         }
     }
 }

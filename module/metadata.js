@@ -1,5 +1,5 @@
 export const ARM5E = {};
-
+export const ARM5E_DEFAULT_ICONS = {};
 /**
  * The set of metadata used within the sytem that will
  * probably not change
@@ -9,14 +9,80 @@ ARM5E.MODULE_ID = 'arm5e';
 
 // default icons (TODO set them)
 
-ARM5E.icons = {
-    "spell": "icons/svg/explosion.svg",
+ARM5E_DEFAULT_ICONS.MONO = {
     "weapon": "icons/svg/sword.svg",
-    "armor": "icons/equipment/chest/breastplate-scale-grey.webp",
+    "armor": "icons/svg/statue.svg",
+    "spell": "icons/svg/explosion.svg",
+    "vis": "icons/svg/daze.svg",
     "book": "icons/svg/book.svg",
-    "laboratoryText": "icons/commodities/materials/parchment-secrets.webp",
-    "magicalEffect": "icons/commodities/materials/parchment-secrets.webp",
-    "baseEffect": "icons/commodities/materials/parchment-secrets.webp"
+    "virtue": "systems/arm5e/assets/icons/upgraded-magic.svg",
+    "flaw": "systems/arm5e/assets/icons/base-magic.svg",
+    "ability": "icons/svg/aura.svg",
+    "abilityFamiliar": "icons/svg/aura.svg",
+    "diaryEntry": "icons/svg/sun.svg",
+    "might": "icons/svg/tower.svg",
+    "mightFamiliar": "icons/svg/tower.svg",
+    "speciality": "icons/svg/obelisk.svg",
+    "distinctive": "icons/svg/target.svg",
+    "sanctumRoom": "icons/svg/temple.svg",
+    "magicItem": "icons/svg/mage-shield.svg",
+    "personality": "icons/svg/personality.svg",
+    "reputation": "icons/svg/angel.svg",
+    "habitantMagi": "icons/svg/mountain.svg",
+    "habitantCompanion": "icons/svg/castle.svg",
+    "habitantSpecialists": "icons/svg/city.svg",
+    "habitantHabitants": "icons/svg/village.svg",
+    "habitantHorses": "icons/svg/bridge.svg",
+    "habitantLivestock": "icons/svg/windmill.svg",
+    "possessionsCovenant": "icons/svg/barrel.svg",
+    "visSourcesCovenant": "icons/svg/ruins.svg",
+    "visStockCovenant": "icons/svg/chest.svg",
+    "magicalEffect": "systems/arm5e/assets/icons/explosion-potion.svg",
+    "baseEffect": "systems/arm5e/assets/icons/lab-book.svg",
+    "calendarCovenant": "icons/svg/clockwork.svg",
+    "incomingSource": "icons/svg/regen.svg",
+    "laboratoryText": "systems/arm5e/assets/icons/journal-book.svg",
+    "mundaneBook": "icons/svg/book.svg",
+    "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
+    "covenant": "icons/svg/castle.svg",
+    "npc": "icons/svg/mystery-man-black.svg"
+};
+ARM5E_DEFAULT_ICONS.COLOR = {
+    "weapon": "icons/weapons/swords/greatsword-crossguard-silver.webp",
+    "armor": "icons/equipment/chest/breastplate-scale-grey.webp",
+    "spell": "icons/magic/light/explosion-star-glow-blue-purple.webp",
+    "vis": "icons/magic/light/orbs-firefly-hand-yellow.webp",
+    "item": "icons/sundries/survival/rope-coiled-tan.webp",
+    "book": "icons/sundries/books/book-tooled-eye-gold-red.webp",
+    "mundaneBook": "icons/sundries/books/book-tooled-eye-gold-red.webp",
+    "virtue": "icons/magic/light/explosion-star-glow-silhouette.webp",
+    //"flaw": "‪icons/magic/control/silhouette-hold-change-blue.webp",
+    "flaw": "icons/magic/unholy/silhouette-evil-horned-giant.webp",
+    "ability": "icons/skills/trades/woodcutting-logging-axe-stump.webp",
+    "abilityFamiliar": "icons/creatures/mammals/deer-antlers-glowing-blue.webp",
+    "diaryEntry": "icons/sundries/documents/document-sealed-signatures-red.webp",
+    "might": "icons/creatures/abilities/dragon-fire-breath-orange.webp",
+    "mightFamiliar": "icons/creatures/abilities/wolf-howl-moon-purple.webp",
+    "speciality": "icons/skills/trades/construction-carpentry-hammer.webp",
+    "distinctive": "icons/sundries/flags/banner-symbol-sun-gold-red.webp",
+    "magicItem": "icons/weapons/staves/staff-ornate-red.webp",
+    "personality": "icons/skills/social/intimidation-impressing.webp",
+    "reputation": "icons/skills/social/diplomacy-handshake.webp",
+    "habitantCompanion": "icons/environment/people/cleric-grey.webp",
+    "habitantSpecialists": "icons/environment/people/commoner.webp",
+    "habitantHabitants": "icons/environment/people/group.webp",
+    "habitantHorses": "icons/environment/creatures/horse-brown.webp",
+    "habitantLivestock": "icons/environment/creatures/horses.webp",
+    "possessionsCovenant": "icons/commodities/currency/coins-plain-pouch-gold.webp",
+    "visSourcesCovenant": "icons/environment/wilderness/arch-stone.webp",
+    "visStockCovenant": "icons/commodities/currency/coin-oval-rune-copper.webp",
+    "laboratoryText": "icons/sundries/documents/blueprint-recipe-alchemical.webp",
+    "magicalEffect": "icons/sundries/documents/document-symbol-lightning-brown.webp",
+    "baseEffect": "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
+    // Actors
+    "covenant": "icons/environment/settlement/wizard-castle.webp",
+    "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
+    "npc": "icons/svg/mystery-man-black.svg"
 };
 
 ARM5E.character = {};
@@ -497,52 +563,52 @@ ARM5E.magic.forms = {
     "an": {
         "label": "Animal",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.an"
+        "baseSize": "arm5e.spell.targets.baseSize.an"
     },
     "aq": {
         "label": "Aquam",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.aq"
+        "baseSize": "arm5e.spell.targets.baseSize.aq"
     },
     "au": {
         "label": "Auram",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.au"
+        "baseSize": "arm5e.spell.targets.baseSize.au"
     },
     "co": {
         "label": "Corpus",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.co"
+        "baseSize": "arm5e.spell.targets.baseSize.co"
     },
     "he": {
         "label": "Herbam",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.he"
+        "baseSize": "arm5e.spell.targets.baseSize.he"
     },
     "ig": {
         "label": "Ignem",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.ig"
+        "baseSize": "arm5e.spell.targets.baseSize.ig"
     },
     "im": {
         "label": "Imaginem",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.im"
+        "baseSize": "arm5e.spell.targets.baseSize.im"
     },
     "me": {
         "label": "Mentem",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.me"
+        "baseSize": "arm5e.spell.targets.baseSize.me"
     },
     "te": {
         "label": "Terram",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.te"
+        "baseSize": "arm5e.spell.targets.baseSize.te"
     },
     "vi": {
         "label": "Vim",
         "dtype": "String",
-        "baseSize": "arm5e.sheet.target.size.vi"
+        "baseSize": "arm5e.spell.targets.baseSize.vi"
     }
 };
 
@@ -727,75 +793,101 @@ ARM5E.item.costs = {
     }
 };
 
-ARM5E.BASE_MAGIC = {
-    "an": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "aq": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "au": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "co": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "he": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "ig": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "im": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "me": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "te": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
-    "vi": {
-        cr: [],
-        in: [],
-        muto: [],
-        perdo: [],
-        rego: []
-    },
+ARM5E.lab = {};
+
+ARM5E.lab.activities = {
+    "art": "arm5e.lab.art",
+    "magicTheory": "arm5e.lab.magicTheory",
+    "inventSpell": "arm5e.lab.InventSpell",
+    "openEnchantment": "arm5e.lab.openEnchantment",
+    "longevityPotion": "arm5e.lab.longevityPotion",
+    "minorEnchantment": "arm5e.lab.minorEnchantment",
+    "majorEnchantment": "arm5e.lab.majorEnchantment"
 };
+
+// TODO localize
+ARM5E.lab.labTextType = {
+    "raw": "Raw",
+    "spell": "Spell",
+    "magicItem": "Magic item"
+};
+
+ARM5E.books = {};
+
+ARM5E.books.activities = {
+    "learnSpell": "arm5e.book.learnSpell"
+}
+
+
+// ARM5E_BASE_MAGIC = {
+//     "an": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "aq": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "au": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "co": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "he": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "ig": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "im": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "me": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "te": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+//     "vi": {
+//         cr: [],
+//         in: [],
+//         muto: [],
+//         perdo: [],
+//         rego: []
+//     },
+// };

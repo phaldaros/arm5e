@@ -109,6 +109,11 @@ export class ArM5eMagicCodexSheet extends ActorSheet {
         }
     }
 
+    async _onDropItem(event, data) {
+
+    }
+
+
     /**
      * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
      * @param {Event} event   The originating click event

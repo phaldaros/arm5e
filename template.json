@@ -1042,6 +1042,11 @@
             "season": {
                 "season": ""
 
+            },
+            "authorship": {
+                "author": "Unknown",
+                "year": 1220,
+                "season": "Spring"
             }
         },
         "weapon": {
@@ -1115,8 +1120,9 @@
         },
         "laboratoryText": {
             "templates": ["base", "authorship"],
-            "magicalEffect": {},
-            "ritual": false
+            "type": "Raw",
+            "magicItem": {},
+            "spell": {}
         },
         "vis": {
             "templates": ["base", "art"],
