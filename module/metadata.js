@@ -45,7 +45,8 @@ ARM5E_DEFAULT_ICONS.MONO = {
     "mundaneBook": "icons/svg/book.svg",
     "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
     "covenant": "icons/svg/castle.svg",
-    "npc": "icons/svg/mystery-man-black.svg"
+    "npc": "icons/svg/mystery-man-black.svg",
+    "laboratory": "icons/svg/tower.svg"
 };
 ARM5E_DEFAULT_ICONS.COLOR = {
     "weapon": "icons/weapons/swords/greatsword-crossguard-silver.webp",
@@ -82,7 +83,8 @@ ARM5E_DEFAULT_ICONS.COLOR = {
     // Actors
     "covenant": "icons/environment/settlement/wizard-castle.webp",
     "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
-    "npc": "icons/svg/mystery-man-black.svg"
+    "npc": "icons/svg/mystery-man-black.svg",
+    "laboratory": "icons/tools/laboratory/vials-blue-pink.webp"
 };
 
 ARM5E.character = {};

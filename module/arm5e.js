@@ -177,25 +177,43 @@ Hooks.once("ready", async function() {
     Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
     Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
 
-    // Determine whether a system migration is required and feasible
-    if (!game.user.isGM) return;
-    // this assumes that we stay on single digit version numbers...
-    const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g, ''));
-    const SYSTEM_VERSION_NEEDED = 111;
-    const COMPATIBLE_MIGRATION_VERSION = 10;
-    const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
+    if (game.user.isGM) {
+        // Determine whether a system migration is required and feasible
+        // this below assumes that we stay on single digit version numbers...
+        const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g, ''));
+        const SYSTEM_VERSION_NEEDED = 111;
+        const COMPATIBLE_MIGRATION_VERSION = 10;
+        const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
 
-    if (!currentVersion && totalDocuments === 0) return game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
-    const needsMigration = !currentVersion || SYSTEM_VERSION_NEEDED > currentVersion;
-    if (!needsMigration) return;
-    // Perform the migration
-    if (currentVersion && COMPATIBLE_MIGRATION_VERSION > currentVersion) {
-        const warning = `Your Ars Magica system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.`;
-        ui.notifications.error(warning, {
+        if (!currentVersion && totalDocuments === 0) {
+            game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
+        } else {
+            const needsMigration = !currentVersion || SYSTEM_VERSION_NEEDED > currentVersion;
+            if (needsMigration) {
+                // Perform the migration
+                if (currentVersion && COMPATIBLE_MIGRATION_VERSION > currentVersion) {
+                    const warning = `Your Ars Magica system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.`;
+                    ui.notifications.error(warning, {
+                        permanent: true
+                    });
+                }
+                migration(currentVersion);
+            }
+        }
+    }
+
+
+    // check and warning that magic codex is missing or more than one occurence.
+    const codex = game.actors.filter(a => a.data.type === "magicCodex");
+    if (codex.length > 1) {
+        ui.notifications.warn("You have more than one Actor of type 'magicCodex in your world, some functionality is based on the uniqueness of magicCodex, you may want to delete one (after merging if needed)", {
+            permanent: true
+        });
+    } else if (codex.length === 0) {
+        ui.notifications.error("You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working", {
             permanent: true
         });
     }
-    migration(currentVersion);
 
 });
 
@@ -206,6 +224,7 @@ Hooks.once("ready", async function() {
  */
 
 Hooks.once("setup", function() {
+
 
 });
 
@@ -255,16 +274,12 @@ async function createArM5eMacro(data, slot) {
 
 function onDropActorSheetData(actor, sheet, data) {
 
-    if (actor.data.type == "magicCodex") {
-        if (data.type != "baseEffect" && data.type != "magicalEffect" && data.type != "spell") {
-            console.log("Prevented invalid item drop");
-            return false;
-        }
+    if (sheet.isDropAllowed(data.data.type)) {
         return true;
+    } else {
+        console.log("Prevented invalid item drop");
+        return false;
     }
-    // TODO: more filtering for other Actor types
-    return true;
-
 }
 
 /**

@@ -1120,7 +1120,7 @@
         },
         "laboratoryText": {
             "templates": ["base", "authorship"],
-            "type": "Raw",
+            "type": "spell",
             "magicItem": {},
             "spell": {}
         },

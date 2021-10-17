@@ -1,13 +1,15 @@
-/**
- * Extend the basic ActorSheet with some very simple modifications
- * @extends {ActorSheet}
- */
+import {
+    ArM5eActorSheet
+} from "./actor-sheet.js";
 
 import {
     log
 } from "../tools.js"
-
-export class ArM5eMagicCodexSheet extends ActorSheet {
+/**
+ * Extend the basic ActorSheet with some very simple modifications
+ * @extends {ActorSheet}
+ */
+export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
     /** @override */
     static get defaultOptions() {
@@ -80,18 +82,18 @@ export class ArM5eMagicCodexSheet extends ActorSheet {
         if (!this.options.editable) return;
 
         // Add Inventory Item
-        html.find('.item-create').click(this._onItemCreate.bind(this));
+        // html.find('.item-create').click(this._onItemCreate.bind(this));
 
-        // Update Inventory Item
-        html.find('.item-edit').click(ev => {
-            const li = $(ev.currentTarget).parents(".item");
-            const itid = li.data("itemId");
-            const item = this.actor.items.get(itid)
-            item.sheet.render(true);
-        });
+        // // Update Inventory Item
+        // html.find('.item-edit').click(ev => {
+        //     const li = $(ev.currentTarget).parents(".item");
+        //     const itid = li.data("itemId");
+        //     const item = this.actor.items.get(itid)
+        //     item.sheet.render(true);
+        // });
 
         // Delete Inventory Item
-        html.find('.item-delete').click(this._onDeleteEffect.bind(this));
+        html.find('.effect-delete').click(this._onDeleteEffect.bind(this));
 
         // Design spell.
         html.find('.design').click(this._onClickEffect.bind(this));
@@ -115,43 +117,16 @@ export class ArM5eMagicCodexSheet extends ActorSheet {
 
 
     /**
-     * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
-     * @param {Event} event   The originating click event
-     * @private
-     */
-    _onItemCreate(event) {
-        event.preventDefault();
-        const header = event.currentTarget;
-        // Get the type of item to create.
-        const type = header.dataset.type;
-        // Initialize a default name.
-        const name = `__New ${type.capitalize()}`;
-        // Prepare the item object.
-        const itemData = [{
-            name: name,
-            type: type,
-            data: foundry.utils.deepClone(header.dataset)
-        }];
-        // Remove the type from the dataset since it's in the itemData.type prop.
-        delete itemData[0].data["type"];
-
-        // Finally, create the item!
-        // console.log("Add item");
-        // console.log(itemData);
-        return this.actor.createEmbeddedDocuments("Item", itemData, {});
-    }
-
-    /**
      * Handle clickable base effect.
      * @param {Event} event   The originating click event
      * @private
      */
-    _onDeleteEffect(event) {
+    async _onDeleteEffect(event) {
         event.preventDefault();
         const question = game.i18n.localize("arm5e.dialog.delete-question");
         const li = $(event.currentTarget).parents(".item");
         let itemId = li.data("itemId");
-        Dialog.confirm({
+        await Dialog.confirm({
             title: `${li[0].dataset.name}`,
             content: `<p>${question}</p>`,
             yes: () => this._deleteEffect(itemId, li),
@@ -198,7 +173,7 @@ export class ArM5eMagicCodexSheet extends ActorSheet {
         }).render(true);
     }
 
-    _onDesignEffect(id) {
+    async _onDesignEffect(id) {
         const item = this.actor.items.get(id)
         const itemdata = item.data;
         const dataset = itemdata.data;
@@ -231,13 +206,24 @@ export class ArM5eMagicCodexSheet extends ActorSheet {
             // Remove the type from the dataset since it's in the itemData.type prop.
             delete newItemData[0].data["type"];
         }
+        let newItem = await this.actor.createEmbeddedDocuments("Item", newItemData, {});
 
-        return this.actor.createEmbeddedDocuments("Item", newItemData, {});
-        // TODO render item sheet
+        newItem[0].sheet.render(true);
+
+        return newItem;
 
     }
 
-
+    isDropAllowed(type) {
+        switch (type) {
+            case "baseEffect":
+            case "magicalEffect":
+            case "spell":
+                return true;
+            default:
+                return false;
+        }
+    }
 
 
 }

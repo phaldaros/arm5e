@@ -30,6 +30,52 @@ export class ArM5eActorSheet extends ActorSheet {
 
     /* -------------------------------------------- */
 
+
+    isDropAllowed(type) {
+        return false;
+
+        // template for future sheet:
+        // switch (type) {
+        //     case "weapon":
+        //     case "armor":
+        //     case "spell":
+        //     case "vis":
+        //     case "item":
+        //     case "book":
+        //     case "virtue":
+        //     case "flaw":
+        //     case "ability":
+        //     case "abilityFamiliar":
+        //     case "diaryEntry":
+        //     case "might":
+        //     case "mightFamiliar":
+        //     case "speciality":
+        //     case "distinctive":
+        //     case "sanctumRoom":
+        //     case "magicItem":
+        //     case "personality":
+        //     case "reputation":
+        //     case "habitantMagi":
+        //     case "habitantCompanion":
+        //     case "habitantSpecialists":
+        //     case "habitantHabitants":
+        //     case "habitantHorses":
+        //     case "habitantLivestock":
+        //     case "possessionsCovenant":
+        //     case "visSourcesCovenant":
+        //     case "visStockCovenant":
+        //     case "magicalEffect":
+        //     case "baseEffect":
+        //     case "calendarCovenant":
+        //     case "incomingSource":
+        //     case "laboratoryText":
+        //     case "mundaneBook":
+        //         return true;
+        //     default:
+        //         return false;
+        // }
+    }
+
     /** @override */
     getData() {
         // Retrieve the data structure from the base sheet. You can inspect or log
