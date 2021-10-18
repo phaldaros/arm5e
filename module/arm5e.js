@@ -193,7 +193,7 @@ Hooks.once("ready", async function() {
         // Determine whether a system migration is required and feasible
         // this below assumes that we stay on single digit version numbers...
         const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g, ''));
-        const SYSTEM_VERSION_NEEDED = 111;
+        const SYSTEM_VERSION_NEEDED = 112;
         const COMPATIBLE_MIGRATION_VERSION = 10;
         const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
 
