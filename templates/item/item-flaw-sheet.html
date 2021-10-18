@@ -8,7 +8,7 @@
                     <label for="data.type.value" class="header-label">{{localize data.type.label}}</label>
                     <select name="data.type.value" data-type="String">
                         {{#select data.type.value}}
-                            {{#each metadata.character.virtueTypes as |type key|}}
+                            {{#each metadata.character.flawTypes as |type key|}}
                                 <option value="{{key}}">{{localize label}}</option>
                             {{/each}} {{/select}}
                     </select>

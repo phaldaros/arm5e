@@ -59,6 +59,12 @@
             <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
             <input type="checkbox" name="data.applyFocus" {{checked data.applyFocus}}>
         </div>
+        <div class="resource">
+            <label class="header-label"><b>{{localize "arm5e.spell.targets.baseSize.label" }}: </b></label>
+            {{#with (lookup metadata.magic.forms data.form.value)}}
+                <label class="header-label">{{localize baseSize}}</label>
+            {{/with}}
+        </div>
 
     </div>
 </div>

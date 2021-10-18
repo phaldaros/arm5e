@@ -121,6 +121,14 @@
                     <input type="text" name="data.mastery" value="{{data.mastery}}" data-dtype="Number" />
                 </div>
                 <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.author"}}</label>
+                    <input type="text" name="data.author" value="{{data.author}}" data-dtype="String" />
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
+                    <input type="text" name="data.year" value="{{data.year}}" data-dtype="Number" />
+                </div>
+                <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.source"}}</label>
                     <input type="text" name="data.source" value="{{data.source}}" data-dtype="String" />
                 </div>
@@ -135,8 +143,6 @@
         <div class="tab" data-group="primary" data-tab="description">
             {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
         </div>
-
-
 
     </section>
 </form>

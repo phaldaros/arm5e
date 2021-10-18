@@ -1,6 +1,7 @@
 // Import Modules
 import {
-    ARM5E
+    ARM5E,
+    ARM5E_DEFAULT_ICONS
 } from "./metadata.js";
 import {
     ArM5ePCActor
@@ -82,8 +83,41 @@ Hooks.once('init', async function() {
         default: ""
     });
 
+
+    /**
+     * 2 Different sets of default icons for new documents
+     */
+    game.settings.register("arm5e", "defaultIconStyle", {
+        name: "Default icons style",
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            "MONO": "Monochrome",
+            "COLOR": "Color"
+        },
+        default: "MONO",
+        onChange: value => {
+            CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[value];
+        }
+    });
+
+
+    /**
+     * Whether to enforce or not the magic rules
+     */
+    game.settings.register("arm5e", "magicRulesEnforcement", {
+        name: "Enforce magic rules",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false
+    });
+
     // Add custom metadata
     CONFIG.ARM5E = ARM5E;
+
+    CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
     // Define custom Entity classes
     CONFIG.Actor.documentClass = ArM5ePCActor;
@@ -153,34 +187,45 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
     // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
     Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
+    Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
 
-    // sort base Magical Effects
-    // let baseEffects = game.items.filter(item => item.type == 'baseEffect');
-    // for (let b of baseEffects) {
-    //     log(false, b.data);
-    //     ARM5E.BASE_MAGIC[b.data.]
-    // }
+    if (game.user.isGM) {
+        // Determine whether a system migration is required and feasible
+        // this below assumes that we stay on single digit version numbers...
+        const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g, ''));
+        const SYSTEM_VERSION_NEEDED = 112;
+        const COMPATIBLE_MIGRATION_VERSION = 10;
+        const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
+
+        if (!currentVersion && totalDocuments === 0) {
+            game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
+        } else {
+            const needsMigration = !currentVersion || SYSTEM_VERSION_NEEDED > currentVersion;
+            if (needsMigration) {
+                // Perform the migration
+                if (currentVersion && COMPATIBLE_MIGRATION_VERSION > currentVersion) {
+                    const warning = `Your Ars Magica system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.`;
+                    ui.notifications.error(warning, {
+                        permanent: true
+                    });
+                }
+                migration(currentVersion);
+            }
+        }
+    }
 
 
-    // Determine whether a system migration is required and feasible
-    if (!game.user.isGM) return;
-    // this assumes that we stay on single digit version numbers...
-    const currentVersion = parseInt(game.settings.get("arm5e", "systemMigrationVersion").replace(/\./g, ''));
-    const SYSTEM_VERSION_NEEDED = 111;
-    const COMPATIBLE_MIGRATION_VERSION = 10;
-    const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
-
-    if (!currentVersion && totalDocuments === 0) return game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
-    const needsMigration = !currentVersion || SYSTEM_VERSION_NEEDED > currentVersion;
-    if (!needsMigration) return;
-    // Perform the migration
-    if (currentVersion && COMPATIBLE_MIGRATION_VERSION > currentVersion) {
-        const warning = `Your Ars Magica system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.`;
-        ui.notifications.error(warning, {
+    // check and warning that magic codex is missing or more than one occurence.
+    const codex = game.actors.filter(a => a.data.type === "magicCodex");
+    if (codex.length > 1) {
+        ui.notifications.warn("You have more than one Actor of type 'magicCodex in your world, some functionality is based on the uniqueness of magicCodex, you may want to delete one (after merging if needed)", {
+            permanent: true
+        });
+    } else if (codex.length === 0) {
+        ui.notifications.error("You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working", {
             permanent: true
         });
     }
-    migration(currentVersion);
 
 });
 
@@ -191,6 +236,7 @@ Hooks.once("ready", async function() {
  */
 
 Hooks.once("setup", function() {
+
 
 });
 
@@ -238,6 +284,16 @@ async function createArM5eMacro(data, slot) {
 
 }
 
+function onDropActorSheetData(actor, sheet, data) {
+
+    if (sheet.isDropAllowed(data.data.type)) {
+        return true;
+    } else {
+        console.log("Prevented invalid item drop");
+        return false;
+    }
+}
+
 /**
  * Create a Macro from an Item drop.
  * Get an existing item macro if one exists, otherwise create a new one.
@@ -255,25 +311,3 @@ function rollItemMacro(itemName) {
     // Trigger the item roll
     return item.roll();
 }
-
-// Not working, why? overloaded _preCreateItem instead for the moment
-
-// Hooks.on('preCreateItem', async (item, itemData, option, userId) => function(item, itemData) {
-//     switch (itemData.data.type) {
-//         case 'spell':
-//             itemData.img = ARM5E.icons.DEFAULT_SPELL;
-//             break;
-//         case "book":
-//             itemData.img = ARM5E.icons.DEFAULT_BOOK;
-//             break;
-//         case "baseEffect":
-//         case "magicalEffect":
-//             itemData.img = ARM5E.icons.DEFAULT_LABTEXT;
-//             break;
-//         case "weapons":
-//             itemData.img = ARM5E.icons.DEFAULT_WEAPON;
-//             break;
-//         default:
-//             break;
-//     }
-// });

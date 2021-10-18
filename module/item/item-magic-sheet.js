@@ -1,8 +1,12 @@
+import {
+    ArM5eItemSheet
+} from "./item-sheet.js";
+
 /**
- * Extend the basic ItemSheet with some very simple modifications
+ * Extend the basic ArM5eItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class ArM5eItemMagicSheet extends ItemSheet {
+export class ArM5eItemMagicSheet extends ArM5eItemSheet {
 
     /** @override */
     static get defaultOptions() {

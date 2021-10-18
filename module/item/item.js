@@ -44,8 +44,8 @@ export class ArM5eItem extends Item {
 
             }
         }
-
-        if (this.type == "magicalEffect") {
+        let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
+        if (this.type == "magicalEffect" || enforceSpellLevel) {
             let effectLevel = data.baseLevel;
             let shouldBeRitual = false;
             if (data.range.value) {
@@ -109,7 +109,7 @@ export class ArM5eItem extends Item {
     }
 
     _computeCastingTotal(actorData, itemData) {
-        if (actorData.type == "magicCodex") {
+        if (actorData.type != "player" && actorData.type != "npc") {
             return 0;
         }
         let res = actorData.data.sta;
@@ -143,8 +143,8 @@ export class ArM5eItem extends Item {
     async _preCreate(data, options, userId) {
         await super._preCreate(data, options, userId);
         if (data.img === undefined) {
-            if (data.type in CONFIG.ARM5E.icons) {
-                const img = CONFIG.ARM5E.icons[data.type];
+            if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
+                const img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
                 if (img) await this.data.update({
                     img
                 });

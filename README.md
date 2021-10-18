@@ -10,6 +10,8 @@ This Foundry VTT system project was based on the [Boilerplate System](https://gi
 
 Official Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
 
+Thanks to various contributors at https://game-icons.net for some default icons
+
 ## Versión Española
 
 La utilización e inclusión del logo, iconos y elementos artísticos, así como el uso de terminología, ha sido autorizado expresamente y por escrito por Holocubierta Ediciones, S.L. (https://www.holocubierta.com), licenciataria del juego Ars Magica 5ª Edición para su publicación en castellano.
