@@ -44,7 +44,8 @@ export class ArM5eItem extends Item {
 
             }
         }
-        if (this.type == "magicalEffect") {
+        let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
+        if (this.type == "magicalEffect" || enforceSpellLevel) {
             let effectLevel = data.baseLevel;
             let shouldBeRitual = false;
             if (data.range.value) {

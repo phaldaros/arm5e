@@ -7,7 +7,7 @@ export const ARM5E_DEFAULT_ICONS = {};
  */
 ARM5E.MODULE_ID = 'arm5e';
 
-// default icons (TODO set them)
+// default icons 
 
 ARM5E_DEFAULT_ICONS.MONO = {
     "weapon": "icons/svg/sword.svg",
@@ -37,8 +37,8 @@ ARM5E_DEFAULT_ICONS.MONO = {
     "possessionsCovenant": "icons/svg/barrel.svg",
     "visSourcesCovenant": "icons/svg/ruins.svg",
     "visStockCovenant": "icons/svg/chest.svg",
-    "magicalEffect": "systems/arm5e/assets/icons/explosion-potion.svg",
-    "baseEffect": "systems/arm5e/assets/icons/lab-book.svg",
+    "magicalEffect": "icons/svg/up.svg",
+    "baseEffect": "icons/svg/down.svg",
     "calendarCovenant": "icons/svg/clockwork.svg",
     "incomingSource": "icons/svg/regen.svg",
     "laboratoryText": "systems/arm5e/assets/icons/journal-book.svg",

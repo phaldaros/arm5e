@@ -9,7 +9,7 @@
     {{#each data.spells as |spell id|}}
         <li class="item spell-value flexrow flex-center" data-name="{{spell.data.name}}" data-item-id="{{spell.id}}">
             <div class="flexrow flex-center">
-                <span class="flexrow spell-title design" data-name="{{spell.data.name}}">
+                <span class="flexrow spell-title" data-name="{{spell.data.name}}">
                     <!-- data-level="{{spell.data.data.baseLevel}}" data-technique="{{spell.data.data.technique.value}}" data-form="{{spell.data.data.form.value}}"-->
                     {{spell.data.name}} (
                     {{#with (lookup @root.metadata.magic.arts spell.data.data.technique.value)~}}{{short~}}

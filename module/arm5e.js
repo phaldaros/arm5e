@@ -102,6 +102,18 @@ Hooks.once('init', async function() {
         }
     });
 
+
+    /**
+     * Whether to enforce or not the magic rules
+     */
+    game.settings.register("arm5e", "magicRulesEnforcement", {
+        name: "Enforce magic rules",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false
+    });
+
     // Add custom metadata
     CONFIG.ARM5E = ARM5E;
 
