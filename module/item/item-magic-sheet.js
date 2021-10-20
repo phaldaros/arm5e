@@ -4,7 +4,7 @@ import {
 
 /**
  * Extend the basic ArM5eItemSheet with some very simple modifications
- * @extends {ItemSheet}
+ * @extends {ArM5eItemSheet}
  */
 export class ArM5eItemMagicSheet extends ArM5eItemSheet {
 

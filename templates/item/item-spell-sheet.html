@@ -137,6 +137,35 @@
                     <input type="text" name="data.page" value="{{data.page}}" data-dtype="Number" />
                 </div>
             </div>
+
+            {{#if (eq enforceMagicRules true)}}
+                <div class="arm5eTabs">
+                </div>
+                <div class="grid grid-2col">
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.spell.effect.baseLevel"}}</label>
+                        <input type="text" name="data.baseLevel" size="4" value="{{data.baseLevel}}" data-dtype="Number" />
+                    </div>
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
+                        <input type="text" name="data.baseEffectDescription" value="{{data.baseEffectDescription}}" data-dtype="String" />
+                    </div>
+                </div>
+                <div class="grid grid-3col">
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
+                        <input type="text" name="data.targetSize" value="{{data.targetSize}}" data-dtype="Number" />
+                    </div>
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
+                        <input type="text" name="data.complexity" value="{{data.complexity}}" data-dtype="Number" />
+                    </div>
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
+                        <input type="text" name="data.enhancingRequisite" value="{{data.enhancingRequisite}}" data-dtype="Number" />
+                    </div>
+                </div>
+            {{/if}}
         </div>
 
         {{!-- Description Tab --}}
