@@ -1,4 +1,5 @@
-<form class="{{cssClass}} main" autocomplete="off">
+<form class="{{cssClass}} mainItem" autocomplete="off">
+    {{> "systems/arm5e/templates/item/parts/item-header.html" }}
     <header class="sheet-header">
         <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
@@ -40,4 +41,5 @@
         </div>
 
     </section>
+    {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
 </form>

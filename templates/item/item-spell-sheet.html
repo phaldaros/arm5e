@@ -1,4 +1,5 @@
-<form class="{{cssClass}} main" autocomplete="off">
+<form class="{{cssClass}} mainItem" autocomplete="off">
+    {{> "systems/arm5e/templates/item/parts/item-header.html" }}
     <header class="sheet-header">
         <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
@@ -79,7 +80,7 @@
             <div class="grid grid-3col">
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-                    <select name="data.range.value" data-type="String">
+                    <select name="data.range.value" data-dtype="String">
                         {{#select data.range.value}}
                             {{#each metadata.magic.ranges as |range key|}}
                                 <option value="{{key}}">{{localize range.label}}</option>
@@ -88,7 +89,7 @@
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-                    <select name="data.duration.value" data-type="String">
+                    <select name="data.duration.value" data-dtype="String">
                         {{#select data.duration.value}}
                             {{#each metadata.magic.durations as |duration key|}}
                                 <option value="{{key}}">{{localize duration.label}}</option>
@@ -97,7 +98,7 @@
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-                    <select name="data.target.value" data-type="String">
+                    <select name="data.target.value" data-dtype="String">
                         {{#select data.target.value}}
                             {{#each metadata.magic.targets as |target key|}}
                                 <option value="{{key}}">{{localize target.label}}</option>
@@ -174,4 +175,5 @@
         </div>
 
     </section>
+    {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
 </form>

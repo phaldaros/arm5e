@@ -1,0 +1,81 @@
+<div class="backSection margintop18" style="padding-bottom: 1px;">
+    <div class="characteristics">
+        <div class="flexrow" style="border:0px; margin-left: 12px; padding-top: 12px;">
+            <label class="bold">{{localize "arm5e.sheet.setAbilities"}}</label>
+        </div>
+    </div>
+
+
+    <div class="characteristics grid grid-3col">
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.finesse.abilityID" class="bold">{{localize "arm5e.sheet.finesse"}}</label>
+            <select name="data.laboratory.abilitiesSelected.finesse.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.finesse.abilityID }}
+                    {{#each data.abilities as |ability key|}}
+                        <option value="{{ability._id}}">{{ability.name}}</option>
+                    {{/each}} {{/select}}
+            </select>
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.awareness.abilityID" class="bold">{{localize "arm5e.sheet.awareness"}}</label>
+            <select name="data.laboratory.abilitiesSelected.awareness.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.awareness.abilityID }}
+                    {{#each data.abilities as |ability key|}}
+                        <option value="{{ability._id}}">{{ability.name}}</option>
+                    {{/each}} {{/select}}
+            </select>
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.concentration.abilityID" class="bold">{{localize "arm5e.sheet.concentration"}}</label>
+            <select name="data.laboratory.abilitiesSelected.concentration.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.concentration.abilityID }}
+                    {{#each data.abilities as |ability key|}}
+                        <option value="{{ability._id}}">{{ability.name}}</option>
+                    {{/each}} {{/select}}
+            </select>
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.artesLib.abilityID" class="bold">{{localize "arm5e.sheet.artesLib"}}</label>
+            <select name="data.laboratory.abilitiesSelected.artesLib.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.artesLib.abilityID }}
+                    {{#each data.abilities as |ability key|}}
+                        <option value="{{ability._id}}">{{ability.name}}</option>
+                    {{/each}} {{/select}}
+            </select>
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.philosophy.abilityID" class="bold">{{localize "arm5e.sheet.philosophy"}}</label>
+            <select name="data.laboratory.abilitiesSelected.philosophy.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.philosophy.abilityID }}
+                    {{#each data.abilities as |ability key|}}
+                        <option value="{{ability._id}}">{{ability.name}}</option>
+                    {{/each}} {{/select}}
+            </select>
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.parma.abilityID" class="bold">{{localize "arm5e.sheet.parma"}}</label>
+            <select name="data.laboratory.abilitiesSelected.parma.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.parma.abilityID }}
+                    {{#each data.abilities as |ability key|}}
+                        <option value="{{ability._id}}">{{ability.name}}</option>
+                    {{/each}} {{/select}}
+            </select>
+        </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.magicTheory.abilityID" class="bold">{{localize "arm5e.sheet.magicTheory"}}</label>
+            <select name="data.laboratory.abilitiesSelected.magicTheory.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.magicTheory.abilityID }}
+                    {{#each data.abilities as |ability key|}}
+                        <option value="{{ability._id}}">{{ability.name}}</option>
+                    {{/each}} {{/select}}
+            </select>
+        </div>
+    </div>
+
+</div>

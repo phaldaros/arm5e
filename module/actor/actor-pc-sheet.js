@@ -7,20 +7,16 @@ import {
  */
 export class ArM5ePCActorSheet extends ArM5eActorSheet {
 
-    /** @override */
-    static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
-            classes: ["arm5e", "sheet", "actor"],
-            template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
-            width: 1100,
-            height: 900,
-            tabs: [{
-                navSelector: ".sheet-tabs",
-                contentSelector: ".sheet-body",
-                initial: "description"
-            }]
-        });
-    }
+  /** @override */
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ["arm5e", "sheet", "actor"],
+      template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
+      width: 790,
+      height: 800,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+    });
+  }
 
 
     isDropAllowed(type) {

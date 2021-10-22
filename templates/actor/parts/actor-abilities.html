@@ -21,10 +21,10 @@
     <div class="flexrow flex-center">
       <span class="flexrow item-title rollable width4" data-roll="char" data-ability="{{item._id}}"
         name="item.name">{{item.name}} ( {{item.data.speciality}} )</span>
-      <label>{{localize "arm5e.sheet.score"}}</label><input type="text" name="item.{{id}}.score"
+        <label class="marginRight8">{{localize "arm5e.sheet.score"}}</label><input type="text" name="item.{{id}}.score"  
         value="{{item.data.score}}" readonly data-dtype="Number" />
       <span></span>
-      <label>{{localize "arm5e.sheet.experience"}}</label><input type="text" name="item.{{id}}.experience"
+        <label class="marginRight8">{{localize "arm5e.sheet.experience"}}</label><input type="text" name="item.{{id}}.experience"  
         value="{{item.data.experience}} / {{ item.data.experienceNextLevel }}" readonly data-dtype="Number" />
     </div>
     <div class="item-controls">

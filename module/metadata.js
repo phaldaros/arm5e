@@ -272,7 +272,7 @@ ARM5E.character.flawTypes = {
         "label": "arm5e.sheet.general"
     },
     "personality": {
-        "label": "arm5e.sheet.personality"
+        "label": "arm5e.sheet.personalityFlaw"
     },
     "story": {
         "label": "arm5e.sheet.story"

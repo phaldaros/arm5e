@@ -177,7 +177,7 @@ export class ArM5eActorSheet extends ActorSheet {
      * @param {Event} event   The originating click event
      * @private
      */
-    _onItemCreate(event) {
+    async _onItemCreate(event) {
         event.preventDefault();
         const header = event.currentTarget;
         // Get the type of item to create.
@@ -196,7 +196,11 @@ export class ArM5eActorSheet extends ActorSheet {
         // Finally, create the item!
         // console.log("Add item");
         // console.log(itemData);
-        return this.actor.createEmbeddedDocuments("Item", itemData, {});
+
+        let newItem = await this.actor.createEmbeddedDocuments("Item", itemData, {});
+
+        newItem[0].sheet.render(true);
+        return newItem;
     }
 
     /**

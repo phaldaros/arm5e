@@ -165,7 +165,9 @@ export const migrateActorData = function(actorData) {
 
 
     // 
-    if ((actorData.type == 'laboratory') || (actorData.type == 'covenant')) {
+    if ((actorData.type == 'laboratory') ||
+        (actorData.type == 'covenant') ||
+        (actorData.type == 'magicCodex')) {
 
         return updateData;
     }
@@ -182,8 +184,16 @@ export const migrateActorData = function(actorData) {
             updateData["data.diaryEntries"] = actorData.data.dairyEntries;
             updateData["data.dairyEntries"] = null;
         }
-
     }
+
+    // convert after fixing typo labarotary => laboratory
+    if (actorData.data.version == "0.1") {
+        if (actorData.data.labarotary) {
+            updateData["data.laboratory"] = actorData.data.labarotary;
+            updateData["data.labarotary"] = null;
+        }
+    }
+
     // remove redundant data
     if (actorData.data.houses != undefined) {
         updateData["data.houses"] = null;
@@ -256,12 +266,7 @@ export const migrateActorData = function(actorData) {
     // updateData["data.laboratory.basicLabTotal.value"] = 0;
     // updateData["data.laboratory.visLimit.value"] = 0;
 
-    // convert after fixing typo labarotary => laboratory
-    if (actorData.data.version == "0.1") {
-        if (actorData.data.labarotary) {
-            updateData["data.laboratory"] = actorData.data.labarotary;
-        }
-    }
+
 
     updateData["data.familiar.characteristicsFam.int"] = {
         "value": actorData.data.familiar.characteristicsFam.int.value

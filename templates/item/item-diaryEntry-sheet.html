@@ -1,12 +1,12 @@
-<form class="{{cssClass}} main" autocomplete="off">
+<form class="{{cssClass}} mainItem" autocomplete="off">
+    {{> "systems/arm5e/templates/item/parts/item-header.html" }}
     <header class="sheet-header">
 
         <div class="header-fields">
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
             <div class="grid grid-col">
                 <div class="resource">
-                    <label>{{localize "arm5e.sheet.year"}}<input type="text" name="data.year" value="{{data.year}}"
-                            data-dtype="String" /></label>
+                    <label>{{localize "arm5e.sheet.year"}}<input type="text" name="data.year" value="{{data.year}}" data-dtype="String" /></label>
                 </div>
                 <div class="resource">
                     <label>{{localize "arm5e.sheet.season"}}<select name="data.season" data-type="String" style="width: 100%">
@@ -17,12 +17,10 @@
                         </select>
                 </div>
                 <div class="resource">
-                    <label>{{localize "arm5e.sheet.date"}}<input type="text" name="data.date" value="{{data.date}}"
-                            data-dtype="String" /></label>
+                    <label>{{localize "arm5e.sheet.date"}}<input type="text" name="data.date" value="{{data.date}}" data-dtype="String" /></label>
                 </div>
                 <div class="resource">
-                    <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.experience"
-                            value="{{data.experience}}" data-dtype="Number" /></label>
+                    <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.experience" value="{{data.experience}}" data-dtype="Number" /></label>
                 </div>
             </div>
         </div>
@@ -46,4 +44,5 @@
         </div>
 
     </section>
+    {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
 </form>
