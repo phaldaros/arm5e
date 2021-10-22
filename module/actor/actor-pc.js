@@ -50,9 +50,9 @@ export class ArM5ePCActor extends Actor {
         let abilitiesSelect = {};
         let diaryEntries = [];
         let abilitiesFamiliar = [];
-        let mightsFamiliar = [];
+        let powersFamiliar = [];
 
-        let mights = [];
+        let powers = [];
 
         let specialities = [];
         let distinctive = [];
@@ -256,10 +256,10 @@ export class ArM5ePCActor extends Actor {
                 diaryEntries.push(i);
             } else if (i.type === 'abilityFamiliar') {
                 abilitiesFamiliar.push(i);
-            } else if (i.type === 'mightFamiliar') {
-                mightsFamiliar.push(i);
-            } else if (i.type === 'might') {
-                mights.push(i);
+            } else if (i.type === 'mightFamiliar' || i.type === 'powerFamiliar') {
+                powersFamiliar.push(i);
+            } else if (i.type === 'might' || i.type === 'power') {
+                powers.push(i);
             } else if (i.type === 'speciality') {
                 specialities.push(i);
             } else if (i.type === 'distinctive') {
@@ -411,11 +411,11 @@ export class ArM5ePCActor extends Actor {
         }
         if (actorData.data.familiar) {
             actorData.data.familiar.abilitiesFam = abilitiesFamiliar;
-            actorData.data.familiar.mightsFam = mightsFamiliar;
+            actorData.data.familiar.powersFam = powersFamiliar;
         }
 
-        if (actorData.data.mights) {
-            actorData.data.mights = mights;
+        if (actorData.data.powers) {
+            actorData.data.powers = powers;
         }
 
         if (actorData.data.specialities) {

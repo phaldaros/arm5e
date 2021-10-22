@@ -471,7 +471,7 @@
                         }
                     },
                     "abilitiesFam": [],
-                    "mightsFam": []
+                    "powersFam": []
                 }
             },
             "laboratoryPC": {
@@ -728,7 +728,7 @@
                 "dtype": "Number",
                 "value": 0
             },
-            "mights": []
+            "powers": []
         },
         "laboratory": {
             "templates": ["base"],
@@ -973,7 +973,7 @@
 
     "Item": {
         "types": ["weapon", "armor", "spell", "vis", "item", "book", "virtue", "flaw", "ability", "abilityFamiliar",
-            "diaryEntry", "might", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
+            "diaryEntry", "dairyEntry", "power", "might", "powerFamiliar", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
             "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
             "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
             "visSourcesCovenant", "visStockCovenant", "magicalEffect", "baseEffect",
@@ -1194,6 +1194,7 @@
         "mightFamiliar": {
             "templates": ["base"]
         },
+
         "speciality": {
             "templates": ["base"],
             "points": 0

@@ -7,16 +7,20 @@ import {
  */
 export class ArM5ePCActorSheet extends ArM5eActorSheet {
 
-  /** @override */
-  static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ["arm5e", "sheet", "actor"],
-      template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
-      width: 790,
-      height: 800,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
-    });
-  }
+    /** @override */
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            classes: ["arm5e", "sheet", "actor"],
+            template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
+            width: 790,
+            height: 800,
+            tabs: [{
+                navSelector: ".sheet-tabs",
+                contentSelector: ".sheet-body",
+                initial: "description"
+            }]
+        });
+    }
 
 
     isDropAllowed(type) {
@@ -32,7 +36,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
             case "ability":
             case "abilityFamiliar":
             case "diaryEntry":
-            case "mightFamiliar":
+            case "powerFamiliar":
             case "speciality":
             case "distinctive":
             case "sanctumRoom":

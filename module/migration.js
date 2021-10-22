@@ -194,6 +194,17 @@ export const migrateActorData = function(actorData) {
         }
     }
 
+    if (actorData.data.mightsFam) {
+        updateData["data.powersFam"] = actorData.data.mightsFam;
+        updateData["data.mightsFam"] = null;
+    }
+
+    if (actorData.data.mights) {
+        updateData["data.powers"] = actorData.data.mights;
+        updateData["data.mights"] = null;
+    }
+
+
     // remove redundant data
     if (actorData.data.houses != undefined) {
         updateData["data.houses"] = null;
@@ -346,8 +357,15 @@ export const migrateItemData = function(itemData) {
             updateData["data.form-requisites"] = null;
         }
     }
+    // Fix type of Item
     if (itemData.type == "dairyEntry") {
         updateData["type"] = "diaryEntry";
+    }
+    if (itemData.type == "might") {
+        updateData["type"] = "power";
+    }
+    if (itemData.type == "mightFamiliar") {
+        updateData["type"] = "powerFamiliar";
     }
 
     return updateData;

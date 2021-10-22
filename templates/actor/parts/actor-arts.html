@@ -174,12 +174,12 @@
                 <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
                 <div class="item-image"></div>
-                <div class="item-name">{{localize "arm5e.sheet.mights"}}</div>
+                <div class="item-name">{{localize "arm5e.sheet.powers"}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-create" title="Create might" data-type="might"><i class="fas fa-plus"></i></a>
+                    <a class="item-control item-create" title="Create power" data-type="power"><i class="fas fa-plus"></i></a>
                 </div>
             </li>
-            {{#each data.mights as |item id|}}
+            {{#each data.powers as |item id|}}
                 <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
                     <div class="flexrow flex-center">
                         <span class="flexrow item-title width4" name="item.name">
@@ -187,8 +187,8 @@
                         </span>
                     </div>
                     <div class="item-controls">
-                        <a class="item-control item-edit" title="Edit might"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" title="Delete might"><i class="fas fa-trash"></i></a>
+                        <a class="item-control item-edit" title="Edit power"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete power"><i class="fas fa-trash"></i></a>
                     </div>
                 </li>
             {{/each}}
