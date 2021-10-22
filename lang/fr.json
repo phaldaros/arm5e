@@ -1,7 +1,7 @@
 {
     "arm5e.sheet.player": "Joueur",
     "arm5e.sheet.npc": "PNJ",
-    
+
 
     "arm5e.sheet.charType": "Type",
     "arm5e.sheet.age": "Age",
@@ -96,7 +96,7 @@
     "arm5e.sheet.silver": "Argent",
     "arm5e.sheet.gold": "Or",
     "arm5e.sheet.apprentice": "Apprentis",
-    "arm5e.sheet.magicTheory":"Théorie de la Magie",
+    "arm5e.sheet.magicTheory": "Théorie de la Magie",
     "arm5e.sheet.years": "Années",
 
     "arm5e.sheet.magus": "Magus",
@@ -145,7 +145,7 @@
     "arm5e.sheet.soak": "Encaissement",
     "arm5e.sheet.encumbrance": "Charge",
     "arm5e.sheet.might": "Puissance",
-    "arm5e.sheet.mights": "Puissances",
+    "arm5e.sheet.powers": "Pouvoirs",
 
     "arm5e.sheet.yearBorn": "Année de naissance",
     "arm5e.sheet.apprenticeshipYears": "Apprentissage",
@@ -180,14 +180,14 @@
     "arm5e.sheet.general": "General",
     "arm5e.sheet.story": "Histoire",
 
-    "arm5e.sheet.fastCastingSpeed":"Vitesse d'incantation Rapide",
-    "arm5e.sheet.determiningEffect":"Reconnaître un effet magique",
-    "arm5e.sheet.targeting":"Cibler",
-    "arm5e.sheet.concentration":"Concentration",
-    "arm5e.sheet.magicResistance":"Résistance Magique",
-    "arm5e.sheet.multipleCasting":"Lancement Multiple",
-    "arm5e.sheet.basicLabTotal":"Total de Laboratoire de base",
-    "arm5e.sheet.visLimit":"Limite de Vis",
+    "arm5e.sheet.fastCastingSpeed": "Vitesse d'incantation Rapide",
+    "arm5e.sheet.determiningEffect": "Reconnaître un effet magique",
+    "arm5e.sheet.targeting": "Cibler",
+    "arm5e.sheet.concentration": "Concentration",
+    "arm5e.sheet.magicResistance": "Résistance Magique",
+    "arm5e.sheet.multipleCasting": "Lancement Multiple",
+    "arm5e.sheet.basicLabTotal": "Total de Laboratoire de base",
+    "arm5e.sheet.visLimit": "Limite de Vis",
 
     "arm5e.sheet.setAbilities": "Créez des capacités pour votre personnage pour les valeurs ci-dessous. Celà permet le calcul correct. Si vous ne possédez pas la capacité, vous pouvez tout de même la créer avec une valeur de zéro",
     "arm5e.sheet.finesse": "Finesse",
