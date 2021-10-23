@@ -100,6 +100,13 @@ export class ArM5eActorSheet extends ActorSheet {
         //   attr.isCheckbox = attr.dtype === "Boolean";
         // }
 
+        // Arts icons style
+        if (actorData.type == "player" || actorData.type == "npc") {
+            if (context.data.charType.value == "magusNPC" || context.data.charType.value == "magus") {
+                context.artsIcons = game.settings.get("arm5e", "artsIcons");
+            }
+        }
+
         // Add roll data for TinyMCE editors.
         context.rollData = context.actor.getRollData();
 

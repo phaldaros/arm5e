@@ -102,6 +102,20 @@ Hooks.once('init', async function() {
         }
     });
 
+    /**
+     * 2 Different sets of default icons for new documents
+     */
+    game.settings.register("arm5e", "artsIcons", {
+        name: "Icons style for art",
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            "symbol": "Hermetic symbols",
+            "hand": "Hand gestures"
+        },
+        default: "symbol"
+    });
 
     /**
      * Whether to enforce or not the magic rules

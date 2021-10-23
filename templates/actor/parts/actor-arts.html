@@ -8,7 +8,11 @@
             {{#each data.arts.techniques as |techniques key|}}
                 <li class="flexrow" data-attribute="{{key}}">
                     <span class="flex03">
-                        <img src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px;" />
+                        {{#if (eq @root.artsIcons "symbol")}}
+                            <img src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px;" />
+                        {{else}}
+                            <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 40px;" />
+                        {{/if}}
                     </span>
                     <div class="flexcol">
                         <div class="flexrow marginbot4">
@@ -38,7 +42,11 @@
                 <li class="flexrow" data-attribute="{{key}}">
                     <span class="flex03">
                         <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
-                            <img src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px;" />
+                            {{#if (eq @root.artsIcons "symbol")}}
+                                <img src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px;" />
+                            {{else}}
+                                <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 40px;" />
+                            {{/if}}
                         </a>
                     </span>
                     <div class="flexcol">

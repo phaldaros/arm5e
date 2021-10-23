@@ -20,17 +20,18 @@
                     </select>
                 </span>
                 {{#if (eq data.charType.value "entity")}}
-                    <label for="data.might.value" class="header-label" style="padding-top:5px; ; margin-left: 8px;">{{localize "arm5e.sheet.might"}}</label>
+                    <label for="data.might.value" class="header-label" style="padding-top:5px;padding-left:80px; margin-left: 8px;">{{localize "arm5e.sheet.might"}}</label>
                     <div class="resource-content flexrow flex-center flex-between">
                         <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number" style="padding-top:4px; margin-left: 8px; margin-right: 10px;" />
-                    </div>
 
-                    <select name="data.might.type" data-type="String" style="flex: 0 0 120px;">
-                        {{#select data.typeAura}}
-                            {{#each metadata.realms as |realm key|}}
-                                <option value="{{key}}">{{localize realm.label}}</option>
-                            {{/each}} {{/select}}
-                    </select>
+
+                        <select name="data.might.type" data-type="String">
+                            {{#select data.typeAura}}
+                                {{#each metadata.realms as |realm key|}}
+                                    <option value="{{key}}">{{localize realm.label}}</option>
+                                {{/each}} {{/select}}
+                        </select>
+                    </div>
                 {{else}}
                     <h2 class="covenantname flexrow "><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" style="margin-left: 8px;" /></h2>
                 {{/if}}

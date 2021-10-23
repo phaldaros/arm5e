@@ -86,12 +86,13 @@ You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for dev
 - New design of all the actor sheets
 - Support of Italian language.
 - "Mights" have been properly translated to "Powers"
-- NPCs haven't any confidence points anymore
+- NPCs don't have any confidence points anymore (as they should)
 - Might of NPC has a realm now (magic, fae, divine, infernal)
+- 2 styles of icons for arts sheet (symbols or gestures)
 
 
 ## Credits
-<b>Authors:</b> ialbiol, phaldaros, sylph<br>
+<b>Authors:</b> ialbiol, phaldaros, sylph, xzotl<br>
 
 ## Feedback
 If you have any suggestions or bugs to report, feel free to create an issue on GitHub or [report them on Discord](https://discord.gg/DdDetc9SYP).
