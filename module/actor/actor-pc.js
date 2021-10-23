@@ -334,6 +334,9 @@ export class ArM5ePCActor extends Actor {
             "visLimit":{"value": 0, "calc": "Magic theory * 2" }
             */
 
+            if (actorData.data.laboratory === undefined) {
+                actorData.data.laboratory = {};
+            }
             // calculate laboratori totals
             actorData.data.laboratory.fastCastingSpeed.value = actorData.data.characteristics.qik.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
             actorData.data.laboratory.determiningEffect.value = actorData.data.characteristics.per.value + actorData.data.laboratory.abilitiesSelected.awareness.value;

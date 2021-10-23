@@ -85,6 +85,10 @@ You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for dev
 1.2.0
 - New design of all the actor sheets
 - Support of Italian language.
+- "Mights" have been properly translated to "Powers"
+- NPCs haven't any confidence points anymore
+- Might of NPC has a realm now (magic, fae, divine, infernal)
+
 
 ## Credits
 <b>Authors:</b> ialbiol, phaldaros, sylph<br>
