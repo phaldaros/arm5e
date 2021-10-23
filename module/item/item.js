@@ -46,6 +46,24 @@ export class ArM5eItem extends Item {
         }
         let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
         if (this.type == "magicalEffect" || enforceSpellLevel) {
+
+            // if base level is 0, the "magicRulesEnforcement" has just been enabled, try to compute the base level
+
+            // if (data.baseLevel == 0) {
+            //     let newBaseLevel = this.data.data.level;
+            //     let shouldBeRitual = false;
+            //     if (data.range.value) {
+            //         newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.ranges[data.range.value].impact);
+            //     }
+            //     if (data.duration.value) {
+            //         newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.durations[data.duration.value].impact);
+            //     }
+            //     if (data.target.value) {
+            //         newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.targets[data.target.value].impact);
+            //     }
+            //     this.data.data.baseLevel = 1;
+
+            // } else {
             let effectLevel = data.baseLevel;
             let shouldBeRitual = false;
             if (data.range.value) {
@@ -80,7 +98,7 @@ export class ArM5eItem extends Item {
 
             this.data.data.ritual = shouldBeRitual;
             this.data.data.level = effectLevel;
-
+            //}
             // compute casting total
             if (actorData && this.actor != null) {
                 itemData.data.castingTotal = this._computeCastingTotal(actorData, itemData);
@@ -91,20 +109,40 @@ export class ArM5eItem extends Item {
     }
 
     _addSpellMagnitude(base, num) {
-        if (base + num <= 5) {
-            return base + num;
+        if (num == 0) {
+            return base;
         }
-        let loop = num;
-        let res = base;
-        while (loop > 0) {
-            if (res < 5) {
-                res++;
-            } else {
-                res = res + 5;
+        if (num > 0) {
+            if (base + num <= 5) {
+                return base + num;
             }
-            loop--;
+            let loop = num;
+            let res = base;
+            while (loop > 0) {
+                if (res < 5) {
+                    res++;
+                } else {
+                    res = res + 5;
+                }
+                loop--;
+            }
+            return res;
+        } else {
+            if (base + num <= 1) {
+                return 1;
+            }
+            let loop = num;
+            let res = base;
+            while (loop > 0) {
+                if (res <= 5) {
+                    res--;
+                } else {
+                    res = res - 5;
+                }
+                loop--;
+            }
+            return res;
         }
-        return res;
 
     }
 

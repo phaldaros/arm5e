@@ -15,13 +15,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         return mergeObject(super.defaultOptions, {
             classes: ["arm5e", "sheet", "actor"],
             template: "systems/arm5e/templates/actor/actor-laboratory-sheet.html",
-            width: 1100,
-            height: 900,
-            tabs: [{
-                navSelector: ".sheet-tabs",
-                contentSelector: ".sheet-body",
-                initial: "virtues"
-            }]
+      width: 790,
+      height: 800,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "virtues" }]
+      
         });
     }
 

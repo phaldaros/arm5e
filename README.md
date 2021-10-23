@@ -6,6 +6,8 @@ This package is intended to enable Ars Magica play using Foundry VTT. In order t
 
 Ars Magica content is copyright Trident, Inc d/b/a Atlas Games. Ars Magica, Mythic Europe, and Covenants are trademarks of Trident, Inc. Order of Hermes and Tremere are trademarks of White Wolf, Inc. USED WITH PERMISSION.
 
+The use and inclusion of the logo, icon and art elements, as well as the use of terms, has been expressly authorized in written form by Holocubierta Ediciones, S.L. (https://www.holocubierta.com/), the licensee of the game Ars Magica 5th Edition for its publication in Spanish.
+
 This Foundry VTT system project was based on the [Boilerplate System](https://gitlab.com/asacolips-projects/foundry-mods/boilerplate) by Asacolips.
 
 Official Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
@@ -73,8 +75,24 @@ You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for dev
 1.0.0
 - Incredible overhaul from ialbiol! An update truly worth of a v 1, and now able to use official ArM5 core rulebook material by the kind permission of Atlas Games!
 
+1.1.0
+- Compatibility with Foundry VTT 0.8.x
+- Overhaul of the data template
+
+1.1.1
+- Introduction of the Codex Hermetica
+
+1.2.0
+- New design of all the actor sheets
+- Support of Italian language.
+- "Mights" have been properly translated to "Powers"
+- NPCs don't have any confidence points anymore (as they should)
+- Might of NPC has a realm now (magic, fae, divine, infernal)
+- 2 styles of icons for arts sheet (symbols or gestures)
+
+
 ## Credits
-<b>Authors:</b> ialbiol, phaldaros, sylph<br>
+<b>Authors:</b> ialbiol, phaldaros, sylph, xzotl<br>
 
 ## Feedback
 If you have any suggestions or bugs to report, feel free to create an issue on GitHub or [report them on Discord](https://discord.gg/DdDetc9SYP).

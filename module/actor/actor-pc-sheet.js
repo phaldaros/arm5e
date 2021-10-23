@@ -12,8 +12,8 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
         return mergeObject(super.defaultOptions, {
             classes: ["arm5e", "sheet", "actor"],
             template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
-            width: 1100,
-            height: 900,
+            width: 790,
+            height: 800,
             tabs: [{
                 navSelector: ".sheet-tabs",
                 contentSelector: ".sheet-body",
@@ -36,7 +36,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
             case "ability":
             case "abilityFamiliar":
             case "diaryEntry":
-            case "mightFamiliar":
+            case "powerFamiliar":
             case "speciality":
             case "distinctive":
             case "sanctumRoom":

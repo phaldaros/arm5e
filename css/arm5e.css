@@ -161,16 +161,127 @@
     padding: 32px;
 }
 
+.arm5eRoll header-background {
+    margin-left: -32px;
+    /*margin-top: -32px;*/
+    width: calc(100% + 64px);
+}
+
+.arm5eRoll {
+    background-image: url("../assets/item/background.png");
+    background-repeat: repeat-y;
+    background-size: contain;
+    font-family: "bookAntiquaBold";
+    font-size: 9pt;
+}
+
+.arm5eRoll .roll-options {
+    font-family: "bookAntiquaBold";
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+.arm5eRoll .header-background img {
+    width: 100%;
+    border: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
 /* Styles limited to arm5e sheets */
 
-.arm5e .main {
-    background-image: url("../assets/background.jpg");
+.arm5e input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="time"] {
+    width: calc(100% - 2px);
+    min-width: 20px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1px 3px;
+    margin: 0;
+    color: #191813;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: inherit;
+    line-height: inherit;
+    border: 1px solid #7a7971;
+    border-radius: 3px;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+.arm5e select {
+    height: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid #7a7971;
+    border-radius: 3px;
+    font-family: inherit;
+    padding: 0 3px;
+    text-overflow: ellipsis;
+}
+
+.arm5e .mainPlayer {
+    background-image: url("../assets/player/background.png");
     background-repeat: repeat-y;
     background-size: contain;
     font-family: "bookAntiquaBold";
     padding-left: 32px;
     padding-right: 32px;
+    font-size: 9pt;
+}
 
+.arm5e .mainNPC {
+    background-image: url("../assets/npc/background.png");
+    background-repeat: repeat-y;
+    background-size: contain;
+    font-family: "bookAntiquaBold";
+    padding-left: 32px;
+    padding-right: 32px;
+    font-size: 9pt;
+}
+
+.arm5e .mainLaboratory {
+    background-image: url("../assets/laboratory/background.png");
+    background-repeat: repeat-y;
+    background-size: contain;
+    font-family: "bookAntiquaBold";
+    padding-left: 32px;
+    padding-right: 32px;
+    font-size: 9pt;
+}
+
+.arm5e .mainCodex {
+    background-image: url("../assets/codex/background.png");
+    background-repeat: repeat-y;
+    background-size: contain;
+    font-family: "bookAntiquaBold";
+    padding-left: 32px;
+    padding-right: 32px;
+    font-size: 9pt;
+}
+
+.arm5e .mainCovenant {
+    background-image: url("../assets/covenant/background.png");
+    background-repeat: repeat-y;
+    background-size: contain;
+    font-family: "bookAntiquaBold";
+    padding-left: 32px;
+    padding-right: 32px;
+    font-size: 9pt;
+}
+
+.arm5e .mainItem {
+    background-image: url("../assets/item/background.png");
+    background-repeat: repeat-y;
+    background-size: contain;
+    font-family: "bookAntiquaBold";
+    padding-left: 32px;
+    padding-right: 32px;
+    font-size: 9pt;
 }
 
 .arm5e .header-background {
@@ -183,6 +294,7 @@
     margin-left: -32px;
     margin-top: 16px;
     width: calc(100% + 64px);
+    height: 160px;
 }
 
 .arm5e .header-background img {
@@ -198,9 +310,9 @@
 
 .arm5e .sheet-header {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 280px;
-    flex: 0 0 280px;
-    overflow: hidden;
+    -ms-flex: 0 0 240px;
+    flex: 0 0 240px;
+    /*overflow: hidden;*/
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -217,13 +329,15 @@
 }
 
 .arm5e .sheet-header-lab {
-    -ms-flex: 0 0 150;
-    flex: 0 0 100px
+    -ms-flex: 0 0 315px;
+    flex: 0 0 315px;
 }
 
 .arm5e .sheet-header-codex {
-    -ms-flex: 0 0 225px;
-    flex: 0 0 225px;
+    -ms-flex: 0 0 80px;
+    flex: 0 0 80px;
+    font-family: "blackmoor";
+    font-size: 18px;
 }
 
 .arm5e .codex-title {
@@ -235,9 +349,9 @@
 
 .arm5e .sheet-header .profile-img {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 270px;
-    flex: 0 0 270px;
-    height: 270px;
+    -ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+    height: 236px;
     margin-right: 10px;
     margin-bottom: 10px;
 }
@@ -290,6 +404,22 @@
     /*letter-spacing: 1px;*/
 }
 
+.arm5e .sheet-header h2.codexname {
+    padding: 0px;
+    margin: 5px 0;
+    border-bottom: 0;
+}
+
+.arm5e .sheet-header h2.codexname input {
+    width: 100%;
+    margin: 0;
+    /*padding-top: 25px;
+  line-height: 50;*/
+    /*font-family: "vinque";*/
+    font-family: "blackmoor";
+    /*letter-spacing: 1px;*/
+}
+
 .arm5e .sheet-tabs {
     -webkit-box-flex: 0;
     -ms-flex: 0;
@@ -317,11 +447,43 @@
 
 .arm5eTabs {
     border: 0px !important;
-    background-image: url("../assets/bBronce.png");
-    background-repeat: repeat-x;
-    background-position-y: bottom;
+    /*
+  background-image: url("../assets/bBronce.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  */
     min-height: 40px;
     margin-bottom: 12px !important;
+}
+
+.arm5eTabsPC {
+    background-image: url("../assets/player/bar.png");
+    background-repeat: repeat-x;
+    background-position-y: bottom;
+}
+
+.arm5eTabsNPC {
+    background-image: url("../assets/npc/bar.png");
+    background-repeat: repeat-x;
+    background-position-y: bottom;
+}
+
+.arm5eTabsLAB {
+    background-image: url("../assets/laboratory/bar.png");
+    background-repeat: repeat-x;
+    background-position-y: bottom;
+}
+
+.arm5eTabsCOV {
+    background-image: url("../assets/covenant/bar.png");
+    background-repeat: repeat-x;
+    background-position-y: bottom;
+}
+
+.arm5eTabsCOD {
+    background-image: url("../assets/codex/bar.png");
+    background-repeat: repeat-x;
+    background-position-y: bottom;
 }
 
 .arm5e .tabs {
@@ -334,7 +496,7 @@
     /*line-height: 60px;*/
     /*font-family: "vinque";*/
     font-family: "blackmoor";
-    font-size: 16pt;
+    font-size: 14pt;
 }
 
 .arm5e .tabs .item.active {
@@ -432,12 +594,12 @@
     /*font-family: "vinque";*/
     font-family: "blackmoor";
     margin-bottom: 6px;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 11pt;
+    /*font-weight: bold;*/
 }
 
 .arm5e .items-list .item {
-    height: 30px;
+    /*height: 30px;*/
     line-height: 24px;
     padding: 3px 0;
     /*border-bottom: 1px solid #BBB;*/
@@ -466,15 +628,25 @@
     margin-right: 8px;
 }
 
+.arm5e .items-list .item-controlsFam {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 43px;
+    flex: 0 0 43px;
+    text-align: right;
+    margin-right: 8px;
+}
+
 .arm5e .item-value {
     min-height: 56px;
-    border-bottom: 2px solid #cba44b;
+    height: auto;
+    border-bottom: 1px solid #bebcb8;
+    /* 2px solid #cba44b;*/
 }
 
 .arm5e .item-title {
-    font-weight: bold;
-    font-size: 17px;
-    padding-left: 10px;
+    /*font-weight: bold;*/
+    font-size: 1.0vw;
+    padding-left: 20px;
 }
 
 .arm5e .spell-list .item img {
@@ -499,8 +671,8 @@
 }
 
 .arm5e .spell-title {
-    font-weight: bold;
-    font-size: 12px;
+    /*font-weight: bold;*/
+    font-size: 10pt;
     padding-left: 20px;
 }
 
@@ -571,7 +743,8 @@
 }
 
 .arm5e .backSection {
-    background-color: rgb(226 199 130 / 50%);
+    background-color: rgb(236 222 187 / 50%);
+    /* rgb(226 199 130 / 50%); */
     border: 0px;
     border-radius: 4px;
     box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
@@ -585,8 +758,16 @@
     margin-top: 6px;
 }
 
+.arm5e .marginbot4 {
+    margin-bottom: 4px;
+}
+
 .arm5e .marginbot6 {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+}
+
+.arm5e .marginbot12 {
+    margin-bottom: 12px;
 }
 
 .arm5e .margintop18 {
@@ -597,10 +778,22 @@
     /*font-family: "vinque";*/
     font-family: "blackmoor";
     margin-bottom: 6px;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 12pt;
+    /*font-weight: bold;*/
 }
 
 .arm5e .bold {
     font-weight: bold;
+}
+
+.arm5e .marginRight8 {
+    margin-right: 8px;
+}
+
+.arm5e .fontSize10 {
+    font-size: 10pt;
+}
+
+.arm5e .fontSize8 {
+    font-size: 8pt;
 }

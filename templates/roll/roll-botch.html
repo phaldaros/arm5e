@@ -1,8 +1,12 @@
-<p>You rolled a 0. Check for Botch.</p>
-<form class="{{cssClass}} arm5e arm5eMain">
-    <div style="display: flex; width: 100%; margin-bottom: 10px">
-        <p><label for="botchDice" style="white-space: nowrap; margin-right: 10px; padding-top:4px">Number of Botch Dice:
-            </label>
-            <input type="number" id="botchDice" name="botchDice" min="1" max="10" autofocus value=1 /></p>
+<form class="{{cssClass}} arm5eRoll" autocomplete="off" style="background-size: cover;">
+    {{> "systems/arm5e/templates/item/parts/item-header.html" }}
+    <p style="padding-left: 32px;">You rolled a 0. Check for Botch.</p>
+    <div class="roll-options">
+        <div style="display: flex; width: 100%; margin-bottom: 10px">
+            <p><label for="botchDice" style="white-space: nowrap; margin-right: 10px; padding-top:4px">Number of Botch Dice:
+                </label>
+                <input type="number" id="botchDice" name="botchDice" min="1" max="10" autofocus value=1 /></p>
+        </div>
     </div>
+    {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
 </form>

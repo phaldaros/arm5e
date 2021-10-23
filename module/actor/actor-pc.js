@@ -50,9 +50,9 @@ export class ArM5ePCActor extends Actor {
         let abilitiesSelect = {};
         let diaryEntries = [];
         let abilitiesFamiliar = [];
-        let mightsFamiliar = [];
+        let powersFamiliar = [];
 
-        let mights = [];
+        let powers = [];
 
         let specialities = [];
         let distinctive = [];
@@ -256,10 +256,10 @@ export class ArM5ePCActor extends Actor {
                 diaryEntries.push(i);
             } else if (i.type === 'abilityFamiliar') {
                 abilitiesFamiliar.push(i);
-            } else if (i.type === 'mightFamiliar') {
-                mightsFamiliar.push(i);
-            } else if (i.type === 'might') {
-                mights.push(i);
+            } else if (i.type === 'mightFamiliar' || i.type === 'powerFamiliar') {
+                powersFamiliar.push(i);
+            } else if (i.type === 'might' || i.type === 'power') {
+                powers.push(i);
             } else if (i.type === 'speciality') {
                 specialities.push(i);
             } else if (i.type === 'distinctive') {
@@ -334,6 +334,9 @@ export class ArM5ePCActor extends Actor {
             "visLimit":{"value": 0, "calc": "Magic theory * 2" }
             */
 
+            if (actorData.data.laboratory === undefined) {
+                actorData.data.laboratory = {};
+            }
             // calculate laboratori totals
             actorData.data.laboratory.fastCastingSpeed.value = actorData.data.characteristics.qik.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
             actorData.data.laboratory.determiningEffect.value = actorData.data.characteristics.per.value + actorData.data.laboratory.abilitiesSelected.awareness.value;
@@ -411,11 +414,11 @@ export class ArM5ePCActor extends Actor {
         }
         if (actorData.data.familiar) {
             actorData.data.familiar.abilitiesFam = abilitiesFamiliar;
-            actorData.data.familiar.mightsFam = mightsFamiliar;
+            actorData.data.familiar.powersFam = powersFamiliar;
         }
 
-        if (actorData.data.mights) {
-            actorData.data.mights = mights;
+        if (actorData.data.powers) {
+            actorData.data.powers = powers;
         }
 
         if (actorData.data.specialities) {
