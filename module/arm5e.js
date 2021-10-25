@@ -117,6 +117,7 @@ Hooks.once('init', async function() {
         default: "symbol"
     });
 
+
     /**
      * Whether to enforce or not the magic rules
      */

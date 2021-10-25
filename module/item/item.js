@@ -48,57 +48,65 @@ export class ArM5eItem extends Item {
         if (this.type == "magicalEffect" || enforceSpellLevel) {
 
             // if base level is 0, the "magicRulesEnforcement" has just been enabled, try to compute the base level
+            let recomputeSpellLevel = true;
+            if (data.baseLevel == 0) {
+                let newBaseLevel = this.data.data.level;
+                let shouldBeRitual = false;
+                if (data.range.value) {
+                    newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.ranges[data.range.value].impact);
+                }
+                if (data.duration.value) {
+                    newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.durations[data.duration.value].impact);
+                }
+                if (data.target.value) {
+                    newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.targets[data.target.value].impact);
+                }
+                if (newBaseLevel < 1) {
+                    // ui.notifications.warn(`Spell named \"${this.name}\" is not strictly following magic theory, its level will be recomputed using a base effect of level 1`, {
+                    //     permanent: true
+                    // });
+                    this.data.data.baseLevel = 1
+                } else {
+                    this.data.data.baseLevel = newBaseLevel;
+                    recomputeSpellLevel = false;
+                }
+            }
+            if (recomputeSpellLevel) {
+                let effectLevel = this.data.data.baseLevel;
+                let shouldBeRitual = false;
+                if (data.range.value) {
+                    effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.ranges[data.range.value].impact);
+                }
+                if (data.duration.value) {
+                    effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.durations[data.duration.value].impact);
+                }
+                if (data.target.value) {
+                    effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.targets[data.target.value].impact);
+                }
+                if (data.complexity) {
+                    effectLevel = this._addSpellMagnitude(effectLevel, data.complexity);
+                }
+                if (data.targetSize) {
+                    effectLevel = this._addSpellMagnitude(effectLevel, data.targetSize);
+                }
+                if (data.enhancingRequisite) {
+                    effectLevel = this._addSpellMagnitude(effectLevel, data.enhancingRequisite);
+                }
 
-            // if (data.baseLevel == 0) {
-            //     let newBaseLevel = this.data.data.level;
-            //     let shouldBeRitual = false;
-            //     if (data.range.value) {
-            //         newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.ranges[data.range.value].impact);
-            //     }
-            //     if (data.duration.value) {
-            //         newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.durations[data.duration.value].impact);
-            //     }
-            //     if (data.target.value) {
-            //         newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.targets[data.target.value].impact);
-            //     }
-            //     this.data.data.baseLevel = 1;
+                // Duration above moon are rituals and rituals are minimum level 20
+                if (CONFIG.ARM5E.magic.durations[data.duration.value].impact > 3 ||
+                    data.target.value == "bound" ||
+                    effectLevel >= 50) {
+                    shouldBeRitual = true;
+                }
 
-            // } else {
-            let effectLevel = data.baseLevel;
-            let shouldBeRitual = false;
-            if (data.range.value) {
-                effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.ranges[data.range.value].impact);
-            }
-            if (data.duration.value) {
-                effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.durations[data.duration.value].impact);
-            }
-            if (data.target.value) {
-                effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.targets[data.target.value].impact);
-            }
-            if (data.complexity) {
-                effectLevel = this._addSpellMagnitude(effectLevel, data.complexity);
-            }
-            if (data.targetSize) {
-                effectLevel = this._addSpellMagnitude(effectLevel, data.targetSize);
-            }
-            if (data.enhancingRequisite) {
-                effectLevel = this._addSpellMagnitude(effectLevel, data.enhancingRequisite);
-            }
+                if (shouldBeRitual && effectLevel < 20) {
+                    effectLevel = 20;
+                }
 
-            // Duration above moon are rituals and rituals are minimum level 20
-            if (CONFIG.ARM5E.magic.durations[data.duration.value].impact > 3 ||
-                data.target.value == "bound" ||
-                effectLevel >= 50) {
-                shouldBeRitual = true;
+                this.data.data.ritual = shouldBeRitual;
+                this.data.data.level = effectLevel;
             }
-
-            if (shouldBeRitual && effectLevel < 20) {
-                effectLevel = 20;
-            }
-
-            this.data.data.ritual = shouldBeRitual;
-            this.data.data.level = effectLevel;
-            //}
             // compute casting total
             if (actorData && this.actor != null) {
                 itemData.data.castingTotal = this._computeCastingTotal(actorData, itemData);
@@ -109,10 +117,12 @@ export class ArM5eItem extends Item {
     }
 
     _addSpellMagnitude(base, num) {
+
         if (num == 0) {
             return base;
         }
         if (num > 0) {
+            // log(false, `Adding ${num} magnitudes from ${base}`);
             if (base + num <= 5) {
                 return base + num;
             }
@@ -128,19 +138,21 @@ export class ArM5eItem extends Item {
             }
             return res;
         } else {
+            log(false, `Adding ${num} magnitudes from ${base}`);
             if (base + num <= 1) {
-                return 1;
+                return base + num;
             }
             let loop = num;
             let res = base;
-            while (loop > 0) {
+            while (loop < 0) {
                 if (res <= 5) {
                     res--;
                 } else {
                     res = res - 5;
                 }
-                loop--;
+                loop++;
             }
+            log(false, `returns ${res}`);
             return res;
         }
 

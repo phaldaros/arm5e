@@ -165,6 +165,16 @@ export class ArM5eActorSheet extends ActorSheet {
             li.slideUp(200, () => this.render(false));
         });
 
+
+        // Generate Items automatically
+        html.find('.item-generate').click(ev => {
+            const li = $(ev.currentTarget).parents(".item");
+            let itemId = li.data("itemId");
+            itemId = itemId instanceof Array ? itemId : [itemId];
+            this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+            li.slideUp(200, () => this.render(false));
+        });
+
         // Rollable abilities.
         html.find('.rollable').click(this._onRoll.bind(this));
 
