@@ -12,16 +12,20 @@ import {
 
 export class ArM5eNPCActorSheet extends ArM5eActorSheet {
 
-  /** @override */
-  static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ["arm5e", "sheet", "actor"],
-      template: "systems/arm5e/templates/actor/actor-npc-sheet.html",
-      width: 790,
-      height: 800,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
-    });
-  }
+    /** @override */
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            classes: ["arm5e", "sheet", "actor"],
+            template: "systems/arm5e/templates/actor/actor-npc-sheet.html",
+            width: 790,
+            height: 800,
+            tabs: [{
+                navSelector: ".sheet-tabs",
+                contentSelector: ".sheet-body",
+                initial: "description"
+            }]
+        });
+    }
 
     /* -------------------------------------------- */
 
@@ -29,13 +33,6 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     getData() {
 
         const context = super.getData();
-
-        // Use a safe clone of the actor data for further operations.
-        const actorData = context.actor.data;
-
-        // Add the actor's data to context.data for easier access, as well as flags.
-        context.data = actorData.data;
-        context.flags = actorData.flags;
 
         context.metadata = CONFIG.ARM5E;
         // Add roll data for TinyMCE editors.
