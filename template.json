@@ -21,6 +21,11 @@
                     "dtype": "Number",
                     "value": 25
                 },
+                "con": {
+                    "label": "Confidence ",
+                    "score": 1,
+                    "points": 3
+                },
                 "biography": "Character biography, notes, &c.",
                 "characteristics": {
                     "int": {

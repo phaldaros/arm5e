@@ -9,5 +9,5 @@ foundry.js
 jsconfig.json
 test.js
 .npmignore
-packs/
+packs/*
 module/foundry_view.js

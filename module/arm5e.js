@@ -229,7 +229,7 @@ Hooks.once("ready", async function() {
                         permanent: true
                     });
                 }
-                migration(currentVersion);
+                await migration(currentVersion);
             }
         }
     }

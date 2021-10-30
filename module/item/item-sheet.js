@@ -109,5 +109,20 @@ export class ArM5eItemSheet extends ItemSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
+        // data-id and data-attr needed
+        // html.find(".toggle").change((event) => this._handleToggle(event));
+
+    }
+
+
+    _handleToggle(event) {
+        event.preventDefault();
+        const itemId = event.currentTarget.dataset.itemId;
+        const item = this.actor.items.get(itemId);
+        const attr = "data." + event.currentTarget.dataset.attr;
+        log(false, item.data);
+        return item.update({
+            attr: !getProperty(item.data.data, event.currentTarget.dataset.attr)
+        });
     }
 }

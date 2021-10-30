@@ -1,7 +1,9 @@
 import {
     ArM5eItemSheet
 } from "./item-sheet.js";
-
+import {
+    log
+} from "../tools.js"
 /**
  * Extend the basic ArM5eItemSheet with some very simple modifications
  * @extends {ArM5eItemSheet}
@@ -43,24 +45,6 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
         // editable, the items array, and the effects array.
         const context = super.getData();
 
-        // Use a safe clone of the item data for further operations.
-        const itemData = context.item.data;
-
-        // Add the item's data to context.data for easier access, as well as flags.
-        context.data = itemData.data;
-        context.flags = itemData.flags;
-
-        context.metadata = CONFIG.ARM5E;
-
-
-        console.log('item-sheet get data');
-        console.log(context);
-        // console.log('item-sheet get data');
-        // console.log(context);
-
-        //console.log("item-sheet get data this.actor")
-        //console.log(this.actor)
-
         return context;
     }
 
@@ -84,6 +68,8 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
 
-        // Roll handlers, click handlers, etc. would go here.
+
     }
+
+
 }
