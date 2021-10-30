@@ -59,6 +59,24 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     // }
 
     /* -------------------------------------------- */
+    /**
+     *     @override 
+     */
+
+    getData() {
+        // Retrieve the data structure from the base sheet. You can inspect or log
+        // the context variable to see the structure, but some key properties for
+        // sheets are the actor object, the data object, whether or not it's
+        // editable, the items array, and the effects array.
+        const context = super.getData();
+
+        context.metadata = CONFIG.ARM5E;
+        log(false, "COvenant-sheet getData");
+        log(false, context);
+        // this._prepareCodexItems(context);
+
+        return context;
+    }
 
     isDropAllowed(type) {
 

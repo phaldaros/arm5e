@@ -114,8 +114,6 @@ export class ArM5eActorSheet extends ActorSheet {
         //context.effects = prepareActiveEffectCategories(this.actor.effects);
 
         this._prepareCharacterItems(context);
-        console.log("sheetData from pc sheet");
-        console.log(context);
         // console.log("sheetData from pc sheet");
         // console.log(context);
 

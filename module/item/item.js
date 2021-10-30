@@ -65,7 +65,7 @@ export class ArM5eItem extends Item {
 
             // } else {
             let effectLevel = data.baseLevel;
-            let shouldBeRitual = false;
+            let shouldBeRitual = data.ritual;
             if (data.range.value) {
                 effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.ranges[data.range.value].impact);
             }

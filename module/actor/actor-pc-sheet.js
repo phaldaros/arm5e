@@ -1,4 +1,7 @@
 import {
+    log
+} from "../tools.js"
+import {
     ArM5eActorSheet
 } from "./actor-sheet.js";
 /**
@@ -21,7 +24,23 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
             }]
         });
     }
+    /** @override */
+    getData() {
 
+        const context = super.getData();
+
+        context.metadata = CONFIG.ARM5E;
+        // Add roll data for TinyMCE editors.
+        context.rollData = context.actor.getRollData();
+
+
+        // Prepare items.
+        // this._prepareCharacterItems(context);
+        log(false, "Player-sheet getData");
+        log(false, context);
+
+        return context;
+    }
 
     isDropAllowed(type) {
         switch (type) {

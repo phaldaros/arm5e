@@ -2,7 +2,7 @@
     "name": "arm5e",
     "title": "Ars Magica 5th Edition",
     "description": "Ars Magica 5e for Foundry VTT",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "minimumCoreVersion": "0.8.6",
     "compatibleCoreVersion": "0.8.9",
     "templateVersion": 3,
