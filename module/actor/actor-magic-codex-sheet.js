@@ -36,23 +36,12 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         // editable, the items array, and the effects array.
         const context = super.getData();
 
-        // Use a safe clone of the actor data for further operations.
-        const actorData = context.actor.data;
-
-        // Add the actor's data to context.data for easier access, as well as flags.
-        context.data = actorData.data;
-        context.flags = actorData.flags;
-
         // no need to import everything
         context.metadata = {};
         context.metadata.magic = CONFIG.ARM5E.magic;
-
-
-        this._prepareCodexItems(context);
-        console.log("sheetData from codex sheet");
-        console.log(context);
-        // console.log("sheetData from pc sheet");
-        // console.log(context);
+        log(false, "Codex-sheet getData");
+        log(false, context);
+        // this._prepareCodexItems(context);
 
         return context;
     }

@@ -90,6 +90,9 @@ You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for dev
 - Might of NPC has a realm now (magic, fae, divine, infernal)
 - 2 styles of icons for arts sheet (symbols or gestures)
 
+1.2.1 
+- Confidence for NPCs is back
+- Ritual checkbox fixed.
 
 ## Credits
 <b>Authors:</b> ialbiol, phaldaros, sylph, xzotl<br>
