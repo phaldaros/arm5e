@@ -107,7 +107,7 @@ Hooks.once('init', async function() {
      */
     game.settings.register("arm5e", "artsIcons", {
         name: "Icons style for art",
-        scope: "world",
+        scope: "client",
         config: true,
         type: String,
         choices: {
@@ -116,6 +116,7 @@ Hooks.once('init', async function() {
         },
         default: "symbol"
     });
+
 
 
     /**
@@ -128,6 +129,17 @@ Hooks.once('init', async function() {
         type: Boolean,
         default: false
     });
+
+    /**
+     * Whether to sort lists of stuff
+     */
+    // game.settings.register("arm5e", "sortItems", {
+    //     name: "Sort lists of item",
+    //     scope: "world",
+    //     config: true,
+    //     type: Boolean,
+    //     default: false
+    // });
 
     // Add custom metadata
     CONFIG.ARM5E = ARM5E;

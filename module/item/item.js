@@ -61,6 +61,15 @@ export class ArM5eItem extends Item {
                 if (data.target.value) {
                     newBaseLevel = this._addSpellMagnitude(newBaseLevel, -CONFIG.ARM5E.magic.targets[data.target.value].impact);
                 }
+                if (data.complexity) {
+                    newBaseLevel = this._addSpellMagnitude(newBaseLevel, -data.complexity);
+                }
+                if (data.enhancingRequisite) {
+                    newBaseLevel = this._addSpellMagnitude(newBaseLevel, -data.enhancingRequisite);
+                }
+                if (data.targetSize) {
+                    newBaseLevel = this._addSpellMagnitude(newBaseLevel, -data.targetSize);
+                }
                 if (newBaseLevel < 1) {
                     // ui.notifications.warn(`Spell named \"${this.name}\" is not strictly following magic theory, its level will be recomputed using a base effect of level 1`, {
                     //     permanent: true
@@ -68,6 +77,9 @@ export class ArM5eItem extends Item {
                     this.data.data.baseLevel = 1
                 } else {
                     this.data.data.baseLevel = newBaseLevel;
+                    this.update({
+                        "data.baseLevel": newBaseLevel
+                    });
                     recomputeSpellLevel = false;
                 }
             }

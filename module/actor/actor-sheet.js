@@ -10,6 +10,9 @@ import {
 import {
     ARM5E
 } from '../metadata.js';
+import {
+    log
+} from "../tools.js"
 
 export class ArM5eActorSheet extends ActorSheet {
 
@@ -164,13 +167,41 @@ export class ArM5eActorSheet extends ActorSheet {
         });
 
 
-        // Generate Items automatically
-        html.find('.item-generate').click(ev => {
-            const li = $(ev.currentTarget).parents(".item");
-            let itemId = li.data("itemId");
-            itemId = itemId instanceof Array ? itemId : [itemId];
-            this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-            li.slideUp(200, () => this.render(false));
+        // Generate abiliy automatically
+        html.find('.abilities-generate').click(ev => {
+            let charType = this.actor.data.data.charType.value;
+            if (charType === "magus" || charType === "magusNPC") {
+                let abilities = this.actor.items.filter(i => i.type == "ability");
+                let newAbilities = [];
+                for (let [key, a] of Object.entries(CONFIG.ARM5E.character.abilities)) {
+                    // if the ability doesn't exists create it
+                    let abs = abilities.filter(ab => ab.data.name == game.i18n.localize(a))
+                    if (abs.length == 0) {
+                        log(false, `Did not find ${game.i18n.localize(a)}, creating it...`);
+                        const itemData = {
+                            name: game.i18n.localize(a),
+                            type: "ability"
+                        };
+                        newAbilities.push(itemData);
+                    }
+                }
+                this.actor.createEmbeddedDocuments("Item", newAbilities, {});
+            }
+        });
+
+        html.find('.sortable').click(ev => {
+
+            const listName = ev.currentTarget.dataset.list;
+            let val = this.actor.getFlag("arm5e", "sorting", listName)
+            if (val === undefined) {
+                this.actor.setFlag("arm5e", "sorting", {
+                    [listName]: true
+                });
+            } else {
+                this.actor.setFlag("arm5e", "sorting", {
+                    [listName]: !val[listName]
+                });
+            }
         });
 
         // Rollable abilities.
