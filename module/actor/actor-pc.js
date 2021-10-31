@@ -3,6 +3,11 @@ import {
     ARM5E_DEFAULT_ICONS
 } from "../metadata.js";
 import {
+    compareBaseEffects,
+    compareSpells,
+    compareSpellsData,
+    compareMagicalEffects,
+    compareMagicalEffectsData,
     log
 } from "../tools.js"
 
@@ -386,10 +391,20 @@ export class ArM5ePCActor extends Actor {
             actorData.data.armor = armor;
         }
         if (actorData.data.spells) {
-            actorData.data.spells = spells;
+            let flag = this.getFlag("arm5e", "sorting", 'spells')
+            if (flag && flag['spells'] == true) {
+                actorData.data.spells = spells.sort(compareSpellsData);
+            } else {
+                actorData.data.spells = spells
+            }
         }
         if (actorData.data.magicalEffects) {
-            actorData.data.magicalEffects = magicalEffects;
+            let flag = this.getFlag("arm5e", "sorting", 'magicalEffects')
+            if (flag && flag['magicalEffects'] == true) {
+                actorData.data.magicalEffects = magicalEffects.sort(compareMagicalEffectsData);
+            } else {
+                actorData.data.magicalEffects = magicalEffects
+            }
         }
         if (actorData.data.vis) {
             actorData.data.vis = vis;
@@ -407,7 +422,14 @@ export class ArM5ePCActor extends Actor {
             actorData.data.flaws = flaws;
         }
         if (actorData.data.abilities) {
-            actorData.data.abilities = abilities;
+            let flag = this.getFlag("arm5e", "sorting", 'abilities')
+            if (flag && flag['abilities'] == true) {
+                actorData.data.abilities = abilities.sort(function(e1, e2) {
+                    return e1.name.localeCompare(e2.name);
+                });
+            } else {
+                actorData.data.abilities = abilities
+            }
         }
         if (actorData.data.diaryEntries) {
             actorData.data.diaryEntries = diaryEntries;
@@ -512,71 +534,11 @@ export class ArM5ePCActor extends Actor {
             magicEffects = magicEffects.filter(e => e.data.data.level === data.levelFilter);
             spells = spells.filter(e => e.data.data.level === data.levelFilter);
         }
-        data.baseEffects = baseEffects.sort(function(e1, e2) {
-            if (e1.data.data.form.value < e2.data.data.form.value) {
-                return -1;
-            } else if (e1.data.data.form.value > e2.data.data.form.value) {
-                return 1;
-            } else {
-                if (e1.data.data.technique.value < e2.data.data.technique.value) {
-                    return -1;
-                } else if (e1.data.data.technique.value > e2.data.data.technique.value) {
-                    return 1;
-                } else {
-                    if (e1.data.data.baseLevel < e2.data.data.baseLevel) {
-                        return -1;
-                    } else if (e1.data.data.baseLevel > e2.data.data.baseLevel) {
-                        return 1;
-                    } else {
-                        return e1.data.name.localeCompare(e2.data.name);
-                    }
-                }
-            }
-        });
+        data.baseEffects = baseEffects.sort(compareBaseEffects);
         log(false, data.baseEffects);
-        data.magicEffects = magicEffects.sort(function(e1, e2) {
-            if (e1.data.data.form.value < e2.data.data.form.value) {
-                return -1;
-            } else if (e1.data.data.form.value > e2.data.data.form.value) {
-                return 1;
-            } else {
-                if (e1.data.data.technique.value < e2.data.data.technique.value) {
-                    return -1;
-                } else if (e1.data.data.technique.value > e2.data.data.technique.value) {
-                    return 1;
-                } else {
-                    if (e1.data.data.level < e2.data.data.level) {
-                        return -1;
-                    } else if (e1.data.data.level > e2.data.data.level) {
-                        return 1;
-                    } else {
-                        return e1.data.name.localeCompare(e2.data.name);
-                    }
-                }
-            }
-        });
+        data.magicEffects = magicEffects.sort(compareMagicalEffects);
         log(false, data.magicEffects);
-        data.spells = spells.sort(function(e1, e2) {
-            if (e1.data.data.form.value < e2.data.data.form.value) {
-                return -1;
-            } else if (e1.data.data.form.value > e2.data.data.form.value) {
-                return 1;
-            } else {
-                if (e1.data.data.technique.value < e2.data.data.technique.value) {
-                    return -1;
-                } else if (e1.data.data.technique.value > e2.data.data.technique.value) {
-                    return 1;
-                } else {
-                    if (e1.data.data.level < e2.data.data.level) {
-                        return -1;
-                    } else if (e1.data.data.level > e2.data.data.level) {
-                        return 1;
-                    } else {
-                        return e1.data.name.localeCompare(e2.data.name);
-                    }
-                }
-            }
-        });
+        data.spells = spells.sort(compareSpells);
         log(false, data.spells);
 
 
