@@ -352,6 +352,7 @@ export class ArM5eActorSheet extends ActorSheet {
             }
 
             var actorData = this.actor
+            this.actor.data.data.charmetadata = ARM5E.character.characteristics
             //console.log('onRoll');
             //console.log(actorData);
 
@@ -421,6 +422,12 @@ export class ArM5eActorSheet extends ActorSheet {
                 });
             }
         }
+    }
+
+    _rollMagicalStressDie(html, actorData) {
+
+        stressDie(html, actorData);
+        this.actor.loseFatigueLevel();
     }
 
 
