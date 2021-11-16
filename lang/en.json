@@ -45,7 +45,9 @@
     "arm5e.sheet.forms": "Forms",
     "arm5e.sheet.form": "Form",
     "arm5e.sheet.formRequisite": "Form Requisite",
+    "arm5e.sheet.labText.raw": "Raw",
     "arm5e.sheet.spells": "Spells",
+    "arm5e.sheet.spell": "Spell",
     "arm5e.sheet.spell-design": "Spell design",
     "arm5e.sheet.magicalEffects": "Spontaneous magical effects",
     "arm5e.sheet.weapons": "Weapons",
@@ -381,9 +383,56 @@
     "arm5e.spell.targets.baseSize.vi": "A spell or depend on the effect",
     "arm5e.sheet.base-effects": "Base effects",
     "arm5e.sheet.magical-effects": "Magical effects",
+    "arm5e.sheet.enchantments": "Enchantments",
     "arm5e.sheet.filters": "Filters",
 
-    "arm5e.dialog.design-question": "Do you want to design a spell based on that effect?",
+
+    "arm5e.lab.enchantment.label": "Enchantment",
+    "arm5e.lab.enchantment.effectFrequency": "Effect Frequency",
+    "arm5e.lab.enchantment.uses-per-day": "use(s) per day",
+    "arm5e.lab.enchantment.penetration": "Effect penetration",
+    "arm5e.lab.enchantment.maintainConc": "Maintain concentration",
+    "arm5e.lab.enchantment.linkTrigger": "Linked trigger",
+    "arm5e.lab.enchantment.envTrigger": "Environmental trigger",
+    "arm5e.lab.enchantment.restrictedUse": "Restricted use",
+
+
+    "arm5e.lab.enchantment.item.shape.bonus": "Shape bonus",
+    "arm5e.lab.enchantment.item.shape": "Shape",
+    "arm5e.lab.enchantment.item.material.bonus": "Material bonus",
+
+
+    "arm5e.lab.enchantment.item.expiry": "Effect expiry",
+    "arm5e.lab.enchantment.item.material.label": "Material",
+    "arm5e.lab.enchantment.item.material.base1": "Cloth, glass",
+    "arm5e.lab.enchantment.item.material.base2": "Wood, leather",
+    "arm5e.lab.enchantment.item.material.base3": "Bone, soft stone",
+    "arm5e.lab.enchantment.item.material.base4": "Hard stone",
+    "arm5e.lab.enchantment.item.material.base5": "Base metal",
+    "arm5e.lab.enchantment.item.material.base6": "Silver",
+    "arm5e.lab.enchantment.item.material.base10": "Gold",
+    "arm5e.lab.enchantment.item.material.base12": "Semi-precious gem",
+    "arm5e.lab.enchantment.item.material.base15": "Precious gem",
+    "arm5e.lab.enchantment.item.material.base20": "Priceless gem",
+
+    "arm5e.lab.enchantment.item.size.label": "Size",
+    "arm5e.lab.enchantment.item.size.tiny": "Tiny",
+    "arm5e.lab.enchantment.item.size.small": "Small",
+    "arm5e.lab.enchantment.item.size.medium": "Medium",
+    "arm5e.lab.enchantment.item.size.large": "Large",
+    "arm5e.lab.enchantment.item.size.huge": "Huge",
+
+    "arm5e.lab.enchantment.item.size.tiny-eg": "ring, bracelet, pendant, any gem",
+    "arm5e.lab.enchantment.item.size.small-eg": "wand, dagger, belt, cap",
+    "arm5e.lab.enchantment.item.size.medium-eg": "sword, tunic, boots, skull",
+    "arm5e.lab.enchantment.item.size.large-eg": "staff, shield, cloak, skeleton",
+    "arm5e.lab.enchantment.item.size.huge-eg": "boat, wagon, human body, small room",
+
+
+
+    "arm5e.dialog.design-effect-question": "Do you want to design a magical effect based on that base effect?",
+    "arm5e.dialog.design-spell-question": "Do you want to design a spell based on that effect?",
+    "arm5e.dialog.design-enchantment-question": "Do you want to design an enchantement based on that effect?",
     "arm5e.dialog.delete-question": "Are you sure you want to delete that item?"
 
 }

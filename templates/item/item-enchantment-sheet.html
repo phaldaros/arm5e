@@ -3,15 +3,8 @@
     <header class="sheet-header">
         <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-				<label for="data.type" class="smallTitle" style="padding-left: 24px;">{{localize "arm5e.sheet.type"}}</label>
-                    <select class="width2" name="data.type" data-type="String">
-                        {{#select data.type}}
-                            {{#each metadata.lab.labTextType as |type key|}}
-                                <option value="{{key}}">{{localize type}}</option>
-                            {{/each}} {{/select}}
-                    </select>
-                </span>
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+            <h1 class="charname" style="font-size:24pt; font-family:blackmoor;">{{localize "arm5e.lab.enchantment.label"}}</h1>
+            <h1 class=" charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
             <div class="grid grid-2col">
                 <div class="resource flexcol flexrow">
                     <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
@@ -40,6 +33,7 @@
                                 <option value="{{key}}">{{techniques.label}}</option>
                             {{/each}}
                         {{/select}}
+
                     </select>
                 </div>
                 <div class="resource flexcol flexrow">
@@ -57,73 +51,37 @@
                     <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
                     <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
                 </div>
-                <div class="resource flexcol flex-center">
-                    <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
-                    <input type="checkbox" name="data.ritual" {{checked data.ritual}}>
-                </div>
             </div>
         </div>
     </header>
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+        <a class="item posRelative" data-tab="spell-design">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.attributes"}}
+        </a>
+        <a class="item posRelative" data-tab="enchantment">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.lab.enchantment.label"}}
+        </a>
         <a class="item posRelative" data-tab="description">
             <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
             <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.description"}}
         </a>
-        <a class="item posRelative" data-tab="attributes">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.attributes"}}
-        </a>
+
     </nav>
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
 
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            <div class="grid grid-3col">
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-                    <select name="data.range.value" data-type="String">
-                        {{#select data.range.value}}
-                            {{#each metadata.magic.ranges as |range key|}}
-                                <option value="{{key}}">{{localize range.label}}</option>
-                            {{/each}} {{/select}}
-                        <option></option>
-                    </select>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-                    <select name="data.duration.value" data-type="String">
-                        {{#select data.duration.value}}
-                            {{#each metadata.magic.durations as |duration key|}}
-                                <option value="{{key}}">{{localize duration.label}}</option>
-                            {{/each}} {{/select}}
-                    </select>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-                    <select name="data.target.value" data-type="String">
-                        {{#select data.target.value}}
-                            {{#each metadata.magic.targets as |target key|}}
-                                <option value="{{key}}">{{localize target.label}}</option>
-                            {{/each}} {{/select}}
-                    </select>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.author"}}</label>
-                    <input type="text" name="data.author" value="{{item.data.author}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-                    <input type="text" name="data.year" value="{{item.data.year}}" data-dtype="Number" />
-                </div>
-            </div>
-        </div>
-
+        {{!-- Spell Design Tab --}}
+        {{> "systems/arm5e/templates/item/parts/spell-design.html" }}
+        {{!-- Enchantment Tab --}}
+        {{> "systems/arm5e/templates/item/parts/enchantment.html" }}
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">

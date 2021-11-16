@@ -42,14 +42,16 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.laboratoryTexts"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add laboratoryText" data-type="laboratoryText"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control sortable" title="Sort" data-list="laboratoryTexts"><i class="fas fa-sort"> </i> </a>
+            <a class="item-control item-create" title="Add laboratoryText" data-type="laboratoryText"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{#each data.laboratoryTexts as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value  flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
-                <span class="flexrow item-title width15">{{item.name}} (
+                <span class="flexrow item-title width15">
+                    {{localize (lookup @root.metadata.lab.labTextType item.data.type)~}}
+                    : {{item.name}} (
                     {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
                     {{/with}}
                     {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}}
@@ -73,8 +75,7 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.mundaneBooks"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add mundaneBook" data-type="mundaneBook"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add mundaneBook" data-type="mundaneBook"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{#each data.mundaneBooks as |item id|}}

@@ -22,6 +22,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
 
         "systems/arm5e/templates/actor/parts/actor-base-effects.html",
         "systems/arm5e/templates/actor/parts/actor-magical-effects.html",
+        "systems/arm5e/templates/actor/parts/actor-enchantments.html",
         "systems/arm5e/templates/actor/parts/actor-spells.html",
 
         "systems/arm5e/templates/actor/parts/actor-atributesLaboratory.html",
@@ -35,6 +36,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
         "systems/arm5e/templates/actor/parts/actor-covenantCalendar.html",
         // Item Sheet Partials
         "systems/arm5e/templates/item/parts/spell-design.html",
+        "systems/arm5e/templates/item/parts/enchantment.html",
         "systems/arm5e/templates/item/parts/item-header.html",
         "systems/arm5e/templates/item/parts/item-footer.html"
     ]);

@@ -188,6 +188,14 @@ Hooks.once('init', async function() {
         types: ["magicalEffect"],
         makeDefault: true
     });
+    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+        types: ["enchantment"],
+        makeDefault: true
+    });
+    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+        types: ["spell"],
+        makeDefault: true
+    });
     Items.registerSheet("arm5e", ArM5eItemSheet, {
         makeDefault: true
     });
@@ -210,9 +218,6 @@ Hooks.once('init', async function() {
         return str.toLowerCase();
     });
 
-    // Handlebars.registerHelper('sizeToFit', function(str, size, ) {
-    //     return str.toLowerCase();
-    // });
 });
 
 Hooks.once("ready", async function() {
@@ -318,11 +323,27 @@ async function createArM5eMacro(data, slot) {
 
 function onDropActorSheetData(actor, sheet, data) {
 
-    if (sheet.isDropAllowed(data.data.type)) {
+    if (data.type == "Folder") {
         return true;
-    } else {
-        console.log("Prevented invalid item drop");
-        return false;
+    }
+    if (data.pack) {
+        const pack = game.packs.get(data.pack);
+        const item = pack.index.get(data.id);
+        if (sheet.isDropAllowed(item.type)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (data.actorId === undefined) {
+        let item = game.items.get(data.id);
+
+        if (sheet.isDropAllowed(item.data.type)) {
+            return true;
+        } else {
+            console.log("Prevented invalid item drop");
+            return false;
+        }
     }
 }
 
