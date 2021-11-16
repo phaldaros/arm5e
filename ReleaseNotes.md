@@ -10,6 +10,8 @@
 - dropping a spell or enchantment on a covenant sheet will transform them into a lab text
 - Design: added proper arrows to tab sheet where they were using the old design ones
 - fixed a bug where "undefined" was displayed instead of the proper characteristic
+- new setting to display and edit the source material and page if it applies
+
 
 
 1.2.2
