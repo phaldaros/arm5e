@@ -128,7 +128,7 @@ function getRollFormula(actorData) {
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + actorData.data.data.characteristics[actorData.data.data.roll.characteristic].label;
+        msg = msg + game.i18n.localize(actorData.data.data.charmetadata[actorData.data.data.roll.characteristic].label);
         msg = msg + " (" + value + ")";
     }
 

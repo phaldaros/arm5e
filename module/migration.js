@@ -278,32 +278,32 @@ export const migrateActorData = function(actorData) {
     // updateData["data.laboratory.visLimit.value"] = 0;
 
 
-
-    updateData["data.familiar.characteristicsFam.int"] = {
-        "value": actorData.data.familiar.characteristicsFam.int.value
-    };
-    updateData["data.familiar.characteristicsFam.per"] = {
-        "value": actorData.data.familiar.characteristicsFam.per.value
-    };
-    updateData["data.familiar.characteristicsFam.str"] = {
-        "value": actorData.data.familiar.characteristicsFam.str.value
-    };
-    updateData["data.familiar.characteristicsFam.sta"] = {
-        "value": actorData.data.familiar.characteristicsFam.sta.value
-    };
-    updateData["data.familiar.characteristicsFam.pre"] = {
-        "value": actorData.data.familiar.characteristicsFam.pre.value
-    };
-    updateData["data.familiar.characteristicsFam.com"] = {
-        "value": actorData.data.familiar.characteristicsFam.com.value
-    };
-    updateData["data.familiar.characteristicsFam.dex"] = {
-        "value": actorData.data.familiar.characteristicsFam.dex.value
-    };
-    updateData["data.familiar.characteristicsFam.qik"] = {
-        "value": actorData.data.familiar.characteristicsFam.qik.value
-    };
-
+    if (actorData.data.charType == "magus") {
+        updateData["data.familiar.characteristicsFam.int"] = {
+            "value": actorData.data.familiar.characteristicsFam.int.value
+        };
+        updateData["data.familiar.characteristicsFam.per"] = {
+            "value": actorData.data.familiar.characteristicsFam.per.value
+        };
+        updateData["data.familiar.characteristicsFam.str"] = {
+            "value": actorData.data.familiar.characteristicsFam.str.value
+        };
+        updateData["data.familiar.characteristicsFam.sta"] = {
+            "value": actorData.data.familiar.characteristicsFam.sta.value
+        };
+        updateData["data.familiar.characteristicsFam.pre"] = {
+            "value": actorData.data.familiar.characteristicsFam.pre.value
+        };
+        updateData["data.familiar.characteristicsFam.com"] = {
+            "value": actorData.data.familiar.characteristicsFam.com.value
+        };
+        updateData["data.familiar.characteristicsFam.dex"] = {
+            "value": actorData.data.familiar.characteristicsFam.dex.value
+        };
+        updateData["data.familiar.characteristicsFam.qik"] = {
+            "value": actorData.data.familiar.characteristicsFam.qik.value
+        };
+    }
 
     // Migrate Owned Items
     if (!actorData.items) return updateData;
@@ -554,6 +554,7 @@ function _guessDuration(name, value) {
         case game.i18n.localize("arm5e.spell.ranges.year"):
             return "year";
         case "condition":
+        case "cond":
         case game.i18n.localize("arm5e.spell.ranges.condition"):
             return "condition";
         case "year+1":

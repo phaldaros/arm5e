@@ -3,6 +3,14 @@
     <header class="sheet-header">
         <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
+            <label for="data.type" class="smallTitle" style="padding-left: 24px;">{{localize "arm5e.sheet.type"}}</label>
+            <select class="width2" name="data.type" data-type="String">
+                {{#select data.type}}
+                    {{#each metadata.lab.labTextType as |type key|}}
+                        <option value="{{key}}">{{localize type}}</option>
+                    {{/each}} {{/select}}
+            </select>
+            </span>
             <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
             <div class="grid grid-2col">
                 <div class="resource flexcol flexrow">
@@ -45,14 +53,16 @@
                         {{/select}}
                     </select>
                 </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-                    <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
-                </div>
-                <div class="resource flexcol flex-center">
-                    <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
-                    <input type="checkbox" name="data.ritual" {{checked data.ritual}}>
-                </div>
+                {{#if (ne data.type "enchantment")}}
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
+                        <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
+                    </div>
+                    <div class="resource flexcol flex-center">
+                        <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
+                        <input type="checkbox" name="data.ritual" {{checked data.ritual}}>
+                    </div>
+                {{/if}}
             </div>
         </div>
     </header>
@@ -60,15 +70,22 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
         <a class="item posRelative" data-tab="description">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.description"}}
         </a>
         <a class="item posRelative" data-tab="attributes">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.attributes"}}
         </a>
+        {{#if (eq data.type "enchantment")}}
+            <a class="item posRelative" data-tab="enchantment">
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+                {{localize "arm5e.lab.enchantment.label"}}
+            </a>
+        {{/if}}
     </nav>
 
     {{!-- Sheet Body --}}
@@ -115,11 +132,26 @@
                 </div>
             </div>
         </div>
-
+        {{!-- Enchantment Tab --}}
+        {{#if (eq data.type "enchantment")}}
+            {{> "systems/arm5e/templates/item/parts/enchantment.html" }}
+        {{/if}}
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
             {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            {{#if (eq metagame true)}}
+                <div class="grid grid-2col">
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.sheet.source"}}</label>
+                        <input type="text" name="data.source" value="{{data.source}}" data-dtype="String" />
+                    </div>
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.sheet.page"}}</label>
+                        <input type="text" name="data.page" value="{{data.page}}" data-dtype="Number" />
+                    </div>
+                </div>
+            {{/if}}
         </div>
 
     </section>

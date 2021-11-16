@@ -46,7 +46,8 @@ ARM5E_DEFAULT_ICONS.MONO = {
     "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
     "covenant": "icons/svg/castle.svg",
     "npc": "icons/svg/mystery-man-black.svg",
-    "laboratory": "icons/svg/tower.svg"
+    "laboratory": "icons/svg/tower.svg",
+    "enchantment": "icons/svg/daze.svg"
 };
 ARM5E_DEFAULT_ICONS.COLOR = {
     "weapon": "icons/weapons/swords/greatsword-crossguard-silver.webp",
@@ -80,6 +81,7 @@ ARM5E_DEFAULT_ICONS.COLOR = {
     "laboratoryText": "icons/sundries/documents/blueprint-recipe-alchemical.webp",
     "magicalEffect": "icons/sundries/documents/document-symbol-lightning-brown.webp",
     "baseEffect": "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
+    "enchantment": "icons/magic/symbols/runes-etched-steel-blade.webp",
     // Actors
     "covenant": "icons/environment/settlement/wizard-castle.webp",
     "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
@@ -819,10 +821,100 @@ ARM5E.lab.activities = {
 
 // TODO localize
 ARM5E.lab.labTextType = {
-    "raw": "Raw",
-    "spell": "Spell",
-    "magicItem": "Magic item"
+    "raw": "arm5e.sheet.labText.raw",
+    "spell": "arm5e.sheet.spell",
+    "enchantment": "arm5e.lab.enchantment.label"
 };
+
+ARM5E.lab.enchantment = {};
+ARM5E.lab.enchantment.item = {
+    "materialBase": 1,
+    "sizeMultiplier": 1,
+    "material": "",
+    "materialBonus": 0,
+    "shape": "",
+    "shapeBonus": 0,
+    "expiry": 0
+
+};
+
+
+ARM5E.lab.enchantment.materialBase = {
+    "base1": {
+        "value": 1,
+        "eg": "arm5e.lab.enchantment.item.material.base1"
+    },
+    "base2": {
+        "value": 2,
+        "eg": "arm5e.lab.enchantment.item.material.base2"
+    },
+    "base3": {
+        "value": 3,
+        "eg": "arm5e.lab.enchantment.item.material.base3"
+    },
+    "base4": {
+        "value": 4,
+        "eg": "arm5e.lab.enchantment.item.material.base4"
+    },
+    "base5": {
+        "value": 5,
+        "eg": "arm5e.lab.enchantment.item.material.base5"
+    },
+    "base6": {
+        "value": 6,
+        "eg": "arm5e.lab.enchantment.item.material.base6"
+    },
+    "base10": {
+        "value": 10,
+        "eg": "arm5e.lab.enchantment.item.material.base10"
+    },
+    "base12": {
+        "value": 12,
+        "eg": "arm5e.lab.enchantment.item.material.base12"
+    },
+    "base15": {
+        "value": 15,
+        "eg": "arm5e.lab.enchantment.item.material.base15"
+    },
+    "base20": {
+        "value": 20,
+        "eg": "arm5e.lab.enchantment.item.material.base20"
+    },
+};
+
+ARM5E.lab.enchantment.sizeMuliplier = {
+    "tiny": {
+        "eg": "arm5e.lab.enchantment.item.size.tiny-eg",
+        "value": 1
+    },
+    "small": {
+        "eg": "arm5e.lab.enchantment.item.size.small-eg",
+        "value": 2
+    },
+    "medium": {
+        "eg": "arm5e.lab.enchantment.item.size.medium-eg",
+        "value": 3
+    },
+    "large": {
+        "eg": "arm5e.lab.enchantment.item.size.large-eg",
+        "value": 4
+    },
+    "huge": {
+        "eg": "arm5e.lab.enchantment.item.size.huge-eg",
+        "value": 5
+    }
+};
+
+ARM5E.lab.enchantment.effectUses = {
+    0: "1",
+    1: "2",
+    2: "3",
+    3: "6",
+    4: "12",
+    5: "24",
+    6: "50",
+    10: "Unlimited"
+}
 
 ARM5E.books = {};
 

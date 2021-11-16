@@ -8,6 +8,7 @@ import {
     compareSpellsData,
     compareMagicalEffects,
     compareMagicalEffectsData,
+    compareLabTextsData,
     log
 } from "../tools.js"
 
@@ -395,7 +396,7 @@ export class ArM5ePCActor extends Actor {
             if (flag && flag['spells'] == true) {
                 actorData.data.spells = spells.sort(compareSpellsData);
             } else {
-                actorData.data.spells = spells
+                actorData.data.spells = spells;
             }
         }
         if (actorData.data.magicalEffects) {
@@ -403,7 +404,15 @@ export class ArM5ePCActor extends Actor {
             if (flag && flag['magicalEffects'] == true) {
                 actorData.data.magicalEffects = magicalEffects.sort(compareMagicalEffectsData);
             } else {
-                actorData.data.magicalEffects = magicalEffects
+                actorData.data.magicalEffects = magicalEffects;
+            }
+        }
+        if (actorData.data.laboratoryTexts) {
+            let flag = this.getFlag("arm5e", "sorting", 'laboratoryTexts')
+            if (flag && flag['laboratoryTexts'] == true) {
+                actorData.data.laboratoryTexts = laboratoryTexts.sort(compareLabTextsData);
+            } else {
+                actorData.data.laboratoryTexts = laboratoryTexts;
             }
         }
         if (actorData.data.vis) {
@@ -491,9 +500,7 @@ export class ArM5ePCActor extends Actor {
         if (actorData.data.magicBooks) {
             actorData.data.magicBooks = books;
         }
-        if (actorData.data.laboratoryTexts) {
-            actorData.data.laboratoryTexts = laboratoryTexts;
-        }
+
         if (actorData.data.mundaneBooks) {
             actorData.data.mundaneBooks = mundaneBooks;
         }
@@ -509,6 +516,7 @@ export class ArM5ePCActor extends Actor {
         let baseEffects = [];
         let magicEffects = [];
         let spells = [];
+        let enchantments = [];
         for (let [key, item] of codexData.items.entries()) {
             if (item.data.type == "baseEffect") {
                 baseEffects.push(item);
@@ -518,6 +526,9 @@ export class ArM5ePCActor extends Actor {
             }
             if (item.data.type == "spell") {
                 spells.push(item);
+            }
+            if (item.data.type == "enchantment") {
+                enchantments.push(item);
             }
         }
         if (data.formFilter != "") {
@@ -538,9 +549,10 @@ export class ArM5ePCActor extends Actor {
         log(false, data.baseEffects);
         data.magicEffects = magicEffects.sort(compareMagicalEffects);
         log(false, data.magicEffects);
+        data.enchantments = enchantments.sort(compareMagicalEffects);
+        log(false, data.enchantments);
         data.spells = spells.sort(compareSpells);
         log(false, data.spells);
-
 
     }
 
@@ -568,24 +580,22 @@ export class ArM5ePCActor extends Actor {
         if ((this.data.type != 'player') && (this.data.type != 'npc')) {
             return;
         }
+        let updateData = {};
         if (this.data.data.fatigue.winded.level.value == false) {
-            this.data.data.fatigue.winded.level.value = true;
-            return;
+            //this.data.data.fatigue.winded.level.value = true;
+            updateData["data.fatigue.winded.level.value"] = true;
         } else if (this.data.data.fatigue.weary.level.value == false) {
             this.data.data.fatigue.weary.level.value = true;
-            return;
         } else if (this.data.data.fatigue.tired.level.value == false) {
             this.data.data.fatigue.tired.level.value = true;
-            return;
         } else if (this.data.data.fatigue.dazed.level.value == false) {
             this.data.data.fatigue.dazed.level.value = true;
-            return;
         } else if (this.data.data.fatigue.unconscious.level.value == false) {
             this.data.data.fatigue.unconscious.level.value = true;
-            return;
         } else {
             this.data.data.wounds.light.number++;
         }
+        this.update(updateData);
     }
 
 

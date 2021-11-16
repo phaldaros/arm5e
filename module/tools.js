@@ -86,3 +86,17 @@ export function compareSpellsData(e1, e2) {
       }
   }
 }
+
+export function compareLabTexts(e1, e2) {
+    return compareLabTextsData(e1.data,e2.data);
+}
+
+export function compareLabTextsData(e1, e2) {    
+  if (e1.data.type < e2.data.type) {
+     return -1;
+  } else if (e1.data.type > e2.data.type) {
+    return 1;
+  } else {
+     return compareMagicalEffectsData(e1, e2);
+  }
+}

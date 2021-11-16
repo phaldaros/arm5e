@@ -4,6 +4,11 @@ import {
 import {
     ArM5eActorSheet
 } from "./actor-sheet.js";
+
+import {
+    effectToLabText
+} from "../item/item-converter.js"
+
 /**
  * Extend the basic ArM5eActorSheet
  * @extends {ArM5eActorSheet}
@@ -27,36 +32,6 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
 
 
 
-    /**
-     * Handle dropping of an item reference or item data onto an Actor Sheet
-     * @param {DragEvent} event     The concluding DragEvent which contains drop data
-     * @param {Object} data         The data transfer extracted from the event
-     * @return {Promise<Object>}    A data object which describes the result of the drop
-     * @private
-     * @override
-     */
-    // async _onDropItem(event, data) {
-    //     if (data.actorId !== undefined) {
-    //         let actor = game.actors.get(data.actorId);
-    //         // transform input into labText 
-    //         if (actor.data.type === "magicCodex") {
-    //             if (data.data.type == "spell" || data.data.type == "magicalEffect") {
-    //                 log(false, "Valid drop");
-    //                 // create a labText data:
-
-    //                 if (data.data.type == "spell") {
-    //                     delete data.data.data.mastery;
-    //                     delete data.data.data.exp;
-    //                     delete data.data.data.bonus;
-    //                 }
-    //                 data.data.type = "laboratoryText";
-    //                 delete data.data.data.applyFocus;
-    //             }
-    //         }
-    //     }
-    //     const res = await super._onDropItem(event, data);
-    //     return res;
-    // }
 
     /* -------------------------------------------- */
     /**
@@ -71,7 +46,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         const context = super.getData();
 
         context.metadata = CONFIG.ARM5E;
-        log(false, "COvenant-sheet getData");
+        log(false, "Covenant-sheet getData");
         log(false, context);
         // this._prepareCodexItems(context);
 
@@ -81,16 +56,12 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     isDropAllowed(type) {
 
         switch (type) {
-            case "weapon":
-            case "armor":
-                //case "spell":
+            case "spell":
             case "vis":
-            case "item":
             case "book":
             case "virtue":
             case "flaw":
             case "magicItem":
-            case "spell":
             case "reputation":
             case "habitantMagi":
             case "habitantCompanion":
@@ -101,19 +72,100 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             case "possessionsCovenant":
             case "visSourcesCovenant":
             case "visStockCovenant":
-                //case "magicalEffect":
+            case "magicalEffect":
             case "calendarCovenant":
             case "incomingSource":
             case "laboratoryText":
             case "mundaneBook":
+            case "enchantment":
                 return true;
             default:
                 return false;
         }
     }
 
+    // tells whether or not a type of item needs to be converted when dropped to a specific sheet.
+    needConversion(type) {
+        switch (type) {
+            case "spell":
+            case "magicalEffect":
+            case "enchantment":
+                return true;
+            default:
+                return false;
+        }
+    }
 
+    // Overloaded core functions (TODO: review at each Foundry update)
 
+    /**
+     * Handle dropping of an item reference or item data onto an Actor Sheet
+     * @param {DragEvent} event     The concluding DragEvent which contains drop data
+     * @param {Object} data         The data transfer extracted from the event
+     * @return {Promise<Object>}    A data object which describes the result of the drop
+     * @private
+     * @override
+     */
+    async _onDropItem(event, data) {
+        let itemData = {};
+        let type;
+        if (data.pack) {
+            const item = await Item.implementation.fromDropData(data);
+            itemData = item.toObject();
+            type = itemData.type;
+        } else if (data.actorId === undefined) {
+            // data.data.effects = [];
+            const item = await Item.implementation.fromDropData(data);
+            itemData = item.toObject();
+            type = itemData.type;
+        } else {
+            type = data.data.type;
+            itemData = data.data;
+        }
+        // log(false, "_onDropItem");
+        // log(false, itemData.name);
+        // transform input into labText 
+        if (type == "spell" || type == "magicalEffect" || type == "enchantment") {
+            log(false, "Valid drop");
+            // create a labText data:
+            data.data = effectToLabText(foundry.utils.deepClone(itemData));
+        }
+        // }
+        const res = await super._onDropItem(event, data);
+        return res;
+    }
+
+    /**
+     * TODO: Review in case of Foundry update
+     * Handle dropping of a Folder on an Actor Sheet.
+     * Currently supports dropping a Folder of Items to create all items as owned items.
+     * @param {DragEvent} event     The concluding DragEvent which contains drop data
+     * @param {Object} data         The data transfer extracted from the event
+     * @return {Promise<Item[]>}
+     * @private
+     */
+
+    async _onDropFolder(event, data) {
+        // log(false, "_onDropFolder");
+
+        if (!this.actor.isOwner) return [];
+        if (data.documentName !== "Item") return [];
+        const folder = game.folders.get(data.id);
+        if (!folder) return [];
+        let nonConvertibleItems = folder.contents.filter(e => this.needConversion(e.type) === false);
+        let res = await this._onDropItemCreate(nonConvertibleItems.map(e => e.toObject()));
+        let convertibleItems = folder.contents.filter(e => this.needConversion(e.type) === true);
+        for (let item of convertibleItems) {
+            // let actorID = this.actor.id;
+            let itemData = {
+                // actorId: actorID,
+                data: item.data,
+                type: "Item"
+            };
+            res.push(await this._onDropItem(event, itemData));
+        }
+        return res;
+    }
 
 
 }

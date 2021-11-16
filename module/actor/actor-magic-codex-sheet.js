@@ -81,6 +81,9 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         //     item.sheet.render(true);
         // });
 
+        // Add Inventory Item
+        html.find('.base-effect-create').click(this._onBaseEffectCreate.bind(this));
+
         // Delete Inventory Item
         html.find('.effect-delete').click(this._onDeleteEffect.bind(this));
 
@@ -132,6 +135,42 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
     };
 
+
+    async _onBaseEffectCreate(event) {
+        event.preventDefault();
+        const header = event.currentTarget;
+        // Get the type of item to create.
+        const tech = header.dataset.technique == "" ? "cr" : header.dataset.technique;
+        const form = header.dataset.form == "" ? "an" : header.dataset.form;
+        // Initialize a default name.
+        const name = `New Base Effect`;
+        // Prepare the item object.
+        const itemData = [{
+            name: name,
+            type: "baseEffect",
+            data: {
+                "technique": {
+                    "value": tech
+                },
+                "form": {
+                    "value": form
+                }
+            }
+        }];
+        // Remove the type from the dataset since it's in the itemData.type prop.
+        delete itemData[0].data["type"];
+
+        // Finally, create the item!
+        // console.log("Add item");
+        // console.log(itemData);
+
+        let newItem = await this.actor.createEmbeddedDocuments("Item", itemData, {});
+
+        newItem[0].sheet.render(true);
+        return newItem;
+    }
+
+
     /**
      * Handle clickable base effect.
      * @param {Event} event   The originating click event
@@ -141,9 +180,24 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         event.preventDefault();
         const li = $(event.currentTarget).parents(".item");
         let itemId = li.data("itemId");
+        let type = li.data("itemType");
+        let mnemo;
+        switch (type) {
+            case "baseEffect":
+                mnemo = "arm5e.dialog.design-effect-question";
+                break;
+            case "magicalEffect":
+                mnemo = "arm5e.dialog.design-spell-question";
+                break;
+            case "spell":
+                mnemo = "arm5e.dialog.design-enchantment-question";
+                break;
+            default:
+                return;
+        }
         const element = event.currentTarget;
         const dataset = element.dataset;
-        const question = game.i18n.localize("arm5e.dialog.design-question");
+        const question = game.i18n.localize(mnemo);
         new Dialog({
             title: `${dataset.name}`,
             content: `<p>${question}</p>`,
@@ -185,7 +239,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
                 }
             }];
 
-        } else //
+        } else if (itemdata.type == "magicalEffect") //
         {
             newItemData = [{
                 name: itemdata.name,
@@ -194,6 +248,26 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
             }];
             // Remove the type from the dataset since it's in the itemData.type prop.
             delete newItemData[0].data["type"];
+        } else {
+            if (itemdata.ritual) {
+                ui.notifications.info("Impossible to make an enchantment with a ritual effect.");
+                return [];
+            }
+            newItemData = [{
+                name: itemdata.name,
+                type: "enchantment",
+                data: foundry.utils.deepClone(itemdata.data)
+            }];
+            // Remove the type from the dataset since it's in the itemData.type prop.
+
+            delete newItemData[0].data["type"];
+            // remove spell attributes linked to actor
+            delete newItemData[0].data.ritual
+            delete newItemData[0].data.mastery
+            delete newItemData[0].data.exp
+            delete newItemData[0].data.bonus
+
+
         }
         let newItem = await this.actor.createEmbeddedDocuments("Item", newItemData, {});
 
@@ -207,6 +281,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         switch (type) {
             case "baseEffect":
             case "magicalEffect":
+            case "enchantment":
             case "spell":
                 return true;
             default:

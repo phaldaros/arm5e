@@ -6,7 +6,10 @@
             <select name="data.roll.characteristic" data-type="String" class="SelectedCharacteristic">
                 {{#select data.roll.characteristic}}
                     {{#each data.characteristics as |item key|}}
-                        <option value="{{key}}">{{localize item.short}} ({{ item.value }})</option>
+                        {{#with (lookup @root.data.charmetadata key)~}}
+                            <option value="{{key}}">{{localize label}} ({{ item.value }})</option>
+                        {{/with}}
+
                     {{/each}} {{/select}}
             </select>
         </div>

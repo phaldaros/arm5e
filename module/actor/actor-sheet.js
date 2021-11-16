@@ -79,6 +79,11 @@ export class ArM5eActorSheet extends ActorSheet {
         // }
     }
 
+    // tells whether or not a type of item needs to be converted when dropped to a specific sheet.
+    needConversion(type) {
+        return false;
+    }
+
     /** @override */
     getData() {
         // Retrieve the data structure from the base sheet. You can inspect or log
@@ -352,6 +357,7 @@ export class ArM5eActorSheet extends ActorSheet {
             }
 
             var actorData = this.actor
+            this.actor.data.data.charmetadata = ARM5E.character.characteristics
             //console.log('onRoll');
             //console.log(actorData);
 
@@ -423,5 +429,25 @@ export class ArM5eActorSheet extends ActorSheet {
         }
     }
 
+    _rollMagicalStressDie(html, actorData) {
 
+        stressDie(html, actorData);
+        this.actor.loseFatigueLevel();
+    }
+    // Overloaded core functions (TODO: review at each Foundry update)
+
+
+    /**
+     * Handle the final creation of dropped Item data on the Actor.
+     * This method is factored out to allow downstream classes the opportunity to override item creation behavior.
+     * @param {object[]|object} itemData     The item data requested for creation
+     * @return {Promise<Item[]>}
+     * @private
+     */
+    async _onDropItemCreate(itemData) {
+        log(false, "_onDropItemCreate");
+        log(false, itemData.name);
+        itemData = itemData instanceof Array ? itemData : [itemData];
+        return this.actor.createEmbeddedDocuments("Item", itemData.filter(e => this.isDropAllowed(e.type)));
+    }
 }

@@ -977,7 +977,7 @@
             "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
             "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
             "visSourcesCovenant", "visStockCovenant", "magicalEffect", "baseEffect",
-            "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook"
+            "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook", "enchantment"
         ],
         "templates": {
             "base": {
@@ -1028,7 +1028,13 @@
                 },
                 "target": {
                     "value": "ind"
-                }
+                },
+                "level": 1,
+                "targetSize": 0,
+                "complexity": 0,
+                "enhancingRequisite": 0,
+                "baseLevel": 0,
+                "baseEffectDescription": ""
             },
             "habitant": {
                 "loyalty": 0,
@@ -1095,34 +1101,35 @@
         },
         "magicalEffect": {
             "templates": ["base", "magicalEffectAttributes"],
-            "level": 1,
             "ritual": false,
-            "targetSize": 0,
-            "complexity": 0,
-            "enhancingRequisite": 0,
-            "baseLevel": 1,
-            "baseEffectDescription": "",
             "applyFocus": false
         },
         "spell": {
-            "templates": ["base", "authorship", "magicalEffectAttributes"],
-            "level": 1,
+            "templates": ["base", "magicalEffectAttributes"],
             "ritual": false,
             "bonus": 0,
             "exp": 0,
             "mastery": 0,
-            "targetSize": 0,
-            "complexity": 0,
-            "enhancingRequisite": 0,
-            "baseLevel": 0,
-            "baseEffectDescription": "",
             "applyFocus": false
         },
+        "enchantment": {
+            "templates": ["base", "magicalEffectAttributes"],
+            "effectfrequency": 1,
+            "penetration": 0,
+            "maintainConc": false,
+            "environmentalTrigger": "",
+            "restrictedUse": "",
+            "linkedTrigger": ""
+        },
         "laboratoryText": {
-            "templates": ["base", "authorship"],
+            "templates": ["base", "authorship", "magicalEffectAttributes"],
             "type": "spell",
-            "magicItem": {},
-            "spell": {}
+            "effectfrequency": 1,
+            "penetration": 0,
+            "maintainConc": false,
+            "environmentalTrigger": "",
+            "restrictedUse": "",
+            "linkedTrigger": ""
         },
         "vis": {
             "templates": ["base", "art"],

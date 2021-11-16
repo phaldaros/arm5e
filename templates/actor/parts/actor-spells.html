@@ -1,5 +1,4 @@
-<div class="flexrow backSection margintop18">
-    <ol class="spell-list">
+    <ol class="spell-list backSection margintop18">
         <li class="item flexrow item-header">
             <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
             <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
@@ -8,9 +7,9 @@
             <div class="item-name">{{localize "arm5e.sheet.spells"}}</div>
         </li>
         {{#each data.spells as |spell id|}}
-            <li class="item spell-value flexrow" data-name="{{spell.data.name}}" data-item-id="{{spell.id}}">
+            <li class="item spell-value flexrow" data-name="{{spell.data.name}}" data-item-id="{{spell.id}}" data-item-type="{{spell.data.type}}">
                 <div class="flexrow flex-center">
-                    <span class="flexrow spell-title width4" data-name="{{spell.data.name}}">
+                    <span class="flexrow spell-title design" data-name="{{spell.data.name}}">
                         <!-- data-level="{{spell.data.data.baseLevel}}" data-technique="{{spell.data.data.technique.value}}" data-form="{{spell.data.data.form.value}}"-->
                         <!--div class="item-image">
                             <a class="rollable" data-roll-type="item"><img src="{{spell.img}}" title="{{item.name}}" width="24" height="24" /></a>

@@ -45,7 +45,7 @@ export class ArM5eItem extends Item {
             }
         }
         let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
-        if (this.type == "magicalEffect" || enforceSpellLevel) {
+        if (this.type == "magicalEffect" || this.type == "enchantment" || enforceSpellLevel) {
 
             // if base level is 0, the "magicRulesEnforcement" has just been enabled, try to compute the base level
             let recomputeSpellLevel = true;
@@ -85,7 +85,7 @@ export class ArM5eItem extends Item {
             }
             if (recomputeSpellLevel) {
                 let effectLevel = this.data.data.baseLevel;
-                let shouldBeRitual = data.ritual;
+
                 if (data.range.value) {
                     effectLevel = this._addSpellMagnitude(effectLevel, CONFIG.ARM5E.magic.ranges[data.range.value].impact);
                 }
@@ -105,20 +105,49 @@ export class ArM5eItem extends Item {
                     effectLevel = this._addSpellMagnitude(effectLevel, data.enhancingRequisite);
                 }
 
-                // Duration above moon are rituals and rituals are minimum level 20
-                if (CONFIG.ARM5E.magic.durations[data.duration.value].impact > 3 ||
-                    data.target.value == "bound" ||
-                    effectLevel >= 50) {
-                    shouldBeRitual = true;
-                }
+                if (this.type == "enchantment") {
+                    effectLevel += parseInt(data.effectfrequency);
+                    if (data.penetration % 2 == 1) {
+                        this.data.data.penetration += 1;
+                    }
+                    effectLevel += this.data.data.penetration / 2;
 
-                if (shouldBeRitual && effectLevel < 20) {
-                    effectLevel = 20;
-                }
+                    if (data.maintainConc) {
+                        effectLevel += 5;
+                    }
 
-                this.data.data.ritual = shouldBeRitual;
+                    if (data.environmentalTrigger) {
+                        effectLevel += 3;
+                    }
+
+                    if (data.restrictedUse) {
+                        effectLevel += 3;
+                    }
+
+                    if (data.linkedTrigger) {
+                        effectLevel += 3;
+                    }
+
+                } else {
+                    let shouldBeRitual = data.ritual;
+                    // Duration above moon are rituals and rituals are minimum level 20
+                    if (CONFIG.ARM5E.magic.durations[data.duration.value].impact > 3 ||
+                        data.target.value == "bound" ||
+                        effectLevel >= 50) {
+                        shouldBeRitual = true;
+                    }
+
+                    if (shouldBeRitual && effectLevel < 20) {
+                        effectLevel = 20;
+                    }
+                    this.data.data.ritual = shouldBeRitual;
+                }
                 this.data.data.level = effectLevel;
             }
+
+
+
+
             // compute casting total
             if (actorData && this.actor != null) {
                 itemData.data.castingTotal = this._computeCastingTotal(actorData, itemData);

@@ -57,8 +57,8 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
         <a class="item posRelative" data-tab="description">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.description"}}
         </a>
 
@@ -69,7 +69,21 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.baseEffectDescription target="data.baseEffectDescription" button=true owner=owner editable=editable}} </div>
+            {{editor content=data.baseEffectDescription target="data.baseEffectDescription" button=true owner=owner editable=editable}}
+            {{#if (eq metagame true)}}
+                <div class="grid grid-2col">
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.sheet.source"}}</label>
+                        <input type="text" name="data.source" value="{{data.source}}" data-dtype="String" />
+                    </div>
+                    <div class="resource">
+                        <label class="header-label">{{localize "arm5e.sheet.page"}}</label>
+                        <input type="text" name="data.page" value="{{data.page}}" data-dtype="Number" />
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+
     </section>
     {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
 </form>

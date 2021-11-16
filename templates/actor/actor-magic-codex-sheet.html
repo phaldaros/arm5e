@@ -59,6 +59,11 @@
             <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.spells"}}
         </a>
+        <a class="item posRelative" data-tab="enchantments">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.enchantments"}}
+        </a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -74,6 +79,10 @@
         {{!--Spells Tab --}}
         <div class="tab spells" data-group="primary" data-tab="spells">
             {{> "systems/arm5e/templates/actor/parts/actor-spells.html" }}
+        </div>
+        {{!--Enchantments Tab --}}
+        <div class="tab enchantments" data-group="primary" data-tab="enchantments">
+            {{> "systems/arm5e/templates/actor/parts/actor-enchantments.html" }}
         </div>
     </section>
 
