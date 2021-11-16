@@ -429,7 +429,7 @@ input[type="time"] {
 .arm5e .sheet-body,
 .arm5e .sheet-body .tab,
 .arm5e .sheet-body .tab .editor {
-    height: 100%;
+    height: 90%;
 }
 
 .arm5e .tox .tox-editor-container {

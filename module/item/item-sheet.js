@@ -80,6 +80,8 @@ export class ArM5eItemSheet extends ItemSheet {
             context.enforceMagicRules = game.settings.get("arm5e", "magicRulesEnforcement");
         }
 
+        context.metagame = game.settings.get("arm5e", "metagame");
+
         log(false, 'item-sheet get data');
         log(false, context);
         // console.log('item-sheet get data');

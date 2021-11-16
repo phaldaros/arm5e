@@ -117,7 +117,16 @@ Hooks.once('init', async function() {
         default: "symbol"
     });
 
-
+    /**
+     * 2 Different sets of default icons for new documents
+     */
+    game.settings.register("arm5e", "metagame", {
+        name: "Show metagame information (sourcebook, page)",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false
+    });
 
     /**
      * Whether to enforce or not the magic rules
