@@ -31,6 +31,8 @@ export class ArM5ePCActor extends Actor {
     prepareBaseData() {
         if (this.data.type == "magicCodex") {
             return this._prepareMagicCodexData(this.data);
+            // } else if (this.data.type == "covenant") {
+            //     return this._prepareCovenantData(this.data);
         } else {
             return this._prepareCharacterData(this.data);
         }
@@ -562,6 +564,19 @@ export class ArM5ePCActor extends Actor {
 
     _prepareCovenantData(covenantData) {
         log(false, "_prepareCovenantData");
+        let magi = [];
+        let companion = [];
+        let specialists = [];
+        let habitants = [];
+        let horses = [];
+        let livestock = [];
+        let possessions = [];
+        let visSources = [];
+        let visStock = [];
+        let calendar = [];
+        let incomingSources = [];
+        let laboratoryTexts = [];
+        let mundaneBooks = [];
 
     }
 

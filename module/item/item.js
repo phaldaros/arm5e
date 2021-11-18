@@ -44,8 +44,7 @@ export class ArM5eItem extends Item {
 
             }
         }
-        let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
-        if (this.type == "magicalEffect" || this.type == "enchantment" || enforceSpellLevel) {
+        if (this._needLevelComputation()) {
 
             // if base level is 0, the "magicRulesEnforcement" has just been enabled, try to compute the base level
             let recomputeSpellLevel = true;
@@ -105,7 +104,7 @@ export class ArM5eItem extends Item {
                     effectLevel = this._addSpellMagnitude(effectLevel, data.enhancingRequisite);
                 }
 
-                if (this.type == "enchantment") {
+                if (this.type == "enchantment" || (this.type == "laboratoryText" && this.data.data.type == "enchantment")) {
                     effectLevel += parseInt(data.effectfrequency);
                     if (data.penetration % 2 == 1) {
                         this.data.data.penetration += 1;
@@ -155,6 +154,13 @@ export class ArM5eItem extends Item {
         }
         // log(false,"prepare-item");
         // log(false,itemData);
+    }
+
+    _needLevelComputation() {
+
+        let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
+        let enforceEnchantmentLevel = (this.type == "laboratoryText" && (this.data.data.type == "spell" || this.data.data.type == "enchantment"))
+        return (this.type == "magicalEffect" || this.type == "enchantment" || enforceSpellLevel || enforceEnchantmentLevel)
     }
 
     _addSpellMagnitude(base, num) {
