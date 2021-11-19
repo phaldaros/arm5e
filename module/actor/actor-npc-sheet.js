@@ -62,5 +62,27 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
 
     }
 
+    isDropAllowed(type) {
+        switch (type) {
+            case "weapon":
+            case "armor":
+            case "spell":
+            case "vis":
+            case "item":
+            case "book":
+            case "virtue":
+            case "flaw":
+            case "ability":
+            case "diaryEntry":
+            case "powerFamiliar":
+            case "magicItem":
+            case "personality":
+            case "reputation":
+            case "magicalEffect":
+                return true;
+            default:
+                return false;
+        }
+    }
 
 }
