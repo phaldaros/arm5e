@@ -1,14 +1,15 @@
 <form class="{{cssClass}} arm5eRoll" autocomplete="off">
     {{> "systems/arm5e/templates/item/parts/item-header.html" }}
     <div class="roll-options">
+        {{log data.roll}}
         <div class="flexrow flex-group-center">
-            <label class="resource-label">{{ data.roll.techniqueText }})</label>
+            <label class="resource-label">{{ data.roll.techniqueText }}</label>
         </div>
         <div class="flexrow flex-group-center">
             <label class="resource-label">+</label>
         </div>
         <div class="flexrow flex-group-center">
-            <label class="resource-label">{{ data.roll.formText }})</label>
+            <label class="resource-label">{{ data.roll.formText }}</label>
         </div>
         <div class="flexrow flex-group-center">
             <label class="resource-label">+</label>
@@ -24,10 +25,19 @@
             <label class="resource-label">{{ localize data.charmetadata.sta.label }}
                 ({{ data.characteristics.sta.value }})</label>
         </div>
-
         <div class="flexrow flex-group-center">
             <label class="resource-label">+</label>
         </div>
+        {{#if (eq data.roll.ritual true)}}
+            <div class="flexrow flex-group-center">
+                <label class="resource-label">{{localize data.metadata.character.abilities.artesLib }}
+                    ({{ data.laboratory.abilitiesSelected.artesLib.value }}) + {{localize data.metadata.character.abilities.philosophy }}
+                    ({{ data.laboratory.abilitiesSelected.philosophy.value }})</label>
+            </div>
+            <div class="flexrow flex-group-center">
+                <label class="resource-label">+</label>
+            </div>
+        {{/if}}
         <div class="flexrow flex-group-center">
             <label class="resource-label">Bonus ({{ data.roll.bonus }})</label>
         </div>

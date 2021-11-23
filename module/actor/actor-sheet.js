@@ -141,7 +141,6 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
 
-
     /* -------------------------------------------- */
 
     /** @override */
@@ -278,6 +277,7 @@ export class ArM5eActorSheet extends ActorSheet {
             this.actor.data.data.roll.rollLabel = "";
             this.actor.data.data.roll.rollFormula = "";
             this.actor.data.data.roll.useFatigue = true;
+            this.actor.data.data.roll.ritual = false;
             this.actor.data.data.roll.option1 = 0;
             this.actor.data.data.roll.txtOption1 = "";
             this.actor.data.data.roll.option2 = 0;
@@ -288,6 +288,7 @@ export class ArM5eActorSheet extends ActorSheet {
             this.actor.data.data.roll.txtOption4 = "";
             this.actor.data.data.roll.option5 = 0;
             this.actor.data.data.roll.txtOption5 = "";
+
 
             // set data to roll
             if (dataset.characteristic) {
@@ -316,6 +317,9 @@ export class ArM5eActorSheet extends ActorSheet {
             }
             if (dataset.usefatigue) {
                 this.actor.data.data.roll.useFatigue = dataset.usefatigue;
+            }
+            if (dataset.ritual) {
+                this.actor.data.data.roll.ritual = dataset.ritual;
             }
             if (dataset.option1) {
                 this.actor.data.data.roll.option1 = dataset.option1;
@@ -351,9 +355,13 @@ export class ArM5eActorSheet extends ActorSheet {
             // clean booleans
             if (this.actor.data.data.roll.useFatigue == "false") {
                 this.actor.data.data.roll.useFatigue = false;
-            }
-            if (this.actor.data.data.roll.useFatigue == "true") {
+            } else {
                 this.actor.data.data.roll.useFatigue = true;
+            }
+            if (this.actor.data.data.roll.ritual == "false") {
+                this.actor.data.data.roll.ritual = false;
+            } else {
+                this.actor.data.data.roll.ritual = true;
             }
 
             var actorData = this.actor

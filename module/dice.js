@@ -147,7 +147,7 @@ function getRollFormula(actorData) {
 
         if (actorData.data.data.roll.abilitySpeciality == true) {
             total = parseInt(total) + 1;
-            msg = msg + " ( + 1 speciality)";
+            msg = msg + " ( + 1 " + game.i18n.localize("arm5e.sheet.speciality") + " )";
         }
     }
 
@@ -160,6 +160,19 @@ function getRollFormula(actorData) {
         msg = msg + "Aura";
         msg = msg + " (" + value + ")";
     }
+
+    if (actorData.data.data.roll.ritual == true) {
+        value = actorData.data.data.laboratory.abilitiesSelected.artesLib.value;
+        value += actorData.data.data.laboratory.abilitiesSelected.philosophy.value;
+        total = parseInt(total) + parseInt(value);
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + game.i18n.localize("arm5e.sheet.artesLib") + " + " + game.i18n.localize("arm5e.sheet.philosophy");
+        //msg = msg + "Artes Liberales + Philosophiae";
+        msg = msg + " (" + value + ")";
+    }
+
 
 
     if (actorData.data.data.roll.txtOption1 != "") {
@@ -212,14 +225,14 @@ function getRollFormula(actorData) {
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + "Fatigue";
+        msg = msg + game.i18n.localize("arm5e.sheet.fatigue");
         msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
 
         total = total + actorData.data.data.woundsTotal
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + "Wounds";
+        msg = msg + game.i18n.localize("arm5e.sheet.wounds");
         msg = msg + " (" + actorData.data.data.woundsTotal + ")";
     }
 

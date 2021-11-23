@@ -558,6 +558,18 @@ export class ArM5ePCActor extends Actor {
 
     }
 
+    getRollData() {
+        let rollData = super.getRollData();
+        rollData.metadata = {
+            character: {}
+        };
+        rollData.metadata.character.abilities = CONFIG.ARM5E.character.abilities;
+        log(false, "Roll data")
+        log(false, rollData)
+        return rollData;
+    }
+
+
     _prepareLabData(labData) {
         log(false, "_prepareLabData");
     }
