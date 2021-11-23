@@ -20,6 +20,9 @@
                         {{#with (lookup @root.metadata.magic.arts spell.data.data.form.value)~}}{{short~}}
                         {{/with}}
                         {{spell.data.data.level}} )
+                        {{#if (eq spell.data.data.ritual true )}}
+                            , {{localize "arm5e.sheet.ritual"}}
+                        {{/if}}
                         <span class="bold">{{localize "arm5e.spell.range.short"~}}:</span>
                         {{#with (lookup @root.metadata.magic.ranges spell.data.data.range.value)~}}{{localize label}}
                         {{/with}}

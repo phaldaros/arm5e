@@ -103,9 +103,9 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         }
     }
 
-    async _onDropItem(event, data) {
+    // async _onDropItem(event, data) {
 
-    }
+    // }
 
 
     /**
@@ -249,7 +249,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
             // Remove the type from the dataset since it's in the itemData.type prop.
             delete newItemData[0].data["type"];
         } else {
-            if (itemdata.ritual) {
+            if (itemdata.data.ritual) {
                 ui.notifications.info("Impossible to make an enchantment with a ritual effect.");
                 return [];
             }

@@ -55,7 +55,11 @@
                     {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
                     {{/with}}
                     {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}}
-                    {{/with}} - {{item.data.level}} )</span>
+                    {{/with}} - {{item.data.level}} )
+                    {{#if (eq item.data.ritual true )}}
+                        , {{localize "arm5e.sheet.ritual"}}
+                    {{/if}}
+                </span>
             </div>
             <div class="item-controls">
                 <a class="item-control item-edit" title="Edit laboratoryText"><i class="fas fa-edit"></i></a>

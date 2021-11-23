@@ -213,14 +213,14 @@ export class ArM5eItem extends Item {
         let tech = 0;
         let form = 0;
         let focusBonus = 0;
-        if (itemData.data["technique-requisite"].value != "") {
+        if ((itemData.data["technique-requisite"].value != "") && (itemData.data["technique-requisite"].value != "n-a")) {
             tech = Math.min(actorData.data.arts.techniques[itemData.data.technique.value].score,
                 actorData.data.arts.techniques[itemData.data["technique-requisite"].value].score);
         } else {
             tech = actorData.data.arts.techniques[itemData.data.technique.value].score;
         }
 
-        if (itemData.data["form-requisite"].value != "") {
+        if ((itemData.data["form-requisite"].value != "") && (itemData.data["form-requisite"].value != "n-a")) {
             form = Math.min(actorData.data.arts.forms[itemData.data.form.value].score,
                 actorData.data.arts.forms[itemData.data["form-requisite"].value].score);
         } else {

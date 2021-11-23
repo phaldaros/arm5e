@@ -265,11 +265,11 @@ Hooks.once("ready", async function() {
     const codex = game.actors.filter(a => a.data.type === "magicCodex");
     if (codex.length > 1) {
         ui.notifications.warn("You have more than one Actor of type 'magicCodex in your world, some functionality is based on the uniqueness of magicCodex, you may want to delete one (after merging if needed)", {
-            permanent: true
+            permanent: false
         });
     } else if (codex.length === 0) {
         ui.notifications.error("You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working", {
-            permanent: true
+            permanent: false
         });
     }
 
@@ -344,15 +344,18 @@ function onDropActorSheetData(actor, sheet, data) {
             return false;
         }
     }
+    let item;
     if (data.actorId === undefined) {
-        let item = game.items.get(data.id);
+        item = game.items.get(data.id);
+    } else {
+        item = data;
+    }
 
-        if (sheet.isDropAllowed(item.data.type)) {
-            return true;
-        } else {
-            console.log("Prevented invalid item drop");
-            return false;
-        }
+    if (sheet.isDropAllowed(item.data.type)) {
+        return true;
+    } else {
+        console.log("Prevented invalid item drop");
+        return false;
     }
 }
 
