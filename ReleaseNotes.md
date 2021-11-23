@@ -11,6 +11,10 @@
 - Design: added proper arrows to tab sheet where they were using the old design ones
 - fixed a bug where "undefined" was displayed instead of the proper characteristic
 - new setting to display and edit the source material and page if it applies
+- It is again possible to drop Item in Codex
+- Ritual rolls now include Artes Liberales and Philosophiae
+- Ritual spells are now indicated as such in spells lists
+- It is no longer possible to create enchantment based on rituals anymore.
 
 
 
