@@ -319,7 +319,13 @@ export class ArM5eActorSheet extends ActorSheet {
                 this.actor.data.data.roll.useFatigue = dataset.usefatigue;
             }
             if (dataset.ritual) {
-                this.actor.data.data.roll.ritual = dataset.ritual;
+                if ((dataset.ritual) == "false") {
+                    this.actor.data.data.roll.ritual = false;
+                } else if ((dataset.ritual) == "true") {
+                    this.actor.data.data.roll.ritual = true;
+                } else {
+                    this.actor.data.data.roll.ritual = dataset.ritual;
+                }
             }
             if (dataset.option1) {
                 this.actor.data.data.roll.option1 = dataset.option1;
@@ -355,14 +361,11 @@ export class ArM5eActorSheet extends ActorSheet {
             // clean booleans
             if (this.actor.data.data.roll.useFatigue == "false") {
                 this.actor.data.data.roll.useFatigue = false;
-            } else {
-                this.actor.data.data.roll.useFatigue = true;
             }
-            if (this.actor.data.data.roll.ritual == "false") {
-                this.actor.data.data.roll.ritual = false;
-            } else {
-                this.actor.data.data.roll.ritual = true;
+            if (this.actor.data.data.roll.useFatigue == "false") {
+                this.actor.data.data.roll.useFatigue = false;
             }
+
 
             var actorData = this.actor
             this.actor.data.data.charmetadata = ARM5E.character.characteristics
