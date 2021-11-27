@@ -179,7 +179,7 @@ export class ArM5ePCActor extends Actor {
             i.img = i.img || DEFAULT_TOKEN;
             i._index = key;
 
-            if (i.type === 'weapon') {
+            if (i.type === 'weapon' || i.type === 'enchantedWeapon') {
                 if (i.data.equiped == true) {
                     combat.weight = parseInt(combat.weight) + parseInt(i.data.weight);
                     combat.init = parseInt(combat.init) + parseInt(i.data.init);
@@ -211,7 +211,7 @@ export class ArM5ePCActor extends Actor {
 
                 i.data.abilities = abilitiesSelect;
                 weapons.push(i);
-            } else if (i.type === 'armor') {
+            } else if (i.type === 'armor' || i.type === 'enchantedArmor') {
                 if (i.data.equiped == true) {
                     combat.weight = parseInt(combat.weight) + parseInt(i.data.weight);
                     combat.prot = parseInt(combat.prot) + parseInt(i.data.prot);
@@ -224,7 +224,7 @@ export class ArM5ePCActor extends Actor {
                 magicalEffects.push(i);
             } else if (i.type === 'vis') {
                 vis.push(i);
-            } else if (i.type === 'item') {
+            } else if (i.type === 'item' || i.type == "enchantedItem") {
                 items.push(i);
             } else if (i.type === 'book') {
                 books.push(i);
@@ -561,9 +561,11 @@ export class ArM5ePCActor extends Actor {
     getRollData() {
         let rollData = super.getRollData();
         rollData.metadata = {
-            character: {}
+            character: {},
+            magic: {}
         };
         rollData.metadata.character.abilities = CONFIG.ARM5E.character.abilities;
+        rollData.metadata.magic.arts = ARM5E.magic.arts;
         log(false, "Roll data")
         log(false, rollData)
         return rollData;

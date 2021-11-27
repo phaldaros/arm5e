@@ -265,6 +265,8 @@ export class ArM5eActorSheet extends ActorSheet {
 
         if (dataset.roll) {
             // clean roll data
+            this.actor.data.data.roll.type = "";
+            this.actor.data.data.roll.label = "";
             this.actor.data.data.roll.characteristic = "";
             this.actor.data.data.roll.ability = "";
             this.actor.data.data.roll.abilitySpeciality = false;
@@ -289,8 +291,13 @@ export class ArM5eActorSheet extends ActorSheet {
             this.actor.data.data.roll.option5 = 0;
             this.actor.data.data.roll.txtOption5 = "";
 
-
             // set data to roll
+            if (dataset.roll) {
+                this.actor.data.data.roll.type = dataset.roll;
+            }
+            if (dataset.name) {
+                this.actor.data.data.roll.label = dataset.name;
+            }
             if (dataset.characteristic) {
                 this.actor.data.data.roll.characteristic = dataset.characteristic;
             }
@@ -377,10 +384,10 @@ export class ArM5eActorSheet extends ActorSheet {
             if (dataset.roll == 'option') {
                 template = "systems/arm5e/templates/roll/roll-options.html";
             }
-            if (dataset.roll == 'char') {
+            if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
                 template = "systems/arm5e/templates/roll/roll-characteristic.html";
             }
-            if (dataset.roll == 'magic') {
+            if (dataset.roll == 'magic' || dataset.roll == 'spont') {
                 //spontaneous magic
                 template = "systems/arm5e/templates/roll/roll-magic.html";
                 this.actor.data.data.roll.characteristic = "sta";
@@ -399,7 +406,7 @@ export class ArM5eActorSheet extends ActorSheet {
                 // render template
                 renderTemplate(template, this.actor.data).then(function(html) {
                     // show dialog
-                    if (dataset.roll == "magic") {
+                    if (dataset.roll == "magic" || dataset.roll == 'spont') {
                         //this.loseFatigueLevel(this.actor.data);
                         new Dialog({
                             title: 'Select Die',
