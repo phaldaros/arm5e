@@ -148,16 +148,7 @@ function getRollFormula(actorData) {
         }
     }
 
-    if (actorData.data.data.roll.modifier != 0) {
-        value = actorData.data.data.roll.modifier;
-        total = parseInt(total) + parseInt(value);
-        if (msg != "") {
-            msg = msg + " + <br />";
-        }
-        msg = msg + game.i18n.localize("arm5e.sheet.modifier");
-        msg = msg + " (" + value + ")";
 
-    }
 
     if (actorData.data.data.roll.characteristic != "") {
         value = actorData.data.data.characteristics[actorData.data.data.roll.characteristic].value
@@ -195,7 +186,7 @@ function getRollFormula(actorData) {
         }
     }
 
-    if (actorData.data.data.roll.aura != "") {
+    if (actorData.data.data.roll.aura != "" && actorData.data.data.roll.aura != 0) {
         value = actorData.data.data.roll.aura
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
@@ -215,6 +206,16 @@ function getRollFormula(actorData) {
         msg = msg + game.i18n.localize("arm5e.sheet.artesLib") + " + " + game.i18n.localize("arm5e.sheet.philosophy");
         //msg = msg + "Artes Liberales + Philosophiae";
         msg = msg + " (" + value + ")";
+    }
+    if (actorData.data.data.roll.modifier != 0) {
+        value = actorData.data.data.roll.modifier;
+        total = parseInt(total) + parseInt(value);
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + game.i18n.localize("arm5e.sheet.modifier");
+        msg = msg + " (" + value + ")";
+
     }
 
     if (actorData.data.data.roll.type == "spont") {
@@ -269,19 +270,23 @@ function getRollFormula(actorData) {
     }
 
     if (actorData.data.data.roll.useFatigue == true) {
-        total = total + actorData.data.data.fatigueTotal
-        if (msg != "") {
-            msg = msg + " + <br />";
-        }
-        msg = msg + game.i18n.localize("arm5e.sheet.fatigue");
-        msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
 
-        total = total + actorData.data.data.woundsTotal
-        if (msg != "") {
-            msg = msg + " + <br />";
+        if (actorData.data.data.fatigueTotal != 0) {
+            total = total + actorData.data.data.fatigueTotal
+            if (msg != "") {
+                msg = msg + " + <br />";
+            }
+            msg = msg + game.i18n.localize("arm5e.sheet.fatigue");
+            msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
         }
-        msg = msg + game.i18n.localize("arm5e.sheet.wounds");
-        msg = msg + " (" + actorData.data.data.woundsTotal + ")";
+        if (actorData.data.data.woundsTotal != 0) {
+            total = total + actorData.data.data.woundsTotal
+            if (msg != "") {
+                msg = msg + " + <br />";
+            }
+            msg = msg + game.i18n.localize("arm5e.sheet.wounds");
+            msg = msg + " (" + actorData.data.data.woundsTotal + ")";
+        }
     }
 
     if (actorData.data.data.roll.divide > 1) {
