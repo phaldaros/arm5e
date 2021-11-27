@@ -31,7 +31,13 @@
             <label class="resource-label">{{localize "arm5e.sheet.speciality"}}</label>
             <input type="checkbox" class="abilitySpeciality" name="data.roll.abilitySpeciality" {{checked data.roll.abilitySpeciality}} />
         </div>
-
+        <div class="flexrow flex-group-center">
+            <label class="resource-label">+</label>
+        </div>
+        <div class="flexrow flex-group-center">
+            <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
+            <input type="text" name="data.roll.modifier" value="{{data.roll.modifier}}" data-dtype="Number" class="SelectedModifier" />
+        </div>
         <div class="flexrow flex-group-center">
             <label class="resource-label">+</label>
         </div>
