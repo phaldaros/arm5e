@@ -267,6 +267,7 @@ export class ArM5eActorSheet extends ActorSheet {
             // clean roll data
             this.actor.data.data.roll.type = "";
             this.actor.data.data.roll.label = "";
+            this.actor.data.data.roll.modifier = 0;
             this.actor.data.data.roll.characteristic = "";
             this.actor.data.data.roll.ability = "";
             this.actor.data.data.roll.abilitySpeciality = false;
@@ -280,6 +281,7 @@ export class ArM5eActorSheet extends ActorSheet {
             this.actor.data.data.roll.rollFormula = "";
             this.actor.data.data.roll.useFatigue = true;
             this.actor.data.data.roll.ritual = false;
+            this.actor.data.data.roll.focus = false;
             this.actor.data.data.roll.option1 = 0;
             this.actor.data.data.roll.txtOption1 = "";
             this.actor.data.data.roll.option2 = 0;
@@ -298,6 +300,16 @@ export class ArM5eActorSheet extends ActorSheet {
             if (dataset.name) {
                 this.actor.data.data.roll.label = dataset.name;
             }
+            if (dataset.focus) {
+                if ((dataset.focus) == "false") {
+                    this.actor.data.data.roll.focus = false;
+                } else if ((dataset.focus) == "true") {
+                    this.actor.data.data.roll.focus = true;
+                } else {
+                    this.actor.data.data.roll.focus = dataset.ritual;
+                }
+            }
+
             if (dataset.characteristic) {
                 this.actor.data.data.roll.characteristic = dataset.characteristic;
             }

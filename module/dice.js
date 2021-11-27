@@ -80,6 +80,16 @@ function getFormData(html, actorData) {
         actorData.data.data.roll.aura = find[0].value;
     }
 
+    find = html.find('.SelectedModifier');
+    if (find.length > 0) {
+        actorData.data.data.roll.modifier = find[0].value;
+    }
+
+    find = html.find('.SelectedFocus');
+    if (find.length > 0) {
+        actorData.data.data.roll.focus = find[0].checked;
+    }
+
     return actorData;
 }
 
@@ -100,21 +110,53 @@ function getRollFormula(actorData) {
     let value = 0;
     let msg = "";
 
-    if (actorData.data.data.roll.technique != "") {
-        value = actorData.data.data.arts.techniques[actorData.data.data.roll.technique].score
-        total = parseInt(total) + parseInt(value);
-        msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
-        msg = msg + " (" + value + ")";
+    if (actorData.data.data.roll.focus === true) {
+        let valueTech = parseInt(actorData.data.data.arts.techniques[actorData.data.data.roll.technique].score);
+        let valueForm = parseInt(actorData.data.data.arts.forms[actorData.data.data.roll.form].score)
+        if (valueTech >= valueForm) {
+            total = parseInt(total) + 2 * valueTech + valueForm;
+            msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
+            msg = msg + " ( 2 x " + valueTech + ") + <br />";
+            msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
+            msg = msg + " (" + valueForm + ")";
+
+        } else {
+            total = parseInt(total) + 2 * valueForm + valueTech;
+            msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
+            msg = msg + " (" + valueTech + ") + <br />";
+            msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
+            msg = msg + " ( 2 x " + valueForm + ")";
+
+        }
+    } else {
+
+        if (actorData.data.data.roll.technique != "") {
+            value = actorData.data.data.arts.techniques[actorData.data.data.roll.technique].score
+            total = parseInt(total) + parseInt(value);
+            msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
+            msg = msg + " (" + value + ")";
+        }
+
+        if (actorData.data.data.roll.form != "") {
+            value = actorData.data.data.arts.forms[actorData.data.data.roll.form].score
+            total = parseInt(total) + parseInt(value);
+            if (msg != "") {
+                msg = msg + " + <br />";
+            }
+            msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
+            msg = msg + " (" + value + ")";
+        }
     }
 
-    if (actorData.data.data.roll.form != "") {
-        value = actorData.data.data.arts.forms[actorData.data.data.roll.form].score
+    if (actorData.data.data.roll.modifier != 0) {
+        value = actorData.data.data.roll.modifier;
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
+        msg = msg + game.i18n.localize("arm5e.sheet.modifier");
         msg = msg + " (" + value + ")";
+
     }
 
     if (actorData.data.data.roll.characteristic != "") {

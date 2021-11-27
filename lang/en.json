@@ -154,6 +154,7 @@
     "arm5e.sheet.encumbrance": "Encumbrance",
     "arm5e.sheet.might": "Might",
     "arm5e.sheet.powers": "Powers",
+    "arm5e.sheet.modifier": "Modifier",
 
     "arm5e.sheet.yearBorn": "Year Born",
     "arm5e.sheet.apprenticeshipYears": "Apprenticeship",
@@ -208,7 +209,7 @@
 
     "arm5e.sheet.longevityRitual": "Longevity Ritual",
     "arm5e.sheet.labTotal": "Lab Total",
-    "arm5e.sheet.modifier": "Age Roll Modifier",
+    "arm5e.sheet.ageModifier": "Age Roll Modifier",
     "arm5e.sheet.twilightScars": "Twilight Scars",
 
     "arm5e.sheet.owner": "Owner",
