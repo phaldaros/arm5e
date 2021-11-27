@@ -835,7 +835,6 @@ ARM5E.lab.enchantment.item = {
     "shape": "",
     "shapeBonus": 0,
     "expiry": 0
-
 };
 
 

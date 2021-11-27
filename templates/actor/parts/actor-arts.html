@@ -16,7 +16,7 @@
                     </span>
                     <div class="flexcol">
                         <div class="flexrow marginbot4">
-                            <span class="flexrow fontSize10 rollable" name="data.arts.techniques.{{key}}.label" data-roll="magic" data-technique="{{key}}">
+                            <span class="flexrow fontSize10 rollable" name="data.arts.techniques.{{key}}.label" data-roll="spont" data-technique="{{key}}">
                                 {{label}}
                             </span>
                             <input class="flex05" type="text" name="data.arts.techniques.{{key}}.score" value="{{techniques.score}}" data-dtype="Number">
@@ -51,7 +51,7 @@
                     </span>
                     <div class="flexcol">
                         <div class="flexrow marginbot4">
-                            <span class="flexrow fontSize10 rollable" name="data.arts.forms.{{key}}.label" data-roll="magic" data-mform="{{key}}">
+                            <span class="flexrow fontSize10 rollable" name="data.arts.forms.{{key}}.label" data-roll="spont" data-mform="{{key}}">
                                 {{label}}&nbsp;({{ forms.magicResistance }})
                             </span>
                             <input class="flex05" type="text" name="data.arts.forms.{{key}}.score" value="{{forms.score}}" data-dtype="Number">
@@ -98,7 +98,7 @@
         {{#each data.spells as |item id|}}
             <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
                 <div class="flexrow flex-center">
-                    <span class="flexrow item-title width4 rollable" data-roll="spell" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}" data-ritual={{item.data.ritual}} name="item.name">
+                    <span class="flexrow item-title width4 rollable" data-roll="spell" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}" data-ritual={{item.data.ritual}} data-name="{{item.name}}" name="item.name">
                         {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
                         {{/with}}
                         {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}}
@@ -148,7 +148,7 @@
         {{#each data.magicalEffects as |item id|}}
             <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
                 <div class="flexrow flex-center">
-                    <span class="flexrow item-title width4 rollable" data-roll="magic" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-divide="2" name="item.name">
+                    <span class="flexrow item-title width4 rollable" data-roll="magic" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-name="{{item.name}}" data-divide="2" name="item.name">
                         {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
                         {{/with}}
                         {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}}
