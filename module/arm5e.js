@@ -205,6 +205,14 @@ Hooks.once('init', async function() {
         types: ["spell"],
         makeDefault: true
     });
+    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+        types: ["baseEffect"],
+        makeDefault: true
+    });
+    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+        types: ["laboratoryText"],
+        makeDefault: true
+    });
     Items.registerSheet("arm5e", ArM5eItemSheet, {
         makeDefault: true
     });
@@ -225,6 +233,13 @@ Hooks.once('init', async function() {
     });
     Handlebars.registerHelper('toLowerCase', function(str) {
         return str.toLowerCase();
+    });
+
+    Handlebars.registerHelper('ifIn', function(elem, list, options) {
+        if (list.indexOf(elem) > -1) {
+            return options.fn(this);
+        }
+        return options.inverse(this);
     });
 
 });

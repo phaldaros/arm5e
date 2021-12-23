@@ -76,9 +76,11 @@ export class ArM5eItem extends Item {
                     this.data.data.baseLevel = 1
                 } else {
                     this.data.data.baseLevel = newBaseLevel;
-                    this.update({
-                        "data.baseLevel": newBaseLevel
-                    });
+                    if (this.data._id != undefined) {
+                        this.update({
+                            "data.baseLevel": newBaseLevel
+                        });
+                    }
                     recomputeSpellLevel = false;
                 }
             }
@@ -150,6 +152,8 @@ export class ArM5eItem extends Item {
             // compute casting total
             if (actorData && this.actor != null) {
                 itemData.data.castingTotal = this._computeCastingTotal(actorData, itemData);
+            } else {
+                itemData.data.castingTotal = 0;
             }
         }
         // log(false,"prepare-item");
@@ -161,6 +165,60 @@ export class ArM5eItem extends Item {
         let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
         let enforceEnchantmentLevel = (this.type == "laboratoryText" && (this.data.data.type == "spell" || this.data.data.type == "enchantment"))
         return (this.type == "magicalEffect" || this.type == "enchantment" || enforceSpellLevel || enforceEnchantmentLevel)
+    }
+
+    _isMagicalEffect() {
+        return (this.type == "magicalEffect" || this.type == "enchantment" || this.type == "spell");
+    }
+
+
+    _getTechniqueData(actorData) {
+
+        if (!this._isMagicalEffect()) return ["", 0];
+
+        let label = CONFIG.ARM5E.magic.techniques[this.data.data.technique.value].label;
+        let tech = 1000;
+        let techReq = Object.entries(this.data.data["technique-req"]).filter(r => r[1] === true);
+        if (techReq.length > 0) {
+            label += " ("
+            techReq.forEach((key) => {
+                tech = Math.min(tech, actorData.data.arts.techniques[key[0]].score)
+                label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
+            });
+            // remove last comma
+            label = label.substring(0, label.length - 1);
+            label += ")"
+            tech = Math.min(actorData.data.arts.techniques[this.data.data.technique.value].score,
+                tech);
+        } else {
+            tech = actorData.data.arts.techniques[this.data.data.technique.value].score;
+        }
+
+        return [label, tech];
+    }
+    _getFormData(actorData) {
+
+        if (!this._isMagicalEffect()) return ["", 0];
+
+        let label = CONFIG.ARM5E.magic.forms[this.data.data.form.value].label;
+        let form = 1000;
+        let formReq = Object.entries(this.data.data["form-req"]).filter(r => r[1] === true);
+        if (formReq.length > 0) {
+            label += " ("
+            formReq.forEach((key) => {
+                form = Math.min(form, actorData.data.arts.forms[key[0]].score)
+                label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
+            });
+            // remove last comma
+            label = label.substring(0, label.length - 1);
+            label += ")"
+            form = Math.min(actorData.data.arts.forms[this.data.data.form.value].score,
+                form);
+        } else {
+            form = actorData.data.arts.forms[this.data.data.form.value].score;
+        }
+
+        return [label, form];
     }
 
     _addSpellMagnitude(base, num) {
@@ -210,19 +268,29 @@ export class ArM5eItem extends Item {
             return 0;
         }
         let res = actorData.data.sta;
-        let tech = 0;
-        let form = 0;
+        let tech = 1000;
+        let form = 1000;
         let focusBonus = 0;
-        if ((itemData.data["technique-requisite"].value != "") && (itemData.data["technique-requisite"].value != "n-a")) {
+
+        let techReq = Object.entries(itemData.data["technique-req"]).filter(r => r[1] === true);
+        let formReq = Object.entries(itemData.data["form-req"]).filter(r => r[1] === true);
+
+        if (techReq.length > 0) {
+            techReq.forEach((key) => {
+                tech = Math.min(tech, actorData.data.arts.techniques[key[0]].score)
+            });
+
             tech = Math.min(actorData.data.arts.techniques[itemData.data.technique.value].score,
-                actorData.data.arts.techniques[itemData.data["technique-requisite"].value].score);
+                tech);
         } else {
             tech = actorData.data.arts.techniques[itemData.data.technique.value].score;
         }
-
-        if ((itemData.data["form-requisite"].value != "") && (itemData.data["form-requisite"].value != "n-a")) {
+        if (formReq.length > 0) {
+            formReq.forEach((key) => {
+                form = Math.min(tech, actorData.data.arts.forms[key[0]].score)
+            });
             form = Math.min(actorData.data.arts.forms[itemData.data.form.value].score,
-                actorData.data.arts.forms[itemData.data["form-requisite"].value].score);
+                form);
         } else {
             form = actorData.data.arts.forms[itemData.data.form.value].score;
         }
@@ -231,7 +299,7 @@ export class ArM5eItem extends Item {
         } else {
             res += tech + form;
         }
-
+        log(false, `Casting total: ${res}`)
         return res;
 
     }

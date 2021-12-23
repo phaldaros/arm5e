@@ -1,6 +1,20 @@
 
 ## Release Notes
 
+1.2.4
+- removed some useless assets from previous design
+- improved chat-messages
+- new design for chat messages and rolls (by Sylph)
+- fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
+- improved design for pop-ups (removed the grey border, buttons matching background color)
+- drop-down list to pick the original source material (by Nono)
+- multiple requisites support
+- fixed a typo when guessing range causing error during migration
+- Dice rolls are now all aynchronous (ie: V9 ready)
+- Improved migration (finally found out how to remove fields)
+- casting total is now displayed in character sheets
+
+
 1.2.3
 - fixed some errors during NPC migration because they don't have a familiar
 - New base effects created in the Codex have the technique and form of the filters if set
@@ -15,6 +29,9 @@
 - Ritual rolls now include Artes Liberales and Philosophiae
 - Ritual spells are now indicated as such in spells lists
 - It is no longer possible to create enchantment based on rituals anymore.
+- new arbitrary modifier field for  rolls
+- magical focus is applied to rolls
+- Roll fields Aura, Modifier, Fatigue and Wounds are not displayed in chat-log roll entries if value is 0
 
 
 
