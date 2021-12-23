@@ -55,7 +55,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
      */
     _prepareCodexItems(codexData) {
         //let actorData = sheetData.actor.data;
-        log(false, "_prepareCodexItems");
+        // log(false, "_prepareCodexItems");
 
     }
 

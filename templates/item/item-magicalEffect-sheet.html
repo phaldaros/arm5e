@@ -24,36 +24,15 @@
                             {{/each}} {{/select}}
                     </select>
                 </div>
-                <div class="resource flexcol flexrow">
-                    <label for="data.technique-requisite.value" class="header-label">{{localize "arm5e.sheet.techniqueRequisite"}}</label>
-                    <select name="data.technique-requisite.value" data-type="String">
-                        {{#select data.technique-requisite.value}}
-                            <option value="">N/A</option>
-                            {{#each metadata.magic.techniques as |techniques key|}}
-                                <option value="{{key}}">{{techniques.label}}</option>
-                            {{/each}}
-                        {{/select}}
-
-                    </select>
-                </div>
-                <div class="resource flexcol flexrow">
-                    <label for="data.form-requisite.value" class="header-label">{{localize "arm5e.sheet.formRequisite"}}</label>
-                    <select name="data.form-requisite.value" data-type="String">
-                        {{#select data.form-requisite.value}}
-                            <option value="">N/A</option>
-                            {{#each metadata.magic.forms as |forms key|}}
-                                <option value="{{key}}">{{forms.label}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
+            </div>
+            <div class="grid grid-2col">
+                <div class="resource flexcol flex-center">
+                    <label class="header-label">{{localize "arm5e.sheet.Requisites"}}</label>
+                    <a class="item-control advanced-req" title="Advanced Requistes"><i class="fas fa-gavel fa-lg"></i></a>
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
                     <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
-                </div>
-                <div class="resource flexcol flex-center">
-                    <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
-                    <input class="toggle" type="checkbox" data-dtype="Boolean" data-item-id="{{item.id}}" data-attr="ritual" name="data.ritual" {{checked data.ritual}}>
                 </div>
             </div>
         </div>

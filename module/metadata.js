@@ -242,6 +242,7 @@ ARM5E.character.description = {
     }
 };
 
+
 ARM5E.character.virtueTypes = {
     "hermetic": {
         "label": "arm5e.sheet.hermetic"
@@ -254,6 +255,27 @@ ARM5E.character.virtueTypes = {
     },
     "general": {
         "label": "arm5e.sheet.general"
+    },
+    "child": {
+        "label": "arm5e.sheet.child"
+    },
+    "heroic": {
+        "label": "arm5e.sheet.heroic"
+    },
+    "mystery": {
+        "label": "arm5e.sheet.mystery"
+    },
+    "tainted": {
+        "label": "arm5e.sheet.tainted"
+    },
+    "initiations": {
+        "label": "arm5e.sheet.initiations"
+    },
+    "qualities": {
+        "label": "arm5e.sheet.qualities"
+    },
+    "magicqualities": {
+        "label": "arm5e.sheet.magicqualities"
     },
     "other": {
         "label": "arm5e.sheet.other"
@@ -278,6 +300,15 @@ ARM5E.character.flawTypes = {
     },
     "story": {
         "label": "arm5e.sheet.story"
+    },
+    "child": {
+        "label": "arm5e.sheet.child"
+    },
+    "heroic": {
+        "label": "arm5e.sheet.heroic"
+    },
+    "tainted": {
+        "label": "arm5e.sheet.tainted"
     },
     "other": {
         "label": "arm5e.sheet.other"
@@ -920,6 +951,115 @@ ARM5E.books = {};
 ARM5E.books.activities = {
     "learnSpell": "arm5e.book.learnSpell"
 }
+
+ARM5E.generic = {};
+ARM5E.generic.sourcesTypes = {
+    "custom": {
+        "label": "arm5e.sheet.source.custom"
+    },
+    "ArM5": {
+        "label": "arm5e.sheet.source.ArM5"
+    },
+    "RoP:D": {
+        "label": "arm5e.sheet.source.RoP:D"
+    },
+    "RoP:I": {
+        "label": "arm5e.sheet.source.RoP:I"
+    },
+    "RoP:M": {
+        "label": "arm5e.sheet.source.RoP:M"
+    },
+    "RoP:F": {
+        "label": "arm5e.sheet.source.RoP:F"
+    },
+    "GotF": {
+        "label": "arm5e.sheet.source.GotF"
+    },
+    "TMRE": {
+        "label": "arm5e.sheet.source.TMRE"
+    },
+    "AnM": {
+        "label": "arm5e.sheet.source.AnM"
+    },
+    "HMRE": {
+        "label": "arm5e.sheet.source.HMRE"
+    },
+    "HoH:MC": {
+        "label": "arm5e.sheet.source.HoH:MC"
+    },
+    "HoH:S": {
+        "label": "arm5e.sheet.source.HoH:S"
+    },
+    "HoH:TL": {
+        "label": "arm5e.sheet.source.HoH:TL"
+    },
+    "A&A": {
+        "label": "arm5e.sheet.source.A&A"
+    },
+    "L&L": {
+        "label": "arm5e.sheet.source.L&L"
+    },
+    "C&G": {
+        "label": "arm5e.sheet.source.C&G"
+    },
+    "ToME": {
+        "label": "arm5e.sheet.source.ToME"
+    },
+    "BCoC": {
+        "label": "arm5e.sheet.source.BCoC"
+    },
+    "App": {
+        "label": "arm5e.sheet.source.App"
+    },
+    "LH": {
+        "label": "arm5e.sheet.source.LH"
+    },
+    "HP": {
+        "label": "arm5e.sheet.source.HP"
+    },
+    "MoH": {
+        "label": "arm5e.sheet.source.MoH"
+    },
+    "RM": {
+        "label": "arm5e.sheet.source.RM"
+    },
+    "Ant": {
+        "label": "arm5e.sheet.source.Ant"
+    },
+    "LoM": {
+        "label": "arm5e.sheet.source.LoM"
+    },
+    "Ch": {
+        "label": "arm5e.sheet.source.Ch"
+    },
+    "TSE": {
+        "label": "arm5e.sheet.source.TSE"
+    },
+    "AtD": {
+        "label": "arm5e.sheet.source.AtD"
+    },
+    "C&C": {
+        "label": "arm5e.sheet.source.C&C"
+    },
+    "Gr": {
+        "label": "arm5e.sheet.source.Gr"
+    },
+    "ToP": {
+        "label": "arm5e.sheet.source.ToP"
+    },
+    "Cov": {
+        "label": "arm5e.sheet.source.Cov"
+    },
+    "TME": {
+        "label": "arm5e.sheet.source.TME"
+    },
+    "CI": {
+        "label": "arm5e.sheet.source.CI"
+    },
+    "SemE": {
+        "label": "arm5e.sheet.source.SemE"
+    }
+};
 
 
 // ARM5E_BASE_MAGIC = {

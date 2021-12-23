@@ -97,7 +97,7 @@ export class ArM5eItemSheet extends ItemSheet {
     setPosition(options = {}) {
         const position = super.setPosition(options);
         const sheetBody = this.element.find(".sheet-body");
-        const bodyHeight = position.height - 192;
+        const bodyHeight = position.height - 380;
         sheetBody.css("height", bodyHeight);
         return position;
     }

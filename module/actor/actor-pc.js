@@ -512,7 +512,6 @@ export class ArM5ePCActor extends Actor {
     }
 
     _prepareMagicCodexData(codexData) {
-        log(false, "_prepareMagicCodexData");
         codexData.img = CONFIG.ARM5E_DEFAULT_ICONS['magicCodex'];
         const data = codexData.data;
         let baseEffects = [];
@@ -548,13 +547,9 @@ export class ArM5ePCActor extends Actor {
             spells = spells.filter(e => e.data.data.level === data.levelFilter);
         }
         data.baseEffects = baseEffects.sort(compareBaseEffects);
-        log(false, data.baseEffects);
         data.magicEffects = magicEffects.sort(compareMagicalEffects);
-        log(false, data.magicEffects);
         data.enchantments = enchantments.sort(compareMagicalEffects);
-        log(false, data.enchantments);
         data.spells = spells.sort(compareSpells);
-        log(false, data.spells);
 
     }
 
@@ -566,8 +561,6 @@ export class ArM5ePCActor extends Actor {
         };
         rollData.metadata.character.abilities = CONFIG.ARM5E.character.abilities;
         rollData.metadata.magic.arts = ARM5E.magic.arts;
-        log(false, "Roll data")
-        log(false, rollData)
         return rollData;
     }
 

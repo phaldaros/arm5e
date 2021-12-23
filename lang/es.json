@@ -82,7 +82,7 @@
     "arm5e.sheet.creator": "Creador",
     "arm5e.sheet.bonus": "Bono",
     "arm5e.sheet.mastery": "Hechizo Dominado",
-    "arm5e.sheet.source": "Fuente",
+    "arm5e.sheet.source.label": "Fuente",
     "arm5e.sheet.bookType": "Tipo de libro",
     "arm5e.sheet.quality": "Calidad",
     "arm5e.sheet.protection": "Protección",

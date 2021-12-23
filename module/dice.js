@@ -1,20 +1,21 @@
 let mult = 1;
 
-function simpleDie(html, actorData) {
+async function simpleDie(html, actorData) {
     actorData = getFormData(html, actorData);
     actorData = getRollFormula(actorData);
 
     //console.log('simple die');
     //console.log(actorData);
-    let name = "<h2>" + actorData.data.data.roll.label + "</h2>";
+    let name = "<h2 class=\"ars-chat-title\">" + actorData.data.data.roll.label + "</h2>";
     let formula = "1D10+" + actorData.data.data.roll.rollFormula;
     if (actorData.data.data.roll.divide > 1) {
         formula = "(1D10+" + actorData.data.data.roll.rollFormula + ")/" + actorData.data.data.roll.divide;
     }
-    let roll = new Roll(formula, actorData.data.data);
-    roll.roll({
-        async: false
-    }).toMessage({
+    const dieRoll = new Roll(formula, actorData.data.data);
+    let tmp = await dieRoll.roll({
+        async: true
+    });
+    tmp.toMessage({
         speaker: ChatMessage.getSpeaker({
             actor: actorData
         }),
@@ -23,18 +24,18 @@ function simpleDie(html, actorData) {
 }
 
 
-function stressDie(html, actorData) {
+async function stressDie(html, actorData) {
     mult = 1;
     actorData = getFormData(html, actorData);
     actorData = getRollFormula(actorData);
 
-    let name = "<h2>" + actorData.data.data.roll.label + "</h2>";
-    let roll = explodingRoll(actorData);
+    let name = "<h2 class=\"ars-chat-title\">" + actorData.data.data.roll.label + "</h2>";
+    let dieRoll = await explodingRoll(actorData);
     let flavorTxt = name + 'Stress die: <br />';
     if (mult > 1) {
-        flavorTxt = name + '<h3>EXPLODING Stress die: </h3><br />';
+        flavorTxt = name + '<h3>EXPLODING Stress die: </h3><br/>';
     }
-    multiplyRoll(mult, roll, actorData.data.data.roll.rollFormula, actorData.data.data.roll.divide).toMessage({
+    multiplyRoll(mult, dieRoll, actorData.data.data.roll.rollFormula, actorData.data.data.roll.divide).toMessage({
         flavor: flavorTxt + actorData.data.data.roll.rollLabel,
         speaker: ChatMessage.getSpeaker({
             actor: actorData
@@ -97,7 +98,7 @@ function getFormData(html, actorData) {
     "roll":{
         "characteristic": "",
         "ability": "",
-        "tecnique": "",
+        "technique": "",
         "form": "",
         "total": "",
         "rollLabel": "",
@@ -105,89 +106,96 @@ function getFormData(html, actorData) {
     }
 */
 
-function getRollFormula(actorData) {
+function getRollFormula(actor) {
     let total = 0;
     let value = 0;
     let msg = "";
-
-    if (actorData.data.data.roll.focus === true) {
-        let valueTech = parseInt(actorData.data.data.arts.techniques[actorData.data.data.roll.technique].score);
-        let valueForm = parseInt(actorData.data.data.arts.forms[actorData.data.data.roll.form].score)
-        if (valueTech >= valueForm) {
-            total = parseInt(total) + 2 * valueTech + valueForm;
-            msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
-            msg = msg + " ( 2 x " + valueTech + ") + <br />";
-            msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
-            msg = msg + " (" + valueForm + ")";
+    let actorData = actor.data.data;
+    if (actorData.roll.type == "spell" || actorData.roll.type == "magic" || actorData.roll.type == "spont") {
+        let valueTech = 0
+        let valueForm = 0
+        if (actorData.roll.type == "spell") {
+            valueTech = actorData.roll.techniqueScore;
+            valueForm = actorData.roll.formScore;
+            actorData.roll.technique = actorData.roll.spell.technique;
+            actorData.roll.form = actorData.roll.spell.form;
 
         } else {
-            total = parseInt(total) + 2 * valueForm + valueTech;
-            msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
-            msg = msg + " (" + valueTech + ") + <br />";
-            msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
-            msg = msg + " ( 2 x " + valueForm + ")";
-
+            actorData.roll.techniqueText = actorData.arts.techniques[actorData.roll.technique].label;
+            actorData.roll.formText = actorData.arts.forms[actorData.roll.form].label;
+            valueTech = parseInt(actorData.arts.techniques[actorData.roll.technique].score);
+            valueForm = parseInt(actorData.arts.forms[actorData.roll.form].score)
         }
-    } else {
+        if (actorData.roll.focus === true) {
+            if (valueTech >= valueForm) {
+                total = parseInt(total) + 2 * valueTech + valueForm;
+                msg = msg + actorData.roll.techniqueText;
+                msg = msg + " ( 2 x " + valueTech + ") + <br />";
+                msg = msg + actorData.roll.formText;
+                msg = msg + " (" + valueForm + ")";
 
-        if (actorData.data.data.roll.technique != "") {
-            value = actorData.data.data.arts.techniques[actorData.data.data.roll.technique].score
-            total = parseInt(total) + parseInt(value);
-            msg = msg + actorData.data.data.arts.techniques[actorData.data.data.roll.technique].label;
-            msg = msg + " (" + value + ")";
-        }
+            } else {
+                total = parseInt(total) + 2 * valueForm + valueTech;
+                msg = msg + actorData.roll.techniqueText;
+                msg = msg + " (" + valueTech + ") + <br />";
+                msg = msg + actorData.roll.formText;
+                msg = msg + " ( 2 x " + valueForm + ")";
 
-        if (actorData.data.data.roll.form != "") {
-            value = actorData.data.data.arts.forms[actorData.data.data.roll.form].score
-            total = parseInt(total) + parseInt(value);
+            }
+        } else {
+
+            total = parseInt(total) + valueTech;
+            msg = msg + actorData.roll.techniqueText;
+            msg = msg + " (" + valueTech + ")";
+
+            total = parseInt(total) + valueForm;
             if (msg != "") {
                 msg = msg + " + <br />";
             }
-            msg = msg + actorData.data.data.arts.forms[actorData.data.data.roll.form].label;
-            msg = msg + " (" + value + ")";
+            msg = msg + actorData.roll.formText;
+            msg = msg + " (" + valueForm + ")";
         }
     }
 
 
-
-    if (actorData.data.data.roll.characteristic != "") {
-        value = actorData.data.data.characteristics[actorData.data.data.roll.characteristic].value
+    if (actorData.roll.characteristic != "") {
+        value = actorData.characteristics[actorData.roll.characteristic].value
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        let name = game.i18n.localize(actorData.data.data.charmetadata[actorData.data.data.roll.characteristic].label);
-        if (actorData.data.data.roll.type == "char") {
-            actorData.data.data.roll.label = name;
+        let name = game.i18n.localize(actorData.charmetadata[actorData.roll.characteristic].label);
+        if (actorData.roll.type == "char") {
+            actorData.roll.label = name;
         }
 
         msg = msg + name;
         msg = msg + " (" + value + ")";
     }
 
-    if (actorData.data.data.roll.ability != "") {
-        for (var i = 0; i < actorData.data.data.abilities.length; i++) {
-            if (actorData.data.data.abilities[i]._id == actorData.data.data.roll.ability) {
-                value = actorData.data.data.abilities[i].data.score;
+    if (actorData.roll.ability != "") {
+        for (var i = 0; i < actorData.abilities.length; i++) {
+            if (actorData.abilities[i]._id == actorData.roll.ability) {
+                value = actorData.abilities[i].data.score;
                 total = parseInt(total) + parseInt(value);
                 if (msg != "") {
                     msg = msg + " + <br />";
                 }
-                actorData.data.data.roll.label = actorData.data.data.abilities[i].name;
-                msg = msg + actorData.data.data.roll.label;
+                actorData.roll.label = actorData.abilities[i].name;
+                msg = msg + actorData.roll.label;
                 msg = msg + " (" + value + ")";
                 break;
             }
         }
 
-        if (actorData.data.data.roll.abilitySpeciality == true) {
+        if (actorData.roll.abilitySpeciality == true) {
             total = parseInt(total) + 1;
             msg = msg + " ( + 1 " + game.i18n.localize("arm5e.sheet.speciality") + " )";
         }
     }
 
-    if (actorData.data.data.roll.aura != "" && actorData.data.data.roll.aura != 0) {
-        value = actorData.data.data.roll.aura
+    if (actorData.roll.aura != "" && actorData.roll.aura != 0) {
+        value = actorData.roll.aura
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
             msg = msg + " + <br />";
@@ -196,9 +204,9 @@ function getRollFormula(actorData) {
         msg = msg + " (" + value + ")";
     }
 
-    if (actorData.data.data.roll.ritual === true) {
-        value = actorData.data.data.laboratory.abilitiesSelected.artesLib.value;
-        value += actorData.data.data.laboratory.abilitiesSelected.philosophy.value;
+    if (actorData.roll.ritual === true) {
+        value = actorData.laboratory.abilitiesSelected.artesLib.value;
+        value += actorData.laboratory.abilitiesSelected.philosophy.value;
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
             msg = msg + " + <br />";
@@ -207,8 +215,8 @@ function getRollFormula(actorData) {
         //msg = msg + "Artes Liberales + Philosophiae";
         msg = msg + " (" + value + ")";
     }
-    if (actorData.data.data.roll.modifier != 0) {
-        value = actorData.data.data.roll.modifier;
+    if (actorData.roll.modifier != 0) {
+        value = actorData.roll.modifier;
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
             msg = msg + " + <br />";
@@ -218,90 +226,90 @@ function getRollFormula(actorData) {
 
     }
 
-    if (actorData.data.data.roll.type == "spont") {
-        actorData.data.data.roll.label = game.i18n.localize("arm5e.sheet.spontaneousMagic") +
-            " (" + actorData.data.data.metadata.magic.arts[actorData.data.data.roll.technique].short +
-            actorData.data.data.metadata.magic.arts[actorData.data.data.roll.form].short + ")";
+    if (actorData.roll.type == "spont") {
+        actorData.roll.label = game.i18n.localize("arm5e.sheet.spontaneousMagic") +
+            " (" + actorData.metadata.magic.arts[actorData.roll.technique].short +
+            actorData.metadata.magic.arts[actorData.roll.form].short + ")";
     }
 
-    if (actorData.data.data.roll.txtOption1 != "") {
-        total = total + parseInt(actorData.data.data.roll.option1)
+    if (actorData.roll.txtOption1 != "") {
+        total = total + parseInt(actorData.roll.option1)
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + actorData.data.data.roll.txtOption1 + " (" + actorData.data.data.roll.option1 + ")";
+        msg = msg + actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
     }
-    if (actorData.data.data.roll.txtOption2 != "") {
-        total = total + parseInt(actorData.data.data.roll.option2)
+    if (actorData.roll.txtOption2 != "") {
+        total = total + parseInt(actorData.roll.option2)
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + actorData.data.data.roll.txtOption2 + " (" + actorData.data.data.roll.option2 + ")";
+        msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
     }
-    if (actorData.data.data.roll.txtOption3 != "") {
-        total = total + parseInt(actorData.data.data.roll.option3)
+    if (actorData.roll.txtOption3 != "") {
+        total = total + parseInt(actorData.roll.option3)
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + actorData.data.data.roll.txtOption3 + " (" + actorData.data.data.roll.option3 + ")";
+        msg = msg + actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
     }
-    if (actorData.data.data.roll.txtOption4 != "") {
-        total = total + parseInt(actorData.data.data.roll.option4)
+    if (actorData.roll.txtOption4 != "") {
+        total = total + parseInt(actorData.roll.option4)
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + actorData.data.data.roll.txtOption4 + " (" + actorData.data.data.roll.option4 + ")";
+        msg = msg + actorData.roll.txtOption4 + " (" + actorData.roll.option4 + ")";
     }
-    if (actorData.data.data.roll.txtOption5 != "") {
-        total = total + parseInt(actorData.data.data.roll.option5)
+    if (actorData.roll.txtOption5 != "") {
+        total = total + parseInt(actorData.roll.option5)
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + actorData.data.data.roll.txtOption5 + " (" + actorData.data.data.roll.option5 + ")";
-    }
-
-
-    if (actorData.data.data.roll.bonus > 0) {
-        total = total + actorData.data.data.roll.bonus
-        if (msg != "") {
-            msg = msg + " + <br />";
-        }
-        msg = msg + "Bonus (" + actorData.data.data.roll.bonus + ")";
+        msg = msg + actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
     }
 
-    if (actorData.data.data.roll.useFatigue == true) {
 
-        if (actorData.data.data.fatigueTotal != 0) {
-            total = total + actorData.data.data.fatigueTotal
+    if (actorData.roll.bonus > 0) {
+        total = total + actorData.roll.bonus
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + "Bonus (" + actorData.roll.bonus + ")";
+    }
+
+    if (actorData.roll.useFatigue == true) {
+
+        if (actorData.fatigueTotal != 0) {
+            total = total + actorData.fatigueTotal
             if (msg != "") {
                 msg = msg + " + <br />";
             }
             msg = msg + game.i18n.localize("arm5e.sheet.fatigue");
-            msg = msg + " (" + actorData.data.data.fatigueTotal + ")";
+            msg = msg + " (" + actorData.fatigueTotal + ")";
         }
-        if (actorData.data.data.woundsTotal != 0) {
-            total = total + actorData.data.data.woundsTotal
+        if (actorData.woundsTotal != 0) {
+            total = total + actorData.woundsTotal
             if (msg != "") {
                 msg = msg + " + <br />";
             }
             msg = msg + game.i18n.localize("arm5e.sheet.wounds");
-            msg = msg + " (" + actorData.data.data.woundsTotal + ")";
+            msg = msg + " (" + actorData.woundsTotal + ")";
         }
     }
 
-    if (actorData.data.data.roll.divide > 1) {
+    if (actorData.roll.divide > 1) {
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + "Divide by " + actorData.data.data.roll.divide;
+        msg = msg + "Divide by " + actorData.roll.divide;
     }
-    actorData.data.data.roll.rollFormula = total;
-    actorData.data.data.roll.rollLabel = msg;
+    actorData.roll.rollFormula = total;
+    actorData.roll.rollLabel = msg;
 
-    return actorData;
+    return actor;
 }
 
-function CheckBotch(html, actorData) {
+async function CheckBotch(html, actorData) {
     let resultMessage = "";
 
     let botchDice = html.find('#botchDice').val();
@@ -312,7 +320,9 @@ function CheckBotch(html, actorData) {
     let rollCommand = botchDice;
     rollCommand = rollCommand.concat('d10cf=10');
     const botchRoll = new Roll(rollCommand);
-    botchRoll.roll();
+    await botchRoll.roll({
+        async: true
+    });
 
     if (botchRoll.result == 0) {
         resultMessage = "<p>No botch!</p>";
@@ -329,16 +339,17 @@ function CheckBotch(html, actorData) {
     });
 }
 
-function explodingRoll(actorData) {
-    let roll = new Roll(`1d10`).roll({
-        async: false
+async function explodingRoll(actorData) {
+    let dieRoll = new Roll(`1d10`);
+    await dieRoll.roll({
+        async: true
     });
 
-    if (roll.total === 1) {
+    if (dieRoll.total === 1) {
         mult *= 2;
-        roll = explodingRoll();
+        dieRoll = await explodingRoll();
     } else {
-        if (mult === 1 && roll.total === 10) {
+        if (mult === 1 && dieRoll.total === 10) {
             mult *= 0;
 
             renderTemplate("systems/arm5e/templates/roll/roll-botch.html").then(function(html) {
@@ -365,11 +376,13 @@ function explodingRoll(actorData) {
                             }
                         },
                     }
+                }, {
+                    classes: ['arm5e-dialog', 'dialog']
                 }).render(true);
             });
         }
     }
-    return roll;
+    return dieRoll;
 }
 
 function multiplyRoll(mult, roll, rollFormula, divide) {
@@ -384,9 +397,6 @@ function multiplyRoll(mult, roll, rollFormula, divide) {
     //}
     output_roll._evaluated = true;
     output_roll._total = ((mult * roll._total) + parseInt(rollFormula)) / parseInt(divide);
-    if (mult == 0) {
-        output_roll._total = 0;
-    }
 
     return output_roll;
 }

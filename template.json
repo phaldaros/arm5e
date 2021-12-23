@@ -967,7 +967,11 @@
         "magicCodex": {
             "techniqueFilter": "",
             "formFilter": "",
-            "levelFilter": 0
+            "levelFilter": 0,
+            "baseEffects": [],
+            "magicEffects": [],
+            "spells": [],
+            "enchantments": []
         }
     },
 
@@ -1008,17 +1012,28 @@
                     "value": "cr",
                     "label": "Technique"
                 },
-                "technique-requisite": {
-                    "value": "",
-                    "label": "Technique Requisite"
+                "technique-req": {
+                    "cr": false,
+                    "in": false,
+                    "mu": false,
+                    "pe": false,
+                    "re": false
                 },
                 "form": {
                     "value": "an",
                     "label": "Form"
                 },
-                "form-requisite": {
-                    "value": "",
-                    "label": "Form Requisite"
+                "form-req": {
+                    "an": false,
+                    "aq": false,
+                    "au": false,
+                    "co": false,
+                    "he": false,
+                    "ig": false,
+                    "im": false,
+                    "me": false,
+                    "te": false,
+                    "vi": false
                 },
                 "range": {
                     "value": "personal"
@@ -1084,17 +1099,28 @@
                 "value": "cr",
                 "label": "Technique"
             },
-            "technique-requisite": {
-                "value": "",
-                "label": "Technique Requisite"
+            "technique-req": {
+                "cr": false,
+                "in": false,
+                "mu": false,
+                "pe": false,
+                "re": false
             },
             "form": {
                 "value": "an",
                 "label": "Form"
             },
-            "form-requisite": {
-                "value": "",
-                "label": "Form Requisite"
+            "form-req": {
+                "an": false,
+                "aq": false,
+                "au": false,
+                "co": false,
+                "he": false,
+                "ig": false,
+                "im": false,
+                "me": false,
+                "te": false,
+                "vi": false
             },
             "baseEffectDescription": "",
             "baseLevel": 1

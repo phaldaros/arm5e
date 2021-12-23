@@ -35,6 +35,21 @@
     font-family: "Roboto", sans-serif;
 }
 
+.arm5e .window-content {
+    padding: 0px;
+    border: 2px solid #6f6c66;
+}
+
+.arm5e-dialog .window-content {
+    padding: 0px;
+    border: 2px solid #6f6c66;
+}
+
+.system-arm5e .dialog-buttons {
+    background-color: rgb(236 222 187 / 50%);
+}
+
+
 .rollable:hover,
 .rollable:focus {
     color: #000;
@@ -48,6 +63,36 @@
     text-shadow: 0 0 10px red;
     cursor: pointer;
 }
+
+.system-arm5e .chat-message {
+    margin: 3px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #191813;
+    background-image: url("../assets/chat/background.png");
+    background-repeat: repeat;
+    background-size: cover;
+    border: 2px solid #6f6c66;
+    border-radius: 0px;
+}
+
+.chat-message .message-header {
+    font-family: "bookAntiqua";
+}
+
+.chat-message .message-content {
+    overflow-wrap: break-word;
+}
+
+
+.chat-message .message-header .ars-chat-title {
+    font-family: "blackmoor";
+    border-bottom: 1px solid #8e7759;
+
+}
+
 
 .grid,
 .grid-2col {
@@ -154,25 +199,33 @@
 }
 
 .arm5eMain {
-    background-image: url("../assets/background.jpg");
+    background-image: url("../assets/background.png");
     background-repeat: repeat-y;
     background-size: contain;
     font-family: "bookAntiquaBold";
     padding: 32px;
 }
 
-.arm5eRoll header-background {
-    margin-left: -32px;
+.arm5eRoll .header-background {
+
     /*margin-top: -32px;*/
-    width: calc(100% + 64px);
+    width: 100%
 }
 
-.arm5eRoll {
+.arm5eRequisite {
+    font-size: 10pt;
     background-image: url("../assets/item/background.png");
     background-repeat: repeat-y;
     background-size: contain;
     font-family: "bookAntiquaBold";
-    font-size: 9pt;
+}
+
+.arm5eRoll {
+    background-image: url("../assets/chat/background.png");
+    background-repeat: repeat-y;
+    background-size: cover;
+    font-family: "bookAntiquaBold";
+    font-size: 12pt;
 }
 
 .arm5eRoll .roll-options {
@@ -281,6 +334,7 @@ input[type="time"] {
     font-family: "bookAntiquaBold";
     padding-left: 32px;
     padding-right: 32px;
+    overflow-y: hidden;
     font-size: 9pt;
 }
 
