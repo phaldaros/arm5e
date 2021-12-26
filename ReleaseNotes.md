@@ -2,6 +2,9 @@
 ## Release Notes
 
 1.2.4
+- add a bunch of compendium to include corebook items
+- added Codex in Magi compendium filled with all base effects
+- added abilities in compendium
 - removed some useless assets from previous design
 - improved chat-messages
 - new design for chat messages and rolls (by Sylph)
@@ -13,6 +16,8 @@
 - Dice rolls are now all aynchronous (ie: V9 ready)
 - Improved migration (finally found out how to remove fields)
 - casting total is now displayed in character sheets
+- fixed a bug in css for Codex where the title size was growing proportionally to the number of entries.
+
 
 
 1.2.3
