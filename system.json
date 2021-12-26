@@ -42,19 +42,35 @@
             "entity": "Item"
         },
         {
-            "name": "base-effects",
-            "label": "Base magical effect",
-            "system": "arm5e",
-            "module": "arm5e",
-            "path": "packs/base-effects.db",
-            "entity": "Item"
-        },
-        {
             "name": "items",
-            "label": "Items",
+            "label": "Equipment",
             "system": "arm5e",
             "module": "arm5e",
             "path": "packs/items.db",
+            "entity": "Item"
+        },
+        {
+            "name": "enchantments",
+            "label": "Enchantments",
+            "path": "./packs/enchantments.db",
+            "entity": "Item"
+        },
+        {
+            "name": "virtues",
+            "label": "Virtues",
+            "path": "./packs/virtues.db",
+            "entity": "Item"
+        },
+        {
+            "name": "flaws",
+            "label": "Flaws",
+            "path": "./packs/flaws.db",
+            "entity": "Item"
+        },
+        {
+            "name": "abilities",
+            "label": "Abilities",
+            "path": "./packs/abilities.db",
             "entity": "Item"
         },
         {

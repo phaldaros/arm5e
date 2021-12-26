@@ -60,12 +60,6 @@ function getFormData(html, actorData) {
         actorData.data.data.roll.abilitySpeciality = find[0].checked;
     }
 
-    actorData.data.data.roll.divide = 1;
-    find = html.find('.Divide');
-    if (find.length > 0) {
-        actorData.data.data.roll.divide = find[0].value;
-    }
-
     find = html.find('.SelectedTechnique');
     if (find.length > 0) {
         actorData.data.data.roll.technique = find[0].value;

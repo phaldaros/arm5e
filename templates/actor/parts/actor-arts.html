@@ -148,7 +148,7 @@
         {{#each data.magicalEffects as |item id|}}
             <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
                 <div class="flexrow flex-center">
-                    <span class="flexrow item-title width4 rollable" data-roll="magic" data-id="{{item._id}}" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-name="{{item.name}}" data-divide="2" name="item.name">
+                    <span class="flexrow item-title width4 rollable" data-roll="magic" data-id="{{item._id}}" data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}" data-bonus="{{ item.data.bonus }}" data-name="{{item.name}}" data-divide=2 name="item.name">
                         {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
                         {{/with}}
                         {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}}
