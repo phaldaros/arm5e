@@ -542,7 +542,7 @@ export class ArM5ePCActor extends Actor {
             magicEffects = magicEffects.filter(e => e.data.data.technique.value === data.techniqueFilter);
             spells = spells.filter(e => e.data.data.technique.value === data.techniqueFilter);
         }
-        if (data.levelFilter != 0) {
+        if (data.levelFilter != 0 && data.levelFilter != null) {
             magicEffects = magicEffects.filter(e => e.data.data.level === data.levelFilter);
             spells = spells.filter(e => e.data.data.level === data.levelFilter);
         }
