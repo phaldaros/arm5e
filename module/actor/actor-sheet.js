@@ -474,7 +474,8 @@ export class ArM5eActorSheet extends ActorSheet {
                             },
                         }
                     }, {
-                        classes: ['arm5e-dialog', 'dialog']
+                        classes: ['arm5e-dialog', 'dialog'],
+                        height: "auto"
                     }).render(true);
                 } else {
                     new Dialog({
@@ -493,7 +494,8 @@ export class ArM5eActorSheet extends ActorSheet {
                             },
                         }
                     }, {
-                        classes: ['arm5e-dialog', 'dialog']
+                        classes: ['arm5e-dialog', 'dialog'],
+                        height: "auto"
                     }).render(true);
                 }
             });

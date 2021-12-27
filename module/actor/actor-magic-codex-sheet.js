@@ -90,6 +90,9 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         // Design spell.
         html.find('.design').click(this._onClickEffect.bind(this));
 
+        // Design spell.
+        html.find('.alt-design').click(this._onClickAlternateDesign.bind(this));
+
 
 
         // Drag events for macros.
@@ -170,6 +173,18 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         return newItem;
     }
 
+    /**
+     * Handle clickable base effect.
+     * @param {Event} event   The originating click event
+     * @private
+     */
+    _onClickAlternateDesign(event) {
+        event.preventDefault();
+        const li = $(event.currentTarget).parents(".item");
+        let itemId = li.data("itemId");
+        let type = li.data("itemType");
+        this._onDesignEffect(itemId, true);
+    }
 
     /**
      * Handle clickable base effect.
@@ -205,7 +220,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
                 yes: {
                     icon: "<i class='fas fa-check'></i>",
                     label: `Yes`,
-                    callback: () => this._onDesignEffect(itemId)
+                    callback: () => this._onDesignEffect(itemId, false)
                 },
                 no: {
                     icon: "<i class='fas fa-ban'></i>",
@@ -216,17 +231,22 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         }).render(true);
     }
 
-    async _onDesignEffect(id) {
+    async _onDesignEffect(id, alt) {
         const item = this.actor.items.get(id)
         const itemdata = item.data;
         const dataset = itemdata.data;
         let newItemData;
         if (itemdata.type == "baseEffect") {
             // Initialize a default name.
-            const name = `_New "${itemdata.name}" effect`;
+            let name = `_New "${itemdata.name}" effect`;
+            let type = "magicalEffect";
+            if (alt === true) { // alternate design
+                let name = `_New "${itemdata.name}" spell`;
+                type = "spell";
+            }
             newItemData = [{
                 name: name,
-                type: "magicalEffect",
+                type: type,
                 data: {
                     "baseEffectDescription": itemdata.name,
                     "baseLevel": dataset.baseLevel,
@@ -241,9 +261,13 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
         } else if (itemdata.type == "magicalEffect") //
         {
+            let itemType = "spell"
+            if (alt === true) { // alternate design
+                itemType = "enchantment";
+            }
             newItemData = [{
                 name: itemdata.name,
-                type: "spell",
+                type: itemType,
                 data: foundry.utils.deepClone(itemdata.data)
             }];
             // Remove the type from the dataset since it's in the itemData.type prop.
@@ -253,6 +277,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
                 ui.notifications.info("Impossible to make an enchantment with a ritual effect.");
                 return [];
             }
+
             newItemData = [{
                 name: itemdata.name,
                 type: "enchantment",
@@ -276,6 +301,9 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         return newItem;
 
     }
+
+
+
 
     isDropAllowed(type) {
         switch (type) {
