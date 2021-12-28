@@ -299,7 +299,7 @@ export class ArM5eItem extends Item {
         } else {
             res += tech + form;
         }
-        log(false, `Casting total: ${res}`)
+        // log(false, `Casting total: ${res}`)
         return res;
 
     }

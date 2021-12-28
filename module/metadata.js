@@ -838,9 +838,16 @@ ARM5E.item.costs = {
     }
 };
 
-ARM5E.lab = {};
 
-ARM5E.lab.activities = {
+ARM5E.activities = {};
+
+ARM5E.activities.generic = {
+    "practice": "arm5e.activity.practice",
+    "training": "arm5e.activity.training",
+    "teaching": "arm5e.activity.teaching"
+}
+
+ARM5E.activities.lab = {
     "art": "arm5e.lab.art",
     "magicTheory": "arm5e.lab.magicTheory",
     "inventSpell": "arm5e.lab.InventSpell",
@@ -849,6 +856,15 @@ ARM5E.lab.activities = {
     "minorEnchantment": "arm5e.lab.minorEnchantment",
     "majorEnchantment": "arm5e.lab.majorEnchantment"
 };
+
+ARM5E.activities.books = {
+    "learnSpell": "arm5e.book.learnSpell",
+    "read": "arm5e.book.learnSkill",
+    "write": "arm5e.book.write",
+    "copy": "arm5e.book.copy"
+}
+
+ARM5E.lab = {};
 
 // TODO localize
 ARM5E.lab.labTextType = {
@@ -946,11 +962,7 @@ ARM5E.lab.enchantment.effectUses = {
     10: "Unlimited"
 }
 
-ARM5E.books = {};
 
-ARM5E.books.activities = {
-    "learnSpell": "arm5e.book.learnSpell"
-}
 
 ARM5E.generic = {};
 ARM5E.generic.sourcesTypes = {

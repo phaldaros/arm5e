@@ -115,30 +115,40 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.technique-req.cr"] = true;
+        } else {
+            itemUpdate["data.technique-req.cr"] = false;
         }
     }
     found = selector.find('.SelectedIntellego');
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.technique-req.in"] = true;
+        } else {
+            itemUpdate["data.technique-req.in"] = false;
         }
     }
     found = selector.find('.SelectedMuto');
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.technique-req.mu"] = true;
+        } else {
+            itemUpdate["data.technique-req.mu"] = false;
         }
     }
     found = selector.find('.SelectedPerdo');
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.technique-req.pe"] = true;
+        } else {
+            itemUpdate["data.technique-req.pe"] = false;
         }
     }
     found = selector.find('.SelectedRego');
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.technique-req.re"] = true;
+        } else {
+            itemUpdate["data.technique-req.re"] = false;
         }
     }
 
@@ -147,6 +157,8 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.an"] = true;
+        } else {
+            itemUpdate["data.form-req.an"] = false;
         }
     }
 
@@ -154,12 +166,16 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.aq"] = true;
+        } else {
+            itemUpdate["data.form-req.aq"] = false;
         }
     }
     found = selector.find('.SelectedAuram');
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.au"] = true;
+        } else {
+            itemUpdate["data.form-req.au"] = false;
         }
     }
 
@@ -167,6 +183,8 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.co"] = true;
+        } else {
+            itemUpdate["data.form-req.co"] = false;
         }
     }
 
@@ -174,6 +192,8 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.he"] = true;
+        } else {
+            itemUpdate["data.form-req.he"] = false;
         }
     }
 
@@ -181,6 +201,8 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.ig"] = true;
+        } else {
+            itemUpdate["data.form-req.ig"] = false;
         }
     }
 
@@ -188,12 +210,16 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.im"] = true;
+        } else {
+            itemUpdate["data.form-req.im"] = false;
         }
     }
     found = selector.find('.SelectedMentem');
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.me"] = true;
+        } else {
+            itemUpdate["data.form-req.me"] = false;
         }
     }
 
@@ -201,6 +227,8 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.te"] = true;
+        } else {
+            itemUpdate["data.form-req.te"] = false;
         }
     }
 
@@ -208,6 +236,8 @@ export async function _setRequisites(selector, item) {
     if (found.length > 0) {
         if (found[0].checked == true) {
             itemUpdate["data.form-req.vi"] = true;
+        } else {
+            itemUpdate["data.form-req.vi"] = false;
         }
     }
 

@@ -114,6 +114,17 @@ export class ArM5eActorSheet extends ActorSheet {
                 context.artsIcons = game.settings.get("arm5e", "artsIcons");
             }
         }
+        context.data.covenants = game.actors.filter(a => a.type == "covenant").map(a => a.name);
+        if (context.data.covenant) {
+            let cov = context.data.covenants.filter(c => c == context.data.covenant.value)
+            if (cov.length > 0) {
+                context.data.covenant.linked = true;
+            } else {
+                context.data.covenant.linked = false;
+            }
+        }
+
+
 
         // Add roll data for TinyMCE editors.
         context.rollData = context.actor.getRollData();
@@ -211,6 +222,8 @@ export class ArM5eActorSheet extends ActorSheet {
         // Rollable abilities.
         html.find('.rollable').click(this._onRoll.bind(this));
 
+        html.find('.pick-covenant').click(this._onPickCovenant.bind(this));
+
         // Drag events for macros.
         if (this.actor.isOwner) {
             let handler = ev => this._onDragStart(ev);
@@ -251,6 +264,37 @@ export class ArM5eActorSheet extends ActorSheet {
 
         newItem[0].sheet.render(true);
         return newItem;
+    }
+
+    /* Handle covenant pick */
+    async _onPickCovenant(event) {
+        event.preventDefault();
+        const element = event.currentTarget;
+        log("false", this.actor.data);
+        var actor = this.actor;
+        let template = "systems/arm5e/templates/generic/simpleListPicker.html";
+        renderTemplate(template, this.actor).then(function(html) {
+            new Dialog({
+                title: game.i18n.localize("arm5e.sheet.pickCovenant"),
+                content: html,
+                buttons: {
+                    yes: {
+                        icon: "<i class='fas fa-check'></i>",
+                        label: `Yes`,
+                        callback: (html) => setCovenant(html, actor)
+                    },
+                    no: {
+                        icon: "<i class='fas fa-ban'></i>",
+                        label: `Cancel`,
+                        callback: null
+                    },
+                }
+            }, {
+                jQuery: true,
+                height: "140px",
+                classes: ['arm5e-dialog', 'dialog']
+            }).render(true);;
+        });
     }
 
     /**
@@ -431,7 +475,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
         // find the template
         let template = "";
-        if (dataset.roll == 'option') {
+        if (dataset.roll == 'combat') {
             template = "systems/arm5e/templates/roll/roll-options.html";
         }
         if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
@@ -445,11 +489,6 @@ export class ArM5eActorSheet extends ActorSheet {
         if (dataset.roll == 'magic' || dataset.roll == 'spell') {
             template = "systems/arm5e/templates/roll/roll-spell.html";
             this.actor.data.data.roll.characteristic = "sta";
-
-            // this.actor.data.data.roll.techniqueText = ARM5E.magic.techniques[this.actor.data.data.roll.technique].label + "(";
-            // this.actor.data.data.roll.techniqueText = this.actor.data.data.roll.techniqueText + this.actor.data.data.arts.techniques[this.actor.data.data.roll.technique].score + ")";
-            // this.actor.data.data.roll.formText = ARM5E.magic.forms[this.actor.data.data.roll.form].label + "(";
-            // this.actor.data.data.roll.formText = this.actor.data.data.roll.formText + this.actor.data.data.arts.forms[this.actor.data.data.roll.form].score + ")";
         }
 
         if (template != "") {
@@ -477,6 +516,27 @@ export class ArM5eActorSheet extends ActorSheet {
                         classes: ['arm5e-dialog', 'dialog'],
                         height: "auto"
                     }).render(true);
+                } else if (dataset.roll == "combat") {
+                    new Dialog({
+                        title: game.i18n.localize("arm5e.sheet.combat"),
+                        content: html,
+                        buttons: {
+                            yes: {
+                                icon: "<i class='fas fa-check'></i>",
+                                label: `Simple Die`,
+                                callback: (html) => stressDie(html, actor)
+                            },
+                            no: {
+                                icon: "<i class='fas fa-ban'></i>",
+                                label: `Cancel`,
+                                callback: null
+                            },
+                        }
+                    }, {
+                        classes: ['arm5e-dialog', 'dialog'],
+                        height: "auto"
+                    }).render(true);
+
                 } else {
                     new Dialog({
                         title: 'Select Die',
@@ -524,4 +584,15 @@ export class ArM5eActorSheet extends ActorSheet {
         itemData = itemData instanceof Array ? itemData : [itemData];
         return this.actor.createEmbeddedDocuments("Item", itemData.filter(e => this.isDropAllowed(e.type)));
     }
+}
+
+export async function setCovenant(selector, actor) {
+
+    let actorUpdate = {};
+    let found = selector.find('.SelectedItem');
+    if (found.length > 0) {
+        actorUpdate["data.covenant.value"] = found[0].value;
+    }
+
+    await actor.update(actorUpdate);
 }

@@ -34,6 +34,11 @@ You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for dev
 
 [See here](ReleaseNotes.md)
 
+## FAQ
+
+[See here](FAQ.md)
+
+
 ## Credits
 <b>Authors:</b> ialbiol, phaldaros, sylph, xzotl<br>
 
