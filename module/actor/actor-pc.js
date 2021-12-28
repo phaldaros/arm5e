@@ -345,7 +345,7 @@ export class ArM5ePCActor extends Actor {
             if (actorData.data.laboratory === undefined) {
                 actorData.data.laboratory = {};
             }
-            // calculate laboratori totals
+            // calculate laboratory totals
             actorData.data.laboratory.fastCastingSpeed.value = actorData.data.characteristics.qik.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
             actorData.data.laboratory.determiningEffect.value = actorData.data.characteristics.per.value + actorData.data.laboratory.abilitiesSelected.awareness.value;
             actorData.data.laboratory.targeting.value = actorData.data.characteristics.per.value + actorData.data.laboratory.abilitiesSelected.finesse.value;

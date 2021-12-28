@@ -42,6 +42,8 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
         "systems/arm5e/templates/item/parts/item-footer.html",
         // Rolls partials
         "systems/arm5e/templates/roll/parts/roll-header.html",
-        "systems/arm5e/templates/roll/parts/roll-footer.html"
+        "systems/arm5e/templates/roll/parts/roll-footer.html",
+        // generic partials
+        "systems/arm5e/templates/generic/simpleListPicker.html"
     ]);
 };

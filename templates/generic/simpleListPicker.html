@@ -1,0 +1,13 @@
+<form class="{{cssClass}} mainPlayer" autocomplete="off">
+    {{> "systems/arm5e/templates/item/parts/item-header.html" }}
+    <div class="flexrow backSection" style="padding: 8px;">
+        {{log data}}
+        <select class="SelectedItem" name="data.data.covenant.value" data-type="String">
+            {{#select data.data.covenant.value}}
+                {{#each data.data.covenants}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}} {{/select}}
+        </select>
+    </div>
+    {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
+</form>

@@ -4,10 +4,6 @@
         "templates": {
             "base": {
                 "version": "0.3",
-                "covenant": {
-                    "dtype": "String",
-                    "value": "Covenant Name"
-                },
                 "virtues": [],
                 "flaws": [],
                 "diaryEntries": []
@@ -25,6 +21,10 @@
                     "label": "Confidence ",
                     "score": 1,
                     "points": 3
+                },
+                "covenant": {
+                    "dtype": "String",
+                    "value": "Covenant Name"
                 },
                 "biography": "Character biography, notes, &c.",
                 "characteristics": {
@@ -732,6 +732,10 @@
         },
         "laboratory": {
             "templates": ["base"],
+            "covenant": {
+                "dtype": "String",
+                "value": "Covenant Name"
+            },
             "owner": "",
             "location": "",
             "points": 0,
@@ -1067,7 +1071,8 @@
             "authorship": {
                 "author": "Unknown",
                 "year": 1220,
-                "season": "Spring"
+                "season": "Spring",
+                "language": "Latin"
             }
         },
         "weapon": {
@@ -1131,7 +1136,7 @@
             "applyFocus": false
         },
         "spell": {
-            "templates": ["base", "magicalEffectAttributes"],
+            "templates": ["base", "magicalEffectAttributes", "authorship"],
             "ritual": false,
             "bonus": 0,
             "exp": 0,
@@ -1140,7 +1145,7 @@
         },
         "enchantment": {
             "templates": ["base", "magicalEffectAttributes"],
-            "effectfrequency": 1,
+            "effectfrequency": 0,
             "penetration": 0,
             "maintainConc": false,
             "environmentalTrigger": "",
@@ -1219,7 +1224,8 @@
             "year": "",
             "season": "",
             "date": "",
-            "experience": 0
+            "experience": 0,
+            "activity": ""
         },
         "might": {
             "templates": ["base"]
@@ -1302,7 +1308,7 @@
             "incoming": 0
         },
         "mundaneBook": {
-            "templates": ["base"],
+            "templates": ["base", "authorship"],
             "type": {
                 "value": "",
                 "label": "Book Type"

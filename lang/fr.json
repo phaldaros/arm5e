@@ -328,13 +328,13 @@
     "arm5e.sheet.loyaltyModifiers.equipment": "Équipement",
     "arm5e.sheet.loyaltyModifiers.money": "Monnaie",
     "arm5e.sheet.loyaltyModifiers.specialists": "Spécialistes",
-   
+
     "arm5e.sheet.realm.magical": "Magique",
     "arm5e.sheet.realm.faeric": "Féérique",
     "arm5e.sheet.realm.divine": "Divin",
     "arm5e.sheet.realm.infernal": "Infernal",
 
-    "arm5e.sheet.author": "Auteur",
+    "arm5e.sheet.authorship.author": "Auteur",
     "arm5e.spell.applyFocus": "Application du Focus Magique",
 
     "arm5e.spell.duration.short": "D",

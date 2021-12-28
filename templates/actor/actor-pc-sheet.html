@@ -1,7 +1,7 @@
 <form class="{{cssClass}} flexcol mainPlayer" autocomplete="off">
-  <div class="header-background">
-    <img src="/systems/arm5e/assets/player/header150.png">
-  </div>
+    <div class="header-background">
+        <img src="/systems/arm5e/assets/player/header150.png">
+    </div>
 
     {{!-- Sheet Header --}}
     <header class="sheet-header">
@@ -10,10 +10,18 @@
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
 
             <div class="resources flexrow flex-between">
-              <h2 class="covenantname flexrow"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
-
-                <span class="covenantname flexrow" style="padding-top:4px;">
-                <label for="data.charType.value" class="smallTitle" style="padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
+                <span class="covenantname" style="padding-top:4px;">
+                    <h2 class="covenantname">
+                        <input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-type="String" />
+                    </h2>
+                    {{#if (eq data.covenant.linked true)}}
+                        <a class="flexrow0 pick-covenant" title="Linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-link"></i></a>
+                    {{else}}
+                        <a class="flexrow0 pick-covenant" title="Not linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-unlink"></i></a>
+                    {{/if}}
+                </span>
+                <span class="covenantname" style="padding-top:4px;">
+                    <label for="data.charType.value" class="smallTitle" style="padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
                     <select class="width2" name="data.charType.value" data-type="String">
                         {{#select data.charType.value}}
                             {{#each metadata.character.charTypes as |data key|}}
@@ -70,35 +78,35 @@
     {{!-- Sheet Tab Navigation --}}
     <nav class="arm5eTabs arm5eTabsPC sheet-tabs tabs" data-group="primary">
         <a class="item posRelative" data-tab="description">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-          {{localize "arm5e.sheet.description"}}
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.description"}}
         </a>
         <a class="item posRelative" data-tab="abilities">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-          {{localize "arm5e.sheet.abilities"}}
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.abilities"}}
         </a>
         {{#if (eq data.charType.value "magus")}}
             <a class="item posRelative" data-tab="arts">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
                 {{localize "arm5e.sheet.arts"}}
             </a>
             <a class="item posRelative" data-tab="laboratory">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
                 {{localize "arm5e.sheet.laboratory"}}
             </a>
         {{/if}}
         <a class="item posRelative" data-tab="inventory">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.inventory"}}
         </a>
         <a class="item posRelative" data-tab="diary">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.diary"}}
         </a>
     </nav>
@@ -142,7 +150,6 @@
     </section>
 
     <div class="footer-background">
-      <img src="/systems/arm5e/assets/player/footer.png">
+        <img src="/systems/arm5e/assets/player/footer.png">
     </div>
 </form>
-

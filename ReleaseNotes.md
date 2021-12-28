@@ -2,21 +2,27 @@
 ## Release Notes
 
 1.2.4
+Features
+- multiple requisites support
 - add a bunch of compendium to include corebook items
 - added Codex in Magi compendium filled with all base effects
 - added abilities in compendium
-- removed some useless assets from previous design
 - improved chat-messages
 - new design for chat messages and rolls (by Sylph)
-- fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
 - improved design for pop-ups (removed the grey border, buttons matching background color)
 - drop-down list to pick the original source material (by Nono)
-- multiple requisites support
-- fixed a typo when guessing range causing error during migration
 - Dice rolls are now all aynchronous (ie: V9 ready)
 - Improved migration (finally found out how to remove fields)
 - casting total is now displayed in character sheets
+- french translation update by Lanneval
+- added a FAQ
+- new system to optionally pick a covenant from existing ones in the world
+Bug fixes
+- fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
 - fixed a bug in css for Codex where the title size was growing proportionally to the number of entries.
+- combat rolls are now always a stress die as they should be.
+- fixed a typo when guessing range causing error during migration
+- removed some useless assets from previous design
 
 
 
