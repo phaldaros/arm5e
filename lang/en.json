@@ -10,7 +10,7 @@
     "arm5e.sheet.confidence": "Confidence",
     "arm5e.sheet.characteristic": "Characteristic",
     "arm5e.sheet.description": "Description",
-    "arm5e.sheel.advanced": "Advanced",
+    "arm5e.sheet.advanced": "Advanced",
     "arm5e.sheet.abilities": "Abilities",
     "arm5e.sheet.virtuesFlaws": "Virtues & Flaws",
     "arm5e.sheet.arts": "Arts",
@@ -70,7 +70,7 @@
     "arm5e.sheet.combatInstructions2": "If your specialty is with the shield, mark it on the shield and not on the weapon. If you don't have the shield equipped, the specialty bonus doesn't apply.",
     "arm5e.sheet.combatInstructions3": "Create a 'mounted' item with the ability to 'mount' and mark on its attributes that it is a horse. When you equip it, the calculations will be applied.",
 
-    "arm5e.sheet.pickCovenant": "Pick a covenant",
+    "arm5e.dialog.chooseCovenant": "Choose a covenant",
 
     "arm5e.sheet.quantity": "Quantity",
     "arm5e.sheet.number": "Number",

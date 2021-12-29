@@ -358,12 +358,22 @@ export const migrateItemData = function(itemData) {
             if (itemData.data["technique-requisite"].value != "n-a" && itemData.data["technique-requisite"].value != "") {
                 updateData["data.technique-req." + itemData.data["technique-requisite"].value] = true;
             }
+            updateData["data.-=technique-requisite"] = null;
         }
 
         if (itemData.data["form-requisite"] != undefined) {
             if (itemData.data["form-requisite"].value != "n-a" && itemData.data["form-requisite"].value != "") {
                 updateData["data.form-req." + itemData.data["form-requisite"].value] = true;
             }
+            updateData["data.-=form-requisite"] = null;
+        }
+
+        // temporary : removal of authorship in spell, it will only be present in lab texts
+        if (itemData.type == "spell") {
+            updateData["data.-=author"] = null;
+            updateData["data.-=year"] = null;
+            updateData["data.-=season"] = null;
+            updateData["data.-=language"] = null;
         }
 
     }
