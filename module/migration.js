@@ -176,11 +176,9 @@ export const migrateActorData = function(actorData) {
         updateData["data.diaryEntries"] = [];
     }
     // convert after fixing typo dairy => diary
-    if (actorData.data.version == "0.1") {
-        if (actorData.data.dairyEntries) {
-            updateData["data.diaryEntries"] = actorData.data.dairyEntries;
-            updateData["data.-=dairyEntries"] = null;
-        }
+    if (actorData.data.dairyEntries) {
+        updateData["data.diaryEntries"] = actorData.data.dairyEntries;
+        updateData["data.-=dairyEntries"] = null;
     }
 
     // convert after fixing typo labarotary => laboratory

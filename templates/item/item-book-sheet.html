@@ -79,26 +79,7 @@
             {{/if}}
         </div>
         {{!-- Authorship Tab --}}
-        <div class="tab" data-group="primary" data-tab="authorship">
-            <div class="grid grid-2col">
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
-                    <input type="text" name="data.creator" value="{{data.author}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
-                    <input type="text" name="data.language" value="{{data.language}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.season"}}</label>
-                    <input type="text" name="data.season" value="{{data.season}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-                    <input type="text" name="data.year" value="{{data.year}}" data-dtype="Number" />
-                </div>
-            </div>
-        </div>
+        {{> "systems/arm5e/templates/item/parts/authorship.html" }}
 
 
     </section>
