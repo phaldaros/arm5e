@@ -4,9 +4,8 @@
 1.2.4
 Features
 - multiple requisites support
-- add a bunch of compendium to include corebook items
 - added Codex in Magi compendium filled with all base effects
-- added abilities in compendium
+- added abilities, virtues, flaws and equipment in compendiums (by jaircunhavianna and Dvergar)
 - improved chat-messages
 - new design for chat messages and rolls (by Sylph)
 - improved design for pop-ups (removed the grey border, buttons matching background color)
@@ -23,6 +22,7 @@ Bug fixes
 - combat rolls are now always a stress die as they should be.
 - fixed a typo when guessing range causing error during migration
 - removed some useless assets from previous design
+- fixed the design of diary entries sheets
 
 
 

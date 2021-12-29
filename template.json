@@ -1136,7 +1136,7 @@
             "applyFocus": false
         },
         "spell": {
-            "templates": ["base", "magicalEffectAttributes", "authorship"],
+            "templates": ["base", "magicalEffectAttributes"],
             "ritual": false,
             "bonus": 0,
             "exp": 0,
@@ -1155,7 +1155,7 @@
         "laboratoryText": {
             "templates": ["base", "authorship", "magicalEffectAttributes"],
             "type": "spell",
-            "effectfrequency": 1,
+            "effectfrequency": 0,
             "penetration": 0,
             "maintainConc": false,
             "environmentalTrigger": "",

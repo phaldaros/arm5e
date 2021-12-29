@@ -275,7 +275,7 @@ export class ArM5eActorSheet extends ActorSheet {
         let template = "systems/arm5e/templates/generic/simpleListPicker.html";
         renderTemplate(template, this.actor).then(function(html) {
             new Dialog({
-                title: game.i18n.localize("arm5e.sheet.pickCovenant"),
+                title: game.i18n.localize("arm5e.dialog.chooseCovenant"),
                 content: html,
                 buttons: {
                     yes: {

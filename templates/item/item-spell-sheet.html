@@ -56,11 +56,6 @@
             <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.attributes"}}
         </a>
-        <a class="item posRelative" data-tab="authorship">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.authorship.label"}}
-        </a>
     </nav>
 
     {{!-- Sheet Body --}}
@@ -164,27 +159,6 @@
                     </div>
                 </div>
             {{/if}}
-        </div>
-        {{!-- Authorship Tab --}}
-        <div class="tab" data-group="primary" data-tab="authorship">
-            <div class="grid grid-2col">
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
-                    <input type="text" name="data.creator" value="{{data.author}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
-                    <input type="text" name="data.language" value="{{data.language}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.season"}}</label>
-                    <input type="text" name="data.season" value="{{data.season}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-                    <input type="text" name="data.year" value="{{data.year}}" data-dtype="Number" />
-                </div>
-            </div>
         </div>
     </section>
     {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
