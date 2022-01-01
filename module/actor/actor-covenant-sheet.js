@@ -53,7 +53,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         return context;
     }
 
-    isDropAllowed(type) {
+    isItemDropAllowed(type) {
 
         switch (type) {
             case "spell":
@@ -78,6 +78,17 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             case "laboratoryText":
             case "mundaneBook":
             case "enchantment":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    isActorDropAllowed(type) {
+        switch (type) {
+            case "player":
+            case "npc":
+            case "laboratory":
                 return true;
             default:
                 return false;
@@ -114,7 +125,6 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             itemData = item.toObject();
             type = itemData.type;
         } else if (data.actorId === undefined) {
-            // data.data.effects = [];
             const item = await Item.implementation.fromDropData(data);
             itemData = item.toObject();
             type = itemData.type;
@@ -122,8 +132,6 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             type = data.data.type;
             itemData = data.data;
         }
-        // log(false, "_onDropItem");
-        // log(false, itemData.name);
         // transform input into labText 
         if (type == "spell" || type == "magicalEffect" || type == "enchantment") {
             log(false, "Valid drop");
@@ -134,6 +142,104 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         const res = await super._onDropItem(event, data);
         return res;
     }
+
+
+
+    /**
+     * Handle dropping of an actor reference or item data onto an Actor Sheet
+     * @param {DragEvent} event     The concluding DragEvent which contains drop data
+     * @param {Object} data         The data transfer extracted from the event
+     * @return {Promise<Object>}    A data object which describes the result of the drop
+     * @private
+     * @override
+     */
+    async _bindActor(actor) {
+        // add person to covenant inhabitants
+        let targetActor = this.actor;
+        if (actor._isMagus()) {
+            let pts = 5;
+            if (targetActor.data.data.season == "summer" || targetActor.data.data.season == "autumn") {
+                pts = 10;
+            }
+            // TODO: fill other fields?
+            const itemData = [{
+                name: actor.data.name,
+                type: "habitantMagi",
+                data: {
+                    job: actor.data.data.description.title.value + " " + game.i18n.localize("arm5e.sheet.house") + CONFIG.ARM5E.character.houses[actor.data.data.house.value].label,
+                    points: pts,
+                    yearBorn: actor.data.data.description.born.value
+                }
+            }];
+            // check if it is already bound
+            let magi = targetActor.data.data.habitants.magi.filter(h => h.name == actor.name)
+            if (magi.length == 0) {
+                log(false, "Added to inhabitants Magi");
+                return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+
+            } else {
+                itemData[0]._id = magi[0]._id;
+                return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+            }
+        } else if (actor._isCompanion()) {
+
+            let pts = 3;
+            if (targetActor.data.data.season == "summer" || targetActor.data.data.season == "autumn") {
+                pts = 5;
+            }
+            // TODO: fill other fields?
+            const itemData = [{
+                name: actor.data.name,
+                type: "habitantCompanion",
+                data: {
+                    job: actor.data.data.description.title.value,
+                    points: pts,
+                    yearBorn: actor.data.data.description.born.value
+                }
+            }];
+
+            // check if it is already bound
+            let comp = targetActor.data.data.habitants.companion.filter(h => h.name == actor.name)
+            if (comp.length == 0) {
+                log(false, "Added to inhabitants Companion");
+                return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+
+            } else {
+                itemData[0]._id = comp[0]._id;
+                return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+            }
+
+        } else if (actor._isGrog() || (actor.data.type == "npc" && actor.data.data.charType.value == "mundane")) {
+            let pts = 1;
+            // if (targetActor.data.data.season == "summer" || targetActor.data.data.season == "autumn") {
+            //     pts = 5;
+            // }
+            // TODO: fill other fields?
+            const itemData = [{
+                name: actor.data.name,
+                type: "habitantHabitants",
+                data: {
+                    job: actor.data.data.description.title.value,
+                    points: pts,
+                    yearBorn: actor.data.data.description.born.value
+                }
+            }];
+
+            // check if it is already bound
+            let comp = targetActor.data.data.habitants.habitants.filter(h => h.name == actor.name)
+            if (comp.length == 0) {
+                log(false, "Added to inhabitants");
+                return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+
+            } else {
+                itemData[0]._id = comp[0]._id;
+                return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+            }
+
+        }
+        return {};
+    }
+
 
     /**
      * TODO: Review in case of Foundry update

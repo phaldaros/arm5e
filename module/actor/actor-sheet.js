@@ -34,7 +34,7 @@ export class ArM5eActorSheet extends ActorSheet {
     /* -------------------------------------------- */
 
 
-    isDropAllowed(type) {
+    isItemDropAllowed(type) {
         return false;
 
         // template for future sheet:
@@ -73,6 +73,21 @@ export class ArM5eActorSheet extends ActorSheet {
         //     case "incomingSource":
         //     case "laboratoryText":
         //     case "mundaneBook":
+        //         return true;
+        //     default:
+        //         return false;
+        // }
+    }
+
+    isActorDropAllowed(type) {
+        return false;
+        // template for future sheet:
+        // switch (type) {
+        //     case "player":
+        //     case "npc":
+        //     case "laboratory":
+        //     case "covenant":
+        //     case "magicCodex":
         //         return true;
         //     default:
         //         return false;
@@ -475,7 +490,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
         // find the template
         let template = "";
-        if (dataset.roll == 'combat') {
+        if ((dataset.roll == 'combat') || (dataset.roll == 'option')) {
             template = "systems/arm5e/templates/roll/roll-options.html";
         }
         if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
@@ -498,17 +513,17 @@ export class ArM5eActorSheet extends ActorSheet {
                 if (dataset.roll == "magic" || dataset.roll == 'spont') {
                     //this.loseFatigueLevel(this.actor.data);
                     new Dialog({
-                        title: 'Select Die',
+                        title: game.i18n.localize("arm5e.dialog.title.rolldie"),
                         content: html,
                         buttons: {
                             yes: {
                                 icon: "<i class='fas fa-check'></i>",
-                                label: `Stress Die`,
+                                label: game.i18n.localize("arm5e.dialog.button.stressdie"),
                                 callback: (html) => stressDie(html, actor)
                             },
                             no: {
                                 icon: "<i class='fas fa-ban'></i>",
-                                label: `Cancel`,
+                                label: game.i18n.localize("arm5e.dialog.button.cancel"),
                                 callback: null
                             },
                         }
@@ -523,12 +538,32 @@ export class ArM5eActorSheet extends ActorSheet {
                         buttons: {
                             yes: {
                                 icon: "<i class='fas fa-check'></i>",
-                                label: `Simple Die`,
+                                label: game.i18n.localize("arm5e.dialog.button.stressdie"),
                                 callback: (html) => stressDie(html, actor)
                             },
                             no: {
                                 icon: "<i class='fas fa-ban'></i>",
-                                label: `Cancel`,
+                                label: game.i18n.localize("arm5e.dialog.button.cancel"),
+                                callback: null
+                            },
+                        }
+                    }, {
+                        classes: ['arm5e-dialog', 'dialog'],
+                        height: "auto"
+                    }).render(true);
+                } else if (dataset.roll == "option") {
+                    new Dialog({
+                        title: game.i18n.localize("arm5e.dialog.title.rolldie"),
+                        content: html,
+                        buttons: {
+                            yes: {
+                                icon: "<i class='fas fa-check'></i>",
+                                label: game.i18n.localize("arm5e.dialog.button.stressdie"),
+                                callback: (html) => stressDie(html, actor)
+                            },
+                            no: {
+                                icon: "<i class='fas fa-ban'></i>",
+                                label: game.i18n.localize("arm5e.dialog.button.cancel"),
                                 callback: null
                             },
                         }
@@ -539,17 +574,17 @@ export class ArM5eActorSheet extends ActorSheet {
 
                 } else {
                     new Dialog({
-                        title: 'Select Die',
+                        title: game.i18n.localize("arm5e.dialog.title.rolldie"),
                         content: html,
                         buttons: {
                             yes: {
                                 icon: "<i class='fas fa-check'></i>",
-                                label: `Simple Die`,
+                                label: game.i18n.localize("arm5e.dialog.button.simpledie"),
                                 callback: (html) => simpleDie(html, actor)
                             },
                             no: {
                                 icon: "<i class='fas fa-bomb'></i>",
-                                label: `Stress Die`,
+                                label: game.i18n.localize("arm5e.dialog.button.stressdie"),
                                 callback: (html) => stressDie(html, actor)
                             },
                         }
@@ -579,10 +614,40 @@ export class ArM5eActorSheet extends ActorSheet {
      * @private
      */
     async _onDropItemCreate(itemData) {
-        log(false, "_onDropItemCreate");
-        log(false, itemData.name);
         itemData = itemData instanceof Array ? itemData : [itemData];
-        return this.actor.createEmbeddedDocuments("Item", itemData.filter(e => this.isDropAllowed(e.type)));
+        return super._onDropItemCreate(itemData.filter(e => this.isItemDropAllowed(e.type)));
+    }
+
+    /**
+     * Handle dropping of an actor reference or item data onto an Actor Sheet
+     * @param {DragEvent} event     The concluding DragEvent which contains drop data
+     * @param {Object} data         The data transfer extracted from the event
+     * @return {Promise<Object>}    A data object which describes the result of the drop
+     * @private
+     * @override
+     */
+    async _onDropActor(event, data) {
+        if (!super._onDropActor(event, data)) {
+            return false;
+        }
+        let droppedActor;
+        // if coming from a compendium, reject
+        if (data.pack) {
+            return false;
+        } else if (data.id != undefined) {
+            droppedActor = game.actors.get(data.id)
+        } else {
+            console.warn("No Id for actor dropped");
+            return false;
+        }
+        // link both ways
+        let res = await this._bindActor(droppedActor);
+        let res2 = await droppedActor.sheet._bindActor(this.actor);
+        return res && res2;
+    }
+
+    async _bindActor(actor) {
+        return false;
     }
 }
 

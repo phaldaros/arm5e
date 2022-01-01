@@ -90,17 +90,16 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
                 buttons: {
                     yes: {
                         icon: "<i class='fas fa-check'></i>",
-                        label: `Yes`,
+                        label: game.i18n.localize("arm5e.dialog.button.save"),
                         callback: (html) => _setRequisites(html, itemData)
                     },
                     no: {
                         icon: "<i class='fas fa-ban'></i>",
-                        label: `Cancel`,
+                        label: game.i18n.localize("arm5e.dialog.button.cancel"),
                         callback: null
                     },
                 }
             }, {
-                jQuery: true,
                 classes: ['arm5e-dialog', 'dialog']
             }).render(true);;
         });

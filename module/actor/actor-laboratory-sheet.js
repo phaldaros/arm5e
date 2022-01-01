@@ -56,7 +56,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         //console.log(sheetData);
     }
 
-    isDropAllowed(type) {
+    isItemDropAllowed(type) {
 
         switch (type) {
             case "spell":
@@ -72,7 +72,17 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             case "personality":
             case "magicalEffect":
             case "laboratoryText":
-            case "mundaneBook":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    isActorDropAllowed(type) {
+        switch (type) {
+            case "player":
+            case "npc":
+            case "covenant":
                 return true;
             default:
                 return false;

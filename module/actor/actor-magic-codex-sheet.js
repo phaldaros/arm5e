@@ -219,12 +219,12 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
             buttons: {
                 yes: {
                     icon: "<i class='fas fa-check'></i>",
-                    label: `Yes`,
+                    label: game.i18n.localize("arm5e.dialog.button.yes"),
                     callback: () => this._onDesignEffect(itemId, false)
                 },
                 no: {
                     icon: "<i class='fas fa-ban'></i>",
-                    label: `Cancel`,
+                    label: game.i18n.localize("arm5e.dialog.button.cancel"),
                     callback: null
                 },
             }
@@ -305,7 +305,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
 
 
-    isDropAllowed(type) {
+    isItemDropAllowed(type) {
         switch (type) {
             case "baseEffect":
             case "magicalEffect":

@@ -18,13 +18,12 @@
                                 <option value="{{key}}">{{localize data.label}}</option>
                             {{/each}} {{/select}}
                     </select>
+
                 </span>
                 {{#if (eq data.charType.value "entity")}}
                     <label for="data.might.value" class="header-label" style="padding-top:5px;padding-left:80px; margin-left: 8px;">{{localize "arm5e.sheet.might"}}</label>
                     <div class="resource-content flexrow flex-center flex-between">
                         <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number" style="padding-top:4px; margin-left: 8px; margin-right: 10px;" />
-
-
                         <select name="data.might.type" data-type="String">
                             {{#select data.typeAura}}
                                 {{#each metadata.realms as |realm key|}}
@@ -34,6 +33,17 @@
                     </div>
                 {{else}}
                     <h2 class="covenantname flexrow "><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" style="margin-left: 8px;" /></h2>
+                {{/if}}
+                {{#if (eq data.charType.value "magusNPC")}}
+                    <span class="covenantname flexrow" style="padding-top:4px;">
+                        <label for="data.house.value" class="bold" style="padding-top: 4px">{{localize "arm5e.sheet.house"}}</label>
+                        <select name="data.house.value" data-type="String" style="width: 100%;">
+                            {{#select data.house.value}}
+                                {{#each metadata.character.houses as |house key|}}
+                                    <option value="{{key}}">{{house.label}}</option>
+                                {{/each}} {{/select}}
+                        </select>
+                    </span>
                 {{/if}}
 
 
