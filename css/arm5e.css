@@ -212,6 +212,14 @@
     width: 100%
 }
 
+.arm5eChooser {
+    font-size: 10pt;
+    background-image: url("../assets/item/background.png");
+    background-repeat: repeat-y;
+    background-size: cover;
+    font-family: "bookAntiquaBold";
+}
+
 .arm5eRequisite {
     font-size: 10pt;
     background-image: url("../assets/item/background.png");

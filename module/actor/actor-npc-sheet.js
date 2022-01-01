@@ -62,7 +62,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
 
     }
 
-    isDropAllowed(type) {
+    isItemDropAllowed(type) {
         switch (type) {
             case "weapon":
             case "armor":
@@ -83,6 +83,13 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
             default:
                 return false;
         }
+    }
+
+    async _bindActor(actor) {
+        let updateData = {
+            "data.covenant.value": actor.name
+        };
+        return await this.actor.update(updateData, {});
     }
 
 }

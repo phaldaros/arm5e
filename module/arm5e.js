@@ -342,23 +342,37 @@ function onDropActorSheetData(actor, sheet, data) {
     if (data.pack) {
         const pack = game.packs.get(data.pack);
         const item = pack.index.get(data.id);
-        if (sheet.isDropAllowed(item.type)) {
+        if (sheet.isItemDropAllowed(item.type)) {
             return true;
         } else {
             return false;
         }
     }
-    let item;
-    if (data.actorId === undefined) {
-        item = game.items.get(data.id);
-    } else {
-        item = data;
-    }
+    if (data.type == "Item") {
+        let item;
+        if (data.actorId === undefined) { // Doesn't have owner,
+            item = game.items.get(data.id);
+        } else {
+            item = data;
+        }
 
-    if (sheet.isDropAllowed(item.data.type)) {
-        return true;
+        if (sheet.isItemDropAllowed(item.data.type)) {
+            return true;
+        } else {
+            console.log("Prevented invalid item drop");
+            return false;
+        }
+    } else if (data.type == "Actor") {
+        let droppedActor = game.actors.get(data.id);
+
+        if (sheet.isActorDropAllowed(droppedActor.type)) {
+            return true;
+        } else {
+            console.log("Prevented invalid Actor drop");
+            return false;
+        }
+
     } else {
-        console.log("Prevented invalid item drop");
         return false;
     }
 }

@@ -15,7 +15,10 @@ Features
 - casting total is now displayed in character sheets
 - french translation update by Lanneval
 - added a FAQ
-- new system to optionally pick a covenant from existing ones in the world
+- new system to handle drag and drop actors to other actors sheets (only to set covenants for the moment)
+- all dialogs buttons are now properly localized (ie: translatable)
+- Npc magi can have a house now
+
 Bug fixes
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
 - fixed a bug in css for Codex where the title size was growing proportionally to the number of entries.

@@ -147,7 +147,7 @@ export class ArM5ePCActor extends Actor {
 
                 totalXPAbilities = parseInt(totalXPAbilities) + this._getAbilityXp(i.data.score);
 
-                if (((actorData.type == "player") || this._isNPCMagus()) &&
+                if (this._isMagus() &&
                     (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)) {
                     if (i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID) {
                         actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.score;
@@ -330,7 +330,7 @@ export class ArM5ePCActor extends Actor {
         }
         combat.overload = parseInt(combat.overload) * -1;
 
-        if (actorData.type == "player" || this._isNPCMagus()) {
+        if (this._isMagus()) {
             /*
             "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
             "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },
@@ -357,7 +357,7 @@ export class ArM5ePCActor extends Actor {
 
             //warping & decrepitude
             actorData.data.warping.experienceNextLevel = (parseInt(actorData.data.warping.score) + 1) * 5;
-            if (!this._isNPCMagus()) {
+            if (this.data.type != "npc") {
                 actorData.data.decrepitude.experienceNextLevel = (parseInt(actorData.data.decrepitude.score) + 1) * 5;
             }
         }
@@ -594,9 +594,19 @@ export class ArM5ePCActor extends Actor {
         return score * (score + 1) / 2;
     }
 
-    _isNPCMagus() {
-        return (this.data.type == "npc" && this.data.data.charType.value == "magusNPC")
+    _isMagus() {
+        return (this.data.type == "npc" && this.data.data.charType.value == "magusNPC") ||
+            (this.data.type == "player" && this.data.data.charType.value == "magus");
     }
+
+    _isCompanion() {
+        return (this.data.type == "player" && this.data.data.charType.value == "companion");
+    }
+
+    _isGrog() {
+        return (this.data.type == "player" && this.data.data.charType.value == "grog");
+    }
+
 
     loseFatigueLevel() {
         if ((this.data.type != 'player') && (this.data.type != 'npc')) {
