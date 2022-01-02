@@ -121,7 +121,7 @@ function getRollFormula(actor) {
             valueForm = parseInt(actorData.arts.forms[actorData.roll.form].score)
         }
         if (actorData.roll.focus === true) {
-            if (valueTech >= valueForm) {
+            if (valueTech < valueForm) {
                 total = parseInt(total) + 2 * valueTech + valueForm;
                 msg = msg + actorData.roll.techniqueText;
                 msg = msg + " ( 2 x " + valueTech + ") + <br />";

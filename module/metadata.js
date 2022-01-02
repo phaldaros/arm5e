@@ -436,13 +436,27 @@ ARM5E.familiar.labels = {
 
 ARM5E.covenant = {};
 ARM5E.covenant.labels = {
-    "library": "arm5e.sheet.library",
-    "laboratoryTexts": "arm5e.sheet.laboratoryTexts",
-    "vis": "arm5e.sheet.vis",
-    "magicItems": "arm5e.sheet.magicItems",
-    "specialists": "arm5e.sheet.specialists",
-    "laboratories": "arm5e.sheet.laboratories",
-    "money": "arm5e.sheet.money"
+    "library": {
+        "label": "arm5e.sheet.library"
+    },
+    "laboratoryTexts": {
+        "label": "arm5e.sheet.laboratoryTexts"
+    },
+    "vis": {
+        "label": "arm5e.sheet.vis"
+    },
+    "magicItems": {
+        "label": "arm5e.sheet.magicItems"
+    },
+    "specialists": {
+        "label": "arm5e.sheet.specialists"
+    },
+    "laboratories": {
+        "label": "arm5e.sheet.laboratories"
+    },
+    "money": {
+        "label": "arm5e.sheet.money"
+    }
 };
 // influence is the impact the aura has on powers of magic, faery, divine and infernal respectively
 ARM5E.realms = {

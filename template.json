@@ -787,6 +787,7 @@
         },
         "covenant": {
             "templates": ["base", "visRegistry"],
+            "description": "",
             "narrator": "",
             "saga": "",
             "sagaType": "",

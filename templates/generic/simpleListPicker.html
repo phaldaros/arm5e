@@ -5,7 +5,7 @@
         <select class="SelectedItem" name="data.data.covenant.value" data-type="String">
             {{#select data.data.covenant.value}}
                 {{#each data.data.covenants}}
-                    <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{this.name}}</option>
                 {{/each}} {{/select}}
         </select>
     </div>
