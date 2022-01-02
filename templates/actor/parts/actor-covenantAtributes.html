@@ -1,4 +1,10 @@
-<ol class="items-list backSection">
+<div class="backSection padding12 flex" stype="height: 150px;">
+    <label class="smallTitle">{{localize "arm5e.sheet.description"}}</label>
+    <div class="flexrow" style="border:0px; height:150px;">
+        {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+    </div>
+</div>
+<ol class="items-list backSection margintop18">
     <li class="item flexrow item-header">
         <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
         <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
@@ -23,19 +29,14 @@
         </li>
     {{/each}}
 </ol>
-
 <div class="backSection margintop18">
     <div class="flexrow flex-group-center" style="border:0px">
         <ol style="width: 100%;">
             <li class="flexrow flex-group-left" style="border:0px">
-                <label for="data.constructionPoints.data.{{key}}.initials"
-                    class="smallTitle flex08">{{localize "arm5e.sheet.constructionPoints" }}</label>
-                <label for="data.constructionPoints.data.{{key}}.initials"
-                    class="bold flex03">{{localize "arm5e.sheet.initials" }}</label>
-                <label for="data.constructionPoints.data.{{key}}.initials"
-                    class="bold flex05">{{localize "arm5e.sheet.actuals" }}</label>
-                <label for="data.constructionPoints.data.{{key}}.initials"
-                    class="bold width2">{{localize "arm5e.sheet.notes" }}</label>
+                <label for="data.constructionPoints.data.{{key}}.initials" class="smallTitle flex08">{{localize "arm5e.sheet.constructionPoints" }}</label>
+                <label for="data.constructionPoints.data.{{key}}.initials" class="bold flex03">{{localize "arm5e.sheet.initials" }}</label>
+                <label for="data.constructionPoints.data.{{key}}.initials" class="bold flex05">{{localize "arm5e.sheet.actuals" }}</label>
+                <label for="data.constructionPoints.data.{{key}}.initials" class="bold width2">{{localize "arm5e.sheet.notes" }}</label>
             </li>
             {{#each data.constructionPoints.data as |data key|}}
                 <li class="flexrow flex-group-left" style="border:0px" data-attribute="{{key}}">
@@ -45,16 +46,13 @@
                         {{/with}}
                     </span>
                     <span class="flex03" style="margin-right: 6px;">
-                        <input type="text" name="data.constructionPoints.data.{{key}}.initials"
-                            value="{{numberFormat data.initials decimals=0 sign=true}}" data-dtype="Number" />
+                        <input type="text" name="data.constructionPoints.data.{{key}}.initials" value="{{numberFormat data.initials decimals=0 sign=true}}" data-dtype="Number" />
                     </span>
                     <span class="flex03" style="margin-right: 6px;">
-                        <input type="text" name="data.constructionPoints.data.{{key}}.actuals"
-                            value="{{numberFormat data.actuals decimals=0 sign=true}}" data-dtype="Number" />
+                        <input type="text" name="data.constructionPoints.data.{{key}}.actuals" value="{{numberFormat data.actuals decimals=0 sign=true}}" data-dtype="Number" />
                     </span>
                     <span class="flex2">
-                        <input type="text" name="data.constructionPoints.data.{{key}}.notes" value="{{ data.notes }}"
-                            data-dtype="String" />
+                        <input type="text" name="data.constructionPoints.data.{{key}}.notes" value="{{ data.notes }}" data-dtype="String" />
                     </span>
                 </li>
             {{/each}}

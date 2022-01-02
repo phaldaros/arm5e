@@ -128,15 +128,23 @@ export class ArM5eActorSheet extends ActorSheet {
             if (context.data.charType.value == "magusNPC" || context.data.charType.value == "magus") {
                 context.artsIcons = game.settings.get("arm5e", "artsIcons");
             }
-        }
-        context.data.covenants = game.actors.filter(a => a.type == "covenant").map(a => a.name);
-        if (context.data.covenant) {
-            let cov = context.data.covenants.filter(c => c == context.data.covenant.value)
-            if (cov.length > 0) {
-                context.data.covenant.linked = true;
-            } else {
-                context.data.covenant.linked = false;
+
+            context.data.covenants = game.actors.filter(a => a.type == "covenant").map(({
+                name,
+                id
+            }) => ({
+                name,
+                id
+            }));
+            if (context.data.covenant) {
+                let cov = context.data.covenants.filter(c => c.name == context.data.covenant.value)
+                if (cov.length > 0) {
+                    context.data.covenant.linked = true;
+                } else {
+                    context.data.covenant.linked = false;
+                }
             }
+
         }
 
 
@@ -173,8 +181,11 @@ export class ArM5eActorSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
 
+
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
+        // Render the linked actor sheet for viewing/editing prior to the editable check.
+        html.find('.item-link').click(this._onActorRender.bind(this));
 
         // Add Inventory Item
         html.find('.item-create').click(this._onItemCreate.bind(this));
@@ -248,6 +259,13 @@ export class ArM5eActorSheet extends ActorSheet {
                 li.addEventListener("dragstart", handler, false);
             });
         }
+    }
+
+    async _onActorRender(event) {
+        event.preventDefault();
+        const li = $(event.currentTarget).parents(".item");
+        const actor = game.actors.get(li.data("actorId"));
+        actor.sheet.render(true);
     }
 
     /**

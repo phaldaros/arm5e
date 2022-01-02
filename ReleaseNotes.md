@@ -18,6 +18,8 @@ Features
 - new system to handle drag and drop actors to other actors sheets (only to set covenants for the moment)
 - all dialogs buttons are now properly localized (ie: translatable)
 - Npc magi can have a house now
+- added description field to covenant actors
+- new way to open covenant members sheets 
 
 Bug fixes
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
@@ -26,6 +28,11 @@ Bug fixes
 - fixed a typo when guessing range causing error during migration
 - removed some useless assets from previous design
 - fixed the design of diary entries sheets
+- fixed spell rolls with magical focus to multiply the correct art
+- renamed "Possessions" list in covenant to "Properties and land"
+- moved covenant Calendar to diary tab
+- fixed magicaL focus casting total computation
+- labels of covenant build points are properly displayed again.
 
 
 

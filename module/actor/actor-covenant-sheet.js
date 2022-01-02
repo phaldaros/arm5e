@@ -48,7 +48,45 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         context.metadata = CONFIG.ARM5E;
         log(false, "Covenant-sheet getData");
         log(false, context);
-        // this._prepareCodexItems(context);
+
+        context.data.people = game.actors.filter(a => a.type == "player" || a.type == "npc").map(({
+            name,
+            id
+        }) => ({
+            name,
+            id
+        }));
+
+        if (context.data.people) {
+            for (let person of context.data.habitants.magi) {
+                let per = context.data.people.filter(p => p.name == person.name);
+                if (per.length > 0) {
+                    person.data.linked = true;
+                    person.data.actorId = per[0].id;
+                } else {
+                    person.data.linked = false;
+                }
+            }
+            for (let person of context.data.habitants.companion) {
+                let per = context.data.people.filter(p => p.name == person.name);
+                if (per.length > 0) {
+                    person.data.linked = true;
+                    person.data.actorId = per[0].id;
+                } else {
+                    person.data.linked = false;
+                }
+            }
+            for (let person of context.data.habitants.habitants) {
+                let per = context.data.people.filter(p => p.name == person.name);
+                if (per.length > 0) {
+                    person.data.linked = true;
+                    person.data.actorId = per[0].id;
+                } else {
+                    person.data.linked = false;
+                }
+            }
+        }
+
 
         return context;
     }
@@ -166,7 +204,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
                 name: actor.data.name,
                 type: "habitantMagi",
                 data: {
-                    job: actor.data.data.description.title.value + " " + game.i18n.localize("arm5e.sheet.house") + CONFIG.ARM5E.character.houses[actor.data.data.house.value].label,
+                    job: actor.data.data.description.title.value + " " + game.i18n.localize("arm5e.sheet.house") + " " + CONFIG.ARM5E.character.houses[actor.data.data.house.value].label,
                     points: pts,
                     yearBorn: actor.data.data.description.born.value
                 }

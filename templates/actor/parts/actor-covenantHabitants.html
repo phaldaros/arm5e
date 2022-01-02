@@ -83,15 +83,21 @@
             </div>
         </li>
         {{#each data.habitants.magi as |item id|}}
-            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+            {{log item}}
+            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}" data-actor-id="{{item.data.actorId}}">
                 <div class="flexrow flex-center">
-                    <span class="flexrow item-title width15">{{item.name}}</span>
+                    <span class="flexrow item-title width15">{{item.name}} </span>
                     <span class="flexrow bold width15">{{item.data.job}}</span>
                     <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
                     <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
                     <span class="flexrow bold">{{localize "arm5e.sheet.giftType"}}: {{item.data.giftType}} </span>
                 </div>
                 <div class="item-controls">
+                    {{#if (eq item.data.linked true)}}
+                        <a class="item-control item-link" title="Linked to character"><i class="fas fa-link fa-sm"></i></a>
+                    {{else}}
+                        <a title="Not linked to character"><i class="fas fa-unlink fa-sm"></i></a>
+                    {{/if}}
                     <a class="item-control item-edit" title="Edit habitantMagi"><i class="fas fa-edit"></i></a>
                     <a class="item-control item-delete" title="Delete habitantMagi"><i class="fas fa-trash"></i></a>
                 </div>
@@ -113,7 +119,7 @@
             </div>
         </li>
         {{#each data.habitants.companion as |item id|}}
-            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}" data-actor-id="{{item.data.actorId}}">
                 <div class="flexrow flex-center">
                     <span class="flexrow item-title width15">{{item.name}}</span>
                     <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
@@ -122,6 +128,11 @@
                     <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
                 </div>
                 <div class="item-controls">
+                    {{#if (eq item.data.linked true)}}
+                        <a class="item-control item-link" title="Linked to character"><i class="fas fa-link fa-sm"></i></a>
+                    {{else}}
+                        <a title="Not linked to character"><i class="fas fa-unlink fa-sm"></i></a>
+                    {{/if}}
                     <a class="item-control item-edit" title="Edit habitantCompanion"><i class="fas fa-edit"></i></a>
                     <a class="item-control item-delete" title="Delete habitantCompanion"><i class="fas fa-trash"></i></a>
                 </div>
@@ -143,7 +154,7 @@
             </div>
         </li>
         {{#each data.habitants.specialists as |item id|}}
-            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}" data-actor-id="{{item.data.actorId}}">
                 <div class="flexrow flex-center">
                     <span class="flexrow item-title width15">{{item.name}}</span>
                     <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
@@ -173,7 +184,7 @@
             </div>
         </li>
         {{#each data.habitants.habitants as |item id|}}
-            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item.id}}" data-actor-id="{{item.data.actorId}}">
                 <div class="flexrow flex-center">
                     <span class="flexrow item-title width15">{{item.name}}</span>
                     <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
@@ -182,6 +193,11 @@
                     <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
                 </div>
                 <div class="item-controls">
+                    {{#if (eq item.data.linked true)}}
+                        <a class="item-control item-link" title="Linked to character" data-actor-id="{{item.data.id}}"><i class="fas fa-link fa-sm"></i></a>
+                    {{else}}
+                        <a title="Not linked to character"><i class="fas fa-unlink fa-sm"></i></a>
+                    {{/if}}
                     <a class="item-control item-edit" title="Edit habitantHabitants"><i class="fas fa-edit"></i></a>
                     <a class="item-control item-delete" title="Delete habitantHabitants"><i class="fas fa-trash"></i></a>
                 </div>

@@ -31,8 +31,8 @@ export class ArM5ePCActor extends Actor {
     prepareBaseData() {
         if (this.data.type == "magicCodex") {
             return this._prepareMagicCodexData(this.data);
-            // } else if (this.data.type == "covenant") {
-            //     return this._prepareCovenantData(this.data);
+        } else if (this.data.type == "covenant") {
+            return this._prepareCovenantData(this.data);
         } else {
             return this._prepareCharacterData(this.data);
         }
@@ -69,19 +69,6 @@ export class ArM5ePCActor extends Actor {
         let personalities = [];
 
         let reputations = [];
-        let magi = [];
-        let companion = [];
-        let specialists = [];
-        let habitants = [];
-        let horses = [];
-        let livestock = [];
-        let possessions = [];
-        let visSources = [];
-        let visStock = [];
-        let calendar = [];
-        let incomingSources = [];
-        let laboratoryTexts = [];
-        let mundaneBooks = [];
 
         let totalXPAbilities = 0;
         let totalXPArts = 0;
@@ -240,22 +227,7 @@ export class ArM5ePCActor extends Actor {
                     totalFlaws = parseInt(totalFlaws) + parseInt(ARM5E.impacts[i.data.impact.value].cost);
                 }
             }
-            //else if (i.type === 'ability') {
-            //  i.data.experienceNextLevel = (i.data.score + 1) * 5;
-            //  abilities.push(i);
-            //
-            //  totalXPAbilities = parseInt(totalXPAbilities) + parseInt(CreationPx[i.data.score].abi);
-            //
-            //  if((actorData.type == "player") && (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)){
-            //    if(i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID){       actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.score; }
-            //    if(i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID){     actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.score; }
-            //    if(i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID){ actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.score; }
-            //    if(i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID){      actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.score; }
-            //    if(i._id == actorData.data.laboratory.abilitiesSelected.philosophy.abilityID){    actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.score; }
-            //    if(i._id == actorData.data.laboratory.abilitiesSelected.parma.abilityID){         actorData.data.laboratory.abilitiesSelected.parma.value = i.data.score; }
-            //    if(i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID){   actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score; }
-            //  }
-            //}
+
 
 
             // ugly fix, but I don't know how to do better since prepare data is called before migration
@@ -280,32 +252,6 @@ export class ArM5ePCActor extends Actor {
                 personalities.push(i);
             } else if (i.type === 'reputation') {
                 reputations.push(i);
-            } else if (i.type === 'habitantMagi') {
-                magi.push(i);
-            } else if (i.type === 'habitantCompanion') {
-                companion.push(i);
-            } else if (i.type === 'habitantSpecialists') {
-                specialists.push(i);
-            } else if (i.type === 'habitantHabitants') {
-                habitants.push(i);
-            } else if (i.type === 'habitantHorses') {
-                horses.push(i);
-            } else if (i.type === 'habitantLivestock') {
-                livestock.push(i);
-            } else if (i.type === 'possessionsCovenant') {
-                possessions.push(i);
-            } else if (i.type === 'visSourcesCovenant') {
-                visSources.push(i);
-            } else if (i.type === 'visStockCovenant') {
-                visStock.push(i);
-            } else if (i.type === 'calendarCovenant') {
-                calendar.push(i);
-            } else if (i.type === 'incomingSource') {
-                incomingSources.push(i);
-            } else if (i.type === 'laboratoryText') {
-                laboratoryTexts.push(i);
-            } else if (i.type === 'mundaneBook') {
-                mundaneBooks.push(i);
             }
         }
 
@@ -409,14 +355,7 @@ export class ArM5ePCActor extends Actor {
                 actorData.data.magicalEffects = magicalEffects;
             }
         }
-        if (actorData.data.laboratoryTexts) {
-            let flag = this.getFlag("arm5e", "sorting", 'laboratoryTexts')
-            if (flag && flag['laboratoryTexts'] == true) {
-                actorData.data.laboratoryTexts = laboratoryTexts.sort(compareLabTextsData);
-            } else {
-                actorData.data.laboratoryTexts = laboratoryTexts;
-            }
-        }
+
         if (actorData.data.vis) {
             actorData.data.vis = vis;
         }
@@ -463,9 +402,7 @@ export class ArM5ePCActor extends Actor {
         if (actorData.data.rooms) {
             actorData.data.rooms = rooms;
         }
-        if (actorData.data.magicItems) {
-            actorData.data.magicItems = magicItems;
-        }
+
         if (actorData.data.personalities) {
             actorData.data.personalities = personalities;
         }
@@ -476,36 +413,7 @@ export class ArM5ePCActor extends Actor {
         if (actorData.data.reputations) {
             actorData.data.reputations = reputations;
         }
-        if (actorData.data.habitants) {
-            actorData.data.habitants.magi = magi;
-            actorData.data.habitants.companion = companion;
-            actorData.data.habitants.specialists = specialists;
-            actorData.data.habitants.habitants = habitants;
-            actorData.data.habitants.horses = horses;
-            actorData.data.habitants.livestock = livestock;
-        }
-        if (actorData.data.possessions) {
-            actorData.data.possessions = possessions;
-        }
-        if (actorData.data.visSources) {
-            actorData.data.visSources = visSources;
-        }
-        if (actorData.data.visStock) {
-            actorData.data.visStock = visStock;
-        }
-        if (actorData.data.calendar) {
-            actorData.data.calendar = calendar;
-        }
-        if (actorData.data.incomingSources) {
-            actorData.data.incomingSources = incomingSources;
-        }
-        if (actorData.data.magicBooks) {
-            actorData.data.magicBooks = books;
-        }
 
-        if (actorData.data.mundaneBooks) {
-            actorData.data.mundaneBooks = mundaneBooks;
-        }
 
         log(false, "pc end of prepare actorData");
         log(false, actorData);
@@ -569,8 +477,9 @@ export class ArM5ePCActor extends Actor {
         log(false, "_prepareLabData");
     }
 
-    _prepareCovenantData(covenantData) {
+    _prepareCovenantData(actorData) {
         log(false, "_prepareCovenantData");
+        let reputations = [];
         let magi = [];
         let companion = [];
         let specialists = [];
@@ -583,8 +492,131 @@ export class ArM5ePCActor extends Actor {
         let calendar = [];
         let incomingSources = [];
         let laboratoryTexts = [];
+        let books = [];
         let mundaneBooks = [];
+        let magicItems = [];
+        let items = [];
+        let boons = [];
+        let hooks = [];
+        let diaryEntries = [];
+        let totalVirtues = 0;
+        let totalFlaws = 0;
 
+        for (let [key, item] of actorData.items.entries()) {
+            const i = item.data
+            i.img = i.img || DEFAULT_TOKEN;
+            i._index = key;
+            if (i.type === 'virtue') {
+                boons.push(i);
+                if (ARM5E.impacts[i.data.impact.value]) {
+                    totalVirtues = parseInt(totalVirtues) + parseInt(ARM5E.impacts[i.data.impact.value].cost);
+                }
+
+            } else if (i.type === 'flaw') {
+                hooks.push(i);
+                if (ARM5E.impacts[i.data.impact.value]) {
+                    totalFlaws = parseInt(totalFlaws) + parseInt(ARM5E.impacts[i.data.impact.value].cost);
+                }
+            } else if (i.type === 'diaryEntry' || i.type === 'dairyEntry') {
+                diaryEntries.push(i);
+
+            } else if (i.type === 'reputation') {
+                reputations.push(i);
+            } else if (i.type === 'habitantMagi') {
+                magi.push(i);
+            } else if (i.type === 'habitantCompanion') {
+                companion.push(i);
+            } else if (i.type === 'habitantSpecialists') {
+                specialists.push(i);
+            } else if (i.type === 'habitantHabitants') {
+                habitants.push(i);
+            } else if (i.type === 'habitantHorses') {
+                horses.push(i);
+            } else if (i.type === 'habitantLivestock') {
+                livestock.push(i);
+            } else if (i.type === 'possessionsCovenant') {
+                possessions.push(i);
+            } else if (i.type === 'visSourcesCovenant') {
+                visSources.push(i);
+            } else if (i.type === 'visStockCovenant') {
+                visStock.push(i);
+            } else if (i.type === 'calendarCovenant') {
+                calendar.push(i);
+            } else if (i.type === 'incomingSource') {
+                incomingSources.push(i);
+            } else if (i.type === 'laboratoryText') {
+                laboratoryTexts.push(i);
+            } else if (i.type === 'mundaneBook') {
+                mundaneBooks.push(i);
+            } else if (i.type === 'book') {
+                books.push(i);
+            } else if (i.type === 'magicItem') {
+                magicItems.push(i);
+            } else if (i.type === 'reputation') {
+                reputations.push(i);
+            } else if (i.type === 'item') {
+                items.push(i);
+            }
+        }
+        if (actorData.data.reputations) {
+            actorData.data.reputations = reputations;
+        }
+        if (actorData.data.habitants) {
+            actorData.data.habitants.magi = magi;
+            actorData.data.habitants.companion = companion;
+            actorData.data.habitants.specialists = specialists;
+            actorData.data.habitants.habitants = habitants;
+            actorData.data.habitants.horses = horses;
+            actorData.data.habitants.livestock = livestock;
+        }
+        if (actorData.data.possessions) {
+            actorData.data.possessions = possessions;
+        }
+        if (actorData.data.visSources) {
+            actorData.data.visSources = visSources;
+        }
+        if (actorData.data.visStock) {
+            actorData.data.visStock = visStock;
+        }
+        if (actorData.data.calendar) {
+            actorData.data.calendar = calendar;
+        }
+        if (actorData.data.incomingSources) {
+            actorData.data.incomingSources = incomingSources;
+        }
+        if (actorData.data.magicBooks) {
+            actorData.data.magicBooks = books;
+        }
+
+        if (actorData.data.mundaneBooks) {
+            actorData.data.mundaneBooks = mundaneBooks;
+        }
+        if (actorData.data.magicItems) {
+            actorData.data.magicItems = magicItems;
+        }
+        if (actorData.data.diaryEntries) {
+            actorData.data.diaryEntries = diaryEntries;
+        }
+
+        if (actorData.data.virtues) {
+            actorData.data.virtues = boons;
+        }
+        if (actorData.data.flaws) {
+            actorData.data.flaws = hooks;
+        }
+
+        if (actorData.data.items) {
+            actorData.data.items = items;
+        }
+
+        if (actorData.data.laboratoryTexts) {
+            let flag = this.getFlag("arm5e", "sorting", 'laboratoryTexts')
+            if (flag && flag['laboratoryTexts'] == true) {
+                actorData.data.laboratoryTexts = laboratoryTexts.sort(compareLabTextsData);
+            } else {
+                actorData.data.laboratoryTexts = laboratoryTexts;
+            }
+        }
     }
 
     _getAbilityXp(score) {

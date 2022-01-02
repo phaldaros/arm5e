@@ -1,14 +1,13 @@
-{{!-- possessions --}}
+{{!-- properties --}}
 <ol class="items-list backSection">
     <li class="item flexrow item-header">
         <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
         <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
         <div class="item-image"></div>
-        <div class="item-name">{{localize "arm5e.sheet.posessions"}}</div>
+        <div class="item-name">{{localize "arm5e.sheet.properties"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add possessionsCovenant" data-type="possessionsCovenant"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add possessionsCovenant" data-type="possessionsCovenant"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{#each data.possessions as |item id|}}
@@ -67,8 +66,7 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.visSources"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add visSourcesCovenant" data-type="visSourcesCovenant"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add visSourcesCovenant" data-type="visSourcesCovenant"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{#each data.visSources as |item id|}}
@@ -99,8 +97,7 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.visStock"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add visStockCovenant" data-type="visStockCovenant"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add visStockCovenant" data-type="visStockCovenant"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{#each data.visStock as |item id|}}
@@ -148,5 +145,3 @@
         </li>
     {{/each}}
 </ol>
-
-{{> "systems/arm5e/templates/actor/parts/actor-covenantCalendar.html" }}

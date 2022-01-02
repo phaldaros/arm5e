@@ -10,16 +10,21 @@
             <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
 
             <div class="resources flexrow flex-between">
-                <span class="covenantname" style="padding-top:4px;">
-                    <h2 class="covenantname">
-                        <input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-type="String" />
-                    </h2>
-                    {{#if (eq data.covenant.linked true)}}
-                        <a class="flexrow0 pick-covenant" title="Linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-link"></i></a>
-                    {{else}}
-                        <a class="flexrow0 pick-covenant" title="Not linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-unlink"></i></a>
-                    {{/if}}
-                </span>
+                <div class="flexrow">
+                    <span class="covenantname" style="padding-top:4px;">
+
+                        <h2 class="covenantname">
+                            <input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-type="String" />
+                        </h2>
+                        <div class="flex0">
+                            {{#if (eq data.covenant.linked true)}}
+                                <a class="flexrow0 pick-covenant" title="Linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-link fa-sm"></i></a>
+                            {{else}}
+                                <a class="flexrow0 pick-covenant" title="Not linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-unlink fa-sm"></i></a>
+                            {{/if}}
+                        </div>
+                    </span>
+                </div>
                 <span class="covenantname" style="padding-top:4px;">
                     <label for="data.charType.value" class="smallTitle" style="padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
                     <select class="width2" name="data.charType.value" data-type="String">

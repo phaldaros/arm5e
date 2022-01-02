@@ -52,25 +52,25 @@
         {
             "name": "enchantments",
             "label": "Enchantments",
-            "path": "./packs/enchantments.db",
+            "path": "packs/enchantments.db",
             "entity": "Item"
         },
         {
             "name": "virtues",
             "label": "Virtues",
-            "path": "./packs/virtues.db",
+            "path": "packs/virtues.db",
             "entity": "Item"
         },
         {
             "name": "flaws",
             "label": "Flaws",
-            "path": "./packs/flaws.db",
+            "path": "packs/flaws.db",
             "entity": "Item"
         },
         {
             "name": "abilities",
             "label": "Abilities",
-            "path": "./packs/abilities.db",
+            "path": "packs/abilities.db",
             "entity": "Item"
         },
         {
