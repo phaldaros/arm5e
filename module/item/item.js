@@ -1,4 +1,5 @@
 import {
+    getLabUpkeepCost,
     log
 } from "../tools.js"
 /**
@@ -155,6 +156,9 @@ export class ArM5eItem extends Item {
             } else {
                 itemData.data.castingTotal = 0;
             }
+        } else if (this.type == "labCovenant") {
+            let pts = getLabUpkeepCost(data.upkeep);
+            this.data.data.points = pts * CONFIG.ARM5E.lab.usage[data.usage].coeff;
         }
         // log(false,"prepare-item");
         // log(false,itemData);

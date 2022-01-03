@@ -88,4 +88,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
                 return false;
         }
     }
+
+    async _bindActor(actor) {
+        let updateData = {};
+        if (actor.type == "covenant") {
+            updateData["data.covenant.value"] = actor.name;
+        } else if (actor.type == "player" || actor.type == "npc") {
+            updateData["data.owner"] = actor.name;
+        }
+        return await this.actor.update(updateData, {});
+    }
+
 }

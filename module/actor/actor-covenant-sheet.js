@@ -86,6 +86,25 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
                 }
             }
         }
+        context.data.sancta = game.actors.filter(a => a.type == "laboratory").map(({
+            name,
+            id
+        }) => ({
+            name,
+            id
+        }));
+
+        if (context.data.sancta) {
+            for (let sanctum of context.data.labs) {
+                let lab = context.data.sancta.filter(p => p.name == sanctum.name);
+                if (lab.length > 0) {
+                    sanctum.data.linked = true;
+                    sanctum.data.actorId = lab[0].id;
+                } else {
+                    sanctum.data.linked = false;
+                }
+            }
+        }
 
 
         return context;
@@ -264,16 +283,36 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             }];
 
             // check if it is already bound
-            let comp = targetActor.data.data.habitants.habitants.filter(h => h.name == actor.name)
-            if (comp.length == 0) {
+            let hab = targetActor.data.data.habitants.habitants.filter(h => h.name == actor.name)
+            if (hab.length == 0) {
                 log(false, "Added to inhabitants");
                 return await this.actor.createEmbeddedDocuments("Item", itemData, {});
 
             } else {
-                itemData[0]._id = comp[0]._id;
+                itemData[0]._id = hab[0]._id;
                 return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
             }
 
+        } else if (actor.data.type == "laboratory") {
+            const itemData = [{
+                name: actor.data.name,
+                type: "labCovenant",
+                data: {
+                    owner: actor.data.data.owner,
+                    quality: actor.data.data.generalQuality.value,
+                    upkeep: actor.data.data.maintenance.value
+                }
+            }];
+            // check if it is already bound
+            let lab = targetActor.data.data.labs.filter(h => h.name == actor.name)
+            if (lab.length == 0) {
+                log(false, "Added to sanctums");
+                return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+
+            } else {
+                itemData[0]._id = lab[0]._id;
+                return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+            }
         }
         return {};
     }

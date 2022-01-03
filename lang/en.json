@@ -343,6 +343,10 @@
     "arm5e.sheet.authorship.label": "Authorship",
     "arm5e.sheet.authorship.language": "Language",
 
+    "arm5e.sheet.gift.blatant": "Blatant Gift",
+    "arm5e.sheet.gift.normal": "Normal Gift",
+    "arm5e.sheet.gift.gentle": "Gentle Gift",
+
     "arm5e.spell.applyFocus": "Apply magical focus",
 
     "arm5e.spell.duration.short": "D",
@@ -404,7 +408,12 @@
     "arm5e.sheet.enchantments": "Enchantments",
     "arm5e.sheet.filters": "Filters",
 
+    "arm5e.lab.usage.label": "Usage",
+    "arm5e.lab.usage.light": "Light (1 season or less)",
+    "arm5e.lab.usage.standard": "Standard (2 seasons)",
+    "arm5e.lab.usage.heavy": "Heavy (3+ seasons)",
 
+    "arm5e.lab.upkeep": "Upkeep",
     "arm5e.lab.enchantment.label": "Enchantment",
     "arm5e.lab.enchantment.effectFrequency": "Effect Frequency",
     "arm5e.lab.enchantment.uses-per-day": "use(s) per day",
@@ -454,7 +463,8 @@
     "arm5e.dialog.delete-question": "Are you sure you want to delete that item?",
     "arm5e.dialog.title.rolldie": "Roll die",
     "arm5e.dialog.button.save": "Save",
-    "arm5e.dialog.button.yes": "yes",
+    "arm5e.dialog.button.yes": "Yes",
+    "arm5e.dialog.button.no": "No",
     "arm5e.dialog.button.cancel": "Cancel",
     "arm5e.dialog.button.stressdie": "Stress die",
     "arm5e.dialog.button.simpledie": "Simple die",
@@ -494,5 +504,7 @@
     "arm5e.sheet.source.TME": "Transforming Mythic Europe",
     "arm5e.sheet.source.CI": "The Contested Isle",
     "arm5e.sheet.source.SemE": "Semita Errabunda",
+    "arm5e.sheet.source.Dies": "Dies Irae",
+    "arm5e.sheet.source.Hooks": "Hooks",
     "arm5e.sheet.source.custom": "Homebrew"
 }

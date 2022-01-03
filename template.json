@@ -475,6 +475,7 @@
                 }
             },
             "laboratoryPC": {
+                "sanctum": "",
                 "laboratory": {
                     "longevityRitual": {
                         "labTotal": 0,
@@ -799,8 +800,8 @@
             "levelAura": "",
             "levelsRegio": "",
             "modifiersLife": {
-                "magi": "",
-                "mundane": ""
+                "magi": 1,
+                "mundane": 0
             },
             "aegisCovenant": "",
             "reputations": [],
@@ -868,6 +869,7 @@
                 "livestock": []
             },
             "possessions": [],
+            "labs": [],
             "magicItems": [],
             "items": [],
             "visSources": [],
@@ -990,7 +992,7 @@
             "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
             "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
             "visSourcesCovenant", "visStockCovenant", "magicalEffect", "baseEffect",
-            "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook", "enchantment"
+            "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook", "enchantment", "labCovenant"
         ],
         "templates": {
             "base": {
@@ -1063,7 +1065,6 @@
             "habitant": {
                 "loyalty": 0,
                 "points": 0,
-                "giftType": "",
                 "yearBorn": "",
                 "job": "",
                 "score": 0,
@@ -1157,6 +1158,14 @@
             "environmentalTrigger": "",
             "restrictedUse": "",
             "linkedTrigger": ""
+        },
+        "labCovenant": {
+            "templates": ["base"],
+            "owner": "",
+            "location": "",
+            "upkeep": 0,
+            "usage": "standard",
+            "quality": 0
         },
         "laboratoryText": {
             "templates": ["base", "authorship", "magicalEffectAttributes"],
@@ -1270,7 +1279,8 @@
             "notes": ""
         },
         "habitantMagi": {
-            "templates": ["base", "habitant"]
+            "templates": ["base", "habitant"],
+            "giftType": ""
         },
         "habitantCompanion": {
             "templates": ["base", "habitant"]

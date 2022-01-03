@@ -671,6 +671,12 @@ ARM5E.magic.forms = {
     }
 };
 
+ARM5E.magic.gift = {
+    "normal": "arm5e.sheet.gift.normal",
+    "blatant": "arm5e.sheet.gift.blatant",
+    "gentle": "arm5e.sheet.gift.gentle"
+}
+
 ARM5E.magic.shorts = {
     "duration": "arm5e.spell.duration.short",
     "target": "arm5e.spell.target.short",
@@ -731,6 +737,11 @@ ARM5E.magic.durations = {
         "label": "arm5e.spell.durations.year+1",
         "dtype": "String",
         "impact": 4
+    },
+    "other": {
+        "label": "arm5e.sheet.other",
+        "dtype": "String",
+        "impact": 0
     }
 };
 
@@ -769,6 +780,11 @@ ARM5E.magic.ranges = {
         "label": "arm5e.spell.ranges.arc",
         "dtype": "String",
         "impact": 4
+    },
+    "other": {
+        "label": "arm5e.sheet.other",
+        "dtype": "String",
+        "impact": 0
     }
 };
 
@@ -832,6 +848,11 @@ ARM5E.magic.targets = {
         "label": "arm5e.spell.targets.sight",
         "dtype": "String",
         "impact": 4
+    },
+    "other": {
+        "label": "arm5e.sheet.other",
+        "dtype": "String",
+        "impact": 0
     }
 };
 
@@ -886,6 +907,22 @@ ARM5E.lab.labTextType = {
     "spell": "arm5e.sheet.spell",
     "enchantment": "arm5e.lab.enchantment.label"
 };
+
+ARM5E.lab.usage = {
+    "light": {
+        "label": "arm5e.lab.usage.light",
+        "coeff": 0.5
+    },
+    "standard": {
+        "label": "arm5e.lab.usage.standard",
+        "coeff": 1
+    },
+    "heavy": {
+        "label": "arm5e.lab.usage.heavy",
+        "coeff": 1.5
+    }
+}
+
 
 ARM5E.lab.enchantment = {};
 ARM5E.lab.enchantment.item = {
@@ -1084,6 +1121,12 @@ ARM5E.generic.sourcesTypes = {
     },
     "SemE": {
         "label": "arm5e.sheet.source.SemE"
+    },
+    "Dies": {
+        "label": "arm5e.sheet.source.Dies"
+    },
+    "Hook": {
+        "label": "arm5e.sheet.source.Hooks"
     }
 };
 
