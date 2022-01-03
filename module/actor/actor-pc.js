@@ -498,6 +498,7 @@ export class ArM5ePCActor extends Actor {
         let items = [];
         let boons = [];
         let hooks = [];
+        let labs = [];
         let diaryEntries = [];
         let totalVirtues = 0;
         let totalFlaws = 0;
@@ -556,7 +557,8 @@ export class ArM5ePCActor extends Actor {
                 reputations.push(i);
             } else if (i.type === 'item') {
                 items.push(i);
-            }
+            } else if (i.type === 'labCovenant')
+                labs.push(i);
         }
         if (actorData.data.reputations) {
             actorData.data.reputations = reputations;
@@ -616,6 +618,10 @@ export class ArM5ePCActor extends Actor {
             } else {
                 actorData.data.laboratoryTexts = laboratoryTexts;
             }
+        }
+
+        if (actorData.data.labs) {
+            actorData.data.labs = labs;
         }
     }
 

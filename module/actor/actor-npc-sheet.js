@@ -86,9 +86,12 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     }
 
     async _bindActor(actor) {
-        let updateData = {
-            "data.covenant.value": actor.name
-        };
+        let updateData = {};
+        if (actor.type == "covenant") {
+            updateData["data.covenant.value"] = actor.name;
+        } else if (actor.type == "laboratory") {
+            updateData["data.sanctum.value"] = actor.name;
+        }
         return await this.actor.update(updateData, {});
     }
 

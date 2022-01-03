@@ -83,14 +83,13 @@
             </div>
         </li>
         {{#each data.habitants.magi as |item id|}}
-            {{log item}}
             <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}" data-actor-id="{{item.data.actorId}}">
                 <div class="flexrow flex-center">
                     <span class="flexrow item-title width15">{{item.name}} </span>
                     <span class="flexrow bold width15">{{item.data.job}}</span>
                     <span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: {{item.data.yearBorn}} </span>
                     <span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: {{item.data.points}} </span>
-                    <span class="flexrow bold">{{localize "arm5e.sheet.giftType"}}: {{item.data.giftType}} </span>
+                    <span class="flexrow bold"> {{#with (lookup @root.metadata.magic.gift item.data.giftType)}}{{localize this}} {{/with}}</span>
                 </div>
                 <div class="item-controls">
                     {{#if (eq item.data.linked true)}}
@@ -184,7 +183,7 @@
             </div>
         </li>
         {{#each data.habitants.habitants as |item id|}}
-            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item.id}}" data-actor-id="{{item.data.actorId}}">
+            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}" data-actor-id="{{item.data.actorId}}">
                 <div class="flexrow flex-center">
                     <span class="flexrow item-title width15">{{item.name}}</span>
                     <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>

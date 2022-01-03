@@ -20,6 +20,10 @@ Features
 - Npc magi can have a house now
 - added description field to covenant actors
 - new way to open covenant members sheets 
+- covenants have labs/sanctums
+- characters can have a lab
+- labs, covenants and characters can be dropped on each other to assign their respective values
+- new "Other" option for range, duration and target spell attributes
 
 Bug fixes
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
