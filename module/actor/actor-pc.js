@@ -646,26 +646,58 @@ export class ArM5ePCActor extends Actor {
     }
 
 
-    loseFatigueLevel() {
+    loseFatigueLevel(num) {
+        if ((this.data.type != 'player') && (this.data.type != 'npc') || num < 1) {
+            return;
+        }
+        let updateData = {};
+        if (this.data.data.fatigue.winded.level.value == false && num > 0) {
+            updateData["data.fatigue.winded.level.value"] = true;
+            num--;
+        }
+        if (this.data.data.fatigue.weary.level.value == false && num > 0) {
+            updateData["data.fatigue.weary.level.value"] = true;
+            num--;
+        }
+        if (this.data.data.fatigue.tired.level.value == false && num > 0) {
+            updateData["data.fatigue.tired.level.value"] = true;
+            num--;
+        }
+        if (this.data.data.fatigue.dazed.level.value == false && num > 0) {
+            updateData["data.fatigue.dazed.level.value"] = true;
+            num--;
+        }
+        if (this.data.data.fatigue.unconscious.level.value == false && num > 0) {
+            updateData["data.fatigue.unconscious.level.value"] = true;
+            num--;
+        }
+        if (num > 0) {
+            updateData["data.wounds.light.number.value"] = this.data.data.wounds.light.number.value + num;
+        }
+        this.update(updateData, {});
+    }
+
+    rest() {
         if ((this.data.type != 'player') && (this.data.type != 'npc')) {
             return;
         }
         let updateData = {};
-        if (this.data.data.fatigue.winded.level.value == false) {
-            //this.data.data.fatigue.winded.level.value = true;
-            updateData["data.fatigue.winded.level.value"] = true;
-        } else if (this.data.data.fatigue.weary.level.value == false) {
-            this.data.data.fatigue.weary.level.value = true;
-        } else if (this.data.data.fatigue.tired.level.value == false) {
-            this.data.data.fatigue.tired.level.value = true;
-        } else if (this.data.data.fatigue.dazed.level.value == false) {
-            this.data.data.fatigue.dazed.level.value = true;
-        } else if (this.data.data.fatigue.unconscious.level.value == false) {
-            this.data.data.fatigue.unconscious.level.value = true;
-        } else {
-            this.data.data.wounds.light.number++;
+        if (this.data.data.fatigue.winded.level.value == true) {
+            updateData["data.fatigue.winded.level.value"] = false;
         }
-        this.update(updateData);
+        if (this.data.data.fatigue.weary.level.value == true) {
+            updateData["data.fatigue.weary.level.value"] = false;
+        }
+        if (this.data.data.fatigue.tired.level.value == true) {
+            updateData["data.fatigue.tired.level.value"] = false;
+        }
+        if (this.data.data.fatigue.dazed.level.value == true) {
+            updateData["data.fatigue.dazed.level.value"] = false;
+        }
+        if (this.data.data.fatigue.unconscious.level.value == true) {
+            updateData["data.fatigue.unconscious.level.value"] = false;
+        }
+        this.update(updateData, {});
     }
 
 

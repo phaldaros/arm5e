@@ -230,6 +230,12 @@ export class ArM5eActorSheet extends ActorSheet {
             }
         });
 
+        html.find('.rest').click(ev => {
+            if (this.actor.data.type === "player" || this.actor.data.type === "npc") {
+                this.actor.rest();
+            }
+        });
+
         html.find('.sortable').click(ev => {
 
             const listName = ev.currentTarget.dataset.list;
@@ -340,6 +346,21 @@ export class ArM5eActorSheet extends ActorSheet {
         const element = event.currentTarget;
         const dataset = element.dataset;
 
+        if (this.actor.data.data.wounds.dead.number > 0) {
+            ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
+                permanent: true
+            })
+            return;
+        }
+        if (dataset.roll != "char") {
+            if (this.actor.data.data.fatigue.unconscious.level.value == true) {
+                ui.notifications.info(game.i18n.localize("arm5e.notification.unconscious"), {
+                    permanent: true
+                })
+                return;
+            }
+        }
+
         if (dataset.roll) {
             // clean roll data
             this.actor.data.data.roll.type = "";
@@ -391,7 +412,6 @@ export class ArM5eActorSheet extends ActorSheet {
             }
 
             if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
-
                 if (dataset.id) {
                     this.actor.data.data.roll.effectId = dataset.id;
 
@@ -612,15 +632,13 @@ export class ArM5eActorSheet extends ActorSheet {
                     }).render(true);
                 }
             });
+
+
         }
     }
 
 
-    _rollMagicalStressDie(html, actorData) {
 
-        stressDie(html, actorData);
-        this.actor.loseFatigueLevel();
-    }
     // Overloaded core functions (TODO: review at each Foundry update)
 
 
