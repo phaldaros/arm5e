@@ -24,21 +24,21 @@ async function simpleDie(html, actorData) {
 }
 
 
-async function stressDie(html, actorData) {
+async function stressDie(html, actor) {
     mult = 1;
-    actorData = getFormData(html, actorData);
-    actorData = getRollFormula(actorData);
+    actor = getFormData(html, actor);
+    actor = getRollFormula(actor);
 
-    let name = "<h2 class=\"ars-chat-title\">" + actorData.data.data.roll.label + "</h2>";
-    let dieRoll = await explodingRoll(actorData);
+    let name = "<h2 class=\"ars-chat-title\">" + actor.data.data.roll.label + "</h2>";
+    let dieRoll = await explodingRoll(actor);
     let flavorTxt = name + 'Stress die: <br />';
     if (mult > 1) {
         flavorTxt = name + '<h3>EXPLODING Stress die: </h3><br/>';
     }
-    multiplyRoll(mult, dieRoll, actorData.data.data.roll.rollFormula, actorData.data.data.roll.divide).toMessage({
-        flavor: flavorTxt + actorData.data.data.roll.rollLabel,
+    multiplyRoll(mult, dieRoll, actor.data.data.roll.rollFormula, actor.data.data.roll.divide).toMessage({
+        flavor: flavorTxt + actor.data.data.roll.rollLabel,
         speaker: ChatMessage.getSpeaker({
-            actor: actorData
+            actor: actor
         }),
     });
 }
@@ -148,6 +148,9 @@ function getRollFormula(actor) {
             }
             msg = msg + actorData.roll.formText;
             msg = msg + " (" + valueForm + ")";
+        }
+        if (actorData.roll.type == "magic" || actorData.roll.type == "spont") {
+            actor.loseFatigueLevel(1);
         }
     }
 

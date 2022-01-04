@@ -457,6 +457,9 @@
 
 
 
+    "arm5e.sheet.action.rest": "Rest",
+
+
     "arm5e.dialog.design-effect-question": "Do you want to design a magical effect based on that base effect?",
     "arm5e.dialog.design-spell-question": "Do you want to design a spell based on that effect?",
     "arm5e.dialog.design-enchantment-question": "Do you want to design an enchantement based on that effect?",
@@ -469,6 +472,8 @@
     "arm5e.dialog.button.stressdie": "Stress die",
     "arm5e.dialog.button.simpledie": "Simple die",
 
+    "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
+    "arm5e.notification.dead": "This character is dead...",
 
     "arm5e.sheet.source.ArM5": "Core Book",
     "arm5e.sheet.source.RoP:D": "Realms of Power: The Divine",

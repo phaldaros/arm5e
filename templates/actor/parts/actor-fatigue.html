@@ -1,7 +1,9 @@
 <div class="flexcol grid grid-2col margintop18">
 
     <div class="flex-group-left backSection padding12">
-        <label class="smallTitle">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label>
+        <div class=" grid grid-2col">
+            <label class="smallTitle">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label><button class="arm5e rest" style="font-family: blackmoor;">{{localize "arm5e.sheet.action.rest"}}</button>
+        </div>
         <ol>
             {{#each data.fatigue as |fatigue key|}}
                 <li class="flexrow" data-attribute="{{key}}">

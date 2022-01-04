@@ -49,6 +49,11 @@
     background-color: rgb(236 222 187 / 50%);
 }
 
+.arm5e.button {
+    font-family: "blackmoor";
+    padding: 10px;
+}
+
 
 .rollable:hover,
 .rollable:focus {
