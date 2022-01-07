@@ -112,7 +112,13 @@
                         {{#with (lookup @root.metadata.character.vitals key)}}
                             <label for="data.vitals.{{key}}.label" class="bold">{{localize label}}</label>
                         {{/with}}
-                        <span><input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" /></span>
+                        <span>
+                            {{#if (eq key "soa")}}
+                                <input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" readonly />
+                            {{else}}
+                                <input type="text" name="data.vitals.{{key}}.value" value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" />
+                            {{/if}}
+                        </span>
                     </div>
                 {{/each}}
             </div>
