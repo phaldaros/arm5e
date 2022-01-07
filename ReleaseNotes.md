@@ -28,6 +28,10 @@ Features
 - dead characters are no longer able to roll
 - unconscious characters are only able to roll characteristics rolls
 - new "Rest" button to recover all fatigue levels
+- PC and NPC now store soak and size at the same place (migration needed for NPCs)
+- Soak field is now readonly and computed automatically based on stamina and equiped armor
+- NPCs of type entity only have powers. Those only a might cost and a form (for magical resistance)
+- Vis sources and books now have their metadata available (sourcebook and page).
 
 Bug fixes
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
@@ -41,6 +45,7 @@ Bug fixes
 - moved covenant Calendar to diary tab
 - fixed magicaL focus casting total computation
 - labels of covenant build points are properly displayed again.
+- Fixed problem with Might type not saved for npc entities
 
 
 1.2.3

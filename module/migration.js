@@ -199,6 +199,15 @@ export const migrateActorData = function(actorData) {
         updateData["data.-=mights"] = null;
     }
 
+    if (actorData.data.soak) {
+        updateData["data.vitals.soa.value"] = actorData.data.soak.value;
+        updateData["data.-=soak"] = null;
+    }
+
+    if (actorData.data.size) {
+        updateData["data.vitals.siz.value"] = actorData.data.size.value;
+        updateData["data.-=size"] = null;
+    }
 
     // remove redundant data
     if (actorData.data.houses != undefined) {

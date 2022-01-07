@@ -209,26 +209,46 @@ export class ArM5eActorSheet extends ActorSheet {
 
 
         // Generate abiliy automatically
-        html.find('.abilities-generate').click(ev => {
-            let charType = this.actor.data.data.charType.value;
-            if (charType === "magus" || charType === "magusNPC") {
-                let abilities = this.actor.items.filter(i => i.type == "ability");
-                let newAbilities = [];
-                for (let [key, a] of Object.entries(CONFIG.ARM5E.character.abilities)) {
-                    // if the ability doesn't exists create it
-                    let abs = abilities.filter(ab => ab.data.name == game.i18n.localize(a))
-                    if (abs.length == 0) {
-                        log(false, `Did not find ${game.i18n.localize(a)}, creating it...`);
-                        const itemData = {
-                            name: game.i18n.localize(a),
-                            type: "ability"
-                        };
-                        newAbilities.push(itemData);
-                    }
-                }
-                this.actor.createEmbeddedDocuments("Item", newAbilities, {});
-            }
-        });
+        // html.find('.abilities-generate').click(ev => {
+        //     let charType = this.actor.data.data.charType.value;
+        //     let updateData = {};
+        //     if (charType === "magus" || charType === "magusNPC") {
+        //         let abilities = this.actor.items.filter(i => i.type == "ability");
+        //         let newAbilities = [];
+        //         for (let [key, a] of Object.entries(CONFIG.ARM5E.character.abilities)) {
+        //             let localizedA = game.i18n.localize(a);
+        //             let abs = abilities.filter(ab => ab.name == localizedA || ab.name === localizedA + "*")
+
+        //             if (abs.length == 0) {
+        //                 log(false, `Did not find ${game.i18n.localize(a)}, creating it...`);
+        //                 const itemData = {
+        //                     name: localizedA,
+        //                     type: "ability"
+        //                 };
+        //                 // First, check if the Ability is found in the world
+        //                 abs = game.items.filter(i => i.type === "ability" && (i.name === localizedA || i.name === localizedA + "*"));
+        //                 if (abs.length == 0) {
+        //                     // Then, check if the Abilities compendium exists
+        //                     let abPack = game.packs.filter(p => p.metadata.package === "arm5e" && p.metadata.name === "Abilities")
+
+        //                     for (let p of game.packs) {
+        //                         if (p.metadata.package !== "arm5e") continue;
+
+        //                     }
+
+        //                 } else {
+        //                     itemData.data = foundry.utils.deepClone(abs[0].data)
+        //                 }
+
+        //                 newAbilities.push(itemData);
+
+        //             } else { // found the ability, assign its Id
+        //                 updataData[`data.laboratoryPC.abilitiesSelected.${i.name}`]._id = abs[0]._id;
+        //             }
+        //         }
+        //         this.actor.createEmbeddedDocuments("Item", newAbilities, {});
+        //     }
+        // });
 
         html.find('.rest').click(ev => {
             if (this.actor.data.type === "player" || this.actor.data.type === "npc") {

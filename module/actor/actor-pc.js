@@ -60,6 +60,8 @@ export class ArM5ePCActor extends Actor {
         let abilitiesFamiliar = [];
         let powersFamiliar = [];
 
+        let soak = actorData.data.characteristics.sta.value;
+
         let powers = [];
 
         let specialities = [];
@@ -88,6 +90,8 @@ export class ArM5ePCActor extends Actor {
         };
 
         const data = actorData.data;
+
+
 
         if (data.fatigue) {
             data.fatigueTotal = 0;
@@ -263,6 +267,11 @@ export class ArM5ePCActor extends Actor {
                 }
             }
         }
+
+        if (combat.prot) {
+            soak += combat.prot;
+        }
+
         if (combat.overload < 0) {
             combat.overload = 0;
         }
@@ -354,6 +363,10 @@ export class ArM5ePCActor extends Actor {
             } else {
                 actorData.data.magicalEffects = magicalEffects;
             }
+        }
+
+        if (actorData.data.vitals.soa.value) {
+            actorData.data.vitals.soa.value = soak;
         }
 
         if (actorData.data.vis) {
@@ -677,27 +690,17 @@ export class ArM5ePCActor extends Actor {
         this.update(updateData, {});
     }
 
-    rest() {
+    async rest() {
         if ((this.data.type != 'player') && (this.data.type != 'npc')) {
             return;
         }
         let updateData = {};
-        if (this.data.data.fatigue.winded.level.value == true) {
-            updateData["data.fatigue.winded.level.value"] = false;
-        }
-        if (this.data.data.fatigue.weary.level.value == true) {
-            updateData["data.fatigue.weary.level.value"] = false;
-        }
-        if (this.data.data.fatigue.tired.level.value == true) {
-            updateData["data.fatigue.tired.level.value"] = false;
-        }
-        if (this.data.data.fatigue.dazed.level.value == true) {
-            updateData["data.fatigue.dazed.level.value"] = false;
-        }
-        if (this.data.data.fatigue.unconscious.level.value == true) {
-            updateData["data.fatigue.unconscious.level.value"] = false;
-        }
-        this.update(updateData, {});
+        updateData["data.fatigue.winded.level.value"] = false;
+        updateData["data.fatigue.weary.level.value"] = false;
+        updateData["data.fatigue.tired.level.value"] = false;
+        updateData["data.fatigue.dazed.level.value"] = false;
+        updateData["data.fatigue.unconscious.level.value"] = false;
+        await this.update(updateData, {});
     }
 
 

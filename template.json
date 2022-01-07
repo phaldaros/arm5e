@@ -121,6 +121,17 @@
                         "score": "0"
                     }
                 },
+                "vitals": {
+                    "siz": {
+                        "value": 0
+                    },
+                    "soa": {
+                        "value": 0
+                    },
+                    "enc": {
+                        "value": 0
+                    }
+                },
                 "abilities": [],
                 "weapons": [],
                 "armor": [],
@@ -140,17 +151,6 @@
                     "value": "",
                     "label": "Season",
                     "dtype": "String"
-                },
-                "vitals": {
-                    "siz": {
-                        "value": 0
-                    },
-                    "soa": {
-                        "value": 0
-                    },
-                    "enc": {
-                        "value": 0
-                    }
                 },
                 "year": {
                     "label": "Year",
@@ -708,11 +708,6 @@
                 "value": "mundane",
                 "label": "Char. Type"
             },
-            "size": {
-                "label": "Size",
-                "dtype": "Number",
-                "value": 0
-            },
             "house": {
                 "value": "gen",
                 "label": "House"
@@ -723,15 +718,11 @@
                 "points": 0,
                 "effects": "Warping effects"
             },
-            "soak": {
-                "label": "soak",
-                "dtype": "Number",
-                "value": 0
-            },
             "might": {
                 "label": "Might",
                 "dtype": "Number",
-                "value": 0
+                "value": 0,
+                "type": "magic"
             },
             "powers": []
         },
@@ -1242,8 +1233,10 @@
             "experience": 0,
             "activity": ""
         },
-        "might": {
-            "templates": ["base"]
+        "power": {
+            "templates": ["base"],
+            "form": "an",
+            "cost": 0
         },
         "mightFamiliar": {
             "templates": ["base"]
