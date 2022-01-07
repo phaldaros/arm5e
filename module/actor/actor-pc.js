@@ -365,7 +365,7 @@ export class ArM5ePCActor extends Actor {
             }
         }
 
-        if (actorData.data.vitals.soa.value) {
+        if (actorData.data.vitals.soa) {
             actorData.data.vitals.soa.value = soak;
         }
 

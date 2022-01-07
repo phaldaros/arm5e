@@ -30,8 +30,11 @@ Features
 - new "Rest" button to recover all fatigue levels
 - PC and NPC now store soak and size at the same place (migration needed for NPCs)
 - Soak field is now readonly and computed automatically based on stamina and equiped armor
-- NPCs of type entity only have powers. Those only a might cost and a form (for magical resistance)
+- NPCs of type entity only have powers. Those only have a might cost and a form (for magical resistance)
 - Vis sources and books now have their metadata available (sourcebook and page).
+- Weapons items have now a range
+- Integrated corebook grog templates (by N0Br41nZ)
+- Reviewed armor items with updated icons (by N0Br41nZ)
 
 Bug fixes
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 

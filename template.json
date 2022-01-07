@@ -1085,6 +1085,7 @@
             "dfn": 0,
             "dam": 0,
             "str": 0,
+            "range": 0,
             "load": 0,
             "equiped": false
         },
