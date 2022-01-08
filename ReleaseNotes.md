@@ -38,6 +38,7 @@ Features
 - added an old portuguese version (by Ramon Alves)
 - spells have now a "General" attribute used to compute the level.
 - new filter options in Codex (>=, <=,...)
+- Button to generate needed abilities for magic skills (renamed mnemonics for better tracking)
 
 Bug fixes
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 

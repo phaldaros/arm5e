@@ -208,7 +208,7 @@ function getRollFormula(actor) {
         if (msg != "") {
             msg = msg + " + <br />";
         }
-        msg = msg + game.i18n.localize("arm5e.sheet.artesLib") + " + " + game.i18n.localize("arm5e.sheet.philosophy");
+        msg = msg + game.i18n.localize("arm5e.skill.artesLib") + " + " + game.i18n.localize("arm5e.skill.philosophy");
         //msg = msg + "Artes Liberales + Philosophiae";
         msg = msg + " (" + value + ")";
     }
