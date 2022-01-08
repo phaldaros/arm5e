@@ -379,13 +379,13 @@ ARM5E.character.vitals = {
 };
 
 ARM5E.character.abilities = {
-    "artesLib": "arm5e.sheet.artesLib",
-    "awareness": "arm5e.sheet.awareness",
-    "concentration": "arm5e.sheet.concentration",
-    "finesse": "arm5e.sheet.finesse",
-    "magicTheory": "arm5e.sheet.magicTheory",
-    "parma": "arm5e.sheet.parma",
-    "philosophy": "arm5e.sheet.philosophy"
+    "artesLib": "arm5e.skill.artesLib",
+    "awareness": "arm5e.skill.awareness",
+    "concentration": "arm5e.skill.concentration",
+    "finesse": "arm5e.skill.finesse",
+    "magicTheory": "arm5e.skill.magicTheory",
+    "parma": "arm5e.skill.parma",
+    "philosophy": "arm5e.skill.philosophy"
 }
 
 ARM5E.character.combat = {};
