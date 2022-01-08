@@ -35,6 +35,9 @@ Features
 - Weapons items have now a range
 - Integrated corebook grog templates (by N0Br41nZ)
 - Reviewed armor items with updated icons (by N0Br41nZ)
+- added an old portuguese version (by Ramon Alves)
+- spells have now a "General" attribute used to compute the level.
+- new filter options in Codex (>=, <=,...)
 
 Bug fixes
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch 
@@ -49,6 +52,8 @@ Bug fixes
 - fixed magicaL focus casting total computation
 - labels of covenant build points are properly displayed again.
 - Fixed problem with Might type not saved for npc entities
+- Fixed footer display problem in Codex
+- Fixed remaing item sheets without image.
 
 
 1.2.3

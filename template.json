@@ -969,6 +969,7 @@
         "magicCodex": {
             "techniqueFilter": "",
             "formFilter": "",
+            "levelOperator": 0,
             "levelFilter": 0,
             "baseEffects": [],
             "magicEffects": [],
@@ -1051,7 +1052,8 @@
                 "complexity": 0,
                 "enhancingRequisite": 0,
                 "baseLevel": 0,
-                "baseEffectDescription": ""
+                "baseEffectDescription": "",
+                "general": false
             },
             "habitant": {
                 "loyalty": 0,

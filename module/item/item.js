@@ -49,7 +49,7 @@ export class ArM5eItem extends Item {
 
             // if base level is 0, the "magicRulesEnforcement" has just been enabled, try to compute the base level
             let recomputeSpellLevel = true;
-            if (data.baseLevel == 0) {
+            if (data.baseLevel == 0 && data.general === false) {
                 let newBaseLevel = this.data.data.level;
                 let shouldBeRitual = false;
                 if (data.range.value) {
@@ -74,15 +74,18 @@ export class ArM5eItem extends Item {
                     // ui.notifications.warn(`Spell named \"${this.name}\" is not strictly following magic theory, its level will be recomputed using a base effect of level 1`, {
                     //     permanent: true
                     // });
+                    newBaseLevel = 1;
                     this.data.data.baseLevel = 1
                 } else {
                     this.data.data.baseLevel = newBaseLevel;
-                    if (this.data._id != undefined) {
-                        this.update({
-                            "data.baseLevel": newBaseLevel
-                        });
-                    }
+
                     recomputeSpellLevel = false;
+                }
+                if (this.data._id != undefined) {
+
+                    this.update({
+                        "data.baseLevel": newBaseLevel
+                    }, {});
                 }
             }
             if (recomputeSpellLevel) {
@@ -230,6 +233,8 @@ export class ArM5eItem extends Item {
         if (num == 0) {
             return base;
         }
+        // in case base is a string
+        base = parseInt(base);
         if (num > 0) {
             // log(false, `Adding ${num} magnitudes from ${base}`);
             if (base + num <= 5) {

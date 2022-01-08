@@ -33,6 +33,8 @@ export class ArM5ePCActor extends Actor {
             return this._prepareMagicCodexData(this.data);
         } else if (this.data.type == "covenant") {
             return this._prepareCovenantData(this.data);
+        } else if (this.data.type == "laboratory") {
+            return this._prepareLabData(this.data);
         } else {
             return this._prepareCharacterData(this.data);
         }
@@ -51,6 +53,7 @@ export class ArM5ePCActor extends Actor {
         let magicalEffects = [];
         let vis = [];
         let items = [];
+        let magicItems = [];
         let books = [];
         let virtues = [];
         let flaws = [];
@@ -64,11 +67,7 @@ export class ArM5ePCActor extends Actor {
 
         let powers = [];
 
-        let specialities = [];
-        let distinctive = [];
-        let rooms = [];
-        let magicItems = [];
-        let personalities = [];
+
 
         let reputations = [];
 
@@ -244,12 +243,6 @@ export class ArM5ePCActor extends Actor {
                 powersFamiliar.push(i);
             } else if (i.type === 'might' || i.type === 'power') {
                 powers.push(i);
-            } else if (i.type === 'speciality') {
-                specialities.push(i);
-            } else if (i.type === 'distinctive') {
-                distinctive.push(i);
-            } else if (i.type === 'sanctumRoom') {
-                rooms.push(i);
             } else if (i.type === 'magicItem') {
                 magicItems.push(i);
             } else if (i.type === 'personality') {
@@ -406,23 +399,6 @@ export class ArM5ePCActor extends Actor {
             actorData.data.powers = powers;
         }
 
-        if (actorData.data.specialities) {
-            actorData.data.specialities = specialities;
-        }
-        if (actorData.data.distinctive) {
-            actorData.data.distinctive = distinctive;
-        }
-        if (actorData.data.rooms) {
-            actorData.data.rooms = rooms;
-        }
-
-        if (actorData.data.personalities) {
-            actorData.data.personalities = personalities;
-        }
-        if (actorData.data.rawVis) {
-            actorData.data.rawVis = vis;
-        }
-
         if (actorData.data.reputations) {
             actorData.data.reputations = reputations;
         }
@@ -464,8 +440,16 @@ export class ArM5ePCActor extends Actor {
             spells = spells.filter(e => e.data.data.technique.value === data.techniqueFilter);
         }
         if (data.levelFilter != 0 && data.levelFilter != null) {
-            magicEffects = magicEffects.filter(e => e.data.data.level === data.levelFilter);
-            spells = spells.filter(e => e.data.data.level === data.levelFilter);
+            if (data.levelOperator == 0) {
+                magicEffects = magicEffects.filter(e => e.data.data.level === data.levelFilter);
+                spells = spells.filter(e => e.data.data.level === data.levelFilter);
+            } else if (data.levelOperator == -1) {
+                magicEffects = magicEffects.filter(e => e.data.data.level <= data.levelFilter);
+                spells = spells.filter(e => e.data.data.level <= data.levelFilter);
+            } else {
+                magicEffects = magicEffects.filter(e => e.data.data.level >= data.levelFilter);
+                spells = spells.filter(e => e.data.data.level >= data.levelFilter);
+            }
         }
         data.baseEffects = baseEffects.sort(compareBaseEffects);
         data.magicEffects = magicEffects.sort(compareMagicalEffects);
@@ -488,6 +472,96 @@ export class ArM5ePCActor extends Actor {
 
     _prepareLabData(labData) {
         log(false, "_prepareLabData");
+        let virtues = [];
+        let flaws = [];
+        let specialities = [];
+        let distinctive = [];
+        let rooms = [];
+        let magicItems = [];
+        let personalities = [];
+        let vis = [];
+        let items = [];
+        let books = [];
+        let diaryEntries = [];
+        let totalVirtues = 0;
+        let totalFlaws = 0;
+
+        for (let [key, item] of labData.items.entries()) {
+            const i = item.data
+            if (i.type === 'speciality') {
+                specialities.push(i);
+            } else if (i.type === 'distinctive') {
+                distinctive.push(i);
+            } else if (i.type === 'sanctumRoom') {
+                rooms.push(i);
+            } else if (i.type === 'magicItem') {
+                magicItems.push(i);
+            } else if (i.type === 'personality') {
+                personalities.push(i);
+            } else if (i.type === 'book') {
+                books.push(i);
+            } else if (i.type === 'vis') {
+                vis.push(i);
+            } else if (i.type === 'item') {
+                items.push(i);
+            } else if (i.type === 'virtue') {
+                virtues.push(i);
+                if (ARM5E.impacts[i.data.impact.value]) {
+                    totalVirtues = parseInt(totalVirtues) + parseInt(ARM5E.impacts[i.data.impact.value].cost);
+                }
+            } else if (i.type === 'flaw') {
+                flaws.push(i);
+                if (ARM5E.impacts[i.data.impact.value]) {
+                    totalFlaws = parseInt(totalFlaws) + parseInt(ARM5E.impacts[i.data.impact.value].cost);
+                }
+            } else if (i.type === 'diaryEntry' || i.type === 'dairyEntry') {
+                diaryEntries.push(i);
+            }
+        }
+
+        if (labData.data.specialities) {
+            labData.data.specialities = specialities;
+        }
+        if (labData.data.distinctive) {
+            labData.data.distinctive = distinctive;
+        }
+        if (labData.data.rooms) {
+            labData.data.rooms = rooms;
+        }
+
+        if (labData.data.personalities) {
+            labData.data.personalities = personalities;
+        }
+
+        if (labData.data.items) {
+            labData.data.items = items;
+        }
+        if (labData.data.books) {
+            labData.data.books = books;
+        }
+
+        if (labData.data.rawVis) {
+            labData.data.rawVis = vis;
+        }
+
+        if (labData.data.magicItems) {
+            labData.data.magicItems = magicItems;
+        }
+
+        if (labData.data.virtues) {
+            labData.data.virtues = virtues;
+        }
+        if (labData.data.flaws) {
+            labData.data.flaws = flaws;
+        }
+        if (labData.data.diaryEntries) {
+            labData.data.diaryEntries = diaryEntries;
+        }
+
+        labData.data.totalVirtues = totalVirtues;
+        labData.data.totalFlaws = totalFlaws;
+
+
     }
 
     _prepareCovenantData(actorData) {
