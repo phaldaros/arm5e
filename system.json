@@ -6,7 +6,7 @@
     "minimumCoreVersion": "0.8.6",
     "compatibleCoreVersion": "0.8.9",
     "templateVersion": 3,
-    "author": "ialbiol, phaldaros, sylph, xzotl, jupotter (French version), N0Br41nZ (Italian version)",
+    "author": "ialbiol, phaldaros, sylph, xzotl, jupotter (French version), N0Br41nZ (Italian version), Ramon Alves (Portuguese version), jaircunhavianna (compendium content)",
     "esmodules": ["module/arm5e.js"],
     "styles": ["css/arm5e.css"],
     "packs": [{
@@ -109,6 +109,11 @@
             "lang": "it",
             "name": "Italiano",
             "path": "lang/it.json"
+        },
+        {
+            "lang": "pt",
+            "name": "Portuguese",
+            "path": "lang/pt.json"
         }
     ],
     "gridDistance": 5,
