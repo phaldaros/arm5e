@@ -5,6 +5,7 @@
 
 Features
 - V9 support (WIP, still backward compatible with V8)
+- Reorganized Spells compendium with a folder per form (Recommended module: Compendium Folders)
 
 Bug fixes:
 - Requisites dialog shows up properly.
