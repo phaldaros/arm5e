@@ -5,7 +5,7 @@
 # Node Modules
 node_modules/
 npm-debug.log
-foundry.js
+foundryV9.js
 jsconfig.json
 test.js
 .npmignore

@@ -901,7 +901,6 @@ ARM5E.activities.books = {
 
 ARM5E.lab = {};
 
-// TODO localize
 ARM5E.lab.labTextType = {
     "raw": "arm5e.sheet.labText.raw",
     "spell": "arm5e.sheet.spell",

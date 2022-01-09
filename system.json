@@ -2,11 +2,11 @@
     "name": "arm5e",
     "title": "Ars Magica 5th Edition",
     "description": "Ars Magica 5e for Foundry VTT",
-    "version": "1.2.4",
+    "version": "1.3.0",
     "minimumCoreVersion": "0.8.6",
-    "compatibleCoreVersion": "0.8.9",
+    "compatibleCoreVersion": "9",
     "templateVersion": 3,
-    "author": "ialbiol, phaldaros, sylph, xzotl, jupotter (French version), N0Br41nZ (Italian version), Ramon Alves (Portuguese version), jaircunhavianna (compendium content)",
+    "author": "ialbiol, phaldaros, sylph, xzotl (unofficial dev), jupotter (French version), N0Br41nZ (Italian version), Ramon Alves (Portuguese version), jaircunhavianna (compendium content)",
     "esmodules": ["module/arm5e.js"],
     "styles": ["css/arm5e.css"],
     "packs": [{
@@ -52,24 +52,32 @@
         {
             "name": "enchantments",
             "label": "Enchantments",
+            "system": "arm5e",
+            "module": "arm5e",
             "path": "packs/enchantments.db",
             "entity": "Item"
         },
         {
             "name": "virtues",
             "label": "Virtues",
+            "system": "arm5e",
+            "module": "arm5e",
             "path": "packs/virtues.db",
             "entity": "Item"
         },
         {
             "name": "flaws",
             "label": "Flaws",
+            "system": "arm5e",
+            "module": "arm5e",
             "path": "packs/flaws.db",
             "entity": "Item"
         },
         {
             "name": "abilities",
             "label": "Abilities",
+            "system": "arm5e",
+            "module": "arm5e",
             "path": "packs/abilities.db",
             "entity": "Item"
         },

@@ -1,6 +1,21 @@
 
 ## Release Notes
 
+1.3.0
+
+Features
+- V9 support (WIP, still backward compatible with V8)
+
+Bug fixes:
+- Requisites dialog shows up properly.
+
+
+1.2.4 SP1
+
+Features
+- Spell compendium
+- added an old portuguese version (by Ramon Alves)
+
 1.2.4
 Features
 - multiple requisites support
@@ -35,7 +50,7 @@ Features
 - Weapons items have now a range
 - Integrated corebook grog templates (by N0Br41nZ)
 - Reviewed armor items with updated icons (by N0Br41nZ)
-- added an old portuguese version (by Ramon Alves)
+
 - spells have now a "General" attribute used to compute the level.
 - new filter options in Codex (>=, <=,...)
 - Button to generate needed abilities for magic skills (renamed mnemonics for better tracking)

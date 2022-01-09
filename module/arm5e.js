@@ -183,26 +183,33 @@ Hooks.once('init', async function() {
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-        types: ["magicalEffect"],
+        types: ["magicalEffect", "enchantment", "spell", "baseEffect", "laboratoryText"],
         makeDefault: true
     });
-    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-        types: ["enchantment"],
-        makeDefault: true
-    });
-    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-        types: ["spell"],
-        makeDefault: true
-    });
-    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-        types: ["baseEffect"],
-        makeDefault: true
-    });
-    Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-        types: ["laboratoryText"],
-        makeDefault: true
-    });
+    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+    //     types: [],
+    //     makeDefault: true
+    // });
+    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+    //     types: [],
+    //     makeDefault: true
+    // });
+    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+    //     types: [],
+    //     makeDefault: true
+    // });
+    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+    //     types: [],
+    //     makeDefault: true
+    // });
     Items.registerSheet("arm5e", ArM5eItemSheet, {
+        types: ["weapon", "armor", "vis", "item", "book", "virtue", "flaw", "ability", "abilityFamiliar",
+            "diaryEntry", "dairyEntry", "power", "might", "powerFamiliar", "mightFamiliar", "speciality",
+            "distinctive", "sanctumRoom", "magicItem", "personality", "reputation", "habitantMagi",
+            "habitantCompanion", "habitantSpecialists", "habitantHabitants", "habitantHorses", "habitantLivestock",
+            "possessionsCovenant", "visSourcesCovenant", "visStockCovenant",
+            "calendarCovenant", "incomingSource", "mundaneBook", "labCovenant"
+        ],
         makeDefault: true
     });
 
