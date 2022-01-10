@@ -47,7 +47,8 @@ ARM5E_DEFAULT_ICONS.MONO = {
     "covenant": "icons/svg/castle.svg",
     "npc": "icons/svg/mystery-man-black.svg",
     "laboratory": "icons/svg/tower.svg",
-    "enchantment": "icons/svg/daze.svg"
+    "enchantment": "icons/svg/daze.svg",
+    "labCovenant": "icons/svg/tower.svg"
 };
 ARM5E_DEFAULT_ICONS.COLOR = {
     "weapon": "icons/weapons/swords/greatsword-crossguard-silver.webp",
@@ -86,7 +87,8 @@ ARM5E_DEFAULT_ICONS.COLOR = {
     "covenant": "icons/environment/settlement/wizard-castle.webp",
     "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
     "npc": "icons/svg/mystery-man-black.svg",
-    "laboratory": "icons/tools/laboratory/vials-blue-pink.webp"
+    "laboratory": "icons/tools/laboratory/vials-blue-pink.webp",
+    "labCovenant": "icons/tools/laboratory/vials-blue-pink.webp"
 };
 
 ARM5E.character = {};

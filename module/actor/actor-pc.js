@@ -378,7 +378,7 @@ export class ArM5ePCActor extends Actor {
             actorData.data.flaws = flaws;
         }
         if (actorData.data.abilities) {
-            let flag = this.getFlag("arm5e", "sorting", 'abilities')
+            let flag = this.getFlag("arm5e", "sorting", 'abilities');
             if (flag && flag['abilities'] == true) {
                 actorData.data.abilities = abilities.sort(function(e1, e2) {
                     return e1.name.localeCompare(e2.name);

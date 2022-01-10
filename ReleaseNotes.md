@@ -5,10 +5,13 @@
 
 Features
 - V9 support (WIP, still backward compatible with V8)
-- Reorganized Spells compendium with a folder per form (Recommended module: Compendium Folders)
+- Reorganized Spells compendium with a folder per form (Recommended but optional module: Compendium Folders)
+- Updated FAQ
 
 Bug fixes:
 - Requisites dialog shows up properly.
+- Fixed the use of deprecated getter in compendium migration.
+- Harmonized Actors linking code
 
 
 1.2.4 SP1
