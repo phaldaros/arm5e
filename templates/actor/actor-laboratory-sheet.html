@@ -11,12 +11,26 @@
 
             <div class="resources flexrow flex-between" style="margin-top: 8px;">
                 <span class="covenantname flexrow">
-                    <label for="data.owner" class="bold" style="padding-top: 4px; padding-left: 24px; flex: 0.4;">{{localize "arm5e.sheet.owner"}}</label>
-                    <input name="data.owner" type="text" value="{{data.owner}}" data-dtype="String" />
+                    <label for="data.owner.value" class="bold" style="padding-top: 4px; padding-left: 24px; flex: 0.4;">{{localize "arm5e.sheet.owner"}}</label>
+                    <div>
+                        <input name="data.owner.value" type="text" value="{{data.owner.value}}" data-dtype="String" />
+                        {{#if (eq data.owner.linked true)}}
+                            <a class="flexrow0 actor-link" title="Linked to magus" data-actorid="{{data.owner.actorId}}"><i class="fas fa-link fa-sm"></i></a>
+                        {{else}}
+                            <a class="flexrow0 " title="Not linked to magus"><i class="fas fa-unlink fa-sm"></i></a>
+                        {{/if}}
+                    </div>
                 </span>
-                <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.sanctum" class="bold" style="padding-top: 4px; padding-left: 24px; flex: 0.4;">{{localize "arm5e.sheet.sanctum"}}</label>
-                    <input name="data.sanctum" type="text" value="{{data.sanctum}}" data-dtype="String" />
+                <span class="covenantname flexrow">
+                    <label for=" data.covenant.value" class="bold" style="padding-top:4px;padding-left: 24px; flex: 0.4;">{{localize "arm5e.sheet.covenant"}}</label>
+                    <div>
+                        <input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" />
+                        {{#if (eq data.covenant.linked true)}}
+                            <a class="flexrow0 actor-link" title="Linked to covenant" data-actorid="{{data.covenant.actorId}}"><i class="fas fa-link fa-sm"></i></a>
+                        {{else}}
+                            <a class="flexrow0 " title="Not linked to covenant"><i class="fas fa-unlink fa-sm"></i></a>
+                        {{/if}}
+                    </div>
                 </span>
             </div>
 

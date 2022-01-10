@@ -86,7 +86,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
         if (actor.type == "covenant") {
             updateData["data.covenant.value"] = actor.name;
         } else if (actor.type == "laboratory") {
-            updateData["data.sanctum"] = actor.name;
+            updateData["data.sanctum.value"] = actor.name;
         }
         return await this.actor.update(updateData, {});
     }

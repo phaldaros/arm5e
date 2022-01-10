@@ -125,11 +125,28 @@ export class ArM5eActorSheet extends ActorSheet {
 
         // Arts icons style
         if (actorData.type == "player" || actorData.type == "npc") {
+            context.data.world = {};
             if (context.data.charType.value == "magusNPC" || context.data.charType.value == "magus") {
                 context.artsIcons = game.settings.get("arm5e", "artsIcons");
+                context.data.world.labs = game.actors.filter(a => a.type == "laboratory").map(({
+                    name,
+                    id
+                }) => ({
+                    name,
+                    id
+                }));
+                if (context.data.sanctum) {
+                    let lab = context.data.world.labs.filter(c => c.name == context.data.sanctum.value)
+                    if (lab.length > 0) {
+                        context.data.sanctum.linked = true;
+                        context.data.sanctum.actorId = lab[0].id;
+                    } else {
+                        context.data.sanctum.linked = false;
+                    }
+                }
             }
 
-            context.data.covenants = game.actors.filter(a => a.type == "covenant").map(({
+            context.data.world.covenants = game.actors.filter(a => a.type == "covenant").map(({
                 name,
                 id
             }) => ({
@@ -137,13 +154,16 @@ export class ArM5eActorSheet extends ActorSheet {
                 id
             }));
             if (context.data.covenant) {
-                let cov = context.data.covenants.filter(c => c.name == context.data.covenant.value)
+                let cov = context.data.world.covenants.filter(c => c.name == context.data.covenant.value)
                 if (cov.length > 0) {
                     context.data.covenant.linked = true;
+                    context.data.covenant.actorId = cov[0].id
                 } else {
                     context.data.covenant.linked = false;
                 }
             }
+
+
 
         }
 
@@ -156,6 +176,7 @@ export class ArM5eActorSheet extends ActorSheet {
         //context.effects = prepareActiveEffectCategories(this.actor.effects);
 
         this._prepareCharacterItems(context);
+
         // console.log("sheetData from pc sheet");
         // console.log(context);
 
@@ -185,7 +206,7 @@ export class ArM5eActorSheet extends ActorSheet {
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
         // Render the linked actor sheet for viewing/editing prior to the editable check.
-        html.find('.item-link').click(this._onActorRender.bind(this));
+        html.find('.actor-link').click(this._onActorRender.bind(this));
 
         // Add Inventory Item
         html.find('.item-create').click(this._onItemCreate.bind(this));
@@ -250,8 +271,9 @@ export class ArM5eActorSheet extends ActorSheet {
 
     async _onActorRender(event) {
         event.preventDefault();
-        const li = $(event.currentTarget).parents(".item");
-        const actor = game.actors.get(li.data("actorId"));
+        const header = event.currentTarget
+        const id = header.dataset.actorid;
+        const actor = game.actors.get(id);
         actor.sheet.render(true);
     }
 

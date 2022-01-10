@@ -142,11 +142,6 @@
                 "magicalEffects": []
             },
             "pc": {
-                "con": {
-                    "label": "Confidence ",
-                    "score": 1,
-                    "points": 3
-                },
                 "season": {
                     "value": "",
                     "label": "Season",
@@ -475,7 +470,9 @@
                 }
             },
             "laboratoryPC": {
-                "sanctum": "",
+                "sanctum": {
+                    "value": ""
+                },
                 "laboratory": {
                     "longevityRitual": {
                         "labTotal": 0,
@@ -732,7 +729,10 @@
                 "dtype": "String",
                 "value": "Covenant Name"
             },
-            "owner": "",
+            "owner": {
+                "dtype": "String",
+                "value": ""
+            },
             "location": "",
             "points": 0,
             "sanctum": "",

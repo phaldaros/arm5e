@@ -83,7 +83,7 @@ async function migration(originalVersion) {
     // Migrate World Compendium Packs
     for (let p of game.packs) {
         if (p.metadata.package !== "world") continue;
-        if (!["Actor", "Item", "Scene"].includes(p.metadata.entity)) continue;
+        if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
         await migrateCompendium(p);
     }
 
@@ -101,8 +101,8 @@ async function migration(originalVersion) {
  * @return {Promise}
  */
 export const migrateCompendium = async function(pack) {
-    const entity = pack.metadata.entity;
-    if (!["Actor", "Item", "Scene"].includes(entity)) return;
+    const documentName = pack.documentName;
+    if (!["Actor", "Item", "Scene"].includes(documentName)) return;
 
     // Unlock the pack for editing
     const wasLocked = pack.locked;
@@ -118,12 +118,12 @@ export const migrateCompendium = async function(pack) {
     for (let doc of documents) {
         let updateData = {};
         try {
-            switch (entity) {
+            switch (documentName) {
                 case "Actor":
-                    updateData = migrateActorData(doc.toObject());
+                    updateData = await migrateActorData(doc.toObject());
                     break;
                 case "Item":
-                    updateData = migrateItemData(doc.toObject());
+                    updateData = await migrateItemData(doc.toObject());
                     break;
                     // case "Scene":
                     //     updateData = migrateSceneData(doc.data);
@@ -133,7 +133,7 @@ export const migrateCompendium = async function(pack) {
             // Save the entry, if data was changed
             if (foundry.utils.isObjectEmpty(updateData)) continue;
             await doc.update(updateData);
-            console.log(`Migrated ${entity} entity ${doc.name} in Compendium ${pack.collection}`);
+            console.log(`Migrated ${documentName} entity ${doc.name} in Compendium ${pack.collection}`);
         }
 
         // Handle migration failures
@@ -147,7 +147,7 @@ export const migrateCompendium = async function(pack) {
     await pack.configure({
         locked: wasLocked
     });
-    console.log(`Migrated all ${entity} entities from Compendium ${pack.collection}`);
+    console.log(`Migrated all ${documentName} entities from Compendium ${pack.collection}`);
 };
 /* -------------------------------------------- */
 /*  Entity Type Migration Helpers               */
@@ -166,6 +166,13 @@ export const migrateActorData = function(actorData) {
 
     // 
     if (actorData.type == 'laboratory') {
+
+        if (actorData.data.owner != "") {
+            let owner = {
+                value: actorData.data.owner
+            };
+            updateData["data.owner"] = owner
+        }
         return updateData;
     }
 
@@ -188,6 +195,8 @@ export const migrateActorData = function(actorData) {
             updateData["data.-=labarotary"] = null;
         }
     }
+
+
 
     if (actorData.data.mightsFam) {
         updateData["data.powersFam"] = actorData.data.mightsFam;
@@ -242,72 +251,94 @@ export const migrateActorData = function(actorData) {
         updateData["data.roll.aura"] = 0;
         updateData["data.roll.rollLabel"] = "";
         updateData["data.roll.rollFormula"] = "";
+
+        // remove garbage stuff if it exists
+
+        updateData["data.-=str"] = null;
+        updateData["data.-=sta"] = null;
+        updateData["data.-=int"] = null;
+        updateData["data.-=per"] = null;
+        updateData["data.-=dex"] = null;
+        updateData["data.-=qik"] = null;
+        updateData["data.-=cha"] = null;
+        updateData["data.-=com"] = null;
     }
 
-    if (actorData.data.charType == "magus") {
-        updateData["data.laboratory.longevityRitual.labTotal"] = 0;
-        updateData["data.laboratory.longevityRitual.modifier"] = 0;
-        updateData["data.laboratory.longevityRitual.twilightScars"] = "";
+    if (actorData.type == "player" || actorData.type == "npc") {
+        if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
 
-        updateData["data.laboratory.abilitiesSelected.finesse.abilityID"] = "";
-        // updateData["data.laboratory.abilitiesSelected.finesse.value"] = 0;
-        updateData["data.laboratory.abilitiesSelected.finesse.label"] = "";
-        updateData["data.laboratory.abilitiesSelected.awareness.abilityID"] = "";
-        // updateData["data.laboratory.abilitiesSelected.awareness.value"] = 0;
-        updateData["data.laboratory.abilitiesSelected.awareness.label"] = "";
-        updateData["data.laboratory.abilitiesSelected.concentration.abilityID"] = "";
-
-        // updateData["data.laboratory.abilitiesSelected.concentration.value"] = 0;
-
-        updateData["data.laboratory.abilitiesSelected.concentration.label"] = "";
-        updateData["data.laboratory.abilitiesSelected.artesLib.abilityID"] = "";
-        // updateData["data.laboratory.abilitiesSelected.artesLib.value"] = 0;
-        updateData["data.laboratory.abilitiesSelected.artesLib.label"] = "";
-        updateData["data.laboratory.abilitiesSelected.philosophy.abilityID"] = "";
-        // updateData["data.laboratory.abilitiesSelected.philosophy.value"] = 0;
-        updateData["data.laboratory.abilitiesSelected.philosophy.label"] = "";
-        updateData["data.laboratory.abilitiesSelected.parma.abilityID"] = "";
-        // updateData["data.laboratory.abilitiesSelected.parma.value"] = 0;
-        updateData["data.laboratory.abilitiesSelected.parma.label"] = "";
-        updateData["data.laboratory.abilitiesSelected.magicTheory.abilityID"] = "";
-        // updateData["data.laboratory.abilitiesSelected.magicTheory.value"] = 0;
-        updateData["data.laboratory.abilitiesSelected.magicTheory.label"] = "";
-
-        // updateData["data.laboratory.fastCastingSpeed.value"] = 0;
-        // updateData["data.laboratory.determiningEffect.value"] = 0;
-        // updateData["data.laboratory.targeting.value"] = 0;
-        // updateData["data.laboratory.concentration.value"] = 0;
-        // updateData["data.laboratory.magicResistance.value"] = 0;
-        // updateData["data.laboratory.multipleCasting.value"] = 0;
-        // updateData["data.laboratory.basicLabTotal.value"] = 0;
-        // updateData["data.laboratory.visLimit.value"] = 0;
+            if (actorData.data.sanctum != "") {
+                let sanctum = {
+                    value: actorData.data.sanctum
+                };
+                updateData["data.sanctum"] = sanctum
+            }
 
 
+            updateData["data.laboratory.longevityRitual.labTotal"] = 0;
+            updateData["data.laboratory.longevityRitual.modifier"] = 0;
+            updateData["data.laboratory.longevityRitual.twilightScars"] = "";
 
-        updateData["data.familiar.characteristicsFam.int"] = {
-            "value": actorData.data.familiar.characteristicsFam.int.value
-        };
-        updateData["data.familiar.characteristicsFam.per"] = {
-            "value": actorData.data.familiar.characteristicsFam.per.value
-        };
-        updateData["data.familiar.characteristicsFam.str"] = {
-            "value": actorData.data.familiar.characteristicsFam.str.value
-        };
-        updateData["data.familiar.characteristicsFam.sta"] = {
-            "value": actorData.data.familiar.characteristicsFam.sta.value
-        };
-        updateData["data.familiar.characteristicsFam.pre"] = {
-            "value": actorData.data.familiar.characteristicsFam.pre.value
-        };
-        updateData["data.familiar.characteristicsFam.com"] = {
-            "value": actorData.data.familiar.characteristicsFam.com.value
-        };
-        updateData["data.familiar.characteristicsFam.dex"] = {
-            "value": actorData.data.familiar.characteristicsFam.dex.value
-        };
-        updateData["data.familiar.characteristicsFam.qik"] = {
-            "value": actorData.data.familiar.characteristicsFam.qik.value
-        };
+            updateData["data.laboratory.abilitiesSelected.finesse.abilityID"] = "";
+            // updateData["data.laboratory.abilitiesSelected.finesse.value"] = 0;
+            updateData["data.laboratory.abilitiesSelected.finesse.label"] = "";
+            updateData["data.laboratory.abilitiesSelected.awareness.abilityID"] = "";
+            // updateData["data.laboratory.abilitiesSelected.awareness.value"] = 0;
+            updateData["data.laboratory.abilitiesSelected.awareness.label"] = "";
+            updateData["data.laboratory.abilitiesSelected.concentration.abilityID"] = "";
+
+            // updateData["data.laboratory.abilitiesSelected.concentration.value"] = 0;
+
+            updateData["data.laboratory.abilitiesSelected.concentration.label"] = "";
+            updateData["data.laboratory.abilitiesSelected.artesLib.abilityID"] = "";
+            // updateData["data.laboratory.abilitiesSelected.artesLib.value"] = 0;
+            updateData["data.laboratory.abilitiesSelected.artesLib.label"] = "";
+            updateData["data.laboratory.abilitiesSelected.philosophy.abilityID"] = "";
+            // updateData["data.laboratory.abilitiesSelected.philosophy.value"] = 0;
+            updateData["data.laboratory.abilitiesSelected.philosophy.label"] = "";
+            updateData["data.laboratory.abilitiesSelected.parma.abilityID"] = "";
+            // updateData["data.laboratory.abilitiesSelected.parma.value"] = 0;
+            updateData["data.laboratory.abilitiesSelected.parma.label"] = "";
+            updateData["data.laboratory.abilitiesSelected.magicTheory.abilityID"] = "";
+            // updateData["data.laboratory.abilitiesSelected.magicTheory.value"] = 0;
+            updateData["data.laboratory.abilitiesSelected.magicTheory.label"] = "";
+
+            // updateData["data.laboratory.fastCastingSpeed.value"] = 0;
+            // updateData["data.laboratory.determiningEffect.value"] = 0;
+            // updateData["data.laboratory.targeting.value"] = 0;
+            // updateData["data.laboratory.concentration.value"] = 0;
+            // updateData["data.laboratory.magicResistance.value"] = 0;
+            // updateData["data.laboratory.multipleCasting.value"] = 0;
+            // updateData["data.laboratory.basicLabTotal.value"] = 0;
+            // updateData["data.laboratory.visLimit.value"] = 0;
+
+
+
+            updateData["data.familiar.characteristicsFam.int"] = {
+                "value": actorData.data.familiar.characteristicsFam.int.value
+            };
+            updateData["data.familiar.characteristicsFam.per"] = {
+                "value": actorData.data.familiar.characteristicsFam.per.value
+            };
+            updateData["data.familiar.characteristicsFam.str"] = {
+                "value": actorData.data.familiar.characteristicsFam.str.value
+            };
+            updateData["data.familiar.characteristicsFam.sta"] = {
+                "value": actorData.data.familiar.characteristicsFam.sta.value
+            };
+            updateData["data.familiar.characteristicsFam.pre"] = {
+                "value": actorData.data.familiar.characteristicsFam.pre.value
+            };
+            updateData["data.familiar.characteristicsFam.com"] = {
+                "value": actorData.data.familiar.characteristicsFam.com.value
+            };
+            updateData["data.familiar.characteristicsFam.dex"] = {
+                "value": actorData.data.familiar.characteristicsFam.dex.value
+            };
+            updateData["data.familiar.characteristicsFam.qik"] = {
+                "value": actorData.data.familiar.characteristicsFam.qik.value
+            };
+        }
     }
 
     // Migrate Owned Items
