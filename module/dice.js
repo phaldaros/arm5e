@@ -75,9 +75,9 @@ function getFormData(html, actorData) {
         actorData.data.data.roll.aura = find[0].value;
     }
 
-    find = html.find('.SelectedModifier');
+    find = html.find('.SelectedAdvantage');
     if (find.length > 0) {
-        actorData.data.data.roll.modifier = find[0].value;
+        actorData.data.data.roll.advantage = find[0].value;
     }
 
     find = html.find('.SelectedFocus');
@@ -211,6 +211,17 @@ function getRollFormula(actor) {
         msg = msg + game.i18n.localize("arm5e.skill.artesLib") + " + " + game.i18n.localize("arm5e.skill.philosophy");
         //msg = msg + "Artes Liberales + Philosophiae";
         msg = msg + " (" + value + ")";
+    }
+    debugger;
+     if (actorData.roll.advantage != 0) {
+        value = actorData.roll.advantage;
+        total = parseInt(total) + parseInt(value);
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + game.i18n.localize("arm5e.sheet.advantage");
+        msg = msg + " (" + value + ")";
+
     }
     if (actorData.roll.modifier != 0) {
         value = actorData.roll.modifier;

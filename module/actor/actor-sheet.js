@@ -390,6 +390,7 @@ export class ArM5eActorSheet extends ActorSheet {
             this.actor.data.data.roll.type = "";
             this.actor.data.data.roll.label = "";
             this.actor.data.data.roll.modifier = 0;
+            this.actor.data.data.roll.advantage = 0;
             this.actor.data.data.roll.characteristic = "";
             this.actor.data.data.roll.ability = "";
             this.actor.data.data.roll.abilitySpeciality = false;
@@ -555,15 +556,18 @@ export class ArM5eActorSheet extends ActorSheet {
         if ((dataset.roll == 'combat') || (dataset.roll == 'option')) {
             template = "systems/arm5e/templates/roll/roll-options.html";
         }
-        if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
+        else if(dataset.roll == 'damage') {
+            template = "systems/arm5e/templates/roll/roll-damage.html";
+        }
+        else if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
             template = "systems/arm5e/templates/roll/roll-characteristic.html";
         }
-        if (dataset.roll == 'spont') {
+        else if (dataset.roll == 'spont') {
             //spontaneous magic
             template = "systems/arm5e/templates/roll/roll-magic.html";
             this.actor.data.data.roll.characteristic = "sta";
         }
-        if (dataset.roll == 'magic' || dataset.roll == 'spell') {
+        else if (dataset.roll == 'magic' || dataset.roll == 'spell') {
             template = "systems/arm5e/templates/roll/roll-spell.html";
             this.actor.data.data.roll.characteristic = "sta";
         }
@@ -627,6 +631,22 @@ export class ArM5eActorSheet extends ActorSheet {
                                 icon: "<i class='fas fa-ban'></i>",
                                 label: game.i18n.localize("arm5e.dialog.button.cancel"),
                                 callback: null
+                            },
+                        }
+                    }, {
+                        classes: ['arm5e-dialog', 'dialog'],
+                        height: "auto"
+                    }).render(true);
+
+                } else if (dataset.roll == "damage") {
+                    new Dialog({
+                        title: game.i18n.localize("arm5e.dialog.title.rolldie"),
+                        content: html,
+                        buttons: {
+                            yes: {
+                                icon: "<i class='fas fa-check'></i>",
+                                label: game.i18n.localize("arm5e.dialog.button.simpledie"),
+                                callback: (html) => simpleDie(html, actor)
                             },
                         }
                     }, {
