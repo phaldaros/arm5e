@@ -75,6 +75,11 @@ function getFormData(html, actorData) {
         actorData.data.data.roll.aura = find[0].value;
     }
 
+    find = html.find('.SelectedModifier');
+    if (find.length > 0) {
+        actorData.data.data.roll.modifier = find[0].value;
+    }
+
     find = html.find('.SelectedAdvantage');
     if (find.length > 0) {
         actorData.data.data.roll.advantage = find[0].value;
