@@ -217,7 +217,6 @@ function getRollFormula(actor) {
         //msg = msg + "Artes Liberales + Philosophiae";
         msg = msg + " (" + value + ")";
     }
-    debugger;
      if (actorData.roll.advantage != 0) {
         value = actorData.roll.advantage;
         total = parseInt(total) + parseInt(value);
