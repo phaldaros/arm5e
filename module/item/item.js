@@ -47,6 +47,9 @@ export class ArM5eItem extends Item {
         }
         if (this._needLevelComputation()) {
 
+            if (this._isNotMigrated()) {
+                return;
+            }
             // if base level is 0, the "magicRulesEnforcement" has just been enabled, try to compute the base level
             let recomputeSpellLevel = true;
             if (data.baseLevel == 0 && data.general === false) {
@@ -171,11 +174,33 @@ export class ArM5eItem extends Item {
 
         let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
         let enforceEnchantmentLevel = (this.type == "laboratoryText" && (this.data.data.type == "spell" || this.data.data.type == "enchantment"))
-        return (this.type == "magicalEffect" || this.type == "enchantment" || enforceSpellLevel || enforceEnchantmentLevel)
+        return (this.type == "magicalEffect" || this.type == "enchantment" || enforceSpellLevel || enforceEnchantmentLevel);
     }
 
     _isMagicalEffect() {
         return (this.type == "magicalEffect" || this.type == "enchantment" || this.type == "spell");
+    }
+
+
+    // to tell whether a spell needs to be migrated
+    _isNotMigrated() {
+
+        if (this.data.data.range.value === undefined ||
+            this.data.data.duration.value === undefined ||
+            this.data.data.target.value === undefined) {
+            console.warn(`The spell ${this.name} has not been migrated, please trigger a manual migration!`);
+            return true;
+        }
+        if (CONFIG.ARM5E.magic.ranges[this.data.data.range.value] === undefined ||
+            CONFIG.ARM5E.magic.durations[this.data.data.duration.value] === undefined ||
+            CONFIG.ARM5E.magic.targets[this.data.data.target.value] === undefined) {
+            // if those values are not defined, this spell hasn't been migrated, no need to attempt to compute anything
+
+            console.warn(`The spell ${this.name} has not been migrated, please trigger a manual migration!`);
+            return true;
+        }
+        return false;
+
     }
 
 

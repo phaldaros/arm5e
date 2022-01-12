@@ -112,19 +112,28 @@ export class ArM5eItemSheet extends ItemSheet {
         if (!this.options.editable) return;
 
         // data-id and data-attr needed
-        // html.find(".toggle").change((event) => this._handleToggle(event));
-
+        html.find(".increase-ability").click(event => this._increaseScore(this.item));
+        html.find(".decrease-ability").click((event) => this._deccreaseScore(this.item));
     }
 
 
-    _handleToggle(event) {
-        event.preventDefault();
-        const itemId = event.currentTarget.dataset.itemId;
-        const item = this.actor.items.get(itemId);
-        const attr = "data." + event.currentTarget.dataset.attr;
-        log(false, item.data);
-        return item.update({
-            attr: !getProperty(item.data.data, event.currentTarget.dataset.attr)
-        });
+    async _increaseScore(item) {
+        await item.update({
+            data: {
+                xp: (item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5 / 2
+            }
+        }, {});
     }
+    async _deccreaseScore(item) {
+        let newScore = 0;
+        if (item.data.data.derivedScore != 0) {
+            await item.update({
+                data: {
+                    xp: (item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5 / 2
+                }
+            }, {});
+        }
+
+    }
+
 }

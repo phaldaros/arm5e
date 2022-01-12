@@ -43,4 +43,25 @@ export function effectToLabText(spellData) {
 
 }
 
+export function resetOwnerFields(itemData) {
+
+
+    switch (itemData.type) {
+        case "spell":
+            delete itemData.data.mastery;
+            delete itemData.data.exp;
+            delete itemData.data.bonus;
+            delete itemData.data.applyFocus;
+            return itemData;
+        case "ability":
+            delete itemData.data.xp;
+            delete itemData.data.experience;
+            delete itemData.data.experienceNextLevel;
+            delete itemData.data.score;
+            return itemData;
+        default:
+            return itemData;
+    }
+}
+
 /* -------------------------------------------- */
