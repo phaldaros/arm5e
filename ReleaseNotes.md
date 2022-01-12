@@ -7,11 +7,18 @@ Features
 - V9 support (WIP, still backward compatible with V8)
 - Reorganized Spells compendium with a folder per form (Recommended but optional module: Compendium Folders)
 - Updated FAQ
+- During migration, when guessing a spell attribute, it defaults to "other" instead of personal/moment/individual
+- Rework of xp tracking for abilities
+- score field of abilities is now read only, but can be adjusted with buttons
 
 Bug fixes:
 - Requisites dialog shows up properly.
 - Fixed the use of deprecated getter in compendium migration.
 - Harmonized Actors linking code
+- Item properties linked to character (mastery, experience) are no longer displayed if not owned
+- Fixed migration resetting magic skills selection.
+- Spell levels are no longer computed if it is not migrated (prevent a bunch of errors in logs)
+
 
 
 1.2.4 SP1

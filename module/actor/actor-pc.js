@@ -9,7 +9,8 @@ import {
     compareMagicalEffects,
     compareMagicalEffectsData,
     compareLabTextsData,
-    log
+    log,
+    error
 } from "../tools.js"
 
 /**
@@ -29,6 +30,11 @@ export class ArM5ePCActor extends Actor {
 
     /** @override */
     prepareBaseData() {
+
+    }
+
+    /** @override */
+    prepareDerivedData() {
         if (this.data.type == "magicCodex") {
             return this._prepareMagicCodexData(this.data);
         } else if (this.data.type == "covenant") {
@@ -120,45 +126,48 @@ export class ArM5ePCActor extends Actor {
             // ItemData#data now contains the data
             let i = item.data;
             if (i.type === 'ability') {
-                // score is null in some compendiums
-                if (!i.data.score) {
-                    i.data.score = 0;
-                }
-                i.data.experienceNextLevel = (i.data.score + 1) * 5;
+                i.data.derivedScore = this._getAbilityScore(i.data.xp);
+                // if (i.data.score != i.data.derivedScore && i.data.xp != 0) {
+                //     error(false, "Wrong computation of score: Original: " + i.data.score + " vs Computed: " + i.data.derivedScore + " XPs:" + i.data.xp);
+                //     this._getAbilityScore(i.data.xp);
+                // }
+                i.data.xpNextLevel = (i.data.derivedScore + 1) * 5;
+                i.data.remainingXp = i.data.xp - this._getAbilityXp(i.data.derivedScore)
+
                 abilities.push(i);
 
                 const temp = {
                     id: i._id,
                     name: i.name,
-                    value: i.data.score
+                    value: i.data.derivedScore
                 };
                 //abilitiesSelect.push(temp);
                 abilitiesSelect['a' + key] = temp;
 
-                totalXPAbilities = parseInt(totalXPAbilities) + this._getAbilityXp(i.data.score);
+                totalXPAbilities = parseInt(totalXPAbilities) + i.data.xp;
 
                 if (this._isMagus() &&
                     (actorData.data.laboratory) && (actorData.data.laboratory.abilitiesSelected)) {
                     if (i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID) {
-                        actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.score;
+                        actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.derivedScore;
                     }
                     if (i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID) {
-                        actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.score;
+                        actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.derivedScore;
                     }
                     if (i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID) {
-                        actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.score;
+                        actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.derivedScore;
                     }
                     if (i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID) {
-                        actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.score;
+                        actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.derivedScore;
                     }
                     if (i._id == actorData.data.laboratory.abilitiesSelected.philosophy.abilityID) {
-                        actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.score;
+                        actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.derivedScore;
                     }
                     if (i._id == actorData.data.laboratory.abilitiesSelected.parma.abilityID) {
-                        actorData.data.laboratory.abilitiesSelected.parma.value = i.data.score;
+                        actorData.data.laboratory.abilitiesSelected.parma.value = i.data.derivedScore;
                     }
                     if (i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID) {
-                        actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.score;
+                        actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.derivedScore;
                     }
                 }
             }
@@ -184,7 +193,7 @@ export class ArM5ePCActor extends Actor {
                     } else {
                         for (var a = 0; a < abilities.length; a++) {
                             if (abilities[a]._id == i.data.ability) {
-                                let hab = abilities[a].data.score;
+                                let hab = abilities[a].data.derivedScore;
                                 if (i.data.weaponExpert) {
                                     hab = parseInt(hab) + 1;
                                 }
@@ -715,8 +724,25 @@ export class ArM5ePCActor extends Actor {
     _getAbilityXp(score) {
         return this._getArtXp(score) * 5;
     }
+
+    _getAbilityScore(xp) {
+
+        return this._getArtScore(Math.floor(xp / 5));
+    }
+
     _getArtXp(score) {
         return score * (score + 1) / 2;
+    }
+
+    _getArtScore(xp) {
+
+        let res = 0
+        while (xp > res) {
+            res++;
+            xp = xp - res;
+
+        }
+        return res;
     }
 
     _isMagus() {

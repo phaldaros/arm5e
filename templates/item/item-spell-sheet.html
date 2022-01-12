@@ -91,27 +91,30 @@
                             {{/each}} {{/select}}
                     </select>
                 </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
-                    <input type="checkbox" name="data.applyFocus" {{checked data.applyFocus}}>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
-                    <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.experience"}}</label>
-                    <input type="text" name="data.exp" value="{{data.exp}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.mastery"}}</label>
-                    <input type="text" name="data.mastery" value="{{data.mastery}}" data-dtype="Number" />
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.masteryAbilities"}}</label>
-                    <input type="text" name="data.masteryAbilities" value="{{data.masteryAbilities}}" data-dtype="String" />
-                </div>
-
+                {{#if item.parent}}
+                    {{#if (ne item.parent.data.type "magicCodex")}}
+                        <div class="resource">
+                            <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+                            <input type="checkbox" name="data.applyFocus" {{checked data.applyFocus}}>
+                        </div>
+                        <div class="resource">
+                            <label class="header-label">{{localize "arm5e.sheet.bonus"}}</label>
+                            <input type="text" name="data.bonus" value="{{data.bonus}}" data-dtype="Number" />
+                        </div>
+                        <div class="resource">
+                            <label class="header-label">{{localize "arm5e.sheet.experience"}}</label>
+                            <input type="text" name="data.exp" value="{{data.exp}}" data-dtype="Number" />
+                        </div>
+                        <div class="resource">
+                            <label class="header-label">{{localize "arm5e.sheet.mastery"}}</label>
+                            <input type="text" name="data.mastery" value="{{data.mastery}}" data-dtype="Number" />
+                        </div>
+                        <div class="resource">
+                            <label class="header-label">{{localize "arm5e.sheet.masteryAbilities"}}</label>
+                            <input type="text" name="data.masteryAbilities" value="{{data.masteryAbilities}}" data-dtype="String" />
+                        </div>
+                    {{/if}}
+                {{/if}}
 
             </div>
 

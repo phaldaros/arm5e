@@ -6,7 +6,8 @@ import {
 } from "./actor-sheet.js";
 
 import {
-    effectToLabText
+    effectToLabText,
+    resetOwnerFields
 } from "../item/item-converter.js"
 
 /**
@@ -186,6 +187,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             itemData = item.toObject();
             type = itemData.type;
         } else {
+            // if it has a owner, clear actor specific fields
             type = data.data.type;
             itemData = data.data;
         }

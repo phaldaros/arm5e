@@ -48,7 +48,7 @@ async function migration(originalVersion) {
                     enforceTypes: false
                 });
             }
-            console.log(`Migrated Item entity ${i.data.data}`);
+            console.log(`Migrated Item entity ${i.name}`);
 
             // const cleanData = cleanItemData(i.data)
             // if (!isObjectEmpty(cleanData)) {
@@ -265,6 +265,8 @@ export const migrateActorData = function(actorData) {
     }
 
     if (actorData.type == "player" || actorData.type == "npc") {
+
+
         if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
 
             if (actorData.data.sanctum != "") {
@@ -279,29 +281,29 @@ export const migrateActorData = function(actorData) {
             updateData["data.laboratory.longevityRitual.modifier"] = 0;
             updateData["data.laboratory.longevityRitual.twilightScars"] = "";
 
-            updateData["data.laboratory.abilitiesSelected.finesse.abilityID"] = "";
-            // updateData["data.laboratory.abilitiesSelected.finesse.value"] = 0;
-            updateData["data.laboratory.abilitiesSelected.finesse.label"] = "";
-            updateData["data.laboratory.abilitiesSelected.awareness.abilityID"] = "";
-            // updateData["data.laboratory.abilitiesSelected.awareness.value"] = 0;
-            updateData["data.laboratory.abilitiesSelected.awareness.label"] = "";
-            updateData["data.laboratory.abilitiesSelected.concentration.abilityID"] = "";
+            // updateData["data.laboratory.abilitiesSelected.finesse.abilityID"] = "";
+            // // updateData["data.laboratory.abilitiesSelected.finesse.value"] = 0;
+            // updateData["data.laboratory.abilitiesSelected.finesse.label"] = "";
+            // updateData["data.laboratory.abilitiesSelected.awareness.abilityID"] = "";
+            // // updateData["data.laboratory.abilitiesSelected.awareness.value"] = 0;
+            // updateData["data.laboratory.abilitiesSelected.awareness.label"] = "";
+            // updateData["data.laboratory.abilitiesSelected.concentration.abilityID"] = "";
 
-            // updateData["data.laboratory.abilitiesSelected.concentration.value"] = 0;
+            // // updateData["data.laboratory.abilitiesSelected.concentration.value"] = 0;
 
-            updateData["data.laboratory.abilitiesSelected.concentration.label"] = "";
-            updateData["data.laboratory.abilitiesSelected.artesLib.abilityID"] = "";
-            // updateData["data.laboratory.abilitiesSelected.artesLib.value"] = 0;
-            updateData["data.laboratory.abilitiesSelected.artesLib.label"] = "";
-            updateData["data.laboratory.abilitiesSelected.philosophy.abilityID"] = "";
-            // updateData["data.laboratory.abilitiesSelected.philosophy.value"] = 0;
-            updateData["data.laboratory.abilitiesSelected.philosophy.label"] = "";
-            updateData["data.laboratory.abilitiesSelected.parma.abilityID"] = "";
-            // updateData["data.laboratory.abilitiesSelected.parma.value"] = 0;
-            updateData["data.laboratory.abilitiesSelected.parma.label"] = "";
-            updateData["data.laboratory.abilitiesSelected.magicTheory.abilityID"] = "";
-            // updateData["data.laboratory.abilitiesSelected.magicTheory.value"] = 0;
-            updateData["data.laboratory.abilitiesSelected.magicTheory.label"] = "";
+            // updateData["data.laboratory.abilitiesSelected.concentration.label"] = "";
+            // updateData["data.laboratory.abilitiesSelected.artesLib.abilityID"] = "";
+            // // updateData["data.laboratory.abilitiesSelected.artesLib.value"] = 0;
+            // updateData["data.laboratory.abilitiesSelected.artesLib.label"] = "";
+            // updateData["data.laboratory.abilitiesSelected.philosophy.abilityID"] = "";
+            // // updateData["data.laboratory.abilitiesSelected.philosophy.value"] = 0;
+            // updateData["data.laboratory.abilitiesSelected.philosophy.label"] = "";
+            // updateData["data.laboratory.abilitiesSelected.parma.abilityID"] = "";
+            // // updateData["data.laboratory.abilitiesSelected.parma.value"] = 0;
+            // updateData["data.laboratory.abilitiesSelected.parma.label"] = "";
+            // updateData["data.laboratory.abilitiesSelected.magicTheory.abilityID"] = "";
+            // // updateData["data.laboratory.abilitiesSelected.magicTheory.value"] = 0;
+            // updateData["data.laboratory.abilitiesSelected.magicTheory.label"] = "";
 
             // updateData["data.laboratory.fastCastingSpeed.value"] = 0;
             // updateData["data.laboratory.determiningEffect.value"] = 0;
@@ -366,6 +368,29 @@ export const migrateActorData = function(actorData) {
 export const migrateItemData = function(itemData) {
 
     const updateData = {};
+
+    //
+    // migrate abilities xp
+    //
+    if (itemData.type === "ability") {
+        // if the experience is equal or bigger than the xp for this score, use it as total xp
+        let exp = (itemData.data.score * (itemData.data.score + 1) / 2 * 5);
+        if (itemData.data.experience >= exp) {
+            updateData["data.xp"] = itemData.data.experience;
+        } else if (itemData.data.experience >= (itemData.data.score + 1) * 5) {
+            // if the experience is bigger than the neeeded for next level, ignore it
+            updateData["data.xp"] = exp;
+        } else { // compute normally
+            updateData["data.xp"] = exp + itemData.data.experience;
+        }
+
+        // TODO: to be uncommentedm when we are sure the new system works
+        // updateData["data.-=experience"] = null;
+        // updateData["data.-=score"] = null;
+        updateData["data.-=experienceNextLevel"] = null;
+
+    }
+
     if (_isMagicalItem(itemData)) {
         if (itemData.type != "baseEffect") {
             if (itemData.data.duration.value === undefined) {
@@ -380,6 +405,13 @@ export const migrateItemData = function(itemData) {
                 // console.log(`Guessing target: ${itemData.data.target}`);
                 updateData["data.target.value"] = _guessTarget(itemData.name, itemData.data.target);
             }
+        }
+
+        if (itemData.data.technique.value === "") {
+            updateData["data.technique.value"] = "cr";
+        }
+        if (itemData.data.form.value === "") {
+            updateData["data.form.value"] = "an";
         }
         // remove redundant data
         if (itemData.data.techniques != undefined) {
@@ -439,7 +471,7 @@ function _isMagicalItem(itemData) {
         case "baseEffect":
             return true;
         case "laboratoryText": {
-            return itemData.data.type == "spell";
+            return itemData.data.type === "spell";
         }
         default:
             return false;
@@ -519,7 +551,7 @@ function _guessRange(name, value) {
                 permanent: true
             });
             console.warn(`Range \"${value}\" of spell ${name} could not be guessed`);
-            return "personal";
+            return "other";
     }
 }
 
@@ -587,7 +619,7 @@ function _guessTarget(name, value) {
                 permanent: true
             });
             console.warn(`Target \"${value}\" of spell ${name} could not be guessed`);
-            return "ind";
+            return "other";
     }
 }
 
@@ -645,7 +677,7 @@ function _guessDuration(name, value) {
                 permanent: true
             });
             console.warn(`Duration \"${value}\" of spell ${name} could not be guessed`);
-            return "moment";
+            return "other";
     }
 }
 export {
