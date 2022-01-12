@@ -18,9 +18,9 @@
                         </h2>
                         <div class="flex0">
                             {{#if (eq data.covenant.linked true)}}
-                                <a class="flexrow0 pick-covenant" title="Linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-link fa-sm"></i></a>
+                                <a class="flexrow0 actor-link" title="Linked to covenant" data-actorid="{{data.covenant.actorId}}"><i class="fas fa-link fa-sm"></i></a>
                             {{else}}
-                                <a class="flexrow0 pick-covenant" title="Not linked to covenant" data-list="covenants" data-value="{{data.covenant.value}}"><i class="fas fa-unlink fa-sm"></i></a>
+                                <a class="flexrow0 " title="Not linked to covenant"><i class="fas fa-unlink fa-sm"></i></a>
                             {{/if}}
                         </div>
                     </span>

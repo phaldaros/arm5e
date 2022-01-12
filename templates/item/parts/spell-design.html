@@ -58,10 +58,14 @@
             <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
             <input type="text" name="data.enhancingRequisite" value="{{data.enhancingRequisite}}" data-dtype="Number" />
         </div>
-        <div class="resource">
-            <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
-            <input type="checkbox" name="data.applyFocus" {{checked data.applyFocus}}>
-        </div>
+        {{#if item.parent}}
+            {{#if (ne item.parent.data.type "magicCodex")}}
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+                    <input type="checkbox" name="data.applyFocus" {{checked data.applyFocus}}>
+                </div>
+            {{/if}}
+        {{/if}}
         <div class="resource">
             <label class="header-label"><b>{{localize "arm5e.spell.targets.baseSize.label" }}: </b></label>
             {{#with (lookup metadata.magic.forms data.form.value)}}

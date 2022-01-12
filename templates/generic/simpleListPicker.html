@@ -4,8 +4,8 @@
         {{log data}}
         <select class="SelectedItem" name="data.data.covenant.value" data-type="String">
             {{#select data.data.covenant.value}}
-                {{#each data.data.covenants}}
-                    <option value="{{this}}">{{this.name}}</option>
+                {{#each data.data.world.covenants}}
+                    <option value="{{this.name}}">{{this.name}}</option>
                 {{/each}} {{/select}}
         </select>
     </div>

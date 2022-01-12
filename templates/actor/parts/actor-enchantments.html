@@ -4,7 +4,10 @@
         <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
         <div class="item-image"></div>
-        <div class="item-name">{{localize "arm5e.sheet.enchantments"}}</div>
+        <div>
+            <span class="item-name">{{localize "arm5e.sheet.enchantments"}} </span>
+            <span>( {{ data.enchantmentsCount }} )</span>
+        </div>
     </li>
     {{#each data.enchantments as |enchantment id|}}
         <li class="item spell-value flexrow flex-center" data-name="{{enchantment.data.name}}" data-item-id="{{enchantment.id}}" data-item-type="{{enchantment.data.type}}">

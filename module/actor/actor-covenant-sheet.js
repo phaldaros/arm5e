@@ -6,7 +6,8 @@ import {
 } from "./actor-sheet.js";
 
 import {
-    effectToLabText
+    effectToLabText,
+    resetOwnerFields
 } from "../item/item-converter.js"
 
 /**
@@ -48,8 +49,8 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         context.metadata = CONFIG.ARM5E;
         log(false, "Covenant-sheet getData");
         log(false, context);
-
-        context.data.people = game.actors.filter(a => a.type == "player" || a.type == "npc").map(({
+        context.data.world = {};
+        context.data.world.people = game.actors.filter(a => a.type == "player" || a.type == "npc").map(({
             name,
             id
         }) => ({
@@ -57,9 +58,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             id
         }));
 
-        if (context.data.people) {
+        if (context.data.world.people.length > 1) {
             for (let person of context.data.habitants.magi) {
-                let per = context.data.people.filter(p => p.name == person.name);
+                let per = context.data.world.people.filter(p => p.name == person.name);
                 if (per.length > 0) {
                     person.data.linked = true;
                     person.data.actorId = per[0].id;
@@ -68,7 +69,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
                 }
             }
             for (let person of context.data.habitants.companion) {
-                let per = context.data.people.filter(p => p.name == person.name);
+                let per = context.data.world.people.filter(p => p.name == person.name);
                 if (per.length > 0) {
                     person.data.linked = true;
                     person.data.actorId = per[0].id;
@@ -77,7 +78,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
                 }
             }
             for (let person of context.data.habitants.habitants) {
-                let per = context.data.people.filter(p => p.name == person.name);
+                let per = context.data.world.people.filter(p => p.name == person.name);
                 if (per.length > 0) {
                     person.data.linked = true;
                     person.data.actorId = per[0].id;
@@ -86,7 +87,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
                 }
             }
         }
-        context.data.sancta = game.actors.filter(a => a.type == "laboratory").map(({
+        context.data.world.labs = game.actors.filter(a => a.type == "laboratory").map(({
             name,
             id
         }) => ({
@@ -94,9 +95,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             id
         }));
 
-        if (context.data.sancta) {
+        if (context.data.labs) {
             for (let sanctum of context.data.labs) {
-                let lab = context.data.sancta.filter(p => p.name == sanctum.name);
+                let lab = context.data.world.labs.filter(p => p.name == sanctum.name);
                 if (lab.length > 0) {
                     sanctum.data.linked = true;
                     sanctum.data.actorId = lab[0].id;
@@ -186,6 +187,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             itemData = item.toObject();
             type = itemData.type;
         } else {
+            // if it has a owner, clear actor specific fields
             type = data.data.type;
             itemData = data.data;
         }
@@ -298,7 +300,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
                 name: actor.data.name,
                 type: "labCovenant",
                 data: {
-                    owner: actor.data.data.owner,
+                    owner: actor.data.data.owner.value,
                     quality: actor.data.data.generalQuality.value,
                     upkeep: actor.data.data.maintenance.value
                 }

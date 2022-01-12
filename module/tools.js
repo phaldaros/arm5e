@@ -14,6 +14,18 @@ export function log(force, ...args) {
   }
 }
 
+export function error(force, ...args) {
+    try {
+      const isDebugging = game.modules.get('_dev-mode')?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
+  
+      if (force || isDebugging) {
+        console.error(ARM5E.MODULE_ID, '|', ...args);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
 export function compareBaseEffects(e1, e2) {
   if (e1.data.data.form.value < e2.data.data.form.value) {
       return -1;

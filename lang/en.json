@@ -241,6 +241,9 @@
     "arm5e.sheet.properties": "Properties and land",
     "arm5e.sheet.economics": "Economics",
 
+
+
+    "arm5e.sheet.covenant": "Covenant",
     "arm5e.sheet.saga": "Saga",
     "arm5e.sheet.narrator": "Storyguide",
     "arm5e.sheet.sagaType": "Saga Type",
@@ -407,6 +410,7 @@
     "arm5e.sheet.magical-effects": "Magical effects",
     "arm5e.sheet.enchantments": "Enchantments",
     "arm5e.sheet.filters": "Filters",
+    "arm5e.sheet.count": "Count",
 
     "arm5e.lab.usage.label": "Usage",
     "arm5e.lab.usage.light": "Light (1 season or less)",
@@ -476,6 +480,8 @@
     "arm5e.notification.dead": "This character is dead...",
 
     "arm5e.packs.abilities.name": "Abilities",
+
+
 
 
     "arm5e.sheet.source.ArM5": "Core Book",
