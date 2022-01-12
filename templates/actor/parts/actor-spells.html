@@ -4,7 +4,10 @@
             <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
             <div class="item-image"></div>
-            <div class="item-name">{{localize "arm5e.sheet.spells"}}</div>
+            <div>
+                <span class="item-name">{{localize "arm5e.sheet.spells"}} </span>
+                <span>( {{ data.spellsCount }} )</span>
+            </div>
         </li>
         {{#each data.spells as |spell id|}}
             <li class="item spell-value flexrow" data-name="{{spell.data.name}}" data-item-id="{{spell.id}}" data-item-type="{{spell.data.type}}">
