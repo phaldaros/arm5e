@@ -4,7 +4,10 @@
         <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
         <div class="item-image"></div>
-        <div class="item-name">{{localize "arm5e.sheet.magical-effects"}}</div>
+        <div>
+            <span class="item-name">{{localize "arm5e.sheet.magical-effects"}} </span>
+            <span>( {{ data.magicEffectsCount }} )</span>
+        </div>
     </li>
     {{#each data.magicEffects as |effect id|}}
         <li class="item spell-value flexrow flex-center" data-name="{{effect.data.name}}" data-item-id="{{effect.id}}" data-item-type="{{effect.data.type}}">

@@ -8,8 +8,10 @@ Features
 - Reorganized Spells compendium with a folder per form (Recommended but optional module: Compendium Folders)
 - Updated FAQ
 - During migration, when guessing a spell attribute, it defaults to "other" instead of personal/moment/individual
-- Rework of xp tracking for abilities
-- score field of abilities is now read only, but can be adjusted with buttons
+- Rework of xp tracking for abilities (migration needed)
+- Grogs compendium migrated
+- Score field of abilities is now read only, but can be adjusted with buttons
+- Number of items after filtering is now displayed in Codex
 
 Bug fixes:
 - Requisites dialog shows up properly.

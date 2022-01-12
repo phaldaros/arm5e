@@ -461,9 +461,13 @@ export class ArM5ePCActor extends Actor {
             }
         }
         data.baseEffects = baseEffects.sort(compareBaseEffects);
+        data.baseEffectCount = baseEffects.length;
         data.magicEffects = magicEffects.sort(compareMagicalEffects);
+        data.magicEffectsCount = magicEffects.length;
         data.enchantments = enchantments.sort(compareMagicalEffects);
+        data.enchantmentsCount = enchantments.length;
         data.spells = spells.sort(compareSpells);
+        data.spellsCount = spells.length;
 
     }
 
