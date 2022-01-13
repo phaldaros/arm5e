@@ -62,6 +62,13 @@
     cursor: pointer;
 }
 
+.clickable:hover,
+.clickable:focus {
+    color: #000;
+    text-shadow: 0 0 10px red;
+    cursor: pointer;
+}
+
 .design:hover,
 .design:focus {
     color: #000;

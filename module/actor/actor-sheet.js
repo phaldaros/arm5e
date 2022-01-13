@@ -236,6 +236,7 @@ export class ArM5eActorSheet extends ActorSheet {
         html.find('.rollable').click(this._onRoll.bind(this));
 
         html.find('.pick-covenant').click(this._onPickCovenant.bind(this));
+        html.find('.soak-damage').click(this._onSoakDamage.bind(this));
 
         // Drag events for macros.
         if (this.actor.isOwner) {
@@ -302,6 +303,54 @@ export class ArM5eActorSheet extends ActorSheet {
                         icon: "<i class='fas fa-check'></i>",
                         label: `Yes`,
                         callback: (html) => setCovenant(html, actor)
+                    },
+                    no: {
+                        icon: "<i class='fas fa-ban'></i>",
+                        label: `Cancel`,
+                        callback: null
+                    },
+                }
+            }, {
+                jQuery: true,
+                height: "140px",
+                classes: ['arm5e-dialog', 'dialog']
+            }).render(true);;
+        });
+    }
+
+    async _onSoakDamage(html, actor) {
+        event.preventDefault();
+
+        const damageString = game.i18n.localize("arm5e.sheet.damage").toLowerCase() + "</h2>";
+        const damageMessages = game.messages.filter((msg) => {
+            const flavor = (msg?.data?.flavor || '').toLowerCase();
+            return flavor.indexOf(damageString) > -1;
+        });
+        const messageDamage = damageMessages.pop();
+        const damage = parseInt(messageDamage.data.content);
+        const extraData = {
+            damage,
+            modifier: 0,
+        }
+
+        const element = event.currentTarget;
+        log("false", this.actor.data);
+        var actor = this.actor;
+
+        const data = {
+            actor,
+            extraData,
+        }
+        let template = "systems/arm5e/templates/actor/parts/actor-soak.html";
+        renderTemplate(template, data).then(function (html) {
+            new Dialog({
+                title: game.i18n.localize("arm5e.dialog.chooseCovenant"),
+                content: html,
+                buttons: {
+                    yes: {
+                        icon: "<i class='fas fa-check'></i>",
+                        label: `Yes`,
+                        callback: (html) => setWounds(html, actor)
                     },
                     no: {
                         icon: "<i class='fas fa-ban'></i>",
@@ -558,7 +607,24 @@ export class ArM5eActorSheet extends ActorSheet {
         }
         else if(dataset.roll == 'damage') {
             template = "systems/arm5e/templates/roll/roll-damage.html";
+            const attackString = game.i18n.localize("arm5e.sheet.attack").toLowerCase() + "</h2>";
+            const combatMessages = game.messages.filter((msg) => {
+                const flavor = (msg?.data?.flavor || '').toLowerCase();
+                return flavor.indexOf(attackString) > -1;
+            });
+            console.log(combatMessages)
+            const messageAttack = combatMessages.pop();
+            const attack = parseInt(messageAttack.data.content);
+            const defenseString = game.i18n.localize("arm5e.sheet.defense").toLowerCase() + "</h2>";;
+            const defenseMessages = game.messages.filter((msg) => {
+                const flavor = (msg?.data?.flavor || '').toLowerCase();
+                return flavor.indexOf(defenseString) > -1;
+            });
+            const messageDefense = defenseMessages.pop();
+            const defense = parseInt(messageDefense.data.content);
+            this.actor.data.data.roll.advantage = attack - defense;
         }
+
         else if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
             template = "systems/arm5e/templates/roll/roll-characteristic.html";
         }
@@ -617,7 +683,8 @@ export class ArM5eActorSheet extends ActorSheet {
                         classes: ['arm5e-dialog', 'dialog'],
                         height: "auto"
                     }).render(true);
-                } else if (dataset.roll == "option") {
+                }
+                 else if (dataset.roll == "option") {
                     new Dialog({
                         title: game.i18n.localize("arm5e.dialog.title.rolldie"),
                         content: html,
@@ -654,7 +721,7 @@ export class ArM5eActorSheet extends ActorSheet {
                         height: "auto"
                     }).render(true);
 
-                } else {
+                }  else {
                     new Dialog({
                         title: game.i18n.localize("arm5e.dialog.title.rolldie"),
                         content: html,
@@ -739,5 +806,100 @@ export async function setCovenant(selector, actor) {
         actorUpdate["data.covenant.value"] = found[0].value;
     }
 
+    await actor.update(actorUpdate);
+}
+
+export async function setWounds(selector, actor) {
+
+    const damageToApply = parseInt(selector.find('input[name$="damage"]').val())
+    const modifier = parseInt(selector.find('input[name$="modifier"]').val());
+
+    const damage = damageToApply - modifier - actor.data.data.combat.prot - actor.data.data.characteristics.sta.value;
+
+    const sizesAndWounds = 
+        {
+            "-4": {
+                1:'light',
+                2:'medium',
+                3:'heavy',
+                4:'incap',
+                5:'dead'
+            },
+            "-3": {
+                1:'light',
+                3:'medium',
+                5:'heavy',
+                7:'incap',
+                9:'dead'
+            },
+            "-2": {
+                1:'light',
+                4:'medium',
+                7:'heavy',
+                10:'incap',
+                13:'dead'
+            },
+            "-1": {
+                1:'light',
+                5:'medium',
+                9:'heavy',
+                13:'incap',
+                17:'dead'
+            },
+            "0": {
+                1:'light',
+                6:'medium',
+                11:'heavy',
+                16:'incap',
+                21:'dead'
+            },
+            "1": {
+                1:'light',
+                7:'medium',
+                13:'heavy',
+                19:'incap',
+                25:'dead'
+            },
+            "2": {
+                1:'light',
+                8:'medium',
+                15:'heavy',
+                22:'incap',
+                29:'dead'
+            },
+            "3": {
+                1:'light',
+                9:'medium',
+                17:'heavy',
+                25:'incap',
+                33:'dead'
+            },
+        }
+
+    
+
+    const size = actor.data.data.vitals.siz.value.toString();
+    const typeOfWoundsBySize = sizesAndWounds[size.toString()];
+    
+    const wounds = Object.keys(typeOfWoundsBySize);
+
+    let typeOfWound = ''
+    wounds.forEach((wound) => {
+        if (Number(wound) < damage) {
+            typeOfWound = typeOfWoundsBySize[wound];
+        }
+    })
+
+    let actorUpdate = {
+        data: {
+            wounds: {
+                [typeOfWound]: {
+                    number: {
+                        value: actor.data.data.wounds[typeOfWound].number.value + 1
+                    }
+                }
+            }
+        }
+    };
     await actor.update(actorUpdate);
 }
