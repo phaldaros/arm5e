@@ -10,14 +10,14 @@
             <label class="resource-label">-</label>
         </div>
         <div class="flexrow flex-group-center ">
-            <label class="resource-label">{{localize "arm5e.sheet.stamina" }} ({{ numberFormat actor.data.data.characteristics.sta.value decimals=0 sign=true }})</label>
+            <label class="resource-label" name="stamina" value="{{actor.data.data.characteristics.sta.value}}">{{localize "arm5e.sheet.stamina" }} ({{ numberFormat actor.data.data.characteristics.sta.value decimals=0 sign=true }})</label>
         </div>
 
         <div class="flexrow flex-group-center">
             <label class="resource-label">-</label>
         </div>
         <div class="flexrow flex-group-center">
-            <label class="resource-label">{{localize "arm5e.sheet.soak" }} ({{ numberFormat actor.data.data.combat.prot decimals=0 sign=true }})</label>
+            <label class="resource-label" name="prot" value="{{actor.data.data.combat.prot}}">{{localize "arm5e.sheet.soak" }} ({{ numberFormat actor.data.data.combat.prot decimals=0 sign=true }})</label>
         </div>
 
         <div class="flexrow flex-group-center">

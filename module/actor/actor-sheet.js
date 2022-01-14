@@ -11,7 +11,9 @@ import {
     ARM5E
 } from '../metadata.js';
 import {
-    log
+    log,
+    getLastMessageByKey,
+    calculateWound,
 } from "../tools.js"
 
 export class ArM5eActorSheet extends ActorSheet {
@@ -320,14 +322,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     async _onSoakDamage(html, actor) {
         event.preventDefault();
-
-        const damageString = game.i18n.localize("arm5e.sheet.damage").toLowerCase() + "</h2>";
-        const damageMessages = game.messages.filter((msg) => {
-            const flavor = (msg?.data?.flavor || '').toLowerCase();
-            return flavor.indexOf(damageString) > -1;
-        });
-        const messageDamage = damageMessages.pop();
-        const damage = parseInt(messageDamage.data.content);
+        const damage = parseInt(getLastMessageByKey(game, 'arm5e.sheet.damage').data.content);
         const extraData = {
             damage,
             modifier: 0,
@@ -607,21 +602,8 @@ export class ArM5eActorSheet extends ActorSheet {
         }
         else if(dataset.roll == 'damage') {
             template = "systems/arm5e/templates/roll/roll-damage.html";
-            const attackString = game.i18n.localize("arm5e.sheet.attack").toLowerCase() + "</h2>";
-            const combatMessages = game.messages.filter((msg) => {
-                const flavor = (msg?.data?.flavor || '').toLowerCase();
-                return flavor.indexOf(attackString) > -1;
-            });
-            console.log(combatMessages)
-            const messageAttack = combatMessages.pop();
-            const attack = parseInt(messageAttack.data.content);
-            const defenseString = game.i18n.localize("arm5e.sheet.defense").toLowerCase() + "</h2>";;
-            const defenseMessages = game.messages.filter((msg) => {
-                const flavor = (msg?.data?.flavor || '').toLowerCase();
-                return flavor.indexOf(defenseString) > -1;
-            });
-            const messageDefense = defenseMessages.pop();
-            const defense = parseInt(messageDefense.data.content);
+            const attack = parseInt(getLastMessageByKey(game, 'arm5e.sheet.attack').data.content);
+            const defense = parseInt(getLastMessageByKey(game, 'arm5e.sheet.defense').data.content);
             this.actor.data.data.roll.advantage = attack - defense;
         }
 
@@ -637,7 +619,7 @@ export class ArM5eActorSheet extends ActorSheet {
             template = "systems/arm5e/templates/roll/roll-spell.html";
             this.actor.data.data.roll.characteristic = "sta";
         }
-
+        7
         if (template != "") {
             // render template
             renderTemplate(template, this.actor.data).then(function(html) {
@@ -811,85 +793,16 @@ export async function setCovenant(selector, actor) {
 
 export async function setWounds(selector, actor) {
 
-    const damageToApply = parseInt(selector.find('input[name$="damage"]').val())
+    const damageToApply = parseInt(selector.find('input[name$="damage"]').val());
     const modifier = parseInt(selector.find('input[name$="modifier"]').val());
-
-    const damage = damageToApply - modifier - actor.data.data.combat.prot - actor.data.data.characteristics.sta.value;
-
-    const sizesAndWounds = 
-        {
-            "-4": {
-                1:'light',
-                2:'medium',
-                3:'heavy',
-                4:'incap',
-                5:'dead'
-            },
-            "-3": {
-                1:'light',
-                3:'medium',
-                5:'heavy',
-                7:'incap',
-                9:'dead'
-            },
-            "-2": {
-                1:'light',
-                4:'medium',
-                7:'heavy',
-                10:'incap',
-                13:'dead'
-            },
-            "-1": {
-                1:'light',
-                5:'medium',
-                9:'heavy',
-                13:'incap',
-                17:'dead'
-            },
-            "0": {
-                1:'light',
-                6:'medium',
-                11:'heavy',
-                16:'incap',
-                21:'dead'
-            },
-            "1": {
-                1:'light',
-                7:'medium',
-                13:'heavy',
-                19:'incap',
-                25:'dead'
-            },
-            "2": {
-                1:'light',
-                8:'medium',
-                15:'heavy',
-                22:'incap',
-                29:'dead'
-            },
-            "3": {
-                1:'light',
-                9:'medium',
-                17:'heavy',
-                25:'incap',
-                33:'dead'
-            },
-        }
-
-    
+    const prot = parseInt(selector.find('label[name$="prot"]').attr('value') || 0);
+    const stamina = parseInt(selector.find('label[name$="stamina"]').attr('value') || 0);
+    const damage = damageToApply - modifier - prot - stamina;
 
     const size = actor.data.data.vitals.siz.value.toString();
-    const typeOfWoundsBySize = sizesAndWounds[size.toString()];
+
+    const typeOfWound = calculateWound(damage, size);
     
-    const wounds = Object.keys(typeOfWoundsBySize);
-
-    let typeOfWound = ''
-    wounds.forEach((wound) => {
-        if (Number(wound) < damage) {
-            typeOfWound = typeOfWoundsBySize[wound];
-        }
-    })
-
     let actorUpdate = {
         data: {
             wounds: {
