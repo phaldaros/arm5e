@@ -310,5 +310,13 @@
     "arm5e.sheet.loyaltyModifiers.livingConditions": "Condiciones de Vida",
     "arm5e.sheet.loyaltyModifiers.equipment": "Equipo",
     "arm5e.sheet.loyaltyModifiers.money": "Dinero",
-    "arm5e.sheet.loyaltyModifiers.specialists": "Especialistas"
+    "arm5e.sheet.loyaltyModifiers.specialists": "Especialistas",
+
+    "arm5e.messages.wound.light": "Leve",
+    "arm5e.messages.wound.medium": "Media",
+    "arm5e.messages.wound.heavy": "Grave",
+    "arm5e.messages.wound.incap": "Incapacitante",
+    "arm5e.messages.wound.dead": "Muerto",
+
+    "arm5e.messages.woundResult": "Recibió una herida $typeWound$"
 }
