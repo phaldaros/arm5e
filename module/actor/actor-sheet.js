@@ -870,7 +870,7 @@ export async function calculateDamage(selector, actor) {
     const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
     const messageDamage = `<h4 class="dice-total">${damage}</h4>`;
     ChatMessage.create({
-        content: damage,
+        content: messageDamage,
         flavor: `${title} ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`,
         speaker: ChatMessage.getSpeaker({
             actor
