@@ -646,13 +646,6 @@ export class ArM5eActorSheet extends ActorSheet {
         if ((dataset.roll == 'combat') || (dataset.roll == 'option')) {
             template = "systems/arm5e/templates/roll/roll-options.html";
         }
-        else if(dataset.roll == 'damage') {
-            template = "systems/arm5e/templates/roll/roll-damage.html";
-            const attack = parseInt(getLastMessageByKey(game, 'arm5e.sheet.attack').data.content);
-            const defense = parseInt(getLastMessageByKey(game, 'arm5e.sheet.defense').data.content);
-            this.actor.data.data.roll.advantage = attack - defense;
-        }
-
         else if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
             template = "systems/arm5e/templates/roll/roll-characteristic.html";
         }
