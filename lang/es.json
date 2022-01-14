@@ -318,5 +318,11 @@
     "arm5e.messages.wound.incap": "Incapacitante",
     "arm5e.messages.wound.dead": "Muerto",
 
-    "arm5e.messages.woundResult": "Recibió una herida $typeWound$"
+    "arm5e.messages.woundResult": "Recibió una herida $typeWound$",
+    "arm5e.dialog.chooseCovenant": "Elegir alianza",
+
+    "arm5e.dialog.damageCalculator": "Calculadora de daño",
+    "arm5e.dialog.woundCalculator": "Calculadora de heridas"
+
+
 }

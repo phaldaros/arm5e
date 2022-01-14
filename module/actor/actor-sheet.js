@@ -340,7 +340,7 @@ export class ArM5eActorSheet extends ActorSheet {
         let template = "systems/arm5e/templates/actor/parts/actor-soak.html";
         renderTemplate(template, data).then(function (html) {
             new Dialog({
-                title: game.i18n.localize("arm5e.dialog.chooseCovenant"),
+                title: game.i18n.localize("arm5e.dialog.woundCalculator"),
                 content: html,
                 buttons: {
                     yes: {
@@ -384,7 +384,7 @@ export class ArM5eActorSheet extends ActorSheet {
         let template = "systems/arm5e/templates/actor/parts/actor-calculateDamage.html";
         renderTemplate(template, data).then(function (html) {
             new Dialog({
-                title: game.i18n.localize("arm5e.dialog.chooseCovenant"),
+                title: game.i18n.localize("arm5e.dialog.damageCalculator"),
                 content: html,
                 buttons: {
                     yes: {
