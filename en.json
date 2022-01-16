@@ -61,6 +61,8 @@
     "arm5e.sheet.penalty": "Penalty",
     "arm5e.sheet.notes": "Notes",
     "arm5e.sheet.speciality": "Specialty",
+    "arm5e.sheet.defaultCharacteristicForAbility": "Default characteristic",
+
     "arm5e.sheet.date": "Date",
     "arm5e.sheet.equiped": "Equipped",
     "arm5e.sheet.weaponExpert": "Weapon Expert",

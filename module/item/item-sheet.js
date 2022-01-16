@@ -114,9 +114,18 @@ export class ArM5eItemSheet extends ItemSheet {
         // data-id and data-attr needed
         html.find(".increase-ability").click(event => this._increaseScore(this.item));
         html.find(".decrease-ability").click((event) => this._deccreaseScore(this.item));
+        html.find(".default-characteristic").change((event) => this._onSelectDefaultCharacteristic(this.item, event));
     }
 
-
+    async _onSelectDefaultCharacteristic(item, event) {
+        event.preventDefault();
+        await item.update({
+            data: {
+                defaultCharacteristicForAbility: $( ".default-characteristic" ).find("option:selected").val()
+            },
+        }, {});
+        return false;
+    }
     async _increaseScore(item) {
         await item.update({
             data: {

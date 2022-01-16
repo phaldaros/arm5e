@@ -1,4 +1,5 @@
 <form class="{{cssClass}} mainItem" autocomplete="off">
+
     {{> "systems/arm5e/templates/item/parts/item-header.html" }}
     <header class="sheet-header">
         <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -18,6 +19,17 @@
                     <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.xp" value="{{data.xp}}" data-dtype="Number" /></label>
                 </div>
             {{/if}}
+            <div class="resource">
+                <label>{{localize "arm5e.sheet.defaultCharacteristicForAbility"}}</label>
+                <div class="flexcol flexrow">
+                    <select name="data.defaultCharacteristicForAbility" data-type="String" class="default-characteristic">
+                        {{#select data.defaultCharacteristicForAbility}}
+                        {{#each metadata.character.characteristics as |item key|}}
+                        <option value="{{key}}">{{localize label}}</option>
+                        {{/each}} {{/select}}
+                    </select>
+                </div>
+            </div>
         </div>
     </header>
 
