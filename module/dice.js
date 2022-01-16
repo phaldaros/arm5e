@@ -173,7 +173,7 @@ function getRollFormula(actor) {
     if (actorData.roll.ability != "") {
         for (var i = 0; i < actorData.abilities.length; i++) {
             if (actorData.abilities[i]._id == actorData.roll.ability) {
-                value = actorData.abilities[i].data.score;
+                value = actorData.abilities[i].data.derivedScore;
                 total = parseInt(total) + parseInt(value);
                 if (msg != "") {
                     msg = msg + " + <br />";
