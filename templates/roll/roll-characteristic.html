@@ -22,7 +22,7 @@
                 {{#select data.roll.ability}}
                     <option value="">N/A (0)</option>
                     {{#each data.abilities as |item key|}}
-                        <option value="{{ item._id }}">{{ item.name}} ({{ item.data.score }})</option>
+                        <option value="{{ item._id }}">{{ item.name}} ({{ item.data.derivedScore }})</option>
                     {{/each}}
                 {{/select}}
             </select>
