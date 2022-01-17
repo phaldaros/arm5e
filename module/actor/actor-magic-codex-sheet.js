@@ -5,6 +5,11 @@ import {
 import {
     log
 } from "../tools.js"
+
+import {
+    labTextToEffect
+} from "../item/item-converter.js"
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -80,6 +85,8 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         //     const item = this.actor.items.get(itid)
         //     item.sheet.render(true);
         // });
+
+        // html.find('.GMonly').click(this._restrict.bind(this));
 
         // Add Inventory Item
         html.find('.base-effect-create').click(this._onBaseEffectCreate.bind(this));
@@ -311,11 +318,48 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
             case "magicalEffect":
             case "enchantment":
             case "spell":
+            case "laboratoryText":
                 return true;
+
             default:
                 return false;
         }
     }
+
+    /**
+     * Handle dropping of an item reference or item data onto an Actor Sheet
+     * @param {DragEvent} event     The concluding DragEvent which contains drop data
+     * @param {Object} data         The data transfer extracted from the event
+     * @return {Promise<Object>}    A data object which describes the result of the drop
+     * @private
+     * @override
+     */
+    async _onDropItem(event, data) {
+        let itemData = {};
+        let type;
+        if (data.pack) {
+            const item = await Item.implementation.fromDropData(data);
+            itemData = item.toObject();
+            type = itemData.type;
+        } else if (data.actorId === undefined) {
+            const item = await Item.implementation.fromDropData(data);
+            itemData = item.toObject();
+            type = itemData.type;
+        } else {
+            type = data.data.type;
+            itemData = data.data;
+        }
+        // transform input into labText 
+        if (type == "laboratoryText") {
+            log(false, "Valid drop");
+            // create a spell or enchantment data:
+            data.data = labTextToEffect(foundry.utils.deepClone(itemData));
+        }
+        // }
+        const res = await super._onDropItem(event, data);
+        return res;
+    }
+
 
 
 }

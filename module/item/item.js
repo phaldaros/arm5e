@@ -20,6 +20,7 @@ export class ArM5eItem extends Item {
         let actorData = this.actor ? this.actor.data : {};
         let data = itemData.data;
         if (actorData) {
+
             if (this.data.type == "weapon" && this.actor != null) {
                 let abilitiesSelect = {};
 
@@ -165,6 +166,8 @@ export class ArM5eItem extends Item {
         } else if (this.type == "labCovenant") {
             let pts = getLabUpkeepCost(data.upkeep);
             this.data.data.points = pts * CONFIG.ARM5E.lab.usage[data.usage].coeff;
+        } else if (this.type == "magicItem") {
+            this.data.data.maxLevel = 10 * this.data.data.materialBase * this.data.data.sizeMultiplier;
         }
         // log(false,"prepare-item");
         // log(false,itemData);

@@ -8,6 +8,9 @@ import {
     stressDie
 } from '../dice.js';
 import {
+    resetOwnerFields
+} from '../item/item-converter.js';
+import {
     ARM5E
 } from '../metadata.js';
 import {
@@ -214,9 +217,33 @@ export class ArM5eActorSheet extends ActorSheet {
         // Update Inventory Item
         html.find('.item-edit').click(ev => {
             const li = $(ev.currentTarget).parents(".item");
-
-            const item = this.actor.items.get(li.data("itemId"))
+            const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
+            // const item = this.actor.items.get(li.data("itemId"))
             item.sheet.render(true);
+        });
+
+        // Quick edit of Item from inside Actor sheet
+        html.find('.quick-edit').change(event => {
+            const li = $(event.currentTarget).parents(".item");
+            let field = $(event.currentTarget).attr("name");
+            let itemId = li.data("itemId")
+            const item = this.actor.getEmbeddedDocument("Item", itemId);
+            let value = event.target.value;
+            if ($(event.currentTarget).attr("data-dtype") === "Number") {
+                value = Number(event.target.value);
+            } else if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
+                // let oldValue = getProperty(item, "data.data." + field);;
+                let oldValue = item.data.data[[field]];
+                value = !oldValue;
+            }
+
+            this.actor.updateEmbeddedDocuments("Item", [{
+                _id: itemId,
+                data: {
+                    [field]: value
+                }
+            }])
+
         });
 
         // Delete Inventory Item
@@ -697,7 +724,16 @@ export class ArM5eActorSheet extends ActorSheet {
      */
     async _onDropItemCreate(itemData) {
         itemData = itemData instanceof Array ? itemData : [itemData];
-        return super._onDropItemCreate(itemData.filter(e => this.isItemDropAllowed(e.type)));
+        let filtered = itemData.filter(e => this.isItemDropAllowed(e.type))
+        for (let item of filtered) {
+            // log(false, "Before reset " + JSON.stringify(item.data));
+            item = resetOwnerFields(item);
+            // log(false, "After reset " + JSON.stringify(item.data));
+        }
+
+
+
+        return super._onDropItemCreate(filtered);
     }
 
     /**

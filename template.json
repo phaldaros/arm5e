@@ -1,6 +1,6 @@
 {
     "Actor": {
-        "types": ["player", "npc", "laboratory", "covenant", "magicCodex"],
+        "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "crucible"],
         "templates": {
             "base": {
                 "version": "0.3",
@@ -990,13 +990,17 @@
             "magicEffects": [],
             "spells": [],
             "enchantments": []
+        },
+        "crucible": {
+            "receptacle": null,
+            "enchantments": []
         }
     },
 
     "Item": {
         "types": ["weapon", "armor", "spell", "vis", "item", "book", "virtue", "flaw", "ability", "abilityFamiliar",
-            "diaryEntry", "dairyEntry", "power", "might", "powerFamiliar", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
-            "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
+            "diaryEntry", "dairyEntry", "power", "might", "powerFamiliar", "mightFamiliar", "speciality", "distinctive",
+            "sanctumRoom", "magicItem", "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
             "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
             "visSourcesCovenant", "visStockCovenant", "magicalEffect", "baseEffect",
             "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook", "enchantment", "labCovenant"
@@ -1023,8 +1027,7 @@
                 "speciality": "",
                 "score": 0,
                 "xp": 0,
-                "experience": 0,
-                "experienceNextLevel": 0
+                "experience": 0
             },
             "magicalEffectAttributes": {
                 "technique": {
@@ -1070,6 +1073,26 @@
                 "baseLevel": 0,
                 "baseEffectDescription": "",
                 "general": false
+            },
+            "enchantmentAttributes": {
+                "effectfrequency": 0,
+                "penetration": 0,
+                "maintainConc": false,
+                "environmentalTrigger": "",
+                "restrictedUse": "",
+                "linkedTrigger": ""
+            },
+            "magicItemAttributes": {
+                "enchantmentName": "Magic effect name",
+                "charged": false,
+                "charges": 1,
+                "materialBase": 1,
+                "sizeMultiplier": 1,
+                "material": "",
+                "materialBonus": 0,
+                "shape": "",
+                "shapeBonus": 0,
+                "expiry": 0
             },
             "habitant": {
                 "loyalty": 0,
@@ -1161,13 +1184,7 @@
             "applyFocus": false
         },
         "enchantment": {
-            "templates": ["base", "magicalEffectAttributes"],
-            "effectfrequency": 0,
-            "penetration": 0,
-            "maintainConc": false,
-            "environmentalTrigger": "",
-            "restrictedUse": "",
-            "linkedTrigger": ""
+            "templates": ["base", "magicalEffectAttributes", "enchantmentAttributes"]
         },
         "labCovenant": {
             "templates": ["base"],
@@ -1178,14 +1195,9 @@
             "quality": 0
         },
         "laboratoryText": {
-            "templates": ["base", "authorship", "magicalEffectAttributes"],
-            "type": "spell",
-            "effectfrequency": 0,
-            "penetration": 0,
-            "maintainConc": false,
-            "environmentalTrigger": "",
-            "restrictedUse": "",
-            "linkedTrigger": ""
+            "templates": ["base", "authorship", "magicalEffectAttributes", "enchantmentAttributes"],
+            "type": "spell"
+
         },
         "vis": {
             "templates": ["base", "art"],
@@ -1276,9 +1288,8 @@
             "size": ""
         },
         "magicItem": {
-            "templates": ["base"],
-            "effect": "",
-            "uses": 0
+            "templates": ["base", "authorship", "magicalEffectAttributes", "magicItemAttributes", "enchantmentAttributes"],
+            "status": 0
         },
         "personality": {
             "templates": ["base"],
