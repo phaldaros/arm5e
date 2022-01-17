@@ -23,6 +23,9 @@ import {
     ArM5eMagicCodexSheet
 } from "./actor/actor-magic-codex-sheet.js";
 import {
+    ArM5eCrucibleSheet
+} from "./actor/actor-crucible-sheet.js";
+import {
     ArM5eItem
 } from "./item/item.js";
 import {
@@ -180,6 +183,12 @@ Hooks.once('init', async function() {
         label: "arm5e.sheet.magic-codex"
     });
 
+    Actors.registerSheet("arm5eCrucible", ArM5eCrucibleSheet, {
+        types: ["crucible"],
+        makeDefault: true,
+        label: "arm5e.sheet.crucible"
+    });
+
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
@@ -275,11 +284,11 @@ Hooks.once("ready", async function() {
     // check and warning that magic codex is missing or more than one occurence.
     const codex = game.actors.filter(a => a.data.type === "magicCodex");
     if (codex.length > 1) {
-        ui.notifications.warn("You have more than one Actor of type 'magicCodex in your world, some functionality is based on the uniqueness of magicCodex, you may want to delete one (after merging if needed)", {
+        ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.tooMany"), {
             permanent: false
         });
     } else if (codex.length === 0) {
-        ui.notifications.error("You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working", {
+        ui.notifications.error(game.i18n.localize("arm5e.notification.codex.none"), {
             permanent: false
         });
     }

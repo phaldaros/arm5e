@@ -41,6 +41,8 @@ export class ArM5ePCActor extends Actor {
             return this._prepareCovenantData(this.data);
         } else if (this.data.type == "laboratory") {
             return this._prepareLabData(this.data);
+        } else if (this.data.type == "crucible") {
+            return this._prepareCrucibleData(this.data);
         } else {
             return this._prepareCharacterData(this.data);
         }
@@ -442,22 +444,27 @@ export class ArM5ePCActor extends Actor {
             baseEffects = baseEffects.filter(e => e.data.data.form.value === data.formFilter);
             magicEffects = magicEffects.filter(e => e.data.data.form.value === data.formFilter);
             spells = spells.filter(e => e.data.data.form.value === data.formFilter);
+            enchantments = enchantments.filter(e => e.data.data.form.value === data.formFilter);
         }
         if (data.techniqueFilter != "") {
             baseEffects = baseEffects.filter(e => e.data.data.technique.value === data.techniqueFilter);
             magicEffects = magicEffects.filter(e => e.data.data.technique.value === data.techniqueFilter);
             spells = spells.filter(e => e.data.data.technique.value === data.techniqueFilter);
+            enchantments = enchantments.filter(e => e.data.data.technique.value === data.techniqueFilter);
         }
         if (data.levelFilter != 0 && data.levelFilter != null) {
             if (data.levelOperator == 0) {
                 magicEffects = magicEffects.filter(e => e.data.data.level === data.levelFilter);
                 spells = spells.filter(e => e.data.data.level === data.levelFilter);
+                enchantments = enchantments.filter(e => e.data.data.level === data.levelFilter);
             } else if (data.levelOperator == -1) {
                 magicEffects = magicEffects.filter(e => e.data.data.level <= data.levelFilter);
                 spells = spells.filter(e => e.data.data.level <= data.levelFilter);
+                enchantments = enchantments.filter(e => e.data.data.level <= data.levelFilter);
             } else {
                 magicEffects = magicEffects.filter(e => e.data.data.level >= data.levelFilter);
                 spells = spells.filter(e => e.data.data.level >= data.levelFilter);
+                enchantments = enchantments.filter(e => e.data.data.level >= data.levelFilter);
             }
         }
         data.baseEffects = baseEffects.sort(compareBaseEffects);
@@ -725,19 +732,37 @@ export class ArM5ePCActor extends Actor {
         }
     }
 
+    _prepareCrucibleData(actorData) {
+        log(false, "_prepareCrucibleData");
+
+        for (let [key, item] of actorData.items.entries()) {
+            if (item.type == "magicItem") {
+                actorData.data.receptacle = item;
+            } else if (item.type == "enchantment") {
+                actorData.data.enchantments.push(item);
+            }
+        }
+    }
+
+    // Utility functions
+
+    // get the Xps needed for an ability/decrepitude/warping score
     _getAbilityXp(score) {
         return this._getArtXp(score) * 5;
     }
 
+    // get the score given an amount of xp
     _getAbilityScore(xp) {
 
         return this._getArtScore(Math.floor(xp / 5));
     }
 
+    // get the Xps needed for an art score
     _getArtXp(score) {
         return score * (score + 1) / 2;
     }
 
+    // get the score given an amount of xp
     _getArtScore(xp) {
 
         let res = 0
@@ -749,6 +774,7 @@ export class ArM5ePCActor extends Actor {
         return res;
     }
 
+    // To identify the type of character
     _isMagus() {
         return (this.data.type == "npc" && this.data.data.charType.value == "magusNPC") ||
             (this.data.type == "player" && this.data.data.charType.value == "magus");
@@ -762,6 +788,9 @@ export class ArM5ePCActor extends Actor {
         return (this.data.type == "player" && this.data.data.charType.value == "grog");
     }
 
+
+
+    // Vitals management
 
     loseFatigueLevel(num) {
         if ((this.data.type != 'player') && (this.data.type != 'npc') || num < 1) {
@@ -808,6 +837,7 @@ export class ArM5ePCActor extends Actor {
     }
 
 
+    // set the proper default icon just before creation
     async _preCreate(data, options, userId) {
         await super._preCreate(data, options, userId);
         if (data.img === undefined) {

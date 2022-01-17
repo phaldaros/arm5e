@@ -178,7 +178,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     async _onDropItem(event, data) {
         let itemData = {};
         let type;
-        if (data.pack) {
+        if (data.pack) { // coming from a pack
             const item = await Item.implementation.fromDropData(data);
             itemData = item.toObject();
             type = itemData.type;
@@ -187,7 +187,6 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             itemData = item.toObject();
             type = itemData.type;
         } else {
-            // if it has a owner, clear actor specific fields
             type = data.data.type;
             itemData = data.data;
         }

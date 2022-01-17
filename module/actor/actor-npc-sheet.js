@@ -95,4 +95,35 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
         return await this.actor.update(updateData, {});
     }
 
+    async _onDropItem(event, data) {
+        let itemData = {};
+        let type;
+        if (data.pack) {
+            const item = await Item.implementation.fromDropData(data);
+            itemData = item.toObject();
+            type = itemData.type;
+        } else if (data.actorId === undefined) {
+            const item = await Item.implementation.fromDropData(data);
+            itemData = item.toObject();
+            type = itemData.type;
+        } else {
+            type = data.data.type;
+            itemData = data.data;
+        }
+        // transform input into labText 
+        if (type == "laboratoryText") {
+            if (itemData.data.type == "spell") {
+                log(false, "Valid drop");
+                // create a spell or enchantment data:
+                data.data = labTextToEffect(foundry.utils.deepClone(itemData));
+            } else {
+                log(false, "Invalid drop");
+                return false;
+            }
+        }
+        // }
+        const res = await super._onDropItem(event, data);
+        return res;
+    }
+
 }
