@@ -24,6 +24,7 @@
                 <div class="flexcol flexrow">
                     <select name="data.defaultCharacteristicForAbility" data-type="String" class="default-characteristic">
                         {{#select data.defaultCharacteristicForAbility}}
+                        <option value="">{{localize "arm5e.sheet.n-a"}}</option>
                         {{#each metadata.character.characteristics as |item key|}}
                         <option value="{{key}}">{{localize label}}</option>
                         {{/each}} {{/select}}
