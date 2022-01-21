@@ -80,6 +80,11 @@ function getFormData(html, actorData) {
         actorData.data.data.roll.modifier = find[0].value;
     }
 
+    find = html.find('.SelectedAdvantage');
+    if (find.length > 0) {
+        actorData.data.data.roll.advantage = find[0].value;
+    }
+
     find = html.find('.SelectedFocus');
     if (find.length > 0) {
         actorData.data.data.roll.focus = find[0].checked;
@@ -173,7 +178,7 @@ function getRollFormula(actor) {
     if (actorData.roll.ability != "") {
         for (var i = 0; i < actorData.abilities.length; i++) {
             if (actorData.abilities[i]._id == actorData.roll.ability) {
-                value = actorData.abilities[i].data.score;
+                value = actorData.abilities[i].data.derivedScore;
                 total = parseInt(total) + parseInt(value);
                 if (msg != "") {
                     msg = msg + " + <br />";
@@ -211,6 +216,16 @@ function getRollFormula(actor) {
         msg = msg + game.i18n.localize("arm5e.skill.artesLib") + " + " + game.i18n.localize("arm5e.skill.philosophy");
         //msg = msg + "Artes Liberales + Philosophiae";
         msg = msg + " (" + value + ")";
+    }
+     if (actorData.roll.advantage != 0) {
+        value = actorData.roll.advantage;
+        total = parseInt(total) + parseInt(value);
+        if (msg != "") {
+            msg = msg + " + <br />";
+        }
+        msg = msg + game.i18n.localize("arm5e.sheet.advantage");
+        msg = msg + " (" + value + ")";
+
     }
     if (actorData.roll.modifier != 0) {
         value = actorData.roll.modifier;

@@ -160,6 +160,7 @@
     "arm5e.sheet.might": "Might",
     "arm5e.sheet.powers": "Powers",
     "arm5e.sheet.modifier": "Modifier",
+    "arm5e.sheet.advantage": "Advantage",
 
     "arm5e.sheet.yearBorn": "Year Born",
     "arm5e.sheet.apprenticeshipYears": "Apprenticeship",
@@ -520,5 +521,13 @@
     "arm5e.sheet.source.SemE": "Semita Errabunda",
     "arm5e.sheet.source.Dies": "Dies Irae",
     "arm5e.sheet.source.Hooks": "Hooks",
-    "arm5e.sheet.source.custom": "Homebrew"
+    "arm5e.sheet.source.custom": "Homebrew",
+
+
+    "arm5e.messages.wound.light": "light",
+    "arm5e.messages.wound.medium": "medium",
+    "arm5e.messages.wound.heavy": "heavy",
+    "arm5e.messages.wound.incap": "incap",
+    "arm5e.messages.wound.dead": "dead",
+    "arm5e.messages.wound": "Got a $typeWound$ wound"
 }
