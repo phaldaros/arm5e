@@ -17,24 +17,11 @@
                         <!--div class="item-image">
                             <a class="rollable" data-roll-type="item"><img src="{{spell.img}}" title="{{item.name}}" width="24" height="24" /></a>
                         </div-->
-                        {{spell.data.name}} (
-                        {{#with (lookup @root.metadata.magic.arts spell.data.data.technique.value)~}}{{short~}}
-                        {{/with}}
-                        {{#with (lookup @root.metadata.magic.arts spell.data.data.form.value)~}}{{short~}}
-                        {{/with}}
-                        {{spell.data.data.level}} )
+                        {{spell.data.name}}
                         {{#if (eq spell.data.data.ritual true )}}
-                            , {{localize "arm5e.sheet.ritual"}}
+                            , {{localize "arm5e.sheet.ritual"}} -
                         {{/if}}
-                        <span class="bold">{{localize "arm5e.spell.range.short"~}}:</span>
-                        {{#with (lookup @root.metadata.magic.ranges spell.data.data.range.value)~}}{{localize label}}
-                        {{/with}}
-                        <span class="bold">{{localize "arm5e.spell.duration.short"~}}:</span>
-                        {{#with (lookup @root.metadata.magic.durations spell.data.data.duration.value)~}}{{localize label}}
-                        {{/with}}
-                        <span class="bold">{{localize "arm5e.spell.target.short"~}}:</span>
-                        {{#with (lookup @root.metadata.magic.targets spell.data.data.target.value)~}}{{localize label}}
-                        {{/with}}
+                        {{spell.data.localizedDesc}}
                     </span>
                 </div>
                 <div class="item-controls">

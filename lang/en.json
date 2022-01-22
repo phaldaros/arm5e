@@ -488,6 +488,8 @@
 
     "arm5e.sheet.action.rest": "Rest",
     "arm5e.sheet.action.reset": "Reset",
+    "arm5e.sheet.action.invest": "Invest",
+    "arm5e.sheet.action.update": "Update",
 
     "arm5e.dialog.enchant-question": "Do you want to enchant that item? (The original will be destroyed)",
     "arm5e.dialog.design-effect-question": "Do you want to design a magical effect based on that base effect?",
@@ -507,7 +509,8 @@
     "arm5e.notification.codex.none": "You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working, you can import the one in the Magi compendium",
     "arm5e.notification.codex.tooMany": "You have more than one Actor of type 'magicCodex in your world, some functionality is based on the uniqueness of magicCodex, you may want to delete one (after merging if needed)",
     "arm5e.notification.codex.enchant": "You need a Codex actor with enchantments to enchant this way.",
-
+    "arm5e.notification.crucible.no.invest.possible": "Item's size and material are not good enough for this level of enchantment.",
+    "arm5e.notification.crucible.labTotal.needed": "Lab total needed",
     "arm5e.packs.abilities.name": "Abilities",
 
 

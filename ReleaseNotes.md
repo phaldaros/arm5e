@@ -17,6 +17,7 @@ Features
 - Spell lab texts dropped on characters will convert into spells.
 - It is now possible to equip and unequip weapons and armors from the character sheet
 - Reviewed weapons items with updated icons (by N0Br41nZ) and proper range
+- Reduce the height of Codex for more real estate
 
 Bug fixes:
 - Requisites dialog shows up properly.

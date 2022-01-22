@@ -114,7 +114,9 @@ export class ArM5eItem extends Item {
                     effectLevel = this._addSpellMagnitude(effectLevel, data.enhancingRequisite);
                 }
 
-                if (this.type == "enchantment" || (this.type == "laboratoryText" && this.data.data.type == "enchantment")) {
+                if (this.type == "enchantment" ||
+                    (this.type == "laboratoryText" && this.data.data.type == "enchantment") ||
+                    this.type == "magicItem") {
                     effectLevel += parseInt(data.effectfrequency);
                     if (data.penetration % 2 == 1) {
                         this.data.data.penetration += 1;
@@ -163,7 +165,8 @@ export class ArM5eItem extends Item {
             } else {
                 itemData.data.castingTotal = 0;
             }
-        } else if (this.type == "labCovenant") {
+        }
+        if (this.type == "labCovenant") {
             let pts = getLabUpkeepCost(data.upkeep);
             this.data.data.points = pts * CONFIG.ARM5E.lab.usage[data.usage].coeff;
         } else if (this.type == "magicItem") {
@@ -176,12 +179,13 @@ export class ArM5eItem extends Item {
     _needLevelComputation() {
 
         let enforceSpellLevel = (this.type == "spell") && (game.settings.get("arm5e", "magicRulesEnforcement"));
-        let enforceEnchantmentLevel = (this.type == "laboratoryText" && (this.data.data.type == "spell" || this.data.data.type == "enchantment"))
+        let enforceEnchantmentLevel = ((this.type == "laboratoryText" && (this.data.data.type == "spell" ||
+            this.data.data.type == "enchantment")))
         return (this.type == "magicalEffect" || this.type == "enchantment" || enforceSpellLevel || enforceEnchantmentLevel);
     }
 
     _isMagicalEffect() {
-        return (this.type == "magicalEffect" || this.type == "enchantment" || this.type == "spell");
+        return (this.type == "magicalEffect" || this.type == "enchantment" || this.type == "spell" || this.type == "magicItem");
     }
 
 
@@ -207,6 +211,56 @@ export class ArM5eItem extends Item {
     }
 
 
+    // return a localize string of a magic effect attributes
+    _getEffectAttributesLabel() {
+        if (!this._isMagicalEffect()) return "";
+        let label = "( " + this._getTechLabel() + " " + this._getFormLabel() + " " +
+            this.data.data.level + " ) - " +
+            game.i18n.localize("arm5e.spell.range.short") + ": " +
+            game.i18n.localize(CONFIG.ARM5E.magic.ranges[this.data.data.range.value].label) + " " +
+            game.i18n.localize("arm5e.spell.duration.short") + ": " +
+            game.i18n.localize(CONFIG.ARM5E.magic.durations[this.data.data.duration.value].label) + " " +
+            game.i18n.localize("arm5e.spell.target.short") + ": " +
+            game.i18n.localize(CONFIG.ARM5E.magic.targets[this.data.data.target.value].label);
+        return label;
+    }
+
+
+
+    _getTechLabel() {
+        let label = CONFIG.ARM5E.magic.arts[this.data.data.technique.value].short;
+        let techReq = Object.entries(this.data.data["technique-req"]).filter(r => r[1] === true);
+        if (techReq.length > 0) {
+            label += " ("
+            techReq.forEach((key) => {
+                label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
+            });
+            // remove last whitespace
+            label = label.substring(0, label.length - 1);
+            label += ")"
+
+        }
+        return label;
+    }
+
+    _getFormLabel() {
+        let label = CONFIG.ARM5E.magic.arts[this.data.data.form.value].short;
+        let formReq = Object.entries(this.data.data["form-req"]).filter(r => r[1] === true);
+        if (formReq.length > 0) {
+            label += " ("
+            formReq.forEach((key) => {
+                label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
+            });
+            // remove last whitespace
+            label = label.substring(0, label.length - 1);
+            label += ")"
+
+        }
+
+        return label;
+    }
+
+
     _getTechniqueData(actorData) {
 
         if (!this._isMagicalEffect()) return ["", 0];
@@ -220,7 +274,7 @@ export class ArM5eItem extends Item {
                 tech = Math.min(tech, actorData.data.arts.techniques[key[0]].score)
                 label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
             });
-            // remove last comma
+            // remove last whitespace
             label = label.substring(0, label.length - 1);
             label += ")"
             tech = Math.min(actorData.data.arts.techniques[this.data.data.technique.value].score,

@@ -7,26 +7,20 @@
             <div class="resource flexcol flexrow">
                 <input type="text" name="data.enchantmentName" value="{{data.enchantmentName}}">
             </div>
-            <div class="grid grid-col">
-                <div class="resource flexcol flexrow">
-                    <h3>
-                        {{#with (lookup metadata.magic.techniques data.technique.value)}}
-                            {{localize label }}
-                        {{/with}}
-                        {{#with (lookup metadata.magic.forms data.form.value)~}}
-                            {{localize label~}}
-                        {{/with}}
-                        {{data.level}}
-                    </h3>
-                </div>
-
-
+            <div class="resource flexcol flexrow">
+                <label class="header-label">
+                    {{data.localizedDesc}}
+                </label>
+            </div>
+            <div class="resource flexcol flexrow">
+                <label class="header-label">{{localize "arm5e.lab.enchantment.penetration"}} : {{data.penetration}}</label>
+            </div>
+            {{#if data.charged}}
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.uses"}}</label>
-                    <input type="text" name="data.uses" value="{{data.uses}}" data-dtype="Number" />
+                    <input type="text" name="data.uses" value="{{data.charges}}" data-dtype="Number" />
                 </div>
-
-            </div>
+            {{/if}}
         </div>
     </header>
 
@@ -56,31 +50,43 @@
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             <div class="grid grid-3col">
                 <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-                    {{#with (lookup metadata.magic.ranges data.range.value)~}}
-                        <input type="text" name="data.range" value="{{localize label}}" readonly>
-                    {{/with}}
+                    <label class="header-label">{{localize "arm5e.sheet.range"}}
+                        {{#with (lookup metadata.magic.ranges data.range.value)~}}
+                            <label class="header-label">: {{localize label}}</label>
+                        {{/with}}
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
                     {{#with (lookup metadata.magic.durations data.duration.value)~}}
-                        <input type="text" name="data.duration" value="{{localize label}}" readonly>
+                        <label class="header-label">: {{localize label}}</label>
                     {{/with}}
                 </div>
                 <div class="resource">
                     <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
                     {{#with (lookup metadata.magic.targets data.target.value)~}}
-                        <input type="text" name="data.target" value="{{localize label}}" readonly>
+                        <label class="header-label">: {{localize label}}</label>
                     {{/with}}
                 </div>
-                {{> "systems/arm5e/templates/item/parts/magic-item.html" }}
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
+                    <label class="header-label">: {{data.targetSize}}</label>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
+                    <label class="header-label">: {{data.complexity}}</label>
+                </div>
+                <div class="resource">
+                    <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
+                    <label class="header-label">: {{data.enhancingRequisite}}</label>
+                </div>
+                {{> "systems/arm5e/templates/item/parts/item-magic-item.html" }}
             </div>
 
 
 
         </div>
         <div class="tab enchantment" data-group="primary" data-tab="enchantment">
-            {{> "systems/arm5e/templates/item/parts/enchantment.html" }}
+            {{> "systems/arm5e/templates/item/parts/item-enchantment.html" }}
         </div>
 
         {{!-- Description Tab --}}

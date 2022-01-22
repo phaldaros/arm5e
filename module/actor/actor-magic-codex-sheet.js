@@ -46,7 +46,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         context.metadata.magic = CONFIG.ARM5E.magic;
         log(false, "Codex-sheet getData");
         log(false, context);
-        // this._prepareCodexItems(context);
+        this._prepareCodexItems(context);
 
         return context;
     }
@@ -61,6 +61,17 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     _prepareCodexItems(codexData) {
         //let actorData = sheetData.actor.data;
         // log(false, "_prepareCodexItems");
+        for (const item of codexData.data.enchantments) {
+            item.data.localizedDesc = item._getEffectAttributesLabel();
+        }
+        for (const item of codexData.data.spells) {
+            item.data.localizedDesc = item._getEffectAttributesLabel();
+        }
+
+        for (const item of codexData.data.magicEffects) {
+            item.data.localizedDesc = item._getEffectAttributesLabel();
+        }
+
 
     }
 

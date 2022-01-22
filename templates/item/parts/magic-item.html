@@ -14,7 +14,7 @@
         <label class="header-label">{{localize "arm5e.lab.enchantment.item.size.label" }}</label>
         <select name="data.sizeMultiplier" data-dtype="Number">
             {{#select data.sizeMultiplier}}
-                {{#each metadata.lab.enchantment.sizeMuliplier as |size key|}}
+                {{#each metadata.lab.enchantment.sizeMultiplier as |size key|}}
                     <option value="{{size.value}}"> {{localize size.eg}}</option>
                 {{/each}}
             {{/select}}

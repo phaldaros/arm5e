@@ -40,7 +40,9 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
         // Item Sheet Partials
         "systems/arm5e/templates/item/parts/spell-design.html",
         "systems/arm5e/templates/item/parts/enchantment.html",
+        "systems/arm5e/templates/item/parts/item-enchantment.html",
         "systems/arm5e/templates/item/parts/magic-item.html",
+        "systems/arm5e/templates/item/parts/item-magic-item.html",
         "systems/arm5e/templates/item/parts/authorship.html",
         "systems/arm5e/templates/item/parts/seasonal-activity.html",
         "systems/arm5e/templates/item/parts/item-header.html",
