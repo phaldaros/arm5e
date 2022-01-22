@@ -512,6 +512,7 @@
     "arm5e.notification.codex.enchant": "You need a Codex actor with enchantments to enchant this way.",
     "arm5e.notification.crucible.no.invest.possible": "Item's size and material are not good enough for this level of enchantment.",
     "arm5e.notification.crucible.labTotal.needed": "Lab total needed",
+    "arm5e.notification.notPossibleToCalculateWound": "We cannot calculate the wound (check the size of your actor)",
     "arm5e.packs.abilities.name": "Abilities",
 
 
@@ -561,6 +562,6 @@
     "arm5e.messages.wound.heavy": "heavy",
     "arm5e.messages.wound.incap": "incap",
     "arm5e.messages.wound.dead": "dead",
-    "arm5e.messages.wound": "Got a $typeWound$ wound"
-
+    "arm5e.messages.wound": "Got a $typeWound$ wound",
+    "arm5e.messages.noWound": "No wound inflicted"
 }
