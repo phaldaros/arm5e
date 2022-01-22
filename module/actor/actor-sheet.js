@@ -374,10 +374,10 @@ export class ArM5eActorSheet extends ActorSheet {
         const lastMessageDamage = getLastMessageByHeader(game, 'arm5e.sheet.damage');
         const damage = parseInt(
             $(lastMessageDamage?.data?.content).text()
-        );
+        ) || 0;
         debugger;
         const extraData = {
-            damage: damage || 0,
+            damage,
             modifier: 0,
         }
 
