@@ -44,6 +44,8 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
         // sheets are the item object, the data object, whether or not it's
         // editable, the items array, and the effects array.
         const context = super.getData();
+        context.data.localizedDesc = this.item._getEffectAttributesLabel();
+
 
         return context;
     }

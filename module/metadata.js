@@ -820,12 +820,12 @@ ARM5E.magic.ranges = {
         "dtype": "String",
         "impact": 4
     },
-     "ground": {
+    "ground": {
         "label": "arm5e.spell.ranges.ground",
         "dtype": "String",
         "impact": 4
     },
-     "unlimited": {
+    "unlimited": {
         "label": "arm5e.spell.ranges.unlimited",
         "dtype": "String",
         "impact": 6
@@ -985,70 +985,76 @@ ARM5E.lab.enchantment.expiry = {
     2: "arm5e.lab.enchantment.item.expiry.70y"
 };
 
+ARM5E.lab.enchantment.status = {
+    0: "arm5e.lab.enchantment.item.inert",
+    1: "arm5e.lab.enchantment.item.prepared",
+    2: "arm5e.lab.enchantment.item.enchanted",
+    3: "arm5e.lab.enchantment.item.opened"
+}
 
 ARM5E.lab.enchantment.materialBase = {
-    "base1": {
+    1: {
         "value": 1,
         "eg": "arm5e.lab.enchantment.item.material.base1"
     },
-    "base2": {
+    2: {
         "value": 2,
         "eg": "arm5e.lab.enchantment.item.material.base2"
     },
-    "base3": {
+    3: {
         "value": 3,
         "eg": "arm5e.lab.enchantment.item.material.base3"
     },
-    "base4": {
+    4: {
         "value": 4,
         "eg": "arm5e.lab.enchantment.item.material.base4"
     },
-    "base5": {
+    5: {
         "value": 5,
         "eg": "arm5e.lab.enchantment.item.material.base5"
     },
-    "base6": {
+    6: {
         "value": 6,
         "eg": "arm5e.lab.enchantment.item.material.base6"
     },
-    "base10": {
+    10: {
         "value": 10,
         "eg": "arm5e.lab.enchantment.item.material.base10"
     },
-    "base12": {
+    12: {
         "value": 12,
         "eg": "arm5e.lab.enchantment.item.material.base12"
     },
-    "base15": {
+    15: {
         "value": 15,
         "eg": "arm5e.lab.enchantment.item.material.base15"
     },
-    "base20": {
+    20: {
         "value": 20,
         "eg": "arm5e.lab.enchantment.item.material.base20"
     },
 };
 
-ARM5E.lab.enchantment.sizeMuliplier = {
-    "tiny": {
+ARM5E.lab.enchantment.sizeMultiplier = {
+    1: {
         "eg": "arm5e.lab.enchantment.item.size.tiny-eg",
-        "value": 1
+        "value": "arm5e.lab.enchantment.item.size.tiny"
     },
-    "small": {
+    2: {
         "eg": "arm5e.lab.enchantment.item.size.small-eg",
-        "value": 2
+        "value": "arm5e.lab.enchantment.item.size.small"
     },
-    "medium": {
+    3: {
         "eg": "arm5e.lab.enchantment.item.size.medium-eg",
-        "value": 3
+        "value": "arm5e.lab.enchantment.item.size.medium"
     },
-    "large": {
+    4: {
         "eg": "arm5e.lab.enchantment.item.size.large-eg",
-        "value": 4
+        "value": "arm5e.lab.enchantment.item.size.large"
     },
-    "huge": {
+    5: {
         "eg": "arm5e.lab.enchantment.item.size.huge-eg",
-        "value": 5
+        "value": "arm5e.lab.enchantment.item.size.huge"
     }
 };
 
@@ -1179,7 +1185,7 @@ ARM5E.generic.sourcesTypes = {
     "Dies": {
         "label": "arm5e.sheet.source.Dies"
     },
-    "TtA":{
+    "TtA": {
         "label": "arm5e.sheet.source.TtA"
     },
     "Hook": {

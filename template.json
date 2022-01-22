@@ -992,6 +992,8 @@
             "enchantments": []
         },
         "crucible": {
+            "magicItemName": "Name",
+            "description": "",
             "receptacle": null,
             "enchantments": []
         }
@@ -1092,7 +1094,7 @@
                 "materialBonus": 0,
                 "shape": "",
                 "shapeBonus": 0,
-                "expiry": 0
+                "expiry": 1
             },
             "habitant": {
                 "loyalty": 0,
@@ -1109,7 +1111,7 @@
             "authorship": {
                 "author": "Unknown",
                 "year": 1220,
-                "season": "Spring",
+                "season": "spring",
                 "language": "Latin"
             }
         },

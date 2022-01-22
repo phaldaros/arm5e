@@ -214,7 +214,7 @@ export async function createMagicItem(html, item, codex) {
         }];
 
         // prepend the item description
-        itemData[0].data.enchantmentName = enchantment.name;
+        // itemData[0].data.enchantmentName = enchantment.name;
         itemData[0].data.description = `<p>${item.data.data.description}</p>` + itemData[0].data.description
         let item = await
         ArM5eItemSheet.createDocument()

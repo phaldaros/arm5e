@@ -41,12 +41,25 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
 
 
         // Prepare items.
-        // this._prepareCharacterItems(context);
+        this._prepareCharacterItems(context);
         log(false, "Player-sheet getData");
         log(false, context);
 
         return context;
     }
+
+    _prepareCharacterItems(actorData) {
+
+        // for (const item of actorData.data.spells) {
+        //     item.data.localizedDesc = item._getEffectAttributesLabel();
+        // }
+
+        // for (const item of actorData.data.magicEffects) {
+        //     item.data.localizedDesc = item._getEffectAttributesLabel();
+        // }
+    }
+
+
 
     isItemDropAllowed(type) {
         switch (type) {

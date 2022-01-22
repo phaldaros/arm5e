@@ -7,6 +7,7 @@
 ### I have that zip file I got from github, now what do I do with it?
 
 **Be sure to backup everything before**
+Update your Foundry VTT version to at least 0.8.9.
 Unless you have edited the system, remove the old "arm5e" folder from the systems folder (Found in the Foundry Data folder)
 Unzip, rename folder to "arm5e" and copy to systems folder.
 
