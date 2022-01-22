@@ -14,7 +14,9 @@ import {
     ARM5E
 } from '../metadata.js';
 import {
-    log
+    log,
+    getLastMessageByHeader,
+    calculateWound,
 } from "../tools.js"
 
 export class ArM5eActorSheet extends ActorSheet {
@@ -284,6 +286,8 @@ export class ArM5eActorSheet extends ActorSheet {
         html.find('.rollable').click(this._onRoll.bind(this));
 
         html.find('.pick-covenant').click(this._onPickCovenant.bind(this));
+        html.find('.soak-damage').click(this._onSoakDamage.bind(this));
+        html.find('.damage').click(this._onCalculateDamage.bind(this));
 
         // Drag events for macros.
         if (this.actor.isOwner) {
@@ -366,6 +370,92 @@ export class ArM5eActorSheet extends ActorSheet {
         });
     }
 
+    async _onSoakDamage(html, actor) {
+        event.preventDefault();
+        const damage = parseInt($(getLastMessageByHeader(game, 'arm5e.sheet.damage').data.content).text());
+        const extraData = {
+            damage,
+            modifier: 0,
+        }
+
+        const element = event.currentTarget;
+        log("false", this.actor.data);
+        var actor = this.actor;
+
+        const data = {
+            actor,
+            extraData,
+        }
+        let template = "systems/arm5e/templates/actor/parts/actor-soak.html";
+        renderTemplate(template, data).then(function (html) {
+            new Dialog({
+                title: game.i18n.localize("arm5e.dialog.woundCalculator"),
+                content: html,
+                buttons: {
+                    yes: {
+                        icon: "<i class='fas fa-check'></i>",
+                        label: `Yes`,
+                        callback: (html) => setWounds(html, actor)
+                    },
+                    no: {
+                        icon: "<i class='fas fa-ban'></i>",
+                        label: `Cancel`,
+                        callback: null
+                    },
+                }
+            }, {
+                jQuery: true,
+                height: "140px",
+                classes: ['arm5e-dialog', 'dialog']
+            }).render(true);;
+        });
+    }
+
+    async _onCalculateDamage(html, actor) {
+        event.preventDefault();
+        const attack = parseInt(getLastMessageByHeader(game, 'arm5e.sheet.attack').data.content);
+        const defense = parseInt(getLastMessageByHeader(game, 'arm5e.sheet.defense').data.content);
+        const advantage = attack - defense;
+
+        const extraData = {
+            advantage,
+            modifier: 0,
+        }
+
+        const element = event.currentTarget;
+        log("false", this.actor.data);
+        var actor = this.actor;
+
+        const data = {
+            actor,
+            extraData,
+        }
+        let template = "systems/arm5e/templates/actor/parts/actor-calculateDamage.html";
+        renderTemplate(template, data).then(function (html) {
+            new Dialog({
+                title: game.i18n.localize("arm5e.dialog.damageCalculator"),
+                content: html,
+                buttons: {
+                    yes: {
+                        icon: "<i class='fas fa-check'></i>",
+                        label: `Yes`,
+                        callback: (html) => calculateDamage(html, actor)
+                    },
+                    no: {
+                        icon: "<i class='fas fa-ban'></i>",
+                        label: `Cancel`,
+                        callback: null
+                    },
+                }
+            }, {
+                jQuery: true,
+                height: "140px",
+                classes: ['arm5e-dialog', 'dialog']
+            }).render(true);;
+        });
+    }
+
+
     async _onGenerateAbilities(event) {
         let charType = this.actor.data.data.charType.value;
         let updateData = {};
@@ -439,6 +529,7 @@ export class ArM5eActorSheet extends ActorSheet {
             this.actor.data.data.roll.type = "";
             this.actor.data.data.roll.label = "";
             this.actor.data.data.roll.modifier = 0;
+            this.actor.data.data.roll.advantage = 0;
             this.actor.data.data.roll.characteristic = "";
             this.actor.data.data.roll.ability = "";
             this.actor.data.data.roll.abilitySpeciality = false;
@@ -604,19 +695,19 @@ export class ArM5eActorSheet extends ActorSheet {
         if ((dataset.roll == 'combat') || (dataset.roll == 'option')) {
             template = "systems/arm5e/templates/roll/roll-options.html";
         }
-        if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
+        else if ((dataset.roll == 'char') || (dataset.roll == 'ability')) {
             template = "systems/arm5e/templates/roll/roll-characteristic.html";
         }
-        if (dataset.roll == 'spont') {
+        else if (dataset.roll == 'spont') {
             //spontaneous magic
             template = "systems/arm5e/templates/roll/roll-magic.html";
             this.actor.data.data.roll.characteristic = "sta";
         }
-        if (dataset.roll == 'magic' || dataset.roll == 'spell') {
+        else if (dataset.roll == 'magic' || dataset.roll == 'spell') {
             template = "systems/arm5e/templates/roll/roll-spell.html";
             this.actor.data.data.roll.characteristic = "sta";
         }
-
+        7
         if (template != "") {
             // render template
             renderTemplate(template, this.actor.data).then(function(html) {
@@ -662,7 +753,8 @@ export class ArM5eActorSheet extends ActorSheet {
                         classes: ['arm5e-dialog', 'dialog'],
                         height: "auto"
                     }).render(true);
-                } else if (dataset.roll == "option") {
+                }
+                 else if (dataset.roll == "option") {
                     new Dialog({
                         title: game.i18n.localize("arm5e.dialog.title.rolldie"),
                         content: html,
@@ -683,7 +775,7 @@ export class ArM5eActorSheet extends ActorSheet {
                         height: "auto"
                     }).render(true);
 
-                } else {
+                }  else {
                     new Dialog({
                         title: game.i18n.localize("arm5e.dialog.title.rolldie"),
                         content: html,
@@ -778,4 +870,68 @@ export async function setCovenant(selector, actor) {
     }
 
     await actor.update(actorUpdate);
+}
+
+export async function setWounds(selector, actor) {
+
+    const damageToApply = parseInt(selector.find('input[name$="damage"]').val());
+    const modifier = parseInt(selector.find('input[name$="modifier"]').val());
+    const prot = parseInt(selector.find('label[name$="prot"]').attr('value') || 0);
+    const stamina = parseInt(selector.find('label[name$="stamina"]').attr('value') || 0);
+    const damage = damageToApply - modifier - prot - stamina;
+
+    const size = actor.data.data.vitals.siz.value.toString();
+
+    const typeOfWound = calculateWound(damage, size);
+    
+
+    const title = "<h2 class=\"ars-chat-title\">" + game.i18n.localize("arm5e.sheet.soak") + "</h2>";
+    const messageDamage = `${game.i18n.localize("arm5e.sheet.damage")} (${damage})`;
+    const messageStamina = `${game.i18n.localize("arm5e.sheet.stamina")} (${stamina})`;
+    const messageProt = `${game.i18n.localize("arm5e.sheet.soak")} (${prot})`;
+    const messageTypeWound = game.i18n.localize("arm5e.messages.wound." + typeOfWound.toLowerCase());
+    const messageWound = game.i18n.localize("arm5e.messages.woundResult").replace('$typeWound$', messageTypeWound.toUpperCase());
+
+    ChatMessage.create({
+        content: `<h4 class="dice-total">${messageWound}</h4>`,
+        flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/>`,
+        speaker: ChatMessage.getSpeaker({
+            actor
+        }),
+    });
+
+    let actorUpdate = {
+        data: {
+            wounds: {
+                [typeOfWound]: {
+                    number: {
+                        value: actor.data.data.wounds[typeOfWound].number.value + 1
+                    }
+                }
+            }
+        }
+    };
+
+    await actor.update(actorUpdate);
+}
+
+export async function calculateDamage(selector, actor) {
+    const strenght = parseInt(selector.find('label[name$="strenght"]').attr('value') || 0);
+    const weapon = parseInt(selector.find('label[name$="weapon"]').attr('value') || 0);
+    const advantage = parseInt(selector.find('input[name$="advantage"]').val());
+    const modifier = parseInt(selector.find('input[name$="modifier"]').val());
+    const damage = strenght + weapon + advantage + modifier;
+    const title = "<h2 class=\"ars-chat-title\">" + game.i18n.localize("arm5e.sheet.damage") + "</h2>";
+    const messageStrenght = `${game.i18n.localize("arm5e.sheet.strength")} (${strenght})`;
+    const messageWeapon = `${game.i18n.localize("arm5e.sheet.damage")} (${weapon})`;
+    const messageAdvantage = `${game.i18n.localize("arm5e.sheet.advantage")} (${advantage})`;
+    const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
+    const messageDamage = `<h4 class="dice-total">${damage}</h4>`;
+    ChatMessage.create({
+        content: messageDamage,
+        flavor: `${title} ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`,
+        speaker: ChatMessage.getSpeaker({
+            actor
+        }),
+    });
 }

@@ -96,7 +96,7 @@
         </div>
 
         <div class="flexrow flex-group-left">
-            <label class="item-title flex-group-left">{{localize "arm5e.sheet.damage"}}:</label>
+            <label class="item-title flex-group-left clickable damage" >{{localize "arm5e.sheet.damage"}}:</label>
             <!-- str + weapon + attack ventage -->
             <div class="flexcol flex-group-center">
                 <label>{{localize "arm5e.sheet.strength"}}</label>
@@ -118,7 +118,7 @@
         </div>
 
         <div class="flexrow flex-group-left">
-            <label class="item-title flex-group-left">{{localize "arm5e.sheet.soak"}}:</label>
+            <label class="item-title flex-group-left clickable soak-damage" data-name='{{localize "arm5e.sheet.soak"}}' data-option1="{{ data.characteristics.sta.value }}" data-txtoption1='{{ localize "arm5e.sheet.stamina" }}' data-option2="{{  data.combat.prot }}" data-txtoption2='{{localize "arm5e.sheet.protection"}}'>{{localize "arm5e.sheet.soak"}}:</label>
             <!-- str + weapon + attack ventage -->
             <div class="flexcol flex-group-center">
                 <label>{{localize "arm5e.sheet.stamina"}}</label>
