@@ -54,6 +54,10 @@
     padding: 10px;
 }
 
+.arm5e.button.ui {
+    font-family: "blackmoor";
+    padding: 5px;
+}
 
 .rollable:hover,
 .rollable:focus {
@@ -442,7 +446,7 @@ input[type="time"] {
     font-family: "blackmoor";
     margin-bottom: 6px;
     font-size: 56px;
-    height: 150px
+    height: 100px
 }
 
 .arm5e .sheet-header .profile-img {
@@ -610,7 +614,7 @@ input[type="time"] {
     position: absolute;
     border: 0px;
     top: 0px;
-    left: -1px;
+    left: -15px;
     text-decoration: none;
 }
 
@@ -772,6 +776,7 @@ input[type="time"] {
     /*font-weight: bold;*/
     font-size: 10pt;
     padding-left: 20px;
+    padding-right: 10px;
 }
 
 .arm5e .spell-desc {

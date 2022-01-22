@@ -1,7 +1,7 @@
 <ol class="spell-list backSection margintop18">
     <li class="item flexrow item-header">
-        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
+        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /> </div>
+        <div class="item-left-ball"> <img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
         <div class="item-image"></div>
         <div>
@@ -14,22 +14,9 @@
             <div class="flexrow flex-center">
                 <span class="flexrow spell-title design" data-name="{{enchantment.data.name}}">
                     <!-- data-level="{{enchantment.data.data.baseLevel}}" data-technique="{{enchantment.data.data.technique.value}}" data-form="{{enchantment.data.data.form.value}}"-->
-                    {{!log enchantment.data.name level="info"}}
-                    {{enchantment.data.name}} (
-                    {{#with (lookup @root.metadata.magic.arts enchantment.data.data.technique.value)~}}{{short~}}
-                    {{/with}}
-                    {{#with (lookup @root.metadata.magic.arts enchantment.data.data.form.value)~}}{{short~}}
-                    {{/with}}
-                    {{enchantment.data.data.level}} )
-                    {{localize "arm5e.spell.range.short"~}}:
-                    {{#with (lookup @root.metadata.magic.ranges enchantment.data.data.range.value)~}}{{localize label}}
-                    {{/with}}
-                    {{localize "arm5e.spell.duration.short"~}}:
-                    {{#with (lookup @root.metadata.magic.durations enchantment.data.data.duration.value)~}}{{localize label}}
-                    {{/with}}
-                    {{localize "arm5e.spell.target.short"~}}:
-                    {{#with (lookup @root.metadata.magic.targets enchantment.data.data.target.value)~}}{{localize label}}
-                    {{/with}}
+                    {{enchantment.data.name}} :
+                    {{enchantment.data.localizedDesc}}
+
                 </span>
             </div>
             <div class="item-controls">

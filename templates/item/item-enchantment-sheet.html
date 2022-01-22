@@ -64,8 +64,9 @@
         {{!-- Spell Design Tab --}}
         {{> "systems/arm5e/templates/item/parts/spell-design.html" }}
         {{!-- Enchantment Tab --}}
-        {{> "systems/arm5e/templates/item/parts/enchantment.html" }}
-
+        <div class="tab enchantment" data-group="primary" data-tab="enchantment">
+            {{> "systems/arm5e/templates/item/parts/enchantment.html" }}
+        </div>
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
             {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}

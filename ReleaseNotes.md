@@ -12,6 +12,12 @@ Features
 - Grogs compendium migrated
 - Score field of abilities is now read only, but can be adjusted with buttons
 - Number of items after filtering is now displayed in Codex
+- Dropping an Item on an Actor will reset its "Actor's properties" if any. (eg: dragging a spell from a character to another will reset masteries, focuses )
+- Lab texts dropped on Codex will convert into appropriate spell or enchantment.
+- Spell lab texts dropped on characters will convert into spells.
+- It is now possible to equip and unequip weapons and armors from the character sheet
+- Reviewed weapons items with updated icons (by N0Br41nZ) and proper range
+- Reduce the height of Codex for more real estate
 
 Bug fixes:
 - Requisites dialog shows up properly.
@@ -20,7 +26,8 @@ Bug fixes:
 - Item properties linked to character (mastery, experience) are no longer displayed if not owned
 - Fixed migration resetting magic skills selection.
 - Spell levels are no longer computed if it is not migrated (prevent a bunch of errors in logs)
-
+- Partly fix arrows of tab titles
+- Codex enchantments are now properly filtered
 
 
 1.2.4 SP1
