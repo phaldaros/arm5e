@@ -183,11 +183,11 @@ Hooks.once('init', async function() {
         label: "arm5e.sheet.magic-codex"
     });
 
-    Actors.registerSheet("arm5eCrucible", ArM5eCrucibleSheet, {
-        types: ["crucible"],
-        makeDefault: true,
-        label: "arm5e.sheet.crucible"
-    });
+    // Actors.registerSheet("arm5eCrucible", ArM5eCrucibleSheet, {
+    //     types: ["crucible"],
+    //     makeDefault: true,
+    //     label: "arm5e.sheet.crucible"
+    // });
 
 
     Items.unregisterSheet("core", ItemSheet);
@@ -195,22 +195,7 @@ Hooks.once('init', async function() {
         types: ["magicalEffect", "enchantment", "spell", "baseEffect", "laboratoryText", "magicItem"],
         makeDefault: true
     });
-    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-    //     types: [],
-    //     makeDefault: true
-    // });
-    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-    //     types: [],
-    //     makeDefault: true
-    // });
-    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-    //     types: [],
-    //     makeDefault: true
-    // });
-    // Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-    //     types: [],
-    //     makeDefault: true
-    // });
+
     Items.registerSheet("arm5e", ArM5eItemSheet, {
         types: ["weapon", "armor", "vis", "item", "book", "virtue", "flaw", "ability", "abilityFamiliar",
             "diaryEntry", "dairyEntry", "power", "might", "powerFamiliar", "mightFamiliar", "speciality",

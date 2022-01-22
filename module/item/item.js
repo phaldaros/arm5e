@@ -115,8 +115,7 @@ export class ArM5eItem extends Item {
                 }
 
                 if (this.type == "enchantment" ||
-                    (this.type == "laboratoryText" && this.data.data.type == "enchantment") ||
-                    this.type == "magicItem") {
+                    (this.type == "laboratoryText" && this.data.data.type == "enchantment")) {
                     effectLevel += parseInt(data.effectfrequency);
                     if (data.penetration % 2 == 1) {
                         this.data.data.penetration += 1;
@@ -185,7 +184,7 @@ export class ArM5eItem extends Item {
     }
 
     _isMagicalEffect() {
-        return (this.type == "magicalEffect" || this.type == "enchantment" || this.type == "spell" || this.type == "magicItem");
+        return (this.type == "magicalEffect" || this.type == "enchantment" || this.type == "spell");
     }
 
 

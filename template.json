@@ -1,6 +1,6 @@
 {
     "Actor": {
-        "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "crucible"],
+        "types": ["player", "npc", "laboratory", "covenant", "magicCodex"],
         "templates": {
             "base": {
                 "version": "0.3",
@@ -990,12 +990,6 @@
             "magicEffects": [],
             "spells": [],
             "enchantments": []
-        },
-        "crucible": {
-            "magicItemName": "Name",
-            "description": "",
-            "receptacle": null,
-            "enchantments": []
         }
     },
 
@@ -1290,8 +1284,9 @@
             "size": ""
         },
         "magicItem": {
-            "templates": ["base", "authorship", "magicalEffectAttributes", "magicItemAttributes", "enchantmentAttributes"],
-            "status": 0
+            "templates": ["base"],
+            "effect": "",
+            "uses": 0
         },
         "personality": {
             "templates": ["base"],
