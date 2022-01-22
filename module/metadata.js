@@ -1188,6 +1188,9 @@ ARM5E.generic.sourcesTypes = {
     "TtA": {
         "label": "arm5e.sheet.source.TtA"
     },
+    "ML": {
+        "label": "arm5e.sheet.source.ML"
+    },
     "Hook": {
         "label": "arm5e.sheet.source.Hooks"
     }
