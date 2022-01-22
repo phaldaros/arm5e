@@ -371,10 +371,13 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     async _onSoakDamage(html, actor) {
-        event.preventDefault();
-        const damage = parseInt($(getLastMessageByHeader(game, 'arm5e.sheet.damage').data.content).text());
+        const lastMessageDamage = getLastMessageByHeader(game, 'arm5e.sheet.damage');
+        const damage = parseInt(
+            $(lastMessageDamage?.data?.content).text()
+        );
+        debugger;
         const extraData = {
-            damage,
+            damage: damage || 0,
             modifier: 0,
         }
 
@@ -413,8 +416,10 @@ export class ArM5eActorSheet extends ActorSheet {
 
     async _onCalculateDamage(html, actor) {
         event.preventDefault();
-        const attack = parseInt(getLastMessageByHeader(game, 'arm5e.sheet.attack').data.content);
-        const defense = parseInt(getLastMessageByHeader(game, 'arm5e.sheet.defense').data.content);
+        const lastAttackMessage = getLastMessageByHeader(game, 'arm5e.sheet.attack')
+        const lastDefenseMessage = getLastMessageByHeader(game, 'arm5e.sheet.defense');
+        const attack = parseInt(lastAttackMessage?.data?.content || '0');
+        const defense = parseInt(lastDefenseMessage?.data?.content || '0');
         const advantage = attack - defense;
 
         const extraData = {
@@ -879,40 +884,47 @@ export async function setWounds(selector, actor) {
     const prot = parseInt(selector.find('label[name$="prot"]').attr('value') || 0);
     const stamina = parseInt(selector.find('label[name$="stamina"]').attr('value') || 0);
     const damage = damageToApply - modifier - prot - stamina;
-
-    const size = actor.data.data.vitals.siz.value.toString();
-
+    const size = (actor?.data?.data?.vitals?.siz?.value || '0').toString();
     const typeOfWound = calculateWound(damage, size);
-    
+    if(typeOfWound === false) {
+        ui.notifications.info(game.i18n.localize("arm5e.notification.notPossibleToCalculateWound"), {
+            permanent: true
+        })
+        return false;
+    }
 
     const title = "<h2 class=\"ars-chat-title\">" + game.i18n.localize("arm5e.sheet.soak") + "</h2>";
     const messageDamage = `${game.i18n.localize("arm5e.sheet.damage")} (${damage})`;
     const messageStamina = `${game.i18n.localize("arm5e.sheet.stamina")} (${stamina})`;
     const messageProt = `${game.i18n.localize("arm5e.sheet.soak")} (${prot})`;
-    const messageTypeWound = game.i18n.localize("arm5e.messages.wound." + typeOfWound.toLowerCase());
-    const messageWound = game.i18n.localize("arm5e.messages.woundResult").replace('$typeWound$', messageTypeWound.toUpperCase());
+    const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
+    const messageWound = typeOfWound
+        ? game.i18n.localize("arm5e.messages.woundResult").replace('$typeWound$', messageTypeWound.toUpperCase())
+        : game.i18n.localize("arm5e.messages.noWound");
 
     ChatMessage.create({
         content: `<h4 class="dice-total">${messageWound}</h4>`,
-        flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/>`,
+        flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageModifier}<br/>`,
         speaker: ChatMessage.getSpeaker({
             actor
         }),
     });
 
-    let actorUpdate = {
-        data: {
-            wounds: {
-                [typeOfWound]: {
-                    number: {
-                        value: actor.data.data.wounds[typeOfWound].number.value + 1
+    if(typeOfWound) {
+        let actorUpdate = {
+            data: {
+                wounds: {
+                    [typeOfWound]: {
+                        number: {
+                            value: actor.data.data.wounds[typeOfWound].number.value + 1
+                        }
                     }
                 }
             }
-        }
-    };
+        };
 
-    await actor.update(actorUpdate);
+        await actor.update(actorUpdate);
+    }
 }
 
 export async function calculateDamage(selector, actor) {

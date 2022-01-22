@@ -143,11 +143,15 @@ export function getLastMessageByHeader(game, key) {
         const flavor = (msg?.data?.flavor || '').toLowerCase();
         return flavor.indexOf(searchString) > -1;
     });
-    return messages.pop();
+    if(messages.length) return messages.pop();
+    return false;
 }
 
 
 export function calculateWound(damage, size) {
+    if(damage < 0) {
+        return '';
+    }
     const sizesAndWounds =
     {
         "-4": {
@@ -209,10 +213,10 @@ export function calculateWound(damage, size) {
     }
 
     const typeOfWoundsBySize = sizesAndWounds[size.toString()];
-
+    if(typeOfWoundsBySize === undefined) return false;
     const wounds = Object.keys(typeOfWoundsBySize);
 
-    let typeOfWound = ''
+    let typeOfWound = false;
     wounds.forEach((wound) => {
         if (Number(wound) < damage) {
             typeOfWound = typeOfWoundsBySize[wound];
