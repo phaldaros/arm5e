@@ -22,9 +22,8 @@
             <div class="resource">
                 <label>{{localize "arm5e.sheet.defaultCharacteristicForAbility"}}</label>
                 <div class="flexcol flexrow">
-                    <select name="data.defaultCharacteristicForAbility" data-type="String" class="default-characteristic">
-                        {{#select data.defaultCharacteristicForAbility}}
-                        <option value="">{{localize "arm5e.sheet.n-a"}}</option>
+                    <select name="data.defaultCha4Ab" data-type="String" class="default-characteristic">
+                        {{#select data.defaultCha4Ab}}
                         {{#each metadata.character.characteristics as |item key|}}
                         <option value="{{key}}">{{localize label}}</option>
                         {{/each}} {{/select}}

@@ -1020,7 +1020,7 @@
                 }
             },
             "ability": {
-                "defaultCharacteristicForAbility": "",
+                "defaultCha4Ab": "int",
                 "speciality": "",
                 "score": 0,
                 "xp": 0,
