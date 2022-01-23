@@ -375,7 +375,6 @@ export class ArM5eActorSheet extends ActorSheet {
         const damage = parseInt(
             $(lastMessageDamage?.data?.content).text()
         ) || 0;
-        debugger;
         const extraData = {
             damage,
             modifier: 0,
@@ -899,7 +898,10 @@ export async function setWounds(selector, actor) {
     const messageProt = `${game.i18n.localize("arm5e.sheet.soak")} (${prot})`;
     const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
     const messageWound = typeOfWound
-        ? game.i18n.localize("arm5e.messages.woundResult").replace('$typeWound$', messageTypeWound.toUpperCase())
+        ? game.i18n.localize("arm5e.messages.woundResult").replace(
+            '$typeWound$',
+            game.i18n.localize("arm5e.messages.wound." + typeOfWound.toLowerCase())
+          )
         : game.i18n.localize("arm5e.messages.noWound");
 
     ChatMessage.create({
