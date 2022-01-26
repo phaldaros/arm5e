@@ -632,11 +632,11 @@ export class ArM5eActorSheet extends ActorSheet {
           if (dataset.technique) {
             this.actor.data.data.roll.techniqueText = ARM5E.magic.techniques[dataset.technique].label;
             this.actor.data.data.roll.techniqueScore = parseInt(
-              this.actor.data.data.arts.techniques[dataset.technique].score
+              this.actor.data.data.arts.techniques[dataset.technique].derivedScore
             );
           }
           if (dataset.mform) {
-            this.actor.data.data.roll.formScore = parseInt(this.actor.data.data.arts.forms[dataset.mform].score);
+            this.actor.data.data.roll.formScore = parseInt(this.actor.data.data.arts.forms[dataset.mform].derivedScore);
             this.actor.data.data.roll.formText = ARM5E.magic.forms[dataset.mform].label;
           }
         }
