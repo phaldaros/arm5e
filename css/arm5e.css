@@ -1,291 +1,300 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 
-
 @font-face {
-    font-family: "Goudy Text MT";
-    src: url("../assets/fonts/goudy-text-mt.ttf");
+  font-family: "Goudy Text MT";
+  src: url("../assets/fonts/goudy-text-mt.ttf");
 }
 
 @font-face {
-    font-family: "vinque";
-    src: url("../assets/fonts/vinque_rg.ttf");
+  font-family: "vinque";
+  src: url("../assets/fonts/vinque_rg.ttf");
 }
 
 @font-face {
-    font-family: "bookAntiqua";
-    src: url("../assets/fonts/book-antiqua.ttf");
+  font-family: "bookAntiqua";
+  src: url("../assets/fonts/book-antiqua.ttf");
 }
 
 @font-face {
-    font-family: "bookAntiquaBold";
-    src: url("../assets/fonts/book-antiqua-bold.ttf");
+  font-family: "bookAntiquaBold";
+  src: url("../assets/fonts/book-antiqua-bold.ttf");
 }
 
 @font-face {
-    font-family: "blackmoor";
-    src: url("../assets/fonts/BlackmoorLetPlain.ttf") format('truetype');
+  font-family: "blackmoor";
+  src: url("../assets/fonts/BlackmoorLetPlain.ttf") format("truetype");
 }
 
 /* Global styles */
 .body {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .window-app {
-    font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .arm5e .window-content {
-    padding: 0px;
-    border: 2px solid #6f6c66;
+  padding: 0px;
+  border: 2px solid #6f6c66;
 }
 
 .arm5e-dialog .window-content {
-    padding: 0px;
-    border: 2px solid #6f6c66;
+  padding: 0px;
+  border: 2px solid #6f6c66;
 }
 
 .system-arm5e .dialog-buttons {
-    background-color: rgb(236 222 187 / 50%);
+  background-color: rgb(236 222 187 / 50%);
 }
 
 .arm5e.button {
-    font-family: "blackmoor";
-    padding: 10px;
+  font-family: "blackmoor";
+  padding: 10px;
 }
 
 .arm5e.button.ui {
-    font-family: "blackmoor";
-    padding: 5px;
+  font-family: "blackmoor";
+  padding: 5px;
+}
+
+.arm5e .item-control {
+  padding-top: 4px;
+  text-align: center;
 }
 
 .rollable:hover,
 .rollable:focus {
-    color: #000;
-    text-shadow: 0 0 10px red;
-    cursor: pointer;
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
 }
 
 .clickable:hover,
 .clickable:focus {
-    color: #000;
-    text-shadow: 0 0 10px red;
-    cursor: pointer;
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
 }
 
 .design:hover,
 .design:focus {
-    color: #000;
-    text-shadow: 0 0 10px red;
-    cursor: pointer;
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
 }
 
 .system-arm5e .chat-message {
-    margin: 3px;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 14px;
-    color: #191813;
-    background-image: url("../assets/chat/background.png");
-    background-repeat: repeat;
-    background-size: cover;
-    border: 2px solid #6f6c66;
-    border-radius: 0px;
+  margin: 3px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+  color: #191813;
+  background-image: url("../assets/chat/background.png");
+  background-repeat: repeat;
+  background-size: cover;
+  border: 2px solid #6f6c66;
+  border-radius: 0px;
 }
 
 .chat-message .message-header {
-    font-family: "bookAntiqua";
+  font-family: "bookAntiqua";
 }
 
-
 .chat-message .message-content {
-    overflow-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .ars-chat-title {
-    font-family: "blackmoor";
-    border-bottom: 1px solid #8e7759;
-    line-height: 20px;
-    color: var(--color-text-dark-secondary);
+  font-family: "blackmoor";
+  border-bottom: 1px solid #8e7759;
+  line-height: 20px;
+  color: var(--color-text-dark-secondary);
 }
 
-
-    .chat-message .message-content .dice-total {
-        flex: 0;
-        font-size: var(--font-size-20);
-        font-weight: bold;
-        position: relative;
-        margin: 0;
-        line-height: 24px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--color-border-light-2);
-        border-radius: 3px;
-        box-shadow: 0 0 2px #fff inset;
-        word-break: break-all;
-    }
+.chat-message .message-content .dice-total {
+  flex: 0;
+  font-size: var(--font-size-20);
+  font-weight: bold;
+  position: relative;
+  margin: 0;
+  line-height: 24px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  word-break: break-all;
+}
 
 .chat-message .message-header .ars-chat-title {
-    font-family: "blackmoor";
-    border-bottom: 1px solid #8e7759;
-
+  font-family: "blackmoor";
+  border-bottom: 1px solid #8e7759;
 }
-
 
 .grid,
 .grid-2col {
-    display: grid;
-    grid-column: span 2 / span 2;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    margin: 10px 0;
-    padding: 0;
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 10px 0;
+  padding: 0;
 }
 
 .grid-3col {
-    grid-column: span 3 / span 3;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .grid-4col {
-    grid-column: span 4 / span 4;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .grid-5col {
-    grid-column: span 5 / span 5;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .grid-6col {
-    grid-column: span 5 / span 5;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .grid-7col {
-    grid-column: span 7 / span 7;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 .grid-8col {
-    grid-column: span 8 / span 8;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
 }
 
 .grid-9col {
-    grid-column: span 9 / span 9;
-    grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
 }
 
 .grid-10col {
-    grid-column: span 10 / span 10;
-    grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 
 .grid-11col {
-    grid-column: span 11 / span 11;
-    grid-template-columns: repeat(11, minmax(0, 1fr));
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
 }
 
 .grid-12col {
-    grid-column: span 12 / span 12;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
 .flex-group-center,
 .flex-group-left,
 .flex-group-right {
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    text-align: center;
-    padding: 5px;
-    /* border: 1px solid #999; */
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  /* border: 1px solid #999; */
 }
 
 .flex-group-left {
-    -webkit-box-pack: start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    text-align: left;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
 }
 
 .flex-group-right {
-    -webkit-box-pack: end;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
-    text-align: right;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
 }
 
 .flex-center {
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    text-align: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .flex-between {
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .arm5eMain {
-    background-image: url("../assets/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
-    padding: 32px;
+  background-image: url("../assets/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding: 32px;
 }
 
 .arm5eRoll .header-background {
+  /*margin-top: -32px;*/
+  width: 100%;
+}
 
-    /*margin-top: -32px;*/
-    width: 100%
+.arm5eInfo {
+  background-image: url("../assets/chat/background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  font-size: 12pt;
+  width: 100%;
+  height: 100%;
 }
 
 .arm5eChooser {
-    font-size: 10pt;
-    background-image: url("../assets/item/background.png");
-    background-repeat: repeat-y;
-    background-size: cover;
-    font-family: "bookAntiquaBold";
+  font-size: 10pt;
+  background-image: url("../assets/item/background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
 }
 
 .arm5eRequisite {
-    font-size: 10pt;
-    background-image: url("../assets/item/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
+  font-size: 10pt;
+  background-image: url("../assets/item/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
 }
 
 .arm5eRoll {
-    background-image: url("../assets/chat/background.png");
-    background-repeat: repeat-y;
-    background-size: cover;
-    font-family: "bookAntiquaBold";
-    font-size: 12pt;
+  background-image: url("../assets/chat/background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  font-size: 12pt;
 }
 
 .arm5eRoll .roll-options {
-    font-family: "bookAntiquaBold";
-    padding-left: 32px;
-    padding-right: 32px;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
 .arm5eRoll .header-background img {
-    width: 100%;
-    border: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
+  width: 100%;
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 /* Styles limited to arm5e sheets */
@@ -295,608 +304,606 @@ input[type="number"],
 input[type="password"],
 input[type="date"],
 input[type="time"] {
-    width: calc(100% - 2px);
-    min-width: 20px;
-    height: 20px;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 1px 3px;
-    margin: 0;
-    color: #191813;
-    font-family: inherit;
-    font-size: inherit;
-    text-align: inherit;
-    line-height: inherit;
-    border: 1px solid #7a7971;
-    border-radius: 3px;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
+  width: calc(100% - 2px);
+  min-width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 3px;
+  margin: 0;
+  color: #191813;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: inherit;
+  line-height: inherit;
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 .arm5e select {
-    height: 20px;
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid #7a7971;
-    border-radius: 3px;
-    font-family: inherit;
-    padding: 0 3px;
-    text-overflow: ellipsis;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  font-family: inherit;
+  padding: 0 3px;
+  text-overflow: ellipsis;
 }
 
 .arm5e .mainPlayer {
-    background-image: url("../assets/player/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
-    padding-left: 32px;
-    padding-right: 32px;
-    font-size: 9pt;
+  background-image: url("../assets/player/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+  font-size: 9pt;
 }
 
 .arm5e .mainNPC {
-    background-image: url("../assets/npc/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
-    padding-left: 32px;
-    padding-right: 32px;
-    font-size: 9pt;
+  background-image: url("../assets/npc/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+  font-size: 9pt;
 }
 
 .arm5e .mainLaboratory {
-    background-image: url("../assets/laboratory/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
-    padding-left: 32px;
-    padding-right: 32px;
-    font-size: 9pt;
+  background-image: url("../assets/laboratory/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+  font-size: 9pt;
 }
 
 .arm5e .mainCodex {
-    background-image: url("../assets/codex/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
-    padding-left: 32px;
-    padding-right: 32px;
-    font-size: 9pt;
+  background-image: url("../assets/codex/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+  font-size: 9pt;
 }
 
 .arm5e .mainCovenant {
-    background-image: url("../assets/covenant/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
-    padding-left: 32px;
-    padding-right: 32px;
-    font-size: 9pt;
+  background-image: url("../assets/covenant/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+  font-size: 9pt;
 }
 
 .arm5e .mainItem {
-    background-image: url("../assets/item/background.png");
-    background-repeat: repeat-y;
-    background-size: contain;
-    font-family: "bookAntiquaBold";
-    padding-left: 32px;
-    padding-right: 32px;
-    overflow-y: hidden;
-    font-size: 9pt;
+  background-image: url("../assets/item/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+  overflow-y: hidden;
+  font-size: 9pt;
 }
 
 .arm5e .header-background {
-    margin-left: -32px;
-    /*margin-top: -32px;*/
-    width: calc(100% + 64px);
+  margin-left: -32px;
+  /*margin-top: -32px;*/
+  width: calc(100% + 64px);
 }
 
 .arm5e .footer-background {
-    margin-left: -32px;
-    margin-top: 16px;
-    width: calc(100% + 64px);
-    height: 160px;
+  margin-left: -32px;
+  margin-top: 16px;
+  width: calc(100% + 64px);
+  height: 160px;
 }
 
 .arm5e .header-background img {
-    width: 100%;
-    border: 0px;
+  width: 100%;
+  border: 0px;
 }
 
 .arm5e .footer-background img {
-    width: 100%;
-    border: 0px;
+  width: 100%;
+  border: 0px;
 }
 
-
 .arm5e .sheet-header {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 240px;
-    flex: 0 0 240px;
-    /*overflow: hidden;*/
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-box-pack: start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    margin-bottom: 10px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 240px;
+  flex: 0 0 240px;
+  /*overflow: hidden;*/
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 
 .arm5e .sheet-header-lab {
-    -ms-flex: 0 0 315px;
-    flex: 0 0 315px;
+  -ms-flex: 0 0 315px;
+  flex: 0 0 315px;
 }
 
 .arm5e .sheet-header-codex {
-    -ms-flex: 0 0 80px;
-    flex: 0 0 80px;
-    font-family: "blackmoor";
-    font-size: 18px;
+  -ms-flex: 0 0 80px;
+  flex: 0 0 80px;
+  font-family: "blackmoor";
+  font-size: 18px;
 }
 
 .arm5e .codex-title {
-    text-align: center;
-    font-family: "blackmoor";
-    margin-bottom: 6px;
-    font-size: 56px;
-    height: 100px
+  text-align: center;
+  font-family: "blackmoor";
+  margin-bottom: 6px;
+  font-size: 56px;
+  height: 100px;
 }
 
 .arm5e .sheet-header .profile-img {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 230px;
-    flex: 0 0 230px;
-    height: 236px;
-    margin-right: 10px;
-    margin-bottom: 10px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 230px;
+  flex: 0 0 230px;
+  height: 236px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .arm5e .sheet-header .item-img {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 200px;
-    flex: 0 0 200px;
-    height: 200px;
-    margin-right: 16px;
-    margin-bottom: 16px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  height: 200px;
+  margin-right: 16px;
+  margin-bottom: 16px;
 }
 
 .arm5e .sheet-header .header-fields {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 
 .arm5e .sheet-header h1.charname {
-    height: 50px;
-    padding: 0px;
-    margin: 5px 0;
-    border-bottom: 0;
+  height: 50px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
 }
 
 .arm5e .sheet-header h1.charname input {
-    width: 100%;
-    margin: 0;
-    /*padding-top: 30px;
+  width: 100%;
+  margin: 0;
+  /*padding-top: 30px;
   line-height: 30;*/
-    /*font-family: "vinque";*/
-    font-family: "blackmoor";
-    /*letter-spacing: 1px;*/
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  /*letter-spacing: 1px;*/
 }
 
 .arm5e .sheet-header h2.covenantname {
-    padding: 0px;
-    margin: 5px 0;
-    border-bottom: 0;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
 }
 
 .arm5e .sheet-header h2.covenantname input {
-    width: 100%;
-    margin: 0;
-    /*padding-top: 25px;
+  width: 100%;
+  margin: 0;
+  /*padding-top: 25px;
   line-height: 50;*/
-    /*font-family: "vinque";*/
-    font-family: "blackmoor";
-    /*letter-spacing: 1px;*/
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  /*letter-spacing: 1px;*/
 }
 
 .arm5e .sheet-header h2.codexname {
-    padding: 0px;
-    margin: 5px 0;
-    border-bottom: 0;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
 }
 
 .arm5e .sheet-header h2.codexname input {
-    width: 100%;
-    margin: 0;
-    /*padding-top: 25px;
+  width: 100%;
+  margin: 0;
+  /*padding-top: 25px;
   line-height: 50;*/
-    /*font-family: "vinque";*/
-    font-family: "blackmoor";
-    /*letter-spacing: 1px;*/
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  /*letter-spacing: 1px;*/
 }
 
 .arm5e .sheet-tabs {
-    -webkit-box-flex: 0;
-    -ms-flex: 0;
-    flex: 0;
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
 }
 
 .arm5e .sheet-body,
 .arm5e .sheet-body .tab,
 .arm5e .sheet-body .tab .editor {
-    height: 90%;
+  height: 90%;
 }
 
 .arm5e .tox .tox-editor-container {
-    background: #fff;
+  background: #fff;
 }
 
 .arm5e .tox .tox-edit-area {
-    padding: 0 8px;
+  padding: 0 8px;
 }
 
 .arm5e .resource-label {
-    font-weight: bold;
-    text-transform: uppercase;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .arm5eTabs {
-    border: 0px !important;
-    /*
+  border: 0px !important;
+  /*
   background-image: url("../assets/bBronce.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
   */
-    min-height: 40px;
-    margin-bottom: 12px !important;
+  min-height: 40px;
+  margin-bottom: 12px !important;
 }
 
 .arm5eTabsPC {
-    background-image: url("../assets/player/bar.png");
-    background-repeat: repeat-x;
-    background-position-y: bottom;
+  background-image: url("../assets/player/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
 }
 
 .arm5eTabsNPC {
-    background-image: url("../assets/npc/bar.png");
-    background-repeat: repeat-x;
-    background-position-y: bottom;
+  background-image: url("../assets/npc/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
 }
 
 .arm5eTabsLAB {
-    background-image: url("../assets/laboratory/bar.png");
-    background-repeat: repeat-x;
-    background-position-y: bottom;
+  background-image: url("../assets/laboratory/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
 }
 
 .arm5eTabsCOV {
-    background-image: url("../assets/covenant/bar.png");
-    background-repeat: repeat-x;
-    background-position-y: bottom;
+  background-image: url("../assets/covenant/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
 }
 
 .arm5eTabsCOD {
-    background-image: url("../assets/codex/bar.png");
-    background-repeat: repeat-x;
-    background-position-y: bottom;
+  background-image: url("../assets/codex/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
 }
 
 .arm5e .tabs {
-    height: 40px;
-    border-top: 1px solid #AAA;
-    border-bottom: 1px solid #AAA;
+  height: 40px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
 }
 
 .arm5e .tabs .item {
-    /*line-height: 60px;*/
-    /*font-family: "vinque";*/
-    font-family: "blackmoor";
-    font-size: 14pt;
+  /*line-height: 60px;*/
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  font-size: 14pt;
 }
 
 .arm5e .tabs .item.active {
-    /*text-decoration: underline;*/
-    text-shadow: none;
+  /*text-decoration: underline;*/
+  text-shadow: none;
 }
 
 .posRelative {
-    position: relative;
+  position: relative;
 }
 
 .navItem-right-ball {
-    position: absolute;
-    border: 0px;
-    top: 0px;
-    left: -15px;
-    text-decoration: none;
+  position: absolute;
+  border: 0px;
+  top: 0px;
+  left: -15px;
+  text-decoration: none;
 }
 
 .navItem-right-ball img {
-    border: 0px;
-    width: 14px;
+  border: 0px;
+  width: 14px;
 }
 
 .navItem-left-ball {
-    position: absolute;
-    border: 0px;
-    top: 0px;
-    left: calc(100% - 14px);
-    text-decoration: none;
+  position: absolute;
+  border: 0px;
+  top: 0px;
+  left: calc(100% - 14px);
+  text-decoration: none;
 }
 
 .navItem-left-ball img {
-    border: 0px;
-    width: 14px;
+  border: 0px;
+  width: 14px;
 }
 
 .posRelative div {
-    display: none;
+  display: none;
 }
 
 .posRelative.active div {
-    display: block;
+  display: block;
 }
 
 .arm5e .items-list {
-    list-style: none;
-    margin: 7px 0;
-    padding: 0;
-    overflow-y: auto;
-    min-height: 200px;
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  overflow-y: auto;
+  min-height: 200px;
 }
 
 .arm5e .items-list .item-header {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .item-header {
-    border: 0px !important;
-    background-image: url("../assets/bSilver.png");
-    background-repeat: repeat-x;
-    background-position-y: bottom;
-    min-height: 40px;
-    margin-bottom: 12px !important;
-    position: relative;
+  border: 0px !important;
+  background-image: url("../assets/bSilver.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  min-height: 40px;
+  margin-bottom: 12px !important;
+  position: relative;
 }
 
 .item-right-ball {
-    position: absolute;
-    border: 0px;
-    top: 33px;
-    left: -1px;
-    text-decoration: none;
+  position: absolute;
+  border: 0px;
+  top: 33px;
+  left: -1px;
+  text-decoration: none;
 }
 
 .item-right-ball img {
-    border: 0px;
-    width: 10px;
+  border: 0px;
+  width: 10px;
 }
 
 .item-left-ball {
-    position: absolute;
-    border: 0px;
-    top: 33px;
-    left: calc(100% - 10px);
-    text-decoration: none;
+  position: absolute;
+  border: 0px;
+  top: 33px;
+  left: calc(100% - 10px);
+  text-decoration: none;
 }
 
 .item-left-ball img {
-    border: 0px;
-    width: 10px;
+  border: 0px;
+  width: 10px;
 }
 
 .arm5e .item-name {
-    /*font-family: "vinque";*/
-    font-family: "blackmoor";
-    margin-bottom: 6px;
-    font-size: 11pt;
-    /*font-weight: bold;*/
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  margin-bottom: 6px;
+  font-size: 11pt;
+  /*font-weight: bold;*/
 }
 
 .arm5e .items-list .item {
-    /*height: 30px;*/
-    line-height: 24px;
-    padding: 3px 0;
-    /*border-bottom: 1px solid #BBB;*/
+  /*height: 30px;*/
+  line-height: 24px;
+  padding: 3px 0;
+  /*border-bottom: 1px solid #BBB;*/
 }
 
 .arm5e .items-list .item .item-image {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 24px;
-    flex: 0 0 24px;
-    margin-right: 5px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  margin-right: 5px;
 }
 
 .arm5e .items-list .item img {
-    display: block;
+  display: block;
 }
 
 .arm5e .items-list {
-    margin: 0;
+  margin: 0;
 }
 
 .arm5e .items-list .item-controls {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 86px;
-    flex: 0 0 86px;
-    text-align: right;
-    margin-right: 8px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+  margin-right: 8px;
 }
 
 .arm5e .items-list .item-controlsFam {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 43px;
-    flex: 0 0 43px;
-    text-align: right;
-    margin-right: 8px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 43px;
+  flex: 0 0 43px;
+  text-align: right;
+  margin-right: 8px;
 }
 
 .arm5e .item-value {
-    min-height: 56px;
-    height: auto;
-    border-bottom: 1px solid #bebcb8;
-    /* 2px solid #cba44b;*/
+  min-height: 56px;
+  height: auto;
+  border-bottom: 1px solid #bebcb8;
+  /* 2px solid #cba44b;*/
 }
 
 .arm5e .item-title {
-    /*font-weight: bold;*/
-    /*font-size: 1.0vw;*/
-    padding-left: 20px;
+  /*font-weight: bold;*/
+  /*font-size: 1.0vw;*/
+  padding-left: 20px;
 }
 
 .arm5e .spell-list .item img {
-    display: block;
+  display: block;
 }
 
 .arm5e .spell-list {
-    margin: 0;
+  margin: 0;
 }
 
 .arm5e .spell-list .item-controls {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 86px;
-    flex: 0 0 86px;
-    text-align: right;
-    margin-right: 8px;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+  margin-right: 8px;
 }
 
 .arm5e .spell-value {
-    min-height: 56px;
-    border-bottom: 2px solid #cba44b;
+  min-height: 56px;
+  border-bottom: 2px solid #cba44b;
 }
 
 .arm5e .spell-title {
-    /*font-weight: bold;*/
-    font-size: 10pt;
-    padding-left: 20px;
-    padding-right: 10px;
+  /*font-weight: bold;*/
+  font-size: 10pt;
+  padding-left: 20px;
+  padding-right: 10px;
 }
 
 .arm5e .spell-desc {
-    font-size: 10px;
-    padding-left: 20px;
+  font-size: 10px;
+  padding-left: 20px;
 }
 
-
 .arm5e .link {
-    color: #000;
-    cursor: pointer;
-    text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .arm5e .link:hover .link:focus {
-    color: #000;
-    text-shadow: 0 0 10px red;
-    cursor: pointer;
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
 }
 
 .width4 {
-    flex-grow: 4;
+  flex-grow: 4;
 }
 
 .width3 {
-    flex-grow: 3;
+  flex-grow: 3;
 }
 
 .width2 {
-    flex-grow: 2;
+  flex-grow: 2;
 }
 
 .width15 {
-    flex-grow: 1.5;
+  flex-grow: 1.5;
 }
 
 .flex01 {
-    flex: 0.1;
+  flex: 0.1;
 }
 
 .flex02 {
-    flex: 0.2;
+  flex: 0.2;
 }
 
 .flex03 {
-    flex: 0.3;
+  flex: 0.3;
 }
 
 .flex04 {
-    flex: 0.4;
+  flex: 0.4;
 }
 
 .flex05 {
-    flex: 0.5;
+  flex: 0.5;
 }
 
 .flex06 {
-    flex: 0.6;
+  flex: 0.6;
 }
 
 .flex07 {
-    flex: 0.7;
+  flex: 0.7;
 }
 
 .flex08 {
-    flex: 0.8;
+  flex: 0.8;
 }
 
 .arm5e .backSection {
-    background-color: rgb(236 222 187 / 50%);
-    /* rgb(226 199 130 / 50%); */
-    border: 0px;
-    border-radius: 4px;
-    box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
+  background-color: rgb(236 222 187 / 50%);
+  /* rgb(226 199 130 / 50%); */
+  border: 0px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
 }
 
 .arm5e .padding12 {
-    padding: 12px;
+  padding: 12px;
 }
 
 .arm5e .margintop6 {
-    margin-top: 6px;
+  margin-top: 6px;
 }
 
 .arm5e .marginbot4 {
-    margin-bottom: 4px;
+  margin-bottom: 4px;
 }
 
 .arm5e .marginbot6 {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .arm5e .marginbot12 {
-    margin-bottom: 12px;
+  margin-bottom: 12px;
 }
 
 .arm5e .margintop18 {
-    margin-top: 18px;
+  margin-top: 18px;
 }
 
 .arm5e .smallTitle {
-    /*font-family: "vinque";*/
-    font-family: "blackmoor";
-    margin-bottom: 6px;
-    font-size: 12pt;
-    /*font-weight: bold;*/
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  margin-bottom: 6px;
+  font-size: 12pt;
+  /*font-weight: bold;*/
 }
 
 .arm5e .bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .arm5e .marginRight8 {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 .arm5e .fontSize10 {
-    font-size: 10pt;
+  font-size: 10pt;
 }
 
 .arm5e .fontSize8 {
-    font-size: 8pt;
+  font-size: 8pt;
 }
