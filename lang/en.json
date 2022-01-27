@@ -570,6 +570,6 @@
     "arm5e.messages.wound.heavy": "heavy",
     "arm5e.messages.wound.incap": "incap",
     "arm5e.messages.wound.dead": "dead",
-    "arm5e.messages.wound": "Got a $typeWound$ wound",
+    "arm5e.messages.woundResult": "Got a $typeWound$ wound",
     "arm5e.messages.noWound": "No wound inflicted"
 }
