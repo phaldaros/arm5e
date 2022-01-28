@@ -18,6 +18,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
         "systems/arm5e/templates/actor/parts/actor-laboratory.html",
         "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html",
         "systems/arm5e/templates/actor/parts/actor-diary.html",
+        "systems/arm5e/templates/actor/parts/actor-effects.html",
         "systems/arm5e/templates/actor/parts/actor-setAbilities.html",
 
         "systems/arm5e/templates/actor/parts/actor-base-effects.html",

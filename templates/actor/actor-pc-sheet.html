@@ -98,7 +98,7 @@
                 <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
                 {{localize "arm5e.sheet.arts"}}
             </a>
-            <a class="item posRelative" data-tab="laboratory">
+            <a cl8ass="item posRelative" data-tab="laboratory">
                 <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
                 <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
                 {{localize "arm5e.sheet.laboratory"}}
@@ -110,6 +110,11 @@
             {{localize "arm5e.sheet.inventory"}}
         </a>
         <a class="item posRelative" data-tab="diary">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.diary"}}
+        </a>
+        <a class="item posRelative" data-tab="effects">
             <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
             <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.diary"}}
@@ -150,6 +155,11 @@
         {{!-- Diary Tab --}}
         <div class="tab diary" data-group="primary" data-tab="diary">
             {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "systems/arm5e/templates/actor/parts/actor-effects.html" }}
         </div>
 
     </section>
