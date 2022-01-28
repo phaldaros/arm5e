@@ -1,0 +1,39 @@
+<div class="grid grid-2col">
+
+    <div class="resource">
+        <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.base" }}</label>
+        {{#with (lookup metadata.lab.enchantment.materialBase data.materialBase)}}
+            <label class="header-label">: {{localize this.eg}}</label>
+        {{/with}}
+    </div>
+    <div class="resource">
+        <label class="header-label">{{localize "arm5e.lab.enchantment.item.size.label" }}</label>
+        {{log metadata.lab.enchantment.sizeMultiplier}}
+        {{#with (lookup metadata.lab.enchantment.sizeMultiplier data.sizeMultiplier)}}
+            <label class="header-label">: {{localize this.value}}</label>
+        {{/with}}
+    </div>
+    <div class="resource">
+        <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.label" }}</label>
+        <input type="text" name="data.material" value="{{data.material}}" data-dtype="String" readonly />
+    </div>
+    <div class="resource">
+        <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.bonus"}}</label>
+        <input type="text" name="data.materialBonus" value="{{data.materialBonus}}" data-dtype="Number" readonly />
+    </div>
+    <div class="resource">
+        <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.label"}}</label>
+        <input type="text" name="data.shape" value="{{data.shape}}" data-dtype="String" readonly />
+    </div>
+    <div class="resource">
+        <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.bonus"}}</label>
+        <input type="text" name="data.shapeBonus" value="{{data.shapeBonus}}" data-dtype="Number" readonly />
+    </div>
+    <div class="resource">
+        <label class="header-label">{{localize "arm5e.lab.enchantment.item.expiry.label"}}</label>
+        {{#with (lookup metadata.lab.enchantment.expiry data.expiry)}}
+            <label class="header-label">: {{localize this}}</label>
+        {{/with}}
+
+    </div>
+</div>

@@ -319,12 +319,12 @@
     "arm5e.messages.wound.heavy": "Grave",
     "arm5e.messages.wound.incap": "Incapacitante",
     "arm5e.messages.wound.dead": "Muerto",
+    "arm5e.messages.noWound": "No se causó ninguna herida",
 
     "arm5e.messages.woundResult": "Recibió una herida $typeWound$",
     "arm5e.dialog.chooseCovenant": "Elegir alianza",
 
     "arm5e.dialog.damageCalculator": "Calculadora de daño",
-    "arm5e.dialog.woundCalculator": "Calculadora de heridas"
-
-
+    "arm5e.dialog.woundCalculator": "Calculadora de heridas",
+    "arm5e.notification.notPossibleToCalculateWound": "No se puede calcular la herida (comprueba el tamaño de tu actor)"
 }

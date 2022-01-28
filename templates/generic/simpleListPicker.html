@@ -1,11 +1,11 @@
 <form class="{{cssClass}} arm5eChooser" autocomplete="off">
     {{> "systems/arm5e/templates/item/parts/item-header.html" }}
     <div class="flexrow backSection" style="padding: 8px;">
-        {{log data}}
-        <select class="SelectedItem" name="data.data.covenant.value" data-type="String">
-            {{#select data.data.covenant.value}}
-                {{#each data.data.world.covenants}}
-                    <option value="{{this.name}}">{{this.name}}</option>
+        {{log data.data}}
+        <select class="SelectedItem" name="data.data.choice" data-type="String">
+            {{#select data.data.choice}}
+                {{#each data.data.list}}
+                    <option value="{{this.id}}">{{this.name}}</option>
                 {{/each}} {{/select}}
         </select>
     </div>

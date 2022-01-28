@@ -28,6 +28,7 @@
     "arm5e.sheet.score": "Score",
     "arm5e.sheet.points": "Points",
     "arm5e.sheet.effects": "Effects",
+    "arm5e.sheet.effect": "Effect",
     "arm5e.sheet.fatigue": "Fatigue",
     "arm5e.sheet.wounds": "Wounds",
     "arm5e.sheet.biography": "Biography",
@@ -35,6 +36,7 @@
     "arm5e.sheet.personalityLab": "Personality",
     "arm5e.sheet.reputation": "Reputation",
     "arm5e.sheet.experience": "Experience",
+    "arm5e.sheet.experienceNext": "Next level",
     "arm5e.sheet.experienceShort": "Xp",
     "arm5e.sheet.pendingExperience": "Pending Experience",
     "arm5e.sheet.trainingRequired": "Training Required",
@@ -293,7 +295,7 @@
     "arm5e.sheet.laboratoriesSumary": "1 pound per 10 pts Laboratories (20% per craft)",
     "arm5e.sheet.provisionsSumary": "5 pounds per 10 pts Inhabitants (50% + 20% per craft)",
     "arm5e.sheet.titlesSumary": "debts and taxes",
-    "arm5e.sheet.wagesSumary": "2 points per 10 pts Inhabitants",
+    "arm5e.sheet.wagesSumary": "2 pounds per 10 pts Inhabitants",
     "arm5e.sheet.weaponsSumary": "1 pound per 320 points Weapons and Armor (50% per craft)",
     "arm5e.sheet.writingMaterialsSumary": "1 pound per Magus and book specialist (50% per craft)",
     "arm5e.sheet.laborers": "Laborers",
@@ -361,9 +363,13 @@
     "arm5e.spell.ranges.touch": "Touch",
     "arm5e.spell.ranges.eye": "Eye contact",
     "arm5e.spell.ranges.voice": "Voice",
-    "arm5e.spell.ranges.road": "Road",
+    "arm5e.spell.ranges.road": "Road (Fae)",
     "arm5e.spell.ranges.sight": "Sight",
     "arm5e.spell.ranges.arc": "Arcane connection",
+    "arm5e.spell.ranges.ground": "Ground (C&C p99)",
+    "arm5e.spell.ranges.line": "Line (Arithmetic)",
+    "arm5e.spell.ranges.veil": "Veil of Death (Canaanite)",
+    "arm5e.spell.ranges.unlimited": "Unlimited (Defixio)",
 
     "arm5e.spell.durations.moment": "Momentary",
     "arm5e.spell.durations.conc": "Concentration",
@@ -376,6 +382,11 @@
     "arm5e.spell.durations.year": "Year",
     "arm5e.spell.durations.condition": "Condition (Fae)",
     "arm5e.spell.durations.year+1": "Year and a day (Fae)",
+    "arm5e.spell.durations.perf": "Performance (Performance)",
+    "arm5e.spell.durations.dream": "Dream (Dream)",
+    "arm5e.spell.durations.arcr": "Arcane Ring (Arithmetic)",
+    "arm5e.spell.durations.19year": "19 Years (Hyperborean)",
+    "arm5e.spell.durations.rune": "Rune (Runic)",
 
     "arm5e.spell.targets.ind": "Individual",
     "arm5e.spell.targets.circle": "Circle",
@@ -389,6 +400,7 @@
     "arm5e.spell.targets.smell": "Smell (In)",
     "arm5e.spell.targets.hearing": "Hearing (In)",
     "arm5e.spell.targets.sight": "Sight (In)",
+    "arm5e.spell.targets.bloodline": "Bloodline (Fae)",
     "arm5e.config.special": "Special",
     "arm5e.spell.targets.targetSize": "Target size",
     "arm5e.spell.targets.complexity": "Complexity",
@@ -413,6 +425,11 @@
     "arm5e.sheet.filters": "Filters",
     "arm5e.sheet.count": "Count",
 
+    "arm5e.sheet.crucible.instructions1": "Drop an item to start",
+    "arm5e.sheet.crucible.instructions2": "Drop an enchantment",
+    "arm5e.sheet.crucible.receptacle": "Receptacle",
+    "arm5e.sheet.crucible.invest": "Invest power",
+
     "arm5e.lab.usage.label": "Usage",
     "arm5e.lab.usage.light": "Light (1 season or less)",
     "arm5e.lab.usage.standard": "Standard (2 seasons)",
@@ -430,12 +447,21 @@
 
 
     "arm5e.lab.enchantment.item.shape.bonus": "Shape bonus",
-    "arm5e.lab.enchantment.item.shape": "Shape",
+    "arm5e.lab.enchantment.item.shape.label": "Shape",
     "arm5e.lab.enchantment.item.material.bonus": "Material bonus",
 
+    "arm5e.lab.enchantment.item.charges": "Charges",
+    "arm5e.lab.enchantment.item.charged": "Charged",
+    "arm5e.lab.enchantment.item.maxLevel": "Max level",
 
-    "arm5e.lab.enchantment.item.expiry": "Effect expiry",
+    "arm5e.lab.enchantment.item.expiry.label": "Effect expiry",
+    "arm5e.lab.enchantment.item.expiry.never": "Never",
+    "arm5e.lab.enchantment.item.expiry.1y": "1 year",
+    "arm5e.lab.enchantment.item.expiry.7y": "7 years",
+    "arm5e.lab.enchantment.item.expiry.70y": "70 years",
+
     "arm5e.lab.enchantment.item.material.label": "Material",
+    "arm5e.lab.enchantment.item.material.base": "Material Base",
     "arm5e.lab.enchantment.item.material.base1": "Cloth, glass",
     "arm5e.lab.enchantment.item.material.base2": "Wood, leather",
     "arm5e.lab.enchantment.item.material.base3": "Bone, soft stone",
@@ -454,24 +480,33 @@
     "arm5e.lab.enchantment.item.size.large": "Large",
     "arm5e.lab.enchantment.item.size.huge": "Huge",
 
-    "arm5e.lab.enchantment.item.size.tiny-eg": "ring, bracelet, pendant, any gem",
-    "arm5e.lab.enchantment.item.size.small-eg": "wand, dagger, belt, cap",
-    "arm5e.lab.enchantment.item.size.medium-eg": "sword, tunic, boots, skull",
-    "arm5e.lab.enchantment.item.size.large-eg": "staff, shield, cloak, skeleton",
-    "arm5e.lab.enchantment.item.size.huge-eg": "boat, wagon, human body, small room",
+    "arm5e.lab.enchantment.item.size.tiny-eg": "Tiny (ring, bracelet, pendant, any gem)",
+    "arm5e.lab.enchantment.item.size.small-eg": "Small (wand, dagger, belt, cap)",
+    "arm5e.lab.enchantment.item.size.medium-eg": "Medium (sword, tunic, boots, skull)",
+    "arm5e.lab.enchantment.item.size.large-eg": "Large (staff, shield, cloak, skeleton)",
+    "arm5e.lab.enchantment.item.size.huge-eg": "Huge (boat, wagon, human body, small room)",
 
 
 
     "arm5e.sheet.action.rest": "Rest",
+    "arm5e.sheet.action.reset": "Reset",
+    "arm5e.sheet.action.invest": "Invest",
+    "arm5e.sheet.action.update": "Update",
 
-
+    "arm5e.dialog.enchant-question": "Do you want to enchant that item? (The original will be destroyed)",
     "arm5e.dialog.design-effect-question": "Do you want to design a magical effect based on that base effect?",
     "arm5e.dialog.design-spell-question": "Do you want to design a spell based on that effect?",
     "arm5e.dialog.design-enchantment-question": "Do you want to design an enchantement based on that effect?",
     "arm5e.dialog.delete-question": "Are you sure you want to delete that item?",
     "arm5e.dialog.title.rolldie": "Roll die",
+    "arm5e.dialog.botch.title": "Checking for botch",
+    "arm5e.dialog.roll.explodingroll": "Exploding dice, roll again!",
+    "arm5e.dialog.roll.exploding.multiplier": "Current multiplier",
+    "arm5e.dialog.button.rollbotch": "Roll for botch!",
+    "arm5e.dialog.button.rollnobotch": "Botch not checked",
     "arm5e.dialog.button.save": "Save",
     "arm5e.dialog.button.yes": "Yes",
+    "arm5e.dialog.button.roll": "Roll",
     "arm5e.dialog.button.no": "No",
     "arm5e.dialog.button.cancel": "Cancel",
     "arm5e.dialog.button.stressdie": "Stress die",
@@ -479,7 +514,12 @@
 
     "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
     "arm5e.notification.dead": "This character is dead...",
-
+    "arm5e.notification.codex.none": "You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working, you can import the one in the Magi compendium",
+    "arm5e.notification.codex.tooMany": "You have more than one Actor of type 'magicCodex in your world, some functionality is based on the uniqueness of magicCodex, you may want to delete one (after merging if needed)",
+    "arm5e.notification.codex.enchant": "You need a Codex actor with enchantments to enchant this way.",
+    "arm5e.notification.crucible.no.invest.possible": "Item's size and material are not good enough for this level of enchantment.",
+    "arm5e.notification.crucible.labTotal.needed": "Lab total needed",
+    "arm5e.notification.notPossibleToCalculateWound": "We cannot calculate the wound (check the size of your actor)",
     "arm5e.packs.abilities.name": "Abilities",
 
 
@@ -521,13 +561,15 @@
     "arm5e.sheet.source.SemE": "Semita Errabunda",
     "arm5e.sheet.source.Dies": "Dies Irae",
     "arm5e.sheet.source.Hooks": "Hooks",
+    "arm5e.sheet.source.TtA": "Through the Aegis",
+    "arm5e.sheet.source.ML": "Mythic Locations",
     "arm5e.sheet.source.custom": "Homebrew",
-
 
     "arm5e.messages.wound.light": "light",
     "arm5e.messages.wound.medium": "medium",
     "arm5e.messages.wound.heavy": "heavy",
     "arm5e.messages.wound.incap": "incap",
     "arm5e.messages.wound.dead": "dead",
-    "arm5e.messages.wound": "Got a $typeWound$ wound"
+    "arm5e.messages.woundResult": "Got a $typeWound$ wound",
+    "arm5e.messages.noWound": "No wound inflicted"
 }

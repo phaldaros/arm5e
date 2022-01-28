@@ -1,1360 +1,1395 @@
 {
-    "Actor": {
-        "types": ["player", "npc", "laboratory", "covenant", "magicCodex"],
-        "templates": {
-            "base": {
-                "version": "0.3",
-                "virtues": [],
-                "flaws": [],
-                "diaryEntries": []
-            },
-            "npcbase": {
-                "age": {
-                    "dtype": "Number",
-                    "value": 25
-                },
-                "apparent": {
-                    "dtype": "Number",
-                    "value": 25
-                },
-                "con": {
-                    "label": "Confidence ",
-                    "score": 1,
-                    "points": 3
-                },
-                "covenant": {
-                    "dtype": "String",
-                    "value": "Covenant Name"
-                },
-                "biography": "Character biography, notes, &c.",
-                "characteristics": {
-                    "int": {
-                        "value": 0
-                    },
-                    "per": {
-                        "value": 0
-                    },
-                    "str": {
-                        "value": 0
-                    },
-                    "sta": {
-                        "value": 0
-                    },
-                    "pre": {
-                        "value": 0
-                    },
-                    "com": {
-                        "value": 0
-                    },
-                    "dex": {
-                        "value": 0
-                    },
-                    "qik": {
-                        "value": 0
-                    }
-                },
-                "description": {
-                    "born": {
-                        "value": 1200
-                    },
-                    "apprentice": {
-                        "value": 10
-                    },
-                    "birthname": {
-                        "value": ""
-                    },
-                    "birthplace": {
-                        "value": ""
-                    },
-                    "nationality": {
-                        "value": ""
-                    },
-                    "religion": {
-                        "value": ""
-                    },
-                    "height": {
-                        "value": ""
-                    },
-                    "weight": {
-                        "value": ""
-                    },
-                    "gender": {
-                        "value": ""
-                    },
-                    "hair": {
-                        "value": ""
-                    },
-                    "eyes": {
-                        "value": ""
-                    },
-                    "title": {
-                        "value": ""
-                    },
-                    "handed": {
-                        "value": ""
-                    }
-                },
-                "reputation": {
-                    "rep1": {
-                        "label": "Reputation 1",
-                        "type": "Type",
-                        "score": "0"
-                    },
-                    "rep2": {
-                        "label": "Reputation 2",
-                        "type": "Type",
-                        "score": "0"
-                    },
-                    "rep3": {
-                        "label": "Reputation 3",
-                        "type": "Type",
-                        "score": "0"
-                    },
-                    "rep4": {
-                        "label": "Reputation 4",
-                        "type": "Type",
-                        "score": "0"
-                    },
-                    "rep5": {
-                        "label": "Reputation 5",
-                        "type": "Type",
-                        "score": "0"
-                    }
-                },
-                "vitals": {
-                    "siz": {
-                        "value": 0
-                    },
-                    "soa": {
-                        "value": 0
-                    },
-                    "enc": {
-                        "value": 0
-                    }
-                },
-                "abilities": [],
-                "weapons": [],
-                "armor": [],
-                "vis": [],
-                "items": [],
-                "books": [],
-                "spells": [],
-                "magicalEffects": []
-            },
-            "pc": {
-                "season": {
-                    "value": "",
-                    "label": "Season",
-                    "dtype": "String"
-                },
-                "year": {
-                    "label": "Year",
-                    "dtype": "String",
-                    "value": "1225"
-                },
-                "decrepitude": {
-                    "score": 0,
-                    "points": 0,
-                    "effects": "Decrepitude effects"
-                },
-                "warping": {
-                    "score": 0,
-                    "points": 0,
-                    "effects": "Warping effects"
-                },
-                "pendingXP": 0
-            },
-            "personality": {
-                "personality": {
-                    "per1": {
-                        "label": "Trait 1 (e.g., Brave)",
-                        "score": "0",
-                        "notes": ""
-                    },
-                    "per2": {
-                        "label": "Trait 2 (e.g., Loyal)",
-                        "score": "0",
-                        "notes": ""
-                    },
-                    "per3": {
-                        "label": "Trait 3",
-                        "score": "0",
-                        "notes": ""
-                    },
-                    "per4": {
-                        "label": "Trait 4",
-                        "score": "0",
-                        "notes": ""
-                    },
-                    "per5": {
-                        "label": "Trait 5",
-                        "score": "0",
-                        "notes": ""
-                    }
-                }
-            },
-            "wounds": {
-                "woundsTotal": 0,
-                "wounds": {
-                    "light": {
-                        "number": {
-                            "value": 0
-                        },
-                        "penalty": {
-                            "value": -1
-                        },
-                        "notes": {
-                            "value": ""
-                        }
-                    },
-                    "medium": {
-                        "number": {
-                            "value": 0
-                        },
-                        "penalty": {
-                            "value": -3
-                        },
-                        "notes": {
-                            "value": ""
-                        }
-                    },
-                    "heavy": {
-                        "number": {
-                            "value": 0
-                        },
-                        "penalty": {
-                            "value": -5
-                        },
-                        "notes": {
-                            "value": ""
-                        }
-                    },
-                    "incap": {
-                        "number": {
-                            "value": 0
-                        },
-                        "penalty": {
-                            "value": 0
-                        },
-                        "notes": {
-                            "value": ""
-                        }
-                    },
-                    "dead": {
-                        "number": {
-                            "value": 0
-                        },
-                        "penalty": {
-                            "value": 0
-                        },
-                        "notes": {
-                            "value": ""
-                        }
-                    }
-                }
-            },
-            "fatigue": {
-                "fatigueTotal": 0,
-                "fatigue": {
-                    "fresh": {
-                        "number": 0,
-                        "level": {
-                            "dtype": "Boolean",
-                            "value": false
-                        }
-                    },
-                    "winded": {
-                        "number": 0,
-                        "level": {
-                            "dtype": "Boolean",
-                            "value": false
-                        }
-                    },
-                    "weary": {
-                        "number": -1,
-                        "level": {
-                            "dtype": "Boolean",
-                            "value": false
-                        }
-                    },
-                    "tired": {
-                        "number": -3,
-                        "level": {
-                            "dtype": "Boolean",
-                            "value": false
-                        }
-                    },
-                    "dazed": {
-                        "number": -5,
-                        "level": {
-                            "dtype": "Boolean",
-                            "value": false
-                        }
-                    },
-                    "unconscious": {
-                        "number": 0,
-                        "level": {
-                            "dtype": "Boolean",
-                            "value": false
-                        }
-                    }
-                }
-            },
-            "arts": {
-                "arts": {
-                    "techniques": {
-                        "cr": {
-                            "label": "Creo",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "in": {
-                            "label": "Intellego",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "mu": {
-                            "label": "Muto",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "pe": {
-                            "label": "Perdo",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "re": {
-                            "label": "Rego",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        }
-                    },
-                    "forms": {
-                        "an": {
-                            "label": "Animal",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "au": {
-                            "label": "Auram",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "aq": {
-                            "label": "Aquam",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "co": {
-                            "label": "Corpus",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "he": {
-                            "label": "Herbam",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "ig": {
-                            "label": "Ignem",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "im": {
-                            "label": "Imaginem",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "me": {
-                            "label": "Mentem",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "te": {
-                            "label": "Terram",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        },
-                        "vi": {
-                            "label": "Vim",
-                            "score": 0,
-                            "xp": 0,
-                            "experience": 0,
-                            "experienceNextLevel": 0
-                        }
-                    }
-                }
-            },
-            "familiar": {
-                "familiar": {
-                    "nameFam": "",
-                    "specieFam": "",
-                    "techniqueFam": {
-                        "value": ""
-                    },
-                    "formFam": {
-                        "value": ""
-                    },
-                    "cordFam": {
-                        "bronze": 0,
-                        "silver": 0,
-                        "gold": 0
-                    },
-                    "characteristicsFam": {
-                        "int": {
-                            "value": 0
-                        },
-                        "per": {
-                            "value": 0
-                        },
-                        "str": {
-                            "value": 0
-                        },
-                        "sta": {
-                            "value": 0
-                        },
-                        "pre": {
-                            "value": 0
-                        },
-                        "com": {
-                            "value": 0
-                        },
-                        "dex": {
-                            "value": 0
-                        },
-                        "qik": {
-                            "value": 0
-                        }
-                    },
-                    "vitalsFam": {
-                        "size": {
-                            "value": 0
-                        },
-                        "might": {
-                            "value": 0
-                        },
-                        "soak": {
-                            "value": 0
-                        },
-                        "fatigue": {
-                            "value": 0
-                        },
-                        "initiative": {
-                            "value": 0
-                        },
-                        "attack": {
-                            "value": 0
-                        },
-                        "defense": {
-                            "value": 0
-                        },
-                        "damage": {
-                            "value": 0
-                        }
-                    },
-                    "abilitiesFam": [],
-                    "powersFam": []
-                }
-            },
-            "laboratoryPC": {
-                "sanctum": {
-                    "value": ""
-                },
-                "laboratory": {
-                    "longevityRitual": {
-                        "labTotal": 0,
-                        "modifier": 0,
-                        "twilightScars": ""
-                    },
-                    "abilitiesSelected": {
-                        "finesse": {
-                            "abilityID": "",
-                            "value": 0,
-                            "label": ""
-                        },
-                        "awareness": {
-                            "abilityID": "",
-                            "value": 0,
-                            "label": ""
-                        },
-                        "concentration": {
-                            "abilityID": "",
-                            "value": 0,
-                            "label": ""
-                        },
-                        "artesLib": {
-                            "abilityID": "",
-                            "value": 0,
-                            "label": ""
-                        },
-                        "philosophy": {
-                            "abilityID": "",
-                            "value": 0,
-                            "label": ""
-                        },
-                        "parma": {
-                            "abilityID": "",
-                            "value": 0,
-                            "label": ""
-                        },
-                        "magicTheory": {
-                            "abilityID": "",
-                            "value": 0,
-                            "label": ""
-                        }
-                    },
-                    "fastCastingSpeed": {
-                        "value": 0,
-                        "sumary": "Qik + Finesse + stress die"
-                    },
-                    "determiningEffect": {
-                        "value": 0,
-                        "sumary": "Per + Awareness + die VS 15-magnitude"
-                    },
-                    "targeting": {
-                        "value": 0,
-                        "sumary": "Per + Finesse + die"
-                    },
-                    "concentration": {
-                        "value": 0,
-                        "sumary": "Sta + Concentration + die"
-                    },
-                    "magicResistance": {
-                        "value": 0,
-                        "sumary": "Parma * 5 + Form"
-                    },
-                    "multipleCasting": {
-                        "value": 0,
-                        "sumary": "Int + Finesse + stress die - no of spells VS 9"
-                    },
-                    "basicLabTotal": {
-                        "value": 0,
-                        "sumary": "Int + Magic theory + Aura (+ Technique + Form)"
-                    },
-                    "visLimit": {
-                        "value": 0,
-                        "sumary": "Magic theory * 2"
-                    }
-                }
-            },
-            "apprentice": {
-                "apprentice": {
-                    "name": "",
-                    "age": 0,
-                    "years": 0,
-                    "int": 0,
-                    "magicTheory": 0
-                }
-            },
-            "visRegistry": {
-                "visRegistry": {
-                    "sources": {
-                        "name": "",
-                        "art": "",
-                        "peons": 0,
-                        "collectionTime": "",
-                        "notes": ""
-                    },
-                    "reserves": {
-                        "cr": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Creo"
-                        },
-                        "in": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Intellego"
-                        },
-                        "mu": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Muto"
-                        },
-                        "pe": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Perdo"
-                        },
-                        "re": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Rego"
-                        },
-                        "an": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Animal"
-                        },
-                        "au": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Auram"
-                        },
-                        "aq": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Aquam"
-                        },
-                        "co": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Corpus"
-                        },
-                        "he": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Herbam"
-                        },
-                        "ig": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Ignem"
-                        },
-                        "im": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Imaginem"
-                        },
-                        "me": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Mentem"
-                        },
-                        "te": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Terram"
-                        },
-                        "vi": {
-                            "notes": "",
-                            "peons": 0,
-                            "label": "Vim"
-                        }
-                    }
-                }
-            },
-            "roll": {
-                "roll": {
-                    "characteristic": "",
-                    "ability": "",
-                    "abilitySpeciality": false,
-                    "technique": "",
-                    "form": "",
-                    "total": "",
-                    "aura": 0,
-                    "rollLabel": "",
-                    "rollFormula": ""
-                }
-            }
+  "Actor": {
+    "types": ["player", "npc", "laboratory", "covenant", "magicCodex"],
+    "templates": {
+      "base": {
+        "version": "0.3",
+        "virtues": [],
+        "flaws": [],
+        "diaryEntries": []
+      },
+      "npcbase": {
+        "age": {
+          "dtype": "Number",
+          "value": 25
         },
-
-        "player": {
-            "templates": ["base", "npcbase", "pc", "personality", "wounds", "fatigue", "arts", "familiar", "laboratoryPC", "apprentice", "roll"],
-            "charType": {
-                "value": "magus",
-                "label": "Char. Type"
-            },
-            "house": {
-                "value": "",
-                "label": "House"
-            },
-            "dom-mag": {
-                "label": "Domus Magna",
-                "dtype": "String",
-                "value": ""
-            },
-            "primus": {
-                "label": "Primus",
-                "dtype": "String",
-                "value": ""
-            },
-            "parens": {
-                "label": "Parens",
-                "dtype": "String",
-                "value": ""
-            },
-            "apprenticeship": {
-                "label": "Covenant of Apprenticeship",
-                "dtype": "String",
-                "value": ""
-            },
-            "sigil": {
-                "label": "Wizard's Sigil",
-                "dtype": "String",
-                "value": "A flash of blue light."
-            }
-
+        "apparent": {
+          "dtype": "Number",
+          "value": 25
         },
-        "npc": {
-            "templates": ["base", "npcbase", "personality", "wounds", "familiar", "laboratoryPC", "fatigue", "arts", "roll"],
-            "charType": {
-                "value": "mundane",
-                "label": "Char. Type"
-            },
-            "house": {
-                "value": "gen",
-                "label": "House"
-            },
-            "warping": {
-                "label": "Warping ",
-                "score": 0,
-                "points": 0,
-                "effects": "Warping effects"
-            },
-            "might": {
-                "label": "Might",
-                "dtype": "Number",
-                "value": 0,
-                "type": "magic"
-            },
-            "powers": []
-        },
-        "laboratory": {
-            "templates": ["base"],
-            "covenant": {
-                "dtype": "String",
-                "value": "Covenant Name"
-            },
-            "owner": {
-                "dtype": "String",
-                "value": ""
-            },
-            "location": "",
-            "points": 0,
-            "sanctum": "",
-            "size": {
-                "description": "",
-                "value": 0
-            },
-            "generalQuality": {
-                "description": "",
-                "value": 0
-            },
-            "security": {
-                "description": "",
-                "value": 0
-            },
-            "salubrity": {
-                "description": "",
-                "value": 0
-            },
-            "improvement": {
-                "description": "",
-                "value": 0
-            },
-            "maintenance": {
-                "description": "",
-                "value": 0
-            },
-            "warping": {
-                "description": "",
-                "value": 0
-            },
-            "aesthetics": {
-                "description": "",
-                "value": 0
-            },
-            "specialities": [],
-            "distinctive": [],
-            "rooms": [],
-            "magicItems": [],
-            "items": [],
-            "books": [],
-            "rawVis": [],
-            "personalities": []
+        "con": {
+          "label": "Confidence ",
+          "score": 1,
+          "points": 3
         },
         "covenant": {
-            "templates": ["base", "visRegistry"],
-            "description": "",
-            "narrator": "",
-            "saga": "",
-            "sagaType": "",
-            "foundationYear": "",
-            "currentYear": "",
-            "season": "",
-            "tribunal": "",
-            "typeAura": "",
-            "levelAura": "",
-            "levelsRegio": "",
-            "modifiersLife": {
-                "magi": 1,
-                "mundane": 0
-            },
-            "aegisCovenant": "",
-            "reputations": [],
-            "constructionPoints": {
-                "total": 0,
-                "data": {
-                    "library": {
-                        "initials": 0,
-                        "actuals": 0,
-                        "notes": ""
-                    },
-                    "laboratoryTexts": {
-                        "initials": 0,
-                        "actuals": 0,
-                        "notes": ""
-                    },
-                    "vis": {
-                        "initials": 0,
-                        "actuals": 0,
-                        "notes": ""
-                    },
-                    "magicItems": {
-                        "initials": 0,
-                        "actuals": 0,
-                        "notes": ""
-                    },
-                    "specialists": {
-                        "initials": 0,
-                        "actuals": 0,
-                        "notes": ""
-                    },
-                    "laboratories": {
-                        "initials": 0,
-                        "actuals": 0,
-                        "notes": ""
-                    },
-                    "money": {
-                        "initials": 0,
-                        "actuals": 0,
-                        "notes": "",
-                        "label": "arm5e.sheet.money"
-                    }
-                }
-            },
-            "governForm": "",
-            "loyaltyPoints": {
-                "base": 0,
-                "actuals": 0,
-                "predominant": 0
-            },
-            "loyaltyModifiers": {
-                "livingConditions": 0,
-                "equipment": 0,
-                "money": 0,
-                "specialists": 0
-            },
-            "habitants": {
-                "npcgrogs": 0,
-                "totalHabitants": 0,
-                "magi": [],
-                "companion": [],
-                "specialists": [],
-                "habitants": [],
-                "horses": [],
-                "livestock": []
-            },
-            "possessions": [],
-            "labs": [],
-            "magicItems": [],
-            "items": [],
-            "visSources": [],
-            "visStock": [],
-            "calendar": [],
-            "incomingSources": [],
-            "yearExpenditure": {
-                "buildings": {
-                    "sumary": "arm5e.sheet.buildingsSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.buildings"
-                },
-                "consumables": {
-                    "sumary": "arm5e.sheet.consumablesSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.consumables"
-                },
-                "inflation": {
-                    "sumary": "arm5e.sheet.inflationSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.inflation"
-                },
-                "laboratories": {
-                    "sumary": "arm5e.sheet.laboratoriesSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.laboratories"
-                },
-                "provisions": {
-                    "sumary": "arm5e.sheet.provisionsSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.provisions"
-                },
-                "titles": {
-                    "sumary": "arm5e.sheet.titlesSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.titles"
-                },
-                "wages": {
-                    "sumary": "arm5e.sheet.wagesSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.wages"
-                },
-                "weapons": {
-                    "sumary": "arm5e.sheet.weaponsSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.weapons"
-                },
-                "writingMaterials": {
-                    "sumary": "arm5e.sheet.writingMaterialsSumary",
-                    "expenditure": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.writingMaterials"
-                }
-            },
-            "costsSavings": {
-                "laborers": {
-                    "sumary": "arm5e.sheet.laborersSumary",
-                    "quantity": 0,
-                    "saving": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.laborers"
-                },
-                "craftsmenCommon": {
-                    "sumary": "arm5e.sheet.craftsmenCommonSumary",
-                    "quantity": 0,
-                    "saving": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.craftsmenCommon"
-                },
-                "craftsmenRare": {
-                    "sumary": "arm5e.sheet.craftsmenRareSumary",
-                    "quantity": 0,
-                    "saving": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.craftsmenRare"
-                },
-                "magicItems": {
-                    "sumary": "arm5e.sheet.magicItemsSumary",
-                    "quantity": 0,
-                    "saving": 0,
-                    "notes": "",
-                    "label": "arm5e.sheet.magicItems"
-                }
-            },
-            "wealth": {
-                "totalIncome": 0,
-                "baseExpenditure": 0,
-                "costSavings": 0,
-                "totalExpenditure": 0,
-                "inhabitantsPoints": 0,
-                "laboratoriesPoints": 0,
-                "weaponsPoints": 0
-            },
-            "magicBooks": [],
-            "laboratoryTexts": [],
-            "mundaneBooks": []
+          "dtype": "String",
+          "value": "Covenant Name"
         },
-        "magicCodex": {
-            "techniqueFilter": "",
-            "formFilter": "",
-            "levelOperator": 0,
-            "levelFilter": 0,
-            "baseEffects": [],
-            "magicEffects": [],
-            "spells": [],
-            "enchantments": []
-        }
-    },
-
-    "Item": {
-        "types": ["weapon", "armor", "spell", "vis", "item", "book", "virtue", "flaw", "ability", "abilityFamiliar",
-            "diaryEntry", "dairyEntry", "power", "might", "powerFamiliar", "mightFamiliar", "speciality", "distinctive", "sanctumRoom", "magicItem",
-            "personality", "reputation", "habitantMagi", "habitantCompanion", "habitantSpecialists",
-            "habitantHabitants", "habitantHorses", "habitantLivestock", "possessionsCovenant",
-            "visSourcesCovenant", "visStockCovenant", "magicalEffect", "baseEffect",
-            "calendarCovenant", "incomingSource", "laboratoryText", "mundaneBook", "enchantment", "labCovenant"
-        ],
-        "templates": {
-            "base": {
-                "description": "",
-                "source": "custom",
-                "page": 0
-            },
-            "cost": {
-                "cost": {
-                    "value": "",
-                    "label": "Cost"
-                }
-            },
-            "art": {
-                "art": {
-                    "value": "",
-                    "label": "Art"
-                }
-            },
-            "ability": {
-                "defaultCha4Ab": "int",
-                "speciality": "",
-                "score": 0,
-                "xp": 0,
-                "experience": 0,
-                "experienceNextLevel": 0
-            },
-            "magicalEffectAttributes": {
-                "technique": {
-                    "value": "cr",
-                    "label": "Technique"
-                },
-                "technique-req": {
-                    "cr": false,
-                    "in": false,
-                    "mu": false,
-                    "pe": false,
-                    "re": false
-                },
-                "form": {
-                    "value": "an",
-                    "label": "Form"
-                },
-                "form-req": {
-                    "an": false,
-                    "aq": false,
-                    "au": false,
-                    "co": false,
-                    "he": false,
-                    "ig": false,
-                    "im": false,
-                    "me": false,
-                    "te": false,
-                    "vi": false
-                },
-                "range": {
-                    "value": "personal"
-                },
-                "duration": {
-                    "value": "moment"
-                },
-                "target": {
-                    "value": "ind"
-                },
-                "level": 1,
-                "targetSize": 0,
-                "complexity": 0,
-                "enhancingRequisite": 0,
-                "baseLevel": 0,
-                "baseEffectDescription": "",
-                "general": false
-            },
-            "habitant": {
-                "loyalty": 0,
-                "points": 0,
-                "yearBorn": "",
-                "job": "",
-                "score": 0,
-                "quantity": 0
-            },
-            "season": {
-                "season": ""
-
-            },
-            "authorship": {
-                "author": "Unknown",
-                "year": 1220,
-                "season": "Spring",
-                "language": "Latin"
-            }
+        "biography": "Character biography, notes, &c.",
+        "characteristics": {
+          "int": {
+            "value": 0
+          },
+          "per": {
+            "value": 0
+          },
+          "str": {
+            "value": 0
+          },
+          "sta": {
+            "value": 0
+          },
+          "pre": {
+            "value": 0
+          },
+          "com": {
+            "value": 0
+          },
+          "dex": {
+            "value": 0
+          },
+          "qik": {
+            "value": 0
+          }
         },
-        "weapon": {
-            "templates": ["base", "cost"],
-            "quantity": 1,
-            "weight": 0,
-            "ability": "",
-            "abilities": [],
-            "weaponExpert": false,
-            "horse": false,
-            "init": 0,
-            "atk": 0,
-            "dfn": 0,
-            "dam": 0,
-            "str": 0,
-            "range": 0,
-            "load": 0,
-            "equiped": false
-        },
-        "armor": {
-            "templates": ["base", "cost"],
-            "quantity": 1,
-            "weight": 0,
-            "prot": 0,
-            "full": false,
-            "equiped": false
-        },
-        "baseEffect": {
-            "technique": {
-                "value": "cr",
-                "label": "Technique"
-            },
-            "technique-req": {
-                "cr": false,
-                "in": false,
-                "mu": false,
-                "pe": false,
-                "re": false
-            },
-            "form": {
-                "value": "an",
-                "label": "Form"
-            },
-            "form-req": {
-                "an": false,
-                "aq": false,
-                "au": false,
-                "co": false,
-                "he": false,
-                "ig": false,
-                "im": false,
-                "me": false,
-                "te": false,
-                "vi": false
-            },
-            "baseEffectDescription": "",
-            "baseLevel": 1
-        },
-        "magicalEffect": {
-            "templates": ["base", "magicalEffectAttributes"],
-            "ritual": false,
-            "applyFocus": false
-        },
-        "spell": {
-            "templates": ["base", "magicalEffectAttributes"],
-            "ritual": false,
-            "bonus": 0,
-            "exp": 0,
-            "mastery": 0,
-            "masteryAbilities": "",
-            "applyFocus": false
-        },
-        "enchantment": {
-            "templates": ["base", "magicalEffectAttributes"],
-            "effectfrequency": 0,
-            "penetration": 0,
-            "maintainConc": false,
-            "environmentalTrigger": "",
-            "restrictedUse": "",
-            "linkedTrigger": ""
-        },
-        "labCovenant": {
-            "templates": ["base"],
-            "owner": "",
-            "location": "",
-            "upkeep": 0,
-            "usage": "standard",
-            "quality": 0
-        },
-        "laboratoryText": {
-            "templates": ["base", "authorship", "magicalEffectAttributes"],
-            "type": "spell",
-            "effectfrequency": 0,
-            "penetration": 0,
-            "maintainConc": false,
-            "environmentalTrigger": "",
-            "restrictedUse": "",
-            "linkedTrigger": ""
-        },
-        "vis": {
-            "templates": ["base", "art"],
-            "pawns": 1,
-            "form": "Physical form of the raw vis."
-        },
-        "book": {
-            "templates": ["base", "art", "authorship"],
-            "type": {
-                "value": "",
-                "label": "Book Type"
-            },
-            "types": {
-                "summa": {
-                    "label": "Summa",
-                    "dtype": "String"
-                },
-                "tract": {
-                    "label": "Tractatus",
-                    "dtype": "String"
-                }
-            },
-            "quality": 0,
-            "level": 0
-        },
-        "item": {
-            "templates": ["base"],
-            "quantity": 1,
-            "weight": 0
-        },
-        "virtue": {
-            "templates": ["base"],
-            "type": {
-                "label": "arm5e.sheet.type",
-                "value": ""
-            },
-            "impact": {
-                "label": "arm5e.sheet.impact",
-                "value": ""
-            }
-        },
-        "flaw": {
-            "templates": ["base"],
-            "type": {
-                "label": "arm5e.sheet.type",
-                "value": ""
-            },
-            "impact": {
-                "label": "arm5e.sheet.impact",
-                "value": ""
-            }
-        },
-        "ability": {
-            "templates": ["base", "ability"]
-        },
-        "abilityFamiliar": {
-            "templates": ["base", "ability"]
-        },
-        "diaryEntry": {
-            "templates": ["base"],
-            "year": "",
-            "season": "",
-            "date": "",
-            "experience": 0,
-            "activity": ""
-        },
-        "power": {
-            "templates": ["base"],
-            "form": "an",
-            "cost": 0
-        },
-        "mightFamiliar": {
-            "templates": ["base"]
-        },
-
-        "speciality": {
-            "templates": ["base"],
-            "points": 0
-        },
-        "distinctive": {
-            "templates": ["base"],
-            "foco": "",
-            "speciality": "",
-            "bonus": 0
-        },
-        "sanctumRoom": {
-            "templates": ["base"],
-            "size": ""
-        },
-        "magicItem": {
-            "templates": ["base"],
-            "effect": "",
-            "uses": 0
-        },
-        "personality": {
-            "templates": ["base"],
-            "points": "0",
-            "notes": ""
+        "description": {
+          "born": {
+            "value": 1200
+          },
+          "apprentice": {
+            "value": 10
+          },
+          "birthname": {
+            "value": ""
+          },
+          "birthplace": {
+            "value": ""
+          },
+          "nationality": {
+            "value": ""
+          },
+          "religion": {
+            "value": ""
+          },
+          "height": {
+            "value": ""
+          },
+          "weight": {
+            "value": ""
+          },
+          "gender": {
+            "value": ""
+          },
+          "hair": {
+            "value": ""
+          },
+          "eyes": {
+            "value": ""
+          },
+          "title": {
+            "value": ""
+          },
+          "handed": {
+            "value": ""
+          }
         },
         "reputation": {
-            "templates": ["base"],
-            "points": "0",
+          "rep1": {
+            "label": "Reputation 1",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep2": {
+            "label": "Reputation 2",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep3": {
+            "label": "Reputation 3",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep4": {
+            "label": "Reputation 4",
+            "type": "Type",
+            "score": "0"
+          },
+          "rep5": {
+            "label": "Reputation 5",
+            "type": "Type",
+            "score": "0"
+          }
+        },
+        "vitals": {
+          "siz": {
+            "value": 0
+          },
+          "soa": {
+            "value": 0
+          },
+          "enc": {
+            "value": 0
+          }
+        },
+        "abilities": [],
+        "weapons": [],
+        "armor": [],
+        "vis": [],
+        "items": [],
+        "books": [],
+        "spells": [],
+        "magicalEffects": []
+      },
+      "pc": {
+        "season": {
+          "value": "",
+          "label": "Season",
+          "dtype": "String"
+        },
+        "year": {
+          "label": "Year",
+          "dtype": "String",
+          "value": "1225"
+        },
+        "decrepitude": {
+          "score": 0,
+          "points": 0,
+          "effects": "Decrepitude effects"
+        },
+        "warping": {
+          "score": 0,
+          "points": 0,
+          "effects": "Warping effects"
+        },
+        "pendingXP": 0
+      },
+      "personality": {
+        "personality": {
+          "per1": {
+            "label": "Trait 1 (e.g., Brave)",
+            "score": "0",
             "notes": ""
-        },
-        "habitantMagi": {
-            "templates": ["base", "habitant"],
-            "giftType": ""
-        },
-        "habitantCompanion": {
-            "templates": ["base", "habitant"]
-        },
-        "habitantSpecialists": {
-            "templates": ["base", "habitant"]
-        },
-        "habitantHabitants": {
-            "templates": ["base", "habitant"]
-        },
-        "habitantHorses": {
-            "templates": ["base", "habitant"]
-        },
-        "habitantLivestock": {
-            "templates": ["base", "habitant"]
-        },
-        "possessionsCovenant": {
-            "templates": ["base"],
-            "location": "",
-            "dimensions": "",
-            "inhabitants": ""
-        },
-        "visSourcesCovenant": {
-            "templates": ["base", "art", "season"],
-            "pawns": 1,
-            "form": "",
-            "place": ""
-        },
-        "visStockCovenant": {
-            "templates": ["base", "art"],
-            "pawns": 1,
-            "form": ""
-        },
-        "calendarCovenant": {
-            "templates": ["base"],
-            "season": ""
-        },
-        "incomingSource": {
-            "templates": ["base"],
-            "type": "",
-            "incoming": 0
-        },
-        "mundaneBook": {
-            "templates": ["base", "authorship"],
-            "type": {
-                "value": "",
-                "label": "Book Type"
-            },
-            "types": {
-                "summa": {
-                    "label": "Summa",
-                    "dtype": "String"
-                },
-                "tract": {
-                    "label": "Tractatus",
-                    "dtype": "String"
-                }
-            },
-            "ability": "",
-            "level": 0,
-            "quality": 0
+          },
+          "per2": {
+            "label": "Trait 2 (e.g., Loyal)",
+            "score": "0",
+            "notes": ""
+          },
+          "per3": {
+            "label": "Trait 3",
+            "score": "0",
+            "notes": ""
+          },
+          "per4": {
+            "label": "Trait 4",
+            "score": "0",
+            "notes": ""
+          },
+          "per5": {
+            "label": "Trait 5",
+            "score": "0",
+            "notes": ""
+          }
         }
+      },
+      "wounds": {
+        "woundsTotal": 0,
+        "wounds": {
+          "light": {
+            "number": {
+              "value": 0
+            },
+            "penalty": {
+              "value": -1
+            },
+            "notes": {
+              "value": ""
+            }
+          },
+          "medium": {
+            "number": {
+              "value": 0
+            },
+            "penalty": {
+              "value": -3
+            },
+            "notes": {
+              "value": ""
+            }
+          },
+          "heavy": {
+            "number": {
+              "value": 0
+            },
+            "penalty": {
+              "value": -5
+            },
+            "notes": {
+              "value": ""
+            }
+          },
+          "incap": {
+            "number": {
+              "value": 0
+            },
+            "penalty": {
+              "value": 0
+            },
+            "notes": {
+              "value": ""
+            }
+          },
+          "dead": {
+            "number": {
+              "value": 0
+            },
+            "penalty": {
+              "value": 0
+            },
+            "notes": {
+              "value": ""
+            }
+          }
+        }
+      },
+      "fatigue": {
+        "fatigueTotal": 0,
+        "fatigue": {
+          "fresh": {
+            "number": 0,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "winded": {
+            "number": 0,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "weary": {
+            "number": -1,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "tired": {
+            "number": -3,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "dazed": {
+            "number": -5,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          },
+          "unconscious": {
+            "number": 0,
+            "level": {
+              "dtype": "Boolean",
+              "value": false
+            }
+          }
+        }
+      },
+      "arts": {
+        "arts": {
+          "techniques": {
+            "cr": {
+              "label": "Creo",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "in": {
+              "label": "Intellego",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "mu": {
+              "label": "Muto",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "pe": {
+              "label": "Perdo",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "re": {
+              "label": "Rego",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            }
+          },
+          "forms": {
+            "an": {
+              "label": "Animal",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "au": {
+              "label": "Auram",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "aq": {
+              "label": "Aquam",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "co": {
+              "label": "Corpus",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "he": {
+              "label": "Herbam",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "ig": {
+              "label": "Ignem",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "im": {
+              "label": "Imaginem",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "me": {
+              "label": "Mentem",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "te": {
+              "label": "Terram",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            },
+            "vi": {
+              "label": "Vim",
+              "score": 0,
+              "xp": 0,
+              "experience": 0
+            }
+          }
+        }
+      },
+      "familiar": {
+        "familiar": {
+          "nameFam": "",
+          "specieFam": "",
+          "techniqueFam": {
+            "value": ""
+          },
+          "formFam": {
+            "value": ""
+          },
+          "cordFam": {
+            "bronze": 0,
+            "silver": 0,
+            "gold": 0
+          },
+          "characteristicsFam": {
+            "int": {
+              "value": 0
+            },
+            "per": {
+              "value": 0
+            },
+            "str": {
+              "value": 0
+            },
+            "sta": {
+              "value": 0
+            },
+            "pre": {
+              "value": 0
+            },
+            "com": {
+              "value": 0
+            },
+            "dex": {
+              "value": 0
+            },
+            "qik": {
+              "value": 0
+            }
+          },
+          "vitalsFam": {
+            "size": {
+              "value": 0
+            },
+            "might": {
+              "value": 0
+            },
+            "soak": {
+              "value": 0
+            },
+            "fatigue": {
+              "value": 0
+            },
+            "initiative": {
+              "value": 0
+            },
+            "attack": {
+              "value": 0
+            },
+            "defense": {
+              "value": 0
+            },
+            "damage": {
+              "value": 0
+            }
+          },
+          "abilitiesFam": [],
+          "powersFam": []
+        }
+      },
+      "laboratoryPC": {
+        "sanctum": {
+          "value": ""
+        },
+        "laboratory": {
+          "longevityRitual": {
+            "labTotal": 0,
+            "modifier": 0,
+            "twilightScars": ""
+          },
+          "abilitiesSelected": {
+            "finesse": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            },
+            "awareness": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            },
+            "concentration": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            },
+            "artesLib": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            },
+            "philosophy": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            },
+            "parma": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            },
+            "magicTheory": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            }
+          },
+          "fastCastingSpeed": {
+            "value": 0,
+            "sumary": "Qik + Finesse + stress die"
+          },
+          "determiningEffect": {
+            "value": 0,
+            "sumary": "Per + Awareness + die VS 15-magnitude"
+          },
+          "targeting": {
+            "value": 0,
+            "sumary": "Per + Finesse + die"
+          },
+          "concentration": {
+            "value": 0,
+            "sumary": "Sta + Concentration + die"
+          },
+          "magicResistance": {
+            "value": 0,
+            "sumary": "Parma * 5 + Form"
+          },
+          "multipleCasting": {
+            "value": 0,
+            "sumary": "Int + Finesse + stress die - no of spells VS 9"
+          },
+          "basicLabTotal": {
+            "value": 0,
+            "sumary": "Int + Magic theory + Aura (+ Technique + Form)"
+          },
+          "visLimit": {
+            "value": 0,
+            "sumary": "Magic theory * 2"
+          }
+        }
+      },
+      "apprentice": {
+        "apprentice": {
+          "name": "",
+          "age": 0,
+          "years": 0,
+          "int": 0,
+          "magicTheory": 0
+        }
+      },
+      "visRegistry": {
+        "visRegistry": {
+          "sources": {
+            "name": "",
+            "art": "",
+            "peons": 0,
+            "collectionTime": "",
+            "notes": ""
+          },
+          "reserves": {
+            "cr": {
+              "notes": "",
+              "peons": 0,
+              "label": "Creo"
+            },
+            "in": {
+              "notes": "",
+              "peons": 0,
+              "label": "Intellego"
+            },
+            "mu": {
+              "notes": "",
+              "peons": 0,
+              "label": "Muto"
+            },
+            "pe": {
+              "notes": "",
+              "peons": 0,
+              "label": "Perdo"
+            },
+            "re": {
+              "notes": "",
+              "peons": 0,
+              "label": "Rego"
+            },
+            "an": {
+              "notes": "",
+              "peons": 0,
+              "label": "Animal"
+            },
+            "au": {
+              "notes": "",
+              "peons": 0,
+              "label": "Auram"
+            },
+            "aq": {
+              "notes": "",
+              "peons": 0,
+              "label": "Aquam"
+            },
+            "co": {
+              "notes": "",
+              "peons": 0,
+              "label": "Corpus"
+            },
+            "he": {
+              "notes": "",
+              "peons": 0,
+              "label": "Herbam"
+            },
+            "ig": {
+              "notes": "",
+              "peons": 0,
+              "label": "Ignem"
+            },
+            "im": {
+              "notes": "",
+              "peons": 0,
+              "label": "Imaginem"
+            },
+            "me": {
+              "notes": "",
+              "peons": 0,
+              "label": "Mentem"
+            },
+            "te": {
+              "notes": "",
+              "peons": 0,
+              "label": "Terram"
+            },
+            "vi": {
+              "notes": "",
+              "peons": 0,
+              "label": "Vim"
+            }
+          }
+        }
+      },
+      "roll": {
+        "roll": {
+          "characteristic": "",
+          "ability": "",
+          "abilitySpeciality": false,
+          "technique": "",
+          "form": "",
+          "total": "",
+          "aura": 0,
+          "rollLabel": "",
+          "rollFormula": ""
+        }
+      }
+    },
+
+    "player": {
+      "templates": [
+        "base",
+        "npcbase",
+        "pc",
+        "personality",
+        "wounds",
+        "fatigue",
+        "arts",
+        "familiar",
+        "laboratoryPC",
+        "apprentice",
+        "roll"
+      ],
+      "charType": {
+        "value": "magus",
+        "label": "Char. Type"
+      },
+      "house": {
+        "value": "",
+        "label": "House"
+      },
+      "dom-mag": {
+        "label": "Domus Magna",
+        "dtype": "String",
+        "value": ""
+      },
+      "primus": {
+        "label": "Primus",
+        "dtype": "String",
+        "value": ""
+      },
+      "parens": {
+        "label": "Parens",
+        "dtype": "String",
+        "value": ""
+      },
+      "apprenticeship": {
+        "label": "Covenant of Apprenticeship",
+        "dtype": "String",
+        "value": ""
+      },
+      "sigil": {
+        "label": "Wizard's Sigil",
+        "dtype": "String",
+        "value": "A flash of blue light."
+      }
+    },
+    "npc": {
+      "templates": ["base", "npcbase", "personality", "wounds", "familiar", "laboratoryPC", "fatigue", "arts", "roll"],
+      "charType": {
+        "value": "mundane",
+        "label": "Char. Type"
+      },
+      "house": {
+        "value": "gen",
+        "label": "House"
+      },
+      "warping": {
+        "label": "Warping ",
+        "score": 0,
+        "points": 0,
+        "effects": "Warping effects"
+      },
+      "might": {
+        "label": "Might",
+        "dtype": "Number",
+        "value": 0,
+        "type": "magic"
+      },
+      "powers": []
+    },
+    "laboratory": {
+      "templates": ["base"],
+      "covenant": {
+        "dtype": "String",
+        "value": "Covenant Name"
+      },
+      "owner": {
+        "dtype": "String",
+        "value": ""
+      },
+      "location": "",
+      "points": 0,
+      "sanctum": "",
+      "size": {
+        "description": "",
+        "value": 0
+      },
+      "generalQuality": {
+        "description": "",
+        "value": 0
+      },
+      "security": {
+        "description": "",
+        "value": 0
+      },
+      "salubrity": {
+        "description": "",
+        "value": 0
+      },
+      "improvement": {
+        "description": "",
+        "value": 0
+      },
+      "maintenance": {
+        "description": "",
+        "value": 0
+      },
+      "warping": {
+        "description": "",
+        "value": 0
+      },
+      "aesthetics": {
+        "description": "",
+        "value": 0
+      },
+      "specialities": [],
+      "distinctive": [],
+      "rooms": [],
+      "magicItems": [],
+      "items": [],
+      "books": [],
+      "rawVis": [],
+      "personalities": []
+    },
+    "covenant": {
+      "templates": ["base", "visRegistry"],
+      "description": "",
+      "narrator": "",
+      "saga": "",
+      "sagaType": "",
+      "foundationYear": "",
+      "currentYear": "",
+      "season": "",
+      "tribunal": "",
+      "typeAura": "",
+      "levelAura": "",
+      "levelsRegio": "",
+      "modifiersLife": {
+        "magi": 1,
+        "mundane": 0
+      },
+      "aegisCovenant": "",
+      "reputations": [],
+      "constructionPoints": {
+        "total": 0,
+        "data": {
+          "library": {
+            "initials": 0,
+            "actuals": 0,
+            "notes": ""
+          },
+          "laboratoryTexts": {
+            "initials": 0,
+            "actuals": 0,
+            "notes": ""
+          },
+          "vis": {
+            "initials": 0,
+            "actuals": 0,
+            "notes": ""
+          },
+          "magicItems": {
+            "initials": 0,
+            "actuals": 0,
+            "notes": ""
+          },
+          "specialists": {
+            "initials": 0,
+            "actuals": 0,
+            "notes": ""
+          },
+          "laboratories": {
+            "initials": 0,
+            "actuals": 0,
+            "notes": ""
+          },
+          "money": {
+            "initials": 0,
+            "actuals": 0,
+            "notes": "",
+            "label": "arm5e.sheet.money"
+          }
+        }
+      },
+      "governForm": "",
+      "loyaltyPoints": {
+        "base": 0,
+        "actuals": 0,
+        "predominant": 0
+      },
+      "loyaltyModifiers": {
+        "livingConditions": 0,
+        "equipment": 0,
+        "money": 0,
+        "specialists": 0
+      },
+      "habitants": {
+        "npcgrogs": 0,
+        "totalHabitants": 0,
+        "magi": [],
+        "companion": [],
+        "specialists": [],
+        "habitants": [],
+        "horses": [],
+        "livestock": []
+      },
+      "possessions": [],
+      "labs": [],
+      "magicItems": [],
+      "items": [],
+      "visSources": [],
+      "visStock": [],
+      "calendar": [],
+      "incomingSources": [],
+      "yearExpenditure": {
+        "buildings": {
+          "sumary": "arm5e.sheet.buildingsSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.buildings"
+        },
+        "consumables": {
+          "sumary": "arm5e.sheet.consumablesSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.consumables"
+        },
+        "inflation": {
+          "sumary": "arm5e.sheet.inflationSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.inflation"
+        },
+        "laboratories": {
+          "sumary": "arm5e.sheet.laboratoriesSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.laboratories"
+        },
+        "provisions": {
+          "sumary": "arm5e.sheet.provisionsSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.provisions"
+        },
+        "titles": {
+          "sumary": "arm5e.sheet.titlesSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.titles"
+        },
+        "wages": {
+          "sumary": "arm5e.sheet.wagesSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.wages"
+        },
+        "weapons": {
+          "sumary": "arm5e.sheet.weaponsSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.weapons"
+        },
+        "writingMaterials": {
+          "sumary": "arm5e.sheet.writingMaterialsSumary",
+          "expenditure": 0,
+          "notes": "",
+          "label": "arm5e.sheet.writingMaterials"
+        }
+      },
+      "costsSavings": {
+        "laborers": {
+          "sumary": "arm5e.sheet.laborersSumary",
+          "quantity": 0,
+          "saving": 0,
+          "notes": "",
+          "label": "arm5e.sheet.laborers"
+        },
+        "craftsmenCommon": {
+          "sumary": "arm5e.sheet.craftsmenCommonSumary",
+          "quantity": 0,
+          "saving": 0,
+          "notes": "",
+          "label": "arm5e.sheet.craftsmenCommon"
+        },
+        "craftsmenRare": {
+          "sumary": "arm5e.sheet.craftsmenRareSumary",
+          "quantity": 0,
+          "saving": 0,
+          "notes": "",
+          "label": "arm5e.sheet.craftsmenRare"
+        },
+        "magicItems": {
+          "sumary": "arm5e.sheet.magicItemsSumary",
+          "quantity": 0,
+          "saving": 0,
+          "notes": "",
+          "label": "arm5e.sheet.magicItems"
+        }
+      },
+      "wealth": {
+        "totalIncome": 0,
+        "baseExpenditure": 0,
+        "costSavings": 0,
+        "totalExpenditure": 0,
+        "inhabitantsPoints": 0,
+        "laboratoriesPoints": 0,
+        "weaponsPoints": 0
+      },
+      "magicBooks": [],
+      "laboratoryTexts": [],
+      "mundaneBooks": []
+    },
+    "magicCodex": {
+      "techniqueFilter": "",
+      "formFilter": "",
+      "levelOperator": 0,
+      "levelFilter": 0,
+      "baseEffects": [],
+      "magicEffects": [],
+      "spells": [],
+      "enchantments": []
     }
+  },
+
+  "Item": {
+    "types": [
+      "weapon",
+      "armor",
+      "spell",
+      "vis",
+      "item",
+      "book",
+      "virtue",
+      "flaw",
+      "ability",
+      "abilityFamiliar",
+      "diaryEntry",
+      "dairyEntry",
+      "power",
+      "might",
+      "powerFamiliar",
+      "mightFamiliar",
+      "speciality",
+      "distinctive",
+      "sanctumRoom",
+      "magicItem",
+      "personality",
+      "reputation",
+      "habitantMagi",
+      "habitantCompanion",
+      "habitantSpecialists",
+      "habitantHabitants",
+      "habitantHorses",
+      "habitantLivestock",
+      "possessionsCovenant",
+      "visSourcesCovenant",
+      "visStockCovenant",
+      "magicalEffect",
+      "baseEffect",
+      "calendarCovenant",
+      "incomingSource",
+      "laboratoryText",
+      "mundaneBook",
+      "enchantment",
+      "labCovenant"
+    ],
+    "templates": {
+      "base": {
+        "description": "",
+        "source": "custom",
+        "page": 0
+      },
+      "cost": {
+        "cost": {
+          "value": "",
+          "label": "Cost"
+        }
+      },
+      "art": {
+        "art": {
+          "value": "",
+          "label": "Art"
+        }
+      },
+      "ability": {
+        "defaultChaAb": "int",
+        "speciality": "",
+        "score": 0,
+        "xp": 0,
+        "experience": 0
+      },
+      "magicalEffectAttributes": {
+        "technique": {
+          "value": "cr",
+          "label": "Technique"
+        },
+        "technique-req": {
+          "cr": false,
+          "in": false,
+          "mu": false,
+          "pe": false,
+          "re": false
+        },
+        "form": {
+          "value": "an",
+          "label": "Form"
+        },
+        "form-req": {
+          "an": false,
+          "aq": false,
+          "au": false,
+          "co": false,
+          "he": false,
+          "ig": false,
+          "im": false,
+          "me": false,
+          "te": false,
+          "vi": false
+        },
+        "range": {
+          "value": "personal"
+        },
+        "duration": {
+          "value": "moment"
+        },
+        "target": {
+          "value": "ind"
+        },
+        "level": 1,
+        "targetSize": 0,
+        "complexity": 0,
+        "enhancingRequisite": 0,
+        "baseLevel": 0,
+        "baseEffectDescription": "",
+        "general": false
+      },
+      "enchantmentAttributes": {
+        "effectfrequency": 0,
+        "penetration": 0,
+        "maintainConc": false,
+        "environmentalTrigger": "",
+        "restrictedUse": "",
+        "linkedTrigger": ""
+      },
+      "magicItemAttributes": {
+        "enchantmentName": "Magic effect name",
+        "charged": false,
+        "charges": 1,
+        "materialBase": 1,
+        "sizeMultiplier": 1,
+        "material": "",
+        "materialBonus": 0,
+        "shape": "",
+        "shapeBonus": 0,
+        "expiry": 1
+      },
+      "habitant": {
+        "loyalty": 0,
+        "points": 0,
+        "yearBorn": "",
+        "job": "",
+        "score": 0,
+        "quantity": 0
+      },
+      "season": {
+        "season": ""
+      },
+      "authorship": {
+        "author": "Unknown",
+        "year": 1220,
+        "season": "spring",
+        "language": "Latin"
+      }
+    },
+    "weapon": {
+      "templates": ["base", "cost"],
+      "quantity": 1,
+      "weight": 0,
+      "ability": "",
+      "abilities": [],
+      "weaponExpert": false,
+      "horse": false,
+      "init": 0,
+      "atk": 0,
+      "dfn": 0,
+      "dam": 0,
+      "str": 0,
+      "range": 0,
+      "load": 0,
+      "equiped": false
+    },
+    "armor": {
+      "templates": ["base", "cost"],
+      "quantity": 1,
+      "weight": 0,
+      "prot": 0,
+      "full": false,
+      "equiped": false
+    },
+    "baseEffect": {
+      "technique": {
+        "value": "cr",
+        "label": "Technique"
+      },
+      "technique-req": {
+        "cr": false,
+        "in": false,
+        "mu": false,
+        "pe": false,
+        "re": false
+      },
+      "form": {
+        "value": "an",
+        "label": "Form"
+      },
+      "form-req": {
+        "an": false,
+        "aq": false,
+        "au": false,
+        "co": false,
+        "he": false,
+        "ig": false,
+        "im": false,
+        "me": false,
+        "te": false,
+        "vi": false
+      },
+      "baseEffectDescription": "",
+      "baseLevel": 1
+    },
+    "magicalEffect": {
+      "templates": ["base", "magicalEffectAttributes"],
+      "ritual": false,
+      "applyFocus": false
+    },
+    "spell": {
+      "templates": ["base", "magicalEffectAttributes"],
+      "ritual": false,
+      "bonus": 0,
+      "exp": 0,
+      "mastery": 0,
+      "masteryAbilities": "",
+      "applyFocus": false
+    },
+    "enchantment": {
+      "templates": ["base", "magicalEffectAttributes", "enchantmentAttributes"]
+    },
+    "labCovenant": {
+      "templates": ["base"],
+      "owner": "",
+      "location": "",
+      "upkeep": 0,
+      "usage": "standard",
+      "quality": 0
+    },
+    "laboratoryText": {
+      "templates": ["base", "authorship", "magicalEffectAttributes", "enchantmentAttributes"],
+      "type": "spell"
+    },
+    "vis": {
+      "templates": ["base", "art"],
+      "pawns": 1,
+      "form": "Physical form of the raw vis."
+    },
+    "book": {
+      "templates": ["base", "art", "authorship"],
+      "type": {
+        "value": "",
+        "label": "Book Type"
+      },
+      "types": {
+        "summa": {
+          "label": "Summa",
+          "dtype": "String"
+        },
+        "tract": {
+          "label": "Tractatus",
+          "dtype": "String"
+        }
+      },
+      "quality": 0,
+      "level": 0
+    },
+    "item": {
+      "templates": ["base"],
+      "quantity": 1,
+      "weight": 0
+    },
+    "virtue": {
+      "templates": ["base"],
+      "type": {
+        "label": "arm5e.sheet.type",
+        "value": ""
+      },
+      "impact": {
+        "label": "arm5e.sheet.impact",
+        "value": ""
+      }
+    },
+    "flaw": {
+      "templates": ["base"],
+      "type": {
+        "label": "arm5e.sheet.type",
+        "value": ""
+      },
+      "impact": {
+        "label": "arm5e.sheet.impact",
+        "value": ""
+      }
+    },
+    "ability": {
+      "templates": ["base", "ability"]
+    },
+    "abilityFamiliar": {
+      "templates": ["base", "ability"]
+    },
+    "diaryEntry": {
+      "templates": ["base"],
+      "year": "",
+      "season": "",
+      "date": "",
+      "experience": 0,
+      "activity": ""
+    },
+    "power": {
+      "templates": ["base"],
+      "form": "an",
+      "cost": 0
+    },
+    "mightFamiliar": {
+      "templates": ["base"]
+    },
+    "speciality": {
+      "templates": ["base"],
+      "points": 0
+    },
+    "distinctive": {
+      "templates": ["base"],
+      "foco": "",
+      "speciality": "",
+      "bonus": 0
+    },
+    "sanctumRoom": {
+      "templates": ["base"],
+      "size": ""
+    },
+    "magicItem": {
+      "templates": ["base"],
+      "effect": "",
+      "uses": 0
+    },
+    "personality": {
+      "templates": ["base"],
+      "points": "0",
+      "notes": ""
+    },
+    "reputation": {
+      "templates": ["base"],
+      "points": "0",
+      "notes": ""
+    },
+    "habitantMagi": {
+      "templates": ["base", "habitant"],
+      "giftType": ""
+    },
+    "habitantCompanion": {
+      "templates": ["base", "habitant"]
+    },
+    "habitantSpecialists": {
+      "templates": ["base", "habitant"]
+    },
+    "habitantHabitants": {
+      "templates": ["base", "habitant"]
+    },
+    "habitantHorses": {
+      "templates": ["base", "habitant"]
+    },
+    "habitantLivestock": {
+      "templates": ["base", "habitant"]
+    },
+    "possessionsCovenant": {
+      "templates": ["base"],
+      "location": "",
+      "dimensions": "",
+      "inhabitants": ""
+    },
+    "visSourcesCovenant": {
+      "templates": ["base", "art", "season"],
+      "pawns": 1,
+      "form": "",
+      "place": ""
+    },
+    "visStockCovenant": {
+      "templates": ["base", "art"],
+      "pawns": 1,
+      "form": ""
+    },
+    "calendarCovenant": {
+      "templates": ["base"],
+      "season": ""
+    },
+    "incomingSource": {
+      "templates": ["base"],
+      "type": "",
+      "incoming": 0
+    },
+    "mundaneBook": {
+      "templates": ["base", "authorship"],
+      "type": {
+        "value": "",
+        "label": "Book Type"
+      },
+      "types": {
+        "summa": {
+          "label": "Summa",
+          "dtype": "String"
+        },
+        "tract": {
+          "label": "Tractatus",
+          "dtype": "String"
+        }
+      },
+      "ability": "",
+      "level": 0,
+      "quality": 0
+    }
+  }
 }

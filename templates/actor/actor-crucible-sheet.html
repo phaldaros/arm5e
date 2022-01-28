@@ -1,0 +1,154 @@
+<form class="{{cssClass}} mainCodex" autocomplete="off">
+    <div class="header-background">
+        <img src="/systems/arm5e/assets/codex/header150.png">
+    </div>
+    {{!-- Sheet Header --}}
+    <h1 class="codex-title width: 100%;" text-align="center">Crucible</h1><br />
+    <header class="sheet-header-codex">
+        {{#if (eq data.state 0)}}
+            <div class="header-label" style="padding-bottom: 340px;">{{localize "arm5e.sheet.crucible.instructions1"}}</div>
+        {{else}}
+            <div class="header-fields">
+                <div class="grid grid-2col">
+                    <h3><input name="data.magicItemName" type="text" value="{{data.magicItemName}}" placeholder="Name" /></h3>
+                    <div class="grid grid-3col">
+                        {{#if (eq data.state 1)}}
+                            <div class="header-label">{{localize "arm5e.sheet.crucible.instructions2"}}</div>
+                        {{else}}
+                            <div></div>
+                        {{/if}}
+                        <div></div>
+                    </div>
+                </div>
+
+                <h3>{{localize "arm5e.sheet.crucible.receptacle"}}</h3>
+                <div class="grid grid-3col">
+                    <div class="item-image">
+                        <img src="{{data.receptacle.img}}" title="{{data.receptacle.name}}" width="48" height="48" />
+
+                    </div>
+                    <label class="header-label">{{data.receptacle.name}}</label>
+                    <label class="header-label" style="font-size: 12px; font-family: bookAntiquaBold;">{{localize "arm5e.lab.enchantment.item.maxLevel"}}: {{data.receptacle.data.data.maxLevel}}. {{data.labInfo}}</label>
+                </div>
+                {{#if (ne data.state 1)}}
+                    <ol class="spell-list backSection margintop18 marginbot12">
+                        <h3>{{localize "arm5e.sheet.enchantments"}}</h3>
+                        <li class="item spell-value flexrow " data-name="{{enchantment.data.name}}" data-item-id="{{enchantment.id}}" data-item-type="{{enchantment.data.type}}">
+                            <div class="flexrow spell-title" style="font-family: bookAntiquaBold;">
+                                {{#each data.enchantments as |enchantment id|}}
+                                    <div class="item-image">
+                                        <img src="{{enchantment.data.img}}" title="{{enchantment.data.name}}" width="32" height="32" />
+                                    </div>
+                                    {{enchantment.data.name}} (
+                                    {{#with (lookup @root.metadata.magic.arts enchantment.data.data.technique.value)~}}{{short~}}
+                                    {{/with}}
+                                    {{#with (lookup @root.metadata.magic.arts enchantment.data.data.form.value)~}}{{short~}}
+                                    {{/with}}
+                                    {{enchantment.data.data.level}} )
+                                    {{localize "arm5e.spell.range.short"~}}:
+                                    {{#with (lookup @root.metadata.magic.ranges enchantment.data.data.range.value)~}}{{localize label}}
+                                    {{/with}}
+                                    {{localize "arm5e.spell.duration.short"~}}:
+                                    {{#with (lookup @root.metadata.magic.durations enchantment.data.data.duration.value)~}}{{localize label}}
+                                    {{/with}}
+                                    {{localize "arm5e.spell.target.short"~}}:
+                                    {{#with (lookup @root.metadata.magic.targets enchantment.data.data.target.value)~}}{{localize label}}
+                                    {{/with}}
+                                {{/each}}
+                            </div>
+                        </li>
+                {{/if}}
+            </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="arm5eTabs arm5eTabs sheet-tabs tabs" data-group="primary">
+        <a class="item posRelative" data-tab="receptacle">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.crucible.receptacle"}}
+        </a>
+        {{#if (ne data.state 1)}}
+            <a class="item posRelative" data-tab="enchantments">
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+                {{localize "arm5e.sheet.enchantments"}}
+            </a>
+            <a class="item posRelative" data-tab="investment">
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+                {{localize "arm5e.sheet.crucible.invest"}}
+            </a>
+        {{/if}}
+    </nav>
+    <div class="flexcol">
+        {{!-- Sheet Body --}}
+        <section class="sheet-body">
+            {{!-- Receptacle Tab --}}
+            <div class="tab diary" data-group="primary" data-tab="receptacle">
+                {{> "systems/arm5e/templates/actor/parts/crucible-magic-item.html" }}
+            </div>
+            {{#if (ne data.state 1)}}
+                {{!--Enchantments Tab --}}
+                <div class="tab enchantments" data-group="primary" data-tab="enchantments">
+                    {{> "systems/arm5e/templates/actor/parts/crucible-enchantment.html" }}
+                </div>
+                {{!--Investment Tab --}}
+                <div class="tab investment" data-group="primary" data-tab="investment">
+                    <div class="grid grid-3col item" data-item-id="{{data.receptacle.data._id}}">
+                        <button type="button" class="arm5e button ui reset" style="font-family: blackmoor;">{{localize "arm5e.sheet.action.reset"}}</button>
+                        {{#if (eq data.state 2)}}
+                            <button type="button" class="arm5e button ui invest" style="font-family: blackmoor;">{{localize "arm5e.sheet.action.invest"}}</button>
+                        {{/if}}
+                        {{#if (eq data.state 3)}}
+                            <button type="button" class="arm5e button ui update" style="font-family: blackmoor;">{{localize "arm5e.sheet.action.update"}}</button>
+                        {{/if}}
+
+                        <button type="button" class="arm5e button ui update" style="font-family: blackmoor; visibility: hidden;"></button>
+
+                        <div class="resource">
+                            <label class="header-label">{{localize "arm5e.sheet.creator"}}</label>
+                            <input type="text" class="quick-edit" name="author" value="{{data.receptacle.data.data.author}}" data-dtype="String" />
+                        </div>
+                        <div class="resource">
+                            <label for="data.season" class="header-label">{{localize "arm5e.sheet.season"}}</label>
+                            <select class="quick-edit" name="season" data-type="String" style="width: 100%">
+                                {{#select data.receptacle.data.data.season}}
+                                    {{#each metadata.seasons as |season key|}}
+                                        <option value="{{key}}">{{localize season.label}}</option>
+                                    {{/each}} {{/select}}
+                            </select>
+                        </div>
+                        <div class="resource">
+                            <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
+                            <input type="text" class="quick-edit" name="year" value="{{data.receptacle.data.data.year}}" data-dtype="String" />
+                        </div>
+                    </div>
+                    <div class="resource">
+                        <h3><label class="header-label">{{localize "arm5e.sheet.description"}}</label></h3>
+                        {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+                    </div>
+                    {{#if (ne data.state 2)}}
+                        <ol class="items-list backSection ">
+                            <li class="item item-value flexrow flex-center" data-item-id="{{data.receptacle.data._id}}">
+                                <div class="item-image"><img src="{{data.receptacle.data.img}}" title="{{item.name}}" width="24" height="24" /></div>
+                                <div class="flexrow flex-center">
+                                    <span class="flexrow item-title">{{data.receptacle.name}}</span>
+                                </div>
+                            </li>
+                        </ol>
+                    {{/if}}
+                    {{#if (eq metagame true)}}
+                        {{> "systems/arm5e/templates/generic/source.html" }}
+                    {{/if}}
+                </div>
+            {{/if}}
+
+    </div>
+    </section>
+    {{/if}}
+    <div class="footer-background">
+        <img src="/systems/arm5e/assets/codex/footer.png">
+    </div>
+    </div>
+</form>

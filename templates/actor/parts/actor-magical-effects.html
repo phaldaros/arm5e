@@ -14,21 +14,7 @@
             <div class="flexrow flex-center">
                 <span class="flexrow spell-title design" data-name="{{effect.data.name}}">
                     <!-- data-level="{{effect.data.data.baseLevel}}" data-technique="{{effect.data.data.technique.value}}" data-form="{{effect.data.data.form.value}}"-->
-                    {{effect.data.name}} (
-                    {{#with (lookup @root.metadata.magic.arts effect.data.data.technique.value)~}}{{short~}}
-                    {{/with}}
-                    {{#with (lookup @root.metadata.magic.arts effect.data.data.form.value)~}}{{short~}}
-                    {{/with}}
-                    {{effect.data.data.level}} )
-                    {{localize "arm5e.spell.range.short"~}}:
-                    {{#with (lookup @root.metadata.magic.ranges effect.data.data.range.value)~}}{{localize label}}
-                    {{/with}}
-                    {{localize "arm5e.spell.duration.short"~}}:
-                    {{#with (lookup @root.metadata.magic.durations effect.data.data.duration.value)~}}{{localize label}}
-                    {{/with}}
-                    {{localize "arm5e.spell.target.short"~}}:
-                    {{#with (lookup @root.metadata.magic.targets effect.data.data.target.value)~}}{{localize label}}
-                    {{/with}}</span>
+                    {{effect.data.name}} {{effect.data.localizedDesc}}</span>
             </div>
             <div class="item-controls">
                 <a class="item-control alt-design" title="Create Enchantment"><i class="fas fa-gavel"></i></a>

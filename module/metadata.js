@@ -45,6 +45,7 @@ ARM5E_DEFAULT_ICONS.MONO = {
     "mundaneBook": "icons/svg/book.svg",
     "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
     "covenant": "icons/svg/castle.svg",
+    "crucible": "icons/tools/laboratory/bowl-liquid-orange.webp",
     "npc": "icons/svg/mystery-man-black.svg",
     "laboratory": "icons/svg/tower.svg",
     "enchantment": "icons/svg/daze.svg",
@@ -83,12 +84,13 @@ ARM5E_DEFAULT_ICONS.COLOR = {
     "magicalEffect": "icons/sundries/documents/document-symbol-lightning-brown.webp",
     "baseEffect": "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
     "enchantment": "icons/magic/symbols/runes-etched-steel-blade.webp",
+    "labCovenant": "icons/tools/laboratory/vials-blue-pink.webp",
     // Actors
     "covenant": "icons/environment/settlement/wizard-castle.webp",
     "magicCodex": "icons/commodities/materials/parchment-secrets.webp",
     "npc": "icons/svg/mystery-man-black.svg",
     "laboratory": "icons/tools/laboratory/vials-blue-pink.webp",
-    "labCovenant": "icons/tools/laboratory/vials-blue-pink.webp"
+    "crucible": "icons/tools/laboratory/bowl-liquid-orange.webp"
 };
 
 ARM5E.character = {};
@@ -700,6 +702,16 @@ ARM5E.magic.durations = {
         "dtype": "String",
         "impact": 1
     },
+    "perf": {
+        "label": "arm5e.spell.durations.perf",
+        "dtype": "String",
+        "impact": 1
+    },
+    "dream": {
+        "label": "arm5e.spell.durations.dream",
+        "dtype": "String",
+        "impact": 1
+    },
     "sun": {
         "label": "arm5e.spell.durations.sun",
         "dtype": "String",
@@ -715,6 +727,11 @@ ARM5E.magic.durations = {
         "dtype": "String",
         "impact": 3
     },
+    "arcr": {
+        "label": "arm5e.spell.durations.arcr",
+        "dtype": "String",
+        "impact": 3
+    },
     "fire": {
         "label": "arm5e.spell.durations.fire",
         "dtype": "String",
@@ -722,6 +739,11 @@ ARM5E.magic.durations = {
     },
     "bargain": {
         "label": "arm5e.spell.durations.bargain",
+        "dtype": "String",
+        "impact": 3
+    },
+    "rune": {
+        "label": "arm5e.spell.durations.rune",
         "dtype": "String",
         "impact": 3
     },
@@ -739,6 +761,11 @@ ARM5E.magic.durations = {
         "label": "arm5e.spell.durations.year+1",
         "dtype": "String",
         "impact": 4
+    },
+    "19year": {
+        "label": "arm5e.spell.durations.19year",
+        "dtype": "String",
+        "impact": 5
     },
     "other": {
         "label": "arm5e.sheet.other",
@@ -773,8 +800,18 @@ ARM5E.magic.ranges = {
         "dtype": "String",
         "impact": 2
     },
+    "line": {
+        "label": "arm5e.spell.ranges.line",
+        "dtype": "String",
+        "impact": 2
+    },
     "sight": {
         "label": "arm5e.spell.ranges.sight",
+        "dtype": "String",
+        "impact": 3
+    },
+    "veil": {
+        "label": "arm5e.spell.ranges.veil",
         "dtype": "String",
         "impact": 3
     },
@@ -782,6 +819,16 @@ ARM5E.magic.ranges = {
         "label": "arm5e.spell.ranges.arc",
         "dtype": "String",
         "impact": 4
+    },
+    "ground": {
+        "label": "arm5e.spell.ranges.ground",
+        "dtype": "String",
+        "impact": 4
+    },
+    "unlimited": {
+        "label": "arm5e.spell.ranges.unlimited",
+        "dtype": "String",
+        "impact": 6
     },
     "other": {
         "label": "arm5e.sheet.other",
@@ -850,6 +897,11 @@ ARM5E.magic.targets = {
         "label": "arm5e.spell.targets.sight",
         "dtype": "String",
         "impact": 4
+    },
+    "bloodline": {
+        "label": "arm5e.spell.targets.bloodline",
+        "dtype": "String",
+        "impact": 3
     },
     "other": {
         "label": "arm5e.sheet.other",
@@ -926,80 +978,83 @@ ARM5E.lab.usage = {
 
 
 ARM5E.lab.enchantment = {};
-ARM5E.lab.enchantment.item = {
-    "materialBase": 1,
-    "sizeMultiplier": 1,
-    "material": "",
-    "materialBonus": 0,
-    "shape": "",
-    "shapeBonus": 0,
-    "expiry": 0
+ARM5E.lab.enchantment.expiry = {
+    1: "arm5e.lab.enchantment.item.expiry.never",
+    10: "arm5e.lab.enchantment.item.expiry.1y",
+    5: "arm5e.lab.enchantment.item.expiry.7y",
+    2: "arm5e.lab.enchantment.item.expiry.70y"
 };
 
+ARM5E.lab.enchantment.status = {
+    0: "arm5e.lab.enchantment.item.inert",
+    1: "arm5e.lab.enchantment.item.prepared",
+    2: "arm5e.lab.enchantment.item.enchanted",
+    3: "arm5e.lab.enchantment.item.opened"
+}
 
 ARM5E.lab.enchantment.materialBase = {
-    "base1": {
+    1: {
         "value": 1,
         "eg": "arm5e.lab.enchantment.item.material.base1"
     },
-    "base2": {
+    2: {
         "value": 2,
         "eg": "arm5e.lab.enchantment.item.material.base2"
     },
-    "base3": {
+    3: {
         "value": 3,
         "eg": "arm5e.lab.enchantment.item.material.base3"
     },
-    "base4": {
+    4: {
         "value": 4,
         "eg": "arm5e.lab.enchantment.item.material.base4"
     },
-    "base5": {
+    5: {
         "value": 5,
         "eg": "arm5e.lab.enchantment.item.material.base5"
     },
-    "base6": {
+    6: {
         "value": 6,
         "eg": "arm5e.lab.enchantment.item.material.base6"
     },
-    "base10": {
+    10: {
         "value": 10,
         "eg": "arm5e.lab.enchantment.item.material.base10"
     },
-    "base12": {
+    12: {
         "value": 12,
         "eg": "arm5e.lab.enchantment.item.material.base12"
     },
-    "base15": {
+    15: {
         "value": 15,
         "eg": "arm5e.lab.enchantment.item.material.base15"
     },
-    "base20": {
+    20: {
         "value": 20,
         "eg": "arm5e.lab.enchantment.item.material.base20"
     },
 };
 
-ARM5E.lab.enchantment.sizeMuliplier = {
-    "tiny": {
+ARM5E.lab.enchantment.sizeMultiplier = {
+    1: {
         "eg": "arm5e.lab.enchantment.item.size.tiny-eg",
-        "value": 1
+        "value": "arm5e.lab.enchantment.item.size.tiny"
     },
-    "small": {
+    2: {
         "eg": "arm5e.lab.enchantment.item.size.small-eg",
-        "value": 2
+        "value": "arm5e.lab.enchantment.item.size.small"
     },
-    "medium": {
+    3: {
         "eg": "arm5e.lab.enchantment.item.size.medium-eg",
-        "value": 3
+        "value": "arm5e.lab.enchantment.item.size.medium"
     },
-    "large": {
+    4: {
         "eg": "arm5e.lab.enchantment.item.size.large-eg",
-        "value": 4
+        "value": "arm5e.lab.enchantment.item.size.large"
     },
-    "huge": {
+    5: {
         "eg": "arm5e.lab.enchantment.item.size.huge-eg",
-        "value": 5
+        "value": "arm5e.lab.enchantment.item.size.huge"
     }
 };
 
@@ -1013,7 +1068,11 @@ ARM5E.lab.enchantment.effectUses = {
     6: "50",
     10: "Unlimited"
 }
-
+ARM5E.lab.enchantment.status = {
+    0: "To be enchanted",
+    1: "Opened for enchantment",
+    2: "Enchanted"
+}
 
 
 ARM5E.generic = {};
@@ -1125,6 +1184,12 @@ ARM5E.generic.sourcesTypes = {
     },
     "Dies": {
         "label": "arm5e.sheet.source.Dies"
+    },
+    "TtA": {
+        "label": "arm5e.sheet.source.TtA"
+    },
+    "ML": {
+        "label": "arm5e.sheet.source.ML"
     },
     "Hook": {
         "label": "arm5e.sheet.source.Hooks"

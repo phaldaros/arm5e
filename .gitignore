@@ -10,3 +10,6 @@ jsconfig.json
 test.js
 .npmignore
 module/foundry_view.js
+TODO.txt
+packs/enchantments.db
+.eslintrc.json
