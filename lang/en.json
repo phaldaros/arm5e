@@ -486,6 +486,7 @@
     "arm5e.lab.enchantment.item.size.large-eg": "Large (staff, shield, cloak, skeleton)",
     "arm5e.lab.enchantment.item.size.huge-eg": "Huge (boat, wagon, human body, small room)",
 
+    "arm5.sheet.bonus.activeEffects": "Active effects bonuses",
 
 
     "arm5e.sheet.action.rest": "Rest",
@@ -571,5 +572,5 @@
     "arm5e.messages.wound.incap": "incap",
     "arm5e.messages.wound.dead": "dead",
     "arm5e.messages.woundResult": "Got a $typeWound$ wound",
-    "arm5e.messages.noWound": "No wound inflicted"
+    "arm5e.messages.noWound": "No wound inflicted",
 }

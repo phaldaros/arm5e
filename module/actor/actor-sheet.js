@@ -162,9 +162,6 @@ export class ArM5eActorSheet extends ActorSheet {
     context.effects = prepareActiveEffectCategories(this.actor.effects);
     this._prepareCharacterItems(context);
 
-    // console.log("sheetData from pc sheet");
-    // console.log(context);
-    console.log(context);
     return context;
   }
 
@@ -600,6 +597,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.actor.data.data.roll.txtOption4 = "";
       this.actor.data.data.roll.option5 = 0;
       this.actor.data.data.roll.txtOption5 = "";
+      this.actor.data.data.roll.bonusSpell = 0;
 
       // set data to roll
       if (dataset.roll) {
@@ -653,6 +651,11 @@ export class ArM5eActorSheet extends ActorSheet {
         //         this.actor.data.data.roll.focus = dataset.ritual;
         //     }
         // }
+
+        if (dataset.bonusActiveEffects) {
+          this.actor.data.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
+        }
+
         if (dataset.technique) {
           this.actor.data.data.roll.technique = dataset.technique;
         }
