@@ -17,6 +17,10 @@
     "arm5e.sheet.art": "Art",
     "arm5e.sheet.inventory": "Inventory",
     "arm5e.sheet.diary": "Diary",
+    "arm5e.sheet.effectsCreate": "Create",
+    "arm5e.sheet.effectsEdit": "Edit",
+    "arm5e.sheet.effectsDelete": "Delete",
+    "arm5e.sheet.effectsToggle": "Toggle",
     "arm5e.sheet.house": "House",
     "arm5e.sheet.domusMagnus": "Domus Magnus",
     "arm5e.sheet.primus": "Primus",
@@ -572,5 +576,5 @@
     "arm5e.messages.wound.incap": "incap",
     "arm5e.messages.wound.dead": "dead",
     "arm5e.messages.woundResult": "Got a $typeWound$ wound",
-    "arm5e.messages.noWound": "No wound inflicted",
+    "arm5e.messages.noWound": "No wound inflicted"
 }

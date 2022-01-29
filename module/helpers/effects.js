@@ -3,9 +3,8 @@
  * @param {MouseEvent} event      The left-click event on the effect control
  * @param {Actor|Item} owner      The owning entity which manages this effect
  */
-export function onManageActiveEffect(event, owner) {
+function onManageActiveEffect(event, owner) {
     event.preventDefault();
-    debugger;
     const a = event.currentTarget;
     const li = a.closest("li");
     const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
@@ -32,7 +31,7 @@ export function onManageActiveEffect(event, owner) {
  * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
  * @return {object}                   Data for rendering
  */
-export function prepareActiveEffectCategories(effects) {
+function prepareActiveEffectCategories(effects) {
 
     // Define effect header categories
     const categories = {
@@ -61,4 +60,32 @@ export function prepareActiveEffectCategories(effects) {
         else categories.passive.effects.push(e);
     }
     return categories;
+}
+
+function findAllActiveEffectsByType(effects, type) {
+    const activeEffects = [];
+    for ( let e of effects ) {
+        e._getSourceName(); // Trigger a lookup for the source name
+        if (!e.data.disabled && e.data.flags.type.toUpperCase() === type.toUpperCase()) {
+            activeEffects.push(e);
+        }
+    }
+    return activeEffects;
+}
+
+function findFirstActiveEffectBySubtype(effects, subtype) {
+    for ( let e of effects ) {
+        e._getSourceName(); // Trigger a lookup for the source name
+        if (!e.data.disabled && e.data.flags.subType === subtype.toUpperCase()) {
+            return e;
+        }
+    }
+    return false;
+}
+
+export {
+    onManageActiveEffect,
+    prepareActiveEffectCategories,
+    findAllActiveEffectsByType,
+    findFirstActiveEffectBySubtype,
 }

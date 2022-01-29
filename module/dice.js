@@ -273,8 +273,7 @@ function getRollFormula(actor) {
     msg = msg + actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
   }
 
-  debugger;
-  if (actorData.roll.bonusActiveEffects !== undefined) {
+  if (actorData.roll.bonusActiveEffects) {
     total = total + actorData.roll.bonusActiveEffects;
     if (msg != "") {
       msg = msg + " + <br />";
