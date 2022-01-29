@@ -14,8 +14,8 @@ const VOICE_AND_GESTURES_VALUES = {
     GESTURES: {
         EXAGGERATED: 1,
         BOLD: 0,
-        SUBTLE: -5,
-        NONE: -10,
+        SUBTLE: -2,
+        NONE: -5,
     }
 }
 
