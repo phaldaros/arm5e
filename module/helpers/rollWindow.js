@@ -201,7 +201,7 @@ function cleanBooleans(dataset, actorData) {
 }
 
 function chooseTemplate(dataset) {
-    if (dataset.roll == "combat" || dataset.roll == "option") {
+    if (dataset.roll == "combat" || dataset.roll == "option" || dataset.roll == "general") {
         return "systems/arm5e/templates/roll/roll-options.html";
     }
     if (dataset.roll == "char" || dataset.roll == "ability") {

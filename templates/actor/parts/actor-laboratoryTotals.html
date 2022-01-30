@@ -1,6 +1,17 @@
+
     <div class="characteristics grid grid-3col backSection margintop18">
         <div class="flexrow flex-group-center">
-            <label for="data.laboratory.fastCastingSpeed.value" class="item-title width3">{{localize "arm5e.sheet.fastCastingSpeed"}}</label>
+            <label for="data.laboratory.fastCastingSpeed.value"
+                   class="item-title width3 rollable"
+                   data-roll="option"
+                   data-id="{{item._id}}"
+                   data-name="{{localize "arm5e.sheet.fastCastingSpeed" }}"
+                   data-option1="{{ data.characteristics.qik.value }}"
+                   data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
+                   data-option2="{{ data.laboratory.abilitiesSelected.finesse.value }}"
+                   data-txtoption2='{{ localize "arm5e.skill.finesse" }}'
+            >{{localize "arm5e.sheet.fastCastingSpeed"}}
+            </label>
             <input type="text" name="data.laboratory.fastCastingSpeed.value" readonly value="{{numberFormat data.laboratory.fastCastingSpeed.value decimals=0 sign=true}}" data-dtype="Number" />
         </div>
 
@@ -10,7 +21,16 @@
         </div>
 
         <div class="flexrow flex-group-center">
-            <label for="data.laboratory.targeting.value" class="item-title width3">{{localize "arm5e.sheet.targeting"}}</label>
+            <label for="data.laboratory.targeting.value"
+                   class="item-title width3 rollable"
+                   data-roll="general"
+                   data-id="{{item._id}}"
+                   data-name="{{localize "arm5e.sheet.targeting" }}"
+                   data-option1="{{ data.characteristics.per.value }}"
+                   data-txtoption1='{{ localize "arm5e.sheet.perception" }}'
+                   data-option2="{{ data.laboratory.abilitiesSelected.finesse.value }}"
+                   data-txtoption2='{{ localize "arm5e.skill.finesse" }}'
+            >{{localize "arm5e.sheet.targeting"}}</label>
             <input type="text" name="data.laboratory.targeting.value" readonly value="{{numberFormat data.laboratory.targeting.value decimals=0 sign=true}}" data-dtype="Number" />
         </div>
 
