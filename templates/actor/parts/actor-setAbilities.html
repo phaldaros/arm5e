@@ -77,6 +77,16 @@
                     {{/each}} {{/select}}
             </select>
         </div>
+
+        <div class="flexrow flex-group-center" style="border:0px">
+            <label for="data.laboratory.abilitiesSelected.penetration.abilityID" class="bold">{{localize "arm5e.skill.penetration"}}</label>
+            <select name="data.laboratory.abilitiesSelected.penetration.abilityID" data-type="String">
+                {{#select data.laboratory.abilitiesSelected.penetration.abilityID }}
+                {{#each data.abilities as |ability key|}}
+                <option value="{{ability._id}}">{{ability.name}}</option>
+                {{/each}} {{/select}}
+            </select>
+        </div>
     </div>
 
 </div>

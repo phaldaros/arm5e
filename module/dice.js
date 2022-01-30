@@ -1,6 +1,6 @@
 let mult = 1;
 
-async function simpleDie(html, actorData) {
+async function simpleDie(html, actorData, callBack) {
   actorData = getFormData(html, actorData);
   actorData = getRollFormula(actorData);
 
@@ -15,15 +15,18 @@ async function simpleDie(html, actorData) {
   let tmp = await dieRoll.roll({
     async: true,
   });
-  tmp.toMessage({
+  const message = tmp.toMessage({
     speaker: ChatMessage.getSpeaker({
       actor: actorData,
     }),
     flavor: name + "Simple die: <br />" + actorData.data.data.roll.rollLabel,
   });
+  if(callBack) {
+    callBack(html, actorData, tmp, message);
+  }
 }
 
-async function stressDie(html, actor) {
+async function stressDie(html, actor, callBack) {
   mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
@@ -34,12 +37,16 @@ async function stressDie(html, actor) {
   if (mult > 1) {
     flavorTxt = name + "<h3>EXPLODING Stress die: </h3><br/>";
   }
-  multiplyRoll(mult, dieRoll, actor.data.data.roll.rollFormula, actor.data.data.roll.divide).toMessage({
+  const roll = await multiplyRoll(mult, dieRoll, actor.data.data.roll.rollFormula, actor.data.data.roll.divide)
+  const message = await roll.toMessage({
     flavor: flavorTxt + actor.data.data.roll.rollLabel,
     speaker: ChatMessage.getSpeaker({
       actor: actor,
     }),
   });
+  if(callBack) {
+    callBack(html, actor, roll, message);
+  }
 }
 
 function getFormData(html, actorData) {

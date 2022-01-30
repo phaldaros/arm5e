@@ -2,6 +2,15 @@ import {ARM5E} from "../metadata.js";
 import {findAllActiveEffectsByType} from "./effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import {simpleDie, stressDie} from "../dice.js";
+import {getActorsFromTargetedTokens} from "./tokens.js";
+import {calculateSuccessOfMagic} from "./magic.js";
+import {chatContestOfMagic} from "./chat.js";
+
+const CALL_BACK_AFTER_ROLL = {
+    SPELL: {
+        CALLBACK: checkTargetAndCalculateResistante,
+    }
+}
 
 const STRESS_DIE = {
     MAGIC: {
@@ -192,10 +201,10 @@ function prepareRollFields(dataset, actorData) {
 
 function cleanBooleans(dataset, actorData) {
     // clean booleans
-    if (actorData.data.roll.useFatigue == "false") {
+    if (actorData.data.roll.useFatigue === "false") {
         actorData.data.roll.useFatigue = false;
     }
-    if (actorData.data.roll.useFatigue == "false") {
+    if (actorData.data.roll.useFatigue === "false") {
         actorData.data.roll.useFatigue = false;
     }
 }
@@ -228,6 +237,7 @@ function updateCharacteristicDependingOnRoll(dataset, actorData) {
 }
 
 function getDialogData(dataset, html, actor) {
+    const callback = CALL_BACK_AFTER_ROLL[dataset.roll.toUpperCase()]?.CALLBACK;
     if(STRESS_DIE[dataset.roll.toUpperCase()]) {
         return {
             title: game.i18n.localize(STRESS_DIE[dataset.roll.toUpperCase()].TITLE),
@@ -236,7 +246,7 @@ function getDialogData(dataset, html, actor) {
                 yes: {
                     icon: "<i class='fas fa-check'></i>",
                     label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-                    callback: (html) => stressDie(html, actor),
+                    callback: (html) => stressDie(html, actor, callback),
                 },
                 no: {
                     icon: "<i class='fas fa-ban'></i>",
@@ -253,12 +263,12 @@ function getDialogData(dataset, html, actor) {
             yes: {
                 icon: "<i class='fas fa-check'></i>",
                 label: game.i18n.localize("arm5e.dialog.button.simpledie"),
-                callback: (html) => simpleDie(html, actor),
+                callback: (html) => simpleDie(html, actor, callback),
             },
             no: {
                 icon: "<i class='fas fa-bomb'></i>",
                 label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-                callback: (html) => stressDie(html, actor),
+                callback: (html) => stressDie(html, actor, callback),
             },
         },
     };
@@ -290,6 +300,18 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
     );
 
     dialog.render(true);
+}
+
+function checkTargetAndCalculateResistante(html, actorCaster, roll, message) {
+    const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
+    if(!actorsTargeted)
+    {
+        return false;
+    }
+    actorsTargeted.forEach((actorTarget) => {
+        const successOfMagic = calculateSuccessOfMagic({ actorTarget, actorCaster, roll, spell: message } )
+        chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
+    })
 }
 
 export {
