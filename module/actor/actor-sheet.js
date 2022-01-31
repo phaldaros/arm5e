@@ -124,7 +124,7 @@ export class ArM5eActorSheet extends ActorSheet {
           .filter((a) => a.type == "laboratory")
           .map(({ name, id }) => ({
             name,
-            id,
+            id
           }));
         if (context.data.sanctum) {
           let lab = context.data.world.labs.filter((c) => c.name == context.data.sanctum.value);
@@ -141,7 +141,7 @@ export class ArM5eActorSheet extends ActorSheet {
         .filter((a) => a.type == "covenant")
         .map(({ name, id }) => ({
           name,
-          id,
+          id
         }));
       if (context.data.covenant) {
         let cov = context.data.world.covenants.filter((c) => c.name == context.data.covenant.value);
@@ -238,9 +238,9 @@ export class ArM5eActorSheet extends ActorSheet {
         {
           _id: itemId,
           data: {
-            [field]: value,
-          },
-        },
+            [field]: value
+          }
+        }
       ]);
     });
 
@@ -267,11 +267,11 @@ export class ArM5eActorSheet extends ActorSheet {
       let val = this.actor.getFlag("arm5e", "sorting", listName);
       if (val === undefined) {
         this.actor.setFlag("arm5e", "sorting", {
-          [listName]: true,
+          [listName]: true
         });
       } else {
         this.actor.setFlag("arm5e", "sorting", {
-          [listName]: !val[listName],
+          [listName]: !val[listName]
         });
       }
     });
@@ -347,8 +347,8 @@ export class ArM5eActorSheet extends ActorSheet {
       {
         name: name,
         type: type,
-        data: foundry.utils.deepClone(header.dataset),
-      },
+        data: foundry.utils.deepClone(header.dataset)
+      }
     ];
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData[0].data["type"];
@@ -379,19 +379,19 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => setCovenant(html, actor),
+              callback: (html) => setCovenant(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
               label: `Cancel`,
-              callback: null,
-            },
-          },
+              callback: null
+            }
+          }
         },
         {
           jQuery: true,
           height: "140px",
-          classes: ["arm5e-dialog", "dialog"],
+          classes: ["arm5e-dialog", "dialog"]
         }
       ).render(true);
     });
@@ -402,7 +402,7 @@ export class ArM5eActorSheet extends ActorSheet {
     const damage = parseInt($(lastMessageDamage?.data?.content).text()) || 0;
     const extraData = {
       damage,
-      modifier: 0,
+      modifier: 0
     };
 
     const element = event.currentTarget;
@@ -411,7 +411,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     const data = {
       actor,
-      extraData,
+      extraData
     };
     let template = "systems/arm5e/templates/actor/parts/actor-soak.html";
     renderTemplate(template, data).then(function (html) {
@@ -423,19 +423,19 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => setWounds(html, actor),
+              callback: (html) => setWounds(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
               label: `Cancel`,
-              callback: null,
-            },
-          },
+              callback: null
+            }
+          }
         },
         {
           jQuery: true,
           height: "140px",
-          classes: ["arm5e-dialog", "dialog"],
+          classes: ["arm5e-dialog", "dialog"]
         }
       ).render(true);
     });
@@ -451,7 +451,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     const extraData = {
       advantage,
-      modifier: 0,
+      modifier: 0
     };
 
     const element = event.currentTarget;
@@ -460,7 +460,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     const data = {
       actor,
-      extraData,
+      extraData
     };
     let template = "systems/arm5e/templates/actor/parts/actor-calculateDamage.html";
     renderTemplate(template, data).then(function (html) {
@@ -472,19 +472,19 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => calculateDamage(html, actor),
+              callback: (html) => calculateDamage(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
               label: `Cancel`,
-              callback: null,
-            },
-          },
+              callback: null
+            }
+          }
         },
         {
           jQuery: true,
           height: "140px",
-          classes: ["arm5e-dialog", "dialog"],
+          classes: ["arm5e-dialog", "dialog"]
         }
       ).render(true);
     });
@@ -505,7 +505,7 @@ export class ArM5eActorSheet extends ActorSheet {
           log(false, `Did not find ${game.i18n.localize(a)}, creating it...`);
           const itemData = {
             name: localizedA,
-            type: "ability",
+            type: "ability"
           };
           // First, check if the Ability is found in the world
           abs = game.items.filter(
@@ -547,14 +547,14 @@ export class ArM5eActorSheet extends ActorSheet {
 
     if (this.actor.data.data.wounds.dead.number > 0) {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
-        permanent: true,
+        permanent: true
       });
       return;
     }
     if (dataset.roll != "char") {
       if (this.actor.data.data.fatigue.unconscious.level.value == true) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.unconscious"), {
-          permanent: true,
+          permanent: true
         });
         return;
       }
@@ -751,47 +751,68 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-              callback: (html) => stressDie(html, actor),
+              callback: (html) => stressDie(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
               label: game.i18n.localize("arm5e.dialog.button.cancel"),
-              callback: null,
-            },
+              callback: null
+            }
           };
+          if (isDebugging) {
+            dButtons.explode = {
+              label: "DEV Roll 1",
+              callback: (html) => stressDie(html, actor, 1)
+            };
+            dButtons.zero = {
+              label: "DEV Roll 0",
+              callback: (html) => stressDie(html, actor, 2)
+            };
+          }
 
           new Dialog(
             {
               title: game.i18n.localize("arm5e.dialog.title.rolldie"),
               content: html,
-              buttons: dButtons,
+              buttons: dButtons
             },
             {
               classes: ["arm5e-dialog", "dialog"],
-              height: "auto",
+              height: "auto"
             }
           ).render(true);
         } else if (dataset.roll == "combat") {
+          let dButtons = {
+            yes: {
+              icon: "<i class='fas fa-check'></i>",
+              label: game.i18n.localize("arm5e.dialog.button.stressdie"),
+              callback: (html) => stressDie(html, actor)
+            },
+            no: {
+              icon: "<i class='fas fa-ban'></i>",
+              label: game.i18n.localize("arm5e.dialog.button.cancel"),
+              callback: null
+            }
+          };
+          if (isDebugging) {
+            dButtons.explode = {
+              label: "DEV Roll 1",
+              callback: (html) => stressDie(html, actor, 1)
+            };
+            dButtons.zero = {
+              label: "DEV Roll 0",
+              callback: (html) => stressDie(html, actor, 2)
+            };
+          }
           new Dialog(
             {
               title: game.i18n.localize("arm5e.sheet.combat"),
               content: html,
-              buttons: {
-                yes: {
-                  icon: "<i class='fas fa-check'></i>",
-                  label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-                  callback: (html) => stressDie(html, actor),
-                },
-                no: {
-                  icon: "<i class='fas fa-ban'></i>",
-                  label: game.i18n.localize("arm5e.dialog.button.cancel"),
-                  callback: null,
-                },
-              },
+              buttons: dButtons
             },
             {
               classes: ["arm5e-dialog", "dialog"],
-              height: "auto",
+              height: "auto"
             }
           ).render(true);
         } else if (dataset.roll == "option") {
@@ -803,41 +824,54 @@ export class ArM5eActorSheet extends ActorSheet {
                 yes: {
                   icon: "<i class='fas fa-check'></i>",
                   label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-                  callback: (html) => stressDie(html, actor),
+                  callback: (html) => stressDie(html, actor)
                 },
                 no: {
                   icon: "<i class='fas fa-ban'></i>",
                   label: game.i18n.localize("arm5e.dialog.button.cancel"),
-                  callback: null,
-                },
-              },
+                  callback: null
+                }
+              }
             },
             {
               classes: ["arm5e-dialog", "dialog"],
-              height: "auto",
+              height: "auto"
             }
           ).render(true);
         } else {
+          let dButtons = {
+            yes: {
+              icon: "<i class='fas fa-check'></i>",
+              label: game.i18n.localize("arm5e.dialog.button.simpledie"),
+              callback: (html) => simpleDie(html, actor)
+            },
+            no: {
+              icon: "<i class='fas fa-bomb'></i>",
+              label: game.i18n.localize("arm5e.dialog.button.stressdie"),
+              callback: (html) => stressDie(html, actor)
+            }
+          };
+
+          if (isDebugging) {
+            dButtons.explode = {
+              label: "DEV Roll 1",
+              callback: (html) => stressDie(html, actor, 1)
+            };
+            dButtons.zero = {
+              label: "DEV Roll 0",
+              callback: (html) => stressDie(html, actor, 2)
+            };
+          }
+
           new Dialog(
             {
               title: game.i18n.localize("arm5e.dialog.title.rolldie"),
               content: html,
-              buttons: {
-                yes: {
-                  icon: "<i class='fas fa-check'></i>",
-                  label: game.i18n.localize("arm5e.dialog.button.simpledie"),
-                  callback: (html) => simpleDie(html, actor),
-                },
-                no: {
-                  icon: "<i class='fas fa-bomb'></i>",
-                  label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-                  callback: (html) => stressDie(html, actor),
-                },
-              },
+              buttons: dButtons
             },
             {
               classes: ["arm5e-dialog", "dialog"],
-              height: "auto",
+              height: "auto"
             }
           ).render(true);
         }
@@ -919,7 +953,7 @@ export async function setWounds(selector, actor) {
   const typeOfWound = calculateWound(damage, size);
   if (typeOfWound === false) {
     ui.notifications.info(game.i18n.localize("arm5e.notification.notPossibleToCalculateWound"), {
-      permanent: true,
+      permanent: true
     });
     return false;
   }
@@ -939,8 +973,8 @@ export async function setWounds(selector, actor) {
     content: `<h4 class="dice-total">${messageWound}</h4>`,
     flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageModifier}<br/>`,
     speaker: ChatMessage.getSpeaker({
-      actor,
-    }),
+      actor
+    })
   });
 
   if (typeOfWound) {
@@ -949,11 +983,11 @@ export async function setWounds(selector, actor) {
         wounds: {
           [typeOfWound]: {
             number: {
-              value: actor.data.data.wounds[typeOfWound].number.value + 1,
-            },
-          },
-        },
-      },
+              value: actor.data.data.wounds[typeOfWound].number.value + 1
+            }
+          }
+        }
+      }
     };
 
     await actor.update(actorUpdate);
@@ -976,7 +1010,7 @@ export async function calculateDamage(selector, actor) {
     content: messageDamage,
     flavor: `${title} ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`,
     speaker: ChatMessage.getSpeaker({
-      actor,
-    }),
+      actor
+    })
   });
 }
