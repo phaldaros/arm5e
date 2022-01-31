@@ -7,7 +7,7 @@ import {
   compareMagicalEffectsData,
   compareLabTextsData,
   log,
-  error,
+  error
 } from "../tools.js";
 
 /**
@@ -83,7 +83,7 @@ export class ArM5ePCActor extends Actor {
       dfn: 0,
       dam: 0,
       prot: 0,
-      ability: 0,
+      ability: 0
     };
 
     const data = actorData.data;
@@ -108,7 +108,7 @@ export class ArM5ePCActor extends Actor {
     const temp = {
       _id: "",
       name: "N/A",
-      value: 0,
+      value: 0
     };
     abilitiesSelect["a0"] = temp;
     for (const [key, item] of actorData.items.entries()) {
@@ -129,7 +129,7 @@ export class ArM5ePCActor extends Actor {
         const temp = {
           id: i._id,
           name: i.name,
-          value: i.data.derivedScore,
+          value: i.data.derivedScore
         };
         //abilitiesSelect.push(temp);
         abilitiesSelect["a" + key] = temp;
@@ -497,7 +497,7 @@ export class ArM5ePCActor extends Actor {
     let rollData = super.getRollData();
     rollData.metadata = {
       character: {},
-      magic: {},
+      magic: {}
     };
     rollData.metadata.character.abilities = CONFIG.ARM5E.character.abilities;
     rollData.metadata.magic.arts = ARM5E.magic.arts;
@@ -829,6 +829,22 @@ export class ArM5ePCActor extends Actor {
     this.update(updateData, {});
   }
 
+  async useConfidencePoint() {
+    if (this.data.type != "player" && this.data.type != "npc") {
+      return false;
+    }
+
+    if (this.data.data.con.points == 0) {
+      ui.notifications.info(game.i18n.format("arm5e.notification.noConfidencePointsLeft", { name: this.data.name }), {
+        permanent: false
+      });
+      return false;
+    }
+    log(false, "Used confidence point");
+    await this.update({ data: { con: { points: this.data.data.con.points - 1 } } });
+    return true;
+  }
+
   async rest() {
     if (this.data.type != "player" && this.data.type != "npc") {
       return;
@@ -850,7 +866,7 @@ export class ArM5ePCActor extends Actor {
         const img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
         if (img)
           await this.data.update({
-            img,
+            img
           });
       }
     }
