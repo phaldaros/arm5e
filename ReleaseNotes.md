@@ -22,6 +22,9 @@ Features
 - Updated French translation (by Lanneval)
 - New xp tracking for Arts
 - Added log messages when changing the score of an ability or art (in case of misclick)
+- New confidence management
+- New botch managment
+- Lot of localization in rolls
 
 Bug fixes:
 
@@ -34,6 +37,7 @@ Bug fixes:
 - Partly fix arrows of tab titles
 - Codex enchantments are now properly filtered
 - Localization of roll dialogs (botch check)
+- Use a Foundry core method to detect if a version is newer that another instead of the existing shoddy one.
 
   1.2.4 SP1
 

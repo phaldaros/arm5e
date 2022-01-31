@@ -5,11 +5,9 @@
 # Node Modules
 node_modules/
 npm-debug.log
-foundryV9.js
 jsconfig.json
 test.js
 .npmignore
-module/foundry_view.js
 TODO.txt
 packs/enchantments.db
 .eslintrc.json

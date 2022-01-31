@@ -13,32 +13,65 @@ async function simpleDie(html, actorData) {
   }
   const dieRoll = new Roll(formula, actorData.data.data);
   let tmp = await dieRoll.roll({
-    async: true,
+    async: true
   });
   tmp.toMessage({
     speaker: ChatMessage.getSpeaker({
-      actor: actorData,
+      actor: actorData
     }),
-    flavor: name + "Simple die: <br />" + actorData.data.data.roll.rollLabel,
+    flavor:
+      name + game.i18n.localize("arm5e.dialog.button.simpleDie") + ": <br />" + actorData.data.data.roll.rollLabel,
+    flags: {
+      arm5e: {
+        confScore: actorData.data.data.con.score
+      }
+    }
   });
 }
 
-async function stressDie(html, actor) {
+async function stressDie(html, actor, flags = 0) {
   mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
 
   let name = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
-  let dieRoll = await explodingRoll(actor);
-  let flavorTxt = name + "Stress die: <br />";
-  if (mult > 1) {
-    flavorTxt = name + "<h3>EXPLODING Stress die: </h3><br/>";
+  let dieRoll = await explodingRoll(actor, flags);
+  let flavorTxt = name + game.i18n.localize("arm5e.dialog.button.stressdie") + ": <br />";
+  let lastRoll;
+  let confAllowed = actor.data.data.con.score;
+  let botchCheck = 0;
+  if (isNaN(dieRoll)) {
+    if (mult > 1) {
+      flavorTxt = name + "<h3>" + game.i18n.localize("arm5e.chat.die.exploding") + "</h3><br/>";
+    }
+    lastRoll = multiplyRoll(mult, dieRoll, actor.data.data.roll.rollFormula, actor.data.data.roll.divide);
+  } else {
+    if (dieRoll == 1) {
+      flavorTxt = name + "<h2>" + game.i18n.localize("arm5e.chat.die.botch") + "</h2><br/>";
+    } else {
+      flavorTxt = name + "<h2>" + game.i18n.format("arm5e.chat.die.botches", { num: dieRoll }) + "</h2><br/>";
+    }
+
+    botchCheck = 1;
+    if (dieRoll > 0) {
+      confAllowed = 0;
+    }
+    lastRoll = new Roll("0");
+    await lastRoll.evaluate({ async: true });
   }
-  multiplyRoll(mult, dieRoll, actor.data.data.roll.rollFormula, actor.data.data.roll.divide).toMessage({
+
+  lastRoll.toMessage({
     flavor: flavorTxt + actor.data.data.roll.rollLabel,
     speaker: ChatMessage.getSpeaker({
-      actor: actor,
+      actor: actor
     }),
+    flags: {
+      arm5e: {
+        divide: actor.data.data.roll.divide,
+        confScore: confAllowed,
+        botchCheck: botchCheck
+      }
+    }
   });
 }
 
@@ -279,7 +312,7 @@ function getRollFormula(actor) {
     if (msg != "") {
       msg = msg + " + <br />";
     }
-    msg = msg + "Bonus (" + actorData.roll.bonus + ")";
+    msg = msg + game.i18n.localize("arm5e.chat.die.bonus") + " (" + actorData.roll.bonus + ")";
   }
 
   if (actorData.roll.useFatigue == true) {
@@ -305,7 +338,7 @@ function getRollFormula(actor) {
     if (msg != "") {
       msg = msg + " + <br />";
     }
-    msg = msg + "Divide by " + actorData.roll.divide;
+    msg = msg + game.i18n.localize("arm5e.chat.die.divideBy") + actorData.roll.divide;
   }
   actorData.roll.rollFormula = total;
   actorData.roll.rollLabel = msg;
@@ -318,35 +351,53 @@ async function CheckBotch(html, actorData) {
 
   let botchDice = html.find("#botchDice").val();
   if (!botchDice) {
-    return ui.notifications.info("Please enter the number of botch dice.");
+    return ui.notifications.info(game.i18n.localize("arm5e.notification.roll.botchNum"));
   }
 
   let rollCommand = botchDice;
   rollCommand = rollCommand.concat("d10cf=10");
   const botchRoll = new Roll(rollCommand);
   await botchRoll.roll({
-    async: true,
+    async: true
   });
-
-  if (botchRoll.result == 0) {
-    resultMessage = "<p>No botch!</p>";
-  } else if (botchRoll.result == 1) {
-    resultMessage = "<p>BOTCH: " + botchRoll.result + " zero was rolled.</p>";
-  } else if (botchRoll.result > 1) {
-    resultMessage = "<p>BOTCH: " + botchRoll.result + " zeros were rolled.</p>";
-  }
-  botchRoll.toMessage({
-    flavor: resultMessage,
-    speaker: ChatMessage.getSpeaker({
-      actor: actorData,
-    }),
-  });
+  let confAllowed = actorData.data.data.con.score;
+  // TODO clean up
+  // if (botchRoll.result == 0) {
+  //   resultMessage = "<p>No botch!</p>";
+  // } else if (botchRoll.result == 1) {
+  //   confAllowed = 0;
+  //   resultMessage = "<p>BOTCH: " + botchRoll.result + " zero was rolled.</p>";
+  // } else if (botchRoll.result > 1) {
+  //   confAllowed = 0;
+  //   resultMessage = "<p>BOTCH: " + botchRoll.result + " zeros were rolled.</p>";
+  // }
+  // botchRoll.toMessage({
+  //   flavor: resultMessage,
+  //   speaker: ChatMessage.getSpeaker({
+  //     actor: actorData
+  //   }),
+  //   flags: {
+  //     arm5e: {
+  //       confScore: confAllowed,
+  //       dieRoll: botchRoll.terms[0].total
+  //     }
+  //   }
+  // });
+  return botchRoll.terms[0].total;
 }
 
-async function explodingRoll(actorData) {
-  let dieRoll = new Roll(`1d10`);
+async function explodingRoll(actorData, flags = 0) {
+  let dieRoll;
+  if (flags === 0) {
+    dieRoll = new Roll(`1d10`);
+  } else if (flags === 1) {
+    dieRoll = new Roll("1");
+  } else {
+    dieRoll = new Roll("10");
+  }
+
   await dieRoll.roll({
-    async: true,
+    async: true
   });
   // explode mode
   if (dieRoll.total === 1) {
@@ -383,9 +434,12 @@ async function explodingRoll(actorData) {
   } else {
     if (mult === 1 && dieRoll.total === 10) {
       mult *= 0;
+      var botchNum = 0;
+      const html = await renderTemplate("systems/arm5e/templates/roll/roll-botch.html");
 
-      renderTemplate("systems/arm5e/templates/roll/roll-botch.html").then(function (html) {
-        // show dialog
+      // show dialog
+
+      await new Promise((resolve) => {
         new Dialog(
           {
             title: game.i18n.localize("arm5e.dialog.botch.title"),
@@ -394,7 +448,10 @@ async function explodingRoll(actorData) {
               yes: {
                 icon: "<i class='fas fa-check'></i>",
                 label: game.i18n.localize("arm5e.dialog.button.rollbotch"),
-                callback: (html) => CheckBotch(html, actorData),
+                callback: async (html) => {
+                  botchNum = await CheckBotch(html, actorData);
+                  resolve();
+                }
               },
               no: {
                 icon: "<i class='fas fa-times'></i>",
@@ -403,20 +460,27 @@ async function explodingRoll(actorData) {
                   ChatMessage.create({
                     content: game.i18n.localize("arm5e.dialog.button.rollnobotch"),
                     speaker: ChatMessage.getSpeaker({
-                      actor: actorData,
-                    }),
+                      actor: actorData
+                    })
                   });
-                },
-              },
-            },
+                  resolve();
+                }
+              }
+            }
           },
           {
-            classes: ["arm5e-dialog", "dialog"],
+            classes: ["arm5e-dialog", "dialog"]
           }
         ).render(true);
       });
+
+      // hack , JS doesn't care about type
+      if (botchNum > 0) {
+        return botchNum;
+      }
     }
   }
+
   return dieRoll;
 }
 
