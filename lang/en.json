@@ -563,6 +563,7 @@
   "arm5e.sheet.source.Dies": "Dies Irae",
   "arm5e.sheet.source.Hooks": "Hooks",
   "arm5e.sheet.source.TtA": "Through the Aegis",
+  "arm5e.sheet.source.ML": "Mythic Locations",
   "arm5e.sheet.source.custom": "Homebrew",
 
   "arm5e.messages.wound.light": "light",
@@ -573,5 +574,4 @@
   "arm5e.messages.wound": "Got a $typeWound$ wound",
   "arm5e.messages.noWound": "No wound inflicted",
   "arm5e.messages.applyDamage": "Apply damage",
-  "arm5e.messages.useConf": "Use confidence point"
-}
+  "arm5e.messages.useConf": "Use confidence point"}
