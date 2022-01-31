@@ -1050,6 +1050,7 @@
         }
       },
       "ability": {
+        "defaultChaAb": "int",
         "speciality": "",
         "score": 0,
         "xp": 0,
@@ -1296,7 +1297,6 @@
     "mightFamiliar": {
       "templates": ["base"]
     },
-
     "speciality": {
       "templates": ["base"],
       "points": 0

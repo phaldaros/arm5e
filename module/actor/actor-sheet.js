@@ -606,8 +606,8 @@ export class ArM5eActorSheet extends ActorSheet {
         this.actor.data.data.roll.label = dataset.name;
       }
 
-      if (dataset.characteristic) {
-        this.actor.data.data.roll.characteristic = dataset.characteristic;
+      if (dataset.defaultcharacteristicforability) {
+        this.actor.data.data.roll.characteristic = dataset.defaultcharacteristicforability;
       }
       if (dataset.ability) {
         this.actor.data.data.roll.ability = dataset.ability;
@@ -741,7 +741,7 @@ export class ArM5eActorSheet extends ActorSheet {
       template = "systems/arm5e/templates/roll/roll-spell.html";
       this.actor.data.data.roll.characteristic = "sta";
     }
-    7;
+
     if (template != "") {
       // render template
       renderTemplate(template, this.actor.data).then(function (html) {

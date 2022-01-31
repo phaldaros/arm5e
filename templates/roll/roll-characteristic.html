@@ -9,7 +9,6 @@
                         {{#with (lookup @root.data.charmetadata key)~}}
                             <option value="{{key}}">{{localize label}} ({{ item.value }})</option>
                         {{/with}}
-
                     {{/each}} {{/select}}
             </select>
         </div>
@@ -20,7 +19,6 @@
             <label class="resource-label">{{localize "arm5e.sheet.abilities"}}</label>
             <select name="data.roll.ability" data-type="String" class="SelectedAbility">
                 {{#select data.roll.ability}}
-                    <option value="">N/A (0)</option>
                     {{#each data.abilities as |item key|}}
                         <option value="{{ item._id }}">{{ item.name}} ({{ item.data.derivedScore }})</option>
                     {{/each}}
