@@ -219,7 +219,7 @@ export function calculateWound(damage, size) {
 
     let typeOfWound = false;
     wounds.forEach((wound) => {
-        if (Number(wound) < damage) {
+        if (Number(wound) <= damage) {
             typeOfWound = typeOfWoundsBySize[wound];
         }
     })
