@@ -63,6 +63,7 @@
   "arm5e.sheet.penalty": "Penalty",
   "arm5e.sheet.notes": "Notes",
   "arm5e.sheet.speciality": "Specialty",
+  "arm5e.sheet.defaultCharacteristicForAbility": "Default characteristic",
   "arm5e.sheet.date": "Date",
   "arm5e.sheet.equiped": "Equipped",
   "arm5e.sheet.weaponExpert": "Weapon Expert",
@@ -507,12 +508,6 @@
   "arm5e.dialog.button.stressdie": "Stress die",
   "arm5e.dialog.button.simpledie": "Simple die",
 
-  "arm5e.chat.die.exploding": "Exploding stress die!",
-  "arm5e.chat.die.botch": "One botch die!",
-  "arm5e.chat.die.botches": "{num} botch dice!",
-  "arm5e.chat.die.bonus": "Bonus",
-  "arm5e.chat.die.divideBy": "Divide by ",
-
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
   "arm5e.notification.dead": "This character is dead...",
   "arm5e.notification.codex.none": "You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working, you can import the one in the Magi compendium",
@@ -574,5 +569,10 @@
   "arm5e.messages.woundResult": "Got a $typeWound$ wound",
   "arm5e.messages.noWound": "No wound inflicted",
   "arm5e.messages.applyDamage": "Apply damage",
-  "arm5e.messages.useConf": "Use confidence point"
+  "arm5e.messages.useConf": "Use confidence point",
+  "arm5e.messages.die.exploding": "Exploding stress die!",
+  "arm5e.messages.die.botch": "One botch die!",
+  "arm5e.messages.die.botches": "{num} botch dice!",
+  "arm5e.messages.die.bonus": "Bonus",
+  "arm5e.messages.die.divideBy": "Divide by "
 }

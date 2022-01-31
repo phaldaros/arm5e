@@ -42,14 +42,14 @@ async function stressDie(html, actor, flags = 0) {
   let botchCheck = 0;
   if (isNaN(dieRoll)) {
     if (mult > 1) {
-      flavorTxt = name + "<h3>" + game.i18n.localize("arm5e.chat.die.exploding") + "</h3><br/>";
+      flavorTxt = name + "<h3>" + game.i18n.localize("arm5e.messages.die.exploding") + "</h3><br/>";
     }
     lastRoll = multiplyRoll(mult, dieRoll, actor.data.data.roll.rollFormula, actor.data.data.roll.divide);
   } else {
     if (dieRoll == 1) {
-      flavorTxt = name + "<h2>" + game.i18n.localize("arm5e.chat.die.botch") + "</h2><br/>";
+      flavorTxt = name + "<h2>" + game.i18n.localize("arm5e.messages.die.botch") + "</h2><br/>";
     } else {
-      flavorTxt = name + "<h2>" + game.i18n.format("arm5e.chat.die.botches", { num: dieRoll }) + "</h2><br/>";
+      flavorTxt = name + "<h2>" + game.i18n.format("arm5e.messages.die.botches", { num: dieRoll }) + "</h2><br/>";
     }
 
     botchCheck = 1;
@@ -312,7 +312,7 @@ function getRollFormula(actor) {
     if (msg != "") {
       msg = msg + " + <br />";
     }
-    msg = msg + game.i18n.localize("arm5e.chat.die.bonus") + " (" + actorData.roll.bonus + ")";
+    msg = msg + game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
   }
 
   if (actorData.roll.useFatigue == true) {
@@ -338,7 +338,7 @@ function getRollFormula(actor) {
     if (msg != "") {
       msg = msg + " + <br />";
     }
-    msg = msg + game.i18n.localize("arm5e.chat.die.divideBy") + actorData.roll.divide;
+    msg = msg + game.i18n.localize("arm5e.messages.die.divideBy") + actorData.roll.divide;
   }
   actorData.roll.rollFormula = total;
   actorData.roll.rollLabel = msg;
@@ -392,8 +392,10 @@ async function explodingRoll(actorData, flags = 0) {
     dieRoll = new Roll(`1d10`);
   } else if (flags === 1) {
     dieRoll = new Roll("1");
+    ui.notifications.info(`${actorData.name} used DEV mode to roll a 1`);
   } else {
     dieRoll = new Roll("10");
+    ui.notifications.info(`${actorData.name} used DEV mode to roll a 0`);
   }
 
   await dieRoll.roll({
