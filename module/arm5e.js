@@ -293,6 +293,7 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
  * @returns {Promise}
  */
 async function createArM5eMacro(data, slot) {
+  debugger;
   if (data.type !== "Item") return;
   if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
   const item = data.data;
@@ -364,6 +365,7 @@ function onDropActorSheetData(actor, sheet, data) {
  * @return {Promise}
  */
 function rollItemMacro(itemName) {
+  debugger;
   const speaker = ChatMessage.getSpeaker();
   let actor;
   if (speaker.token) actor = game.actors.tokens[speaker.token];

@@ -10,8 +10,9 @@ import { log, getLastMessageByHeader, calculateWound } from "../tools.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
-  // static get defaultOptions() {
-  //     return mergeObject(super.defaultOptions, {
+   static get defaultOptions() {
+       return mergeObject(super.defaultOptions, {
+         dragDrop: [{ dragSelector: ".macro-ready" }]
   //         classes: ["arm5e", "sheet", "actor"],
   //         template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
   //         width: 1100,
@@ -21,8 +22,8 @@ export class ArM5eActorSheet extends ActorSheet {
   //             contentSelector: ".sheet-body",
   //             initial: "description"
   //         }]
-  //     });
-  // }
+       });
+   }
 
   /* -------------------------------------------- */
 
