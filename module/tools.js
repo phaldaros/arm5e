@@ -151,7 +151,7 @@ export function getLastMessageByHeader(game, key) {
 }
 
 export function calculateWound(damage, size) {
-    if(damage < 0) {
+    if(damage <= 0) {
         return '';
     }
     const typeOfWoundsBySize = SIZES_AND_WOUNDS[size.toString()];
