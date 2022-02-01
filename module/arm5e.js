@@ -296,6 +296,7 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
  */
 async function createArM5eMacro(data, slot) {
   //if (data.type !== "Item") return;
+  debugger;
   if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
   const item = data.data;
 

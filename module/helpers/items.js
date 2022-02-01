@@ -2,7 +2,8 @@ const TYPE_OF_ROLL = {
     ABILITY: 'ability',
     SPELL: 'spell',
     MAGIC: 'magicalEffect',
-    SPONT: 'spont'
+    SPONT: 'spont',
+    WEAPON: 'weapon'
 }
 
 function getDatasetForAbility(item) {
@@ -13,6 +14,24 @@ function getDatasetForAbility(item) {
         ability: item.data._id,
         defaultcharacteristicforability: item.data.data.defaultChaAb,
         name: name,
+    }
+}
+
+function getDatasetForWeapon(item) {
+    if(item?.data?.type !== TYPE_OF_ROLL.WEAPON) return {}
+    if(!item.data.data.equiped) {
+        ui.notifications.info(game.i18n.localize("arm5e.sheet.notEquipedWeapon"));
+        return {};
+    }
+    debugger;
+    return {
+        roll: "combat",
+        option1: item.actor.data.data.characteristics.dex.value,
+        txtoption1: game.i18n.localize("arm5e.sheet.dexterity"),
+        option2: item.actor.data.data.combat.ability,
+        txtoption2: game.i18n.localize("arm5e.sheet.ability"),
+        option3: item.actor.data.data.combat.atk,
+        txtoption3: game.i18n.localize("arm5e.sheet.attack"),
     }
 }
 
@@ -42,6 +61,7 @@ function getDatasetForMagic(item) {
 function prepareDatasetByTypeOfItem(item) {
     return {
         ...getDatasetForAbility(item),
+        ...getDatasetForWeapon(item),
         ...getDatasetForSpell(item),
         ...getDatasetForMagic(item),
     }

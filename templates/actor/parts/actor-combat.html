@@ -25,7 +25,15 @@
     <div class="grid grid-2col " style="gap: 0px;">
 
         <div class="flexrow flex-group-left">
-            <label class="item-title flex-group-left rollable" data-roll="combat" data-name='{{localize "arm5e.sheet.initiative"}}' data-option1="{{ data.characteristics.qik.value }}" data-txtoption1='{{ localize "arm5e.sheet.quickness" }}' data-option2="{{ data.combat.init }}" data-txtoption2='{{ localize "arm5e.sheet.initiative" }}' data-option3="{{ data.combat.overload }}" data-txtoption3='{{ localize "arm5e.sheet.weight" }}'>{{localize "arm5e.sheet.initiative"}}:</label>
+            <label class="item-title flex-group-left rollable"
+                   data-roll="combat"
+                   data-name='{{localize "arm5e.sheet.initiative"}}'
+                   data-option1="{{ data.characteristics.qik.value }}"
+                   data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
+                   data-option2="{{ data.combat.init }}"
+                   data-txtoption2='{{ localize "arm5e.sheet.initiative" }}'
+                   data-option3="{{ data.combat.overload }}"
+                   data-txtoption3='{{ localize "arm5e.sheet.weight" }}'>{{localize "arm5e.sheet.initiative"}}:</label>
             <!-- quick + init - weight + stres die -->
             <div class="flexcol flex-group-center">
                 <label>{{localize "arm5e.sheet.quickness"}}</label>
@@ -50,7 +58,15 @@
         <div class="flexrow flex-group-center"><br /></div>
 
         <div class="flexrow flex-group-left">
-            <label class="item-title flex-group-left rollable" data-roll="combat" data-name='{{localize "arm5e.sheet.attack"}}' data-option1="{{ data.characteristics.dex.value }}" data-txtoption1='{{ localize "arm5e.sheet.dexterity" }}' data-option2="{{ data.combat.ability }}" data-txtoption2='{{localize "arm5e.sheet.ability"}}' data-option3="{{ data.combat.atk }}" data-txtoption3='{{localize "arm5e.sheet.attack"}}'>{{localize "arm5e.sheet.attack"}}:</label>
+            <label class="item-title flex-group-left rollable"
+                   data-roll="combat"
+                   data-name='{{localize "arm5e.sheet.attack"}}'
+                   data-option1="{{ data.characteristics.dex.value }}"
+                   data-txtoption1='{{ localize "arm5e.sheet.dexterity" }}'
+                   data-option2="{{ data.combat.ability }}"
+                   data-txtoption2='{{localize "arm5e.sheet.ability"}}'
+                   data-option3="{{ data.combat.atk }}"
+                   data-txtoption3='{{localize "arm5e.sheet.attack"}}'>{{localize "arm5e.sheet.attack"}}:</label>
             <!-- dex + ability + weapon + stres die -->
             <div class="flexcol flex-group-center">
                 <label>{{localize "arm5e.sheet.dexterity"}}</label>
