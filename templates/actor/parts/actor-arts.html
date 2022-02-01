@@ -22,7 +22,7 @@
               class="flexrow fontSize10 rollable"
               name="data.arts.techniques.{{key}}.label"
               data-roll="spont"
-              data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"7
+              data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
               data-technique="{{key}}"
               data-divide="2"
             >
@@ -63,7 +63,7 @@
         <label class="smallTitle width15">{{localize "arm5e.sheet.forms"}}</label>
       </li>
       {{#each data.arts.forms as |forms key|}}
-      <li class="flexrow art" data-attribute="{{key}}"">
+      <li class="flexrow art" data-attribute="{{key}}">
         <span class="flex03">
           <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
             {{#if (eq @root.artsIcons "symbol")}}
