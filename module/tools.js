@@ -1,5 +1,5 @@
 import { ARM5E } from "./metadata.js";
-import { SIZES_AND_WOUNDS } from './constants/wounds.js'
+import { DEFAULT_WOUND, SIZES_AND_WOUNDS } from './constants/wounds.js'
 
 export function log(force, ...args) {
   try {
@@ -158,7 +158,7 @@ export function calculateWound(damage, size) {
     if(typeOfWoundsBySize === undefined) return false;
     const wounds = Object.keys(typeOfWoundsBySize);
 
-    let typeOfWound = false;
+    let typeOfWound = DEFAULT_WOUND;
     wounds.forEach((wound) => {
         if (Number(wound) <= damage) {
             typeOfWound = typeOfWoundsBySize[wound];
