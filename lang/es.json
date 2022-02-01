@@ -442,7 +442,7 @@
     "arm5e.dialog.button.no": "No",
     "arm5e.dialog.button.cancel": "Cancelar",
     "arm5e.dialog.button.stressdie": "Dado de estrés",
-    "arm5e.dialog.button.simpledie": "Dado simple",
+    "arm5e.dialog.button.simpleDie": "Dado simple",
     "arm5e.notification.unconscious": "Este personaje está inconsciente, no tiene acciones",
     "arm5e.notification.dead": "Este personaje está muerto",
     "arm5e.packs.abilities.name": "Habilidades",

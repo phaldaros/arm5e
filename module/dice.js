@@ -15,18 +15,20 @@ async function simpleDie(html, actorData, callBack) {
   let tmp = await dieRoll.roll({
     async: true
   });
-  tmp.toMessage({
+  const message = await tmp.toMessage({
     speaker: ChatMessage.getSpeaker({
       actor: actorData
     }),
     flavor:
-      name + game.i18n.localize("arm5e.dialog.button.simpleDie") + ": <br />" + actorData.data.data.roll.rollLabel,
+      name + game.i18n.localize("arm5e.dialog.button.simpledie") + ": <br />" + actorData.data.data.roll.rollLabel,
     flags: {
       arm5e: {
         confScore: actorData.data.data.con.score
       }
     }
   });
+  debugger;
+
   if(callBack) {
     callBack(html, actorData, tmp, message);
   }
@@ -63,7 +65,7 @@ async function stressDie(html, actor, flags = 0, callBack) {
     await lastRoll.evaluate({ async: true });
   }
 
-  lastRoll.toMessage({
+  const message = await lastRoll.toMessage({
     flavor: flavorTxt + actor.data.data.roll.rollLabel,
     speaker: ChatMessage.getSpeaker({
       actor: actor
@@ -76,6 +78,8 @@ async function stressDie(html, actor, flags = 0, callBack) {
       }
     }
   });
+  debugger;
+
   if(callBack) {
     callBack(html, actor, roll, message);
   }
