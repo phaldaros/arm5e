@@ -240,8 +240,7 @@ function getRollFormula(actor) {
       msg = msg + " + <br />";
     }
     msg = msg + game.i18n.localize("arm5e.skill.artesLib") + " + " + game.i18n.localize("arm5e.skill.philosophy");
-    //msg = msg + "Artes Liberales + Philosophiae";
-    msg = msg + " (" + value + ")";
+      msg = msg + " (" + value + ")";
   }
   if (actorData.roll.advantage != 0) {
     value = actorData.roll.advantage;
@@ -307,6 +306,13 @@ function getRollFormula(actor) {
     msg = msg + actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
   }
 
+  if (actorData.roll.bonusActiveEffects) {
+    total = total + actorData.roll.bonusActiveEffects;
+    if (msg != "") {
+      msg = msg + " + <br />";
+    }
+    msg = msg + game.i18n.localize("arm5.sheet.bonus.activeEffects") + " (" + actorData.roll.bonusActiveEffects + ")";
+  }
   if (actorData.roll.bonus > 0) {
     total = total + actorData.roll.bonus;
     if (msg != "") {
