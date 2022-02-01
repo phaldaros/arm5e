@@ -121,6 +121,7 @@
   </div>
 </div>
 
+{{> "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html" show="arts" }}
 {{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="arts" }}
 
 <div class="flexrow backSection margintop18">
@@ -149,6 +150,7 @@
           data-mform="{{item.data.form.value}}"
           data-bonus="{{ item.data.bonus }}"
           data-bonus2="{{ item.data.mastery }}"
+          data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
           data-name="{{item.name}}"
           name="item.name"
         >
