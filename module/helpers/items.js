@@ -1,6 +1,8 @@
 const TYPE_OF_ROLL = {
     ABILITY: 'ability',
     SPELL: 'spell',
+    MAGIC: 'magicalEffect',
+    SPONT: 'spont'
 }
 
 function getDatasetForAbility(item) {
@@ -14,8 +16,8 @@ function getDatasetForAbility(item) {
     }
 }
 
-function getDatasetForSpell(item) {
-    if(item?.data?.type !== TYPE_OF_ROLL.SPELL) return {}
+function getDatasetForSpell(item, noCheck) {
+    if(!noCheck && item?.data?.type !== TYPE_OF_ROLL.SPELL) return {}
 
     return {
         roll: TYPE_OF_ROLL.SPELL,
@@ -27,14 +29,21 @@ function getDatasetForSpell(item) {
         bonusActiveEffects: item.actor.data.data.bonuses.arts.spellCasting,
         name: item.data.name,
     }
-
 }
 
+function getDatasetForMagic(item) {
+    if(item?.data?.type !== TYPE_OF_ROLL.MAGIC) return {}
+    return {
+        ...getDatasetForSpell(item, true),
+        divide: 2
+    }
+}
 
 function prepareDatasetByTypeOfItem(item) {
     return {
         ...getDatasetForAbility(item),
-        ...getDatasetForSpell(item)
+        ...getDatasetForSpell(item),
+        ...getDatasetForMagic(item),
     }
 }
 
