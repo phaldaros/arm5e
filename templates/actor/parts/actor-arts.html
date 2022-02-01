@@ -22,6 +22,7 @@
               class="flexrow fontSize10 rollable"
               name="data.arts.techniques.{{key}}.label"
               data-roll="spont"
+              data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"7
               data-technique="{{key}}"
               data-divide="2"
             >
@@ -78,6 +79,7 @@
               class="flexrow fontSize10 rollable"
               name="data.arts.forms.{{key}}.label"
               data-roll="spont"
+              data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
               data-form="{{key}}"
               data-divide="2"
             >
@@ -208,6 +210,7 @@
           data-bonus="{{ item.data.bonus }}"
           data-name="{{item.name}}"
           data-divide="2"
+          data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
           name="item.name"
         >
           {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}

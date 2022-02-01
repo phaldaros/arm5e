@@ -106,18 +106,16 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        if (dataset.roll === "spell") {
-          const activeEffectsByType = findAllActiveEffectsByType(activeEffects, ACTIVE_EFFECTS_TYPES.SPELLCASTING.type);
-          actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
-            const label = activeEffect.data.label;
-            let value = 0;
-            activeEffect.data.changes.forEach((item) => (value += Number(item.value)));
-            return {
-              label,
-              value
-            };
-          });
-        }
+        const activeEffectsByType = findAllActiveEffectsByType(activeEffects, ACTIVE_EFFECTS_TYPES.SPELLCASTING.type);
+        actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
+          const label = activeEffect.data.label;
+          let value = 0;
+          activeEffect.data.changes.forEach((item) => (value += Number(item.value)));
+          return {
+            label,
+            value
+          };
+        });
       }
 
       if (dataset.technique) {
