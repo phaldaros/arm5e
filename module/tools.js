@@ -167,3 +167,11 @@ export function calculateWound(damage, size) {
     return typeOfWound;
 }
 
+export function getDataset(obj) {
+  if(obj.preventDefault) {
+    obj.preventDefault();
+    const element = obj.currentTarget;
+    return element.dataset;
+  }
+  return obj
+}

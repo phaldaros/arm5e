@@ -59,7 +59,9 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
         // }
     }
 
-
+    _onRoll(evt) {
+        super._onRoll(evt);
+    }
 
     isItemDropAllowed(type) {
         switch (type) {
