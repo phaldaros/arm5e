@@ -1,10 +1,10 @@
 import { ARM5E } from "../metadata.js";
 import { findAllActiveEffectsByType } from "./effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
-import {simpleDie, stressDie} from "../dice.js";
-import {getActorsFromTargetedTokens} from "./tokens.js";
-import {calculateSuccessOfMagic} from "./magic.js";
-import {chatContestOfMagic} from "./chat.js";
+import { simpleDie, stressDie } from "../dice.js";
+import { getActorsFromTargetedTokens } from "./tokens.js";
+import { calculateSuccessOfMagic } from "./magic.js";
+import { chatContestOfMagic } from "./chat.js";
 
 const CALL_BACK_AFTER_ROLL = {
     SPELL: {
@@ -197,29 +197,29 @@ function prepareRollFields(dataset, actorData) {
 }
 
 function cleanBooleans(dataset, actorData) {
-    // clean booleans
-    if (actorData.data.roll.useFatigue === "false") {
-        actorData.data.roll.useFatigue = false;
-    }
-    if (actorData.data.roll.useFatigue === "false") {
-        actorData.data.roll.useFatigue = false;
-    }
+  // clean booleans
+  if (actorData.data.roll.useFatigue === "false") {
+    actorData.data.roll.useFatigue = false;
+  }
+  if (actorData.data.roll.useFatigue === "false") {
+    actorData.data.roll.useFatigue = false;
+  }
 }
 
 function chooseTemplate(dataset) {
-    if (dataset.roll == "combat" || dataset.roll == "option" || dataset.roll == "general") {
-        return "systems/arm5e/templates/roll/roll-options.html";
-    }
-    if (dataset.roll == "char" || dataset.roll == "ability") {
-        return "systems/arm5e/templates/roll/roll-characteristic.html";
-    }
-    if (dataset.roll == "spont") {
-        //spontaneous magic
-        return "systems/arm5e/templates/roll/roll-magic.html";
-    }
-    if (dataset.roll == "magic" || dataset.roll == "spell") {
-        return "systems/arm5e/templates/roll/roll-spell.html";
-    }
+  if (dataset.roll == "combat" || dataset.roll == "option" || dataset.roll == "general") {
+    return "systems/arm5e/templates/roll/roll-options.html";
+  }
+  if (dataset.roll == "char" || dataset.roll == "ability") {
+    return "systems/arm5e/templates/roll/roll-characteristic.html";
+  }
+  if (dataset.roll == "spont") {
+    //spontaneous magic
+    return "systems/arm5e/templates/roll/roll-magic.html";
+  }
+  if (dataset.roll == "magic" || dataset.roll == "spell") {
+    return "systems/arm5e/templates/roll/roll-spell.html";
+  }
 
   return "";
 }
