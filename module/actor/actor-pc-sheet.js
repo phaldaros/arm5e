@@ -44,7 +44,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
         this._prepareCharacterItems(context);
         log(false, "Player-sheet getData");
         log(false, context);
-
+        console.log(context);
         return context;
     }
 

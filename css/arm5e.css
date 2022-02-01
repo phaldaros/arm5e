@@ -70,6 +70,10 @@
   cursor: pointer;
 }
 
+.hidden {
+  display: none;
+}
+
 .clickable:hover,
 .clickable:focus {
   color: #000;

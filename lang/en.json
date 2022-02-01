@@ -17,6 +17,10 @@
   "arm5e.sheet.art": "Art",
   "arm5e.sheet.inventory": "Inventory",
   "arm5e.sheet.diary": "Diary",
+  "arm5e.sheet.effectsCreate": "Create",
+  "arm5e.sheet.effectsEdit": "Edit",
+  "arm5e.sheet.effectsDelete": "Delete",
+  "arm5e.sheet.effectsToggle": "Toggle",
   "arm5e.sheet.house": "House",
   "arm5e.sheet.domusMagnus": "Domus Magnus",
   "arm5e.sheet.primus": "Primus",
@@ -63,6 +67,7 @@
   "arm5e.sheet.penalty": "Penalty",
   "arm5e.sheet.notes": "Notes",
   "arm5e.sheet.speciality": "Specialty",
+  "arm5e.sheet.defaultCharacteristicForAbility": "Default characteristic",
   "arm5e.sheet.date": "Date",
   "arm5e.sheet.equiped": "Equipped",
   "arm5e.sheet.weaponExpert": "Weapon Expert",
@@ -483,6 +488,7 @@
   "arm5e.lab.enchantment.item.size.large-eg": "Large (staff, shield, cloak, skeleton)",
   "arm5e.lab.enchantment.item.size.huge-eg": "Huge (boat, wagon, human body, small room)",
 
+  "arm5.sheet.bonus.activeEffects": "Active effects bonuses",
   "arm5e.sheet.action.rest": "Rest",
   "arm5e.sheet.action.reset": "Reset",
   "arm5e.sheet.action.invest": "Invest",
@@ -506,12 +512,6 @@
   "arm5e.dialog.button.cancel": "Cancel",
   "arm5e.dialog.button.stressdie": "Stress die",
   "arm5e.dialog.button.simpledie": "Simple die",
-
-  "arm5e.chat.die.exploding": "Exploding stress die!",
-  "arm5e.chat.die.botch": "One botch die!",
-  "arm5e.chat.die.botches": "{num} botch dice!",
-  "arm5e.chat.die.bonus": "Bonus",
-  "arm5e.chat.die.divideBy": "Divide by ",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
   "arm5e.notification.dead": "This character is dead...",
@@ -574,5 +574,21 @@
   "arm5e.messages.woundResult": "Got a $typeWound$ wound",
   "arm5e.messages.noWound": "No wound inflicted",
   "arm5e.messages.applyDamage": "Apply damage",
-  "arm5e.messages.useConf": "Use confidence point"
+  "arm5e.messages.useConf": "Use confidence point",
+  "arm5e.messages.die.exploding": "Exploding stress die!",
+  "arm5e.messages.die.botch": "One botch die!",
+  "arm5e.messages.die.botches": "{num} botch dice!",
+  "arm5e.messages.die.bonus": "Bonus",
+  "arm5e.messages.die.divideBy": "Divide by ",
+
+  "arm5e.sheet.magic.gesturesType.exaggerated": "Exaggerated",
+  "arm5e.sheet.magic.gesturesType.bold": "Bold",
+  "arm5e.sheet.magic.gesturesType.subtle": "Subtle",
+  "arm5e.sheet.magic.gesturesType.none": "None",
+  "arm5e.sheet.magic.voiceType.loud": "Loud",
+  "arm5e.sheet.magic.voiceType.firm": "Firm",
+  "arm5e.sheet.magic.voiceType.quiet": "Quiet",
+  "arm5e.sheet.magic.voiceType.none": "None",
+  "arm5e.sheet.magic.voice": "Voice",
+  "arm5e.sheet.magic.gestures": "Gestures"
 }

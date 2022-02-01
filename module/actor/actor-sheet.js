@@ -7,6 +7,18 @@ import { simpleDie, stressDie } from "../dice.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ARM5E } from "../metadata.js";
 import { log, getLastMessageByHeader, calculateWound } from "../tools.js";
+import { onManageActiveEffect, prepareActiveEffectCategories, findAllActiveEffectsByType } from "../helpers/effects.js";
+
+import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";
+
+import {
+  prepareRollVariables,
+  prepareRollFields,
+  cleanBooleans,
+  updateCharacteristicDependingOnRoll,
+  renderRollTemplate,
+  chooseTemplate
+} from "../helpers/rollWindow.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -154,17 +166,16 @@ export class ArM5eActorSheet extends ActorSheet {
         }
       }
     }
-
+    context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
     // Prepare active effects
-    //context.effects = prepareActiveEffectCategories(this.actor.effects);
-
+    context.effects = prepareActiveEffectCategories(this.actor.effects);
+    if (context.data?.arts) {
+      context.data.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
+    }
     this._prepareCharacterItems(context);
-
-    // console.log("sheetData from pc sheet");
-    // console.log(context);
 
     return context;
   }
@@ -283,6 +294,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".pick-covenant").click(this._onPickCovenant.bind(this));
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
+    html.find(".voice-and-gestures").change(this._onSelectVoiceAndGestures.bind(this));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -293,6 +305,9 @@ export class ArM5eActorSheet extends ActorSheet {
         li.addEventListener("dragstart", handler, false);
       });
     }
+
+    // Active Effect management
+    html.find(".effect-control").click((ev) => onManageActiveEffect(ev, this.actor));
   }
 
   async _increaseArt(type, art) {
@@ -442,6 +457,12 @@ export class ArM5eActorSheet extends ActorSheet {
     });
   }
 
+  async _onSelectVoiceAndGestures(event) {
+    event.preventDefault();
+    const name = $(event.target).attr("name").split(".").pop();
+    await modifyVoiceOrGesturesActiveEvent(this, name, $(event.target).val());
+  }
+
   async _onCalculateDamage(html, actor) {
     event.preventDefault();
     const lastAttackMessage = getLastMessageByHeader(game, "arm5e.sheet.attack");
@@ -541,7 +562,7 @@ export class ArM5eActorSheet extends ActorSheet {
    * @param {Event} event   The originating click event
    * @private
    */
-  _onRoll(event) {
+  async _onRoll(event) {
     event.preventDefault();
     const element = event.currentTarget;
     const dataset = element.dataset;
@@ -561,323 +582,16 @@ export class ArM5eActorSheet extends ActorSheet {
       }
     }
 
-    const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
-
-    if (dataset.roll) {
-      // clean roll data
-      this.actor.data.data.roll.type = "";
-      this.actor.data.data.roll.label = "";
-      this.actor.data.data.roll.modifier = 0;
-      this.actor.data.data.roll.advantage = 0;
-      this.actor.data.data.roll.characteristic = "";
-      this.actor.data.data.roll.ability = "";
-      this.actor.data.data.roll.abilitySpeciality = false;
-      this.actor.data.data.roll.technique = "";
-      this.actor.data.data.roll.form = "";
-      this.actor.data.data.roll.total = "";
-      this.actor.data.data.roll.aura = 0;
-      this.actor.data.data.roll.bonus = 0;
-      this.actor.data.data.roll.divide = 1;
-      this.actor.data.data.roll.rollLabel = "";
-      this.actor.data.data.roll.rollFormula = "";
-      this.actor.data.data.roll.useFatigue = true;
-      this.actor.data.data.roll.ritual = false;
-      this.actor.data.data.roll.focus = false;
-      this.actor.data.data.roll.spell = null;
-
-      this.actor.data.data.roll.techniqueScore = 0;
-      this.actor.data.data.roll.formScore = 0;
-
-      this.actor.data.data.roll.option1 = 0;
-      this.actor.data.data.roll.txtOption1 = "";
-      this.actor.data.data.roll.option2 = 0;
-      this.actor.data.data.roll.txtOption2 = "";
-      this.actor.data.data.roll.option3 = 0;
-      this.actor.data.data.roll.txtOption3 = "";
-      this.actor.data.data.roll.option4 = 0;
-      this.actor.data.data.roll.txtOption4 = "";
-      this.actor.data.data.roll.option5 = 0;
-      this.actor.data.data.roll.txtOption5 = "";
-
-      // set data to roll
-      if (dataset.roll) {
-        this.actor.data.data.roll.type = dataset.roll;
-      }
-      if (dataset.name) {
-        this.actor.data.data.roll.label = dataset.name;
-      }
-
-      if (dataset.defaultcharacteristicforability) {
-        this.actor.data.data.roll.characteristic = dataset.defaultcharacteristicforability;
-      }
-      if (dataset.ability) {
-        this.actor.data.data.roll.ability = dataset.ability;
-      }
-
-      if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
-        if (dataset.id) {
-          this.actor.data.data.roll.effectId = dataset.id;
-          // TODO: perf: get it from spells array?
-          this.actor.data.data.roll.spell = this.actor.data.items.get(dataset.id);
-          this.actor.data.data.roll.label += " (" + this.actor.data.data.roll.spell.data.data.level + ")";
-          let techData = this.actor.data.data.roll.spell._getTechniqueData(this.actor.data);
-          this.actor.data.data.roll.techniqueText = techData[0];
-          this.actor.data.data.roll.techniqueScore = techData[1];
-
-          let formData = this.actor.data.data.roll.spell._getFormData(this.actor.data);
-          this.actor.data.data.roll.formText = formData[0];
-          this.actor.data.data.roll.formScore = formData[1];
-
-          this.actor.data.data.roll.focus = this.actor.data.data.roll.spell.data.data.focus;
-          this.actor.data.data.roll.ritual = this.actor.data.data.roll.spell.data.data.ritual;
-        } else {
-          if (dataset.technique) {
-            this.actor.data.data.roll.techniqueText = ARM5E.magic.techniques[dataset.technique].label;
-            this.actor.data.data.roll.techniqueScore = parseInt(
-              this.actor.data.data.arts.techniques[dataset.technique].derivedScore
-            );
-          }
-          if (dataset.mform) {
-            this.actor.data.data.roll.formScore = parseInt(this.actor.data.data.arts.forms[dataset.mform].derivedScore);
-            this.actor.data.data.roll.formText = ARM5E.magic.forms[dataset.mform].label;
-          }
-        }
-        // if (dataset.focus) {
-        //     if ((dataset.focus) == "false") {
-        //         this.actor.data.data.roll.focus = false;
-        //     } else if ((dataset.focus) == "true") {
-        //         this.actor.data.data.roll.focus = true;
-        //     } else {
-        //         this.actor.data.data.roll.focus = dataset.ritual;
-        //     }
-        // }
-        if (dataset.technique) {
-          this.actor.data.data.roll.technique = dataset.technique;
-        }
-        if (dataset.mform) {
-          this.actor.data.data.roll.form = dataset.mform;
-        }
-        // if (dataset.ritual) {
-        //     if ((dataset.ritual) == "false") {
-        //         this.actor.data.data.roll.ritual = false;
-        //     } else if ((dataset.ritual) == "true") {
-        //         this.actor.data.data.roll.ritual = true;
-        //     } else {
-        //         this.actor.data.data.roll.ritual = dataset.ritual;
-        //     }
-        // }
-      }
-      if (dataset.divide) {
-        this.actor.data.data.roll.divide = dataset.divide;
-      }
-      if (dataset.usefatigue) {
-        this.actor.data.data.roll.useFatigue = dataset.usefatigue;
-      }
-    }
-
-    if (dataset.bonus) {
-      this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus);
-    }
-    if (dataset.bonus2) {
-      this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus2);
-    }
-    if (dataset.bonus3) {
-      this.actor.data.data.roll.bonus = parseInt(this.actor.data.data.roll.bonus) + parseInt(dataset.bonus3);
-    }
-    if (dataset.option1) {
-      this.actor.data.data.roll.option1 = dataset.option1;
-    }
-    if (dataset.txtoption1) {
-      this.actor.data.data.roll.txtOption1 = dataset.txtoption1;
-    }
-    if (dataset.option2) {
-      this.actor.data.data.roll.option2 = dataset.option2;
-    }
-    if (dataset.txtoption2) {
-      this.actor.data.data.roll.txtOption2 = dataset.txtoption2;
-    }
-    if (dataset.option3) {
-      this.actor.data.data.roll.option3 = dataset.option3;
-    }
-    if (dataset.txtoption3) {
-      this.actor.data.data.roll.txtOption3 = dataset.txtoption3;
-    }
-    if (dataset.option4) {
-      this.actor.data.data.roll.option4 = dataset.option4;
-    }
-    if (dataset.txtoption4) {
-      this.actor.data.data.roll.txtOption4 = dataset.txtoption4;
-    }
-    if (dataset.option5) {
-      this.actor.data.data.roll.option5 = dataset.option5;
-    }
-    if (dataset.txtoption5) {
-      this.actor.data.data.roll.txtOption5 = dataset.txtoption5;
-    }
-
-    // clean booleans
-    if (this.actor.data.data.roll.useFatigue == "false") {
-      this.actor.data.data.roll.useFatigue = false;
-    }
-    if (this.actor.data.data.roll.useFatigue == "false") {
-      this.actor.data.data.roll.useFatigue = false;
-    }
+    prepareRollVariables(dataset, this.actor.data, this.actor.effects);
+    prepareRollFields(dataset, this.actor.data);
+    cleanBooleans(dataset, this.actor.data);
 
     var actor = this.actor;
     this.actor.data.data.charmetadata = ARM5E.character.characteristics;
-    //console.log('onRoll');
-    //console.log(actorData);
+    updateCharacteristicDependingOnRoll(dataset, this.actor.data);
 
-    // find the template
-    let template = "";
-    if (dataset.roll == "combat" || dataset.roll == "option") {
-      template = "systems/arm5e/templates/roll/roll-options.html";
-    } else if (dataset.roll == "char" || dataset.roll == "ability") {
-      template = "systems/arm5e/templates/roll/roll-characteristic.html";
-    } else if (dataset.roll == "spont") {
-      //spontaneous magic
-      template = "systems/arm5e/templates/roll/roll-magic.html";
-      this.actor.data.data.roll.characteristic = "sta";
-    } else if (dataset.roll == "magic" || dataset.roll == "spell") {
-      template = "systems/arm5e/templates/roll/roll-spell.html";
-      this.actor.data.data.roll.characteristic = "sta";
-    }
-
-    if (template != "") {
-      // render template
-      renderTemplate(template, this.actor.data).then(function (html) {
-        // show dialog
-        if (dataset.roll == "magic" || dataset.roll == "spont") {
-          let dButtons = {
-            yes: {
-              icon: "<i class='fas fa-check'></i>",
-              label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-              callback: (html) => stressDie(html, actor)
-            },
-            no: {
-              icon: "<i class='fas fa-ban'></i>",
-              label: game.i18n.localize("arm5e.dialog.button.cancel"),
-              callback: null
-            }
-          };
-          if (isDebugging) {
-            dButtons.explode = {
-              label: "DEV Roll 1",
-              callback: (html) => stressDie(html, actor, 1)
-            };
-            dButtons.zero = {
-              label: "DEV Roll 0",
-              callback: (html) => stressDie(html, actor, 2)
-            };
-          }
-
-          new Dialog(
-            {
-              title: game.i18n.localize("arm5e.dialog.title.rolldie"),
-              content: html,
-              buttons: dButtons
-            },
-            {
-              classes: ["arm5e-dialog", "dialog"],
-              height: "auto"
-            }
-          ).render(true);
-        } else if (dataset.roll == "combat") {
-          let dButtons = {
-            yes: {
-              icon: "<i class='fas fa-check'></i>",
-              label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-              callback: (html) => stressDie(html, actor)
-            },
-            no: {
-              icon: "<i class='fas fa-ban'></i>",
-              label: game.i18n.localize("arm5e.dialog.button.cancel"),
-              callback: null
-            }
-          };
-          if (isDebugging) {
-            dButtons.explode = {
-              label: "DEV Roll 1",
-              callback: (html) => stressDie(html, actor, 1)
-            };
-            dButtons.zero = {
-              label: "DEV Roll 0",
-              callback: (html) => stressDie(html, actor, 2)
-            };
-          }
-          new Dialog(
-            {
-              title: game.i18n.localize("arm5e.sheet.combat"),
-              content: html,
-              buttons: dButtons
-            },
-            {
-              classes: ["arm5e-dialog", "dialog"],
-              height: "auto"
-            }
-          ).render(true);
-        } else if (dataset.roll == "option") {
-          new Dialog(
-            {
-              title: game.i18n.localize("arm5e.dialog.title.rolldie"),
-              content: html,
-              buttons: {
-                yes: {
-                  icon: "<i class='fas fa-check'></i>",
-                  label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-                  callback: (html) => stressDie(html, actor)
-                },
-                no: {
-                  icon: "<i class='fas fa-ban'></i>",
-                  label: game.i18n.localize("arm5e.dialog.button.cancel"),
-                  callback: null
-                }
-              }
-            },
-            {
-              classes: ["arm5e-dialog", "dialog"],
-              height: "auto"
-            }
-          ).render(true);
-        } else {
-          let dButtons = {
-            yes: {
-              icon: "<i class='fas fa-check'></i>",
-              label: game.i18n.localize("arm5e.dialog.button.simpledie"),
-              callback: (html) => simpleDie(html, actor)
-            },
-            no: {
-              icon: "<i class='fas fa-bomb'></i>",
-              label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-              callback: (html) => stressDie(html, actor)
-            }
-          };
-
-          if (isDebugging) {
-            dButtons.explode = {
-              label: "DEV Roll 1",
-              callback: (html) => stressDie(html, actor, 1)
-            };
-            dButtons.zero = {
-              label: "DEV Roll 0",
-              callback: (html) => stressDie(html, actor, 2)
-            };
-          }
-
-          new Dialog(
-            {
-              title: game.i18n.localize("arm5e.dialog.title.rolldie"),
-              content: html,
-              buttons: dButtons
-            },
-            {
-              classes: ["arm5e-dialog", "dialog"],
-              height: "auto"
-            }
-          ).render(true);
-        }
-      });
-    }
+    const template = chooseTemplate(dataset);
+    renderRollTemplate(dataset, template, actor, this.actor.data);
   }
 
   // Overloaded core functions (TODO: review at each Foundry update)
