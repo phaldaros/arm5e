@@ -27,7 +27,6 @@ async function simpleDie(html, actorData, callBack) {
       }
     }
   });
-  debugger;
 
   if(callBack) {
     callBack(html, actorData, tmp, message);
@@ -78,7 +77,6 @@ async function stressDie(html, actor, flags = 0, callBack) {
       }
     }
   });
-  debugger;
 
   if(callBack) {
     callBack(html, actor, roll, message);

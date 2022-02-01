@@ -249,7 +249,6 @@ function getDebugButtonsIfNeeded(actor, callback) {
 
 function getDialogData(dataset, html, actor) {
   const callback = CALL_BACK_AFTER_ROLL[dataset.roll.toUpperCase()]?.CALLBACK;
-  debugger;
   if (STRESS_DIE[dataset.roll.toUpperCase()]) {
     return {
       title: game.i18n.localize(STRESS_DIE[dataset.roll.toUpperCase()].TITLE),
@@ -301,7 +300,6 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
     return;
   }
 
-  debugger;
   const renderedTemplate = await renderTemplate(template, actorData);
   const dialogData = getDialogData(dataset, renderedTemplate, actor);
   const dialog = new Dialog(
