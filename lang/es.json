@@ -120,6 +120,11 @@
     "arm5e.sheet.totalMagicResistance": "Total de resistencia mágica",
     "arm5e.sheet.spellOverMagicResistance": "Hechizo exitoso en $target$ por $total$",
     "arm5e.sheet.magicResistanceOverSpell": "Hechizo fracasa en $target$ por $total$",
+
+    "arm5e.sheet.spellOverMagicResistanceWithNoTotal": "Hechizo exitoso on $target$",
+    "arm5e.sheet.magicResistanceOverSpellWithNoTotal": "Hechizo fracasa en $target$",
+
+
     "arm5e.sheet.formScore": "Puntuación de forma ($form$)",
     "arm5e.sheet.parma": "Parma Magica",
     "arm5e.sheet.penetration": "Penetración",

@@ -28,7 +28,7 @@ function getParmaAbilityDetails(actorData) {
     }
     return {
         score: 0,
-        speciality: '',
+        specialityIncluded: '',
     }
 }
 
@@ -56,7 +56,7 @@ function calculateResistance(actorData, form) {
     let magicResistance = actorData.data.data.laboratory?.magicResistance?.value || actorData.data.data?.might?.value || 0;
     let specialityIncluded = '';
     const parma = getParmaAbilityDetails(actorData);
-    if (parma.specialityIncluded.toUpperCase() === form.toUpperCase()) {
+    if (parma.specialityIncluded && parma.specialityIncluded.toUpperCase() === form.toUpperCase()) {
         specialityIncluded = form;
         magicResistance += 5;
     }
