@@ -4,6 +4,9 @@ import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import { simpleDie, stressDie } from "../dice.js";
 
 const STRESS_DIE = {
+  COMBAT: {
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
   MAGIC: {
     TITLE: "arm5e.dialog.title.rolldie"
   },
