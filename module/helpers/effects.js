@@ -73,6 +73,28 @@ function findAllActiveEffectsByType(effects, type) {
     return activeEffects;
 }
 
+function findAllActiveEffectsByAffectedKey(effects, key) {
+    const activeEffects = [];
+    for ( let e of effects ) {
+        e._getSourceName(); // Trigger a lookup for the source name
+        if (!e.data.disabled && e.data.changes.find(change => change.key === key)) {
+            activeEffects.push(e);
+        }
+    }
+    return activeEffects;
+}
+
+
+function findFirstActiveEffectByType(effects, type) {
+    for ( let e of effects ) {
+        e._getSourceName(); // Trigger a lookup for the source name
+        if (!e.data.disabled && e.data.flags.type.toUpperCase() === type.toUpperCase()) {
+            return e;
+        }
+    }
+    return false;
+}
+
 function findFirstActiveEffectBySubtype(effects, subtype) {
     for ( let e of effects ) {
         e._getSourceName(); // Trigger a lookup for the source name
@@ -87,5 +109,7 @@ export {
     onManageActiveEffect,
     prepareActiveEffectCategories,
     findAllActiveEffectsByType,
+    findFirstActiveEffectByType,
     findFirstActiveEffectBySubtype,
+    findAllActiveEffectsByAffectedKey,
 }

@@ -1,5 +1,5 @@
 import { ARM5E } from "../metadata.js";
-import { findAllActiveEffectsByType } from "./effects.js";
+import { findAllActiveEffectsByAffectedKey } from "./effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import { simpleDie, stressDie } from "../dice.js";
 
@@ -107,11 +107,14 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
         if (dataset.roll === "spell") {
-          const activeEffectsByType = findAllActiveEffectsByType(activeEffects, ACTIVE_EFFECTS_TYPES.SPELLCASTING.type);
+          const activeEffectsByType = findAllActiveEffectsByAffectedKey(activeEffects, ACTIVE_EFFECTS_TYPES.SPELLCASTING.key);
           actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
             const label = activeEffect.data.label;
             let value = 0;
-            activeEffect.data.changes.forEach((item) => (value += Number(item.value)));
+            activeEffect
+                .data.changes
+                .filter(change => change.key === ACTIVE_EFFECTS_TYPES.SPELLCASTING.key)
+                .forEach((item) => (value += Number(item.value)));
             return {
               label,
               value
