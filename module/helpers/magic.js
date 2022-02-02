@@ -53,7 +53,7 @@ function calculatePenetration({ actorCaster, roll, form, technique }) {
 }
 
 function calculateResistance(actorData, form) {
-    let magicResistance = actorData.data.data.laboratory?.magicResistance?.value || actorData.data.data?.might?.value || 0;
+    let magicResistance = Number(actorData.data.data.laboratory?.magicResistance?.value) || Number(actorData.data.data?.might?.value) || 0;
     let specialityIncluded = '';
     const parma = getParmaAbilityDetails(actorData);
     if (parma.specialityIncluded && parma.specialityIncluded.toUpperCase() === form.toUpperCase()) {
