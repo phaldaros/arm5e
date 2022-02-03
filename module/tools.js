@@ -1,11 +1,11 @@
 import { ARM5E } from "./metadata.js";
-import { SIZES_AND_WOUNDS } from './constants/wounds.js'
+
+import { DEFAULT_WOUND, SIZES_AND_WOUNDS } from './constants/wounds.js'
+
 
 export function log(force, ...args) {
   try {
-    const isDebugging = game.modules
-      .get("_dev-mode")
-      ?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
+    const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
 
     if (force || isDebugging) {
       console.log(ARM5E.MODULE_ID, "|", ...args);
@@ -17,9 +17,7 @@ export function log(force, ...args) {
 
 export function error(force, ...args) {
   try {
-    const isDebugging = game.modules
-      .get("_dev-mode")
-      ?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
+    const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
 
     if (force || isDebugging) {
       console.error(ARM5E.MODULE_ID, "|", ...args);
@@ -139,26 +137,26 @@ export function getLabUpkeepCost(upkeep) {
 }
 
 export function getLastMessageByHeader(game, key) {
-
-    const searchString = game.i18n.localize(key).toLowerCase() + "</h2>";
-    const messages = game.messages.filter((msg) => {
-        const flavor = (msg?.data?.flavor || '').toLowerCase();
-        return flavor.indexOf(searchString) > -1;
-    });
-    if(messages.length) return messages.pop();
-    return false;
-
+  const searchString = game.i18n.localize(key).toLowerCase() + "</h2>";
+  const messages = game.messages.filter((msg) => {
+    const flavor = (msg?.data?.flavor || "").toLowerCase();
+    return flavor.indexOf(searchString) > -1;
+  });
+  if (messages.length) return messages.pop();
+  return false;
 }
 
 export function calculateWound(damage, size) {
-    if(damage < 0) {
+
+    if(damage <= 0) {
         return '';
     }
-    const typeOfWoundsBySize = SIZES_AND_WOUNDS[size.toString()];
+  const typeOfWoundsBySize = getWoundType(size);
+  //SIZES_AND_WOUNDS[size.toString()];
     if(typeOfWoundsBySize === undefined) return false;
     const wounds = Object.keys(typeOfWoundsBySize);
 
-    let typeOfWound = false;
+    let typeOfWound = DEFAULT_WOUND;
     wounds.forEach((wound) => {
         if (Number(wound) <= damage) {
             typeOfWound = typeOfWoundsBySize[wound];
@@ -167,6 +165,7 @@ export function calculateWound(damage, size) {
     return typeOfWound;
 }
 
+
 export function getDataset(obj) {
   if(obj.preventDefault) {
     obj.preventDefault();
@@ -174,4 +173,26 @@ export function getDataset(obj) {
     return element.dataset;
   }
   return obj
+}
+
+// No limitation to size
+function getWoundType(size) {
+  if (size <= -4) {
+    return {
+      1: "light",
+      2: "medium",
+      3: "heavy",
+      4: "incap",
+      5: "dead"
+    };
+  }
+  let increment = size + 5;
+  const result = { 1: "light" };
+
+  result[1 + increment] = "medium";
+  result[1 + 2 * increment] = "heavy";
+  result[1 + 3 * increment] = "incap";
+  result[1 + 4 * increment] = "dead";
+
+  console.log(result);
 }
