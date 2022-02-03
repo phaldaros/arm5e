@@ -83,7 +83,7 @@
               data-form="{{key}}"
               data-divide="2"
             >
-            {{label}}&nbsp;({{ forms.magicResistance }})
+              {{label}}&nbsp;({{ forms.magicResistance }})
             </span>
             <div class="flexrow">
               <a class="item-control decrease-form" title="Decrease score"><i class="fas fa-minus"></i></a>
@@ -123,8 +123,8 @@
   </div>
 </div>
 
-{{> "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html" show="arts" }}
-{{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="arts" }}
+{{> "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html" show="arts" }} {{>
+"systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="arts" }}
 
 <div class="flexrow backSection margintop18">
   <ol class="items-list">
@@ -142,7 +142,7 @@
       </div>
     </li>
     {{#each data.spells as |item id|}}
-    <li class="item item-value flexrow  macro-ready" data-item-id="{{item._id}}" data-attribute="{{id}}">
+    <li class="item item-value flexrow macro-ready" data-item-id="{{item._id}}" data-attribute="{{id}}">
       <div class="flexrow flex-center">
         <span
           class="flexrow item-title width4 rollable"
