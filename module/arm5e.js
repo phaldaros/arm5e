@@ -12,6 +12,7 @@ import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
 import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 
+import { prepareDatasetByTypeOfItem } from './helpers/items.js'
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 
 import * as Arm5eChatMessage from "./features/chat-message-hook.js";
@@ -231,6 +232,7 @@ Hooks.once("init", async function () {
 Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
+
   Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
 
   if (game.user.isGM) {
@@ -293,12 +295,13 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
  * @returns {Promise}
  */
 async function createArM5eMacro(data, slot) {
-  if (data.type !== "Item") return;
+  //if (data.type !== "Item") return;
+  debugger;
   if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
   const item = data.data;
 
   // Create the macro command
-  const command = `game.arm5e.rollItemMacro("${item.name}");`;
+  const command = `game.arm5e.rollItemMacro('${data.data._id}', '${data.actorId}');`;
   let macro = game.macros.contents.find((m) => m.name === item.name && m.command === command);
   if (!macro) {
     macro = await Macro.create({
@@ -363,16 +366,12 @@ function onDropActorSheetData(actor, sheet, data) {
  * @param {string} itemName
  * @return {Promise}
  */
-function rollItemMacro(itemName) {
-  const speaker = ChatMessage.getSpeaker();
-  let actor;
-  if (speaker.token) actor = game.actors.tokens[speaker.token];
-  if (!actor) actor = game.actors.get(speaker.actor);
-  const item = actor ? actor.items.find((i) => i.name === itemName) : null;
+function rollItemMacro(itemId, actorId) {
+  const actor = game.actors.get(actorId)
+  const item = actor.items.get(itemId);
   if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
-
-  // Trigger the item roll
-  return item.roll();
+  const dataset = prepareDatasetByTypeOfItem(item);
+  actor.sheet._onRoll(dataset)
 }
 
 Hooks.on("renderChatMessage", (message, html, data) => Arm5eChatMessage.addChatListeners(message, html, data));

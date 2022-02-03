@@ -491,5 +491,6 @@
     "arm5e.sheet.defaultCharacteristicForAbility": "Característica por defecto para habilidad",
     "arm5e.dialog.damageCalculator": "Calculadora de daño",
     "arm5e.dialog.woundCalculator": "Calculadora de heridas",
-    "arm5e.notification.notPossibleToCalculateWound": "No se puede calcular la herida (comprueba el tamaño de tu actor)"
+    "arm5e.notification.notPossibleToCalculateWound": "No se puede calcular la herida (comprueba el tamaño de tu actor)",
+    "arm5e.sheet.notEquipedWeapon": "No puedes utilizar un arma que no está equipada"
 }
