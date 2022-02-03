@@ -573,7 +573,7 @@
   "arm5e.messages.wound.incap": "Incapacitante",
   "arm5e.messages.wound.dead": "Mortelle",
   "arm5e.messages.wound": "Vous avez une blessure $typeWound$",
-  "arm5e.messages.noWound": "Aucune blessure"
+  "arm5e.messages.noWound": "Aucune blessure",
   "arm5e.messages.applyDamage": "Dégâts appliqués",
   "arm5e.messages.useConf": "Utiliser un Point de Confiance",
   "arm5e.messages.die.exploding": "Dé de tension explose !",
