@@ -1,5 +1,7 @@
 import { ARM5E } from "./metadata.js";
-import { SIZES_AND_WOUNDS } from "./constants/wounds.js";
+
+import { DEFAULT_WOUND, SIZES_AND_WOUNDS } from './constants/wounds.js'
+
 
 export function log(force, ...args) {
   try {
@@ -145,22 +147,22 @@ export function getLastMessageByHeader(game, key) {
 }
 
 export function calculateWound(damage, size) {
-  if (damage < 0) {
-    return "";
-  }
+
+    if(damage <= 0) {
+        return '';
+    }
   const typeOfWoundsBySize = getWoundType(size);
   //SIZES_AND_WOUNDS[size.toString()];
+    if(typeOfWoundsBySize === undefined) return false;
+    const wounds = Object.keys(typeOfWoundsBySize);
 
-  if (typeOfWoundsBySize === undefined) return false;
-  const wounds = Object.keys(typeOfWoundsBySize);
-
-  let typeOfWound = false;
-  wounds.forEach((wound) => {
-    if (Number(wound) <= damage) {
-      typeOfWound = typeOfWoundsBySize[wound];
-    }
-  });
-  return typeOfWound;
+    let typeOfWound = DEFAULT_WOUND;
+    wounds.forEach((wound) => {
+        if (Number(wound) <= damage) {
+            typeOfWound = typeOfWoundsBySize[wound];
+        }
+    })
+    return typeOfWound;
 }
 
 // No limitation to size

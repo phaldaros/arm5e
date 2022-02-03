@@ -1,3 +1,5 @@
+const DEFAULT_WOUND = 'dead';
+
 const SIZES_AND_WOUNDS =
     {
         "-4": {
@@ -60,4 +62,5 @@ const SIZES_AND_WOUNDS =
 
 export {
     SIZES_AND_WOUNDS,
+    DEFAULT_WOUND
 }
