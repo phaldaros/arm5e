@@ -20,7 +20,7 @@ async function simpleDie(html, actorData) {
       actor: actorData
     }),
     flavor:
-      name + game.i18n.localize("arm5e.dialog.button.simpleDie") + ": <br />" + actorData.data.data.roll.rollLabel,
+      name + game.i18n.localize("arm5e.dialog.button.simpledie") + ": <br />" + actorData.data.data.roll.rollLabel,
     flags: {
       arm5e: {
         confScore: actorData.data.data.con.score
@@ -240,7 +240,7 @@ function getRollFormula(actor) {
       msg = msg + " + <br />";
     }
     msg = msg + game.i18n.localize("arm5e.skill.artesLib") + " + " + game.i18n.localize("arm5e.skill.philosophy");
-      msg = msg + " (" + value + ")";
+    msg = msg + " (" + value + ")";
   }
   if (actorData.roll.advantage != 0) {
     value = actorData.roll.advantage;

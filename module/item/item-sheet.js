@@ -14,9 +14,9 @@ export class ArM5eItemSheet extends ItemSheet {
         {
           navSelector: ".sheet-tabs",
           contentSelector: ".sheet-body",
-          initial: "description",
-        },
-      ],
+          initial: "description"
+        }
+      ]
     });
   }
 
@@ -53,7 +53,7 @@ export class ArM5eItemSheet extends ItemSheet {
       let abilitiesSelect = {};
       const temp = {
         id: "",
-        name: "N/A",
+        name: "N/A"
       };
       abilitiesSelect["a0"] = temp;
       if (this.actor != null) {
@@ -62,7 +62,7 @@ export class ArM5eItemSheet extends ItemSheet {
           if (i.type === "ability") {
             const temp = {
               id: i.id,
-              name: i.name,
+              name: i.name
             };
             //abilitiesSelect.push(temp);
             abilitiesSelect["a" + key] = temp;
@@ -117,13 +117,16 @@ export class ArM5eItemSheet extends ItemSheet {
   }
 
   async _onSelectDefaultCharacteristic(item, event) {
-      event.preventDefault();
-      await item.update({
-          data: {
-              defaultChaAb: $( ".default-characteristic" ).find("option:selected").val()
-          },
-      }, {});
-      return false;
+    event.preventDefault();
+    await item.update(
+      {
+        data: {
+          defaultChaAb: $(".default-characteristic").find("option:selected").val()
+        }
+      },
+      {}
+    );
+    return false;
   }
 
   async _increaseScore(item) {
@@ -131,8 +134,8 @@ export class ArM5eItemSheet extends ItemSheet {
     await item.update(
       {
         data: {
-          xp: ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) / 2,
-        },
+          xp: ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) / 2
+        }
       },
       {}
     );
@@ -148,8 +151,8 @@ export class ArM5eItemSheet extends ItemSheet {
       await item.update(
         {
           data: {
-            xp: ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) / 2,
-          },
+            xp: ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) / 2
+          }
         },
         {}
       );
@@ -168,14 +171,14 @@ export class ArM5eItemSheet extends ItemSheet {
         yes: {
           icon: "<i class='fas fa-check'></i>",
           label: game.i18n.localize("arm5e.dialog.button.yes"),
-          callback: () => this._onEnchant(item),
+          callback: () => this._onEnchant(item)
         },
         no: {
           icon: "<i class='fas fa-ban'></i>",
           label: game.i18n.localize("arm5e.dialog.button.no"),
-          callback: null,
-        },
-      },
+          callback: null
+        }
+      }
     }).render(true);
   }
 
@@ -184,7 +187,7 @@ export class ArM5eItemSheet extends ItemSheet {
 
     if (codex.length === 0) {
       ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.enchant"), {
-        permanent: false,
+        permanent: false
       });
       return;
     }
@@ -201,18 +204,18 @@ export class ArM5eItemSheet extends ItemSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => createMagicItem(html, item, codex[0]),
+              callback: (html) => createMagicItem(html, item, codex[0])
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
               label: `Cancel`,
-              callback: null,
-            },
-          },
+              callback: null
+            }
+          }
         },
         {
           height: "140px",
-          classes: ["arm5e-dialog", "dialog"],
+          classes: ["arm5e-dialog", "dialog"]
         }
       ).render(true);
     });
@@ -230,8 +233,8 @@ export async function createMagicItem(html, item, codex) {
       {
         name: item.name,
         type: "magicItem",
-        data: foundry.utils.deepClone(enchantment.data),
-      },
+        data: foundry.utils.deepClone(enchantment.data)
+      }
     ];
 
     // prepend the item description

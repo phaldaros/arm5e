@@ -6,7 +6,7 @@
 import { simpleDie, stressDie } from "../dice.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ARM5E } from "../metadata.js";
-import { log, getLastMessageByHeader, calculateWound } from "../tools.js";
+import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
 import { onManageActiveEffect, prepareActiveEffectCategories, findAllActiveEffectsByType } from "../helpers/effects.js";
 
 import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";
@@ -22,19 +22,20 @@ import {
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
-  // static get defaultOptions() {
-  //     return mergeObject(super.defaultOptions, {
-  //         classes: ["arm5e", "sheet", "actor"],
-  //         template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
-  //         width: 1100,
-  //         height: 900,
-  //         tabs: [{
-  //             navSelector: ".sheet-tabs",
-  //             contentSelector: ".sheet-body",
-  //             initial: "description"
-  //         }]
-  //     });
-  // }
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      dragDrop: [{ dragSelector: ".macro-ready" }]
+      /*         classes: ["arm5e", "sheet", "actor"],
+         template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
+         width: 1100,
+         height: 900,
+         tabs: [{
+             navSelector: ".sheet-tabs",
+             contentSelector: ".sheet-body",
+             initial: "description"
+         }]*/
+    });
+  }
 
   /* -------------------------------------------- */
 
@@ -556,15 +557,14 @@ export class ArM5eActorSheet extends ActorSheet {
       this.actor.createEmbeddedDocuments("Item", newAbilities, {});
     }
   }
+
   /**
    * Handle clickable rolls.
    * @param {Event} event   The originating click event
    * @private
    */
   async _onRoll(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
+    const dataset = getDataset(event);
 
     if (this.actor.data.data.wounds.dead.number > 0) {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
@@ -663,7 +663,7 @@ export async function setWounds(selector, actor) {
   const prot = parseInt(selector.find('label[name$="prot"]').attr("value") || 0);
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
   const damage = damageToApply - modifier - prot - stamina;
-  const size = (actor?.data?.data?.vitals?.siz?.value || "0").toString();
+  const size = actor?.data?.data?.vitals?.siz?.value || 0;
   const typeOfWound = calculateWound(damage, size);
   if (typeOfWound === false) {
     ui.notifications.info(game.i18n.localize("arm5e.notification.notPossibleToCalculateWound"), {

@@ -106,10 +106,10 @@ function findFirstActiveEffectBySubtype(effects, subtype) {
 }
 
 export {
-    onManageActiveEffect,
-    prepareActiveEffectCategories,
-    findAllActiveEffectsByType,
-    findFirstActiveEffectByType,
-    findFirstActiveEffectBySubtype,
-    findAllActiveEffectsByAffectedKey,
+  onManageActiveEffect,
+  prepareActiveEffectCategories,
+  findAllActiveEffectsByType,
+  findFirstActiveEffectByType,
+  findFirstActiveEffectBySubtype,
+  findAllActiveEffectsByAffectedKey,
 }

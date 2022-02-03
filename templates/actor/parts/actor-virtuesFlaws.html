@@ -1,6 +1,6 @@
 <div class="flexrow grid grid-2col margintop18">
   <div>
-    <ol class="items-list backSection ">
+    <ol class="items-list backSection">
       <li class="item flexrow item-header">
         <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
         <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
@@ -12,7 +12,8 @@
               {{localize "arm5e.sheet.virtues"}}
             </a>
           </span>
-          <span> ({{data.totalVirtues }}xp)</span></div>
+          <span> ({{data.totalVirtues }}xp)</span>
+        </div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add virtue" data-type="virtue"><i class="fas fa-plus"></i></a>
         </div>
@@ -29,7 +30,6 @@
         </div>
       </li>
       {{/each}}
-
     </ol>
   </div>
 
@@ -42,11 +42,10 @@
         <div class="item-image"></div>
         <div>
           <span class="item-name">
-            <a class="link" href="/systems/arm5e/pdf/flaws.pdf" target="_blank">
-              {{localize "arm5e.sheet.flaws"}}
-            </a>
+            <a class="link" href="/systems/arm5e/pdf/flaws.pdf" target="_blank"> {{localize "arm5e.sheet.flaws"}} </a>
           </span>
-          <span> ({{ data.totalFlaws }}xp)</span></div>
+          <span> ({{ data.totalFlaws }}xp)</span>
+        </div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add flaw" data-type="flaw"><i class="fas fa-plus"></i></a>
         </div>

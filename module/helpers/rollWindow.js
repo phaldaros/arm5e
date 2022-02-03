@@ -1,9 +1,12 @@
 import { ARM5E } from "../metadata.js";
-import { findAllActiveEffectsByAffectedKey } from "./effects.js";
+import { findAllActiveEffectsByType } from "./effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import { simpleDie, stressDie } from "../dice.js";
 
 const STRESS_DIE = {
+  COMBAT: {
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
   MAGIC: {
     TITLE: "arm5e.dialog.title.rolldie"
   },
@@ -106,21 +109,19 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        if (dataset.roll === "spell") {
-          const activeEffectsByType = findAllActiveEffectsByAffectedKey(activeEffects, ACTIVE_EFFECTS_TYPES.SPELLCASTING.key);
-          actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
-            const label = activeEffect.data.label;
-            let value = 0;
-            activeEffect
-                .data.changes
-                .filter(change => change.key === ACTIVE_EFFECTS_TYPES.SPELLCASTING.key)
-                .forEach((item) => (value += Number(item.value)));
-            return {
-              label,
-              value
-            };
-          });
-        }
+        const activeEffectsByType = findAllActiveEffectsByAffectedKey(activeEffects, ACTIVE_EFFECTS_TYPES.SPELLCASTING.key);
+        actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
+          const label = activeEffect.data.label;
+          let value = 0;
+          activeEffect
+              .data.changes
+              .filter(change => change.key === ACTIVE_EFFECTS_TYPES.SPELLCASTING.key)
+              .forEach((item) => (value += Number(item.value)));
+          return {
+            label,
+            value
+          };
+        });
       }
 
       if (dataset.technique) {
@@ -305,14 +306,14 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
   const renderedTemplate = await renderTemplate(template, actorData);
   const dialogData = getDialogData(dataset, renderedTemplate, actor);
   const dialog = new Dialog(
-    {
-      ...dialogData,
-      render: addListenersDialog
-    },
-    {
-      classes: ["arm5e-dialog", "dialog"],
-      height: "auto"
-    }
+      {
+        ...dialogData,
+        render: addListenersDialog
+      },
+      {
+        classes: ["arm5e-dialog", "dialog"],
+        height: "auto"
+      }
   );
 
   dialog.render(true);
