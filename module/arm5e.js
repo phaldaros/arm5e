@@ -12,7 +12,7 @@ import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
 import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 
-import { prepareDatasetByTypeOfItem } from './helpers/items.js'
+import { prepareDatasetByTypeOfItem } from "./helpers/items.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 
 import * as Arm5eChatMessage from "./features/chat-message-hook.js";
@@ -296,7 +296,6 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
  */
 async function createArM5eMacro(data, slot) {
   //if (data.type !== "Item") return;
-  debugger;
   if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
   const item = data.data;
 
@@ -367,11 +366,11 @@ function onDropActorSheetData(actor, sheet, data) {
  * @return {Promise}
  */
 function rollItemMacro(itemId, actorId) {
-  const actor = game.actors.get(actorId)
+  const actor = game.actors.get(actorId);
   const item = actor.items.get(itemId);
   if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
   const dataset = prepareDatasetByTypeOfItem(item);
-  actor.sheet._onRoll(dataset)
+  actor.sheet._onRoll(dataset);
 }
 
 Hooks.on("renderChatMessage", (message, html, data) => Arm5eChatMessage.addChatListeners(message, html, data));

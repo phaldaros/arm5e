@@ -1,6 +1,6 @@
-export default  {
-    SPELLCASTING: {
-        type: 'spellCasting',
-        key: 'data.bonuses.arts.spellCasting'
-    }
-}
+export default {
+  SPELLCASTING: {
+    type: "spellCasting",
+    key: "data.bonuses.arts.spellCasting"
+  }
+};

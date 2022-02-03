@@ -22,10 +22,10 @@ import {
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
-   static get defaultOptions() {
-       return mergeObject(super.defaultOptions, {
-         dragDrop: [{ dragSelector: ".macro-ready" }],
-/*         classes: ["arm5e", "sheet", "actor"],
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      dragDrop: [{ dragSelector: ".macro-ready" }]
+      /*         classes: ["arm5e", "sheet", "actor"],
          template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
          width: 1100,
          height: 900,
@@ -34,8 +34,8 @@ export class ArM5eActorSheet extends ActorSheet {
              contentSelector: ".sheet-body",
              initial: "description"
          }]*/
-       });
-   }
+    });
+  }
 
   /* -------------------------------------------- */
 
@@ -558,15 +558,13 @@ export class ArM5eActorSheet extends ActorSheet {
     }
   }
 
-
-
   /**
    * Handle clickable rolls.
    * @param {Event} event   The originating click event
    * @private
    */
   async _onRoll(event) {
-    const dataset = getDataset(event)
+    const dataset = getDataset(event);
 
     if (this.actor.data.data.wounds.dead.number > 0) {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
