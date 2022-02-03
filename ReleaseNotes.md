@@ -27,6 +27,7 @@ Features
 - Lot of localization in rolls
 - Voice and gestures modifiers (by Ludo.Bermejo)
 - Default characteristic for abilities (by Ludo.Bermejo)
+- Drag and drop of items (spells/abitlites) in hotbar (by Ludo.Bermejo)
 
 Bug fixes:
 
