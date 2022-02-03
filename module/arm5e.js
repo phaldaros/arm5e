@@ -27,6 +27,8 @@ Hooks.once("init", async function () {
     ArM5eItem,
     rollItemMacro,
     setAuraValueForAllTokensInScene,
+    setAuraValueForToken,
+    resetTokenAuraToSceneAura,
   };
 
   /**
@@ -383,6 +385,17 @@ function setAuraValueForAllTokensInScene(value) {
   // Store a flag with the current aura
   game.scenes.viewed.setFlag("world", 'aura_' + game.scenes.viewed.data._id, Number(value));
   modifyAuraActiveEffectForAllTokensInScene(value);
+}
+
+function setAuraValueForToken(value) {
+  addActiveEffectAuraToActor(this, Number(value));
+}
+
+function resetTokenAuraToSceneAura() {
+  const aura = game.scenes.viewed.getFlag("world", 'aura_' + game.scenes.viewed.data._id);
+  if(aura !== undefined && !isNaN(aura)) {
+    addActiveEffectAuraToActor(this, Number(aura));
+  }
 }
 
 function onDropOnCanvas(canvas, data) {
