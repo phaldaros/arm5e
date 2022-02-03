@@ -227,6 +227,7 @@
   "arm5e.sheet.magicqualities": "Magic Qualities",
   "arm5e.sheet.other": "Other",
 
+  "arm5e.sheet.notEquipedWeapon": "You cannot use an unequipped weapon",
   "arm5e.sheet.fastCastingSpeed": "Fast Casting Speed",
   "arm5e.sheet.determiningEffect": "Determining Effect",
   "arm5e.sheet.targeting": "Targeting",

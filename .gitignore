@@ -3,6 +3,7 @@
 .vs/
 
 # Node Modules
+package*.json
 node_modules/
 npm-debug.log
 jsconfig.json

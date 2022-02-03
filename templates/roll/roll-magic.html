@@ -53,6 +53,23 @@
       <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center">
+      <label class="resource-label clickable toggleHidden"  data-hidden="activeEffects">{{localize "arm5.sheet.bonus.activeEffects"}} ({{ data.roll.bonusActiveEffects }})</label>
+    </div>
+    <div class="hidden activeEffects">
+      {{#each data.roll.activeEffects as |item id|}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{ item.label }} {{ item.value }}</label>
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">+</label>
+    </div>
+    <div class="flexrow flex-group-center">
       <label class="resource-label"
         >{{localize data.charmetadata.sta.label }} ({{ data.characteristics.sta.value }})</label
       >

@@ -248,7 +248,7 @@ function getRollFormula(actor) {
       msg = msg + " + <br />";
     }
     msg = msg + game.i18n.localize("arm5e.skill.artesLib") + " + " + game.i18n.localize("arm5e.skill.philosophy");
-      msg = msg + " (" + value + ")";
+    msg = msg + " (" + value + ")";
   }
   if (actorData.roll.advantage != 0) {
     value = actorData.roll.advantage;

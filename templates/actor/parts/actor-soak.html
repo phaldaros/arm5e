@@ -1,36 +1,37 @@
 <form class="{{cssClass}} arm5eRoll" autocomplete="off">
-    {{> "systems/arm5e/templates/roll/parts/roll-header.html" }}
-    <div class="roll-options">
-
-        <div class="flexrow flex-group-center">
-            <label class="resource-label">{{localize "arm5e.sheet.damage" }}</label>
-            <input type="text" name="damage" value="{{extraData.damage}}" data-dtype="Number" class="SelectedDamage" />
-        </div>
-        <div class="flexrow flex-group-center">
-            <label class="resource-label">-</label>
-        </div>
-        <div class="flexrow flex-group-center ">
-            <label class="resource-label" name="stamina" value="{{actor.data.data.characteristics.sta.value}}">{{localize "arm5e.sheet.stamina" }} ({{ numberFormat actor.data.data.characteristics.sta.value decimals=0 sign=true }})</label>
-        </div>
-
-        <div class="flexrow flex-group-center">
-            <label class="resource-label">-</label>
-        </div>
-        <div class="flexrow flex-group-center">
-            <label class="resource-label" name="prot" value="{{actor.data.data.combat.prot}}">{{localize "arm5e.sheet.soak" }} ({{ numberFormat actor.data.data.combat.prot decimals=0 sign=true }})</label>
-        </div>
-
-        <div class="flexrow flex-group-center">
-            <label class="resource-label">-</label>
-        </div>
-
-
-        <div class="flexrow flex-group-center">
-            <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
-            <input type="text" name="modifier" value="{{extraData.modifier}}" data-dtype="Number" class="SelectedModifier" />
-        </div>
-
-
+  {{> "systems/arm5e/templates/roll/parts/roll-header.html" }}
+  <div class="roll-options">
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">{{localize "arm5e.sheet.damage" }}</label>
+      <input type="text" name="damage" value="{{extraData.damage}}" data-dtype="Number" class="SelectedDamage" />
     </div>
-    {{> "systems/arm5e/templates/roll/parts/roll-footer.html" }}
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">-</label>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="resource-label" name="stamina" value="{{actor.data.data.characteristics.sta.value}}"
+        >{{localize "arm5e.sheet.stamina" }} ({{ numberFormat actor.data.data.characteristics.sta.value decimals=0
+        sign=true }})</label
+      >
+    </div>
+
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">-</label>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="resource-label" name="prot" value="{{actor.data.data.combat.prot}}"
+        >{{localize "arm5e.sheet.soak" }} ({{ numberFormat actor.data.data.combat.prot decimals=0 sign=true }})</label
+      >
+    </div>
+
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">-</label>
+    </div>
+
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
+      <input type="text" name="modifier" value="{{extraData.modifier}}" data-dtype="Number" class="SelectedModifier" />
+    </div>
+  </div>
+  {{> "systems/arm5e/templates/roll/parts/roll-footer.html" }}
 </form>

@@ -20,7 +20,7 @@ export class ArM5eItem extends Item {
 
         const temp = {
           id: "",
-          name: "N/A",
+          name: "N/A"
         };
         abilitiesSelect["a0"] = temp;
 
@@ -29,7 +29,7 @@ export class ArM5eItem extends Item {
           if (i.type === "ability") {
             const temp = {
               id: i.id,
-              name: i.name,
+              name: i.name
             };
             //abilitiesSelect.push(temp);
             abilitiesSelect["a" + key] = temp;
@@ -83,7 +83,7 @@ export class ArM5eItem extends Item {
         if (this.data._id != undefined) {
           this.update(
             {
-              "data.baseLevel": newBaseLevel,
+              "data.baseLevel": newBaseLevel
             },
             {}
           );
@@ -391,7 +391,7 @@ export class ArM5eItem extends Item {
         const img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
         if (img)
           await this.data.update({
-            img,
+            img
           });
       }
     }
@@ -413,9 +413,9 @@ export class ArM5eItem extends Item {
     let label = `Rolling ${item.name}`;
     roll.roll().toMessage({
       speaker: ChatMessage.getSpeaker({
-        actor: this.actor,
+        actor: this.actor
       }),
-      flavor: label,
+      flavor: label
     });
   }
 }
