@@ -6,7 +6,17 @@
   "minimumCoreVersion": "0.8.6",
   "compatibleCoreVersion": "9",
   "templateVersion": 3,
-  "author": "ialbiol, phaldaros, sylph, xzotl (unofficial dev), Ludo.Bermejo, jupotter (French version), N0Br41nZ (Italian version), Ramon Alves (Portuguese version), jaircunhavianna (compendium content)",
+  "authors": [
+    { "name": "ialbiol", "contribution": "dev" },
+    { "name": "phaldaros", "contribution": "Original dev" },
+    { "name": "sylph", "contribution": "design" },
+    { "name": "xzotl", "contribution": "dev" },
+    { "name": "Ludo.Bermejo", "contribution": "dev" },
+    { "name": "jupotter", "contribution": "French version" },
+    { "name": "N0Br41nZ", "contribution": "Italian version" },
+    { "name": "Ramon Alves", "contribution": "Portuguese version" },
+    { "name": "jaircunhavianna", "contribution": "compendium content" }
+  ],
   "esmodules": ["module/arm5e.js"],
   "styles": ["css/arm5e.css"],
   "packs": [
