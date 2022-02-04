@@ -450,7 +450,7 @@
   "arm5e.lab.enchantment.item.charged": "Chargé",
   "arm5e.lab.enchantment.item.maxLevel": "Niveau Max",
 
-  "arm5e.lab.enchantment.item.expiry": "Expiration de l'Effet",
+  "arm5e.lab.enchantment.item.expiry.label": "Expiration de l'Effet",
   "arm5e.lab.enchantment.item.expiry.never": "Jamais",
   "arm5e.lab.enchantment.item.expiry.1y": "1 an",
   "arm5e.lab.enchantment.item.expiry.7y": "7 ans",
