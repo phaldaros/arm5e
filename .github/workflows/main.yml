@@ -23,6 +23,8 @@ jobs:
         files: 'system.json'
       env:
         name: 'arm5e'
+        title: 'Ars Magica 5th Edition'
+        description: 'Ars Magica 5e for Foundry VTT'
         version: ${{steps.get_version.outputs.version-without-v}}
         url: https://github.com/${{github.repository}}
         manifest: https://github.com/${{github.repository}}/releases/latest/download/system.json
