@@ -758,7 +758,7 @@ ARM5E.magic.durations = {
     impact: 2
   },
   geas: {
-    label: "arm5e.spell.durations.ring",
+    label: "arm5e.spell.durations.geas",
     dtype: "String",
     impact: 2
   },
