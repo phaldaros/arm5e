@@ -7,8 +7,12 @@ import { simpleDie, stressDie } from "../dice.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ARM5E } from "../metadata.js";
 import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
-import { onManageActiveEffect, prepareActiveEffectCategories, findAllActiveEffectsByType } from "../helpers/effects.js";
-
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories,
+  findAllActiveEffectsByType
+} from "../helpers/active-effects.js";
+import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
 import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";
 
 import {
@@ -107,7 +111,7 @@ export class ArM5eActorSheet extends ActorSheet {
   /** @override */
   getData() {
     // Retrieve the data structure from the base sheet. You can inspect or log
-    // the context variable to see the structure, but some key properties for
+    // the context variable to see the structure, but some key properties fore
     // sheets are the actor object, the data object, whether or not it's
     // editable, the items array, and the effects array.
     const context = super.getData();
@@ -120,6 +124,7 @@ export class ArM5eActorSheet extends ActorSheet {
     context.flags = actorData.flags;
 
     context.metadata = CONFIG.ARM5E;
+    context.metadata.constants = { VOICE_AND_GESTURES_VALUES: VOICE_AND_GESTURES_VALUES };
 
     context.data.dtypes = ["String", "Number", "Boolean"];
 
@@ -300,7 +305,6 @@ export class ArM5eActorSheet extends ActorSheet {
     if (this.actor.isOwner) {
       let handler = (ev) => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
         li.addEventListener("dragstart", handler, false);
       });
@@ -459,7 +463,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
   async _onSelectVoiceAndGestures(event) {
     event.preventDefault();
-    const name = $(event.target).attr("name").split(".").pop();
+    const name = $(event.target).attr("effect");
     await modifyVoiceOrGesturesActiveEvent(this, name, $(event.target).val());
   }
 

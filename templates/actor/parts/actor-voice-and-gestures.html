@@ -1,25 +1,20 @@
 <div class="characteristics grid grid-2col backSection margintop18">
   <div class="flexrow flex-group-left">
     <label class="item-title width1">{{localize "arm5e.sheet.magic.voice"}}</label>
-
-    {{#select data.arts.voiceAndGestures.voice}}
-    <select name="data.arts.voiceAndGestures.voice" class="voice-and-gestures" data-type="Number">
-      <option value="LOUD">{{localize "arm5e.sheet.magic.voiceType.loud"}}</option>
-      <option value="FIRM">{{localize "arm5e.sheet.magic.voiceType.firm"}}</option>
-      <option value="QUIET">{{localize "arm5e.sheet.magic.voiceType.quiet"}}</option>
-      <option value="NONE">{{localize "arm5e.sheet.magic.voiceType.none"}}</option>
+    <select name="data.arts.voiceAndGestures.voice" class="voice-and-gestures" effect="voice">
+      {{#select data.arts.voiceAndGestures.voice}} {{#each metadata.constants.VOICE_AND_GESTURES_VALUES.VOICE as
+      |voiceType key| }}
+      <option value="{{key}}" data-dtype="String">{{localize voiceType.mnemonic}}</option>
+      {{/each}} {{/select}}
     </select>
-    {{/select}}
   </div>
   <div class="flexrow flex-group-left">
     <label class="item-title width1">{{localize "arm5e.sheet.magic.gestures"}}</label>
-    {{#select data.arts.voiceAndGestures.gestures}}
-    <select name="data.arts.voiceAndGestures.gestures" class="voice-and-gestures" name="gestures">
-      <option value="EXAGGERATED">{{localize "arm5e.sheet.magic.gesturesType.exaggerated"}}</option>
-      <option value="BOLD">{{localize "arm5e.sheet.magic.gesturesType.bold"}}</option>
-      <option value="SUBTLE">{{localize "arm5e.sheet.magic.gesturesType.subtle"}}</option>
-      <option value="NONE">{{localize "arm5e.sheet.magic.gesturesType.none"}}</option>
+    <select name="data.arts.voiceAndGestures.gestures" class="voice-and-gestures" effect="gestures">
+      {{#select data.arts.voiceAndGestures.gestures}} {{#each metadata.constants.VOICE_AND_GESTURES_VALUES.GESTURES as
+      |gestureType key| }}
+      <option value="{{key}}" data-dtype="String">{{localize gestureType.mnemonic}}</option>
+      {{/each}} {{/select}}
     </select>
-    {{/select}}
   </div>
 </div>

@@ -19,7 +19,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html",
     "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html",
     "systems/arm5e/templates/actor/parts/actor-diary.html",
-    "systems/arm5e/templates/actor/parts/actor-effects.html",
+    "systems/arm5e/templates/generic/active-effects.html",
     "systems/arm5e/templates/actor/parts/actor-setAbilities.html",
 
     "systems/arm5e/templates/actor/parts/actor-base-effects.html",

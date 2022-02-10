@@ -296,6 +296,7 @@ export const migrateActorData = function (actorData) {
       // migrate arts xp
       //
       for (const [key, technique] of Object.entries(actorData.data.arts.techniques)) {
+        updateData;
         if (technique.experienceNextLevel != undefined) {
           // if the experience is equal or bigger than the xp for this score, use it as total xp
           let exp = (technique.score * (technique.score + 1)) / 2;

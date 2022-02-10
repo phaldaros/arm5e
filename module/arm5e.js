@@ -14,7 +14,7 @@ import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 
 import { prepareDatasetByTypeOfItem } from "./helpers/items.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
-
+import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./features/chat-message-hook.js";
 
 // experiment
@@ -206,6 +206,9 @@ Hooks.once("init", async function () {
     ],
     makeDefault: true
   });
+
+  // DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
+  DocumentSheetConfig.registerSheet(ActiveEffect, "arm5e", ArM5eActiveEffectConfig);
 
   // Preload handlebars templates
   ArM5ePreloadHandlebarsTemplates();
