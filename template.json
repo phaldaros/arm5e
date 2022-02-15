@@ -193,14 +193,6 @@
           }
         }
       },
-      "bonuses": {
-        "bonuses": {
-          "arts": {
-            "spellCasting": 0,
-            "laboratory": 0
-          }
-        }
-      },
       "wounds": {
         "woundsTotal": 0,
         "wounds": {
@@ -395,7 +387,8 @@
               "label": "Terram",
               "score": 0,
               "xp": 0,
-              "experience": 0
+              "experience": 0,
+              "bonus": 0
             },
             "vi": {
               "label": "Vim",
@@ -676,7 +669,6 @@
         "npcbase",
         "pc",
         "personality",
-        "bonuses",
         "wounds",
         "fatigue",
         "arts",
@@ -720,7 +712,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "npcbase", "personality", "bonuses", "wounds", "familiar", "laboratoryPC", "fatigue", "arts", "roll"],
+      "templates": ["base", "npcbase", "personality", "wounds", "familiar", "laboratoryPC", "fatigue", "arts", "roll"],
       "charType": {
         "value": "mundane",
         "label": "Char. Type"

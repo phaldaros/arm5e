@@ -44,7 +44,7 @@ function getDatasetForSpell(item, noCheck) {
     mform: item.data.data.form.value,
     bonus: item.data.data.bonus,
     bonus2: item.data.data.mastery,
-    bonusActiveEffects: item.actor.data.data.bonuses.arts.spellCasting,
+    bonusActiveEffects: item.actor.data.data.bonuses.arts.spellcasting,
     name: item.data.name
   };
 }

@@ -268,15 +268,15 @@ export class ArM5eItem extends Item {
     if (techReq.length > 0) {
       label += " (";
       techReq.forEach((key) => {
-        tech = Math.min(tech, actorData.data.arts.techniques[key[0]].derivedScore);
+        tech = Math.min(tech, actorData.data.arts.techniques[key[0]].finalScore);
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
       // remove last whitespace
       label = label.substring(0, label.length - 1);
       label += ")";
-      tech = Math.min(actorData.data.arts.techniques[this.data.data.technique.value].derivedScore, tech);
+      tech = Math.min(actorData.data.arts.techniques[this.data.data.technique.value].finalScore, tech);
     } else {
-      tech = actorData.data.arts.techniques[this.data.data.technique.value].derivedScore;
+      tech = actorData.data.arts.techniques[this.data.data.technique.value].finalScore;
     }
 
     return [label, tech];
@@ -290,15 +290,15 @@ export class ArM5eItem extends Item {
     if (formReq.length > 0) {
       label += " (";
       formReq.forEach((key) => {
-        form = Math.min(form, actorData.data.arts.forms[key[0]].derivedScore);
+        form = Math.min(form, actorData.data.arts.forms[key[0]].finalScore);
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
       // remove last comma
       label = label.substring(0, label.length - 1);
       label += ")";
-      form = Math.min(actorData.data.arts.forms[this.data.data.form.value].derivedScore, form);
+      form = Math.min(actorData.data.arts.forms[this.data.data.form.value].finalScore, form);
     } else {
-      form = actorData.data.arts.forms[this.data.data.form.value].derivedScore;
+      form = actorData.data.arts.forms[this.data.data.form.value].finalScore;
     }
 
     return [label, form];
@@ -360,20 +360,20 @@ export class ArM5eItem extends Item {
 
     if (techReq.length > 0) {
       techReq.forEach((key) => {
-        tech = Math.min(tech, actorData.data.arts.techniques[key[0]].derivedScore);
+        tech = Math.min(tech, actorData.data.arts.techniques[key[0]].finalScore);
       });
 
-      tech = Math.min(actorData.data.arts.techniques[itemData.data.technique.value].derivedScore, tech);
+      tech = Math.min(actorData.data.arts.techniques[itemData.data.technique.value].finalScore, tech);
     } else {
-      tech = actorData.data.arts.techniques[itemData.data.technique.value].derivedScore;
+      tech = actorData.data.arts.techniques[itemData.data.technique.value].finalScore;
     }
     if (formReq.length > 0) {
       formReq.forEach((key) => {
-        form = Math.min(tech, actorData.data.arts.forms[key[0]].derivedScore);
+        form = Math.min(tech, actorData.data.arts.forms[key[0]].finalScore);
       });
-      form = Math.min(actorData.data.arts.forms[itemData.data.form.value].derivedScore, form);
+      form = Math.min(actorData.data.arts.forms[itemData.data.form.value].finalScore, form);
     } else {
-      form = actorData.data.arts.forms[itemData.data.form.value].derivedScore;
+      form = actorData.data.arts.forms[itemData.data.form.value].finalScore;
     }
     if (itemData.data.applyFocus) {
       res += tech + form + Math.min(tech, form);

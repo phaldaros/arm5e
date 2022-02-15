@@ -272,6 +272,29 @@
   height: 100%;
 }
 
+.arm5eEffect .sheet-body {
+  height: auto;
+  background-image: url("../assets/chat/background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  font-size: 12pt;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.arm5eEffect .footer-background {
+  height: auto;
+}
+
+.arm5eEffect .header-background img {
+  width: 100%;
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  background-size: cover;
+}
+
 .arm5eChooser {
   font-size: 10pt;
   background-image: url("../assets/item/background.png");

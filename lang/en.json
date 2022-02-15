@@ -567,6 +567,7 @@
   "arm5e.dialog.button.cancel": "Cancel",
   "arm5e.dialog.button.stressdie": "Stress die",
   "arm5e.dialog.button.simpledie": "Simple die",
+  "arm5e.dialog.woundCalculator": "Wound calculator",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
   "arm5e.notification.dead": "This character is dead...",
@@ -645,5 +646,12 @@
   "arm5e.sheet.magic.voiceType.quiet": "Quiet",
   "arm5e.sheet.magic.voiceType.none": "None",
   "arm5e.sheet.magic.voice": "Voice",
-  "arm5e.sheet.magic.gestures": "Gestures"
+  "arm5e.sheet.magic.gestures": "Gestures",
+
+  "arm5e.sheet.activeEffect.changeMode": "Change Mode",
+  "arm5e.sheet.activeEffect.add": "Add ",
+  "arm5e.sheet.activeEffect.multiply": "Multiply {type} by ",
+
+  "arm5e.sheet.activeEffect.changeValue": "Effect Value",
+  "arm5e.sheet.activeEffect.type.spellcasting": "Spellcasting"
 }
