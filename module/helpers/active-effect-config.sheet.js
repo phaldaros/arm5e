@@ -32,8 +32,8 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
   /** @override */
   getData() {
     const context = super.getData();
-    context.selectedType = context.data.flags.type || "spellcasting";
-    context.selectedCategory = ACTIVE_EFFECTS_TYPES[context.selectedType].category;
+    context.selectedTypes = this.object.getFlag("arm5e", "type") || ["spellcasting"];
+    // context.selectedCategories = ACTIVE_EFFECTS_TYPES[context.selectedType].category;
     context.types = ACTIVE_EFFECTS_TYPES;
     // TODO: manage categories
     // let test= Object.entries(ACTIVE_EFFECTS_TYPES);
@@ -57,10 +57,16 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
     // // Active Effect management
-    html.find(".effect-type").change((ev) => this._setType($(ev.target).val()));
+    html.find(".effect-type").change((ev) => {
+      const index = ev.currentTarget.dataset.index;
+      this._setType(ev.currentTarget.selectedOptions[0].dataset.type, index);
+      // this._setType($(ev.target).val(), index);
+    });
   }
 
-  async _setType(value) {
-    await this.object.setFlag("arm5e", "type", value);
+  async _setType(value, index) {
+    let arrayTypes = this.object.getFlag("arm5e", "type");
+    arrayTypes[index] = value;
+    await this.object.setFlag("arm5e", "type", arrayTypes);
   }
 }

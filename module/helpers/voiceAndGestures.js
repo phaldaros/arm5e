@@ -16,9 +16,6 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
   const changeData = [
     { key: ACTIVE_EFFECTS_TYPES.spellcasting.key, value: numericValue, mode: CONST.ACTIVE_EFFECT_MODES.ADD }
   ];
-  const ae = actor.data.effects.find((m) => m.data.flags.subType === type.toUpperCase());
-  // avoid a useless call to getData
-  if (ae) ae.delete({ render: false });
 
   const dictType = `arm5e.sheet.magic.${type.toLowerCase()}`;
   const dictValue = VOICE_AND_GESTURES_VALUES[type.toUpperCase()][value.toUpperCase()].mnemonic;
@@ -33,9 +30,9 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
     },
     flags: {
       arm5e: {
-        type: "spellcasting",
-        subType: type.toUpperCase(),
-        value: value.toUpperCase()
+        type: ["spellcasting"],
+        subType: [type.toUpperCase()],
+        value: [value.toUpperCase()]
       }
     },
     changes: changeData,
@@ -43,7 +40,13 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
   };
   console.log("activeEffectData:");
   console.log(activeEffectData);
-  return ActiveEffect.create(activeEffectData, { parent: actor });
+  const ae = actor.data.effects.find((m) => m?.data.flags?.arm5e?.subType[0] === type.toUpperCase());
+  if (ae) {
+    activeEffectData._id = ae.data._id;
+    return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
+  } else {
+    return await actor.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
+  }
 }
 
 function findVoiceAndGesturesActiveEffects(effects) {
@@ -51,8 +54,8 @@ function findVoiceAndGesturesActiveEffects(effects) {
   const actualGesturesEffect = findFirstActiveEffectBySubtype(effects, GESTURES);
   return {
     // only one change for voice and gestures => index 0 hardcoded
-    voice: actualVoiceEffect?.getFlag("arm5e", "value") || DEFAULT_VOICE,
-    gestures: actualGesturesEffect?.getFlag("arm5e", "value") || DEFAULT_GESTURES
+    voice: actualVoiceEffect?.getFlag("arm5e", "value")[0] || DEFAULT_VOICE,
+    gestures: actualGesturesEffect?.getFlag("arm5e", "value")[0] || DEFAULT_GESTURES
     // voice: actualVoiceEffect?.data?.flags?.value || DEFAULT_VOICE,
     // gestures: actualGesturesEffect?.data?.flags?.value || DEFAULT_GESTURES
   };

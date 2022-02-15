@@ -2,7 +2,7 @@ import { log } from "../tools.js";
 import {
   onManageActiveEffect,
   prepareActiveEffectCategories,
-  findAllActiveEffectsByType
+  findAllActiveEffectsWithType
 } from "../helpers/active-effects.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -83,8 +83,6 @@ export class ArM5eItemSheet extends ItemSheet {
     } else if (itemData.type == "spell" || itemData.type == "enchantment" || itemData.type == "laboratoryText") {
       context.enforceMagicRules = game.settings.get("arm5e", "magicRulesEnforcement");
     }
-
-    context.isOwned = this.item.isOwned;
 
     context.metagame = game.settings.get("arm5e", "metagame");
 

@@ -10,7 +10,7 @@ import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tool
 import {
   onManageActiveEffect,
   prepareActiveEffectCategories,
-  findAllActiveEffectsByType
+  findAllActiveEffectsWithType
 } from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
 import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";

@@ -23,7 +23,8 @@ async function onManageActiveEffect(event, owner) {
           changes: [],
           flags: {
             arm5e: {
-              type: "spellcasting"
+              type: ["spellcasting"],
+              subtype: ["none"]
             }
           }
         }
@@ -65,9 +66,11 @@ function prepareActiveEffectCategories(effects) {
   // Iterate over active effects, classifying them into categories
   for (let e of effects) {
     e._getSourceName(); // Trigger a lookup for the source name
-    if (e.sourceName.includes("Item")) {
-      e.data.fromItem = true;
-    }
+    // if the effect is from an Item (virtue, etc) and is owned prevent edition
+    e.data.noEdit =
+      (e.parent.documentName === "Item" && e.parent.isOwned == true) ||
+      (e.parent.documentName === "Actor" && e.data.origin.includes("Item"));
+    // e.data.descr = buildActiveEffectDescription(e);
     if (e.data.disabled) categories.inactive.effects.push(e);
     else if (e.isTemporary) categories.temporary.effects.push(e);
     else categories.passive.effects.push(e);
@@ -75,11 +78,11 @@ function prepareActiveEffectCategories(effects) {
   return categories;
 }
 
-function findAllActiveEffectsByType(effects, type) {
+function findAllActiveEffectsWithType(effects, type) {
   const activeEffects = [];
   for (let e of effects) {
     e._getSourceName(); // Trigger a lookup for the source name
-    if (!e.data.disabled && e.getFlag("arm5e", "type")?.toUpperCase() === type.toUpperCase()) {
+    if (!e.data.disabled && e?.getFlag("arm5e", "type")?.includes(type.toUpperCase())) {
       activeEffects.push(e);
     }
   }
@@ -89,16 +92,42 @@ function findAllActiveEffectsByType(effects, type) {
 function findFirstActiveEffectBySubtype(effects, subtype) {
   for (let e of effects) {
     e._getSourceName(); // Trigger a lookup for the source name
-    if (!e.data.disabled && e.getFlag("arm5e", "subType") === subtype.toUpperCase()) {
+    if (!e.data.disabled && e?.getFlag("arm5e", "subType")?.includes(subtype.toUpperCase())) {
       return e;
     }
   }
   return null;
 }
 
+// TODO review before use
+function buildActiveEffectDescription(effect) {
+  let descr;
+  let effectType = game.i18n.localize(CONST.ACTIVE_EFFECTS_TYPES[effect.getFlag("arm5e", "type")].label);
+  // TODO multiple types
+  for (let c of Object.values(effect.data.changes)) {
+    switch (c.mode) {
+      case 1:
+        descr =
+          game.i18n.format("arm5e.sheet.activeEffect.multiply", {
+            type: effectType
+          }) +
+          (c.value < 0 ? "" : "+") +
+          c.value;
+      case 2:
+        descr =
+          game.i18n.localize("arm5e.sheet.activeEffect.add") + (c.value < 0 ? "" : "+") + c.value + " to " + effectType;
+      default:
+        descr = "Unsupported effect mode";
+    }
+    descr + "<br/>";
+  }
+  return descr;
+}
+
 export {
   onManageActiveEffect,
   prepareActiveEffectCategories,
-  findAllActiveEffectsByType,
-  findFirstActiveEffectBySubtype
+  findAllActiveEffectsWithType,
+  findFirstActiveEffectBySubtype,
+  buildActiveEffectDescription
 };
