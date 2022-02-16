@@ -127,7 +127,7 @@
 
 .chat-message .message-content .dice-total {
   flex: 0;
-  font-size: var(--font-size-20);
+  /*font-size: var(--font-size-20);*/
   font-weight: bold;
   position: relative;
   margin: 0;

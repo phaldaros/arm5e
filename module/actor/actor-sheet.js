@@ -177,7 +177,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
-    if(context.data?.arts?.voiceAndGestures) {
+    if (context.data?.arts?.voiceAndGestures) {
       context.data.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
     }
     this._prepareCharacterItems(context);
@@ -665,8 +665,9 @@ export async function setWounds(selector, actor) {
   const damageToApply = parseInt(selector.find('input[name$="damage"]').val());
   const modifier = parseInt(selector.find('input[name$="modifier"]').val());
   const prot = parseInt(selector.find('label[name$="prot"]').attr("value") || 0);
+  const bonus = parseInt(selector.find('label[name$="soak"]').attr("value") || 0);
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
-  const damage = damageToApply - modifier - prot - stamina;
+  const damage = damageToApply - modifier - prot - stamina - bonus;
   const size = actor?.data?.data?.vitals?.siz?.value || 0;
   const typeOfWound = calculateWound(damage, size);
   if (typeOfWound === false) {
@@ -679,8 +680,15 @@ export async function setWounds(selector, actor) {
   const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.soak") + "</h2>";
   const messageDamage = `${game.i18n.localize("arm5e.sheet.damage")} (${damage})`;
   const messageStamina = `${game.i18n.localize("arm5e.sheet.stamina")} (${stamina})`;
-  const messageProt = `${game.i18n.localize("arm5e.sheet.soak")} (${prot})`;
-  const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
+  let messageBonus = "";
+  if (bonus) {
+    messageBonus = `${game.i18n.localize("arm5e.sheet.soakBonus")} (${bonus})<br/> `;
+  }
+  const messageProt = `${game.i18n.localize("arm5e.sheet.protection")} (${prot})`;
+  let messageModifier = "";
+  if (modifier) {
+    messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
+  }
   const messageWound = typeOfWound
     ? game.i18n
         .localize("arm5e.messages.woundResult")
@@ -689,7 +697,7 @@ export async function setWounds(selector, actor) {
 
   ChatMessage.create({
     content: `<h4 class="dice-total">${messageWound}</h4>`,
-    flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageModifier}<br/>`,
+    flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageBonus}${messageModifier}`,
     speaker: ChatMessage.getSpeaker({
       actor
     })

@@ -106,14 +106,13 @@ export default {
     type: "size",
     label: "arm5e.sheet.size",
     key: "data.vitals.siz.value"
+  },
+  soak: {
+    category: "traits",
+    type: "soak",
+    label: "arm5e.sheet.soak",
+    key: "data.bonuses.traits.soak"
   }
-
-  // soak: {
-  //   category: "traits",
-  //   type: "soak",
-  //   label: "arm5e.sheet.soak",
-  //   key: "data.bonuses.traits.soak"
-  // },
   // strength: {
   //   category: "traits",
   //   type: "strength",

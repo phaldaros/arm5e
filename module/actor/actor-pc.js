@@ -96,7 +96,7 @@ export class ArM5ePCActor extends Actor {
     let abilitiesFamiliar = [];
     let powersFamiliar = [];
 
-    let soak = actorData.data.characteristics.sta.value;
+    let soak = actorData.data.characteristics.sta.value + actorData.data.bonuses.traits.soak;
 
     let powers = [];
 

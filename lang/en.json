@@ -165,6 +165,8 @@
 
   "arm5e.sheet.size": "Size",
   "arm5e.sheet.soak": "Soak",
+  "arm5e.sheet.soakBonus": "Soak bonus",
+
   "arm5e.sheet.contestOfMagic": "Contest of magic",
   "arm5e.sheet.spellTotal": "Spell total",
   "arm5e.sheet.spellLevel": "Spell level",
@@ -442,7 +444,7 @@
   "arm5e.spell.durations.19year": "19 Years (Hyperborean)",
   "arm5e.spell.durations.event": "Event (Defixio)",
   "arm5e.spell.durations.if": "If (Faerie)",
-  
+
   "arm5e.spell.targets.ind": "Individual",
   "arm5e.spell.targets.circle": "Circle",
   "arm5e.spell.targets.taste": "Taste (In)",

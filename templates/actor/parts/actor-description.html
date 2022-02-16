@@ -14,41 +14,25 @@
           >
         </div>
         <div class="flexrow marginbot6">
-          <label for="data.dom-mag.label" class="bold"
-            >{{localize "arm5e.sheet.domusMagnus"}}</label
-          >
+          <label for="data.dom-mag.label" class="bold">{{localize "arm5e.sheet.domusMagnus"}}</label>
           <span class="width2"
-            ><input
-              type="text"
-              name="data.dom-mag.value"
-              value="{{data.dom-mag.value}}"
-              data-dtype="String"
+            ><input type="text" name="data.dom-mag.value" value="{{data.dom-mag.value}}" data-dtype="String"
           /></span>
         </div>
         <div class="flexrow marginbot6">
           <label for="data.primus.value" class="bold">{{localize "arm5e.sheet.primus"}}</label>
           <span class="width2"
-            ><input
-              type="text"
-              name="data.primus.value"
-              value="{{data.primus.value}}"
-              data-dtype="String"
+            ><input type="text" name="data.primus.value" value="{{data.primus.value}}" data-dtype="String"
           /></span>
         </div>
         <div class="flexrow marginbot6">
           <label for="data.parens.value" class="bold">{{localize "arm5e.sheet.parens"}}</label>
           <span class="width2"
-            ><input
-              type="text"
-              name="data.parens.value"
-              value="{{data.parens.value}}"
-              data-dtype="String"
+            ><input type="text" name="data.parens.value" value="{{data.parens.value}}" data-dtype="String"
           /></span>
         </div>
         <div class="flexrow marginbot6">
-          <label for="data.apprenticeship.value" class="bold"
-            >{{localize "arm5e.sheet.apprenticeship"}}</label
-          >
+          <label for="data.apprenticeship.value" class="bold">{{localize "arm5e.sheet.apprenticeship"}}</label>
           <span class="width2"
             ><input
               type="text"
@@ -63,8 +47,7 @@
     <div class="flex-group-left backSection padding12">
       <label for="data.sigil" class="smallTitle">{{localize "arm5e.sheet.sigil"}}</label>
       <div class="flex-group-left marginbot6" style="height: 140px">
-        {{editor content=data.sigil.value target="data.sigil.value" button=true owner=owner
-        editable=editable}}
+        {{editor content=data.sigil.value target="data.sigil.value" button=true owner=owner editable=editable}}
       </div>
     </div>
   </div>
@@ -73,18 +56,12 @@
 <div class="flexcol grid grid-2col">
   <div class="flex-group-left padding12 backSection">
     <label class="smallTitle">
-      <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank">
-        {{localize "arm5e.sheet.warping"}}
-      </a>
+      <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank"> {{localize "arm5e.sheet.warping"}} </a>
     </label>
     <div class="flexrow marginbot6 margintop6">
       <label for="data.warping.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
       <span class="marginbot6" style="margin-right: 24px"
-        ><input
-          type="text"
-          name="data.warping.score"
-          value="{{data.warping.score}}"
-          data-dtype="String"
+        ><input type="text" name="data.warping.score" value="{{data.warping.score}}" data-dtype="String"
       /></span>
       <label for="data.warping.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
       <span class="marginbot6">
@@ -93,7 +70,8 @@
           name="data.warping.points"
           value="{{data.warping.points}}"
           data-dtype="String"
-          style="width: 50px" />&nbsp;/&nbsp;({{ data.warping.experienceNextLevel }})
+          style="width: 50px"
+        />&nbsp;/&nbsp;({{ data.warping.experienceNextLevel }})
       </span>
     </div>
 
@@ -101,36 +79,28 @@
       <label for="data.warping.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
     </div>
     <div class="flex-group-left marginbot6" style="height: 140px">
-      {{editor content=data.warping.effects target="data.warping.effects" button=true owner=owner
-      editable=editable}}
+      {{editor content=data.warping.effects target="data.warping.effects" button=true owner=owner editable=editable}}
     </div>
   </div>
 
   <div class="flex-group-left padding12 backSection">
     <label class="smallTitle">
-      <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank">
-        {{localize "arm5e.sheet.decrepitude"}}
-      </a>
+      <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank"> {{localize "arm5e.sheet.decrepitude"}} </a>
     </label>
     <div class="flexrow marginbot6 margintop6">
       <label for="data.decrepitude.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
       <span class="marginbot6" style="margin-right: 24px"
-        ><input
-          type="text"
-          name="data.decrepitude.score"
-          value="{{data.decrepitude.score}}"
-          data-dtype="String"
+        ><input type="text" name="data.decrepitude.score" value="{{data.decrepitude.score}}" data-dtype="String"
       /></span>
-      <label for="data.decrepitude.points" class="bold flex06"
-        >{{localize "arm5e.sheet.points"}}</label
-      >
+      <label for="data.decrepitude.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
       <span class="marginbot6">
         <input
           type="text"
           name="data.decrepitude.points"
           value="{{data.decrepitude.points}}"
           data-dtype="String"
-          style="width: 50px" />&nbsp;/&nbsp;({{data.decrepitude.experienceNextLevel }})
+          style="width: 50px"
+        />&nbsp;/&nbsp;({{data.decrepitude.experienceNextLevel }})
       </span>
     </div>
 
@@ -138,8 +108,8 @@
       <label for="data.decrepitude.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
     </div>
     <div class="flex-group-left marginbot6" style="height: 140px">
-      {{editor content=data.decrepitude.effects target="data.decrepitude.effects" button=true
-      owner=owner editable=editable}}
+      {{editor content=data.decrepitude.effects target="data.decrepitude.effects" button=true owner=owner
+      editable=editable}}
     </div>
   </div>
 </div>
@@ -148,8 +118,7 @@
 <div class="flexcol grid grid-2col margintop18">
   <div class="flex-group-left padding12 backSection">
     <label class="smallTitle">{{localize "arm5e.sheet.biography"}}</label>
-    {{editor content=data.biography target="data.biography" button=true owner=owner
-    editable=editable}}
+    {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
   </div>
 
   <div>
@@ -167,13 +136,15 @@
             name="data.vitals.{{key}}.value"
             value="{{numberFormat vitals.value decimals=0 sign=true}}"
             data-dtype="Number"
-            readonly />
+            readonly
+          />
           {{else}}
           <input
             type="text"
             name="data.vitals.{{key}}.value"
             value="{{numberFormat vitals.value decimals=0 sign=true}}"
-            data-dtype="Number" />
+            data-dtype="Number"
+          />
           {{/if}}
         </span>
       </div>
@@ -192,16 +163,13 @@
             data-roll="option"
             data-usefatigue="false"
             data-option1="{{ pers.score }}"
-            data-txtoption1="{{ pers.label }}">
+            data-txtoption1="{{ pers.label }}"
+          >
             <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px" />
           </span>
           <span class="flexrow" name="data.personality.{{key}}.label">
             <div class="flexrow">
-              <input
-                type="text"
-                name="data.personality.{{key}}.label"
-                value="{{pers.label}}"
-                data-dtype="String" />
+              <input type="text" name="data.personality.{{key}}.label" value="{{pers.label}}" data-dtype="String" />
             </div>
           </span>
           <div class="flexrow">
@@ -210,7 +178,8 @@
               type="text"
               name="data.personality.{{key}}.score"
               value="{{numberFormat pers.score decimals=0 sign=true}}"
-              data-dtype="Number" />
+              data-dtype="Number"
+            />
           </div>
         </li>
         {{/each}}
@@ -224,11 +193,7 @@
         <label for="data.description.{{key}}.label" class="bold">{{localize label}}</label>
         {{/with}}
         <span
-          ><input
-            type="text"
-            name="data.description.{{key}}.value"
-            value="{{description.value}}"
-            data-dtype="String"
+          ><input type="text" name="data.description.{{key}}.value" value="{{description.value}}" data-dtype="String"
         /></span>
       </div>
       {{/each}}
@@ -245,25 +210,18 @@
             data-roll="option"
             data-usefatigue="false"
             data-option1="{{ rep.score }}"
-            data-txtoption1="{{ rep.label }}">
+            data-txtoption1="{{ rep.label }}"
+          >
             <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px" />
           </span>
           <span class="flexrow" name="data.reputation.{{key}}.label">
             <div class="flexrow">
-              <input
-                type="text"
-                name="data.reputation.{{key}}.label"
-                value="{{rep.label}}"
-                data-dtype="String" />
+              <input type="text" name="data.reputation.{{key}}.label" value="{{rep.label}}" data-dtype="String" />
             </div>
           </span>
           <div class="flexrow">
             <span></span>
-            <input
-              type="text"
-              name="data.reputation.{{key}}.type"
-              value="{{rep.type}}"
-              data-dtype="String" />
+            <input type="text" name="data.reputation.{{key}}.type" value="{{rep.type}}" data-dtype="String" />
           </div>
           <div class="flexrow">
             <span></span>
@@ -271,7 +229,8 @@
               type="text"
               name="data.reputation.{{key}}.score"
               value="{{numberFormat rep.score decimals=0 sign=true}}"
-              data-dtype="Number" />
+              data-dtype="Number"
+            />
           </div>
         </li>
         {{/each}}
