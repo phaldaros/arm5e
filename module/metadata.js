@@ -385,7 +385,8 @@ ARM5E.character.abilities = {
   finesse: "arm5e.skill.finesse",
   magicTheory: "arm5e.skill.magicTheory",
   parma: "arm5e.skill.parma",
-  philosophy: "arm5e.skill.philosophy"
+  philosophy: "arm5e.skill.philosophy",
+  penetration: "arm5e.skill.penetration"
 };
 
 ARM5E.character.combat = {};
@@ -832,7 +833,7 @@ ARM5E.magic.durations = {
     dtype: "String",
     impact: 2
   },
-  "40": {
+  40: {
     label: "arm5e.spell.durations.40",
     dtype: "String",
     impact: 3

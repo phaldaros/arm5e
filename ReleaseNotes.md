@@ -8,6 +8,7 @@ Features
 - advanced virtues/flaws with (limited) active effects
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)
+- penetration total computed during combat
 
 Bug fixes
 

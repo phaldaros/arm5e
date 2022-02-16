@@ -44,7 +44,8 @@ export class ArM5ePCActor extends Actor {
 
       this.data.data.bonuses.arts = {
         spellcasting: 0,
-        laboratory: 0
+        laboratory: 0,
+        penetration: 0
       };
     }
 
@@ -338,8 +339,9 @@ export class ArM5ePCActor extends Actor {
       actorData.data.laboratory.basicLabTotal.value =
         actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
       actorData.data.laboratory.visLimit.value = actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
-      if(actorData.data.laboratory.totalPenetration) {
-        actorData.data.laboratory.totalPenetration.value = actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
+      if (actorData.data.laboratory.totalPenetration) {
+        actorData.data.laboratory.totalPenetration.value =
+          actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
       }
 
       //warping & decrepitude
