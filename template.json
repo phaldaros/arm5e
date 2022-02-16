@@ -387,8 +387,7 @@
               "label": "Terram",
               "score": 0,
               "xp": 0,
-              "experience": 0,
-              "bonus": 0
+              "experience": 0
             },
             "vi": {
               "label": "Vim",
@@ -509,9 +508,15 @@
             "parma": {
               "abilityID": "",
               "value": 0,
-              "label": ""
+              "label": "",
+              "speciality": ""
             },
             "magicTheory": {
+              "abilityID": "",
+              "value": 0,
+              "label": ""
+            },
+            "penetration": {
               "abilityID": "",
               "value": 0,
               "label": ""
@@ -544,6 +549,10 @@
           "basicLabTotal": {
             "value": 0,
             "sumary": "Int + Magic theory + Aura (+ Technique + Form)"
+          },
+          "totalPenetration": {
+            "value": 0,
+            "sumary": "Penetration + (Active effects penetration like Arcane connection or Sympathetic Connection)"
           },
           "visLimit": {
             "value": 0,

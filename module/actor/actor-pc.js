@@ -190,6 +190,9 @@ export class ArM5ePCActor extends Actor {
           if (i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID) {
             actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.derivedScore;
           }
+          if (i._id == actorData.data.laboratory.abilitiesSelected?.penetration?.abilityID) {
+            actorData.data.laboratory.abilitiesSelected.penetration.value = i.data.derivedScore;
+          }
         }
       }
     }
@@ -335,6 +338,9 @@ export class ArM5ePCActor extends Actor {
       actorData.data.laboratory.basicLabTotal.value =
         actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
       actorData.data.laboratory.visLimit.value = actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
+      if(actorData.data.laboratory.totalPenetration) {
+        actorData.data.laboratory.totalPenetration.value = actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
+      }
 
       //warping & decrepitude
       actorData.data.warping.experienceNextLevel = (parseInt(actorData.data.warping.score) + 1) * 5;

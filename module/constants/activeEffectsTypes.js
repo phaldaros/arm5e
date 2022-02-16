@@ -1,14 +1,17 @@
-export default {
+export default  {
   spellcasting: {
     category: "magic",
     type: "spellcasting",
     label: "arm5e.sheet.activeEffect.type.spellcasting",
     key: "data.bonuses.arts.spellcasting"
   },
-  // laboratory: {
+  penetration: {
   //   label: "arm5e.sheet.effects.type.spellcasting"
   //   key: "data.bonuses.arts.laboratory"
   // }
+    type: 'penetration',
+    key: 'data.bonuses.arts.penetration'
+  }
   cr: {
     category: "magic",
     type: "cr",
@@ -104,7 +107,6 @@ export default {
     type: "size",
     label: "arm5e.sheet.size",
     key: "data.vitals.siz.value"
-  }
 
   // soak: {
   //   category: "traits",
@@ -118,4 +120,4 @@ export default {
   //   label: "arm5e.sheet.strength",
   //   key: "data.characteristics.str.value"
   // }
-};
+}

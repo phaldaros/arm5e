@@ -106,6 +106,21 @@ Hooks.once("init", async function () {
   });
 
   /**
+   * Show NPC magic details (cast, penetration and defense)
+   */
+  game.settings.register("arm5e", "showNPCMagicDetails", {
+    name: "Show NPC magic details (cast, penetration and defense)",
+    scope: "world",
+    config: true,
+    choices: {
+      SHOW_ALL: "Give me all details!",
+      ONLY_RESULTS: "Show me only the result"
+    },
+    default: "MONO",
+  });
+
+
+  /**
    * Whether to sort lists of stuff
    */
   // game.settings.register("arm5e", "sortItems", {

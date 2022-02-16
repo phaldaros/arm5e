@@ -1,6 +1,6 @@
 let mult = 1;
 
-async function simpleDie(html, actorData) {
+async function simpleDie(html, actorData, callBack) {
   actorData = getFormData(html, actorData);
   actorData = getRollFormula(actorData);
 
@@ -15,7 +15,7 @@ async function simpleDie(html, actorData) {
   let tmp = await dieRoll.roll({
     async: true
   });
-  tmp.toMessage({
+  const message = await tmp.toMessage({
     speaker: ChatMessage.getSpeaker({
       actor: actorData
     }),
@@ -27,9 +27,13 @@ async function simpleDie(html, actorData) {
       }
     }
   });
+
+  if(callBack) {
+    callBack(html, actorData, tmp, message);
+  }
 }
 
-async function stressDie(html, actor, modes = 0) {
+async function stressDie(html, actor, modes = 0, callBack) {
   mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
@@ -60,7 +64,7 @@ async function stressDie(html, actor, modes = 0) {
     await lastRoll.evaluate({ async: true });
   }
 
-  lastRoll.toMessage({
+  const message = await lastRoll.toMessage({
     flavor: flavorTxt + actor.data.data.roll.rollLabel,
     speaker: ChatMessage.getSpeaker({
       actor: actor
@@ -73,6 +77,10 @@ async function stressDie(html, actor, modes = 0) {
       }
     }
   });
+
+  if(callBack) {
+    callBack(html, actor, roll, message);
+  }
 }
 
 function getFormData(html, actorData) {
