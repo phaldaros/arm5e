@@ -1,6 +1,6 @@
 let mult = 1;
 
-async function simpleDie(html, actorData) {
+async function simpleDie(html, actorData, callBack) {
   actorData = getFormData(html, actorData);
   actorData = getRollFormula(actorData);
 
@@ -15,7 +15,7 @@ async function simpleDie(html, actorData) {
   let tmp = await dieRoll.roll({
     async: true
   });
-  tmp.toMessage({
+  const message = await tmp.toMessage({
     speaker: ChatMessage.getSpeaker({
       actor: actorData
     }),
@@ -27,15 +27,19 @@ async function simpleDie(html, actorData) {
       }
     }
   });
+
+  if(callBack) {
+    callBack(html, actorData, tmp, message);
+  }
 }
 
-async function stressDie(html, actor, flags = 0) {
+async function stressDie(html, actor, modes = 0, callBack) {
   mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
 
   let name = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
-  let dieRoll = await explodingRoll(actor, flags);
+  let dieRoll = await explodingRoll(actor, modes);
   let flavorTxt = name + game.i18n.localize("arm5e.dialog.button.stressdie") + ": <br />";
   let lastRoll;
   let confAllowed = actor.data.data.con.score;
@@ -60,7 +64,7 @@ async function stressDie(html, actor, flags = 0) {
     await lastRoll.evaluate({ async: true });
   }
 
-  lastRoll.toMessage({
+  const message = await lastRoll.toMessage({
     flavor: flavorTxt + actor.data.data.roll.rollLabel,
     speaker: ChatMessage.getSpeaker({
       actor: actor
@@ -73,6 +77,10 @@ async function stressDie(html, actor, flags = 0) {
       }
     }
   });
+
+  if(callBack) {
+    callBack(html, actor, roll, message);
+  }
 }
 
 function getFormData(html, actorData) {
@@ -392,11 +400,11 @@ async function CheckBotch(html, actorData) {
   return botchRoll.terms[0].total;
 }
 
-async function explodingRoll(actorData, flags = 0) {
+async function explodingRoll(actorData, modes = 0) {
   let dieRoll;
-  if (flags === 0) {
+  if (modes === 0) {
     dieRoll = new Roll(`1d10`);
-  } else if (flags === 1) {
+  } else if (modes === 1) {
     dieRoll = new Roll("1");
     ui.notifications.info(`${actorData.name} used DEV mode to roll a 1`);
   } else {

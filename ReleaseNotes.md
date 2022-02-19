@@ -1,6 +1,30 @@
 ## Release Notes
 
-1.3.0
+### 1.3.2
+
+Features
+
+- active effects integration in the system
+- advanced virtues/flaws with (limited) active effects
+- additionnal spell attributes (by Lanneval)
+- updated French version (by Lanneval)
+- penetration total computed during combat
+
+Bug fixes
+
+- synthetic actors (unlinked scene tokens) are now also migrated.
+
+### 1.3.1
+
+Features
+
+- Simplified installation and update through Foundry
+
+Bug fixes
+
+- Fixed problem with migration of equipment
+
+### 1.3.0
 
 Features
 
@@ -42,15 +66,16 @@ Bug fixes:
 - Localization of roll dialogs (botch check)
 - Use a Foundry core method to detect if a version is newer that another instead of the existing shoddy one.
 
-  1.2.4 SP1
+### 1.2.4 SP1
 
 Features
 
 - Spell compendium
 - added an old portuguese version (by Ramon Alves)
 
-  1.2.4
-  Features
+### 1.2.4
+
+Features
 
 - multiple requisites support
 - added Codex in Magi compendium filled with all base effects
@@ -89,7 +114,7 @@ Features
 - new filter options in Codex (>=, <=,...)
 - Button to generate needed abilities for magic skills (renamed mnemonics for better tracking)
 
-Bug fixes
+### Bug fixes
 
 - fixed a bug where results of a stress die were always 0 on a 10 even if there was no botch
 - fixed a bug in css for Codex where the title size was growing proportionally to the number of entries.
@@ -106,7 +131,7 @@ Bug fixes
 - Fixed footer display problem in Codex
 - Fixed remaing item sheets without image.
 
-  1.2.3
+### 1.2.3
 
 - fixed some errors during NPC migration because they don't have a familiar
 - New base effects created in the Codex have the technique and form of the filters if set
@@ -125,7 +150,7 @@ Bug fixes
 - magical focus is applied to rolls
 - Roll fields Aura, Modifier, Fatigue and Wounds are not displayed in chat-log roll entries if value is 0
 
-  1.2.2
+### 1.2.2
 
 - fixed magic rules enforcement setting for spells without base level
 - button to create missing default skills
@@ -133,12 +158,12 @@ Bug fixes
 - Arts Icons settings is now client based.
 - Abilities, spells lists can be sorted
 
-  1.2.1
+### 1.2.1
 
 - Confidence for NPCs is back
 - Ritual checkbox fixed.
 
-  1.2.0
+### 1.2.0
 
 - New design of all the actor sheets
 - Support of Italian language.
@@ -147,16 +172,16 @@ Bug fixes
 - Might of NPC has a realm now (magic, fae, divine, infernal)
 - 2 styles of icons for arts sheet (symbols or gestures)
 
-  1.1.1
+### 1.1.1
 
 - Introduction of the Codex Hermetica
 
-  1.1.0
+### 1.1.0
 
 - Compatibility with Foundry VTT 0.8.x
 - Overhaul of the data template
 
-  1.0.0
+### 1.0.0
 
 - Incredible overhaul from ialbiol! An update truly worth of a v 1, and now able to use official ArM5 core rulebook material by the kind permission of Atlas Games!
 

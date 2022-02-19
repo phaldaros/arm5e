@@ -7,49 +7,57 @@
           <span class="smallTitle">{{localize "arm5e.sheet.techniques"}}</span><span> ({{ data.totalXPArts }}xp)</span>
         </div>
       </li>
-      {{#each data.arts.techniques as |techniques key|}}
+      {{#each data.arts.techniques as |technique key|}}
       <li class="flexrow art" data-attribute="{{key}}">
         <span class="flex03">
-          {{#if (eq @root.artsIcons "symbol")}}
+          {{#if technique.bonus }} {{#if (eq @root.artsIcons "symbol")}}
+          <img
+            src="/systems/arm5e/assets/magic/{{key}}.png"
+            style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"
+            title="{{numberFormat technique.bonus decimals=0 sign=true}}" />
+          {{else}}
+          <img
+            src="/systems/arm5e/assets/hands/{{key}}.png"
+            style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"
+            title="{{numberFormat technique.bonus decimals=0 sign=true}}" />
+          {{/if}} {{else}} {{#if (eq @root.artsIcons "symbol")}}
           <img src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px" />
           {{else}}
           <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 40px" />
-          {{/if}}
+          {{/if}} {{/if}}
         </span>
         <div>
           <div class="flexrow marginbot4">
             <span
               class="flexrow fontSize10 rollable"
-              name="data.arts.techniques.{{key}}.label"
+              name="data.arts.technique.{{key}}.label"
               data-roll="spont"
-              data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
+              data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}"
               data-technique="{{key}}"
-              data-divide="2"
-            >
+              data-divide="2">
               {{label}}
             </span>
             <div class="flexrow">
               <a class="item-control decrease-tech" title="Decrease score"><i class="fas fa-minus"></i></a>
               <input
                 type="text"
-                name="data.arts.techniques.{{key}}.derivedScore"
-                value="{{techniques.derivedScore}}"
+                name="data.arts.techniques.{{key}}.finalScore"
+                value="{{technique.finalScore}}"
                 data-dtype="Number"
-                readonly
-              />
+                readonly />
               <a class="item-control increase-tech" title="Increase score"><i class="fas fa-plus"></i></a>
             </div>
           </div>
-          <div class="flex3 marginbot12" style="color: #625d52cc">
+          <div class="flex4 marginbot12" style="color: #625d52cc">
             <label class="fontSize8">{{localize "arm5e.sheet.experienceShort"}}</label>
             <input
               type="number"
               name="data.arts.techniques.{{key}}.xp"
-              value="{{techniques.xp}}"
+              value="{{technique.xp}}"
               data-dtype="Number"
-              style="color: #625d52cc; width: 40px"
-            />
-            <label class="fontSize8"> / {{ techniques.xpNextLevel }} </label>
+              style="color: #625d52cc; width: 40px" />
+            <label class="fontSize8"> / {{ technique.xpNextLevel }} </label>
+            <div></div>
           </div>
         </div>
       </li>
@@ -66,11 +74,21 @@
       <li class="flexrow art" data-attribute="{{key}}">
         <span class="flex03">
           <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
-            {{#if (eq @root.artsIcons "symbol")}}
+            {{#if forms.bonus }} {{#if (eq @root.artsIcons "symbol")}}
+            <img
+              src="/systems/arm5e/assets/magic/{{key}}.png"
+              style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"
+              title="{{numberFormat forms.bonus decimals=0 sign=true}}" />
+            {{else}}
+            <img
+              src="/systems/arm5e/assets/hands/{{key}}.png"
+              style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"
+              title="{{numberFormat forms.bonus decimals=0 sign=true}}" />
+            {{/if}} {{else}} {{#if (eq @root.artsIcons "symbol")}}
             <img src="/systems/arm5e/assets/magic/{{key}}.png" style="border: 0px; height: 40px" />
             {{else}}
             <img src="/systems/arm5e/assets/hands/{{key}}.png" style="border: 0px; height: 40px" />
-            {{/if}}
+            {{/if}} {{/if}}
           </a>
         </span>
         <div>
@@ -79,21 +97,19 @@
               class="flexrow fontSize10 rollable"
               name="data.arts.forms.{{key}}.label"
               data-roll="spont"
-              data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
+              data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}"
               data-form="{{key}}"
-              data-divide="2"
-            >
+              data-divide="2">
               {{label}}&nbsp;({{ forms.magicResistance }})
             </span>
             <div class="flexrow">
               <a class="item-control decrease-form" title="Decrease score"><i class="fas fa-minus"></i></a>
               <input
                 type="text"
-                name="data.arts.forms.{{key}}.derivedScore"
-                value="{{forms.derivedScore}}"
+                name="data.arts.forms.{{key}}.finalScore"
+                value="{{forms.finalScore}}"
                 data-dtype="Number"
-                readonly
-              />
+                readonly />
               <a class="item-control increase-form" title="Increase score"><i class="fas fa-plus"></i></a>
             </div>
           </div>
@@ -104,8 +120,7 @@
               name="data.arts.forms.{{key}}.xp"
               value="{{forms.xp}}"
               data-dtype="Number"
-              style="color: #625d52cc; width: 40px"
-            />
+              style="color: #625d52cc; width: 40px" />
             <label class="fontSize8"> / {{ forms.xpNextLevel }} </label>
           </div>
         </div>
@@ -152,10 +167,9 @@
           data-mform="{{item.data.form.value}}"
           data-bonus="{{ item.data.bonus }}"
           data-bonus2="{{ item.data.mastery }}"
-          data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
+          data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}"
           data-name="{{item.name}}"
-          name="item.name"
-        >
+          name="item.name">
           {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
           {{/with}} {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
           {{item.data.level}}) {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
@@ -210,9 +224,8 @@
           data-bonus="{{ item.data.bonus }}"
           data-name="{{item.name}}"
           data-divide="2"
-          data-bonus-active-effects="{{ ../data.bonuses.arts.spellCasting }}"
-          name="item.name"
-        >
+          data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}"
+          name="item.name">
           {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
           {{/with}} {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
           {{item.data.level}})

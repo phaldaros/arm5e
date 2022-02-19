@@ -1,4 +1,9 @@
 import { log } from "../tools.js";
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories,
+  findAllActiveEffectsWithType
+} from "../helpers/active-effects.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -81,6 +86,11 @@ export class ArM5eItemSheet extends ItemSheet {
 
     context.metagame = game.settings.get("arm5e", "metagame");
 
+    context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
+
+    // Prepare active effects
+    context.effects = prepareActiveEffectCategories(this.item.effects);
+
     log(false, "item-sheet get data");
     log(false, context);
     // console.log('item-sheet get data');
@@ -114,6 +124,9 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".decrease-ability").click((event) => this._deccreaseScore(this.item));
     html.find(".default-characteristic").change((event) => this._onSelectDefaultCharacteristic(this.item, event));
     html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
+
+    // Active Effect management
+    html.find(".effect-control").click((ev) => onManageActiveEffect(ev, this.item));
   }
 
   async _onSelectDefaultCharacteristic(item, event) {

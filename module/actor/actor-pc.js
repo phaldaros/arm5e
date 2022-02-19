@@ -24,7 +24,40 @@ export class ArM5ePCActor extends Actor {
   }
 
   /** @override */
-  prepareBaseData() {}
+  prepareBaseData() {
+    super.prepareBaseData();
+
+    // add properties used for active effects:
+
+    if (this.data.type != "player" && this.data.type != "npc") {
+      return;
+    }
+    this.data.data.bonuses = {};
+    if (this._isMagus()) {
+      for (let key of Object.keys(this.data.data.arts.techniques)) {
+        this.data.data.arts.techniques[key].bonus = 0;
+      }
+
+      for (let key of Object.keys(this.data.data.arts.forms)) {
+        this.data.data.arts.forms[key].bonus = 0;
+      }
+
+      this.data.data.bonuses.arts = {
+        spellcasting: 0,
+        laboratory: 0,
+        penetration: 0
+      };
+    }
+
+    // Not needed, done at Item level?
+    // this.items.forEach((item) => {
+    //   if (item.type == "ability") {
+    //     item.data.data.bonus = 0;
+    //   }
+    // });
+
+    this.data.data.bonuses.traits = { soak: 0 };
+  }
 
   /** @override */
   prepareDerivedData() {
@@ -63,7 +96,7 @@ export class ArM5ePCActor extends Actor {
     let abilitiesFamiliar = [];
     let powersFamiliar = [];
 
-    let soak = actorData.data.characteristics.sta.value;
+    let soak = actorData.data.characteristics.sta.value + actorData.data.bonuses.traits.soak;
 
     let powers = [];
 
@@ -157,6 +190,9 @@ export class ArM5ePCActor extends Actor {
           }
           if (i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID) {
             actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.derivedScore;
+          }
+          if (i._id == actorData.data.laboratory.abilitiesSelected?.penetration?.abilityID) {
+            actorData.data.laboratory.abilitiesSelected.penetration.value = i.data.derivedScore;
           }
         }
       }
@@ -303,6 +339,10 @@ export class ArM5ePCActor extends Actor {
       actorData.data.laboratory.basicLabTotal.value =
         actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
       actorData.data.laboratory.visLimit.value = actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
+      if (actorData.data.laboratory.totalPenetration) {
+        actorData.data.laboratory.totalPenetration.value =
+          actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
+      }
 
       //warping & decrepitude
       actorData.data.warping.experienceNextLevel = (parseInt(actorData.data.warping.score) + 1) * 5;
@@ -312,7 +352,7 @@ export class ArM5ePCActor extends Actor {
 
       for (let [key, technique] of Object.entries(data.arts.techniques)) {
         technique.derivedScore = this._getArtScore(technique.xp);
-
+        technique.finalScore = technique.derivedScore + technique.bonus;
         technique.xpNextLevel = this._getArtXp(technique.derivedScore + 1) - technique.xp;
         // TODO remove once confirmed there is no bug
         // if (technique.score != technique.derivedScore && technique.xp != 0) {
@@ -333,7 +373,7 @@ export class ArM5ePCActor extends Actor {
 
       for (let [key, form] of Object.entries(data.arts.forms)) {
         form.derivedScore = this._getArtScore(form.xp);
-
+        form.finalScore = form.derivedScore + form.bonus;
         form.xpNextLevel = this._getArtXp(form.derivedScore + 1) - form.xp;
         // TODO remove once confirmed there is no bug
         // if (form.score != form.derivedScore && form.xp != 0) {
@@ -349,7 +389,7 @@ export class ArM5ePCActor extends Actor {
         //   this._getArtScore(form.xp);
         // }
         if (actorData.type == "player" && actorData.data.laboratory && actorData.data.laboratory.abilitiesSelected) {
-          form.magicResistance = actorData.data.laboratory.abilitiesSelected.parma.value * 5 + form.derivedScore;
+          form.magicResistance = actorData.data.laboratory.abilitiesSelected.parma.value * 5 + form.finalScore;
         }
         totalXPArts = parseInt(totalXPArts) + form.xp;
       }

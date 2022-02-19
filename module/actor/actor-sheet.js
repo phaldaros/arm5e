@@ -7,8 +7,12 @@ import { simpleDie, stressDie } from "../dice.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ARM5E } from "../metadata.js";
 import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
-import { onManageActiveEffect, prepareActiveEffectCategories, findAllActiveEffectsByType } from "../helpers/effects.js";
-
+import {
+  onManageActiveEffect,
+  prepareActiveEffectCategories,
+  findAllActiveEffectsWithType
+} from "../helpers/active-effects.js";
+import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
 import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";
 
 import {
@@ -107,7 +111,7 @@ export class ArM5eActorSheet extends ActorSheet {
   /** @override */
   getData() {
     // Retrieve the data structure from the base sheet. You can inspect or log
-    // the context variable to see the structure, but some key properties for
+    // the context variable to see the structure, but some key properties fore
     // sheets are the actor object, the data object, whether or not it's
     // editable, the items array, and the effects array.
     const context = super.getData();
@@ -120,6 +124,7 @@ export class ArM5eActorSheet extends ActorSheet {
     context.flags = actorData.flags;
 
     context.metadata = CONFIG.ARM5E;
+    context.metadata.constants = { VOICE_AND_GESTURES_VALUES: VOICE_AND_GESTURES_VALUES };
 
     context.data.dtypes = ["String", "Number", "Boolean"];
 
@@ -172,7 +177,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Prepare active effects
     context.effects = prepareActiveEffectCategories(this.actor.effects);
-    if (context.data?.arts) {
+    if (context.data?.arts?.voiceAndGestures) {
       context.data.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
     }
     this._prepareCharacterItems(context);
@@ -300,7 +305,6 @@ export class ArM5eActorSheet extends ActorSheet {
     if (this.actor.isOwner) {
       let handler = (ev) => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
         li.addEventListener("dragstart", handler, false);
       });
@@ -459,7 +463,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
   async _onSelectVoiceAndGestures(event) {
     event.preventDefault();
-    const name = $(event.target).attr("name").split(".").pop();
+    const name = $(event.target).attr("effect");
     await modifyVoiceOrGesturesActiveEvent(this, name, $(event.target).val());
   }
 
@@ -661,8 +665,9 @@ export async function setWounds(selector, actor) {
   const damageToApply = parseInt(selector.find('input[name$="damage"]').val());
   const modifier = parseInt(selector.find('input[name$="modifier"]').val());
   const prot = parseInt(selector.find('label[name$="prot"]').attr("value") || 0);
+  const bonus = parseInt(selector.find('label[name$="soak"]').attr("value") || 0);
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
-  const damage = damageToApply - modifier - prot - stamina;
+  const damage = damageToApply - modifier - prot - stamina - bonus;
   const size = actor?.data?.data?.vitals?.siz?.value || 0;
   const typeOfWound = calculateWound(damage, size);
   if (typeOfWound === false) {
@@ -675,8 +680,15 @@ export async function setWounds(selector, actor) {
   const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.soak") + "</h2>";
   const messageDamage = `${game.i18n.localize("arm5e.sheet.damage")} (${damage})`;
   const messageStamina = `${game.i18n.localize("arm5e.sheet.stamina")} (${stamina})`;
-  const messageProt = `${game.i18n.localize("arm5e.sheet.soak")} (${prot})`;
-  const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
+  let messageBonus = "";
+  if (bonus) {
+    messageBonus = `${game.i18n.localize("arm5e.sheet.soakBonus")} (${bonus})<br/> `;
+  }
+  const messageProt = `${game.i18n.localize("arm5e.sheet.protection")} (${prot})`;
+  let messageModifier = "";
+  if (modifier) {
+    messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
+  }
   const messageWound = typeOfWound
     ? game.i18n
         .localize("arm5e.messages.woundResult")
@@ -685,7 +697,7 @@ export async function setWounds(selector, actor) {
 
   ChatMessage.create({
     content: `<h4 class="dice-total">${messageWound}</h4>`,
-    flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageModifier}<br/>`,
+    flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageBonus}${messageModifier}`,
     speaker: ChatMessage.getSpeaker({
       actor
     })

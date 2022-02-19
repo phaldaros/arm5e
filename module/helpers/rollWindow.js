@@ -1,7 +1,16 @@
 import { ARM5E } from "../metadata.js";
-import { findAllActiveEffectsByType } from "./effects.js";
+import { findAllActiveEffectsByAffectedKey, findAllActiveEffectsWithType } from "./active-effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import { simpleDie, stressDie } from "../dice.js";
+import { getActorsFromTargetedTokens } from "./tokens.js";
+import { calculateSuccessOfMagic } from "./magic.js";
+import { chatContestOfMagic } from "./chat.js";
+
+const CALL_BACK_AFTER_ROLL = {
+  SPELL: {
+    CALLBACK: checkTargetAndCalculateResistante
+  }
+};
 
 const STRESS_DIE = {
   COMBAT: {
@@ -90,10 +99,10 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       } else {
         if (dataset.technique) {
           actorData.data.roll.techniqueText = ARM5E.magic.techniques[dataset.technique].label;
-          actorData.data.roll.techniqueScore = parseInt(actorData.data.arts.techniques[dataset.technique].derivedScore);
+          actorData.data.roll.techniqueScore = parseInt(actorData.data.arts.techniques[dataset.technique].finalScore);
         }
         if (dataset.mform) {
-          actorData.data.roll.formScore = parseInt(actorData.data.arts.forms[dataset.mform].derivedScore);
+          actorData.data.roll.formScore = parseInt(actorData.data.arts.forms[dataset.mform].finalScore);
           actorData.data.roll.formText = ARM5E.magic.forms[dataset.mform].label;
         }
       }
@@ -109,14 +118,18 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        const activeEffectsByType = findAllActiveEffectsByAffectedKey(activeEffects, ACTIVE_EFFECTS_TYPES.SPELLCASTING.key);
+        const activeEffectsByType = findAllActiveEffectsByAffectedKey(
+          activeEffects,
+          ACTIVE_EFFECTS_TYPES.spellcasting.key
+        );
         actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
           const label = activeEffect.data.label;
           let value = 0;
-          activeEffect
-              .data.changes
-              .filter(change => change.key === ACTIVE_EFFECTS_TYPES.SPELLCASTING.key)
-              .forEach((item) => (value += Number(item.value)));
+
+          const valuableChanges = activeEffect.data.changes.filter((c) => {
+            return c.mode === CONST.ACTIVE_EFFECT_MODES.ADD && c.key === ACTIVE_EFFECTS_TYPES.spellcasting.key;
+          });
+          valuableChanges.forEach((item) => (value += Number(item.value)));
           return {
             label,
             value
@@ -193,16 +206,16 @@ function prepareRollFields(dataset, actorData) {
 
 function cleanBooleans(dataset, actorData) {
   // clean booleans
-  if (actorData.data.roll.useFatigue == "false") {
+  if (actorData.data.roll.useFatigue === "false") {
     actorData.data.roll.useFatigue = false;
   }
-  if (actorData.data.roll.useFatigue == "false") {
+  if (actorData.data.roll.useFatigue === "false") {
     actorData.data.roll.useFatigue = false;
   }
 }
 
 function chooseTemplate(dataset) {
-  if (dataset.roll == "combat" || dataset.roll == "option") {
+  if (dataset.roll == "combat" || dataset.roll == "option" || dataset.roll == "general") {
     return "systems/arm5e/templates/roll/roll-options.html";
   }
   if (dataset.roll == "char" || dataset.roll == "ability") {
@@ -228,65 +241,57 @@ function updateCharacteristicDependingOnRoll(dataset, actorData) {
   }
 }
 
-function getDialogData(dataset, html, actor) {
-  const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
-
-  if (STRESS_DIE[dataset.roll.toUpperCase()]) {
-    let dButtons = {
-      yes: {
-        icon: "<i class='fas fa-check'></i>",
-        label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-        callback: (html) => stressDie(html, actor)
-      },
-      no: {
-        icon: "<i class='fas fa-ban'></i>",
-        label: game.i18n.localize("arm5e.dialog.button.cancel"),
-        callback: null
-      }
-    };
-    if (isDebugging) {
-      dButtons.explode = {
-        label: "DEV Roll 1",
-        callback: (html) => stressDie(html, actor, 1)
-      };
-      dButtons.zero = {
-        label: "DEV Roll 0",
-        callback: (html) => stressDie(html, actor, 2)
-      };
+function getDebugButtonsIfNeeded(actor, callback) {
+  if (!game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID)) return {};
+  return {
+    explode: {
+      label: "DEV Roll 1",
+      callback: (html) => stressDie(html, actor, 1, callback)
+    },
+    zero: {
+      label: "DEV Roll 0",
+      callback: (html) => stressDie(html, actor, 2, callback)
     }
+  };
+}
 
+function getDialogData(dataset, html, actor) {
+  const callback = CALL_BACK_AFTER_ROLL[dataset.roll.toUpperCase()]?.CALLBACK;
+  if (STRESS_DIE[dataset.roll.toUpperCase()]) {
     return {
       title: game.i18n.localize(STRESS_DIE[dataset.roll.toUpperCase()].TITLE),
       content: html,
-      buttons: dButtons
-    };
-  } else {
-    let dButtons = {
-      yes: {
-        icon: "<i class='fas fa-check'></i>",
-        label: game.i18n.localize("arm5e.dialog.button.simpledie"),
-        callback: (html) => simpleDie(html, actor)
-      },
-      no: {
-        icon: "<i class='fas fa-bomb'></i>",
-        label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-        callback: (html) => stressDie(html, actor)
+      buttons: {
+        yes: {
+          icon: "<i class='fas fa-check'></i>",
+          label: game.i18n.localize("arm5e.dialog.button.stressdie"),
+          callback: (html) => stressDie(html, actor, 0, callback)
+        },
+        no: {
+          icon: "<i class='fas fa-ban'></i>",
+          label: game.i18n.localize("arm5e.dialog.button.cancel"),
+          callback: null
+        },
+        ...getDebugButtonsIfNeeded(actor, callback)
       }
     };
-    if (isDebugging) {
-      dButtons.explode = {
-        label: "DEV Roll 1",
-        callback: (html) => stressDie(html, actor, 1)
-      };
-      dButtons.zero = {
-        label: "DEV Roll 0",
-        callback: (html) => stressDie(html, actor, 2)
-      };
-    }
+  } else {
     return {
       title: game.i18n.localize("arm5e.dialog.title.rolldie"),
       content: html,
-      buttons: dButtons
+      buttons: {
+        yes: {
+          icon: "<i class='fas fa-check'></i>",
+          label: game.i18n.localize("arm5e.dialog.button.simpledie"),
+          callback: (html) => simpleDie(html, actor, callback)
+        },
+        no: {
+          icon: "<i class='fas fa-bomb'></i>",
+          label: game.i18n.localize("arm5e.dialog.button.stressdie"),
+          callback: (html) => stressDie(html, actor, 0, callback)
+        },
+        ...getDebugButtonsIfNeeded(actor, callback)
+      }
     };
   }
 }
@@ -306,17 +311,28 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
   const renderedTemplate = await renderTemplate(template, actorData);
   const dialogData = getDialogData(dataset, renderedTemplate, actor);
   const dialog = new Dialog(
-      {
-        ...dialogData,
-        render: addListenersDialog
-      },
-      {
-        classes: ["arm5e-dialog", "dialog"],
-        height: "auto"
-      }
+    {
+      ...dialogData,
+      render: addListenersDialog
+    },
+    {
+      classes: ["arm5e-dialog", "dialog"],
+      height: "auto"
+    }
   );
 
   dialog.render(true);
+}
+
+function checkTargetAndCalculateResistante(html, actorCaster, roll, message) {
+  const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
+  if (!actorsTargeted) {
+    return false;
+  }
+  actorsTargeted.forEach((actorTarget) => {
+    const successOfMagic = calculateSuccessOfMagic({ actorTarget, actorCaster, roll, spell: message });
+    chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
+  });
 }
 
 export {

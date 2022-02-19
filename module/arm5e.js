@@ -14,10 +14,13 @@ import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 
 import { prepareDatasetByTypeOfItem } from "./helpers/items.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
-
+import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./features/chat-message-hook.js";
 
-import { addActiveEffectAuraToActor, modifyAuraActiveEffectForAllTokensInScene } from './helpers/aura.js'
+import { addActiveEffectAuraToActor, modifyAuraActiveEffectForAllTokensInScene } from "./helpers/aura.js";
+
+// experiment
+import * as Arm5eUI from "./features/ui-integration.js";
 
 import { migration } from "./migration.js";
 import { log } from "./tools.js";
@@ -29,7 +32,7 @@ Hooks.once("init", async function () {
     rollItemMacro,
     setAuraValueForAllTokensInScene,
     setAuraValueForToken,
-    resetTokenAuraToSceneAura,
+    resetTokenAuraToSceneAura
   };
 
   /**
@@ -105,6 +108,20 @@ Hooks.once("init", async function () {
     config: true,
     type: Boolean,
     default: false
+  });
+
+  /**
+   * Show NPC magic details (cast, penetration and defense)
+   */
+  game.settings.register("arm5e", "showNPCMagicDetails", {
+    name: "Show NPC magic details (cast, penetration and defense)",
+    scope: "world",
+    config: true,
+    choices: {
+      SHOW_ALL: "Give me all details!",
+      ONLY_RESULTS: "Show me only the result"
+    },
+    default: "MONO"
   });
 
   /**
@@ -208,6 +225,9 @@ Hooks.once("init", async function () {
     ],
     makeDefault: true
   });
+
+  // DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
+  DocumentSheetConfig.registerSheet(ActiveEffect, "arm5e", ArM5eActiveEffectConfig);
 
   // Preload handlebars templates
   ArM5ePreloadHandlebarsTemplates();
@@ -381,7 +401,7 @@ function rollItemMacro(itemId, actorId) {
 
 function setAuraValueForAllTokensInScene(value) {
   // Store a flag with the current aura
-  game.scenes.viewed.setFlag("world", 'aura_' + game.scenes.viewed.data._id, Number(value));
+  game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed.data._id, Number(value));
   modifyAuraActiveEffectForAllTokensInScene(value);
 }
 
@@ -390,18 +410,20 @@ function setAuraValueForToken(value) {
 }
 
 function resetTokenAuraToSceneAura() {
-  const aura = game.scenes.viewed.getFlag("world", 'aura_' + game.scenes.viewed.data._id);
-  if(aura !== undefined && !isNaN(aura)) {
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
+  if (aura !== undefined && !isNaN(aura)) {
     addActiveEffectAuraToActor(this, Number(aura));
   }
 }
 
 function onDropOnCanvas(canvas, data) {
-  const aura = game.scenes.viewed.getFlag("world", 'aura_' + game.scenes.viewed.data._id);
-  if(aura !== undefined && !isNaN(aura)) {
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
+  if (aura !== undefined && !isNaN(aura)) {
     const actor = game.actors.get(data.id);
-    if(actor) addActiveEffectAuraToActor(actor, Number(aura));
+    if (actor) addActiveEffectAuraToActor(actor, Number(aura));
   }
 }
 
 Hooks.on("renderChatMessage", (message, html, data) => Arm5eChatMessage.addChatListeners(message, html, data));
+
+//Hooks.on("getSceneControlButtons", (buttons) => Arm5eUI.dummyButton(buttons));

@@ -14,13 +14,24 @@
         sign=true }})</label
       >
     </div>
-
+    {{#if actor.data.data.bonuses.traits.soak}}
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">-</label>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="resource-label" name="soak" value="{{actor.data.data.bonuses.traits.soak}}"
+        >{{localize "arm5e.sheet.soakBonus" }} ({{ numberFormat actor.data.data.bonuses.traits.soak decimals=0 sign=true
+        }})</label
+      >
+    </div>
+    {{/if}}
     <div class="flexrow flex-group-center">
       <label class="resource-label">-</label>
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label" name="prot" value="{{actor.data.data.combat.prot}}"
-        >{{localize "arm5e.sheet.soak" }} ({{ numberFormat actor.data.data.combat.prot decimals=0 sign=true }})</label
+        >{{localize "arm5e.sheet.protection" }} ({{ numberFormat actor.data.data.combat.prot decimals=0 sign=true
+        }})</label
       >
     </div>
 

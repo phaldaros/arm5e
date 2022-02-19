@@ -1,16 +1,16 @@
 {
   "name": "arm5e",
-  "title": "Ars Magica 5th Edition",
-  "description": "Ars Magica 5e for Foundry VTT",
-  "version": "1.3.0",
-  "minimumCoreVersion": "0.8.6",
+  "title": "Ars Magica 5th Edition, Development version",
+  "description": "Ars Magica 5e for Foundry VTT, BETA",
+  "version": "1.3.2",
+  "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "templateVersion": 3,
   "authors": [
     { "name": "ialbiol", "contribution": "dev" },
     { "name": "phaldaros", "contribution": "Original dev" },
     { "name": "sylph", "contribution": "design" },
-    { "name": "xzotl", "contribution": "dev" },
+    { "name": "xzotl", "contribution": "dev and unofficial maintainer" },
     { "name": "Ludo.Bermejo", "contribution": "dev" },
     { "name": "jupotter", "contribution": "French version" },
     { "name": "N0Br41nZ", "contribution": "Italian version" },
@@ -23,90 +23,68 @@
     {
       "name": "magi",
       "label": "Magi",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/magi.db",
-      "entity": "Actor"
+      "type": "Actor"
     },
     {
       "name": "companions",
       "label": "Companions",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/companions.db",
-      "entity": "Actor"
+      "type": "Actor"
     },
     {
       "name": "grogs",
       "label": "Grogs",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/grogs.db",
-      "entity": "Actor"
+      "type": "Actor"
     },
     {
       "name": "spells",
       "label": "Spells",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/spells.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "items",
       "label": "Equipment",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/items.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "enchantments",
       "label": "Enchantments",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/enchantments.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "virtues",
       "label": "Virtues",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/virtues.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "flaws",
       "label": "Flaws",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/flaws.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "abilities",
       "label": "Abilities",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/abilities.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "scenes",
       "label": "Scenes",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/scenes.db",
-      "entity": "Scene"
+      "type": "Scene"
     },
     {
       "name": "macros",
       "label": "Macros",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/macros.db",
-      "entity": "Macro"
+      "type": "Macro"
     }
   ],
   "languages": [
