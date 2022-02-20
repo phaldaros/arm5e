@@ -23,8 +23,8 @@ async function onManageActiveEffect(event, owner) {
           changes: [],
           flags: {
             arm5e: {
-              type: ["spellcasting"],
-              subtype: ["none"]
+              type: [],
+              subtype: []
             }
           }
         }
@@ -82,7 +82,7 @@ function findAllActiveEffectsWithType(effects, type) {
   const activeEffects = [];
   for (let e of effects) {
     e._getSourceName(); // Trigger a lookup for the source name
-    if (!e.data.disabled && e?.getFlag("arm5e", "type")?.includes(type.toUpperCase())) {
+    if (!e.data.disabled && e?.getFlag("arm5e", "type")?.includes(type)) {
       activeEffects.push(e);
     }
   }
@@ -92,7 +92,7 @@ function findAllActiveEffectsWithType(effects, type) {
 function findFirstActiveEffectBySubtype(effects, subtype) {
   for (let e of effects) {
     e._getSourceName(); // Trigger a lookup for the source name
-    if (!e.data.disabled && e?.getFlag("arm5e", "subType")?.includes(subtype.toUpperCase())) {
+    if (!e.data.disabled && e?.getFlag("arm5e", "subType")?.includes(subtype)) {
       return e;
     }
   }

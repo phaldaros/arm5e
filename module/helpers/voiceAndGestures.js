@@ -12,18 +12,22 @@ import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 
 async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
   const actor = origin.actor;
-  const numericValue = VOICE_AND_GESTURES_VALUES[type.toUpperCase()][value.toUpperCase()].value;
+  const numericValue = VOICE_AND_GESTURES_VALUES[type][value.toUpperCase()].value;
   const changeData = [
-    { key: ACTIVE_EFFECTS_TYPES.spellcasting.key, value: numericValue, mode: CONST.ACTIVE_EFFECT_MODES.ADD }
+    {
+      key: ACTIVE_EFFECTS_TYPES.spellcasting.subtypes[type].key,
+      value: numericValue,
+      mode: CONST.ACTIVE_EFFECT_MODES.ADD
+    }
   ];
 
-  const dictType = `arm5e.sheet.magic.${type.toLowerCase()}`;
-  const dictValue = VOICE_AND_GESTURES_VALUES[type.toUpperCase()][value.toUpperCase()].mnemonic;
+  const dictType = `arm5e.sheet.magic.${type}`;
+  const dictValue = VOICE_AND_GESTURES_VALUES[type][value.toUpperCase()].mnemonic;
   const label = `${game.i18n.localize(dictType)} ${game.i18n.localize(dictValue)}`;
   // create a new Active Effect
   const activeEffectData = {
     label: label,
-    icon: VOICE_AND_GESTURES_ICONS[type.toUpperCase()],
+    icon: VOICE_AND_GESTURES_ICONS[type],
     origin: actor.uuid,
     duration: {
       rounds: undefined
@@ -31,7 +35,7 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
     flags: {
       arm5e: {
         type: ["spellcasting"],
-        subType: [type.toUpperCase()],
+        subType: [type],
         value: [value.toUpperCase()]
       }
     },
@@ -40,7 +44,7 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
   };
   console.log("activeEffectData:");
   console.log(activeEffectData);
-  const ae = actor.data.effects.find((m) => m?.data.flags?.arm5e?.subType[0] === type.toUpperCase());
+  const ae = actor.data.effects.find((m) => m?.data.flags?.arm5e?.subType[0] === type);
   if (ae) {
     activeEffectData._id = ae.data._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
@@ -56,8 +60,6 @@ function findVoiceAndGesturesActiveEffects(effects) {
     // only one change for voice and gestures => index 0 hardcoded
     voice: actualVoiceEffect?.getFlag("arm5e", "value")[0] || DEFAULT_VOICE,
     gestures: actualGesturesEffect?.getFlag("arm5e", "value")[0] || DEFAULT_GESTURES
-    // voice: actualVoiceEffect?.data?.flags?.value || DEFAULT_VOICE,
-    // gestures: actualGesturesEffect?.data?.flags?.value || DEFAULT_GESTURES
   };
 }
 
