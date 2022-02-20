@@ -7,10 +7,10 @@ import { calculateSuccessOfMagic } from "./magic.js";
 import { chatContestOfMagic } from "./chat.js";
 
 const CALL_BACK_AFTER_ROLL = {
-    SPELL: {
-        CALLBACK: checkTargetAndCalculateResistante,
-    }
-}
+  SPELL: {
+    CALLBACK: checkTargetAndCalculateResistante
+  }
+};
 
 const STRESS_DIE = {
   COMBAT: {
@@ -118,17 +118,19 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        const activeEffectsByType = findAllActiveEffectsWithType(activeEffects, ACTIVE_EFFECTS_TYPES.spellcasting.type);
+        const activeEffectsByType = findAllActiveEffectsWithType(activeEffects, "spellcasting");
         actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
           const label = activeEffect.data.label;
           let value = 0;
-
           activeEffect.data.changes
             .filter((c, idx) => {
-              c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
-                activeEffect.getFlag("arm5e", "type").idx == ACTIVE_EFFECTS_TYPES.spellcasting.type;
+              return (
+                c.mode == CONST.ACTIVE_EFFECT_MODES.ADD && activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+              );
             })
-            .forEach((item) => (ivalue += Number(item.value)));
+            .forEach((item) => {
+              value += Number(item.value);
+            });
           return {
             label,
             value
@@ -241,7 +243,7 @@ function updateCharacteristicDependingOnRoll(dataset, actorData) {
 }
 
 function getDebugButtonsIfNeeded(actor, callback) {
-  if(!game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID)) return {}
+  if (!game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID)) return {};
   return {
     explode: {
       label: "DEV Roll 1",
@@ -251,7 +253,7 @@ function getDebugButtonsIfNeeded(actor, callback) {
       label: "DEV Roll 0",
       callback: (html) => stressDie(html, actor, 2, callback)
     }
-  }
+  };
 }
 
 function getDialogData(dataset, html, actor) {
@@ -324,15 +326,14 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
 }
 
 function checkTargetAndCalculateResistante(html, actorCaster, roll, message) {
-    const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
-    if(!actorsTargeted)
-    {
-        return false;
-    }
-    actorsTargeted.forEach((actorTarget) => {
-        const successOfMagic = calculateSuccessOfMagic({ actorTarget, actorCaster, roll, spell: message } )
-        chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
-    })
+  const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
+  if (!actorsTargeted) {
+    return false;
+  }
+  actorsTargeted.forEach((actorTarget) => {
+    const successOfMagic = calculateSuccessOfMagic({ actorTarget, actorCaster, roll, spell: message });
+    chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
+  });
 }
 
 export {

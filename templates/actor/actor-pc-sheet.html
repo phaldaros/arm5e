@@ -47,13 +47,15 @@
               name="data.age.value"
               value="{{data.age.value}}"
               data-dtype="Number"
-              style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
+              style="flex: 0.6; margin-left: 8px; margin-right: 24px"
+            />
             (<input
               type="text"
               name="data.apparent.value"
               value="{{data.apparent.value}}"
               data-dtype="Number"
-              style="flex: 0.6" />)
+              style="flex: 0.6"
+            />)
           </div>
         </div>
 
@@ -83,13 +85,15 @@
               name="data.con.score"
               value="{{data.con.score}}"
               data-dtype="Number"
-              style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
+              style="flex: 0.6; margin-left: 8px; margin-right: 24px"
+            />
             (<input
               type="text"
               name="data.con.points"
               value="{{data.con.points}}"
               data-dtype="Number"
-              style="flex: 0.6" />)
+              style="flex: 0.6"
+            />)
           </div>
         </div>
       </div>
@@ -133,7 +137,7 @@
       {{localize "arm5e.sheet.diary"}}
     </a>
 
-    {{#if devMode}}
+    {{#if isGM}}
     <a class="item posRelative" data-tab="effects">
       <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>

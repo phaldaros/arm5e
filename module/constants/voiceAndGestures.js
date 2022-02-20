@@ -20,13 +20,13 @@ const DEFAULT_GESTURES = "BOLD";
 // };
 
 const VOICE_AND_GESTURES_VALUES = {
-  VOICE: {
+  voice: {
     LOUD: { value: 1, mnemonic: "arm5e.sheet.magic.voiceType.loud" },
     FIRM: { value: 0, mnemonic: "arm5e.sheet.magic.voiceType.firm" },
     QUIET: { value: -5, mnemonic: "arm5e.sheet.magic.voiceType.quiet" },
     NONE: { value: -10, mnemonic: "arm5e.sheet.magic.voiceType.none" }
   },
-  GESTURES: {
+  gestures: {
     EXAGGERATED: { value: 1, mnemonic: "arm5e.sheet.magic.gesturesType.exaggerated" },
     BOLD: { value: 0, mnemonic: "arm5e.sheet.magic.gesturesType.bold" },
     SUBTLE: { value: -2, mnemonic: "arm5e.sheet.magic.gesturesType.subtle" },
@@ -35,8 +35,8 @@ const VOICE_AND_GESTURES_VALUES = {
 };
 
 const VOICE_AND_GESTURES_ICONS = {
-  VOICE: "icons/skills/trades/music-singing-voice-blue.webp",
-  GESTURES: "icons/skills/social/wave-halt-stop.webp"
+  voice: "icons/skills/trades/music-singing-voice-blue.webp",
+  gestures: "icons/skills/social/wave-halt-stop.webp"
 };
 
 export { DEFAULT_VOICE, DEFAULT_GESTURES, GESTURES, VOICE, VOICE_AND_GESTURES_VALUES, VOICE_AND_GESTURES_ICONS };

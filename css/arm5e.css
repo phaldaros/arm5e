@@ -311,6 +311,20 @@
   font-family: "bookAntiquaBold";
 }
 
+.arm5ActiveEffect {
+  background-image: url("../assets/chat/background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  /* font-size: 12pt; */
+}
+
+.arm5ActiveEffect .effect-options {
+  font-family: "bookAntiquaBold";
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
 .arm5eRoll {
   background-image: url("../assets/chat/background.png");
   background-repeat: repeat-y;
