@@ -36,10 +36,12 @@ export class ArM5ePCActor extends Actor {
     if (this._isMagus()) {
       for (let key of Object.keys(this.data.data.arts.techniques)) {
         this.data.data.arts.techniques[key].bonus = 0;
+        this.data.data.arts.techniques[key].xpCoeff = 1.0;
       }
 
       for (let key of Object.keys(this.data.data.arts.forms)) {
         this.data.data.arts.forms[key].bonus = 0;
+        this.data.data.arts.forms[key].xpCoeff = 1.0;
       }
 
       this.data.data.bonuses.arts = {
@@ -351,9 +353,35 @@ export class ArM5ePCActor extends Actor {
       }
 
       for (let [key, technique] of Object.entries(data.arts.techniques)) {
-        technique.derivedScore = this._getArtScore(technique.xp);
+        // TODO remove once confirmed there is no bug
+        // if (technique.xpCoeff != 1.0) {
+        //   log(false, `xpCoeff: ${technique.xpCoeff}`);
+        //   let newxp = technique.xp * technique.xpCoeff;
+        //   log(false, `Xp: ${technique.xp} and after afinity: ${newxp}`);
+        //   let score = this._getArtScore(technique.xp);
+        //   let affinityscore = this._getArtScore(Math.round(technique.xp * technique.xpCoeff));
+        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
+        //   let nextLvl = this._getArtXp(affinityscore + 1) / technique.xpCoeff - technique.xp;
+        //   let afterAffinity = nextLvl / technique.xpCoeff;
+        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
+        // }
+        // end TODO
+
+        if (!technique.bonus && technique.xpCoeff == 1.0) {
+          technique.ui = { shadow: "" };
+        } else if (!technique.bonus && technique.xpCoeff != 1.0) {
+          technique.ui = { shadow: "box-shadow: 0 0 10px maroon", title: "Affinity, " };
+        } else if (technique.bonus && technique.xpCoeff == 1.0) {
+          technique.ui = { shadow: "box-shadow: 0 0 10px blue", title: "" };
+        } else {
+          technique.ui = { shadow: "box-shadow: 0 0 10px purple", title: "Affinity, " };
+        }
+        technique.derivedScore = this._getArtScore(Math.round(technique.xp * technique.xpCoeff));
         technique.finalScore = technique.derivedScore + technique.bonus;
-        technique.xpNextLevel = this._getArtXp(technique.derivedScore + 1) - technique.xp;
+        // start from scratch to avoid rounding errors
+        technique.xpNextLevel =
+          Math.round(this._getArtXp(technique.derivedScore + 1) / technique.xpCoeff) - technique.xp;
+
         // TODO remove once confirmed there is no bug
         // if (technique.score != technique.derivedScore && technique.xp != 0) {
         //   error(
@@ -372,9 +400,32 @@ export class ArM5ePCActor extends Actor {
       }
 
       for (let [key, form] of Object.entries(data.arts.forms)) {
-        form.derivedScore = this._getArtScore(form.xp);
+        // TODO remove once confirmed there is no bug
+        // if (form.xpCoeff != 1.0) {
+        //   log(false, `xpCoeff: ${form.xpCoeff}`);
+        //   let newxp = form.xp * form.xpCoeff;
+        //   log(false, `Xp: ${form.xp} and after afinity: ${newxp}`);
+        //   let score = this._getArtScore(form.xp);
+        //   let affinityscore = this._getArtScore(Math.round(form.xp * form.xpCoeff));
+        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
+        //   let nextLvl = this._getArtXp(affinityscore + 1) / form.xpCoeff - form.xp;
+        //   let afterAffinity = nextLvl / form.xpCoeff;
+        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
+        // }
+        // // end TODO
+        if (!form.bonus && form.xpCoeff == 1.0) {
+          form.ui = { shadow: "" };
+        } else if (!form.bonus && form.xpCoeff != 1.0) {
+          form.ui = { shadow: "box-shadow: 0 0 10px maroon", title: "Affinity, " };
+        } else if (form.bonus && form.xpCoeff == 1.0) {
+          form.ui = { shadow: "box-shadow: 0 0 10px blue", title: "" };
+        } else {
+          form.ui = { shadow: "box-shadow: 0 0 10px purple", title: "Affinity, " };
+        }
+        form.derivedScore = this._getArtScore(Math.round(form.xp * form.xpCoeff));
         form.finalScore = form.derivedScore + form.bonus;
-        form.xpNextLevel = this._getArtXp(form.derivedScore + 1) - form.xp;
+
+        form.xpNextLevel = Math.round(this._getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
         // TODO remove once confirmed there is no bug
         // if (form.score != form.derivedScore && form.xp != 0) {
         //   error(

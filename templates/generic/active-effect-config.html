@@ -79,8 +79,8 @@
       </header>
       <ol class="changes-list">
         {{#each data.changes as |change i|}}
-        <div style="position: absolute; right: -300px">
-          <input type="text" name="changes.{{i}}.mode" value="{{change.mode}}" data-dtype="Number" />
+        <div style="position: absolute; right: -2300px">
+          <input type="text" name="changes.{{i}}.mode" value="{{change.mode}}" data-dtype="Number" readonly />
         </div>
 
         <li class="effect-change flexrow">
