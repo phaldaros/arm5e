@@ -318,13 +318,15 @@ export class ArM5eActorSheet extends ActorSheet {
 
   async _increaseArt(type, art) {
     let oldXp = this.actor.data.data.arts[type][art].xp;
-    let updateData = {};
-    updateData[`data.arts.${type}.${art}.xp`] =
+    let newXp = Math.round(
       ((this.actor.data.data.arts[type][art].derivedScore + 1) *
         (this.actor.data.data.arts[type][art].derivedScore + 2)) /
-      2;
+        (2 * this.actor.data.data.arts[type][art].xpCoeff)
+    );
+    let updateData = {};
+    updateData[`data.arts.${type}.${art}.xp`] = newXp;
     await this.actor.update(updateData, {});
-    let newXp = this.actor.data.data.arts[type][art].xp;
+
     let delta = newXp - oldXp;
     console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
   }
@@ -332,13 +334,14 @@ export class ArM5eActorSheet extends ActorSheet {
   async _deccreaseArt(type, art) {
     if (this.actor.data.data.arts[type][art].derivedScore != 0) {
       let oldXp = this.actor.data.data.arts[type][art].xp;
-      let updateData = {};
-      updateData[`data.arts.${type}.${art}.xp`] =
+      let newXp = Math.round(
         ((this.actor.data.data.arts[type][art].derivedScore - 1) * this.actor.data.data.arts[type][art].derivedScore) /
-        2;
+          (2 * this.actor.data.data.arts[type][art].xpCoeff)
+      );
+      let updateData = {};
+      updateData[`data.arts.${type}.${art}.xp`] = newXp;
 
       await this.actor.update(updateData, {});
-      let newXp = this.actor.data.data.arts[type][art].xp;
       let delta = newXp - oldXp;
       console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
     }
