@@ -106,6 +106,53 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       }
     }
+  },
+  characteristics: {
+    category: "traits",
+    type: "characteristics",
+    label: "arm5e.sheet.activeEffect.types.characteristics",
+    subtypes: {
+      int: {
+        label: "arm5e.sheet.intelligence",
+        key: "data.characteristics.int.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      per: {
+        label: "arm5e.sheet.perception",
+        key: "data.characteristics.per.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      str: {
+        label: "arm5e.sheet.strength",
+        key: "data.characteristics.str.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      sta: {
+        label: "arm5e.sheet.stamina",
+        key: "data.characteristics.sta.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      pre: {
+        label: "arm5e.sheet.presence",
+        key: "data.characteristics.pre.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      com: {
+        label: "arm5e.sheet.communication",
+        key: "data.characteristics.com.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      dex: {
+        label: "arm5e.sheet.dexterity",
+        key: "data.characteristics.dex.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      qik: {
+        label: "arm5e.sheet.quickness",
+        key: "data.characteristics.qik.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      }
+    }
   }
 
   // strength: {
