@@ -153,6 +153,50 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       }
     }
+  },
+  fatigue: {
+    category: "traits",
+    type: "fatigue",
+    label: "arm5e.sheet.activeEffect.types.fatigue",
+    subtypes: {
+      weary: {
+        label: "arm5e.sheet.weary",
+        key: "data.fatigue.weary.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      tired: {
+        label: "arm5e.sheet.tired",
+        key: "data.fatigue.tired.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      dazed: {
+        label: "arm5e.sheet.dazed",
+        key: "data.fatigue.dazed.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      }
+    }
+  },
+  wounds: {
+    category: "traits",
+    type: "wounds",
+    label: "arm5e.sheet.activeEffect.types.wounds",
+    subtypes: {
+      light: {
+        label: "arm5e.sheet.light",
+        key: "data.wounds.light.penalty.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      medium: {
+        label: "arm5e.sheet.medium",
+        key: "data.wounds.medium.penalty.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      heavy: {
+        label: "arm5e.sheet.heavy",
+        key: "data.wounds.heavy.penalty.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      }
+    }
   }
 
   // strength: {

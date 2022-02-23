@@ -670,6 +670,8 @@
   "arm5e.sheet.activeEffect.types.vitals": "Vitals",
   "arm5e.sheet.activeEffect.types.nullEffect": "Null effect",
   "arm5e.sheet.activeEffect.types.characteristics": "Characteristics",
+  "arm5e.sheet.activeEffect.types.fatigue": "Fatigue",
+  "arm5e.sheet.activeEffect.types.wounds": "Wounds",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
 
