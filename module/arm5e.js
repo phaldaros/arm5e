@@ -237,7 +237,7 @@ Hooks.once("init", async function () {
     makeDefault: true
   });
 
-  // DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
+  DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "arm5e", ArM5eActiveEffectConfig);
 
   // Preload handlebars templates
