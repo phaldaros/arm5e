@@ -28,7 +28,7 @@ It is possible someone already posted about that problem, feel free to add any o
 
 ## Translation
 
-### I have Foundy VTT configured in <another language> but some text in the interface is still in English.
+### I have Foundy VTT configured in Latin but some text in the interface is still in English.
 
 There could be 2 reasons for that:
 

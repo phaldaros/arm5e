@@ -82,6 +82,16 @@ export class ArM5eItemSheet extends ItemSheet {
       //console.log(data)
     } else if (itemData.type == "spell" || itemData.type == "enchantment" || itemData.type == "laboratoryText") {
       context.enforceMagicRules = game.settings.get("arm5e", "magicRulesEnforcement");
+    } else if (itemData.type == "ability") {
+      // TODO add other categories
+      context.abilityKeysList = {
+        ...CONFIG.ARM5E.character.abilities.general,
+        ...CONFIG.ARM5E.character.abilities.martial,
+        ...CONFIG.ARM5E.character.abilities.academic,
+        ...CONFIG.ARM5E.character.abilities.arcane,
+        ...CONFIG.ARM5E.character.abilities.supernatural,
+        ...CONFIG.ARM5E.character.abilities.mystery
+      };
     }
 
     context.metagame = game.settings.get("arm5e", "metagame");
