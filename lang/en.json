@@ -239,7 +239,7 @@
 
   "arm5e.sheet.setAbilities": "Create abilities for your character that match the labels below. This ensures correct calculations. If you don't have the ability, you can still create it and set to zero and assign it.",
   "arm5e.skill.general.animalHandling": "Animal Handling",
-  "arm5e.skill.general.areaLore": "{option} area Lore",
+  "arm5e.skill.general.areaLore": "Area {option} Lore",
   "arm5e.skill.general.athletics": "Athletics",
   "arm5e.skill.general.awareness": "Awareness",
   "arm5e.skill.general.bargain": "Bargain",
@@ -258,7 +258,7 @@
   "arm5e.skill.general.legerdemain": "Legerdemain",
   "arm5e.skill.general.livingLanguage": "Speak {option}",
   "arm5e.skill.general.music": "Music",
-  "arm5e.skill.general.organizationLore": "{option} org Lore",
+  "arm5e.skill.general.organizationLore": "{option} Organization Lore",
   "arm5e.skill.general.profession": "Profession {option}",
   "arm5e.skill.general.ride": "Ride",
   "arm5e.skill.general.stealth": "Stealth",
@@ -303,7 +303,7 @@
   "arm5e.skill.mystery.faerieMagic": "Faerie Magic",
   "arm5e.skill.mystery.heartbeast": "Heartbeast",
   "arm5e.skill.mystery.verditiusMagic": "Verditius Magic",
-  "arm5e.skill.mystery.cult": "{option} Mystery Cult Lore",
+  "arm5e.skill.mystery.cult": "Mystery Cult {option} Lore",
 
   "arm5e.sheet.longevityRitual": "Longevity Ritual",
   "arm5e.sheet.labTotal": "Lab Total",
