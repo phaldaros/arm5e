@@ -18,22 +18,9 @@ Thanks to various contributors at https://game-icons.net for some default icons
 
 La utilización e inclusión del logo, iconos y elementos artísticos, así como el uso de terminología, ha sido autorizado expresamente y por escrito por Holocubierta Ediciones, S.L. (https://www.holocubierta.com), licenciataria del juego Ars Magica 5ª Edición para su publicación en castellano.
 
-## Contributing
-
-This is an open-source project and we encourage fellow developers to contribute and help improve it!
-
-1. Fork it.
-2. Create your feature branch (`git checkout -b my-new-feature`).
-3. Contribute!
-4. Commit your changes (`git commit -m 'Add new feature'`).
-5. Push to the branch (`git push origin my-new-feature`).
-6. Create a pull request.
-
-You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for development of this system.
-
 ## Installation
 
-IMüPORTANT: It is recommended to do a backup of your world before updating.
+IMPORTANT: It is recommended to do a backup of your world before updating.
 
 Copy the following url in the Foundry dialog to install new systems (at the bottom, there is a text field) an click install
 
@@ -60,6 +47,19 @@ https://raw.githubusercontent.com/xzotl42/arm5e/master/system.json
 ## Feedback
 
 If you have any suggestions or bugs to report, feel free to create an issue on GitHub or [report them on Discord](https://discord.gg/DdDetc9SYP).
+
+## Contributing
+
+This is an open-source project and we encourage fellow developers to contribute and help improve it!
+
+1. Fork it.
+2. Create your feature branch (`git checkout -b my-new-feature`).
+3. Contribute!
+4. Commit your changes (`git commit -m 'Add new feature'`).
+5. Push to the branch (`git push origin my-new-feature`).
+6. Create a pull request.
+
+You can also [join our Discord community](https://discord.gg/DdDetc9SYP) for development of this system.
 
 ## Abandonment
 

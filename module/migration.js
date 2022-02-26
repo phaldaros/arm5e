@@ -10,6 +10,16 @@ export async function migration(originalVersion) {
 
   console.log("Starting migration...");
 
+  // create the list of abilities
+  CONFIG.ARM5E.ALL_SKILLS = Object.entries({
+    ...CONFIG.ARM5E.character.abilities.general,
+    ...CONFIG.ARM5E.character.abilities.martial,
+    ...CONFIG.ARM5E.character.abilities.academic,
+    ...CONFIG.ARM5E.character.abilities.arcane,
+    ...CONFIG.ARM5E.character.abilities.supernatural,
+    ...CONFIG.ARM5E.character.abilities.mystery
+  });
+
   // Migrate World Actors
   for (let a of game.actors.contents) {
     try {
@@ -76,6 +86,13 @@ export async function migration(originalVersion) {
       console.error(err);
     }
   }
+
+  // [DEV] Uncomment below to migrate system compendiums
+  // for (let p of game.packs) {
+  //   if (p.metadata.package !== "arm5e") continue;
+  //   if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
+  //   await migrateCompendium(p);
+  // }
 
   // Migrate World Compendium Packs
   for (let p of game.packs) {
@@ -446,23 +463,44 @@ export const migrateItemData = function (itemData) {
   //
   // migrate abilities xp
   //
-  if (itemData.type === "ability" && itemData.data.experienceNextLevel != undefined) {
-    // if the experience is equal or bigger than the xp for this score, use it as total xp
-    let exp = ((itemData.data.score * (itemData.data.score + 1)) / 2) * 5;
-    if (itemData.data.experience >= exp) {
-      updateData["data.xp"] = itemData.data.experience;
-    } else if (itemData.data.experience >= (itemData.data.score + 1) * 5) {
-      // if the experience is bigger than the neeeded for next level, ignore it
-      updateData["data.xp"] = exp;
-    } else {
-      // compute normally
-      updateData["data.xp"] = exp + itemData.data.experience;
+  if (itemData.type === "ability") {
+    if (itemData.data.experienceNextLevel != undefined) {
+      // if the experience is equal or bigger than the xp for this score, use it as total xp
+      let exp = ((itemData.data.score * (itemData.data.score + 1)) / 2) * 5;
+      if (itemData.data.experience >= exp) {
+        updateData["data.xp"] = itemData.data.experience;
+      } else if (itemData.data.experience >= (itemData.data.score + 1) * 5) {
+        // if the experience is bigger than the neeeded for next level, ignore it
+        updateData["data.xp"] = exp;
+      } else {
+        // compute normally
+        updateData["data.xp"] = exp + itemData.data.experience;
+      }
+      // TODO: to be uncommentedm when we are sure the new system works
+      // updateData["data.-=experience"] = null;
+      // updateData["data.-=score"] = null;
+      updateData["data.-=experienceNextLevel"] = null;
     }
 
-    // TODO: to be uncommentedm when we are sure the new system works
-    // updateData["data.-=experience"] = null;
-    // updateData["data.-=score"] = null;
-    updateData["data.-=experienceNextLevel"] = null;
+    // no key assigned to the ability, try to find one
+    if (itemData.data.key == "") {
+      log(true, `Trying to find key for ability ${itemData.name}`);
+      let name = itemData.name.toLowerCase();
+      // handle those pesky '*' at the end of restricted abilities
+      if (name.endsWith("*")) {
+        name = name.substring(0, name.length - 1);
+      }
+      for (const [key, value] of CONFIG.ARM5E.ALL_SKILLS) {
+        if (game.i18n.localize(value.mnemonic).toLowerCase() == name) {
+          updateData["data.key"] = key;
+          log(false, `Found key ${key} for ability  ${itemData.name}`);
+          break;
+        }
+      }
+      if (updateData["data.key"] == undefined) {
+        log(true, `Unable to find a key for ability  ${itemData.name}`);
+      }
+    }
   }
 
   if (_isMagicalItem(itemData)) {
@@ -697,7 +735,7 @@ function _guessTarget(name, value) {
   }
 }
 
-// Unfortunaltly, since the duration was a free input field, it has to be guessed
+// Unfortunaltely, since the duration was a free input field, it has to be guessed
 function _guessDuration(name, value) {
   switch (value.toLowerCase().trim()) {
     case "moment":

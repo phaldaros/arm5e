@@ -14,7 +14,7 @@
             data-dtype="String"
         /></label>
       </div>
-      {{#if item.parent }}
+      {{#if item.isOwned }}
       <div class="grid grid-3col">
         <label
           >{{localize "arm5e.sheet.score"}}<input
@@ -65,6 +65,29 @@
     <div class="tab" data-group="primary" data-tab="description">
       {{editor content=data.description target="data.description" button=true owner=owner editable=editable}} {{#if (eq
       metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
+    </div>
+    <div class="grid grid-2col flex2">
+      <div class="resource">
+        <label for="data.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
+        <select name="data.key" data-dtype="String" class="ability-key">
+          {{#select data.key}}
+          <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
+          {{#each abilityKeysList as |item key|}}
+          <option value="{{key}}">{{localize item.mnemonic}}</option>
+          {{/each}} {{/select}}
+        </select>
+      </div>
+      <div class="resource">
+        {{#if (lookup (lookup abilityKeysList data.key) "option")}}
+        <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+        <input type="text" name="data.option" value="{{data.option}}" style="width: 200px" />
+        {{else}}
+        <label for="data.option" class="header-label" style="color: gray"
+          >{{localize "arm5e.sheet.skill.abilityOption"}}</label
+        >
+        <input type="text" name="data.option" data-dtype="String" value="" disabled style="width: 200px" />
+        {{/if}}
+      </div>
     </div>
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" }}

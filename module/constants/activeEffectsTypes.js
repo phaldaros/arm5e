@@ -31,7 +31,7 @@ export default {
   penetration: {
     category: "magic",
     type: "penetration",
-    label: "arm5e.skill.penetration",
+    label: "arm5e.skill.arcane.penetration",
     subtypes: {
       bonus: {
         label: "arm5e.sheet.activeEffect.bonuses.penetration",

@@ -115,7 +115,7 @@
   "arm5e.sheet.silver": "Argent",
   "arm5e.sheet.gold": "Or",
   "arm5e.sheet.apprentice": "Apprentis",
-  "arm5e.skill.magicTheory": "Théorie de la Magie",
+
   "arm5e.sheet.years": "Années",
 
   "arm5e.sheet.magus": "Magus",
@@ -215,18 +215,19 @@
   "arm5e.sheet.fastCastingSpeed": "Vitesse d'incantation Rapide",
   "arm5e.sheet.determiningEffect": "Reconnaître un effet magique",
   "arm5e.sheet.targeting": "Ciblé",
-  "arm5e.skill.concentration": "Concentration",
+  "arm5e.skill.general.concentration": "Concentration",
   "arm5e.sheet.magicResistance": "Résistance Magique",
   "arm5e.sheet.multipleCasting": "Lancement Multiple",
   "arm5e.sheet.basicLabTotal": "Total de Laboratoire de base",
   "arm5e.sheet.visLimit": "Limite de Vis",
 
   "arm5e.sheet.setAbilities": "Créez des compétences pour votre personnage pour les valeurs ci-dessous. Celà permet le calcul correct. Si vous ne possédez pas la capacité, vous pouvez tout de même la créer avec une valeur de zéro",
-  "arm5e.skill.finesse": "Finesse",
-  "arm5e.skill.awareness": "Attention",
-  "arm5e.skill.artesLib": "Artes Liberales",
-  "arm5e.skill.philosophy": "Philosophies",
-  "arm5e.skill.parma": "Parma Magica",
+  "arm5e.skill.arcane.finesse": "Finesse",
+  "arm5e.skill.general.awareness": "Attention",
+  "arm5e.skill.academic.artesLib": "Artes Liberales",
+  "arm5e.skill.academic.philosophy": "Philosophies",
+  "arm5e.skill.arcane.magicTheory": "Théorie de la Magie",
+  "arm5e.skill.arcane.parma": "Parma Magica",
 
   "arm5e.sheet.longevityRitual": "Rituel de longévité",
   "arm5e.sheet.labTotal": "Total de Laboratoire",
@@ -426,7 +427,7 @@
   "arm5e.spell.durations.19year": "19 Ans (Hyperboréenne)",
   "arm5e.spell.durations.event": "Évènement (Defixio)",
   "arm5e.spell.durations.if": "Si (Féerique)",
-  
+
   "arm5e.spell.targets.ind": "Individu",
   "arm5e.spell.targets.circle": "Cercle",
   "arm5e.spell.targets.taste": "Goût (In)",
@@ -578,7 +579,7 @@
   "arm5e.notification.notPossibleToCalculateWound": "Nous ne pouvons pas calculer les Blessures (vérifier la Taille de votre Actor).",
   "arm5e.notification.noConfidencePointsLeft": "{name} n'a plus de points de Confiance",
   "arm5e.notification.roll.botchNum": "Entrez le nombre de dé(s) de Désastre svp.",
-  
+
   "arm5e.packs.abilities.name": "Compétences",
 
   "arm5e.sheet.source.ArM5": "Livre de Base",

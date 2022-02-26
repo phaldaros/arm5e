@@ -237,6 +237,7 @@ Hooks.once("init", async function () {
     makeDefault: true
   });
 
+  // [DEV] comment line bellow to get access to the original sheet
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "arm5e", ArM5eActiveEffectConfig);
 

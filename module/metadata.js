@@ -378,15 +378,91 @@ ARM5E.character.vitals = {
   }
 };
 
+ARM5E.character.magicAbilities = {
+  artesLib: "arm5e.skill.academic.artesLib",
+  awareness: "arm5e.skill.general.awareness",
+  concentration: "arm5e.skill.general.concentration",
+  finesse: "arm5e.skill.arcane.finesse",
+  magicTheory: "arm5e.skill.arcane.magicTheory",
+  parma: "arm5e.skill.arcane.parma",
+  philosophy: "arm5e.skill.academic.philosophy",
+  penetration: "arm5e.skill.arcane.penetration"
+};
 ARM5E.character.abilities = {
-  artesLib: "arm5e.skill.artesLib",
-  awareness: "arm5e.skill.awareness",
-  concentration: "arm5e.skill.concentration",
-  finesse: "arm5e.skill.finesse",
-  magicTheory: "arm5e.skill.magicTheory",
-  parma: "arm5e.skill.parma",
-  philosophy: "arm5e.skill.philosophy",
-  penetration: "arm5e.skill.penetration"
+  general: {
+    animalHandling: { mnemonic: "arm5e.skill.general.animalHandling", option: false },
+    areaLore: { mnemonic: "arm5e.skill.general.areaLore", option: true },
+    athletics: { mnemonic: "arm5e.skill.general.athletics", option: false },
+    awareness: { mnemonic: "arm5e.skill.general.awareness", option: false },
+    bargain: { mnemonic: "arm5e.skill.general.bargain", option: false },
+    brawl: { mnemonic: "arm5e.skill.general.brawl", option: false },
+    carouse: { mnemonic: "arm5e.skill.general.carouse", option: false },
+    charm: { mnemonic: "arm5e.skill.general.charm", option: false },
+    chirugy: { mnemonic: "arm5e.skill.general.chirugy", option: false },
+    concentration: { mnemonic: "arm5e.skill.general.concentration", option: false },
+    craft: { mnemonic: "arm5e.skill.general.craft", option: true },
+    etiquette: { mnemonic: "arm5e.skill.general.etiquette", option: true },
+    folkKen: { mnemonic: "arm5e.skill.general.folkKen", option: false },
+    guile: { mnemonic: "arm5e.skill.general.guile", option: false },
+    hunt: { mnemonic: "arm5e.skill.general.hunt", option: false },
+    intrigue: { mnemonic: "arm5e.skill.general.intrigue", option: false },
+    leadership: { mnemonic: "arm5e.skill.general.leadership", option: false },
+    legerdemain: { mnemonic: "arm5e.skill.general.legerdemain", option: false },
+    livingLanguage: { mnemonic: "arm5e.skill.general.livingLanguage", option: true },
+    music: { mnemonic: "arm5e.skill.general.music", option: false },
+    organizationLore: { mnemonic: "arm5e.skill.general.organizationLore", option: true },
+    profession: { mnemonic: "arm5e.skill.general.profession", option: true },
+    ride: { mnemonic: "arm5e.skill.general.ride", option: false },
+    stealth: { mnemonic: "arm5e.skill.general.stealth", option: false },
+    survival: { mnemonic: "arm5e.skill.general.survival", option: false },
+    swim: { mnemonic: "arm5e.skill.general.swim", option: false },
+    teaching: { mnemonic: "arm5e.skill.general.teaching", option: false }
+  },
+  academic: {
+    artesLib: { mnemonic: "arm5e.skill.academic.artesLib", option: false },
+    civilCanonLaw: { mnemonic: "arm5e.skill.academic.civilCanonLaw", option: false },
+    commonLaw: { mnemonic: "arm5e.skill.academic.commonLaw", option: false },
+    deadLanguage: { mnemonic: "arm5e.skill.academic.deadLang", option: true },
+    medicine: { mnemonic: "arm5e.skill.academic.medicine", option: false },
+    philosophy: { mnemonic: "arm5e.skill.academic.philosophy", option: false },
+    theology: { mnemonic: "arm5e.skill.academic.theology", option: false }
+  },
+  arcane: {
+    hermeticCode: { mnemonic: "arm5e.skill.arcane.hermeticCode", option: false },
+    dominionLore: { mnemonic: "arm5e.skill.arcane.dominionLore", option: false },
+    faerieLore: { mnemonic: "arm5e.skill.arcane.faerieLore", option: false },
+    finesse: { mnemonic: "arm5e.skill.arcane.finesse", option: false },
+    infernalLore: { mnemonic: "arm5e.skill.arcane.infernalLore", option: false },
+    magicLore: { mnemonic: "arm5e.skill.arcane.magicLore", option: false },
+    magicTheory: { mnemonic: "arm5e.skill.arcane.magicTheory", option: false },
+    parma: { mnemonic: "arm5e.skill.arcane.parma", option: false },
+    penetration: { mnemonic: "arm5e.skill.arcane.penetration", option: false }
+  },
+  martial: {
+    bows: { mnemonic: "arm5e.skill.martial.bows", option: false },
+    singleWeapon: { mnemonic: "arm5e.skill.martial.singleWeapon", option: false },
+    greatWeapon: { mnemonic: "arm5e.skill.martial.greatWeapon", option: false },
+    trownWeapon: { mnemonic: "arm5e.skill.martial.trownWeapon", option: false }
+  },
+  supernatural: {
+    animalKen: { mnemonic: "arm5e.skill.supernatural.animalKen", option: false },
+    dowsing: { mnemonic: "arm5e.skill.supernatural.dowsing", option: false },
+    enchantingMusic: { mnemonic: "arm5e.skill.supernatural.enchantingMusic", option: false },
+    entrancement: { mnemonic: "arm5e.skill.supernatural.entrancement", option: false },
+    magicSensitivity: { mnemonic: "arm5e.skill.supernatural.magicSensitivity", option: false },
+    premonitions: { mnemonic: "arm5e.skill.supernatural.premonitions", option: false },
+    secondSight: { mnemonic: "arm5e.skill.supernatural.secondSight", option: false },
+    senseHolyAndUnholy: { mnemonic: "arm5e.skill.supernatural.senseHolyAndUnholy", option: false },
+    shapeshifter: { mnemonic: "arm5e.skill.supernatural.shapeshifter", option: false },
+    wildernessSense: { mnemonic: "arm5e.skill.supernatural.wildernessSense", option: false }
+  },
+  mystery: {
+    enigma: { mnemonic: "arm5e.skill.mystery.enigma", option: false },
+    faerieMagic: { mnemonic: "arm5e.skill.mystery.faerieMagic", option: false },
+    heartbeast: { mnemonic: "arm5e.skill.mystery.heartbeast", option: false },
+    verditiusMagic: { mnemonic: "arm5e.skill.mystery.verditiusMagic", option: false },
+    cult: { mnemonic: "arm5e.skill.mystery.cult", option: true }
+  }
 };
 
 ARM5E.character.combat = {};
@@ -1458,76 +1534,3 @@ ARM5E.generic.sourcesTypes = {
     label: "arm5e.sheet.source.Hooks"
   }
 };
-
-// ARM5E_BASE_MAGIC = {
-//     "an": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "aq": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "au": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "co": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "he": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "ig": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "im": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "me": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "te": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-//     "vi": {
-//         cr: [],
-//         in: [],
-//         muto: [],
-//         perdo: [],
-//         rego: []
-//     },
-// };
