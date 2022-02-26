@@ -238,6 +238,11 @@
   "arm5e.sheet.visLimit": "Vis Use Limit",
 
   "arm5e.sheet.setAbilities": "Create abilities for your character that match the labels below. This ensures correct calculations. If you don't have the ability, you can still create it and set to zero and assign it.",
+  "arm5e.skill.commonCases.native": "Native Language",
+  "arm5e.skill.commonCases.areaLore": "(Area) Lore",
+  "arm5e.skill.commonCases.latin": "Latin",
+  "arm5e.skill.commonCases.hermesLore": "Order of Hermes Lore",
+
   "arm5e.skill.general.animalHandling": "Animal Handling",
   "arm5e.skill.general.areaLore": "Area {option} Lore",
   "arm5e.skill.general.athletics": "Athletics",

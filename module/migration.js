@@ -490,11 +490,30 @@ export const migrateItemData = function (itemData) {
       if (name.endsWith("*")) {
         name = name.substring(0, name.length - 1);
       }
-      for (const [key, value] of CONFIG.ARM5E.ALL_SKILLS) {
-        if (game.i18n.localize(value.mnemonic).toLowerCase() == name) {
-          updateData["data.key"] = key;
-          log(false, `Found key ${key} for ability  ${itemData.name}`);
-          break;
+
+      // Special common cases
+      if (game.i18n.localize("arm5e.skill.commonCases.native").toLowerCase() == name) {
+        updateData["data.key"] = "livingLanguage";
+        updateData["data.option"] = "Native tongue";
+        log(false, `Found key livingLanguage for ability  ${itemData.name}`);
+      } else if (game.i18n.localize("arm5e.skill.commonCases.areaLore").toLowerCase() == name) {
+        updateData["data.key"] = "areaLore";
+        log(false, `Found key areaLore for ability  ${itemData.name}`);
+      } else if (game.i18n.localize("arm5e.skill.commonCases.latin").toLowerCase() == name) {
+        updateData["data.key"] = "deadLang";
+        updateData["data.option"] = "Latin";
+        log(false, `Found key latin for ability  ${itemData.name}`);
+      } else if (game.i18n.localize("arm5e.skill.commonCases.hermesLore").toLowerCase() == name) {
+        updateData["data.key"] = "hermesLore";
+        updateData["data.option"] = "Order of Hermes";
+        log(false, `Found key hermesLore for ability  ${itemData.name}`);
+      } else {
+        for (const [key, value] of CONFIG.ARM5E.ALL_SKILLS) {
+          if (game.i18n.localize(value.mnemonic).toLowerCase() == name) {
+            updateData["data.key"] = key;
+            log(false, `Found key ${key} for ability  ${itemData.name}`);
+            break;
+          }
         }
       }
       if (updateData["data.key"] == undefined) {
