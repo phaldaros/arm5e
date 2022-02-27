@@ -149,7 +149,8 @@ Hooks.once("init", async function () {
   // Add custom metadata
   CONFIG.ARM5E = ARM5E;
 
-  CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
+  CONFIG.ARM5E.ALL_SKILLS = CONFIG.ARM5E_DEFAULT_ICONS =
+    ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
   // Define custom Entity classes
   CONFIG.Actor.documentClass = ArM5ePCActor;

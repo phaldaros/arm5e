@@ -10,16 +10,6 @@ export async function migration(originalVersion) {
 
   console.log("Starting migration...");
 
-  // create the list of abilities
-  CONFIG.ARM5E.ALL_SKILLS = Object.entries({
-    ...CONFIG.ARM5E.character.abilities.general,
-    ...CONFIG.ARM5E.character.abilities.martial,
-    ...CONFIG.ARM5E.character.abilities.academic,
-    ...CONFIG.ARM5E.character.abilities.arcane,
-    ...CONFIG.ARM5E.character.abilities.supernatural,
-    ...CONFIG.ARM5E.character.abilities.mystery
-  });
-
   // Migrate World Actors
   for (let a of game.actors.contents) {
     try {
@@ -483,7 +473,7 @@ export const migrateItemData = function (itemData) {
     }
 
     // no key assigned to the ability, try to find one
-    if (itemData.data.key == "") {
+    if (CONFIG.ARM5E.ALL_ABILITIES[itemData.data.key] == undefined || itemData.data.key == "") {
       log(true, `Trying to find key for ability ${itemData.name}`);
       let name = itemData.name.toLowerCase();
       // handle those pesky '*' at the end of restricted abilities
@@ -504,11 +494,11 @@ export const migrateItemData = function (itemData) {
         updateData["data.option"] = "Latin";
         log(false, `Found key latin for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.hermesLore").toLowerCase() == name) {
-        updateData["data.key"] = "hermesLore";
+        updateData["data.key"] = "organizationLore";
         updateData["data.option"] = "Order of Hermes";
         log(false, `Found key hermesLore for ability  ${itemData.name}`);
       } else {
-        for (const [key, value] of CONFIG.ARM5E.ALL_SKILLS) {
+        for (const [key, value] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
           if (game.i18n.localize(value.mnemonic).toLowerCase() == name) {
             updateData["data.key"] = key;
             log(false, `Found key ${key} for ability  ${itemData.name}`);

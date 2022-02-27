@@ -17,6 +17,7 @@ Features
 - updated French version (by Lanneval)
 - penetration total computed during combat
 - fun stress dice rolls option
+- new abilities keys for the system to identify them.
 
 Bug fixes
 
