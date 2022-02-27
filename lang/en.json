@@ -278,7 +278,7 @@
   "arm5e.skill.academic.artesLib": "Artes Liberales",
   "arm5e.skill.academic.civilCanonLaw": "Civil & Canon Law",
   "arm5e.skill.academic.commonLaw": "Common Law",
-  "arm5e.skill.academic.deadLang": "Dead language {option}",
+  "arm5e.skill.academic.deadLanguage": "Dead language {option}",
   "arm5e.skill.academic.medicine": "Medicine",
   "arm5e.skill.academic.philosophy": "Philosophiae",
   "arm5e.skill.academic.theology": "Theology",

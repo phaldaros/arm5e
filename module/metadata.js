@@ -422,7 +422,7 @@ ARM5E.character.abilities = {
     artesLib: { mnemonic: "arm5e.skill.academic.artesLib", option: false },
     civilCanonLaw: { mnemonic: "arm5e.skill.academic.civilCanonLaw", option: false },
     commonLaw: { mnemonic: "arm5e.skill.academic.commonLaw", option: false },
-    deadLanguage: { mnemonic: "arm5e.skill.academic.deadLang", option: true },
+    deadLanguage: { mnemonic: "arm5e.skill.academic.deadLanguage", option: true },
     medicine: { mnemonic: "arm5e.skill.academic.medicine", option: false },
     philosophy: { mnemonic: "arm5e.skill.academic.philosophy", option: false },
     theology: { mnemonic: "arm5e.skill.academic.theology", option: false }

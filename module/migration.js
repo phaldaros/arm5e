@@ -500,7 +500,7 @@ export const migrateItemData = function (itemData) {
         updateData["data.key"] = "areaLore";
         log(false, `Found key areaLore for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.latin").toLowerCase() == name) {
-        updateData["data.key"] = "deadLang";
+        updateData["data.key"] = "deadLanguage";
         updateData["data.option"] = "Latin";
         log(false, `Found key latin for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.hermesLore").toLowerCase() == name) {
