@@ -118,18 +118,19 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        const activeEffectsByType = findAllActiveEffectsByAffectedKey(
-          activeEffects,
-          ACTIVE_EFFECTS_TYPES.spellcasting.key
-        );
+        const activeEffectsByType = findAllActiveEffectsWithType(activeEffects, "spellcasting");
         actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
           const label = activeEffect.data.label;
           let value = 0;
-
-          const valuableChanges = activeEffect.data.changes.filter((c) => {
-            return c.mode === CONST.ACTIVE_EFFECT_MODES.ADD && c.key === ACTIVE_EFFECTS_TYPES.spellcasting.key;
-          });
-          valuableChanges.forEach((item) => (value += Number(item.value)));
+          activeEffect.data.changes
+            .filter((c, idx) => {
+              return (
+                c.mode == CONST.ACTIVE_EFFECT_MODES.ADD && activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+              );
+            })
+            .forEach((item) => {
+              value += Number(item.value);
+            });
           return {
             label,
             value

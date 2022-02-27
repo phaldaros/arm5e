@@ -1,5 +1,6 @@
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
-import { findAllActiveEffectsWithType } from "./active-effects.js";
+import { findAllActiveEffectsWithType, findFirstActiveEffectBySubtype } from "./active-effects.js";
+import { VOICE } from "../constants/voiceAndGestures";
 
 function getAuraActiveEffect(value) {
   const changeData = ACTIVE_EFFECTS_TYPES.aura.keys.map((key) => ({
@@ -27,7 +28,7 @@ function getAuraActiveEffect(value) {
 }
 
 async function addEffect(actor, activeEffectData) {
-  const ae = findAllActiveEffectsWithType(actor.data.effects, ACTIVE_EFFECTS_TYPES.aura.type);
+  const ae = findFirstActiveEffectBySubtype(actor.data.effects, ACTIVE_EFFECTS_TYPES.spellcasting.subtypes.aura);
   for (let i = 0; i <= ae.length - 1; i++) {
     await ae[i].delete();
   }
