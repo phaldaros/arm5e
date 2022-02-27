@@ -215,19 +215,23 @@
   "arm5e.sheet.fastCastingSpeed": "Vitesse d'incantation Rapide",
   "arm5e.sheet.determiningEffect": "Reconnaître un effet magique",
   "arm5e.sheet.targeting": "Ciblé",
-  "arm5e.skill.general.concentration": "Concentration",
+
   "arm5e.sheet.magicResistance": "Résistance Magique",
   "arm5e.sheet.multipleCasting": "Lancement Multiple",
   "arm5e.sheet.basicLabTotal": "Total de Laboratoire de base",
   "arm5e.sheet.visLimit": "Limite de Vis",
 
   "arm5e.sheet.setAbilities": "Créez des compétences pour votre personnage pour les valeurs ci-dessous. Celà permet le calcul correct. Si vous ne possédez pas la capacité, vous pouvez tout de même la créer avec une valeur de zéro",
+
+  "arm5e.skill.general.concentration": "Concentration",
+
   "arm5e.skill.arcane.finesse": "Finesse",
+  "arm5e.skill.arcane.magicTheory": "Théorie de la Magie",
+  "arm5e.skill.arcane.parma": "Parma Magica",
+
   "arm5e.skill.general.awareness": "Attention",
   "arm5e.skill.academic.artesLib": "Artes Liberales",
   "arm5e.skill.academic.philosophy": "Philosophies",
-  "arm5e.skill.arcane.magicTheory": "Théorie de la Magie",
-  "arm5e.skill.arcane.parma": "Parma Magica",
 
   "arm5e.sheet.longevityRitual": "Rituel de longévité",
   "arm5e.sheet.labTotal": "Total de Laboratoire",

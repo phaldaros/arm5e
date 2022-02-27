@@ -51,9 +51,12 @@ export class ArM5ePCActor extends Actor {
       };
     }
 
-    // for (let key of Object.keys(ARM5E.character.abilities.general)) {
-    //   this.data.data.bonuses.skills.general[key].bonus = 0;
-    //   this.data.data.bonuses.skills.general[key].xpCoeff = 1.0;
+    // this.data.data.bonuses.skills = {};
+    // for (const [key, item] of this.items.entries()) {
+    //   if (item.type == "ability") {
+    //     this.data.data.bonuses.skills[key].bonus = 0;
+    //     this.data.data.bonuses.skills[key].xpCoeff = 1.0;
+    //   }
     // }
 
     this.data.data.bonuses.traits = { soak: 0 };
