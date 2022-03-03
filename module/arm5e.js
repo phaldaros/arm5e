@@ -12,6 +12,8 @@ import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
 import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 
+import ArM5eActiveEffect from "./helpers/active-effects.js";
+
 import { prepareDatasetByTypeOfItem } from "./helpers/items.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
@@ -21,7 +23,7 @@ import * as Arm5eChatMessage from "./features/chat-message-hook.js";
 //import * as Arm5eUI from "./features/ui-integration.js";
 
 import { migration } from "./migration.js";
-import { log } from "./tools.js";
+import { log, generateActiveEffectFromAbilities } from "./tools.js";
 
 Hooks.once("init", async function () {
   game.arm5e = {
@@ -149,12 +151,12 @@ Hooks.once("init", async function () {
   // Add custom metadata
   CONFIG.ARM5E = ARM5E;
 
-  CONFIG.ARM5E.ALL_SKILLS = CONFIG.ARM5E_DEFAULT_ICONS =
-    ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
+  CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
   // Define custom Entity classes
   CONFIG.Actor.documentClass = ArM5ePCActor;
   CONFIG.Item.documentClass = ArM5eItem;
+  CONFIG.ActiveEffect.documentClass = ArM5eActiveEffect;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -268,6 +270,9 @@ Hooks.once("init", async function () {
 });
 
 Hooks.once("ready", async function () {
+  // DEV:
+  //generateActiveEffectFromAbilities();
+
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
 

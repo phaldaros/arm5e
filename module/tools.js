@@ -194,3 +194,97 @@ function getWoundType(size) {
   //console.log(result);
   return result;
 }
+
+// Internal function to generate Active Effects types from the ability list
+export function generateActiveEffectFromAbilities() {
+  let activeEffects = {
+    bonusGeneralAbility: {
+      category: "abilities",
+      type: "bonusGeneralAbility",
+      label: "bonusGeneralAbility",
+      subtypes: {}
+    },
+    // bonusArcaneAbility: {
+    //   category: "abilities",
+    //   type: "bonusArcaneAbility",
+    //   label: "bonusArcaneAbility",
+    //   subtypes: {}
+    // },
+    // bonusAcademicAbility: {
+    //   category: "abilities",
+    //   type: "bonusAcademicAbility",
+    //   label: "bonusAcademicAbility",
+    //   subtypes: {}
+    // },
+    // bonusMartialAbility: {
+    //   category: "abilities",
+    //   type: "bonusMartialAbility",
+    //   label: "bonusMartialAbility",
+    //   subtypes: {}
+    // },
+    // bonusSupernaturalAbility: {
+    //   category: "abilities",
+    //   type: "bonusSupernaturalAbility",
+    //   label: "bonusSupernaturalAbility",
+    //   subtypes: {}
+    // },
+    affinityGeneralAbility: {
+      category: "abilities",
+      type: "affinityGeneralAbility",
+      label: "affinityGeneralAbility",
+      subtypes: {}
+    }
+    // affinityArcaneAbility: {
+    //   category: "abilities",
+    //   type: "affinityArcaneAbility",
+    //   label: "affinityArcaneAbility",
+    //   subtypes: {}
+    // },
+    // affinityAcademicAbility: {
+    //   category: "abilities",
+    //   type: "affinityAcademicAbility",
+    //   label: "affinityAcademicAbility",
+    //   subtypes: {}
+    // },
+    // affinityMartialAbility: {
+    //   category: "abilities",
+    //   type: "affinityMartialAbility",
+    //   label: "affinityMartialAbility",
+    //   subtypes: {}
+    // },
+    // affinitySupernaturalAbility: {
+    //   category: "abilities",
+    //   type: "affinitySupernaturalAbility",
+    //   label: "affinitySupernaturalAbility",
+    //   subtypes: {}
+    // }
+  };
+  let tmp = Object.entries(CONFIG.ARM5E.ALL_ABILITIES);
+  // debugger;
+  for (const [aKey, ability] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
+    console.log(ability);
+    switch (ability.category) {
+      case "general": {
+        activeEffects.bonusGeneralAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: `data.bonuses.skills.${aKey}.bonus`,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD
+        };
+        break;
+      }
+    }
+  }
+  console.log(activeEffects);
+  // debugger;
+}
+
+// wounds: {
+// category: "traits",
+// type: "wounds",
+// label: "arm5e.sheet.activeEffect.types.wounds",
+// subtypes: {
+//     light: {
+//       label: "arm5e.sheet.light",
+//       key: "data.wounds.light.penalty.value",
+//       mode: CONST.ACTIVE_EFFECT_MODES.ADD
+//     },

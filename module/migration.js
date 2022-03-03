@@ -212,16 +212,14 @@ export const migrateActorData = function (actorData) {
 
   //
   if (actorData.type == "laboratory") {
-    if (actorData.data.owner != "") {
-      let owner = {
-        value: actorData.data.owner
-      };
-      updateData["data.owner"] = owner;
+    // fix recursive problem with laboratory owner
+    if (!(actorData.data.owner.value instanceof String)) {
+      updateData["data.owner"] = "";
     }
+
     return updateData;
   }
 
-  //updateData["type"] = "player";
   updateData["data.version"] = "0.3";
 
   // token with barely anything to migrate
@@ -287,7 +285,7 @@ export const migrateActorData = function (actorData) {
   //   updateData["data.spells"] = [];
   // }
 
-  if (actorData.type != "covenant") {
+  if (actorData.type == "player" || actorData.type == "npc") {
     if (actorData.data?.roll != undefined) {
       updateData["data.roll.characteristic"] = "";
       updateData["data.roll.ability"] = "";
@@ -308,16 +306,18 @@ export const migrateActorData = function (actorData) {
     updateData["data.-=qik"] = null;
     updateData["data.-=cha"] = null;
     updateData["data.-=com"] = null;
+  } else {
+    updateData["data.-=roll"] = null;
   }
 
   if (actorData.type == "player" || actorData.type == "npc") {
     if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
-      // if (actorData.data?.sanctum?.value === undefined) {
-      //   let sanctum = {
-      //     value: actorData.data.sanctum
-      //   };
-      //   updateData["data.sanctum"] = sanctum;
-      // }
+      if (actorData.data?.sanctum?.value === undefined) {
+        let sanctum = {
+          value: actorData.data.sanctum
+        };
+        updateData["data.sanctum"] = sanctum;
+      }
 
       if (actorData.data?.laboratory != undefined) {
         updateData["data.laboratory.longevityRitual.labTotal"] = 0;
@@ -401,33 +401,30 @@ export const migrateActorData = function (actorData) {
     }
   }
 
-  if (actorData.effects) {
-    // const effects = actorData.effects.reduce((arr, e) => {
-    //   // Migrate effects
-    //   const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
-    //   let effectUpdate = { arm5e: {} };
-    //   // update flags
-    //   if (e.data.flags.type != undefined) {
-    //     effectUpdate["data.flags.arm5e.type"] = [e.data.flags.type];
-    //     effectUpdate["data.flags.-=type"] = null;
-    //   }
-    //   if (e.data.flags.subtype != undefined) {
-    //     effectUpdate["data.flags.arm5e.subtype"] = [e.data.flags.subtype];
-    //     effectUpdate["data.flags.-=subtype"] = null;
-    //   }
-    //   if (e.data.flags.value != undefined) {
-    //     effectUpdate["data.flags.arm5e.value"] = [e.data.flags.value];
-    //     effectUpdate["data.flags.-=value"] = null;
-    //   }
-    //   // Update the effect
-    //   if (!isObjectEmpty(effectUpdate)) {
-    //     effectUpdate._id = effectData._id;
-    //     arr.push(expandObject(effectUpdate));
-    //   }
-    //   return arr;
-    // }, []);
-    // if (effects.length > 0) updateData.effects = effects;
+  if (actorData.type == "player" || actorData.type == "npc") {
+    if (actorData.effects && actorData.effects.length > 0) {
+      log(false, `Migrating effects of ${actorData.name}`);
+      const effects = actorData.effects.reduce((arr, e) => {
+        // Migrate effects
+        const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
+        let effectUpdate = migrateActiveEffectData(effectData);
+        if (!isObjectEmpty(effectUpdate)) {
+          // Update the effect
+          effectUpdate._id = effectData._id;
+          arr.push(expandObject(effectUpdate));
+        }
+        return arr;
+      }, []);
+      if (effects.length > 0) {
+        log(false, effects);
+        updateData.effects = effects;
+      }
+    }
   }
+  // else {
+  //   log(false, `Removing all effects of ${actorData.name}`);
+  //   updateData.effects = [];
+  // }
 
   // Migrate Owned Items
   if (!actorData.items) return updateData;
@@ -436,6 +433,7 @@ export const migrateActorData = function (actorData) {
     // Migrate the Owned Item
     const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
     let itemUpdate = migrateItemData(itemData);
+
     // Update the Owned Item
     if (!isObjectEmpty(itemUpdate)) {
       itemUpdate._id = itemData._id;
@@ -447,8 +445,35 @@ export const migrateActorData = function (actorData) {
 
   return updateData;
 };
+
+export const migrateActiveEffectData = function (effectData) {
+  let effectUpdate = {};
+  // effectData["data.flags.arm5e"] = {};
+  // update flags
+  if (effectData.flags.type != undefined) {
+    effectUpdate["flags.arm5e.type"] = [effectData.flags.type];
+    effectUpdate["flags.-=type"] = null;
+  }
+  if (effectData.flags.subtype != undefined) {
+    effectUpdate["flags.arm5e.subtype"] = [effectData.flags.subtype];
+    effectUpdate["flags.-=subtype"] = null;
+  }
+  if (effectData.flags.value != undefined) {
+    effectUpdate["flags.arm5e.value"] = [effectData.flags.value];
+    effectUpdate["flags.-=value"] = null;
+  }
+
+  if (effectData.flags?.arm5e?.option == undefined) {
+    let optionArray = Array(effectData.changes.length).fill(null);
+    effectUpdate["flags.arm5e.option"] = optionArray;
+  }
+
+  return effectUpdate;
+};
+
 export const migrateItemData = function (itemData) {
   const updateData = {};
+  updateData["data.version"] = "1.3.2";
 
   //
   // migrate abilities xp
@@ -579,7 +604,23 @@ export const migrateItemData = function (itemData) {
       updateData["type"] = "powerFamiliar";
     }
   }
-
+  if (itemData.effects.length > 0) {
+    log(false, `Migrating effects of ${itemData.name}`);
+    const effects = itemData.effects.reduce((arr, e) => {
+      // Migrate effects
+      const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
+      let effectUpdate = migrateActiveEffectData(effectData);
+      if (!isObjectEmpty(effectUpdate)) {
+        // Update the effect
+        effectUpdate._id = effectData._id;
+        arr.push(expandObject(effectUpdate));
+      }
+      return arr;
+    }, []);
+    if (effects.length > 0) {
+      updateData.effects = effects;
+    }
+  }
   // if (itemData.effects) {
   //   log(false, `Effects of items: ${itemData.effects}`);
   // }

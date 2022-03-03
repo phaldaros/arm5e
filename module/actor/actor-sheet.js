@@ -7,11 +7,7 @@ import { simpleDie, stressDie } from "../dice.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ARM5E } from "../metadata.js";
 import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
-import {
-  onManageActiveEffect,
-  prepareActiveEffectCategories,
-  findAllActiveEffectsWithType
-} from "../helpers/active-effects.js";
+import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
 import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";
 
@@ -200,7 +196,7 @@ export class ArM5eActorSheet extends ActorSheet {
     context.rollData = context.actor.getRollData();
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.actor.effects);
+    context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.actor.effects);
     if (context.data?.arts?.voiceAndGestures) {
       context.data.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
     }
@@ -335,7 +331,7 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     // Active Effect management
-    html.find(".effect-control").click((ev) => onManageActiveEffect(ev, this.actor));
+    html.find(".effect-control").click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
   }
 
   async _increaseArt(type, art) {

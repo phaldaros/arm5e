@@ -81,17 +81,20 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     // also update subtype
     let arraySubtypes = this.object.getFlag("arm5e", "subtype");
     arraySubtypes[index] = Object.keys(ACTIVE_EFFECTS_TYPES[value].subtypes)[0];
+    let arrayOptions = this.object.getFlag("arm5e", "option");
+    arrayOptions[index] = ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].option || null;
     let updateFlags = {
       flags: {
         arm5e: {
           type: arrayTypes,
-          subtype: arraySubtypes
+          subtype: arraySubtypes,
+          option: arrayOptions
         }
       },
       [`changes.${index}`]: {
         mode: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].mode,
         key: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].key,
-        value: ""
+        value: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].default
       }
     };
     this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
@@ -100,19 +103,21 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
   async _setSubtype(value, index) {
     let arrayTypes = this.object.getFlag("arm5e", "type");
     let arraySubtypes = this.object.getFlag("arm5e", "subtype");
+    let arrayOptions = this.object.getFlag("arm5e", "option");
     arraySubtypes[index] = value;
-
+    arrayOptions[index] = ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].option || null;
     let update = {
       flags: {
         arm5e: {
           type: arrayTypes,
-          subtype: arraySubtypes
+          subtype: arraySubtypes,
+          option: arrayOptions
         }
       },
       [`changes.${index}`]: {
         mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].mode,
         key: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].key,
-        value: ""
+        value: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].default
       }
     };
 
@@ -124,30 +129,35 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     const button = event.currentTarget;
     let arrayTypes = this.object.getFlag("arm5e", "type");
     let arraySubtypes = this.object.getFlag("arm5e", "subtype");
+    let arrayOptions = this.object.getFlag("arm5e", "option");
     switch (button.dataset.action) {
       case "add":
         arrayTypes.push("none");
         arraySubtypes.push("none");
+        arrayOptions.push(null);
         let flags = {
           arm5e: {
             type: arrayTypes,
-            subtype: arraySubtypes
+            subtype: arraySubtypes,
+            option: arrayOptions
           }
         };
         return this._addEffectChange(flags).then(() => this.render());
       case "delete":
-        button.closest(".effect-change").remove();
         // remove type and subtype of the erased change
         arrayTypes.splice(button.dataset.idx, 1);
         arraySubtypes.splice(button.dataset.idx, 1);
+        arrayOptions.splice(button.dataset.idx, 1);
         let updateFlags = {
           flags: {
             arm5e: {
               type: arrayTypes,
-              subtype: arraySubtypes
+              subtype: arraySubtypes,
+              option: arrayOptions
             }
           }
         };
+        button.closest(".effect-change").remove();
         return this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
     }
   }

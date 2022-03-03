@@ -1,9 +1,5 @@
 import { log } from "../tools.js";
-import {
-  onManageActiveEffect,
-  prepareActiveEffectCategories,
-  findAllActiveEffectsWithType
-} from "../helpers/active-effects.js";
+import ArM5eActiveEffect from "../helpers/active-effects.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -92,7 +88,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.item.effects);
+    context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.item.effects);
 
     log(false, "item-sheet get data");
     log(false, context);
@@ -129,7 +125,7 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
 
     // Active Effect management
-    html.find(".effect-control").click((ev) => onManageActiveEffect(ev, this.item));
+    html.find(".effect-control").click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
   }
 
   async _onSelectDefaultCharacteristic(item, event) {
