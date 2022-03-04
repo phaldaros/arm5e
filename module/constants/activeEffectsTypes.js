@@ -1129,23 +1129,23 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       safety: {
-        label: "arm5e.sheet.security",
-        key: "data.security.value",
+        label: "arm5e.sheet.safety",
+        key: "data.safety.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       health: {
-        label: "arm5e.sheet.salubrity",
-        key: "data.salubrity.value",
+        label: "arm5e.sheet.health",
+        key: "data.health.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       refinement: {
-        label: "arm5e.sheet.improvement",
-        key: "data.improvement.value",
+        label: "arm5e.sheet.refinement",
+        key: "data.refinement.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       upkeep: {
-        label: "arm5e.sheet.maintenance",
-        key: "data.maintenance.value",
+        label: "arm5e.sheet.upkeep",
+        key: "data.upkeep.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       warping: {
