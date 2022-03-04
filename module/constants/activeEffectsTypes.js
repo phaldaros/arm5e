@@ -1111,7 +1111,55 @@ export default {
         default: 1.5
       }
     }
-  }
+  },
+
+  laboratory: {
+    category: "laboratory",
+    type: "laboratory",
+    label: "arm5e.sheet.activeEffect.types.laboratory",
+    subtypes: {
+      size: {
+        label: "arm5e.sheet.size",
+        key: "data.size.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      generalQuality: {
+        label: "arm5e.sheet.generalQuality",
+        key: "data.generalQuality.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      safety: {
+        label: "arm5e.sheet.security",
+        key: "data.security.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      health: {
+        label: "arm5e.sheet.salubrity",
+        key: "data.salubrity.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      refinement: {
+        label: "arm5e.sheet.improvement",
+        key: "data.improvement.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      upkeep: {
+        label: "arm5e.sheet.maintenance",
+        key: "data.maintenance.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      warping: {
+        label: "arm5e.sheet.warping",
+        key: "data.warping.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      aesthetics: {
+        label: "arm5e.sheet.aesthetics",
+        key: "data.aesthetics.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+    }
+  },
 
   // strength: {
   //   category: "traits",
