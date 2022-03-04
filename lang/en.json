@@ -226,6 +226,8 @@
   "arm5e.sheet.initiations": "Initiations",
   "arm5e.sheet.qualities": "Qualities",
   "arm5e.sheet.magicqualities": "Magic Qualities",
+  "arm5e.sheet.structure": "Structure",
+  "arm5e.sheet.outfitting": "Outfitting",
   "arm5e.sheet.other": "Other",
 
   "arm5e.sheet.notEquipedWeapon": "You cannot use an unequipped weapon",

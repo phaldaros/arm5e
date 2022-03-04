@@ -278,6 +278,12 @@ ARM5E.character.virtueTypes = {
   magicqualities: {
     label: "arm5e.sheet.magicqualities"
   },
+  structure: {
+    label: "arm5e.sheet.structure"
+  },
+  outfitting: {
+    label: "arm5e.sheet.outfitting"
+  },
   other: {
     label: "arm5e.sheet.other"
   }
@@ -310,6 +316,12 @@ ARM5E.character.flawTypes = {
   },
   tainted: {
     label: "arm5e.sheet.tainted"
+  },
+  structure: {
+    label: "arm5e.sheet.structure"
+  },
+  outfitting: {
+    label: "arm5e.sheet.outfitting"
   },
   other: {
     label: "arm5e.sheet.other"
