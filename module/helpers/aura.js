@@ -34,7 +34,6 @@ function getAuraActiveEffect(numericValue) {
 }
 
 async function addEffect(actor, activeEffectData) {
-  debugger;
   const ae = findFirstActiveEffectBySubtype(actor.data.effects, "aura");
   if (ae) {
     activeEffectData._id = ae.data._id;
