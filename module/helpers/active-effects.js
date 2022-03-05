@@ -89,17 +89,6 @@ function findAllActiveEffectsWithType(effects, type) {
   return activeEffects;
 }
 
-function findAllActiveEffectsByAffectedKey(effects, key) {
-  const activeEffects = [];
-  for (let e of effects) {
-    e._getSourceName(); // Trigger a lookup for the source name
-    if (!e.data.disabled && e.data.changes.find((change) => change.key === key)) {
-      activeEffects.push(e);
-    }
-  }
-  return activeEffects;
-}
-
 function findFirstActiveEffectBySubtype(effects, subtype) {
   for (let e of effects) {
     e._getSourceName(); // Trigger a lookup for the source name
@@ -139,7 +128,6 @@ export {
   onManageActiveEffect,
   prepareActiveEffectCategories,
   findAllActiveEffectsWithType,
-  findAllActiveEffectsByAffectedKey,
   findFirstActiveEffectBySubtype,
   buildActiveEffectDescription
 };
