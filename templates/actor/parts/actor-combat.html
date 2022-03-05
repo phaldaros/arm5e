@@ -38,10 +38,10 @@
         <label>{{localize "arm5e.sheet.quickness"}}</label>
         <input
           type="text"
-          name="data.qik"
           readonly
           value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -55,6 +55,7 @@
           readonly
           value="{{numberFormat data.combat.init decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -68,6 +69,7 @@
           readonly
           value="{{numberFormat data.combat.overload decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
     </div>
@@ -92,10 +94,10 @@
         <label>{{localize "arm5e.sheet.dexterity"}}</label>
         <input
           type="text"
-          name="data.dex"
           readonly
           value="{{numberFormat data.characteristics.dex.value decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -109,6 +111,7 @@
           readonly
           value="{{numberFormat data.combat.ability decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -122,6 +125,7 @@
           readonly
           value="{{numberFormat data.combat.atk decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
     </div>
@@ -144,10 +148,10 @@
         <label>{{localize "arm5e.sheet.quickness"}}</label>
         <input
           type="text"
-          name="data.qik"
           readonly
           value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -161,6 +165,7 @@
           readonly
           value="{{numberFormat data.combat.ability decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -174,21 +179,22 @@
           readonly
           value="{{numberFormat data.combat.dfn decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
     </div>
 
     <div class="flexrow flex-group-left">
       <label class="item-title flex-group-left clickable damage">{{localize "arm5e.sheet.damage"}}:</label>
-      <!-- str + weapon + attack ventage -->
+      <!-- str + weapon + attack advantage -->
       <div class="flexcol flex-group-center">
         <label>{{localize "arm5e.sheet.strength"}}</label>
         <input
           type="text"
-          name="data.str"
           readonly
           value="{{numberFormat data.characteristics.str.value decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -202,6 +208,7 @@
           readonly
           value="{{numberFormat data.combat.dam decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -227,10 +234,10 @@
         <label>{{localize "arm5e.sheet.stamina"}}</label>
         <input
           type="text"
-          name="data.sta"
           readonly
           value="{{numberFormat data.characteristics.sta.value decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
       <div class="flexcol flex-group-center" style="flex: 0 0 20px">
@@ -244,6 +251,7 @@
           readonly
           value="{{numberFormat data.combat.prot decimals=0 sign=true}}"
           data-dtype="Number"
+          disabled
         />
       </div>
     </div>

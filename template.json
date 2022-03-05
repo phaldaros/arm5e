@@ -305,95 +305,65 @@
           "techniques": {
             "cr": {
               "label": "Creo",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "in": {
               "label": "Intellego",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "mu": {
               "label": "Muto",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "pe": {
               "label": "Perdo",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "re": {
               "label": "Rego",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             }
           },
           "forms": {
             "an": {
               "label": "Animal",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "au": {
               "label": "Auram",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "aq": {
               "label": "Aquam",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "co": {
               "label": "Corpus",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "he": {
               "label": "Herbam",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "ig": {
               "label": "Ignem",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "im": {
               "label": "Imaginem",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "me": {
               "label": "Mentem",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "te": {
               "label": "Terram",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             },
             "vi": {
               "label": "Vim",
-              "score": 0,
-              "xp": 0,
-              "experience": 0
+              "xp": 0
             }
           }
         }
@@ -1062,9 +1032,9 @@
       "ability": {
         "defaultChaAb": "int",
         "speciality": "",
-        "score": 0,
         "xp": 0,
-        "experience": 0
+        "key": "",
+        "option": ""
       },
       "magicalEffectAttributes": {
         "technique": {

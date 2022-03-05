@@ -51,12 +51,13 @@ export class ArM5ePCActor extends Actor {
       };
     }
 
-    // Not needed, done at Item level?
-    // this.items.forEach((item) => {
+    // this.data.data.bonuses.skills = {};
+    // for (const [key, item] of this.items.entries()) {
     //   if (item.type == "ability") {
-    //     item.data.data.bonus = 0;
+    //     this.data.data.bonuses.skills[key].bonus = 0;
+    //     this.data.data.bonuses.skills[key].xpCoeff = 1.0;
     //   }
-    // });
+    // }
 
     this.data.data.bonuses.traits = { soak: 0 };
   }
@@ -151,14 +152,6 @@ export class ArM5ePCActor extends Actor {
       // ItemData#data now contains the data
       let i = item.data;
       if (i.type === "ability") {
-        i.data.derivedScore = this._getAbilityScore(i.data.xp);
-        // if (i.data.score != i.data.derivedScore && i.data.xp != 0) {
-        //     error(false, "Wrong computation of score: Original: " + i.data.score + " vs Computed: " + i.data.derivedScore + " XPs:" + i.data.xp);
-        //     this._getAbilityScore(i.data.xp);
-        // }
-        i.data.xpNextLevel = (i.data.derivedScore + 1) * 5;
-        i.data.remainingXp = i.data.xp - this._getAbilityXp(i.data.derivedScore);
-
         abilities.push(i);
 
         const temp = {
@@ -367,15 +360,6 @@ export class ArM5ePCActor extends Actor {
         // }
         // end TODO
 
-        if (!technique.bonus && technique.xpCoeff == 1.0) {
-          technique.ui = { shadow: "" };
-        } else if (!technique.bonus && technique.xpCoeff != 1.0) {
-          technique.ui = { shadow: "box-shadow: 0 0 10px maroon", title: "Affinity, " };
-        } else if (technique.bonus && technique.xpCoeff == 1.0) {
-          technique.ui = { shadow: "box-shadow: 0 0 10px blue", title: "" };
-        } else {
-          technique.ui = { shadow: "box-shadow: 0 0 10px purple", title: "Affinity, " };
-        }
         technique.derivedScore = this._getArtScore(Math.round(technique.xp * technique.xpCoeff));
         technique.finalScore = technique.derivedScore + technique.bonus;
         // start from scratch to avoid rounding errors
@@ -413,15 +397,7 @@ export class ArM5ePCActor extends Actor {
         //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
         // }
         // // end TODO
-        if (!form.bonus && form.xpCoeff == 1.0) {
-          form.ui = { shadow: "" };
-        } else if (!form.bonus && form.xpCoeff != 1.0) {
-          form.ui = { shadow: "box-shadow: 0 0 10px maroon", title: "Affinity, " };
-        } else if (form.bonus && form.xpCoeff == 1.0) {
-          form.ui = { shadow: "box-shadow: 0 0 10px blue", title: "" };
-        } else {
-          form.ui = { shadow: "box-shadow: 0 0 10px purple", title: "Affinity, " };
-        }
+
         form.derivedScore = this._getArtScore(Math.round(form.xp * form.xpCoeff));
         form.finalScore = form.derivedScore + form.bonus;
 
@@ -590,7 +566,7 @@ export class ArM5ePCActor extends Actor {
       character: {},
       magic: {}
     };
-    rollData.metadata.character.abilities = CONFIG.ARM5E.character.abilities;
+    rollData.metadata.character.magicAbilities = CONFIG.ARM5E.character.magicAbilities;
     rollData.metadata.magic.arts = ARM5E.magic.arts;
     return rollData;
   }

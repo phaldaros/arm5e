@@ -89,7 +89,7 @@ Hooks.once("init", async function () {
   });
 
   /**
-   * 2 Different sets of default icons for new documents
+   * Show source of document
    */
   game.settings.register("arm5e", "metagame", {
     name: "Show metagame information (sourcebook, page)",
@@ -122,6 +122,22 @@ Hooks.once("init", async function () {
       ONLY_RESULTS: "Show me only the result"
     },
     default: "MONO"
+  });
+
+  /**
+   * Fun rolls
+   */
+
+  game.settings.register("arm5e", "funRolls", {
+    name: "Show a dialog when rolling a 1 on stress die",
+    scope: "world",
+    config: true,
+    choices: {
+      NOBODY: "Nobody",
+      PLAYERS_ONLY: "Players only",
+      EVERYONE: "Everyone"
+    },
+    default: "PLAYER_ONLY"
   });
 
   /**
@@ -226,7 +242,8 @@ Hooks.once("init", async function () {
     makeDefault: true
   });
 
-  // DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
+  // [DEV] comment line bellow to get access to the original sheet
+  DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "arm5e", ArM5eActiveEffectConfig);
 
   // Preload handlebars templates

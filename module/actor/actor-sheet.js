@@ -153,6 +153,28 @@ export class ArM5eActorSheet extends ActorSheet {
             context.data.sanctum.linked = false;
           }
         }
+        for (let [key, technique] of Object.entries(context.data.arts.techniques)) {
+          if (!technique.bonus && technique.xpCoeff == 1.0) {
+            technique.ui = { shadow: "" };
+          } else if (!technique.bonus && technique.xpCoeff != 1.0) {
+            technique.ui = { shadow: "maroon", title: "Affinity, " };
+          } else if (technique.bonus && technique.xpCoeff == 1.0) {
+            technique.ui = { shadow: "blue", title: "" };
+          } else {
+            technique.ui = { shadow: "purple", title: "Affinity, " };
+          }
+        }
+        for (let [key, form] of Object.entries(context.data.arts.forms)) {
+          if (!form.bonus && form.xpCoeff == 1.0) {
+            form.ui = { shadow: "" };
+          } else if (!form.bonus && form.xpCoeff != 1.0) {
+            form.ui = { shadow: "maroon", title: "Affinity, " };
+          } else if (form.bonus && form.xpCoeff == 1.0) {
+            form.ui = { shadow: "blue", title: "" };
+          } else {
+            form.ui = { shadow: "purple", title: "Affinity, " };
+          }
+        }
       }
 
       context.data.world.covenants = game.actors
@@ -527,7 +549,7 @@ export class ArM5eActorSheet extends ActorSheet {
     if (charType === "magus" || charType === "magusNPC") {
       let abilities = this.actor.items.filter((i) => i.type == "ability");
       let newAbilities = [];
-      for (let [key, a] of Object.entries(CONFIG.ARM5E.character.abilities)) {
+      for (let [key, a] of Object.entries(CONFIG.ARM5E.character.magicAbilities)) {
         let localizedA = game.i18n.localize(a);
         // check if the ability already exists in the Actor
         let abs = abilities.filter((ab) => ab.name == localizedA || ab.name === localizedA + "*");

@@ -36,7 +36,7 @@ export default {
   penetration: {
     category: "magic",
     type: "penetration",
-    label: "arm5e.skill.penetration",
+    label: "arm5e.skill.arcane.penetration",
     subtypes: {
       bonus: {
         label: "arm5e.sheet.activeEffect.bonuses.penetration",
@@ -108,6 +108,97 @@ export default {
       soak: {
         label: "arm5e.sheet.soak",
         key: "data.bonuses.traits.soak",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      }
+    }
+  },
+  characteristics: {
+    category: "traits",
+    type: "characteristics",
+    label: "arm5e.sheet.activeEffect.types.characteristics",
+    subtypes: {
+      int: {
+        label: "arm5e.sheet.intelligence",
+        key: "data.characteristics.int.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      per: {
+        label: "arm5e.sheet.perception",
+        key: "data.characteristics.per.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      str: {
+        label: "arm5e.sheet.strength",
+        key: "data.characteristics.str.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      sta: {
+        label: "arm5e.sheet.stamina",
+        key: "data.characteristics.sta.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      pre: {
+        label: "arm5e.sheet.presence",
+        key: "data.characteristics.pre.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      com: {
+        label: "arm5e.sheet.communication",
+        key: "data.characteristics.com.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      dex: {
+        label: "arm5e.sheet.dexterity",
+        key: "data.characteristics.dex.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      qik: {
+        label: "arm5e.sheet.quickness",
+        key: "data.characteristics.qik.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      }
+    }
+  },
+  fatigue: {
+    category: "traits",
+    type: "fatigue",
+    label: "arm5e.sheet.activeEffect.types.fatigue",
+    subtypes: {
+      weary: {
+        label: "arm5e.sheet.weary",
+        key: "data.fatigue.weary.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      tired: {
+        label: "arm5e.sheet.tired",
+        key: "data.fatigue.tired.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      dazed: {
+        label: "arm5e.sheet.dazed",
+        key: "data.fatigue.dazed.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      }
+    }
+  },
+  wounds: {
+    category: "traits",
+    type: "wounds",
+    label: "arm5e.sheet.activeEffect.types.wounds",
+    subtypes: {
+      light: {
+        label: "arm5e.sheet.light",
+        key: "data.wounds.light.penalty.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      medium: {
+        label: "arm5e.sheet.medium",
+        key: "data.wounds.medium.penalty.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      },
+      heavy: {
+        label: "arm5e.sheet.heavy",
+        key: "data.wounds.heavy.penalty.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       }
     }

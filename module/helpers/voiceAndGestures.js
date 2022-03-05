@@ -11,6 +11,7 @@ import { findFirstActiveEffectBySubtype } from "./active-effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 
 async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
+  debugger;
   const actor = origin.actor;
   const numericValue = VOICE_AND_GESTURES_VALUES[type][value.toUpperCase()].value;
   const changeData = [
@@ -35,7 +36,7 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
     flags: {
       arm5e: {
         type: ["spellcasting"],
-        subType: [type],
+        subType: 8,
         value: [value.toUpperCase()]
       }
     },

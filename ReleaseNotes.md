@@ -6,13 +6,24 @@ Features
 
 - active effects integration in the system
 - advanced virtues/flaws with (limited) active effects
+  - art bonuses
+  - art affinities
+  - size
+  - soak
+  - characteristics
+  - fatigue penalties
+  - wound penalties
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)
 - penetration total computed during combat
+- fun stress dice rolls option
 
 Bug fixes
 
 - synthetic actors (unlinked scene tokens) are now also migrated.
+- reduced font size of spells success/failure in chat
+- soak modifiers/bonuses are not displayed in chat if zero
+- disabled some input field to avoid artefacts on submit
 
 ### 1.3.1
 

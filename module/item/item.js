@@ -12,9 +12,14 @@ export class ArM5eItem extends Item {
 
     // Get the Item's data
     let itemData = this.data;
+    if (this.isOwned && this.actor.data == undefined) {
+      // this is a call from constructor, it will be called again with actor data initialied
+      // log(false, `Owned Item : ${this.id} : ${this.name}, actor.data= ${this.actor.data}`);
+      return;
+    }
     let actorData = this.actor ? this.actor.data : {};
     let data = itemData.data;
-    if (actorData) {
+    if (this.isOwned) {
       if (this.data.type == "weapon" && this.actor != null) {
         let abilitiesSelect = {};
 
@@ -25,7 +30,7 @@ export class ArM5eItem extends Item {
         abilitiesSelect["a0"] = temp;
 
         // find the actor abilities and create the select
-        for (let [key, i] of Object.entries(this.actor.data.items)) {
+        for (let [key, i] of Object.entries(actorData.items)) {
           if (i.type === "ability") {
             const temp = {
               id: i.id,
@@ -37,6 +42,13 @@ export class ArM5eItem extends Item {
         }
 
         itemData.data.abilities = abilitiesSelect;
+      }
+
+      if (this.data.type == "ability") {
+        this.data.data.derivedScore = this.actor._getAbilityScore(this.data.data.xp);
+
+        this.data.data.xpNextLevel = (this.data.data.derivedScore + 1) * 5;
+        this.data.data.remainingXp = this.data.data.xp - this.actor._getAbilityXp(this.data.data.derivedScore);
       }
     }
     if (this._needLevelComputation()) {
@@ -153,7 +165,7 @@ export class ArM5eItem extends Item {
       }
 
       // compute casting total
-      if (actorData && this.actor != null) {
+      if (this.isOwned) {
         itemData.data.castingTotal = this._computeCastingTotal(actorData, itemData);
       } else {
         itemData.data.castingTotal = 0;

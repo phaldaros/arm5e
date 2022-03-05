@@ -100,16 +100,6 @@ function findAllActiveEffectsByAffectedKey(effects, key) {
   return activeEffects;
 }
 
-function findFirstActiveEffectByType(effects, type) {
-  for (let e of effects) {
-    e._getSourceName(); // Trigger a lookup for the source name
-    if (!e.data.disabled && e.data.flags.type.toUpperCase() === type.toUpperCase()) {
-      return e;
-    }
-  }
-  return false;
-}
-
 function findFirstActiveEffectBySubtype(effects, subtype) {
   for (let e of effects) {
     e._getSourceName(); // Trigger a lookup for the source name
