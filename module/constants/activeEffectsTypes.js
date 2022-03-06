@@ -1120,42 +1120,42 @@ export default {
     subtypes: {
       size: {
         label: "arm5e.sheet.size",
-        key: "data.size.value",
+        key: "data.size.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       generalQuality: {
         label: "arm5e.sheet.generalQuality",
-        key: "data.generalQuality.value",
+        key: "data.generalQuality.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       safety: {
         label: "arm5e.sheet.safety",
-        key: "data.safety.value",
+        key: "data.safety.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       health: {
         label: "arm5e.sheet.health",
-        key: "data.health.value",
+        key: "data.health.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       refinement: {
         label: "arm5e.sheet.refinement",
-        key: "data.refinement.value",
+        key: "data.refinement.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       upkeep: {
         label: "arm5e.sheet.upkeep",
-        key: "data.upkeep.value",
+        key: "data.upkeep.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       warping: {
         label: "arm5e.sheet.warping",
-        key: "data.warping.value",
+        key: "data.warping.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
       aesthetics: {
         label: "arm5e.sheet.aesthetics",
-        key: "data.aesthetics.value",
+        key: "data.aesthetics.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD
       },
     }

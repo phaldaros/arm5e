@@ -709,6 +709,15 @@ export class ArM5ePCActor extends Actor {
     if (labData.data.diaryEntries) {
       labData.data.diaryEntries = diaryEntries;
     }
+    
+    labData.data.size.total = labData.data.size.value + labData.data.size.bonus;
+    labData.data.generalQuality.total = labData.data.generalQuality.value + labData.data.generalQuality.bonus;
+    labData.data.safety.total = labData.data.safety.value + labData.data.safety.bonus;
+    labData.data.health.total = labData.data.health.value + labData.data.health.bonus;
+    labData.data.refinement.total = labData.data.refinement.value + labData.data.refinement.bonus;
+    labData.data.upkeep.total = labData.data.upkeep.value + labData.data.upkeep.bonus;
+    labData.data.warping.total = labData.data.warping.value + labData.data.warping.bonus;
+    labData.data.aesthetics.total = labData.data.aesthetics.value + labData.data.aesthetics.bonus;
 
     labData.data.totalVirtues = totalVirtues;
     labData.data.totalFlaws = totalFlaws;
