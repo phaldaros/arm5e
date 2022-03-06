@@ -709,7 +709,14 @@ export class ArM5ePCActor extends Actor {
     if (labData.data.diaryEntries) {
       labData.data.diaryEntries = diaryEntries;
     }
-    
+
+    let freeVirtues = labData.data.size.value + labData.data.refinement.value;
+    let occupiedSize = Math.max(totalVirtues - totalFlaws, 0) - labData.data.refinement.value;
+    let baseSafety = labData.data.refinement.value - Math.max(occupiedSize, 0);
+    labData.data.baseSafety = baseSafety;
+    labData.data.occupiedSize = occupiedSize;
+    labData.data.freeVirtues = freeVirtues;
+
     labData.data.size.total = labData.data.size.value + labData.data.size.bonus;
     labData.data.generalQuality.total = labData.data.generalQuality.value + labData.data.generalQuality.bonus;
     labData.data.safety.total = labData.data.safety.value + labData.data.safety.bonus;

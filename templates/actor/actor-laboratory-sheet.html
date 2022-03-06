@@ -95,6 +95,20 @@
                     <span class="flex06" >{{numberFormat data.aesthetics.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.aesthetics.total decimals=0}}</span>
                 </div>
             </div>
+            <div class="resources grid grid-3col backSection" style=" grid-row-gap: 0px; padding-top: 8px; padding-bottom: 8px;">
+                <div class="flexrow flex-group-center">
+                    <label class="bold">{{localize "arm5e.sheet.occupiedSize"}}</label>
+                    <span class="flex02">{{numberFormat data.occupiedSize}}</span>
+                </div>
+                <div class="flexrow flex-group-center">
+                    <label class="bold">{{localize "arm5e.sheet.freeVirtues"}}</label>
+                    <span class="flex02">{{numberFormat data.freeVirtues}}</span>
+                </div>
+                <div class="flexrow flex-group-center">
+                    <label class="bold">{{localize "arm5e.sheet.baseSafety"}}</label>
+                    <span class="flex02">{{numberFormat data.baseSafety}}</span>
+                </div>
+            </div>
         </div>
     </header>
 

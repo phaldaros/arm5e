@@ -780,5 +780,9 @@
   "arm5e.sheet.activeEffect.multiply": "Multiply {type} by ",
 
   "arm5e.sheet.activeEffect.changeValue": "Effect Value",
-  "arm5e.sheet.activeEffect.type.spellcasting": "Spellcasting"
+  "arm5e.sheet.activeEffect.type.spellcasting": "Spellcasting",
+
+  "arm5e.sheet.freeVirtues": "Free Virtues",
+  "arm5e.sheet.occupiedSize": "Occupied Size",
+  "arm5e.sheet.baseSafety": "Base Safety"
 }
