@@ -72,6 +72,44 @@ export class ArM5ePCActor extends Actor {
   }
 
   /** @override */
+  prepareEmbeddedDocuments() {
+    if (this.data.type == "laboratory") {
+      this._prepareLaboratoryEmbeddedDocuments(this.data)
+    }
+
+    super.prepareEmbeddedDocuments();
+  }
+
+  _prepareLaboratoryEmbeddedDocuments(labData) {
+    var baseSafetyEffect = labData.effects.find(e => e.data.flags.arm5e.baseSafetyEffect);
+    if (!baseSafetyEffect) {
+      this.createEmbeddedDocuments("ActiveEffect", [
+        {
+          label: game.i18n.localize("arm5e.sheet.baseSafety"),
+          icon: "icons/svg/aura.svg",
+          origin: labData.uuid,
+          tint: "#000000",
+          changes: [
+            {
+              label: "arm5e.sheet.safety",
+              key: "data.safety.bonus",
+              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              value: 0
+            }
+          ],
+          flags: {
+            arm5e: {
+              baseSafetyEffect: true,
+              type: ["laboratory"],
+              subtype: ["safety"]
+            }
+          }
+        }
+      ]);
+    }
+  }
+
+  /** @override */
   prepareDerivedData() {
     if (this.data.type == "magicCodex") {
       return this._prepareMagicCodexData(this.data);
@@ -710,13 +748,6 @@ export class ArM5ePCActor extends Actor {
       labData.data.diaryEntries = diaryEntries;
     }
 
-    let freeVirtues = labData.data.size.value + labData.data.refinement.value;
-    let occupiedSize = Math.max(totalVirtues - totalFlaws, 0) - labData.data.refinement.value;
-    let baseSafety = labData.data.refinement.value - Math.max(occupiedSize, 0);
-    labData.data.baseSafety = baseSafety;
-    labData.data.occupiedSize = occupiedSize;
-    labData.data.freeVirtues = freeVirtues;
-
     labData.data.size.total = labData.data.size.value + labData.data.size.bonus;
     labData.data.generalQuality.total = labData.data.generalQuality.value + labData.data.generalQuality.bonus;
     labData.data.safety.total = labData.data.safety.value + labData.data.safety.bonus;
@@ -726,8 +757,23 @@ export class ArM5ePCActor extends Actor {
     labData.data.warping.total = labData.data.warping.value + labData.data.warping.bonus;
     labData.data.aesthetics.total = labData.data.aesthetics.value + labData.data.aesthetics.bonus;
 
+    let freeVirtues = labData.data.size.total + labData.data.refinement.total;
+    let occupiedSize = Math.max(totalVirtues - totalFlaws, 0) - labData.data.refinement.total;
+    let baseSafety = labData.data.refinement.total - Math.max(occupiedSize, 0);
+
+    labData.data.baseSafety = baseSafety;
+    labData.data.occupiedSize = occupiedSize;
+    labData.data.freeVirtues = freeVirtues;
+
     labData.data.totalVirtues = totalVirtues;
     labData.data.totalFlaws = totalFlaws;
+
+    var baseSafetyEffect = labData.effects.find(e => e.data.flags.arm5e.baseSafetyEffect);
+    if (baseSafetyEffect != null && baseSafetyEffect.data.changes[0].value != String(baseSafety)) {
+      let changes = duplicate(baseSafetyEffect.data.changes);
+      changes[0].value = String(baseSafety);
+      baseSafetyEffect.update({changes});
+    }
   }
 
   _prepareCovenantData(actorData) {
