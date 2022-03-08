@@ -271,7 +271,7 @@ export default {
   bonusGeneralAbility: {
     category: "abilities",
     type: "bonusGeneralAbility",
-    label: "bonusGeneralAbility",
+    label: "arm5e.sheet.activeEffect.types.generalAbilitiesBonus",
     subtypes: {
       animalHandling: {
         label: "arm5e.skill.general.animalHandling",
@@ -281,7 +281,7 @@ export default {
       },
       areaLore: {
         label: "arm5e.skill.general.areaLore",
-        key: "data.bonuses.skills.areaLore.bonus",
+        key: "data.bonuses.skills.areaLore_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "areaName"
@@ -330,7 +330,7 @@ export default {
       },
       craft: {
         label: "arm5e.skill.general.craft",
-        key: "data.bonuses.skills.craft.bonus",
+        key: "data.bonuses.skills.craft_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "craftName"
@@ -379,7 +379,7 @@ export default {
       },
       livingLanguage: {
         label: "arm5e.skill.general.livingLanguage",
-        key: "data.bonuses.skills.livingLanguage.bonus",
+        key: "data.bonuses.skills.livingLanguage_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "languageName"
@@ -392,14 +392,14 @@ export default {
       },
       organizationLore: {
         label: "arm5e.skill.general.organizationLore",
-        key: "data.bonuses.skills.organizationLore.bonus",
+        key: "data.bonuses.skills.organizationLore_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "organizationName"
       },
       profession: {
         label: "arm5e.skill.general.profession",
-        key: "data.bonuses.skills.profession.bonus",
+        key: "data.bonuses.skills.profession_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "professionName"
@@ -433,6 +433,682 @@ export default {
         key: "data.bonuses.skills.teaching.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
+      }
+    }
+  },
+  bonusArcaneAbility: {
+    category: "abilities",
+    type: "bonusArcaneAbility",
+    label: "arm5e.sheet.activeEffect.types.arcaneAbilitiesBonus",
+    subtypes: {
+      hermeticCode: {
+        label: "arm5e.skill.arcane.hermeticCode",
+        key: "data.bonuses.skills.hermeticCode.bonus",
+        mode: 2,
+        default: 2
+      },
+      dominionLore: {
+        label: "arm5e.skill.arcane.dominionLore",
+        key: "data.bonuses.skills.dominionLore.bonus",
+        mode: 2,
+        default: 2
+      },
+      faerieLore: {
+        label: "arm5e.skill.arcane.faerieLore",
+        key: "data.bonuses.skills.faerieLore.bonus",
+        mode: 2,
+        default: 2
+      },
+      finesse: {
+        label: "arm5e.skill.arcane.finesse",
+        key: "data.bonuses.skills.finesse.bonus",
+        mode: 2,
+        default: 2
+      },
+      infernalLore: {
+        label: "arm5e.skill.arcane.infernalLore",
+        key: "data.bonuses.skills.infernalLore.bonus",
+        mode: 2,
+        default: 2
+      },
+      magicLore: {
+        label: "arm5e.skill.arcane.magicLore",
+        key: "data.bonuses.skills.magicLore.bonus",
+        mode: 2,
+        default: 2
+      },
+      magicTheory: {
+        label: "arm5e.skill.arcane.magicTheory",
+        key: "data.bonuses.skills.magicTheory.bonus",
+        mode: 2,
+        default: 2
+      },
+      parma: {
+        label: "arm5e.skill.arcane.parma",
+        key: "data.bonuses.skills.parma.bonus",
+        mode: 2,
+        default: 2
+      },
+      penetration: {
+        label: "arm5e.skill.arcane.penetration",
+        key: "data.bonuses.skills.penetration.bonus",
+        mode: 2,
+        default: 2
+      }
+    }
+  },
+  bonusAcademicAbility: {
+    category: "abilities",
+    type: "bonusAcademicAbility",
+    label: "arm5e.sheet.activeEffect.types.academicAbilitiesBonus",
+    subtypes: {
+      artesLib: {
+        label: "arm5e.skill.academic.artesLib",
+        key: "data.bonuses.skills.artesLib.bonus",
+        mode: 2,
+        default: 2
+      },
+      civilCanonLaw: {
+        label: "arm5e.skill.academic.civilCanonLaw",
+        key: "data.bonuses.skills.civilCanonLaw.bonus",
+        mode: 2,
+        default: 2
+      },
+      commonLaw: {
+        label: "arm5e.skill.academic.commonLaw",
+        key: "data.bonuses.skills.commonLaw.bonus",
+        mode: 2,
+        default: 2
+      },
+      deadLanguage: {
+        label: "arm5e.skill.academic.deadLanguage",
+        key: "data.bonuses.skills.deadLanguage_#OPTION#.bonus",
+        mode: 2,
+        default: 2,
+        option: "languageName"
+      },
+      medicine: {
+        label: "arm5e.skill.academic.medicine",
+        key: "data.bonuses.skills.medicine.bonus",
+        mode: 2,
+        default: 2
+      },
+      philosophy: {
+        label: "arm5e.skill.academic.philosophy",
+        key: "data.bonuses.skills.philosophy.bonus",
+        mode: 2,
+        default: 2
+      },
+      theology: {
+        label: "arm5e.skill.academic.theology",
+        key: "data.bonuses.skills.theology.bonus",
+        mode: 2,
+        default: 2
+      }
+    }
+  },
+  bonusMartialAbility: {
+    category: "abilities",
+    type: "bonusMartialAbility",
+    label: "arm5e.sheet.activeEffect.types.martialAbilitiesBonus",
+    subtypes: {
+      bows: {
+        label: "arm5e.skill.martial.bows",
+        key: "data.bonuses.skills.bows.bonus",
+        mode: 2,
+        default: 2
+      },
+      singleWeapon: {
+        label: "arm5e.skill.martial.singleWeapon",
+        key: "data.bonuses.skills.singleWeapon.bonus",
+        mode: 2,
+        default: 2
+      },
+      greatWeapon: {
+        label: "arm5e.skill.martial.greatWeapon",
+        key: "data.bonuses.skills.greatWeapon.bonus",
+        mode: 2,
+        default: 2
+      },
+      trownWeapon: {
+        label: "arm5e.skill.martial.trownWeapon",
+        key: "data.bonuses.skills.trownWeapon.bonus",
+        mode: 2,
+        default: 2
+      }
+    }
+  },
+  bonusMysteryAbility: {
+    category: "abilities",
+    type: "bonusMysteryAbility",
+    label: "arm5e.sheet.activeEffect.types.mysteryAbilitiesBonus",
+    subtypes: {
+      enigma: {
+        label: "arm5e.skill.mystery.enigma",
+        key: "data.bonuses.skills.enigma.bonus",
+        mode: 2,
+        default: 2
+      },
+      faerieMagic: {
+        label: "arm5e.skill.mystery.faerieMagic",
+        key: "data.bonuses.skills.faerieMagic.bonus",
+        mode: 2,
+        default: 2
+      },
+      heartbeast: {
+        label: "arm5e.skill.mystery.heartbeast",
+        key: "data.bonuses.skills.heartbeast.bonus",
+        mode: 2,
+        default: 2
+      },
+      verditiusMagic: {
+        label: "arm5e.skill.mystery.verditiusMagic",
+        key: "data.bonuses.skills.verditiusMagic.bonus",
+        mode: 2,
+        default: 2
+      },
+      cult: {
+        label: "arm5e.skill.mystery.cult",
+        key: "data.bonuses.skills.cult_#OPTION#.bonus",
+        mode: 2,
+        default: 2,
+        option: "cultName"
+      }
+    }
+  },
+  bonusSupernaturalAbility: {
+    category: "abilities",
+    type: "bonusSupernaturalAbility",
+    label: "arm5e.sheet.activeEffect.types.supernaturalAbilitiesBonus",
+    subtypes: {
+      animalKen: {
+        label: "arm5e.skill.supernatural.animalKen",
+        key: "data.bonuses.skills.animalKen.bonus",
+        mode: 2,
+        default: 2
+      },
+      dowsing: {
+        label: "arm5e.skill.supernatural.dowsing",
+        key: "data.bonuses.skills.dowsing.bonus",
+        mode: 2,
+        default: 2
+      },
+      enchantingMusic: {
+        label: "arm5e.skill.supernatural.enchantingMusic",
+        key: "data.bonuses.skills.enchantingMusic.bonus",
+        mode: 2,
+        default: 2
+      },
+      entrancement: {
+        label: "arm5e.skill.supernatural.entrancement",
+        key: "data.bonuses.skills.entrancement.bonus",
+        mode: 2,
+        default: 2
+      },
+      magicSensitivity: {
+        label: "arm5e.skill.supernatural.magicSensitivity",
+        key: "data.bonuses.skills.magicSensitivity.bonus",
+        mode: 2,
+        default: 2
+      },
+      premonitions: {
+        label: "arm5e.skill.supernatural.premonitions",
+        key: "data.bonuses.skills.premonitions.bonus",
+        mode: 2,
+        default: 2
+      },
+      secondSight: {
+        label: "arm5e.skill.supernatural.secondSight",
+        key: "data.bonuses.skills.secondSight.bonus",
+        mode: 2,
+        default: 2
+      },
+      senseHolyAndUnholy: {
+        label: "arm5e.skill.supernatural.senseHolyAndUnholy",
+        key: "data.bonuses.skills.senseHolyAndUnholy.bonus",
+        mode: 2,
+        default: 2
+      },
+      shapeshifter: {
+        label: "arm5e.skill.supernatural.shapeshifter",
+        key: "data.bonuses.skills.shapeshifter.bonus",
+        mode: 2,
+        default: 2
+      },
+      supernatural: {
+        label: "arm5e.skill.supernatural.generic",
+        key: "data.bonuses.skills.supernatural_#OPTION#.bonus",
+        mode: 2,
+        default: 2,
+        option: "supernaturalAbilityName"
+      },
+      wildernessSense: {
+        label: "arm5e.skill.supernatural.wildernessSense",
+        key: "data.bonuses.skills.wildernessSense.bonus",
+        mode: 2,
+        default: 2
+      }
+    }
+  },
+  affinityGeneralAbility: {
+    category: "abilities",
+    type: "affinityGeneralAbility",
+    label: "arm5e.sheet.activeEffect.types.generalAbilitiesAffinity",
+    subtypes: {
+      animalHandling: {
+        label: "arm5e.skill.general.animalHandling",
+        key: "data.bonuses.skills.animalHandling.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      areaLore: {
+        label: "arm5e.skill.general.areaLore",
+        key: "data.bonuses.skills.areaLore_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "areaName"
+      },
+      athletics: {
+        label: "arm5e.skill.general.athletics",
+        key: "data.bonuses.skills.athletics.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      awareness: {
+        label: "arm5e.skill.general.awareness",
+        key: "data.bonuses.skills.awareness.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      bargain: {
+        label: "arm5e.skill.general.bargain",
+        key: "data.bonuses.skills.bargain.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      brawl: {
+        label: "arm5e.skill.general.brawl",
+        key: "data.bonuses.skills.brawl.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      carouse: {
+        label: "arm5e.skill.general.carouse",
+        key: "data.bonuses.skills.carouse.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      charm: {
+        label: "arm5e.skill.general.charm",
+        key: "data.bonuses.skills.charm.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      concentration: {
+        label: "arm5e.skill.general.concentration",
+        key: "data.bonuses.skills.concentration.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      craft: {
+        label: "arm5e.skill.general.craft",
+        key: "data.bonuses.skills.craft_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "craftName"
+      },
+      etiquette: {
+        label: "arm5e.skill.general.etiquette",
+        key: "data.bonuses.skills.etiquette.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      folkKen: {
+        label: "arm5e.skill.general.folkKen",
+        key: "data.bonuses.skills.folkKen.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      guile: {
+        label: "arm5e.skill.general.guile",
+        key: "data.bonuses.skills.guile.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      hunt: {
+        label: "arm5e.skill.general.hunt",
+        key: "data.bonuses.skills.hunt.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      intrigue: {
+        label: "arm5e.skill.general.intrigue",
+        key: "data.bonuses.skills.intrigue.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      leadership: {
+        label: "arm5e.skill.general.leadership",
+        key: "data.bonuses.skills.leadership.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      legerdemain: {
+        label: "arm5e.skill.general.legerdemain",
+        key: "data.bonuses.skills.legerdemain.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      livingLanguage: {
+        label: "arm5e.skill.general.livingLanguage",
+        key: "data.bonuses.skills.livingLanguage_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "languageName"
+      },
+      music: {
+        label: "arm5e.skill.general.music",
+        key: "data.bonuses.skills.music.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      organizationLore: {
+        label: "arm5e.skill.general.organizationLore",
+        key: "data.bonuses.skills.organizationLore_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "orgName"
+      },
+      profession: {
+        label: "arm5e.skill.general.profession",
+        key: "data.bonuses.skills.profession_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "professionName"
+      },
+      ride: {
+        label: "arm5e.skill.general.ride",
+        key: "data.bonuses.skills.ride.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      stealth: {
+        label: "arm5e.skill.general.stealth",
+        key: "data.bonuses.skills.stealth.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      survival: {
+        label: "arm5e.skill.general.survival",
+        key: "data.bonuses.skills.survival.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      swim: {
+        label: "arm5e.skill.general.swim",
+        key: "data.bonuses.skills.swim.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      teaching: {
+        label: "arm5e.skill.general.teaching",
+        key: "data.bonuses.skills.teaching.xpCoeff",
+        mode: 1,
+        default: 1.5
+      }
+    }
+  },
+  affinityArcaneAbility: {
+    category: "abilities",
+    type: "affinityArcaneAbility",
+    label: "arm5e.sheet.activeEffect.types.arcaneAbilitiesAffinity",
+    subtypes: {
+      hermeticCode: {
+        label: "arm5e.skill.arcane.hermeticCode",
+        key: "data.bonuses.skills.hermeticCode.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      dominionLore: {
+        label: "arm5e.skill.arcane.dominionLore",
+        key: "data.bonuses.skills.dominionLore.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      faerieLore: {
+        label: "arm5e.skill.arcane.faerieLore",
+        key: "data.bonuses.skills.faerieLore.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      finesse: {
+        label: "arm5e.skill.arcane.finesse",
+        key: "data.bonuses.skills.finesse.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      infernalLore: {
+        label: "arm5e.skill.arcane.infernalLore",
+        key: "data.bonuses.skills.infernalLore.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      magicLore: {
+        label: "arm5e.skill.arcane.magicLore",
+        key: "data.bonuses.skills.magicLore.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      magicTheory: {
+        label: "arm5e.skill.arcane.magicTheory",
+        key: "data.bonuses.skills.magicTheory.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      parma: {
+        label: "arm5e.skill.arcane.parma",
+        key: "data.bonuses.skills.parma.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      penetration: {
+        label: "arm5e.skill.arcane.penetration",
+        key: "data.bonuses.skills.penetration.xpCoeff",
+        mode: 1,
+        default: 1.5
+      }
+    }
+  },
+  affinityAcademicAbility: {
+    category: "abilities",
+    type: "affinityAcademicAbility",
+    label: "arm5e.sheet.activeEffect.types.academicAbilitiesAffinity",
+    subtypes: {
+      artesLib: {
+        label: "arm5e.skill.academic.artesLib",
+        key: "data.bonuses.skills.artesLib.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      civilCanonLaw: {
+        label: "arm5e.skill.academic.civilCanonLaw",
+        key: "data.bonuses.skills.civilCanonLaw.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      commonLaw: {
+        label: "arm5e.skill.academic.commonLaw",
+        key: "data.bonuses.skills.commonLaw.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      deadLanguage: {
+        label: "arm5e.skill.academic.deadLanguage",
+        key: "data.bonuses.skills.deadLanguage_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "languageName"
+      },
+      medicine: {
+        label: "arm5e.skill.academic.medicine",
+        key: "data.bonuses.skills.medicine.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      philosophy: {
+        label: "arm5e.skill.academic.philosophy",
+        key: "data.bonuses.skills.philosophy.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      theology: {
+        label: "arm5e.skill.academic.theology",
+        key: "data.bonuses.skills.theology.xpCoeff",
+        mode: 1,
+        default: 1.5
+      }
+    }
+  },
+  affinityMartialAbility: {
+    category: "abilities",
+    type: "affinityMartialAbility",
+    label: "arm5e.sheet.activeEffect.types.martialAbilitiesAffinity",
+    subtypes: {
+      bows: {
+        label: "arm5e.skill.martial.bows",
+        key: "data.bonuses.skills.bows.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      singleWeapon: {
+        label: "arm5e.skill.martial.singleWeapon",
+        key: "data.bonuses.skills.singleWeapon.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      greatWeapon: {
+        label: "arm5e.skill.martial.greatWeapon",
+        key: "data.bonuses.skills.greatWeapon.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      trownWeapon: {
+        label: "arm5e.skill.martial.trownWeapon",
+        key: "data.bonuses.skills.trownWeapon.xpCoeff",
+        mode: 1,
+        default: 1.5
+      }
+    }
+  },
+  affinityMysteryAbility: {
+    category: "abilities",
+    type: "affinityMysteryAbility",
+    label: "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity",
+    subtypes: {
+      enigma: {
+        label: "arm5e.skill.mystery.enigma",
+        key: "data.bonuses.skills.enigma.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      faerieMagic: {
+        label: "arm5e.skill.mystery.faerieMagic",
+        key: "data.bonuses.skills.faerieMagic.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      heartbeast: {
+        label: "arm5e.skill.mystery.heartbeast",
+        key: "data.bonuses.skills.heartbeast.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      verditiusMagic: {
+        label: "arm5e.skill.mystery.verditiusMagic",
+        key: "data.bonuses.skills.verditiusMagic.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      cult: {
+        label: "arm5e.skill.mystery.cult",
+        key: "data.bonuses.skills.cult_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "cultName"
+      }
+    }
+  },
+  affinitySupernaturalAbility: {
+    category: "abilities",
+    type: "affinitySupernaturalAbility",
+    label: "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity",
+    subtypes: {
+      animalKen: {
+        label: "arm5e.skill.supernatural.animalKen",
+        key: "data.bonuses.skills.animalKen.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      dowsing: {
+        label: "arm5e.skill.supernatural.dowsing",
+        key: "data.bonuses.skills.dowsing.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      enchantingMusic: {
+        label: "arm5e.skill.supernatural.enchantingMusic",
+        key: "data.bonuses.skills.enchantingMusic.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      entrancement: {
+        label: "arm5e.skill.supernatural.entrancement",
+        key: "data.bonuses.skills.entrancement.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      magicSensitivity: {
+        label: "arm5e.skill.supernatural.magicSensitivity",
+        key: "data.bonuses.skills.magicSensitivity.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      premonitions: {
+        label: "arm5e.skill.supernatural.premonitions",
+        key: "data.bonuses.skills.premonitions.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      secondSight: {
+        label: "arm5e.skill.supernatural.secondSight",
+        key: "data.bonuses.skills.secondSight.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      senseHolyAndUnholy: {
+        label: "arm5e.skill.supernatural.senseHolyAndUnholy",
+        key: "data.bonuses.skills.senseHolyAndUnholy.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      shapeshifter: {
+        label: "arm5e.skill.supernatural.shapeshifter",
+        key: "data.bonuses.skills.shapeshifter.xpCoeff",
+        mode: 1,
+        default: 1.5
+      },
+      supernatural: {
+        label: "arm5e.skill.supernatural.generic",
+        key: "data.bonuses.skills.supernatural_#OPTION#.xpCoeff",
+        mode: 1,
+        default: 1.5,
+        option: "supernaturalAbilityName"
+      },
+      wildernessSense: {
+        label: "arm5e.skill.supernatural.wildernessSense",
+        key: "data.bonuses.skills.wildernessSense.xpCoeff",
+        mode: 1,
+        default: 1.5
       }
     }
   }

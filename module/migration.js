@@ -448,8 +448,9 @@ export const migrateActorData = function (actorData) {
 
 export const migrateActiveEffectData = function (effectData) {
   let effectUpdate = {};
-  // effectData["data.flags.arm5e"] = {};
   // update flags
+
+  // Update from 1.3.1
   if (effectData.flags.type != undefined) {
     effectUpdate["flags.arm5e.type"] = [effectData.flags.type];
     effectUpdate["flags.-=type"] = null;
@@ -461,6 +462,11 @@ export const migrateActiveEffectData = function (effectData) {
   if (effectData.flags.value != undefined) {
     effectUpdate["flags.arm5e.value"] = [effectData.flags.value];
     effectUpdate["flags.-=value"] = null;
+  }
+
+  // Fix mess active effect V1
+  if (effectData.flags?.arm5e.type != undefined && !(effectData.flags.arm5e.type instanceof Array)) {
+    effectUpdate["flags.arm5e.type"] = [effectData.flags.arm5e.type];
   }
 
   if (effectData.flags?.arm5e?.option == undefined) {
@@ -495,6 +501,10 @@ export const migrateItemData = function (itemData) {
       // updateData["data.-=experience"] = null;
       // updateData["data.-=score"] = null;
       updateData["data.-=experienceNextLevel"] = null;
+
+      // clean-up TODO: remove
+      update["data.-=puissant"] = null;
+      update["data.-=affinity"] = null;
     }
 
     // no key assigned to the ability, try to find one
@@ -509,7 +519,7 @@ export const migrateItemData = function (itemData) {
       // Special common cases
       if (game.i18n.localize("arm5e.skill.commonCases.native").toLowerCase() == name) {
         updateData["data.key"] = "livingLanguage";
-        updateData["data.option"] = "Native tongue";
+        updateData["data.option"] = "nativeTongue";
         log(false, `Found key livingLanguage for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.areaLore").toLowerCase() == name) {
         updateData["data.key"] = "areaLore";
@@ -520,7 +530,7 @@ export const migrateItemData = function (itemData) {
         log(false, `Found key latin for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.hermesLore").toLowerCase() == name) {
         updateData["data.key"] = "organizationLore";
-        updateData["data.option"] = "Order of Hermes";
+        updateData["data.option"] = "OrderOfHermes";
         log(false, `Found key hermesLore for ability  ${itemData.name}`);
       } else {
         for (const [key, value] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
@@ -534,6 +544,10 @@ export const migrateItemData = function (itemData) {
       if (updateData["data.key"] == undefined) {
         log(true, `Unable to find a key for ability  ${itemData.name}`);
       }
+    }
+    if (itemData.data.option != undefined) {
+      // keep only alphanum chars
+      updateData["data.option"] = itemData.data.option.replace(/[^a-zA-Z0-9]/gi, "");
     }
   }
 

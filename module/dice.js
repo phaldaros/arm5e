@@ -160,8 +160,8 @@ function getRollFormula(actor) {
     } else {
       actorData.roll.techniqueText = actorData.arts.techniques[actorData.roll.technique].label;
       actorData.roll.formText = actorData.arts.forms[actorData.roll.form].label;
-      valueTech = parseInt(actorData.arts.techniques[actorData.roll.technique].derivedScore);
-      valueForm = parseInt(actorData.arts.forms[actorData.roll.form].derivedScore);
+      valueTech = parseInt(actorData.arts.techniques[actorData.roll.technique].finalScore);
+      valueForm = parseInt(actorData.arts.forms[actorData.roll.form].finalScore);
     }
     if (actorData.roll.focus === true) {
       if (valueTech < valueForm) {
@@ -212,7 +212,7 @@ function getRollFormula(actor) {
   if (actorData.roll.ability != "") {
     for (var i = 0; i < actorData.abilities.length; i++) {
       if (actorData.abilities[i]._id == actorData.roll.ability) {
-        value = actorData.abilities[i].data.derivedScore;
+        value = actorData.abilities[i].data.finalScore;
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
           msg = msg + " + <br />";

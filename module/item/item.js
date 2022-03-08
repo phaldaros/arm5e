@@ -44,12 +44,29 @@ export class ArM5eItem extends Item {
         itemData.data.abilities = abilitiesSelect;
       }
 
-      if (this.data.type == "ability") {
-        this.data.data.derivedScore = this.actor._getAbilityScore(this.data.data.xp);
+      // if (this.data.type == "ability") {
+      //   this.data.data.xpCoeff = this.actor._getAbilityXpCoeff(this.data.data.key, this.data.data.option);
+      //   this.data.data.derivedScore = this.actor._getAbilityScore(this.data.data.xp * this.data.data.xpCoeff);
+      //   this.data.data.xpNextLevel =
+      //     Math.round(this.actor._getAbilityXp(this.data.data.derivedScore + 1) / this.data.data.xpCoeff) -
+      //     this.data.data.xp;
+      //   // this.data.data.remainingXp =
+      //   //   this.actor._getAbilityXp(this.data.data.derivedScore + 1, this.data.data.key, this.data.data.option) -
+      //   //   this.data.data.xp;
 
-        this.data.data.xpNextLevel = (this.data.data.derivedScore + 1) * 5;
-        this.data.data.remainingXp = this.data.data.xp - this.actor._getAbilityXp(this.data.data.derivedScore);
-      }
+      //   if (this.data.data.xpCoeff != 1.0) {
+      //     let coeff = this.data.data.xpCoeff;
+      //     log(false, `xpCoeff: ${coeff}`);
+      //     let newxp = this.data.data.xp * coeff;
+      //     log(false, `Xp: ${this.data.data.xp} and after afinity: ${newxp}`);
+      //     let score = this.actor._getAbilityScore(this.data.data.xp);
+      //     let affinityscore = this.actor._getAbilityScore(this.data.data.xp * coeff);
+      //     log(false, `score : ${score} and after afinity: ${affinityscore}`);
+      //     let nextLvl = this.actor._getAbilityXp(affinityscore + 1) - this.data.data.xp;
+      //     let afterAffinity = nextLvl / coeff;
+      //     log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
+      //   }
+      // }
     }
     if (this._needLevelComputation()) {
       if (this._isNotMigrated()) {

@@ -143,32 +143,35 @@ export class ArM5eItemSheet extends ItemSheet {
 
   async _increaseScore(item) {
     let oldXp = item.data.data.xp;
+    let newXp = Math.round(
+      ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) / (2 * item.data.data.xpCoeff)
+    );
+
     await item.update(
       {
         data: {
-          xp: ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) / 2
+          xp: newXp
         }
       },
       {}
     );
-    let newXp = item.data.data.xp;
     let delta = newXp - oldXp;
     console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
   }
   async _deccreaseScore(item) {
-    let newScore = 0;
     if (item.data.data.derivedScore != 0) {
       let oldXp = item.data.data.xp;
-
+      let newXp = Math.round(
+        ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) / (2 * item.data.data.xpCoeff)
+      );
       await item.update(
         {
           data: {
-            xp: ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) / 2
+            xp: newXp
           }
         },
         {}
       );
-      let newXp = item.data.data.xp;
       let delta = newXp - oldXp;
       console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
     }

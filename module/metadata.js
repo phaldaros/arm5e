@@ -449,6 +449,7 @@ ARM5E.ALL_ABILITIES = {
     category: "supernatural"
   },
   shapeshifter: { mnemonic: "arm5e.skill.supernatural.shapeshifter", option: false, category: "supernatural" },
+  supernatural: { mnemonic: "arm5e.skill.supernatural.generic", option: true, category: "supernatural" },
   wildernessSense: { mnemonic: "arm5e.skill.supernatural.wildernessSense", option: false, category: "supernatural" },
   enigma: { mnemonic: "arm5e.skill.mystery.enigma", option: false, category: "mystery" },
   faerieMagic: { mnemonic: "arm5e.skill.mystery.faerieMagic", option: false, category: "mystery" },

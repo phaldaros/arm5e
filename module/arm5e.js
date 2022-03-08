@@ -271,7 +271,7 @@ Hooks.once("init", async function () {
 
 Hooks.once("ready", async function () {
   // DEV:
-  //generateActiveEffectFromAbilities();
+  // generateActiveEffectFromAbilities();
 
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));

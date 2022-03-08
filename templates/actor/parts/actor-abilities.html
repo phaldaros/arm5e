@@ -29,13 +29,7 @@
         >{{item.name}} ( {{item.data.speciality}} )</span
       >
       <label class="marginRight8">{{localize "arm5e.sheet.score"}}</label
-      ><input
-        type="text"
-        name="item.{{id}}.derivedScore"
-        value="{{item.data.derivedScore}}"
-        readonly
-        data-dtype="Number"
-      />
+      ><input type="text" name="item.{{id}}.finalScore" value="{{item.data.finalScore}}" readonly data-dtype="Number" />
       <span></span>
       <label class="marginRight8">{{localize "arm5e.sheet.experience"}}</label
       ><input
