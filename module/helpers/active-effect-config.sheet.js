@@ -147,12 +147,13 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     let arrayTypes = this.object.getFlag("arm5e", "type");
     let arraySubtypes = this.object.getFlag("arm5e", "subtype");
     let arrayOptions = this.object.getFlag("arm5e", "option");
+    let flags = {};
     switch (button.dataset.action) {
       case "add":
         arrayTypes.push("none");
         arraySubtypes.push("none");
         arrayOptions.push(null);
-        let flags = {
+        flags = {
           arm5e: {
             type: arrayTypes,
             subtype: arraySubtypes,
@@ -161,16 +162,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
         };
         return this._addEffectChange(flags).then(() => this.render());
 
-      // case "option":
-      //   arrayOptions.push(null);
-      //   let flags = {
-      //     arm5e: {
-      //       type: arrayTypes,
-      //       subtype: arraySubtypes,
-      //       option: arrayOptions
-      //     }
-      //   };
-      //   return this._addEffectChange(flags).then(() => this.render());
+      case "option":
+        const index = parseInt(event.currentTarget.dataset.idx);
+        return this._setOption(index, arrayTypes[index], arraySubtypes[index], arrayOptions[index]).then(() =>
+          this.render()
+        );
+        break;
       case "delete":
         // remove type and subtype of the erased change
         arrayTypes.splice(button.dataset.idx, 1);
@@ -188,6 +185,57 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
         button.closest(".effect-change").remove();
         return this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
     }
+  }
+
+  async _setOption(index, type, subtype, option) {
+    var chosenOption = option;
+    let dialogData = {
+      fieldName: "arm5e.sheet.skill.abilityOption",
+      placeholder: "arm5e.dialog.hint.abilityOption",
+      value: option
+    };
+    const html = await renderTemplate("systems/arm5e/templates/generic/textInput.html", dialogData);
+    await new Promise((resolve) => {
+      new Dialog(
+        {
+          title: game.i18n.localize("arm5e.sheet.skill.abilityOption"),
+          content: html,
+          buttons: {
+            yes: {
+              icon: "<i class='fas fa-check'></i>",
+              label: `Yes`,
+              callback: async (html) => {
+                let find = html.find(".textInput");
+                chosenOption = find[0].value;
+                resolve();
+              }
+            },
+            no: {
+              icon: "<i class='fas fa-ban'></i>",
+              label: `Cancel`,
+              callback: () => {
+                resolve();
+              }
+            }
+          }
+        },
+        {
+          jQuery: true,
+          height: "140px",
+          classes: ["arm5e-dialog", "dialog"]
+        }
+      ).render(true);
+    });
+    // remove any non alphanumeric character
+    chosenOption = chosenOption.replace(/[^a-zA-Z0-9]/gi, "");
+    if (chosenOption == "") {
+      chosenOption = ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default;
+    }
+    let computedKey = ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key;
+    let updateData = {};
+    updateData[`flags.arm5e.option.${index}`] = chosenOption;
+    updateData[`changes.${index}.key`] = computedKey.replace("#OPTION#", chosenOption);
+    return this.submit({ preventClose: true, updateData: updateData });
   }
 
   async _addEffectChange(updateFlags) {

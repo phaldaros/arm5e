@@ -54,6 +54,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/roll/parts/roll-footer.html",
     // generic partials
     "systems/arm5e/templates/generic/simpleListPicker.html",
+    "systems/arm5e/templates/generic/textInput.html",
     "systems/arm5e/templates/generic/source.html"
   ]);
 };

@@ -123,6 +123,7 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".decrease-ability").click((event) => this._deccreaseScore(this.item));
     html.find(".default-characteristic").change((event) => this._onSelectDefaultCharacteristic(this.item, event));
     html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
+    html.find(".ability-option").change((event) => this._cleanUpOption(this.item, event));
 
     // Active Effect management
     html.find(".effect-control").click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
@@ -175,6 +176,24 @@ export class ArM5eItemSheet extends ItemSheet {
       let delta = newXp - oldXp;
       console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
     }
+  }
+
+  async _cleanUpOption(item, event) {
+    event.preventDefault();
+    if (event.currentTarget.value == "") {
+      event.currentTarget.value = "optionName";
+    } else {
+      // remove any non alphanumeric character
+      event.currentTarget.value = event.currentTarget.value.replace(/[^a-zA-Z0-9]/gi, "");
+    }
+    await item.update(
+      {
+        data: {
+          option: event.currentTarget.value
+        }
+      },
+      {}
+    );
   }
 
   async _enchantItemQuestion(item) {

@@ -21,6 +21,7 @@ Features
 - penetration total computed during combat
 - fun stress dice rolls option
 - new abilities keys for the system to identify them.
+- abilities options have all invalid characters removed automatically
 
 Bug fixes
 
