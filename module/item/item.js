@@ -43,13 +43,6 @@ export class ArM5eItem extends Item {
 
         itemData.data.abilities = abilitiesSelect;
       }
-
-      if (this.data.type == "ability") {
-        this.data.data.derivedScore = this.actor._getAbilityScore(this.data.data.xp);
-
-        this.data.data.xpNextLevel = (this.data.data.derivedScore + 1) * 5;
-        this.data.data.remainingXp = this.data.data.xp - this.actor._getAbilityXp(this.data.data.derivedScore);
-      }
     }
     if (this._needLevelComputation()) {
       if (this._isNotMigrated()) {

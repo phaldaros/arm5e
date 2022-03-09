@@ -32,6 +32,7 @@ export class ArM5ePCActor extends Actor {
     if (this.data.type != "player" && this.data.type != "npc") {
       return;
     }
+
     this.data.data.bonuses = {};
     if (this._isMagus()) {
       for (let key of Object.keys(this.data.data.arts.techniques)) {
@@ -51,13 +52,21 @@ export class ArM5ePCActor extends Actor {
       };
     }
 
-    // this.data.data.bonuses.skills = {};
-    // for (const [key, item] of this.items.entries()) {
-    //   if (item.type == "ability") {
-    //     this.data.data.bonuses.skills[key].bonus = 0;
-    //     this.data.data.bonuses.skills[key].xpCoeff = 1.0;
-    //   }
-    // }
+    this.data.data.bonuses.skills = {};
+    for (const [key, item] of this.items.entries()) {
+      if (item.type == "ability") {
+        let abilityKey = item.data.data?.key || "";
+        if (abilityKey != "") {
+          // log(false, `Ability key: ${abilityKey}`);
+          if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey].option || false) {
+            abilityKey += "_" + item.data.data.option;
+          }
+          this.data.data.bonuses.skills[abilityKey] = {};
+          this.data.data.bonuses.skills[abilityKey].bonus = 0;
+          this.data.data.bonuses.skills[abilityKey].xpCoeff = 1.0;
+        }
+      }
+    }
 
     this.data.data.bonuses.traits = { soak: 0 };
   }
@@ -152,12 +161,42 @@ export class ArM5ePCActor extends Actor {
       // ItemData#data now contains the data
       let i = item.data;
       if (i.type === "ability") {
+        let computedKey = i.data.key;
+        if (i.data.option != "") {
+          computedKey += "_" + i.data.option;
+        }
+        i.data.xpCoeff = this._getAbilityXpCoeff(i.data.key, i.data.option);
+        i.data.derivedScore = this._getAbilityScore(Math.round(i.data.xp * i.data.xpCoeff));
+        i.data.xpNextLevel = Math.round(this._getAbilityXp(i.data.derivedScore + 1) / i.data.xpCoeff) - i.data.xp;
+        // this.data.data.remainingXp =
+        //   this.actor._getAbilityXp(this.data.data.derivedScore + 1, this.data.data.key, this.data.data.option) -
+        //   this.data.data.xp;
+
+        if (i.data.xpCoeff != 1.0) {
+          let coeff = i.data.xpCoeff;
+          log(false, `xpCoeff: ${coeff}`);
+          let newxp = i.data.xp * coeff;
+          log(false, `Xp: ${i.data.xp} and after afinity: ${newxp}`);
+          let score = this._getAbilityScore(i.data.xp);
+          let affinityscore = this._getAbilityScore(Math.round(i.data.xp * coeff));
+          log(false, `score : ${score} and after afinity: ${affinityscore}`);
+          let nextLvl = this._getAbilityXp(affinityscore + 1) - i.data.xp;
+          let afterAffinity = nextLvl / coeff;
+          log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
+        }
+
+        if (data.bonuses.skills[computedKey] != undefined && data.bonuses.skills[computedKey].bonus != 0) {
+          i.data.finalScore = i.data.derivedScore + parseInt(data.bonuses.skills[computedKey].bonus);
+        } else {
+          i.data.finalScore = i.data.derivedScore;
+        }
+
         abilities.push(i);
 
         const temp = {
           id: i._id,
           name: i.name,
-          value: i.data.derivedScore
+          value: i.data.finalScore
         };
         //abilitiesSelect.push(temp);
         abilitiesSelect["a" + key] = temp;
@@ -165,29 +204,43 @@ export class ArM5ePCActor extends Actor {
         totalXPAbilities = parseInt(totalXPAbilities) + i.data.xp;
 
         if (this._isMagus() && actorData.data.laboratory && actorData.data.laboratory.abilitiesSelected) {
-          if (i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.derivedScore;
-          }
-          if (i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.derivedScore;
-          }
-          if (i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.derivedScore;
-          }
-          if (i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.derivedScore;
-          }
-          if (i._id == actorData.data.laboratory.abilitiesSelected.philosophy.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.derivedScore;
-          }
-          if (i._id == actorData.data.laboratory.abilitiesSelected.parma.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.parma.value = i.data.derivedScore;
-          }
-          if (i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.derivedScore;
-          }
-          if (i._id == actorData.data.laboratory.abilitiesSelected?.penetration?.abilityID) {
-            actorData.data.laboratory.abilitiesSelected.penetration.value = i.data.derivedScore;
+          if (i.data.key != "") {
+            if (i.data.key == "finesse") {
+              actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.finalScore;
+            } else if (i.data.key == "awareness") {
+              actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.finalScore;
+            } else if (i.data.key == "concentration") {
+              actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.finalScore;
+            } else if (i.data.key == "artesLib") {
+              actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.finalScore;
+            } else if (i.data.key == "magicTheory") {
+              actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.finalScore;
+            } else if (i.data.key == "parma") {
+              actorData.data.laboratory.abilitiesSelected.parma.value = i.data.finalScore;
+            } else if (i.data.key == "philosophy") {
+              actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.finalScore;
+            } else if (i.data.key == "penetration") {
+              actorData.data.laboratory.abilitiesSelected.penetration.value = i.data.finalScore;
+            }
+          } else {
+            // legacy code, to be removed in the future
+            if (i._id == actorData.data.laboratory.abilitiesSelected.finesse.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.finalScore;
+            } else if (i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.finalScore;
+            } else if (i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.finalScore;
+            } else if (i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.finalScore;
+            } else if (i._id == actorData.data.laboratory.abilitiesSelected.philosophy.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.philosophy.value = i.data.finalScore;
+            } else if (i._id == actorData.data.laboratory.abilitiesSelected.parma.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.parma.value = i.data.finalScore;
+            } else if (i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.finalScore;
+            } else if (i._id == actorData.data.laboratory.abilitiesSelected?.penetration?.abilityID) {
+              actorData.data.laboratory.abilitiesSelected.penetration.value = i.data.finalScore;
+            }
           }
         }
       }
@@ -213,7 +266,7 @@ export class ArM5ePCActor extends Actor {
           } else {
             for (var a = 0; a < abilities.length; a++) {
               if (abilities[a]._id == i.data.ability) {
-                let hab = abilities[a].data.derivedScore;
+                let hab = abilities[a].data.finalScore;
                 if (i.data.weaponExpert) {
                   hab = parseInt(hab) + 1;
                 }
@@ -822,6 +875,22 @@ export class ArM5ePCActor extends Actor {
 
   // Utility functions
 
+  // get the XP coefficient of a given ability if any
+
+  _getAbilityXpCoeff(abilityKey = "", option = "") {
+    if (abilityKey === "" || CONFIG.ARM5E.ALL_ABILITIES[abilityKey] == undefined) {
+      return 1.0;
+    }
+    if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey].option || false) {
+      abilityKey += "_" + option;
+    }
+    if (this.data.data.bonuses.skills[abilityKey] == undefined) {
+      // ability not yet added to bonuses
+      return 1.0;
+    }
+
+    return this.data.data.bonuses.skills[abilityKey].xpCoeff || 1.0;
+  }
   // get the Xps needed for an ability/decrepitude/warping score
   _getAbilityXp(score) {
     return this._getArtXp(score) * 5;
@@ -861,6 +930,20 @@ export class ArM5ePCActor extends Actor {
 
   _isGrog() {
     return this.data.type == "player" && this.data.data.charType.value == "grog";
+  }
+
+  getAbilityScore(abilityKey, abilityOption = "") {
+    if (this.data.type != "player" && this.data.type != "npc") {
+      return null;
+    }
+    let ability = this.data.data.abilities.filter(
+      (val) => val.data.key == abilityKey && val.data.option == abilityOption
+    );
+
+    if (ability.length) {
+      return ability[0].data.derivedScore;
+    }
+    return 0;
   }
 
   // Vitals management

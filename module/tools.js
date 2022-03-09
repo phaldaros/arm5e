@@ -194,3 +194,200 @@ function getWoundType(size) {
   //console.log(result);
   return result;
 }
+
+// Internal function to generate Active Effects types from the ability list
+export function generateActiveEffectFromAbilities() {
+  let activeEffects = {
+    bonusGeneralAbility: {
+      category: "abilities",
+      type: "bonusGeneralAbility",
+      label: "bonusGeneralAbility",
+      subtypes: {}
+    },
+    bonusArcaneAbility: {
+      category: "abilities",
+      type: "bonusArcaneAbility",
+      label: "arm5e.sheet.activeEffect.types.arcaneAbilitiesBonus",
+      subtypes: {}
+    },
+    bonusAcademicAbility: {
+      category: "abilities",
+      type: "bonusAcademicAbility",
+      label: "arm5e.sheet.activeEffect.types.academicAbilitiesBonus",
+      subtypes: {}
+    },
+    bonusMartialAbility: {
+      category: "abilities",
+      type: "bonusMartialAbility",
+      label: "arm5e.sheet.activeEffect.types.martialAbilitiesBonus",
+      subtypes: {}
+    },
+    bonusMysteryAbility: {
+      category: "abilities",
+      type: "bonusMysteryAbility",
+      label: "arm5e.sheet.activeEffect.types.mysteryAbilitiesBonus",
+      subtypes: {}
+    },
+    bonusSupernaturalAbility: {
+      category: "abilities",
+      type: "bonusSupernaturalAbility",
+      label: "arm5e.sheet.activeEffect.types.supernaturalAbilitiesBonus",
+      subtypes: {}
+    },
+    affinityGeneralAbility: {
+      category: "abilities",
+      type: "affinityGeneralAbility",
+      label: "arm5e.sheet.activeEffect.types.generalAbilitiesAffinity",
+      subtypes: {}
+    },
+    affinityArcaneAbility: {
+      category: "abilities",
+      type: "affinityArcaneAbility",
+      label: "arm5e.sheet.activeEffect.types.arcaneAbilitiesAffinity",
+      subtypes: {}
+    },
+    affinityAcademicAbility: {
+      category: "abilities",
+      type: "affinityAcademicAbility",
+      label: "arm5e.sheet.activeEffect.types.academicAbilitiesAffinity",
+      subtypes: {}
+    },
+    affinityMartialAbility: {
+      category: "abilities",
+      type: "affinityMartialAbility",
+      label: "arm5e.sheet.activeEffect.types.martialAbilitiesAffinity",
+      subtypes: {}
+    },
+    affinityMysteryAbility: {
+      category: "abilities",
+      type: "affinityMysteryAbility",
+      label: "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity",
+      subtypes: {}
+    },
+    affinitySupernaturalAbility: {
+      category: "abilities",
+      type: "affinitySupernaturalAbility",
+      label: "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity",
+      subtypes: {}
+    }
+  };
+  let tmp = Object.entries(CONFIG.ARM5E.ALL_ABILITIES);
+  // debugger;
+  for (const [aKey, ability] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
+    // console.log(ability);
+    let computedKey;
+    let afinityComputedKey;
+    if (ability.option) {
+      computedKey = `data.bonuses.skills.${aKey}_#OPTION#.bonus`;
+      afinityComputedKey = `data.bonuses.skills.${aKey}_#OPTION#.xpCoeff`;
+    } else {
+      computedKey = `data.bonuses.skills.${aKey}.bonus`;
+      afinityComputedKey = `data.bonuses.skills.${aKey}.xpCoeff`;
+    }
+    switch (ability.category) {
+      case "general": {
+        activeEffects.bonusGeneralAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: computedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          default: 2
+        };
+        activeEffects.affinityGeneralAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: afinityComputedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+          default: 1.5
+        };
+        break;
+      }
+      case "academic": {
+        activeEffects.bonusAcademicAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: computedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          default: 2
+        };
+        activeEffects.affinityAcademicAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: afinityComputedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+          default: 1.5
+        };
+        break;
+      }
+      case "arcane": {
+        activeEffects.bonusArcaneAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: computedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          default: 2
+        };
+        activeEffects.affinityArcaneAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: afinityComputedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+          default: 1.5
+        };
+        break;
+      }
+      case "martial": {
+        activeEffects.bonusMartialAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: computedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          default: 2
+        };
+        activeEffects.affinityMartialAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: afinityComputedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+          default: 1.5
+        };
+        break;
+      }
+      case "mystery": {
+        activeEffects.bonusMysteryAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: computedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          default: 2
+        };
+        activeEffects.affinityMysteryAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: afinityComputedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+          default: 1.5
+        };
+        break;
+      }
+      case "supernatural": {
+        activeEffects.bonusSupernaturalAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: computedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          default: 2
+        };
+        activeEffects.affinitySupernaturalAbility.subtypes[aKey] = {
+          label: ability.mnemonic,
+          key: afinityComputedKey,
+          mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+          default: 1.5
+        };
+        break;
+      }
+    }
+  }
+  console.log(activeEffects);
+  debugger;
+}
+
+// wounds: {
+// category: "traits",
+// type: "wounds",
+// label: "arm5e.sheet.activeEffect.types.wounds",
+// subtypes: {
+//     light: {
+//       label: "arm5e.sheet.light",
+//       key: "data.wounds.light.penalty.value",
+//       mode: CONST.ACTIVE_EFFECT_MODES.ADD
+//     },

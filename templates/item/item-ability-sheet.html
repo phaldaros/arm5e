@@ -19,8 +19,8 @@
         <label
           >{{localize "arm5e.sheet.score"}}<input
             type="text"
-            name="data.derivedScore"
-            value="{{data.derivedScore}}"
+            name="data.finalScore"
+            value="{{data.finalScore}}"
             data-dtype="Number"
             readonly
         /></label>
@@ -80,12 +80,12 @@
       <div class="resource">
         {{#if (lookup (lookup abilityKeysList data.key) "option")}}
         <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-        <input type="text" name="data.option" value="{{data.option}}" style="width: 200px" />
+        <input type="text" class="ability-option" name="data.option" value="{{data.option}}" style="width: 200px" />
         {{else}}
         <label for="data.option" class="header-label" style="color: gray"
           >{{localize "arm5e.sheet.skill.abilityOption"}}</label
         >
-        <input type="text" name="data.option" data-dtype="String" value="" disabled style="width: 200px" />
+        <input type="text" name="data.option" data-dtype="String" value="" readonly style="width: 200px" />
         {{/if}}
       </div>
     </div>

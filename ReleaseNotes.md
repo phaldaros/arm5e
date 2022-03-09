@@ -4,19 +4,24 @@
 
 Features
 
-- active effects integration in the system
+- active effects integration in the system (Ars Magica has its own class)
 - advanced virtues/flaws with (limited) active effects
-  - art bonuses
-  - art affinities
+  - arts bonuses
+  - arts affinities
+  - abilities bonuses
+  - abilities affinities
   - size
   - soak
   - characteristics
   - fatigue penalties
   - wound penalties
+- default config for active effect
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)
 - penetration total computed during combat
 - fun stress dice rolls option
+- new abilities keys for the system to identify them.
+- abilities options have all invalid characters removed automatically
 
 Bug fixes
 
@@ -24,6 +29,8 @@ Bug fixes
 - reduced font size of spells success/failure in chat
 - soak modifiers/bonuses are not displayed in chat if zero
 - disabled some input field to avoid artefacts on submit
+- Puissant art wasn't taken into account for spontaneous magic
+- Puissant art wasn't taken into account for magic resistance
 
 ### 1.3.1
 

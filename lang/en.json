@@ -297,11 +297,13 @@
   "arm5e.skill.supernatural.dowsing": "Dowsing",
   "arm5e.skill.supernatural.enchantingMusic": "Enchanting Music",
   "arm5e.skill.supernatural.entrancement": "Entrancement",
+  "arm5e.skill.supernatural.generic": "Supernatural ability {option}",
   "arm5e.skill.supernatural.magicSensitivity": "Magic Sensitivity",
   "arm5e.skill.supernatural.premonitions": "Premonitions",
   "arm5e.skill.supernatural.secondSight": "Second Sight",
   "arm5e.skill.supernatural.senseHolyAndUnholy": "Sense Holiness & Unholiness",
   "arm5e.skill.supernatural.shapeshifter": "Shapeshifter",
+
   "arm5e.skill.supernatural.wildernessSense": "Wilderness Sense",
 
   "arm5e.skill.mystery.enigma": "Enigmatic Wisdom",
@@ -650,6 +652,7 @@
   "arm5e.dialog.button.stressdie": "Stress die",
   "arm5e.dialog.button.simpledie": "Simple die",
   "arm5e.dialog.woundCalculator": "Wound calculator",
+  "arm5e.dialog.hint.abilityOption": "Only alphanumeric characters.",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
   "arm5e.notification.dead": "This character is dead...",
@@ -742,6 +745,18 @@
   "arm5e.sheet.activeEffect.types.characteristics": "Characteristics",
   "arm5e.sheet.activeEffect.types.fatigue": "Fatigue",
   "arm5e.sheet.activeEffect.types.wounds": "Wounds",
+  "arm5e.sheet.activeEffect.types.academicAbilitiesBonus": "Bonus Academic abilities",
+  "arm5e.sheet.activeEffect.types.arcaneAbilitiesBonus": "Bonus Arcane abilities",
+  "arm5e.sheet.activeEffect.types.generalAbilitiesBonus": "Bonus General abilities",
+  "arm5e.sheet.activeEffect.types.martialAbilitiesBonus": "Bonus Martial abilities",
+  "arm5e.sheet.activeEffect.types.mysteryAbilitiesBonus": "Bonus Mysteries abilities",
+  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesBonus": "Bonus Supernatural abilities",
+  "arm5e.sheet.activeEffect.types.academicAbilitiesAffinity": "Affinity Academic abilities",
+  "arm5e.sheet.activeEffect.types.arcaneAbilitiesAffinity": "Affinity Arcane abilities",
+  "arm5e.sheet.activeEffect.types.generalAbilitiesAffinity": "Affinity General abilities",
+  "arm5e.sheet.activeEffect.types.martialAbilitiesAffinity": "Affinity Martial abilities",
+  "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity": "Affinity Mysteries abilities",
+  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
 
