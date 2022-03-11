@@ -109,7 +109,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     return categories;
   }
 
-  static async findAllActiveEffectsWithType(effects, type) {
+  static findAllActiveEffectsWithType(effects, type) {
     const activeEffects = [];
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
