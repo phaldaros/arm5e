@@ -79,7 +79,7 @@ async function stressDie(html, actor, modes = 0, callBack) {
   });
 
   if (callBack) {
-    callBack(html, actor, roll, message);
+    callBack(html, actor, lastRoll, message);
   }
 }
 
