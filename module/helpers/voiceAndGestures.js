@@ -44,7 +44,12 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
   };
   console.log("activeEffectData:");
   console.log(activeEffectData);
-  const ae = actor.data.effects.find((m) => m?.data.flags?.arm5e?.subtype[0] === type);
+  const ae = actor.data.effects.find(
+    (m) =>
+      m.getFlag("arm5e", "subtype") != null &&
+      m.data.flags.arm5e.subtype.length != 0 &&
+      m?.data.flags?.arm5e?.subtype[0] === type
+  );
   if (ae) {
     activeEffectData._id = ae.data._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);

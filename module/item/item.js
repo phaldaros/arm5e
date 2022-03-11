@@ -355,7 +355,7 @@ export class ArM5eItem extends Item {
     if (actorData.type != "player" && actorData.type != "npc") {
       return 0;
     }
-    let res = actorData.data.sta;
+    let res = actorData.data.characteristics.sta.value;
     let tech = 1000;
     let form = 1000;
     let focusBonus = 0;
