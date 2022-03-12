@@ -167,10 +167,8 @@ export class ArM5ePCActor extends Actor {
         }
         i.data.xpCoeff = this._getAbilityXpCoeff(i.data.key, i.data.option);
         i.data.derivedScore = this._getAbilityScore(Math.round(i.data.xp * i.data.xpCoeff));
-        i.data.xpNextLevel = Math.round(this._getAbilityXp(i.data.derivedScore + 1) / i.data.xpCoeff) - i.data.xp;
-        // this.data.data.remainingXp =
-        //   this.actor._getAbilityXp(this.data.data.derivedScore + 1, this.data.data.key, this.data.data.option) -
-        //   this.data.data.xp;
+        i.data.xpNextLevel = Math.round(5 * i.data.derivedScore + 5 / i.data.xpCoeff);
+        i.data.remainingXp = i.data.xp - Math.round(this._getAbilityXp(i.data.derivedScore) / i.data.xpCoeff);
 
         if (i.data.xpCoeff != 1.0) {
           let coeff = i.data.xpCoeff;

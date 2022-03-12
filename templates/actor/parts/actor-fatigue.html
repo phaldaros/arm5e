@@ -24,6 +24,7 @@
             />
           </span>
           <span>
+            {{#with (lookup @root.metadata.character.fatigueLevels key)}}
             <input
               type="text"
               name="metadata.character.fatigueLevels.{{key}}.time"
@@ -31,6 +32,7 @@
               data-dtype="String"
               readonly
             />
+            {{/with}}
           </span>
         </div>
       </li>
