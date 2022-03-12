@@ -13,13 +13,13 @@
           {{#if (eq @root.artsIcons "symbol")}}
           <img
             src="/systems/arm5e/assets/magic/{{key}}.png"
-            style="border: 0px; height: 40px; box-shadow: 0 0 10px {{technique.ui.shadow}}"
+            {{{technique.ui.style}}}
             title="{{technique.ui.title}}{{numberFormat technique.bonus decimals=0 sign=true}}"
           />
           {{else}}
           <img
             src="/systems/arm5e/assets/hands/{{key}}.png"
-            style="border: 0px; height: 40px; box-shadow: 0 0 10px {{technique.ui.shadow}}"
+            {{{technique.ui.style}}}
             title="{{technique.ui.title}}{{numberFormat technique.bonus decimals=0 sign=true}}"
           />
           {{/if}}
@@ -78,14 +78,13 @@
             {{#if (eq @root.artsIcons "symbol")}}
             <img
               src="/systems/arm5e/assets/magic/{{key}}.png"
-              box-sha
-              style="border: 0px; height: 40px; box-shadow: 0 0 10px {{forms.ui.shadow}}"
+              {{{forms.ui.style}}}
               title="{{forms.ui.title}}{{numberFormat forms.bonus decimals=0 sign=true}}"
             />
             {{else}}
             <img
               src="/systems/arm5e/assets/hands/{{key}}.png"
-              style="border: 0px; height: 40px; box-shadow: 0 0 10px {{forms.ui.shadow}}"
+              {{{forms.ui.style}}}
               title="{{forms.ui.title}}{{numberFormat forms.bonus decimals=0 sign=true}}"
             />
             {{/if}}

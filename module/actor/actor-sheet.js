@@ -151,25 +151,43 @@ export class ArM5eActorSheet extends ActorSheet {
         }
         for (let [key, technique] of Object.entries(context.data.arts.techniques)) {
           if (!technique.bonus && technique.xpCoeff == 1.0) {
-            technique.ui = { shadow: "" };
+            technique.ui = { style: 'style="border: 0px; height: 40px;"' };
           } else if (!technique.bonus && technique.xpCoeff != 1.0) {
-            technique.ui = { shadow: "maroon", title: "Affinity, " };
+            technique.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"',
+              title: "Affinity, "
+            };
           } else if (technique.bonus && technique.xpCoeff == 1.0) {
-            technique.ui = { shadow: "blue", title: "" };
+            technique.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"', title: "" };
           } else {
-            technique.ui = { shadow: "purple", title: "Affinity, " };
+            technique.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
+              title: "Affinity, "
+            };
           }
         }
         for (let [key, form] of Object.entries(context.data.arts.forms)) {
           if (!form.bonus && form.xpCoeff == 1.0) {
-            form.ui = { shadow: "" };
+            form.ui = { style: 'style="border: 0px; height: 40px;"' };
           } else if (!form.bonus && form.xpCoeff != 1.0) {
-            form.ui = { shadow: "maroon", title: "Affinity, " };
+            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"', title: "Affinity, " };
           } else if (form.bonus && form.xpCoeff == 1.0) {
-            form.ui = { shadow: "blue", title: "" };
+            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"', title: "" };
           } else {
-            form.ui = { shadow: "purple", title: "Affinity, " };
+            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"', title: "Affinity, " };
           }
+        }
+      }
+
+      for (let [key, ab] of Object.entries(context.data.abilities)) {
+        if (ab.data.derivedScore == ab.data.finalScore && ab.data.xpCoeff == 1.0) {
+          ab.ui = { style: "" };
+        } else if (ab.data.derivedScore == ab.data.finalScore && ab.data.xpCoeff != 1.0) {
+          ab.ui = { style: 'style="box-shadow: 0 0 10px maroon"', title: "Affinity, " };
+        } else if (ab.data.derivedScore != ab.data.finalScore && ab.data.xpCoeff == 1.0) {
+          ab.ui = { style: 'style="box-shadow: 0 0 10px blue"', title: "" };
+        } else {
+          ab.ui = { style: 'style="box-shadow: 0 0 10px purple"', title: "Affinity, " };
         }
       }
 
