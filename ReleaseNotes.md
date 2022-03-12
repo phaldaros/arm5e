@@ -19,7 +19,7 @@ Features
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)
 - penetration total computed during combat
-- fun stress dice rolls option
+- fun stress dice rolls options
 - new abilities keys for the system to identify them.
 - abilities options have all invalid characters removed automatically
 
@@ -31,6 +31,10 @@ Bug fixes
 - disabled some input field to avoid artefacts on submit
 - Puissant art wasn't taken into account for spontaneous magic
 - Puissant art wasn't taken into account for magic resistance
+- Casting totals are computed using the correct field for stamina
+- Fixed undefined variable in case of dice rolls with callback
+- Voice and gestures effects are no longer not found when an effect has no change at all.
+- Fatigue levels again display the time to recover
 
 ### 1.3.1
 
