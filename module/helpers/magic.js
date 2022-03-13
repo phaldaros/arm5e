@@ -81,9 +81,14 @@ function calculateResistance(actorData, form) {
   };
 }
 
+function getFormWithoutPrerequisite(form) {
+  if (!form.includes(" ")) return form;
+  return form.split(" ")[0];
+}
+
 function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
   const technique = actorCaster.data.data.roll.techniqueText;
-  const form = actorCaster.data.data.roll.formText.split(" ")[0];
+  const form = getFormWithoutPrerequisite(actorCaster.data.data.roll.formText);
   const penetration = calculatePenetration({ actorCaster, roll, form, technique });
   const magicResistance = calculateResistance(actorTarget, form);
   return {
