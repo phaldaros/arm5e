@@ -83,7 +83,7 @@ function calculateResistance(actorData, form) {
 
 function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
   const technique = actorCaster.data.data.roll.techniqueText;
-  const form = actorCaster.data.data.roll.formText;
+  const form = actorCaster.data.data.roll.formText.split(" ")[0];
   const penetration = calculatePenetration({ actorCaster, roll, form, technique });
   const magicResistance = calculateResistance(actorTarget, form);
   return {
