@@ -101,11 +101,23 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
 
   isItemDropAllowed(itemData) {
     switch (itemData.type) {
+      case "virtue":
+      case "flaw":
+        switch (itemData.data.type.value) {
+          case "covenantSite":
+          case "covenantResources":
+          case "covenantResidents":
+          case "covenantExternalRelations":
+          case "covenantSurroundings":
+          case "generic": // base covenant hooks/boons
+          case "other":
+            return true;
+          default:
+            return false;
+        }
       case "spell":
       case "vis":
       case "book":
-      case "virtue":
-      case "flaw":
       case "magicItem":
       case "reputation":
       case "habitantMagi":
