@@ -278,11 +278,29 @@ ARM5E.character.virtueTypes = {
   magicqualities: {
     label: "arm5e.sheet.magicqualities"
   },
-  structure: {
-    label: "arm5e.sheet.structure"
+  laboratoryStructure: {
+    label: "arm5e.sheet.laboratoryStructure"
   },
-  outfitting: {
-    label: "arm5e.sheet.outfitting"
+  laboratoryOutfitting: {
+    label: "arm5e.sheet.laboratoryOutfitting"
+  },
+  laboratorySupernatural: {
+    label: "arm5e.sheet.laboratorySupernatural"
+  },
+  covenantSite: {
+    label: "arm5e.sheet.covenantSite"
+  },
+  covenantResources: {
+    label: "arm5e.sheet.covenantResources"
+  },
+  covenantResidents: {
+    label: "arm5e.sheet.covenantResidents"
+  },
+  covenantExternalRelations: {
+    label: "arm5e.sheet.covenantExternalRelations"
+  },
+  covenantSurroundings: {
+    label: "arm5e.sheet.covenantSurroundings"
   },
   other: {
     label: "arm5e.sheet.other"
@@ -317,11 +335,29 @@ ARM5E.character.flawTypes = {
   tainted: {
     label: "arm5e.sheet.tainted"
   },
-  structure: {
-    label: "arm5e.sheet.structure"
+  laboratoryStructure: {
+    label: "arm5e.sheet.laboratoryStructure"
   },
-  outfitting: {
-    label: "arm5e.sheet.outfitting"
+  laboratoryOutfitting: {
+    label: "arm5e.sheet.laboratoryOutfitting"
+  },
+  laboratorySupernatural: {
+    label: "arm5e.sheet.laboratorySupernatural"
+  },
+  covenantSite: {
+    label: "arm5e.sheet.covenantSite"
+  },
+  covenantResources: {
+    label: "arm5e.sheet.covenantResources"
+  },
+  covenantResidents: {
+    label: "arm5e.sheet.covenantResidents"
+  },
+  covenantExternalRelations: {
+    label: "arm5e.sheet.covenantExternalRelations"
+  },
+  covenantSurroundings: {
+    label: "arm5e.sheet.covenantSurroundings"
   },
   other: {
     label: "arm5e.sheet.other"
