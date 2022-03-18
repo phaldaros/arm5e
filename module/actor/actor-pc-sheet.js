@@ -53,8 +53,8 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
     super._onRoll(evt);
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
       case "weapon":
       case "armor":
       case "spell":

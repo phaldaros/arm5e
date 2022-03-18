@@ -367,7 +367,7 @@ function onDropActorSheetData(actor, sheet, data) {
   if (data.pack) {
     const pack = game.packs.get(data.pack);
     const item = pack.index.get(data.id);
-    if (sheet.isItemDropAllowed(item.type)) {
+    if (sheet.isItemDropAllowed(item)) {
       return true;
     } else {
       return false;
@@ -382,7 +382,7 @@ function onDropActorSheetData(actor, sheet, data) {
       item = data;
     }
 
-    if (sheet.isItemDropAllowed(item.data.type)) {
+    if (sheet.isItemDropAllowed(item.data)) {
       return true;
     } else {
       console.log("Prevented invalid item drop");

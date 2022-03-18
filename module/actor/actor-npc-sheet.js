@@ -55,8 +55,8 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     //let actorData = sheetData.actor.data;
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
       case "weapon":
       case "armor":
       case "spell":

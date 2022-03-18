@@ -99,8 +99,8 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     return context;
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
       case "spell":
       case "vis":
       case "book":

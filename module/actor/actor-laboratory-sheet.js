@@ -85,14 +85,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     //console.log(sheetData);
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
+      case "virtue":
+      case "flaw":
+
       case "spell":
       case "vis":
       case "item":
       case "book":
-      case "virtue":
-      case "flaw":
       case "speciality":
       case "distinctive":
       case "sanctumRoom":

@@ -163,8 +163,8 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
     }
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
       case "enchantment":
       case "item":
       case "magicItem":
