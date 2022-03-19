@@ -193,7 +193,11 @@ export class ArM5eActorSheet extends ActorSheet {
         if (context.data.covenant.linked) {
           let cov = game.actors.get(context.data.covenant.actorId);
           if (cov) {
-            context.data.labtotal.aura = cov.data.data.levelAura;
+            if (cov.data.data.levelAura == "") {
+              context.data.labtotal.aura = 0;
+            } else {
+              context.data.labtotal.aura = cov.data.data.levelAura;
+            }
           }
         } else {
           if (context.data.labtotal.aura === undefined) {
