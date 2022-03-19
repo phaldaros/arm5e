@@ -170,18 +170,19 @@ export class ArM5ePCActor extends Actor {
         i.data.xpNextLevel = Math.round(5 * i.data.derivedScore + 5 / i.data.xpCoeff);
         i.data.remainingXp = i.data.xp - Math.round(this._getAbilityXp(i.data.derivedScore) / i.data.xpCoeff);
 
-        if (i.data.xpCoeff != 1.0) {
-          let coeff = i.data.xpCoeff;
-          log(false, `xpCoeff: ${coeff}`);
-          let newxp = i.data.xp * coeff;
-          log(false, `Xp: ${i.data.xp} and after afinity: ${newxp}`);
-          let score = this._getAbilityScore(i.data.xp);
-          let affinityscore = this._getAbilityScore(Math.round(i.data.xp * coeff));
-          log(false, `score : ${score} and after afinity: ${affinityscore}`);
-          let nextLvl = this._getAbilityXp(affinityscore + 1) - i.data.xp;
-          let afterAffinity = nextLvl / coeff;
-          log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-        }
+        // for DEBUG purposes
+        // if (i.data.xpCoeff != 1.0) {
+        //   let coeff = i.data.xpCoeff;
+        //   log(false, `xpCoeff: ${coeff}`);
+        //   let newxp = i.data.xp * coeff;
+        //   log(false, `Xp: ${i.data.xp} and after afinity: ${newxp}`);
+        //   let score = this._getAbilityScore(i.data.xp);
+        //   let affinityscore = this._getAbilityScore(Math.round(i.data.xp * coeff));
+        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
+        //   let nextLvl = this._getAbilityXp(affinityscore + 1) - i.data.xp;
+        //   let afterAffinity = nextLvl / coeff;
+        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
+        // }
 
         if (data.bonuses.skills[computedKey] != undefined && data.bonuses.skills[computedKey].bonus != 0) {
           i.data.finalScore = i.data.derivedScore + parseInt(data.bonuses.skills[computedKey].bonus);
@@ -384,6 +385,11 @@ export class ArM5ePCActor extends Actor {
         actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
       actorData.data.laboratory.basicLabTotal.value =
         actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
+
+      if (actorData.data.apprentice.magicTheory > 0) {
+        actorData.data.laboratory.basicLabTotal.value +=
+          actorData.data.apprentice.magicTheory + actorData.data.apprentice.int;
+      }
       actorData.data.laboratory.visLimit.value = actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
       if (actorData.data.laboratory.totalPenetration) {
         actorData.data.laboratory.totalPenetration.value =

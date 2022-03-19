@@ -29,11 +29,13 @@ export class ArM5eActorSheet extends ActorSheet {
          template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
          width: 1100,
          height: 900,
-         tabs: [{
-             navSelector: ".sheet-tabs",
-             contentSelector: ".sheet-body",
-             initial: "description"
-         }]*/
+      tabs: [
+        {
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
+          initial: "description"
+        }
+      ]*/
     });
   }
 
@@ -131,6 +133,24 @@ export class ArM5eActorSheet extends ActorSheet {
 
     if (actorData.type == "player" || actorData.type == "npc") {
       context.data.world = {};
+
+      // check whether the character is linked to an existing covenant
+      context.data.world.covenants = game.actors
+        .filter((a) => a.type == "covenant")
+        .map(({ name, id }) => ({
+          name,
+          id
+        }));
+      if (context.data.covenant) {
+        let cov = context.data.world.covenants.filter((c) => c.name == context.data.covenant.value);
+        if (cov.length > 0) {
+          context.data.covenant.linked = true;
+          context.data.covenant.actorId = cov[0].id;
+        } else {
+          context.data.covenant.linked = false;
+        }
+      }
+
       if (context.data.charType.value == "magusNPC" || context.data.charType.value == "magus") {
         // Arts icons style
         context.artsIcons = game.settings.get("arm5e", "artsIcons");
@@ -140,6 +160,8 @@ export class ArM5eActorSheet extends ActorSheet {
             name,
             id
           }));
+
+        // check whether the character is linked to an existing lab
         if (context.data.sanctum) {
           let lab = context.data.world.labs.filter((c) => c.name == context.data.sanctum.value);
           if (lab.length > 0) {
@@ -149,6 +171,41 @@ export class ArM5eActorSheet extends ActorSheet {
             context.data.sanctum.linked = false;
           }
         }
+
+        // lab total modifiers
+        if (context.data.labtotal === undefined) {
+          context.data.labtotal = {};
+        }
+        if (context.data.labtotal.modifier === undefined) {
+          context.data.labtotal.modifier = 0;
+        }
+        if (context.data.sanctum.linked) {
+          let lab = game.actors.get(context.data.sanctum.actorId);
+          if (lab) {
+            context.data.labtotal.quality = lab.data.data.generalQuality.value;
+          }
+        } else {
+          if (context.data.labtotal.quality === undefined) {
+            context.data.labtotal.quality = 0;
+          }
+        }
+
+        if (context.data.covenant.linked) {
+          let cov = game.actors.get(context.data.covenant.actorId);
+          if (cov) {
+            context.data.labtotal.aura = cov.data.data.levelAura;
+          }
+        } else {
+          if (context.data.labtotal.aura === undefined) {
+            context.data.labtotal.aura = 0;
+          }
+        }
+
+        if (context.data.labtotal.applyFocus == undefined) {
+          context.data.labtotal.applyFocus = false;
+        }
+
+        // magic arts
         for (let [key, technique] of Object.entries(context.data.arts.techniques)) {
           if (!technique.bonus && technique.xpCoeff == 1.0) {
             technique.ui = { style: 'style="border: 0px; height: 40px;"' };
@@ -166,6 +223,7 @@ export class ArM5eActorSheet extends ActorSheet {
             };
           }
         }
+        context.data.labTotals = {};
         for (let [key, form] of Object.entries(context.data.arts.forms)) {
           if (!form.bonus && form.xpCoeff == 1.0) {
             form.ui = { style: 'style="border: 0px; height: 40px;"' };
@@ -175,6 +233,27 @@ export class ArM5eActorSheet extends ActorSheet {
             form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"', title: "" };
           } else {
             form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"', title: "Affinity, " };
+          }
+          // compute lab totals:
+          context.data.labTotals[key] = {};
+          for (let [k2, technique] of Object.entries(context.data.arts.techniques)) {
+            let techScore = technique.finalScore;
+            let formScore = form.finalScore;
+            if (context.data.labtotal.applyFocus) {
+              if (techScore > formScore) {
+                formScore *= 2;
+              } else {
+                techScore *= 2;
+              }
+            }
+            context.data.labTotals[key][k2] =
+              formScore +
+              techScore +
+              context.data.laboratory.basicLabTotal.value +
+              parseInt(context.data.labtotal.quality) +
+              parseInt(context.data.labtotal.aura) +
+              parseInt(context.data.labtotal.modifier) +
+              context.data.bonuses.arts.laboratory;
           }
         }
       }
@@ -188,22 +267,6 @@ export class ArM5eActorSheet extends ActorSheet {
           ab.ui = { style: 'style="box-shadow: 0 0 10px blue"', title: "" };
         } else {
           ab.ui = { style: 'style="box-shadow: 0 0 10px purple"', title: "Affinity, " };
-        }
-      }
-
-      context.data.world.covenants = game.actors
-        .filter((a) => a.type == "covenant")
-        .map(({ name, id }) => ({
-          name,
-          id
-        }));
-      if (context.data.covenant) {
-        let cov = context.data.world.covenants.filter((c) => c.name == context.data.covenant.value);
-        if (cov.length > 0) {
-          context.data.covenant.linked = true;
-          context.data.covenant.actorId = cov[0].id;
-        } else {
-          context.data.covenant.linked = false;
         }
       }
     }

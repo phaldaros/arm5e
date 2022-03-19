@@ -22,6 +22,9 @@ Features
 - fun stress dice rolls options
 - new abilities keys for the system to identify them.
 - abilities options have all invalid characters removed automatically
+- abilities modified by active effect have now a specific shadow
+- added sub-tabs to the character sheets
+- new sub-tabs for laboratory total (WIP)
 
 Bug fixes
 
@@ -35,6 +38,9 @@ Bug fixes
 - Fixed undefined variable in case of dice rolls with callback
 - Voice and gestures effects are no longer not found when an effect has no change at all.
 - Fatigue levels again display the time to recover
+- reduce english version of spell attributes so it doesn't bork the spell design sheet
+- fixed a bug in migration where the lab owner value would be reset and break the link
+- Fix a bug when computing magic resistance to spells with requisites
 
 ### 1.3.1
 

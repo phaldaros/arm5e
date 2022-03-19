@@ -144,7 +144,28 @@
   font-family: "blackmoor";
   border-bottom: 1px solid #8e7759;
 }
+.lab-total-header {
+  height: 28px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-tertiary);
+  font-weight: bold;
+}
 
+.lab-total {
+  height: 28px;
+  background: rgba(0, 0, 0, 0.05);
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid var(--color-border-light-tertiary);
+  font-weight: bold;
+}
 .grid,
 .grid-2col {
   display: grid;
@@ -615,6 +636,27 @@ input[type="time"] {
   margin-bottom: 12px !important;
 }
 
+.arm5eSubTabs {
+  border: 0px !important;
+  /*
+  background-image: url("../assets/bBronce.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  */
+  height: 20px;
+}
+
+.techLabel {
+  font-family: "blackmoor";
+  font-size: 14pt;
+  font-weight: normal;
+}
+
+.formLabel {
+  font-family: "blackmoor";
+  font-size: 14pt;
+  font-weight: normal;
+}
 .arm5eTabsPC {
   background-image: url("../assets/player/bar.png");
   background-repeat: repeat-x;

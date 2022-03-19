@@ -214,7 +214,7 @@ export const migrateActorData = function (actorData) {
   if (actorData.type == "laboratory") {
     // fix recursive problem with laboratory owner
     if (!(actorData.data.owner.value instanceof String)) {
-      updateData["data.owner"] = "";
+      updateData["data.owner.value"] = "";
     }
 
     return updateData;
@@ -467,6 +467,10 @@ export const migrateActiveEffectData = function (effectData) {
   // Fix mess active effect V1
   if (effectData.flags?.arm5e.type != undefined && !(effectData.flags.arm5e.type instanceof Array)) {
     effectUpdate["flags.arm5e.type"] = [effectData.flags.arm5e.type];
+  }
+
+  if (effectData.flags?.arm5e.subtype != undefined && !(effectData.flags.arm5e.subtype instanceof Array)) {
+    effectUpdate["flags.arm5e.subtype"] = [effectData.flags.arm5e.subtype];
   }
 
   if (effectData.flags?.arm5e?.option == undefined) {
