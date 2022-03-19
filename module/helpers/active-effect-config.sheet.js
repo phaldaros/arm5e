@@ -51,12 +51,15 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     context.options = this.object.getFlag("arm5e", "option");
     for (let idx = 0; idx < context.selectedTypes.length; idx++) {
       let tmpSubTypes = context.types[context.selectedTypes[idx]].subtypes;
-      log(false, tmpSubTypes);
+      // log(false, tmpSubTypes);
       let tmp = tmpSubTypes[context.selectedSubtypes[idx]].key;
-      if (context.options[idx] != null) {
-        log(false, `subtype: ${tmpSubTypes[context.selectedSubtypes[idx]].key}`);
-        tmp = tmp.replace("#OPTION#", context.options[idx]);
-        log(false, `computedKey: ${tmp}`);
+      // option key replacement only done for abilities for now.
+      if (ACTIVE_EFFECTS_TYPES[context.selectedTypes[idx]].category === "abilities") {
+        if (context.options[idx] != null) {
+          // log(false, `subtype: ${tmpSubTypes[context.selectedSubtypes[idx]].key}`);
+          tmp = tmp.replace("#OPTION#", context.options[idx]);
+          // log(false, `computedKey: ${tmp}`);
+        }
       }
       tmpSubTypes[context.selectedSubtypes[idx]].computedKey = tmp;
 

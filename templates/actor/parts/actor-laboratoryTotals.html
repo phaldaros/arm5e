@@ -1,88 +1,88 @@
-
-    <div class="characteristics grid grid-3col backSection margintop18">
-        <div class="flexrow flex-group-center">
-            <label for="data.laboratory.fastCastingSpeed.value"
-                   class="item-title width3 rollable"
-                   data-roll="option"
-                   data-id="{{item._id}}"
-                   data-name="{{localize "arm5e.sheet.fastCastingSpeed" }}"
-                   data-option1="{{ data.characteristics.qik.value }}"
-                   data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
-                   data-option2="{{ data.laboratory.abilitiesSelected.finesse.value }}"
-                   data-txtoption2='{{ localize "arm5e.skill.arcane.finesse" }}'
-            >{{localize "arm5e.sheet.fastCastingSpeed"}}
-            </label>
-            <input type="text" readonly disabled value="{{numberFormat data.laboratory.fastCastingSpeed.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-
-        <div class="flexrow flex-group-center">
-            <label for="data.laboratory.determiningEffect.value" class="item-title width3">{{localize "arm5e.sheet.determiningEffect"}}</label>
-            <input type="text" readonly disabled  value="{{numberFormat data.laboratory.determiningEffect.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-
-        <div class="flexrow flex-group-center">
-            <label for="data.laboratory.targeting.value"
-                   class="item-title width3 rollable"
-                   data-roll="general"
-                   data-id="{{item._id}}"
-                   data-name="{{localize "arm5e.sheet.targeting" }}"
-                   data-option1="{{ data.characteristics.per.value }}"
-                   data-txtoption1='{{ localize "arm5e.sheet.perception" }}'
-                   data-option2="{{ data.laboratory.abilitiesSelected.finesse.value }}"
-                   data-txtoption2='{{ localize "arm5e.skill.arcane.finesse" }}'
-            >{{localize "arm5e.sheet.targeting"}}</label>
-            <input type="text"  readonly disabled value="{{numberFormat data.laboratory.targeting.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-
-        <div class="flexrow flex-group-center">
-            <label for="data.laboratory.concentration.value" class="item-title width3">{{localize "arm5e.skill.general.concentration"}}</label>
-            <input type="text"  readonly  disabled value="{{numberFormat data.laboratory.concentration.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-
-        <div class="flexrow flex-group-center">
-            <label for="data.laboratory.magicResistance.value" class="item-title width3">{{localize "arm5e.sheet.magicResistance"}}</label>
-            <input type="text" readonly disabled value="{{numberFormat data.laboratory.magicResistance.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-
-        <div class="flexrow flex-group-center">
-            <label for="data.laboratory.multipleCasting.value" class="item-title width3">{{localize "arm5e.sheet.multipleCasting"}}</label>
-            <input type="text" readonly disabled value="{{numberFormat data.laboratory.multipleCasting.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-
-  <div class="flexrow flex-group-center">
-    <label for="data.laboratory.basicLabTotal.value" class="item-title width3"
-      >{{localize "arm5e.sheet.basicLabTotal"}}</label
-    >
-    <input
-      type="text"
-      disabled
-      readonly
-      value="{{numberFormat data.laboratory.basicLabTotal.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
-  </div>
-
-  <div class="flexrow flex-group-center">
-    <label for="data.laboratory.visLimit.value" class="item-title width3">{{localize "arm5e.sheet.visLimit"}}</label>
-    <input
-      type="text"
-      disabled
-      readonly
-      value="{{numberFormat data.laboratory.visLimit.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+<div class="characteristics grid backSection margintop18">
+  <header class="lab-total-header grid-6col flexrow flex-group-center">
+    <div class="techLabel">{{localize "arm5e.sheet.labTotal"}}</div>
+    {{#each data.arts.techniques as |technique key|}}
+    <div class="techLabel">{{label}}</div>
+    {{/each}}
+  </header>
+  <ol class="form-list grid-6col">
+    {{#each data.arts.forms as |form key|}}
+    <li class="flexrow flex-group-center" style="padding: 0px">
+      <div class="formLabel flexrow flex-group-center">{{label}}</div>
+      {{#each ../data.arts.techniques as |technique k2|}}
+      <div class="lab-total flexrow flex-group-center">{{lookup ( lookup @root.data.labTotals key) k2}}</div>
+      {{/each}}
+    </li>
+    {{/each}}
+  </ol>
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+      <input type="checkbox" name="data.labtotal.applyFocus" {{checked data.labtotal.applyFocus}} />
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.aura" }}</label>
+      <input type="text" name="data.labtotal.aura" value="{{numberFormat data.labtotal.aura decimals=0 sign=true }}" />
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.laboratory" }} {{localize "arm5e.sheet.quality" }}</label>
+      <input
+        type="text"
+        name="data.labtotal.quality"
+        value="{{numberFormat data.labtotal.quality decimals=0 sign=true }}"
+      />
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.modifier" }}</label>
+      <input
+        type="text"
+        name="data.labtotal.modifier"
+        value="{{numberFormat data.labtotal.modifier decimals=0 sign=true }}"
+      />
+    </div>
   </div>
 </div>
+<div class="backSection margintop18" style="padding-bottom: 1px">
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="smallTitle">{{localize "arm5e.sheet.apprentice"}}</label>
+    </div>
 
-    <!--
-"laboratoryPC":{
-  "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
-  "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },
-  "targeting":{"value": 0, "calc": "Per + Finesse + die" },
-  "concentration":{"value": 0, "calc": "Sta + Concentration + die" },
-  "magicResistance":{"value": 0, "calc": "Parma * 5 + Form" },
-  "multipleCasting":{"value": 0, "calc": "Int + Finesse + stress die - no of spells VS 9" },
-  "basicLabTotal":{"value": 0, "calc": "Int + Magic theory + Aura (+ Technique + Form)" },
-  "visLimit":{"value": 0, "calc": "Magic theory * 2" }
-}
--->
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="data.apprentice.name" class="bold">{{localize "arm5e.sheet.name"}}</label>
+      <input type="text" name="data.apprentice.name" value="{{data.apprentice.name }}" data-dtype="String" />
+    </div>
+
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="data.apprentice.age" class="bold">{{localize "arm5e.sheet.age"}}</label>
+      <input type="text" name="data.apprentice.age" value="{{data.apprentice.age }}" data-dtype="Number" />
+    </div>
+  </div>
+
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="data.apprentice.int" class="bold">{{localize "arm5e.sheet.int"}}</label>
+      <input
+        type="text"
+        name="data.apprentice.int"
+        value="{{numberFormat data.apprentice.int decimals=0 sign=true }}"
+        data-dtype="Number"
+      />
+    </div>
+
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="data.apprentice.magicTheory" class="bold">{{localize "arm5e.skill.arcane.magicTheory"}}</label>
+      <input
+        type="text"
+        name="data.apprentice.magicTheory"
+        value="{{data.apprentice.magicTheory }}"
+        data-dtype="Number"
+      />
+    </div>
+
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="data.apprentice.years" class="bold">{{localize "arm5e.sheet.years"}}</label>
+      <input type="text" name="data.apprentice.years" value="{{data.apprentice.years }}" data-dtype="Number" />
+    </div>
+  </div>
+</div>

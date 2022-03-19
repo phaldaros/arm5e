@@ -1,5 +1,4 @@
-{{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="laboratory" }}
-
+{{> "systems/arm5e/templates/actor/parts/actor-magic-attributes.html" show="laboratory" }}
 <div class="backSection margintop18">
   <div class="characteristics grid grid-3col">
     <div class="flexrow flex-group-center" style="border: 0px">
@@ -9,8 +8,6 @@
         </a>
       </label>
     </div>
-
-    <div><br /></div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
       <label class="smallTitle">
@@ -64,48 +61,3 @@
 </div>
 
 {{> "systems/arm5e/templates/actor/parts/actor-familiar.html" }}
-
-<div class="backSection margintop18" style="padding-bottom: 1px">
-  <div class="characteristics grid grid-3col">
-    <div class="flexrow flex-group-center" style="border: 0px">
-      <label class="smallTitle">{{localize "arm5e.sheet.apprentice"}}</label>
-    </div>
-
-    <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.name" class="bold">{{localize "arm5e.sheet.name"}}</label>
-      <input type="text" name="data.apprentice.name" value="{{data.apprentice.name }}" data-dtype="String" />
-    </div>
-
-    <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.age" class="bold">{{localize "arm5e.sheet.age"}}</label>
-      <input type="text" name="data.apprentice.age" value="{{data.apprentice.age }}" data-dtype="Number" />
-    </div>
-  </div>
-
-  <div class="characteristics grid grid-3col">
-    <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.int" class="bold">{{localize "arm5e.sheet.int"}}</label>
-      <input
-        type="text"
-        name="data.apprentice.int"
-        value="{{numberFormat data.apprentice.int decimals=0 sign=true }}"
-        data-dtype="Number"
-      />
-    </div>
-
-    <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.magicTheory" class="bold">{{localize "arm5e.skill.arcane.magicTheory"}}</label>
-      <input
-        type="text"
-        name="data.apprentice.magicTheory"
-        value="{{data.apprentice.magicTheory }}"
-        data-dtype="Number"
-      />
-    </div>
-
-    <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.years" class="bold">{{localize "arm5e.sheet.years"}}</label>
-      <input type="text" name="data.apprentice.years" value="{{data.apprentice.years }}" data-dtype="Number" />
-    </div>
-  </div>
-</div>

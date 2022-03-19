@@ -177,17 +177,17 @@
             "notes": ""
           },
           "per3": {
-            "label": "Trait 3",
+            "label": "",
             "score": "0",
             "notes": ""
           },
           "per4": {
-            "label": "Trait 4",
+            "label": "",
             "score": "0",
             "notes": ""
           },
           "per5": {
-            "label": "Trait 5",
+            "label": "",
             "score": "0",
             "notes": ""
           }
@@ -779,7 +779,7 @@
       "season": "",
       "tribunal": "",
       "typeAura": "",
-      "levelAura": "",
+      "levelAura": 0,
       "levelsRegio": "",
       "modifiersLife": {
         "magi": 1,
