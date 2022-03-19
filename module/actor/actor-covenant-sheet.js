@@ -304,8 +304,8 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
           type: "labCovenant",
           data: {
             owner: actor.data.data.owner.value,
-            quality: actor.data.data.generalQuality.value,
-            upkeep: actor.data.data.maintenance.value
+            quality: actor.data.data.generalQuality.total,
+            upkeep: actor.data.data.upkeep.total
           }
         }
       ];
