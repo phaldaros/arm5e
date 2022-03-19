@@ -729,43 +729,35 @@
       "sanctum": "",
       "size": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "generalQuality": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "safety": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "health": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "refinement": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "upkeep": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "warping": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "aesthetics": {
         "description": "",
-        "value": 0,
-        "bonus": 0
+        "value": 0
       },
       "specialities": [],
       "distinctive": [],

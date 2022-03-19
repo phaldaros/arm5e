@@ -29,6 +29,18 @@ export class ArM5ePCActor extends Actor {
 
     // add properties used for active effects:
 
+    if (this.data.type == "laboratory") {
+      this.data.data.size.bonus = 0;
+      this.data.data.generalQuality.bonus = 0;
+      this.data.data.safety.bonus = 0;
+      this.data.data.health.bonus = 0;
+      this.data.data.refinement.bonus = 0;
+      this.data.data.upkeep.bonus = 0;
+      this.data.data.warping.bonus = 0;
+      this.data.data.aesthetics.bonus = 0;
+      return;
+    }
+
     if (this.data.type != "player" && this.data.type != "npc") {
       return;
     }
@@ -81,7 +93,7 @@ export class ArM5ePCActor extends Actor {
   }
 
   _prepareLaboratoryEmbeddedDocuments(labData) {
-    var baseSafetyEffect = labData.effects.find(e => e.data.flags.arm5e.baseSafetyEffect);
+    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
     if (!baseSafetyEffect) {
       this.createEmbeddedDocuments("ActiveEffect", [
         {
@@ -101,7 +113,8 @@ export class ArM5ePCActor extends Actor {
             arm5e: {
               baseSafetyEffect: true,
               type: ["laboratory"],
-              subtype: ["safety"]
+              subtype: ["safety"],
+              option: [null]
             }
           }
         }
@@ -768,7 +781,7 @@ export class ArM5ePCActor extends Actor {
     labData.data.totalVirtues = totalVirtues;
     labData.data.totalFlaws = totalFlaws;
 
-    var baseSafetyEffect = labData.effects.find(e => e.data.flags.arm5e.baseSafetyEffect);
+    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
     if (baseSafetyEffect != null && baseSafetyEffect.data.changes[0].value != String(baseSafety)) {
       let changes = duplicate(baseSafetyEffect.data.changes);
       changes[0].value = String(baseSafety);

@@ -219,19 +219,19 @@ export const migrateActorData = function (actorData) {
     // Update data to official names
     if (actorData.data.salubrity) {
       updateData["data.health"] = actorData.data.salubrity;
-      updateData["data.-=salubrity"]
+      updateData["data.-=salubrity"] = null;
     }
     if (actorData.data.improvement) {
       updateData["data.refinement"] = actorData.data.improvement;
-      updateData["data.-=improvement"]
+      updateData["data.-=improvement"] = null;
     }
     if (actorData.data.security) {
       updateData["data.safety"] = actorData.data.security;
-      updateData["data.-=security"]
+      updateData["data.-=security"] = null;
     }
     if (actorData.data.maintenance) {
       updateData["data.upkeep"] = actorData.data.maintenance;
-      updateData["data.-=maintenance"]
+      updateData["data.-=maintenance"] = null;
     }
 
     return updateData;
