@@ -70,16 +70,29 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     //let actorData = sheetData.actor.data;
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
+      case "virtue":
+      case "flaw":
+        switch (itemData.data.type.value) {
+          case "laboratoryOutfitting":
+          case "laboratoryStructure":
+          case "laboratorySupernatural":
+          case "covenantSite":
+          case "covenantResources":
+          case "covenantResidents":
+          case "covenantExternalRelations":
+          case "covenantSurroundings":
+            return false;
+          default:
+            return true;
+        }
       case "weapon":
       case "armor":
       case "spell":
       case "vis":
       case "item":
       case "book":
-      case "virtue":
-      case "flaw":
       case "ability":
       case "diaryEntry":
       case "powerFamiliar":

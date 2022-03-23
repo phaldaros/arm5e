@@ -206,7 +206,6 @@ export const migrateSceneData = function (scene, migrationData) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
-
 export const migrateActorData = function (actorData) {
   const updateData = {};
 
@@ -215,6 +214,24 @@ export const migrateActorData = function (actorData) {
     // fix recursive problem with laboratory owner
     if (!(actorData.data.owner.value instanceof String)) {
       updateData["data.owner.value"] = "";
+    }
+
+    // Update data to official names
+    if (actorData.data.salubrity) {
+      updateData["data.health"] = actorData.data.salubrity;
+      updateData["data.-=salubrity"] = null;
+    }
+    if (actorData.data.improvement) {
+      updateData["data.refinement"] = actorData.data.improvement;
+      updateData["data.-=improvement"] = null;
+    }
+    if (actorData.data.security) {
+      updateData["data.safety"] = actorData.data.security;
+      updateData["data.-=security"] = null;
+    }
+    if (actorData.data.maintenance) {
+      updateData["data.upkeep"] = actorData.data.maintenance;
+      updateData["data.-=maintenance"] = null;
     }
 
     return updateData;

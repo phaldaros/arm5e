@@ -99,13 +99,25 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     return context;
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
+      case "virtue":
+      case "flaw":
+        switch (itemData.data.type.value) {
+          case "covenantSite":
+          case "covenantResources":
+          case "covenantResidents":
+          case "covenantExternalRelations":
+          case "covenantSurroundings":
+          case "generic": // base covenant hooks/boons
+          case "other":
+            return true;
+          default:
+            return false;
+        }
       case "spell":
       case "vis":
       case "book":
-      case "virtue":
-      case "flaw":
       case "magicItem":
       case "reputation":
       case "habitantMagi":
@@ -292,8 +304,8 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
           type: "labCovenant",
           data: {
             owner: actor.data.data.owner.value,
-            quality: actor.data.data.generalQuality.value,
-            upkeep: actor.data.data.maintenance.value
+            quality: actor.data.data.generalQuality.total,
+            upkeep: actor.data.data.upkeep.total
           }
         }
       ];

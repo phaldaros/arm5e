@@ -226,6 +226,14 @@
   "arm5e.sheet.initiations": "Initiations",
   "arm5e.sheet.qualities": "Qualities",
   "arm5e.sheet.magicqualities": "Magic Qualities",
+  "arm5e.sheet.laboratoryStructure": "Laboratory: Structure",
+  "arm5e.sheet.laboratoryOutfitting": "Laboratory: Outfitting",
+  "arm5e.sheet.laboratorySupernatural": "Laboratory: Supernatural",
+  "arm5e.sheet.covenantSite": "Covenant: Site",
+  "arm5e.sheet.covenantResources": "Covenant: Resources",
+  "arm5e.sheet.covenantResidents": "Covenant: Residents",
+  "arm5e.sheet.covenantExternalRelations": "Covenant: External Relations",
+  "arm5e.sheet.covenantSurroundings": "Covenant: Surroundings",
   "arm5e.sheet.other": "Other",
 
   "arm5e.sheet.notEquipedWeapon": "You cannot use an unequipped weapon",
@@ -321,6 +329,10 @@
   "arm5e.sheet.sanctum": "Sanctum",
   "arm5e.sheet.location": "Location",
   "arm5e.sheet.generalQuality": "General Quality",
+  "arm5e.sheet.safety": "Safety",
+  "arm5e.sheet.health": "Health",
+  "arm5e.sheet.refinement": "Refinement",
+  "arm5e.sheet.upkeep": "Upkeep",
   "arm5e.sheet.security": "Security",
   "arm5e.sheet.salubrity": "Salubrity",
   "arm5e.sheet.improvement": "Improvement",
@@ -758,6 +770,7 @@
   "arm5e.sheet.activeEffect.types.martialAbilitiesAffinity": "Affinity Martial abilities",
   "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity": "Affinity Mysteries abilities",
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities",
+  "arm5e.sheet.activeEffect.types.laboratory": "Laboratory",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
 
@@ -774,5 +787,9 @@
   "arm5e.sheet.activeEffect.multiply": "Multiply {type} by ",
 
   "arm5e.sheet.activeEffect.changeValue": "Effect Value",
-  "arm5e.sheet.activeEffect.type.spellcasting": "Spellcasting"
+  "arm5e.sheet.activeEffect.type.spellcasting": "Spellcasting",
+
+  "arm5e.sheet.freeVirtues": "Free Virtues",
+  "arm5e.sheet.occupiedSize": "Occupied Size",
+  "arm5e.sheet.baseSafety": "Base Safety"
 }

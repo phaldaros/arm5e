@@ -41,11 +41,11 @@ export class ArM5eActorSheet extends ActorSheet {
 
   /* -------------------------------------------- */
 
-  isItemDropAllowed(type) {
+  isItemDropAllowed(itemData) {
     return false;
 
     // template for future sheet:
-    // switch (type) {
+    // switch (itemData.type) {
     //     case "weapon":
     //     case "armor":
     //     case "spell":
@@ -716,7 +716,7 @@ export class ArM5eActorSheet extends ActorSheet {
    */
   async _onDropItemCreate(itemData) {
     itemData = itemData instanceof Array ? itemData : [itemData];
-    let filtered = itemData.filter((e) => this.isItemDropAllowed(e.type));
+    let filtered = itemData.filter((e) => this.isItemDropAllowed(e));
     for (let item of filtered) {
       // log(false, "Before reset " + JSON.stringify(item.data));
       item = resetOwnerFields(item);

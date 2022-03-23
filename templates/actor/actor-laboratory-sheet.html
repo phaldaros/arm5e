@@ -50,41 +50,63 @@
                     <label class="bold">{{localize "arm5e.sheet.size"}}</label>
                     <input type="text" name="data.size.description" value="{{data.size.description}}" data-dtype="String" />
                     <input class="flex04" type="text" name="data.size.value" value="{{numberFormat data.size.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.size.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.size.total decimals=0}}</span>
                 </div>
                 <div class="flexrow flex-group-center">
                     <label class="bold">{{localize "arm5e.sheet.generalQuality"}}</label>
                     <input type="text" name="data.generalQuality.description" value="{{data.generalQuality.description}}" data-dtype="String" />
                     <input class="flex04" type="text" name="data.generalQuality.value" value="{{numberFormat data.generalQuality.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.generalQuality.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.generalQuality.total decimals=0}}</span>
                 </div>
                 <div class="flexrow flex-group-center">
-                    <label class="bold">{{localize "arm5e.sheet.security"}}</label>
-                    <input type="text" name="data.security.description" value="{{data.security.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.security.value" value="{{numberFormat data.security.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <label class="bold">{{localize "arm5e.sheet.safety"}}</label>
+                    <input type="text" name="data.safety.description" value="{{data.safety.description}}" data-dtype="String" />
+                    <input class="flex04" type="text" name="data.safety.value" value="{{numberFormat data.safety.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.safety.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.safety.total decimals=0}}</span>
                 </div>
                 <div class="flexrow flex-group-center">
-                    <label class="bold">{{localize "arm5e.sheet.salubrity"}}</label>
-                    <input type="text" name="data.salubrity.description" value="{{data.salubrity.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.salubrity.value" value="{{numberFormat data.salubrity.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <label class="bold">{{localize "arm5e.sheet.health"}}</label>
+                    <input type="text" name="data.health.description" value="{{data.health.description}}" data-dtype="String" />
+                    <input class="flex04" type="text" name="data.health.value" value="{{numberFormat data.health.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.health.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.health.total decimals=0}}</span>
                 </div>
                 <div class="flexrow flex-group-center">
-                    <label class="bold">{{localize "arm5e.sheet.improvement"}}</label>
-                    <input type="text" name="data.improvement.description" value="{{data.improvement.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.improvement.value" value="{{numberFormat data.improvement.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <label class="bold">{{localize "arm5e.sheet.refinement"}}</label>
+                    <input type="text" name="data.refinement.description" value="{{data.refinement.description}}" data-dtype="String" />
+                    <input class="flex04" type="text" name="data.refinement.value" value="{{numberFormat data.refinement.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.refinement.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.refinement.total decimals=0}}</span>
                 </div>
                 <div class="flexrow flex-group-center">
-                    <label class="bold">{{localize "arm5e.sheet.maintenance"}}</label>
-                    <input type="text" name="data.maintenance.description" value="{{data.maintenance.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.maintenance.value" value="{{numberFormat data.maintenance.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <label class="bold">{{localize "arm5e.sheet.upkeep"}}</label>
+                    <input type="text" name="data.upkeep.description" value="{{data.upkeep.description}}" data-dtype="String" />
+                    <input class="flex04" type="text" name="data.upkeep.value" value="{{numberFormat data.upkeep.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.upkeep.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.upkeep.total decimals=0}}</span>
                 </div>
                 <div class="flexrow flex-group-center">
                     <label class="bold">{{localize "arm5e.sheet.warping"}}</label>
                     <input type="text" name="data.warping.description" value="{{data.warping.description}}" data-dtype="String" />
                     <input class="flex04" type="text" name="data.warping.value" value="{{numberFormat data.warping.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.warping.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.warping.total decimals=0}}</span>
                 </div>
                 <div class="flexrow flex-group-center">
                     <label class="bold">{{localize "arm5e.sheet.aesthetics"}}</label>
                     <input type="text" name="data.aesthetics.description" value="{{data.aesthetics.description}}" data-dtype="String" />
                     <input class="flex04" type="text" name="data.aesthetics.value" value="{{numberFormat data.aesthetics.value decimals=0 sign=true}}" data-dtype="Number" />
+                    <span class="flex06" >{{numberFormat data.aesthetics.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat data.aesthetics.total decimals=0}}</span>
+                </div>
+            </div>
+            <div class="resources grid grid-3col backSection" style=" grid-row-gap: 0px; padding-top: 8px; padding-bottom: 8px;">
+                <div class="flexrow flex-group-center">
+                    <label class="bold">{{localize "arm5e.sheet.occupiedSize"}}</label>
+                    <span class="flex02">{{numberFormat data.occupiedSize}}</span>
+                </div>
+                <div class="flexrow flex-group-center">
+                    <label class="bold">{{localize "arm5e.sheet.freeVirtues"}}</label>
+                    <span class="flex02">{{numberFormat data.freeVirtues}}</span>
+                </div>
+                <div class="flexrow flex-group-center">
+                    <label class="bold">{{localize "arm5e.sheet.baseSafety"}}</label>
+                    <span class="flex02">{{numberFormat data.baseSafety}}</span>
                 </div>
             </div>
         </div>
@@ -112,6 +134,13 @@
             <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
             {{localize "arm5e.sheet.diary"}}
         </a>
+        {{#if isGM}}
+            <a class="item posRelative" data-tab="effects">
+                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+                {{localize "arm5e.sheet.effects"}}
+            </a>
+        {{/if}}
     </nav>
 
     {{!-- Sheet Body --}}
@@ -137,6 +166,10 @@
             {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }}
         </div>
 
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "systems/arm5e/templates/generic/active-effects.html" }}
+        </div>
     </section>
 
     <div class="footer-background">

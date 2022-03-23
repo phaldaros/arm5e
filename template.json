@@ -735,19 +735,19 @@
         "description": "",
         "value": 0
       },
-      "security": {
+      "safety": {
         "description": "",
         "value": 0
       },
-      "salubrity": {
+      "health": {
         "description": "",
         "value": 0
       },
-      "improvement": {
+      "refinement": {
         "description": "",
         "value": 0
       },
-      "maintenance": {
+      "upkeep": {
         "description": "",
         "value": 0
       },

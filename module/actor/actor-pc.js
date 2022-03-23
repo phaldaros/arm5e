@@ -29,6 +29,18 @@ export class ArM5ePCActor extends Actor {
 
     // add properties used for active effects:
 
+    if (this.data.type == "laboratory") {
+      this.data.data.size.bonus = 0;
+      this.data.data.generalQuality.bonus = 0;
+      this.data.data.safety.bonus = 0;
+      this.data.data.health.bonus = 0;
+      this.data.data.refinement.bonus = 0;
+      this.data.data.upkeep.bonus = 0;
+      this.data.data.warping.bonus = 0;
+      this.data.data.aesthetics.bonus = 0;
+      return;
+    }
+
     if (this.data.type != "player" && this.data.type != "npc") {
       return;
     }
@@ -69,6 +81,45 @@ export class ArM5ePCActor extends Actor {
     }
 
     this.data.data.bonuses.traits = { soak: 0 };
+  }
+
+  /** @override */
+  prepareEmbeddedDocuments() {
+    if (this.data.type == "laboratory") {
+      this._prepareLaboratoryEmbeddedDocuments(this.data)
+    }
+
+    super.prepareEmbeddedDocuments();
+  }
+
+  _prepareLaboratoryEmbeddedDocuments(labData) {
+    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+    if (!baseSafetyEffect) {
+      this.createEmbeddedDocuments("ActiveEffect", [
+        {
+          label: game.i18n.localize("arm5e.sheet.baseSafety"),
+          icon: "icons/svg/aura.svg",
+          origin: labData.uuid,
+          tint: "#000000",
+          changes: [
+            {
+              label: "arm5e.sheet.safety",
+              key: "data.safety.bonus",
+              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              value: 0
+            }
+          ],
+          flags: {
+            arm5e: {
+              baseSafetyEffect: true,
+              type: ["laboratory"],
+              subtype: ["safety"],
+              option: [null]
+            }
+          }
+        }
+      ]);
+    }
   }
 
   /** @override */
@@ -716,8 +767,32 @@ export class ArM5ePCActor extends Actor {
       labData.data.diaryEntries = diaryEntries;
     }
 
+    labData.data.size.total = labData.data.size.value + labData.data.size.bonus;
+    labData.data.generalQuality.total = labData.data.generalQuality.value + labData.data.generalQuality.bonus;
+    labData.data.safety.total = labData.data.safety.value + labData.data.safety.bonus;
+    labData.data.health.total = labData.data.health.value + labData.data.health.bonus;
+    labData.data.refinement.total = labData.data.refinement.value + labData.data.refinement.bonus;
+    labData.data.upkeep.total = labData.data.upkeep.value + labData.data.upkeep.bonus;
+    labData.data.warping.total = labData.data.warping.value + labData.data.warping.bonus;
+    labData.data.aesthetics.total = labData.data.aesthetics.value + labData.data.aesthetics.bonus;
+
+    let freeVirtues = labData.data.size.total + labData.data.refinement.total;
+    let occupiedSize = Math.max(totalVirtues - totalFlaws, 0) - labData.data.refinement.total;
+    let baseSafety = labData.data.refinement.total - Math.max(occupiedSize, 0);
+
+    labData.data.baseSafety = baseSafety;
+    labData.data.occupiedSize = occupiedSize;
+    labData.data.freeVirtues = freeVirtues;
+
     labData.data.totalVirtues = totalVirtues;
     labData.data.totalFlaws = totalFlaws;
+
+    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+    if (baseSafetyEffect != null && baseSafetyEffect.data.changes[0].value != String(baseSafety)) {
+      let changes = duplicate(baseSafetyEffect.data.changes);
+      changes[0].value = String(baseSafety);
+      baseSafetyEffect.update({changes});
+    }
   }
 
   _prepareCovenantData(actorData) {

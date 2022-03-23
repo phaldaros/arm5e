@@ -18,7 +18,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     // if the effect is from an Item (virtue, etc) and is owned, prevent edition
     this.data.noEdit =
       (this.parent.documentName === "Item" && this.parent.isOwned == true) ||
-      (this.parent.documentName === "Actor" && this.data.origin.includes("Item"));
+      (this.parent.documentName === "Actor" && this.data.origin?.includes("Item"));
   }
 
   /** @inheritdoc */
