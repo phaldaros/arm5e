@@ -244,70 +244,15 @@ ARM5E.character.description = {
   }
 };
 
-ARM5E.character.virtueTypes = {
-  hermetic: {
-    label: "arm5e.sheet.hermetic"
-  },
-  supernatural: {
-    label: "arm5e.sheet.supernatural"
-  },
-  social: {
-    label: "arm5e.sheet.socialStatus"
-  },
-  general: {
-    label: "arm5e.sheet.general"
-  },
-  child: {
-    label: "arm5e.sheet.child"
-  },
-  heroic: {
-    label: "arm5e.sheet.heroic"
-  },
-  mystery: {
-    label: "arm5e.sheet.mystery"
-  },
-  tainted: {
-    label: "arm5e.sheet.tainted"
-  },
-  initiations: {
-    label: "arm5e.sheet.initiations"
-  },
-  qualities: {
-    label: "arm5e.sheet.qualities"
-  },
-  magicqualities: {
-    label: "arm5e.sheet.magicqualities"
-  },
-  laboratoryStructure: {
-    label: "arm5e.sheet.laboratoryStructure"
-  },
-  laboratoryOutfitting: {
-    label: "arm5e.sheet.laboratoryOutfitting"
-  },
-  laboratorySupernatural: {
-    label: "arm5e.sheet.laboratorySupernatural"
-  },
-  covenantSite: {
-    label: "arm5e.sheet.covenantSite"
-  },
-  covenantResources: {
-    label: "arm5e.sheet.covenantResources"
-  },
-  covenantResidents: {
-    label: "arm5e.sheet.covenantResidents"
-  },
-  covenantExternalRelations: {
-    label: "arm5e.sheet.covenantExternalRelations"
-  },
-  covenantSurroundings: {
-    label: "arm5e.sheet.covenantSurroundings"
-  },
+ARM5E.virtueFlawTypes = {};
+
+ARM5E.virtueFlawTypes.all = {
   other: {
     label: "arm5e.sheet.other"
   }
 };
 
-ARM5E.character.flawTypes = {
+ARM5E.virtueFlawTypes.character = {
   hermetic: {
     label: "arm5e.sheet.hermetic"
   },
@@ -334,7 +279,10 @@ ARM5E.character.flawTypes = {
   },
   tainted: {
     label: "arm5e.sheet.tainted"
-  },
+  }
+};
+
+ARM5E.virtueFlawTypes.laboratory = {
   laboratoryStructure: {
     label: "arm5e.sheet.laboratoryStructure"
   },
@@ -343,6 +291,12 @@ ARM5E.character.flawTypes = {
   },
   laboratorySupernatural: {
     label: "arm5e.sheet.laboratorySupernatural"
+  },
+};
+
+ARM5E.virtueFlawTypes.covenant = {
+  general: {
+    label: "arm5e.sheet.general"
   },
   covenantSite: {
     label: "arm5e.sheet.covenantSite"
@@ -359,9 +313,6 @@ ARM5E.character.flawTypes = {
   covenantSurroundings: {
     label: "arm5e.sheet.covenantSurroundings"
   },
-  other: {
-    label: "arm5e.sheet.other"
-  }
 };
 
 ARM5E.character.fatigueLevels = {
