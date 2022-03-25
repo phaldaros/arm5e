@@ -112,6 +112,7 @@ export class ArM5ePCActor extends Actor {
           flags: {
             arm5e: {
               baseSafetyEffect: true,
+              noEdit: true,
               type: ["laboratory"],
               subtype: ["safety"],
               option: [null]
