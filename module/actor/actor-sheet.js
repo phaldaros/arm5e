@@ -131,6 +131,9 @@ export class ArM5eActorSheet extends ActorSheet {
     //   attr.isCheckbox = attr.dtype === "Boolean";
     // }
 
+    // Allow effect creation
+    actorData.data.effectCreation = true;
+
     if (actorData.type == "player" || actorData.type == "npc") {
       context.data.world = {};
 
@@ -297,7 +300,25 @@ export class ArM5eActorSheet extends ActorSheet {
    *
    * @return {undefined}
    */
-  _prepareCharacterItems(sheetData) {
+  _prepareCharacterItems(actorData) {
+    if (
+      actorData.actor.type == "player" ||
+      actorData.actor.type == "npc" ||
+      actorData.actor.type == "laboratory" ||
+      actorData.actor.type == "covenant"
+    ) {
+      for (let virtue of actorData.data.virtues) {
+        if (virtue.effects.size > 0) {
+          virtue.data.ui = { style: 'style="font-style:italic"' };
+        }
+      }
+
+      for (let flaw of actorData.data.flaws) {
+        if (flaw.effects.size > 0) {
+          flaw.data.ui = { style: 'style="font-style:italic"' };
+        }
+      }
+    }
     //let actorData = sheetData.actor.data;
   }
 

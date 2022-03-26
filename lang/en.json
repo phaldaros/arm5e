@@ -752,6 +752,7 @@
   "arm5e.sheet.skill.abilityOption": "Ability option",
   "arm5e.sheet.skill.abilityNoKey": "Custom ability",
 
+  "arm5e.sheet.activeEffect.info.noedit": "Note: Active effect creation is not possible if the Item is owned by an Actor, edit the original or make a copy in your world to edit.",
   "arm5e.sheet.activeEffect.types.arts.affinity": "Art affinity",
   "arm5e.sheet.activeEffect.types.vitals": "Vitals",
   "arm5e.sheet.activeEffect.types.nullEffect": "Null effect",

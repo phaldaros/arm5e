@@ -34,6 +34,7 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
     },
     flags: {
       arm5e: {
+        noEdit: true,
         type: ["spellcasting"],
         subtype: [type],
         value: [value.toUpperCase()],

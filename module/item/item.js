@@ -44,6 +44,7 @@ export class ArM5eItem extends Item {
         itemData.data.abilities = abilitiesSelect;
       }
     }
+
     if (this._needLevelComputation()) {
       if (this._isNotMigrated()) {
         return;

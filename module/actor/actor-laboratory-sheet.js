@@ -80,6 +80,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
+    super._prepareCharacterItems(sheetData);
     //let actorData = sheetData.actor.data;
     //console.log("sheetData from laboratory sheet");
     //console.log(sheetData);

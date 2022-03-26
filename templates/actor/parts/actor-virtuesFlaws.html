@@ -22,7 +22,7 @@
       {{#each data.virtues as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}">
         <div class="flexrow flex-center">
-          <span class="flexrow item-title">{{item.name}}</span>
+          <span class="flexrow item-title" {{{item.data.ui.style}}}>{{item.name}}</span>
         </div>
         <div class="item-controls">
           <a class="item-control item-edit" title="Edit virtue"><i class="fas fa-edit"></i></a>
@@ -54,7 +54,7 @@
       {{#each data.flaws as |item id|}}
       <li class="item item-value flexrow" data-item-id="{{item._id}}">
         <div class="flexrow flex-center">
-          <span class="flexrow item-title">{{item.name}}</span>
+          <span class="flexrow item-title" {{{item.data.ui.style}}}>{{item.name}} </span>
         </div>
         <div class="item-controls">
           <a class="item-control item-edit" title="Edit flaw"><i class="fas fa-edit"></i></a>

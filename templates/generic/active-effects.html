@@ -5,9 +5,11 @@
     <div class="effect-source">{{localize "arm5e.sheet.source.label"}}</div>
     <div class="effect-source">{{localize "arm5e.sheet.duration"}}</div>
     <div class="item-controls effect-controls flexrow">
+      {{#if ../data.effectCreation}}
       <a class="effect-control" data-action="create" title="{{localize 'arm5e.sheet.effectsCreate'}}">
         <i class="fas fa-plus"></i> {{localize "arm5e.sheet.effectsCreate"}}
       </a>
+      {{/if}}
     </div>
   </li>
 
@@ -31,8 +33,8 @@
         <a class="effect-control" data-action="toggle" title="{{localize 'arm5e.sheet.effectsToggle'}}">
           <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
         </a>
-        <!-- trigger an error if the effect is on an item while belonging to an actor -->
         {{#unless effect.data.noEdit}}
+        <!-- trigger an error if the effect is on an item while belonging to an actor -->
         <a class="effect-control" data-action="edit" title="{{localize 'arm5e.sheet.effectsEdit'}}">
           <i class="fas fa-edit"></i>
         </a>
@@ -44,5 +46,9 @@
     </li>
     {{/each}}
   </ol>
-  {{/each}}
+  {{/each}} {{#unless data.effectCreation}}
+  <li class="items-header flexrow" data-effect-type="{{section.type}}" style="text-align: center">
+    {{localize "arm5e.sheet.activeEffect.info.noedit"}}
+  </li>
+  {{/unless}}
 </ol>

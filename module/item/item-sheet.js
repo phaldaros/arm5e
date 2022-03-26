@@ -83,8 +83,9 @@ export class ArM5eItemSheet extends ItemSheet {
       context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
     }
 
-    if (itemData.type == "flaw" || itemData.type == "virtue") {
-      if (context.item.parent) {
+    if (itemData.type == "virtue" || itemData.type == "flaw") {
+      if (this.item.isOwned) {
+        itemData.data.effectCreation = false;
         switch (context.item.parent.data.type) {
           case "laboratory":
             context.metadata.virtueFlawTypes.available = {
@@ -99,14 +100,15 @@ export class ArM5eItemSheet extends ItemSheet {
             };
             break;
           case "player":
-          case "npc": 
+          case "npc":
             context.metadata.virtueFlawTypes.available = {
-            ...context.metadata.virtueFlawTypes.character,
-            ...context.metadata.virtueFlawTypes.all
-          };
+              ...context.metadata.virtueFlawTypes.character,
+              ...context.metadata.virtueFlawTypes.all
+            };
             break;
         }
       } else {
+        itemData.data.effectCreation = true;
         context.metadata.virtueFlawTypes.available = {
           ...context.metadata.virtueFlawTypes.character,
           ...context.metadata.virtueFlawTypes.laboratory,
@@ -114,6 +116,10 @@ export class ArM5eItemSheet extends ItemSheet {
           ...context.metadata.virtueFlawTypes.all
         };
       }
+      // for (let [key, effect] of itemData.effects.entries()) {
+      //   log(false, `Effect name : ${effect.data.label}`);
+      //   effect.data.desc = "My custom description of that effect";
+      // }
     }
 
     context.metagame = game.settings.get("arm5e", "metagame");

@@ -15,6 +15,7 @@ Features
   - characteristics
   - fatigue penalties
   - wound penalties
+  - virtues and flaws having effects a in italic
 - default config for active effect
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)
@@ -25,6 +26,13 @@ Features
 - abilities modified by active effect have now a specific shadow
 - added sub-tabs to the character sheets
 - new sub-tabs for laboratory total (WIP)
+- Add virtue/flaw types for laboratory and covenant virtues/flaws
+  - Update item dropped filter to take the virtue/flaw type into account and only allow them to be dropped on the correct sheet type
+  - Rename laboratory statistics to match the official names (with migration)
+  - Split laboratory statistics into base value, bonus (calculated from active effects) and total
+  - Add active effect type for laboratory statistics bonuses
+  - Add calculation of laboratory derived statistics (occupied size, free virtues and base safety)
+  - Create an active effect dynamically for the laboratory base safety
 
 Bug fixes
 
@@ -41,6 +49,8 @@ Bug fixes
 - reduce english version of spell attributes so it doesn't bork the spell design sheet
 - fixed a bug in migration where the lab owner value would be reset and break the link
 - Fix a bug when computing magic resistance to spells with requisites
+- remove the effect creation button for owned items (Foundry limitation, it gives an error anyway)
+- prevent the edition of internal effects
 
 ### 1.3.1
 

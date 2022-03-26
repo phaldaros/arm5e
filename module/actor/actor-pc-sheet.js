@@ -56,12 +56,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
   }
 
   _prepareCharacterItems(actorData) {
-    // for (const item of actorData.data.spells) {
-    //     item.data.localizedDesc = item._getEffectAttributesLabel();
-    // }
-    // for (const item of actorData.data.magicEffects) {
-    //     item.data.localizedDesc = item._getEffectAttributesLabel();
-    // }
+    super._prepareCharacterItems(actorData);
   }
 
   _onRoll(evt) {
