@@ -83,6 +83,39 @@ export class ArM5eItemSheet extends ItemSheet {
       context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
     }
 
+    if (itemData.type == "flaw" || itemData.type == "virtue") {
+      if (context.item.parent) {
+        switch (context.item.parent.data.type) {
+          case "laboratory":
+            context.metadata.virtueFlawTypes.available = {
+              ...context.metadata.virtueFlawTypes.laboratory,
+              ...context.metadata.virtueFlawTypes.all
+            };
+            break;
+          case "covenant":
+            context.metadata.virtueFlawTypes.available = {
+              ...context.metadata.virtueFlawTypes.covenant,
+              ...context.metadata.virtueFlawTypes.all
+            };
+            break;
+          case "player":
+          case "npc": 
+            context.metadata.virtueFlawTypes.available = {
+            ...context.metadata.virtueFlawTypes.character,
+            ...context.metadata.virtueFlawTypes.all
+          };
+            break;
+        }
+      } else {
+        context.metadata.virtueFlawTypes.available = {
+          ...context.metadata.virtueFlawTypes.character,
+          ...context.metadata.virtueFlawTypes.laboratory,
+          ...context.metadata.virtueFlawTypes.covenant,
+          ...context.metadata.virtueFlawTypes.all
+        };
+      }
+    }
+
     context.metagame = game.settings.get("arm5e", "metagame");
 
     context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
