@@ -19,7 +19,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     this.data.noEdit =
       (this.parent.documentName === "Item" && this.parent.isOwned == true) ||
       (this.parent.documentName === "Actor" && this.data.origin?.includes("Item")) ||
-      (this.getFlag("arm5e", "noEdit"));
+      this.getFlag("arm5e", "noEdit");
   }
 
   /** @inheritdoc */
@@ -102,7 +102,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
 
-      // e.data.descr = buildActiveEffectDescription(e);
+      e.data.descr = e.buildActiveEffectDescription();
       if (e.data.disabled) categories.inactive.effects.push(e);
       else if (e.isTemporary) categories.temporary.effects.push(e);
       else categories.passive.effects.push(e);
@@ -136,30 +136,38 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   //********************************* */
 
   // TODO review before use
-  buildActiveEffectDescription(effect) {
-    let descr;
-    let effectType = game.i18n.localize(CONST.ACTIVE_EFFECTS_TYPES[effect.getFlag("arm5e", "type")].label);
+  buildActiveEffectDescription() {
+    let descr = "";
+
     // TODO multiple types
-    for (let c of Object.values(effect.data.changes)) {
+    let idx = 0;
+    let effectTypes = this.getFlag("arm5e", "type");
+    let effectSubtypes = this.getFlag("arm5e", "subtype");
+    let effectOption = this.getFlag("arm5e", "option");
+    for (let c of Object.values(this.data.changes)) {
+      descr += game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].label) + ": ";
+      let subtype = game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].subtypes[effectSubtypes[idx]].label);
       switch (c.mode) {
-        case 1:
-          descr =
+        case CONST.ACTIVE_EFFECT_MODES.MULTIPLY:
+          if (effectOption[idx]) {
+            subtype = game.i18n.format(subtype, { option: effectOption[idx] });
+          }
+          descr +=
             game.i18n.format("arm5e.sheet.activeEffect.multiply", {
-              type: effectType
+              type: subtype
             }) +
             (c.value < 0 ? "" : "+") +
             c.value;
-        case 2:
-          descr =
-            game.i18n.localize("arm5e.sheet.activeEffect.add") +
-            (c.value < 0 ? "" : "+") +
-            c.value +
-            " to " +
-            effectType;
+          break;
+        case CONST.ACTIVE_EFFECT_MODES.ADD:
+          descr +=
+            game.i18n.localize("arm5e.sheet.activeEffect.add") + (c.value < 0 ? "" : "+") + c.value + " to " + subtype;
+          break;
         default:
-          descr = "Unsupported effect mode";
+          descr += "Unsupported effect mode";
       }
-      descr + "<br/>";
+      descr += "&#13;";
+      idx++;
     }
     return descr;
   }

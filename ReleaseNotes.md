@@ -15,7 +15,8 @@ Features
   - characteristics
   - fatigue penalties
   - wound penalties
-  - virtues and flaws having effects a in italic
+  - virtues and flaws having effects are in italic
+  - readonly effects have a tooltip when hovering on their icon
 - default config for active effect
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)

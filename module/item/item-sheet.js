@@ -116,10 +116,6 @@ export class ArM5eItemSheet extends ItemSheet {
           ...context.metadata.virtueFlawTypes.all
         };
       }
-      // for (let [key, effect] of itemData.effects.entries()) {
-      //   log(false, `Effect name : ${effect.data.label}`);
-      //   effect.data.desc = "My custom description of that effect";
-      // }
     }
 
     context.metagame = game.settings.get("arm5e", "metagame");
