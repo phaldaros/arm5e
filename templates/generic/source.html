@@ -2,7 +2,7 @@
   <div class="resource">
     <label for="data.source" class="header-label">{{localize "arm5e.sheet.source.label"}}</label>
     <select name="data.source" data-dtype="String">
-      {{#select data.source}} {{#each metadata.generic.sourcesTypes as |type key|}}
+      {{#select data.source}} {{#each config.generic.sourcesTypes as |type key|}}
       <option value="{{key}}">{{localize label}}</option>
       {{/each}} {{/select}}
     </select>

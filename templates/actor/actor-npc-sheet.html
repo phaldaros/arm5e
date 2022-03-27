@@ -15,7 +15,7 @@
             >{{localize "arm5e.sheet.charType"}}</label
           >
           <select name="data.charType.value" data-type="String">
-            {{#select data.charType.value}} {{#each metadata.npc.types as |data key|}}
+            {{#select data.charType.value}} {{#each config.npc.types as |data key|}}
             <option value="{{key}}">{{localize data.label}}</option>
             {{/each}} {{/select}}
           </select>
@@ -36,7 +36,7 @@
             style="padding-top: 4px; margin-left: 8px; margin-right: 10px"
           />
           <select name="data.might.type" data-type="String">
-            {{#select data.might.type}} {{#each metadata.realms as |realm key|}}
+            {{#select data.might.type}} {{#each config.realms as |realm key|}}
             <option value="{{key}}">{{localize realm.label}}</option>
             {{/each}} {{/select}}
           </select>
@@ -55,7 +55,7 @@
         <span class="covenantname flexrow" style="padding-top: 4px">
           <label for="data.house.value" class="bold" style="padding-top: 4px">{{localize "arm5e.sheet.house"}}</label>
           <select name="data.house.value" data-type="String" style="width: 100%">
-            {{#select data.house.value}} {{#each metadata.character.houses as |house key|}}
+            {{#select data.house.value}} {{#each config.character.houses as |house key|}}
             <option value="{{key}}">{{house.label}}</option>
             {{/each}} {{/select}}
           </select>

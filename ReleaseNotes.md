@@ -52,6 +52,7 @@ Bug fixes
 - Fix a bug when computing magic resistance to spells with requisites
 - remove the effect creation button for owned items (Foundry limitation, it gives an error anyway)
 - prevent the edition of internal effects
+- fixed a bug where it was impossible to edit an effect with voice or gestures as they were targetting the same key
 
 ### 1.3.1
 

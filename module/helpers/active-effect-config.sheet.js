@@ -1,4 +1,4 @@
-import { ARM5E } from "../metadata.js";
+import { ARM5E } from "../config.js";
 
 import { log, error } from "../tools.js";
 

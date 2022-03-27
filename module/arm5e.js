@@ -1,5 +1,5 @@
 // Import Modules
-import { ARM5E, ARM5E_DEFAULT_ICONS } from "./metadata.js";
+import { ARM5E, ARM5E_DEFAULT_ICONS } from "./config.js";
 import { ArM5ePCActor } from "./actor/actor-pc.js";
 import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
 
@@ -23,7 +23,7 @@ import * as Arm5eChatMessage from "./features/chat-message-hook.js";
 //import * as Arm5eUI from "./features/ui-integration.js";
 
 import { migration } from "./migration.js";
-import { log, generateActiveEffectFromAbilities } from "./tools.js";
+import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
 
 Hooks.once("init", async function () {
   game.arm5e = {
@@ -148,7 +148,7 @@ Hooks.once("init", async function () {
   //     default: false
   // });
 
-  // Add custom metadata
+  // Add system metadata
   CONFIG.ARM5E = ARM5E;
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
@@ -276,7 +276,9 @@ Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
 
-  Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
+  Hooks.on("dropActorSheetData", async function (actor, sheet, data) {
+    await onDropActorSheetData(actor, sheet, data);
+  });
 
   if (game.user.isGM) {
     // Determine whether a system migration is required and feasible
@@ -360,14 +362,13 @@ async function createArM5eMacro(data, slot) {
   return false;
 }
 
-function onDropActorSheetData(actor, sheet, data) {
+async function onDropActorSheetData(actor, sheet, data) {
   if (data.type == "Folder") {
     return true;
   }
   if (data.pack) {
-    const pack = game.packs.get(data.pack);
-    const item = pack.index.get(data.id);
-    if (sheet.isItemDropAllowed(item)) {
+    const item = await getDocumentFromCompendium(data.pack, data.id);
+    if (sheet.isItemDropAllowed(item.data)) {
       return true;
     } else {
       return false;

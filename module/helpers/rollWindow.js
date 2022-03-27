@@ -1,4 +1,4 @@
-import { ARM5E } from "../metadata.js";
+import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "./active-effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import { simpleDie, stressDie } from "../dice.js";

@@ -35,10 +35,10 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
     const context = super.getData();
 
     // no need to import everything
-    context.metadata = {};
-    context.metadata.magic = CONFIG.ARM5E.magic;
-    context.metadata.lab = CONFIG.ARM5E.lab;
-    context.metadata.seasons = CONFIG.ARM5E.seasons;
+    context.config = {};
+    context.config.magic = CONFIG.ARM5E.magic;
+    context.config.lab = CONFIG.ARM5E.lab;
+    context.config.seasons = CONFIG.ARM5E.seasons;
     log(false, "Crucible-sheet getData");
     log(false, context);
 

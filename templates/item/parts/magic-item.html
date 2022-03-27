@@ -1,49 +1,42 @@
 <div class="grid grid-2col">
-
-    <div class="resource">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.base" }}</label>
-        <select name="data.materialBase" data-dtype="Number">
-            {{#select data.materialBase}}
-                {{#each metadata.lab.enchantment.materialBase as |mat key|}}
-                    <option value="{{mat.value}}"> {{localize mat.eg}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-    </div>
-    <div class="resource">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.item.size.label" }}</label>
-        <select name="data.sizeMultiplier" data-dtype="Number">
-            {{#select data.sizeMultiplier}}
-                {{#each metadata.lab.enchantment.sizeMultiplier as |size key|}}
-                    <option value="{{size.value}}"> {{localize size.eg}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-    </div>
-    <div class="resource">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.label" }}</label>
-        <input type="text" name="data.material" value="{{data.material}}" data-dtype="String" />
-    </div>
-    <div class="resource">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.bonus"}}</label>
-        <input type="text" name="data.materialBonus" value="{{data.materialBonus}}" data-dtype="Number" />
-    </div>
-    <div class="resource">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.label"}}</label>
-        <input type="text" name="data.shape" value="{{data.shape}}" data-dtype="String" />
-    </div>
-    <div class="resource">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.bonus"}}</label>
-        <input type="text" name="data.shapeBonus" value="{{data.shapeBonus}}" data-dtype="Number" />
-    </div>
-    <div class="resource">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.item.expiry.label"}}</label>
-        <select name="data.expiry" data-dtype="Number">
-            {{#select data.expiry}}
-                {{#each metadata.lab.enchantment.expiry as |exp key|}}
-                    <option value="{{key}}"> {{localize exp}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-    </div>
+  <div class="resource">
+    <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.base" }}</label>
+    <select name="data.materialBase" data-dtype="Number">
+      {{#select data.materialBase}} {{#each config.lab.enchantment.materialBase as |mat key|}}
+      <option value="{{mat.value}}">{{localize mat.eg}}</option>
+      {{/each}} {{/select}}
+    </select>
+  </div>
+  <div class="resource">
+    <label class="header-label">{{localize "arm5e.lab.enchantment.item.size.label" }}</label>
+    <select name="data.sizeMultiplier" data-dtype="Number">
+      {{#select data.sizeMultiplier}} {{#each config.lab.enchantment.sizeMultiplier as |size key|}}
+      <option value="{{size.value}}">{{localize size.eg}}</option>
+      {{/each}} {{/select}}
+    </select>
+  </div>
+  <div class="resource">
+    <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.label" }}</label>
+    <input type="text" name="data.material" value="{{data.material}}" data-dtype="String" />
+  </div>
+  <div class="resource">
+    <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.bonus"}}</label>
+    <input type="text" name="data.materialBonus" value="{{data.materialBonus}}" data-dtype="Number" />
+  </div>
+  <div class="resource">
+    <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.label"}}</label>
+    <input type="text" name="data.shape" value="{{data.shape}}" data-dtype="String" />
+  </div>
+  <div class="resource">
+    <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.bonus"}}</label>
+    <input type="text" name="data.shapeBonus" value="{{data.shapeBonus}}" data-dtype="Number" />
+  </div>
+  <div class="resource">
+    <label class="header-label">{{localize "arm5e.lab.enchantment.item.expiry.label"}}</label>
+    <select name="data.expiry" data-dtype="Number">
+      {{#select data.expiry}} {{#each config.lab.enchantment.expiry as |exp key|}}
+      <option value="{{key}}">{{localize exp}}</option>
+      {{/each}} {{/select}}
+    </select>
+  </div>
 </div>

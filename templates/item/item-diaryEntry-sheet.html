@@ -11,7 +11,7 @@
                 <div class="resource">
                     <label>{{localize "arm5e.sheet.season"}}<select name="data.season" data-type="String" style="width: 100%">
                             {{#select data.season}}
-                                {{#each metadata.seasons as |season key|}}
+                                {{#each config.seasons as |season key|}}
                                     <option value="{{key}}">{{localize season.label}}</option>
                                 {{/each}} {{/select}}
                         </select>

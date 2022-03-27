@@ -277,8 +277,8 @@ function getRollFormula(actor) {
     actorData.roll.label =
       game.i18n.localize("arm5e.sheet.spontaneousMagic") +
       " (" +
-      actorData.metadata.magic.arts[actorData.roll.technique].short +
-      actorData.metadata.magic.arts[actorData.roll.form].short +
+      actorData.config.magic.arts[actorData.roll.technique].short +
+      actorData.config.magic.arts[actorData.roll.form].short +
       ")";
   }
 

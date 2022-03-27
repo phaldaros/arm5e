@@ -40,19 +40,19 @@
                                         <img src="{{enchantment.data.img}}" title="{{enchantment.data.name}}" width="32" height="32" />
                                     </div>
                                     {{enchantment.data.name}} (
-                                    {{#with (lookup @root.metadata.magic.arts enchantment.data.data.technique.value)~}}{{short~}}
+                                    {{#with (lookup @root.config.magic.arts enchantment.data.data.technique.value)~}}{{short~}}
                                     {{/with}}
-                                    {{#with (lookup @root.metadata.magic.arts enchantment.data.data.form.value)~}}{{short~}}
+                                    {{#with (lookup @root.config.magic.arts enchantment.data.data.form.value)~}}{{short~}}
                                     {{/with}}
                                     {{enchantment.data.data.level}} )
                                     {{localize "arm5e.spell.range.short"~}}:
-                                    {{#with (lookup @root.metadata.magic.ranges enchantment.data.data.range.value)~}}{{localize label}}
+                                    {{#with (lookup @root.config.magic.ranges enchantment.data.data.range.value)~}}{{localize label}}
                                     {{/with}}
                                     {{localize "arm5e.spell.duration.short"~}}:
-                                    {{#with (lookup @root.metadata.magic.durations enchantment.data.data.duration.value)~}}{{localize label}}
+                                    {{#with (lookup @root.config.magic.durations enchantment.data.data.duration.value)~}}{{localize label}}
                                     {{/with}}
                                     {{localize "arm5e.spell.target.short"~}}:
-                                    {{#with (lookup @root.metadata.magic.targets enchantment.data.data.target.value)~}}{{localize label}}
+                                    {{#with (lookup @root.config.magic.targets enchantment.data.data.target.value)~}}{{localize label}}
                                     {{/with}}
                                 {{/each}}
                             </div>
@@ -114,7 +114,7 @@
                             <label for="data.season" class="header-label">{{localize "arm5e.sheet.season"}}</label>
                             <select class="quick-edit" name="season" data-type="String" style="width: 100%">
                                 {{#select data.receptacle.data.data.season}}
-                                    {{#each metadata.seasons as |season key|}}
+                                    {{#each config.seasons as |season key|}}
                                         <option value="{{key}}">{{localize season.label}}</option>
                                     {{/each}} {{/select}}
                             </select>

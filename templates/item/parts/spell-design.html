@@ -17,7 +17,7 @@
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
       <select name="data.range.value" data-type="String">
-        {{#select data.range.value}} {{#each metadata.magic.ranges as |range key|}}
+        {{#select data.range.value}} {{#each config.magic.ranges as |range key|}}
         <option value="{{key}}">{{localize range.label}} ({{range.impact}})</option>
         {{/each}} {{/select}}
         <option></option>
@@ -27,7 +27,7 @@
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
       <select name="data.duration.value" data-type="String">
-        {{#select data.duration.value}} {{#each metadata.magic.durations as |duration key|}}
+        {{#select data.duration.value}} {{#each config.magic.durations as |duration key|}}
         <option value="{{key}}">{{localize duration.label}} ({{duration.impact}})</option>
         {{/each}} {{/select}}
       </select>
@@ -36,7 +36,7 @@
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
       <select name="data.target.value" data-type="String">
-        {{#select data.target.value}} {{#each metadata.magic.targets as |target key|}}
+        {{#select data.target.value}} {{#each config.magic.targets as |target key|}}
         <option value="{{key}}">{{localize target.label}} ({{target.impact}})</option>
         {{/each}} {{/select}}
       </select>
@@ -63,7 +63,7 @@
     {{/if}} {{/if}}
     <div class="resource">
       <label class="header-label"><b>{{localize "arm5e.spell.targets.baseSize.label" }}: </b></label>
-      {{#with (lookup metadata.magic.forms data.form.value)}}
+      {{#with (lookup config.magic.forms data.form.value)}}
       <label class="header-label">{{localize baseSize}}</label>
       {{/with}}
     </div>

@@ -1,56 +1,53 @@
 <form class="{{cssClass}} arm5eRequisite" autocomplete="off">
-    {{> "systems/arm5e/templates/item/parts/item-header.html" }}
-    <div class="flexrow grid grid-3col backSection">
-        <div>
-            <ol style="padding: 0 1em 0 1em;">
-                {{#each data.technique-req as |technique key|}}
-                    <li class="flexrow" data-attribute="{{key}}">
-
-                        <div class="flexcol">
-                            <div class="flexrow marginbot4">
-                                {{#with (lookup @root.metadata.magic.techniques key)~}}
-                                    <span class="flexrow fontSize10" name="technique.label">
-                                        {{label~}}
-                                    </span>
-                                    <input type="checkbox" name="data.data.technique-req.{{key}}" class="Selected{{label}}" {{checked technique}}>
-                                {{/with}}
-                            </div>
-                        </div>
-                    </li>
-                {{/each}}
-            </ol>
-        </div>
-
-        <div>
-            <ol style="padding: 0 1em 0 1em;">
-                {{#each data.form-req as |form key|}}
-                    <li class="flexrow" data-attribute="{{key}}">
-                        <div class="flexcol">
-                            <div class="flexrow marginbot4">
-                                {{#with (lookup @root.metadata.magic.forms key)~}}
-                                    <span class="flexrow fontSize10" name="form.label">
-                                        {{label~}}
-                                    </span>
-                                    {{#if (eq form true)}}
-                                        <input type="checkbox" name="data.data.form-req.{{key}}" class="Selected{{label}}" checked>
-                                    {{else}}
-                                        <input type="checkbox" name="data.data.form-req.{{key}}" class="Selected{{label}}">
-                                    {{/if}}
-
-                                {{/with}}
-                            </div>
-
-                        </div>
-                    </li>
-                    {{#if (eq key "he")}}
-            </ol>
-        </div>
-        <div>
-            <ol style="padding: 0 1em 0 1em;">
-                {{/if}}
-                {{/each}}
-            </ol>
-        </div>
+  {{> "systems/arm5e/templates/item/parts/item-header.html" }}
+  <div class="flexrow grid grid-3col backSection">
+    <div>
+      <ol style="padding: 0 1em 0 1em">
+        {{#each data.technique-req as |technique key|}}
+        <li class="flexrow" data-attribute="{{key}}">
+          <div class="flexcol">
+            <div class="flexrow marginbot4">
+              {{#with (lookup @root.config.magic.techniques key)~}}
+              <span class="flexrow fontSize10" name="technique.label"> {{label~}} </span>
+              <input
+                type="checkbox"
+                name="data.data.technique-req.{{key}}"
+                class="Selected{{label}}"
+                {{checked
+                technique}}
+              />
+              {{/with}}
+            </div>
+          </div>
+        </li>
+        {{/each}}
+      </ol>
     </div>
-    {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
+
+    <div>
+      <ol style="padding: 0 1em 0 1em">
+        {{#each data.form-req as |form key|}}
+        <li class="flexrow" data-attribute="{{key}}">
+          <div class="flexcol">
+            <div class="flexrow marginbot4">
+              {{#with (lookup @root.config.magic.forms key)~}}
+              <span class="flexrow fontSize10" name="form.label"> {{label~}} </span>
+              {{#if (eq form true)}}
+              <input type="checkbox" name="data.data.form-req.{{key}}" class="Selected{{label}}" checked />
+              {{else}}
+              <input type="checkbox" name="data.data.form-req.{{key}}" class="Selected{{label}}" />
+              {{/if}} {{/with}}
+            </div>
+          </div>
+        </li>
+        {{#if (eq key "he")}}
+      </ol>
+    </div>
+    <div>
+      <ol style="padding: 0 1em 0 1em">
+        {{/if}} {{/each}}
+      </ol>
+    </div>
+  </div>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
 </form>

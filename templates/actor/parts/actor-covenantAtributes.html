@@ -49,7 +49,7 @@
       {{#each data.constructionPoints.data as |data key|}}
       <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
         <span class="flex07">
-          {{#with (lookup @root.metadata.covenant.labels key)}}
+          {{#with (lookup @root.config.covenant.labels key)}}
           <label for="data.constructionPoints.data.{{key}}.initials" class="bold">{{localize label}}</label>
           {{/with}}
         </span>

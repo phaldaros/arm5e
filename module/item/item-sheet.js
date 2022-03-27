@@ -49,7 +49,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.data = itemData.data;
     context.flags = itemData.flags;
 
-    context.metadata = CONFIG.ARM5E;
+    context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon") {
       let abilitiesSelect = {};
       const temp = {
@@ -88,32 +88,32 @@ export class ArM5eItemSheet extends ItemSheet {
         itemData.data.effectCreation = false;
         switch (context.item.parent.data.type) {
           case "laboratory":
-            context.metadata.virtueFlawTypes.available = {
-              ...context.metadata.virtueFlawTypes.laboratory,
-              ...context.metadata.virtueFlawTypes.all
+            context.config.virtueFlawTypes.available = {
+              ...context.config.virtueFlawTypes.laboratory,
+              ...context.config.virtueFlawTypes.all
             };
             break;
           case "covenant":
-            context.metadata.virtueFlawTypes.available = {
-              ...context.metadata.virtueFlawTypes.covenant,
-              ...context.metadata.virtueFlawTypes.all
+            context.config.virtueFlawTypes.available = {
+              ...context.config.virtueFlawTypes.covenant,
+              ...context.config.virtueFlawTypes.all
             };
             break;
           case "player":
           case "npc":
-            context.metadata.virtueFlawTypes.available = {
-              ...context.metadata.virtueFlawTypes.character,
-              ...context.metadata.virtueFlawTypes.all
+            context.config.virtueFlawTypes.available = {
+              ...context.config.virtueFlawTypes.character,
+              ...context.config.virtueFlawTypes.all
             };
             break;
         }
       } else {
         itemData.data.effectCreation = true;
-        context.metadata.virtueFlawTypes.available = {
-          ...context.metadata.virtueFlawTypes.character,
-          ...context.metadata.virtueFlawTypes.laboratory,
-          ...context.metadata.virtueFlawTypes.covenant,
-          ...context.metadata.virtueFlawTypes.all
+        context.config.virtueFlawTypes.available = {
+          ...context.config.virtueFlawTypes.character,
+          ...context.config.virtueFlawTypes.laboratory,
+          ...context.config.virtueFlawTypes.covenant,
+          ...context.config.virtueFlawTypes.all
         };
       }
     }

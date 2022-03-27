@@ -1,25 +1,24 @@
 <div class="tab" data-group="primary" data-tab="authorship">
-    <div class="grid grid-2col">
-        <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
-            <input type="text" name="data.author" value="{{data.author}}" data-dtype="String" />
-        </div>
-        <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
-            <input type="text" name="data.language" value="{{data.language}}" data-dtype="String" />
-        </div>
-        <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.season"}}</label>
-            <select name="data.season" data-type="String">
-                {{#select data.season}}
-                    {{#each metadata.seasons as |season key|}}
-                        <option value="{{key}}">{{localize season.label}}</option>
-                    {{/each}} {{/select}}
-            </select>
-        </div>
-        <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-            <input type="text" name="data.year" value="{{data.year}}" data-dtype="Number" />
-        </div>
+  <div class="grid grid-2col">
+    <div class="resource">
+      <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
+      <input type="text" name="data.author" value="{{data.author}}" data-dtype="String" />
     </div>
+    <div class="resource">
+      <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
+      <input type="text" name="data.language" value="{{data.language}}" data-dtype="String" />
+    </div>
+    <div class="resource">
+      <label class="header-label">{{localize "arm5e.sheet.season"}}</label>
+      <select name="data.season" data-type="String">
+        {{#select data.season}} {{#each config.seasons as |season key|}}
+        <option value="{{key}}">{{localize season.label}}</option>
+        {{/each}} {{/select}}
+      </select>
+    </div>
+    <div class="resource">
+      <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
+      <input type="text" name="data.year" value="{{data.year}}" data-dtype="Number" />
+    </div>
+  </div>
 </div>

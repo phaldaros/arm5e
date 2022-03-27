@@ -107,7 +107,7 @@
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
                 <span class="flexrow bold">{{localize "arm5e.sheet.art"}}:
-                    {{#with (lookup @root.metadata.magic.arts item.data.art.value)~}}{{label~}}
+                    {{#with (lookup @root.config.magic.arts item.data.art.value)~}}{{label~}}
                     {{/with}}</span>
                 <span class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
             </div>
@@ -138,7 +138,7 @@
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
                 <span class="flexrow bold">{{localize "arm5e.sheet.art"}}:
-                    {{#with (lookup @root.metadata.magic.arts item.data.art.value)~}}{{label~}}
+                    {{#with (lookup @root.config.magic.arts item.data.art.value)~}}{{label~}}
                     {{/with}} </span>
                 <span class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
             </div>

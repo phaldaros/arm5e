@@ -7,7 +7,7 @@
           <label for="data.house.value" class="bold">{{localize "arm5e.sheet.house"}}</label>
           <span class="width2"
             ><select name="data.house.value" data-type="String" style="width: 100%">
-              {{#select data.house.value}} {{#each metadata.character.houses as |house key|}}
+              {{#select data.house.value}} {{#each config.character.houses as |house key|}}
               <option value="{{key}}">{{house.label}}</option>
               {{/each}} {{/select}}
             </select></span
@@ -126,7 +126,7 @@
     <div class="flex-group-left padding12 backSection">
       {{#each data.vitals as |vitals key|}}
       <div class="flexrow marginbot6">
-        {{#with (lookup @root.metadata.character.vitals key)}}
+        {{#with (lookup @root.config.character.vitals key)}}
         <label for="data.vitals.{{key}}.label" class="bold">{{localize label}}</label>
         {{/with}}
         <span>
@@ -189,7 +189,7 @@
     <div class="flex-group-left padding12 backSection margintop18">
       {{#each data.description as |description key|}}
       <div class="flexrow marginbot6">
-        {{#with (lookup @root.metadata.character.description key)}}
+        {{#with (lookup @root.config.character.description key)}}
         <label for="data.description.{{key}}.label" class="bold">{{localize label}}</label>
         {{/with}}
         <span

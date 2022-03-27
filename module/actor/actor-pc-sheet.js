@@ -43,7 +43,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
   getData() {
     const context = super.getData();
 
-    context.metadata = CONFIG.ARM5E;
+    context.config = CONFIG.ARM5E;
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 

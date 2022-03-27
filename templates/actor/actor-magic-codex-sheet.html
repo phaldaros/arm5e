@@ -1,98 +1,101 @@
 <form class="{{cssClass}} mainCodex" autocomplete="off">
-    <div class="header-background">
-        <img src="/systems/arm5e/assets/codex/header150.png">
+  <div class="header-background">
+    <img src="/systems/arm5e/assets/codex/header150.png" />
+  </div>
+  {{!-- Sheet Header --}}
+  <h1 class="codex-title width: 100%;" text-align="center">Codex Hermeticum</h1>
+  <br />
+  <header class="sheet-header-codex">
+    <div class="header-label">{{localize "arm5e.sheet.filters"}}</div>
+    <div class="header-fields">
+      <div class="resources flexrow flex-between">
+        <span class="codexname flexrow" style="padding-top: 4px">
+          <label for="data.techniqueFilter" class="header-label" style="padding-left: 24px"
+            >{{localize "arm5e.sheet.technique"}}</label
+          >
+          <select name="data.techniqueFilter" data-type="String" style="flex: 0 0 100px">
+            {{#select data.techniqueFilter}}
+            <option value=""></option>
+            {{#each config.magic.techniques as |technique key|}}
+            <option value="{{key}}">{{technique.label}}</option>
+            {{/each}} {{/select}}
+          </select>
+        </span>
+        <span class="codexname flexrow" style="padding-top: 4px">
+          <label for="data.formFilter" class="header-label" style="padding-left: 24px"
+            >{{localize "arm5e.sheet.form"}}</label
+          >
+          <select name="data.formFilter" data-type="String" style="flex: 0 0">
+            {{#select data.formFilter}}
+            <option value=""></option>
+            {{#each config.magic.forms as |form key|}}
+            <option value="{{key}}">{{form.label}}</option>
+            {{/each}} {{/select}}
+          </select>
+        </span>
+        <span class="codexname flexrow" style="padding-top: 4px">
+          <label for="data.levelFilter" class="header-label" style="padding-left: 24px"
+            >{{localize "arm5e.sheet.level"}}</label
+          >
+          <select name="data.levelOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua">
+            {{#select data.levelOperator}}
+            <option value="0">=</option>
+            <option value="-1">&leq;</option>
+            <option value="1">&geq;</option>
+            {{/select}}
+          </select>
+          <input type="text" name="data.levelFilter" value="{{data.levelFilter}}" data-dtype="Number" />
+        </span>
+      </div>
     </div>
-    {{!-- Sheet Header --}}
-    <h1 class="codex-title width: 100%;" text-align="center">Codex Hermeticum</h1><br />
-    <header class="sheet-header-codex">
-        <div class="header-label">{{localize "arm5e.sheet.filters"}}</div>
-        <div class="header-fields">
+  </header>
 
-            <div class="resources flexrow flex-between">
-                <span class="codexname flexrow" style="padding-top:4px;">
-                    <label for="data.techniqueFilter" class="header-label" style="padding-left: 24px;">{{localize "arm5e.sheet.technique"}}</label>
-                    <select name="data.techniqueFilter" data-type="String" style="flex: 0 0 100px;">
-                        {{#select data.techniqueFilter}}
-                            <option value=""></option>
-                            {{#each metadata.magic.techniques as |technique key|}}
-                                <option value="{{key}}">{{technique.label}}</option>
-                            {{/each}}
-                        {{/select}}
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs arm5eTabsCOD sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="base-effects">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.base-effects"}}
+    </a>
+    <a class="item posRelative" data-tab="magical-effect">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.magical-effects"}}
+    </a>
+    <a class="item posRelative" data-tab="spells">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.spells"}}
+    </a>
+    <a class="item posRelative" data-tab="enchantments">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.enchantments"}}
+    </a>
+  </nav>
+  <div class="flexcol">
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      {{!-- Base effects Tab --}}
+      <div class="tab diary" data-group="primary" data-tab="base-effects">
+        {{> "systems/arm5e/templates/actor/parts/actor-base-effects.html" }}
+      </div>
+      {{!--Magical Effect Tab --}}
+      <div class="tab spell-design" data-group="primary" data-tab="magical-effect">
+        {{> "systems/arm5e/templates/actor/parts/actor-magical-effects.html" }}
+      </div>
+      {{!--Spells Tab --}}
+      <div class="tab spells" data-group="primary" data-tab="spells">
+        {{> "systems/arm5e/templates/actor/parts/actor-spells.html" }}
+      </div>
+      {{!--Enchantments Tab --}}
+      <div class="tab enchantments" data-group="primary" data-tab="enchantments">
+        {{> "systems/arm5e/templates/actor/parts/actor-enchantments.html" }}
+      </div>
+    </section>
 
-                    </select>
-                </span>
-                <span class="codexname flexrow" style="padding-top:4px;">
-                    <label for="data.formFilter" class="header-label" style="padding-left: 24px;">{{localize "arm5e.sheet.form"}}</label>
-                    <select name="data.formFilter" data-type="String" style="flex: 0 0;">
-                        {{#select data.formFilter}}
-                            <option value=""></option>
-                            {{#each metadata.magic.forms as |form key|}}
-                                <option value="{{key}}">{{form.label}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-                </span>
-                <span class="codexname flexrow" style="padding-top:4px;">
-                    <label for="data.levelFilter" class="header-label" style="padding-left: 24px;">{{localize "arm5e.sheet.level"}}</label>
-                    <select name="data.levelOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua;">
-                        {{#select data.levelOperator}}
-                            <option value="0">=</option>
-                            <option value="-1">&leq;</option>
-                            <option value="1">&geq;</option>
-                        {{/select}}
-                    </select>
-                    <input type="text" name="data.levelFilter" value="{{data.levelFilter}}" data-dtype="Number" />
-                </span>
-            </div>
-        </div>
-    </header>
-
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs arm5eTabsCOD sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="base-effects">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.base-effects"}}
-        </a>
-        <a class="item posRelative" data-tab="magical-effect">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.magical-effects"}}
-        </a>
-        <a class="item posRelative" data-tab="spells">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.spells"}}
-        </a>
-        <a class="item posRelative" data-tab="enchantments">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.enchantments"}}
-        </a>
-    </nav>
-    <div class="flexcol">
-        {{!-- Sheet Body --}}
-        <section class="sheet-body">
-            {{!-- Base effects Tab --}}
-            <div class="tab diary" data-group="primary" data-tab="base-effects">
-                {{> "systems/arm5e/templates/actor/parts/actor-base-effects.html" }}
-            </div>
-            {{!--Magical Effect Tab --}}
-            <div class="tab spell-design" data-group="primary" data-tab="magical-effect">
-                {{> "systems/arm5e/templates/actor/parts/actor-magical-effects.html" }}
-            </div>
-            {{!--Spells Tab --}}
-            <div class="tab spells" data-group="primary" data-tab="spells">
-                {{> "systems/arm5e/templates/actor/parts/actor-spells.html" }}
-            </div>
-            {{!--Enchantments Tab --}}
-            <div class="tab enchantments" data-group="primary" data-tab="enchantments">
-                {{> "systems/arm5e/templates/actor/parts/actor-enchantments.html" }}
-            </div>
-        </section>
-
-        <div class="footer-background">
-            <img src="/systems/arm5e/assets/codex/footer.png">
-        </div>
+    <div class="footer-background">
+      <img src="/systems/arm5e/assets/codex/footer.png" />
     </div>
+  </div>
 </form>

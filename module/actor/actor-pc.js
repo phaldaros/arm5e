@@ -1,4 +1,4 @@
-import { ARM5E, ARM5E_DEFAULT_ICONS } from "../metadata.js";
+import { ARM5E, ARM5E_DEFAULT_ICONS } from "../config.js";
 import {
   compareBaseEffects,
   compareSpells,
@@ -58,6 +58,8 @@ export class ArM5ePCActor extends Actor {
       }
 
       this.data.data.bonuses.arts = {
+        voice: 0,
+        gesture: 0,
         spellcasting: 0,
         laboratory: 0,
         penetration: 0
@@ -86,14 +88,14 @@ export class ArM5ePCActor extends Actor {
   /** @override */
   prepareEmbeddedDocuments() {
     if (this.data.type == "laboratory") {
-      this._prepareLaboratoryEmbeddedDocuments(this.data)
+      this._prepareLaboratoryEmbeddedDocuments(this.data);
     }
 
     super.prepareEmbeddedDocuments();
   }
 
   _prepareLaboratoryEmbeddedDocuments(labData) {
-    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+    var baseSafetyEffect = labData.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
     if (!baseSafetyEffect) {
       this.createEmbeddedDocuments("ActiveEffect", [
         {
@@ -420,6 +422,10 @@ export class ArM5ePCActor extends Actor {
             "visLimit":{"value": 0, "calc": "Magic theory * 2" }
             */
 
+      // compute the spellcasting bonus:
+      this.data.data.bonuses.arts.spellcasting +=
+        parseInt(this.data.data.bonuses.arts.voice) + parseInt(this.data.data.bonuses.arts.gestures);
+
       if (actorData.data.laboratory === undefined) {
         actorData.data.laboratory = {};
       }
@@ -671,12 +677,12 @@ export class ArM5ePCActor extends Actor {
 
   getRollData() {
     let rollData = super.getRollData();
-    rollData.metadata = {
+    rollData.config = {
       character: {},
       magic: {}
     };
-    rollData.metadata.character.magicAbilities = CONFIG.ARM5E.character.magicAbilities;
-    rollData.metadata.magic.arts = ARM5E.magic.arts;
+    rollData.config.character.magicAbilities = CONFIG.ARM5E.character.magicAbilities;
+    rollData.config.magic.arts = ARM5E.magic.arts;
     return rollData;
   }
 
@@ -788,11 +794,11 @@ export class ArM5ePCActor extends Actor {
     labData.data.totalVirtues = totalVirtues;
     labData.data.totalFlaws = totalFlaws;
 
-    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+    var baseSafetyEffect = labData.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
     if (baseSafetyEffect != null && baseSafetyEffect.data.changes[0].value != String(baseSafety)) {
       let changes = duplicate(baseSafetyEffect.data.changes);
       changes[0].value = String(baseSafety);
-      baseSafetyEffect.update({changes});
+      baseSafetyEffect.update({ changes });
     }
   }
 

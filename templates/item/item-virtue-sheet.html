@@ -8,13 +8,13 @@
         <div class="resource">
           <label for="data.type.value" class="header-label">{{localize data.type.label}}</label>
           <select name="data.type.value" data-type="String">
-            {{#select data.type.value}} {{#each metadata.virtueFlawTypes.available as |type key|}}
+            {{#select data.type.value}} {{#each config.virtueFlawTypes.available as |type key|}}
             <option value="{{key}}">{{localize label}}</option>
             {{/each}} {{/select}}
           </select>
           <label for="data.impact.value" class="header-label">{{localize data.impact.label}}</label>
           <select name="data.impact.value" data-type="String">
-            {{#select data.impact.value}} {{#each metadata.impacts as |impact key|}}
+            {{#select data.impact.value}} {{#each config.impacts as |impact key|}}
             <option value="{{key}}">{{localize impact.label}}</option>
             {{/each}} {{/select}}
           </select>

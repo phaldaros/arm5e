@@ -1,4 +1,4 @@
-import { ARM5E } from "./metadata.js";
+import { ARM5E } from "./config.js";
 
 import { DEFAULT_WOUND, SIZES_AND_WOUNDS } from "./constants/wounds.js";
 
@@ -24,6 +24,13 @@ export function error(force, ...args) {
   } catch (e) {
     console.error(e);
   }
+}
+
+export async function getDocumentFromCompendium(pack, id) {
+  let compendium = game.packs.get(pack);
+  // const documents = await compendium.getDocuments();
+  let doc = compendium.getDocument(id);
+  return doc;
 }
 
 export function compareBaseEffects(e1, e2) {

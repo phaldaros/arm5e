@@ -2,8 +2,8 @@
     <div class="resource">
         <label class="header-label">{{localize "arm5e.lab.enchantment.effectFrequency" }}</label>
         {{log data.effectfrequency}}
-        {{log metadata.lab.enchantment.effectUses}}
-        {{#with (lookup metadata.lab.enchantment.effectUses data.effectfrequency)}}
+        {{log config.lab.enchantment.effectUses}}
+        {{#with (lookup config.lab.enchantment.effectUses data.effectfrequency)}}
             <label class="header-label">: {{this}} {{localize "arm5e.lab.enchantment.uses-per-day"}}</label>
         {{/with}}
         </select>

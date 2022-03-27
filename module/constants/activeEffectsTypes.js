@@ -1,3 +1,4 @@
+// Rule: all subtypes of a given type must have a different "key" value or it becomes impossible to edit them properly
 export default {
   none: {
     category: "magic",
@@ -18,13 +19,13 @@ export default {
     subtypes: {
       voice: {
         label: "arm5e.sheet.magic.voice",
-        key: "data.bonuses.arts.spellcasting",
+        key: "data.bonuses.arts.voice",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       gestures: {
         label: "arm5e.sheet.magic.gestures",
-        key: "data.bonuses.arts.spellcasting",
+        key: "data.bonuses.arts.gestures",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }
@@ -1165,9 +1166,9 @@ export default {
         key: "data.aesthetics.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
-      },
+      }
     }
-  },
+  }
 
   // strength: {
   //   category: "traits",

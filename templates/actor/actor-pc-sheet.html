@@ -31,7 +31,7 @@
             >{{localize "arm5e.sheet.charType"}}</label
           >
           <select class="width2" name="data.charType.value" data-type="String">
-            {{#select data.charType.value}} {{#each metadata.character.charTypes as |data key|}}
+            {{#select data.charType.value}} {{#each config.character.charTypes as |data key|}}
             <option value="{{key}}">{{localize data.label}}</option>
             {{/each}} {{/select}}
           </select>
@@ -63,7 +63,7 @@
           <label for="data.season.value" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
             <select name="data.season.value" data-type="String" style="width: 100%">
-              {{#select data.season.value}} {{#each metadata.seasons as |season key|}}
+              {{#select data.season.value}} {{#each config.seasons as |season key|}}
               <option value="{{key}}">{{localize season.label}}</option>
               {{/each}} {{/select}}
             </select>
