@@ -1,4 +1,5 @@
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
+import { log } from "../tools.js";
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
  * @extends {ActiveEffect}
@@ -102,7 +103,13 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
 
-      e.data.descr = e.buildActiveEffectDescription();
+      e.data.descr = "placeholder"; //e.buildActiveEffectDescription();
+      let effectTypes = e.getFlag("arm5e", "type");
+      let effectSubtypes = e.getFlag("arm5e", "subtype");
+      let effectOption = e.getFlag("arm5e", "option");
+      log(true, `DBG:Effect types: [${effectTypes}]`);
+      log(true, `DBG:Effect subtypes: [${effectSubtypes}]`);
+      log(true, `DBG:Effect options: [${effectOption}]`);
       if (e.data.disabled) categories.inactive.effects.push(e);
       else if (e.isTemporary) categories.temporary.effects.push(e);
       else categories.passive.effects.push(e);
