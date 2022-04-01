@@ -17,6 +17,7 @@ Features
   - wound penalties
   - virtues and flaws having effects are in italic
   - readonly effects have a tooltip when hovering on their icon
+- Rework of all dialogs design with new assets from @Sylph
 - default config for active effect
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)
@@ -53,6 +54,8 @@ Bug fixes
 - remove the effect creation button for owned items (Foundry limitation, it gives an error anyway)
 - prevent the edition of internal effects
 - fixed a bug where it was impossible to edit an effect with voice or gestures as they were targetting the same key
+- fixed very old display bug where the image footer was not exactly at the bottom of the dialog
+- decrepitude and warping are no longer only computed by magi
 
 ### 1.3.1
 

@@ -1,5 +1,5 @@
 <form class="{{cssClass}} arm5ActiveEffect" autocomplete="off">
-  {{> "systems/arm5e/templates/roll/parts/roll-header.html" }}
+  {{> "systems/arm5e/templates/generic/largeDialog-header.html" header="Inputs" }}
   <!-- Effect Header -->
   <header class="sheet-header effect-options">
     <img class="effect-icon" src="{{ data.icon }}" data-edit="icon" />
@@ -124,8 +124,6 @@
     </section>
   </section>
 
-  <footer class="sheet-footer" style="height: auto">
-    {{> "systems/arm5e/templates/roll/parts/roll-footer.html" }}
-  </footer>
+  {{> "systems/arm5e/templates/generic/largeDialog-footer.html" footer="Inputs"}}
   <!-- <button type="submit"><i class="fas fa-save"></i> {{localize submitText}}</button> -->
 </form>

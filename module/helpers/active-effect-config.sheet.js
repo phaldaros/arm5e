@@ -12,8 +12,8 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "active-effect-sheet"],
-      width: 640,
-      height: "auto",
+      width: 700,
+      height: "600px",
       submitOnChange: true,
       closeOnSubmit: false,
       tabs: [

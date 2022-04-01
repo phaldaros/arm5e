@@ -56,6 +56,8 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     // generic partials
     "systems/arm5e/templates/generic/simpleListPicker.html",
     "systems/arm5e/templates/generic/textInput.html",
+    "systems/arm5e/templates/generic/largeDialog-footer.html",
+    "systems/arm5e/templates/generic/largeDialog-header.html",
     "systems/arm5e/templates/generic/source.html"
   ]);
 };

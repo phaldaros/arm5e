@@ -655,6 +655,7 @@
   "arm5e.dialog.botch.title": "Checking for botch",
   "arm5e.dialog.roll.explodingroll": "Exploding dice, roll again!",
   "arm5e.dialog.roll.exploding.multiplier": "Current multiplier",
+  "arm5e.dialog.botch.num": "Number of botch dice:",
   "arm5e.dialog.button.rollbotch": "Roll for botch!",
   "arm5e.dialog.button.rollnobotch": "Botch not checked",
   "arm5e.dialog.button.save": "Save",
@@ -665,6 +666,7 @@
   "arm5e.dialog.button.stressdie": "Stress die",
   "arm5e.dialog.button.simpledie": "Simple die",
   "arm5e.dialog.woundCalculator": "Wound calculator",
+  "arm5e.dialog.damageCalculator": "Damage calculator",
   "arm5e.dialog.hint.abilityOption": "Only alphanumeric characters.",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",

@@ -1,10 +1,10 @@
 <form class="{{cssClass}} arm5eChooser" autocomplete="off">
-  {{> "systems/arm5e/templates/roll/parts/roll-header.html" }}
-  <div class="flexrow3 backSection" style="padding: 8px">
+  {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Inputs" }}
+  <div class="flexrow3 backSection" style="padding: 48px">
     <label>{{ localize fieldName }}</label>
     <div class="form-fields">
       <input type="text" class="textInput" name="" value="{{value}}" placeholder="{{localize placeholder}}" />
     </div>
   </div>
-  {{> "systems/arm5e/templates/roll/parts/roll-footer.html" }}
+  {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Inputs"}}
 </form>

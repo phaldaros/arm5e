@@ -139,9 +139,8 @@
         "items": [],
         "books": [],
         "spells": [],
-        "magicalEffects": []
-      },
-      "pc": {
+        "magicalEffects": [],
+
         "season": {
           "value": "",
           "label": "Season",
@@ -646,7 +645,6 @@
       "templates": [
         "base",
         "npcbase",
-        "pc",
         "personality",
         "wounds",
         "fatigue",

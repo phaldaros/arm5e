@@ -313,6 +313,10 @@ export const migrateActorData = function (actorData) {
       updateData["data.roll.rollLabel"] = "";
       updateData["data.roll.rollFormula"] = "";
     }
+    if (actorData.data.decrepitude == undefined) {
+      actorData.data.decrepitude = {};
+    }
+
     // remove garbage stuff if it exists
 
     updateData["data.-=str"] = null;

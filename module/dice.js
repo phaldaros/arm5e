@@ -406,7 +406,7 @@ async function explodingRoll(actorData, modes = 0) {
       let data = {
         msg: game.i18n.localize("arm5e.dialog.roll.exploding.multiplier") + " : " + mult
       };
-      const html = await renderTemplate("systems/arm5e/templates/generic/infoBox.html", data);
+      const html = await renderTemplate("systems/arm5e/templates/generic/explodingRoll.html", data);
       await new Promise((resolve) => {
         new Dialog(
           {
@@ -424,7 +424,8 @@ async function explodingRoll(actorData, modes = 0) {
             }
           },
           {
-            classes: ["arm5e-dialog", "dialog"]
+            classes: ["arm5e-dialog", "dialog"],
+            height: "400px"
           }
         ).render(true);
       });
@@ -469,7 +470,8 @@ async function explodingRoll(actorData, modes = 0) {
             }
           },
           {
-            classes: ["arm5e-dialog", "dialog"]
+            classes: ["arm5e-dialog", "dialog"],
+            height: "400px"
           }
         ).render(true);
       });

@@ -318,7 +318,8 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
     },
     {
       classes: ["arm5e-dialog", "dialog"],
-      height: "auto"
+      height: "600px",
+      width: "400px"
     }
   );
   dialog.render(true);
