@@ -59,7 +59,7 @@ export class ArM5ePCActor extends Actor {
 
       this.data.data.bonuses.arts = {
         voice: 0,
-        gesture: 0,
+        gestures: 0,
         spellcasting: 0,
         laboratory: 0,
         penetration: 0
@@ -410,6 +410,15 @@ export class ArM5ePCActor extends Actor {
     }
     combat.overload = parseInt(combat.overload) * -1;
 
+    //warping & decrepitude
+    if (this._isCharacter()) {
+      actorData.data.warping.experienceNextLevel = (parseInt(actorData.data.warping?.score || 0) + 1) * 5;
+      if (actorData.data.decrepitude == undefined) {
+        actorData.data.decrepitude = {};
+      }
+      actorData.data.decrepitude.experienceNextLevel = (parseInt(actorData.data.decrepitude?.score || 0) + 1) * 5;
+    }
+
     if (this._isMagus()) {
       /*
             "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
@@ -452,12 +461,6 @@ export class ArM5ePCActor extends Actor {
       if (actorData.data.laboratory.totalPenetration) {
         actorData.data.laboratory.totalPenetration.value =
           actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
-      }
-
-      //warping & decrepitude
-      actorData.data.warping.experienceNextLevel = (parseInt(actorData.data.warping.score) + 1) * 5;
-      if (this.data.type != "npc") {
-        actorData.data.decrepitude.experienceNextLevel = (parseInt(actorData.data.decrepitude.score) + 1) * 5;
       }
 
       for (let [key, technique] of Object.entries(data.arts.techniques)) {
@@ -1008,6 +1011,10 @@ export class ArM5ePCActor extends Actor {
       (this.data.type == "npc" && this.data.data.charType.value == "magusNPC") ||
       (this.data.type == "player" && this.data.data.charType.value == "magus")
     );
+  }
+
+  _isCharacter() {
+    return (this.data.type == "npc" && this.data.data.charType.value != "entity") || this.data.type == "player";
   }
 
   _isCompanion() {
