@@ -584,6 +584,7 @@ export class ArM5eActorSheet extends ActorSheet {
         {
           jQuery: true,
           height: "140px",
+          width: "400px",
           classes: ["arm5e-dialog", "dialog"]
         }
       ).render(true);

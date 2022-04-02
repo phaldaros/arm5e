@@ -10,7 +10,7 @@ export class ArM5eItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
       width: 650,
-      height: 650,
+      height: 610,
       tabs: [
         {
           navSelector: ".sheet-tabs",

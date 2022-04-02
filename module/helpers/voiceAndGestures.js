@@ -63,13 +63,23 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
 function findVoiceAndGesturesActiveEffects(effects) {
   const actualVoiceEffect = ArM5eActiveEffect.findFirstActiveEffectBySubtype(effects, VOICE);
   const actualGesturesEffect = ArM5eActiveEffect.findFirstActiveEffectBySubtype(effects, GESTURES);
-  return {
-    // // only one change for voice and gestures => index 0 hardcoded
-    voice: actualVoiceEffect?.getFlag("arm5e", "value")[0] || DEFAULT_VOICE,
-    gestures: actualGesturesEffect?.getFlag("arm5e", "value")[0] || DEFAULT_GESTURES
-    // voice: DEFAULT_VOICE,
-    // gestures: DEFAULT_GESTURES
-  };
+  try {
+    return {
+      // // only one change for voice and gestures => index 0 hardcoded
+      voice: actualVoiceEffect?.getFlag("arm5e", "value")[0] || DEFAULT_VOICE,
+      gestures: actualGesturesEffect?.getFlag("arm5e", "value")[0] || DEFAULT_GESTURES
+      // voice: DEFAULT_VOICE,
+      // gestures: DEFAULT_GESTURES
+    };
+  } catch (error) {
+    console.error(error);
+    console.log(`ActualVoiceEffects: ${JSON.stringify(actualVoiceEffect)}`);
+    console.log(`ActualGesturesEffects: ${JSON.stringify(actualGesturesEffect)}`);
+    return {
+      voice: DEFAULT_VOICE,
+      gestures: DEFAULT_GESTURES
+    };
+  }
 }
 
 export { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent };

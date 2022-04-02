@@ -103,13 +103,13 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
 
-      e.data.descr = "placeholder"; //e.buildActiveEffectDescription();
-      let effectTypes = e.getFlag("arm5e", "type");
-      let effectSubtypes = e.getFlag("arm5e", "subtype");
-      let effectOption = e.getFlag("arm5e", "option");
-      log(true, `DBG:Effect types: [${effectTypes}]`);
-      log(true, `DBG:Effect subtypes: [${effectSubtypes}]`);
-      log(true, `DBG:Effect options: [${effectOption}]`);
+      e.data.descr = e.buildActiveEffectDescription();
+      // let effectTypes = e.getFlag("arm5e", "type");
+      // let effectSubtypes = e.getFlag("arm5e", "subtype");
+      // let effectOption = e.getFlag("arm5e", "option");
+      // log(true, `DBG:Effect types: [${effectTypes}]`);
+      // log(true, `DBG:Effect subtypes: [${effectSubtypes}]`);
+      // log(true, `DBG:Effect options: [${effectOption}]`);
       if (e.data.disabled) categories.inactive.effects.push(e);
       else if (e.isTemporary) categories.temporary.effects.push(e);
       else categories.passive.effects.push(e);
@@ -146,36 +146,46 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   buildActiveEffectDescription() {
     let descr = "";
 
-    // TODO multiple types
-    let idx = 0;
-    let effectTypes = this.getFlag("arm5e", "type");
-    let effectSubtypes = this.getFlag("arm5e", "subtype");
-    let effectOption = this.getFlag("arm5e", "option");
-    for (let c of Object.values(this.data.changes)) {
-      descr += game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].label) + ": ";
-      let subtype = game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].subtypes[effectSubtypes[idx]].label);
-      switch (c.mode) {
-        case CONST.ACTIVE_EFFECT_MODES.MULTIPLY:
-          if (effectOption[idx]) {
-            subtype = game.i18n.format(subtype, { option: effectOption[idx] });
-          }
-          descr +=
-            game.i18n.format("arm5e.sheet.activeEffect.multiply", {
-              type: subtype
-            }) +
-            (c.value < 0 ? "" : "+") +
-            c.value;
-          break;
-        case CONST.ACTIVE_EFFECT_MODES.ADD:
-          descr +=
-            game.i18n.localize("arm5e.sheet.activeEffect.add") + (c.value < 0 ? "" : "+") + c.value + " to " + subtype;
-          break;
-        default:
-          descr += "Unsupported effect mode";
+    try {
+      let idx = 0;
+      let effectTypes = this.getFlag("arm5e", "type");
+      let effectSubtypes = this.getFlag("arm5e", "subtype");
+      let effectOption = this.getFlag("arm5e", "option");
+      for (let c of Object.values(this.data.changes)) {
+        descr += game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].label) + ": ";
+        let subtype = game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].subtypes[effectSubtypes[idx]].label);
+        switch (c.mode) {
+          case CONST.ACTIVE_EFFECT_MODES.MULTIPLY:
+            if (effectOption[idx]) {
+              subtype = game.i18n.format(subtype, { option: effectOption[idx] });
+            }
+            descr +=
+              game.i18n.format("arm5e.sheet.activeEffect.multiply", {
+                type: subtype
+              }) +
+              (c.value < 0 ? "" : "+") +
+              c.value;
+            break;
+          case CONST.ACTIVE_EFFECT_MODES.ADD:
+            descr +=
+              game.i18n.localize("arm5e.sheet.activeEffect.add") +
+              (c.value < 0 ? "" : "+") +
+              c.value +
+              " to " +
+              subtype;
+            break;
+          default:
+            descr += "Unsupported effect mode";
+        }
+        descr += "&#13;";
+        idx++;
       }
-      descr += "&#13;";
-      idx++;
+
+      return descr;
+    } catch (error) {
+      console.error(error);
+      console.log(`Build effect description failed : ${JSON.stringify(this.data)}`);
+      return "Error: see console";
     }
-    return descr;
   }
 }

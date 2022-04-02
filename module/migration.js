@@ -486,8 +486,21 @@ export const migrateActiveEffectData = function (effectData) {
   }
 
   // Fix mess active effect V1
-  if (effectData.flags?.arm5e.type != undefined && !(effectData.flags.arm5e.type instanceof Array)) {
-    effectUpdate["flags.arm5e.type"] = [effectData.flags.arm5e.type];
+  if (effectData.flags?.arm5e.type != undefined) {
+    if (!(effectData.flags.arm5e.type instanceof Array)) {
+      if (effectData.flags.arm5e.type === "spellCasting") {
+        effectData.flags.arm5e.type = "spellcasting";
+      }
+      effectUpdate["flags.arm5e.type"] = [effectData.flags.arm5e.type];
+    } else {
+      let idx = 0;
+      for (const name of effectData.flags.arm5e.type.values()) {
+        if (name === "spellCasting") {
+          effectUpdate["flags.arm5e.type." + idx] = "spellcasting";
+        }
+        idx++;
+      }
+    }
   }
 
   if (effectData.flags?.arm5e.subtype != undefined && !(effectData.flags.arm5e.subtype instanceof Array)) {
@@ -528,8 +541,8 @@ export const migrateItemData = function (itemData) {
       updateData["data.-=experienceNextLevel"] = null;
 
       // clean-up TODO: remove
-      update["data.-=puissant"] = null;
-      update["data.-=affinity"] = null;
+      updateData["data.-=puissant"] = null;
+      updateData["data.-=affinity"] = null;
     }
 
     // no key assigned to the ability, try to find one
