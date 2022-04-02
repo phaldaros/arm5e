@@ -167,6 +167,9 @@ export default class ArM5eActiveEffect extends ActiveEffect {
               c.value;
             break;
           case CONST.ACTIVE_EFFECT_MODES.ADD:
+            if (effectOption[idx]) {
+              subtype = game.i18n.format(subtype, { option: effectOption[idx] });
+            }
             descr +=
               game.i18n.localize("arm5e.sheet.activeEffect.add") +
               (c.value < 0 ? "" : "+") +
