@@ -79,7 +79,7 @@ async function stressDie(html, actor, modes = 0, callBack) {
   });
 
   if (callBack) {
-    callBack(html, actor, roll, message);
+    callBack(html, actor, lastRoll, message);
   }
 }
 
@@ -160,8 +160,8 @@ function getRollFormula(actor) {
     } else {
       actorData.roll.techniqueText = actorData.arts.techniques[actorData.roll.technique].label;
       actorData.roll.formText = actorData.arts.forms[actorData.roll.form].label;
-      valueTech = parseInt(actorData.arts.techniques[actorData.roll.technique].derivedScore);
-      valueForm = parseInt(actorData.arts.forms[actorData.roll.form].derivedScore);
+      valueTech = parseInt(actorData.arts.techniques[actorData.roll.technique].finalScore);
+      valueForm = parseInt(actorData.arts.forms[actorData.roll.form].finalScore);
     }
     if (actorData.roll.focus === true) {
       if (valueTech < valueForm) {
@@ -212,7 +212,7 @@ function getRollFormula(actor) {
   if (actorData.roll.ability != "") {
     for (var i = 0; i < actorData.abilities.length; i++) {
       if (actorData.abilities[i]._id == actorData.roll.ability) {
-        value = actorData.abilities[i].data.derivedScore;
+        value = actorData.abilities[i].data.finalScore;
         total = parseInt(total) + parseInt(value);
         if (msg != "") {
           msg = msg + " + <br />";
@@ -277,8 +277,8 @@ function getRollFormula(actor) {
     actorData.roll.label =
       game.i18n.localize("arm5e.sheet.spontaneousMagic") +
       " (" +
-      actorData.metadata.magic.arts[actorData.roll.technique].short +
-      actorData.metadata.magic.arts[actorData.roll.form].short +
+      actorData.config.magic.arts[actorData.roll.technique].short +
+      actorData.config.magic.arts[actorData.roll.form].short +
       ")";
   }
 
@@ -406,7 +406,7 @@ async function explodingRoll(actorData, modes = 0) {
       let data = {
         msg: game.i18n.localize("arm5e.dialog.roll.exploding.multiplier") + " : " + mult
       };
-      const html = await renderTemplate("systems/arm5e/templates/generic/infoBox.html", data);
+      const html = await renderTemplate("systems/arm5e/templates/generic/explodingRoll.html", data);
       await new Promise((resolve) => {
         new Dialog(
           {
@@ -424,7 +424,8 @@ async function explodingRoll(actorData, modes = 0) {
             }
           },
           {
-            classes: ["arm5e-dialog", "dialog"]
+            classes: ["arm5e-dialog", "dialog"],
+            height: "400px"
           }
         ).render(true);
       });
@@ -469,7 +470,8 @@ async function explodingRoll(actorData, modes = 0) {
             }
           },
           {
-            classes: ["arm5e-dialog", "dialog"]
+            classes: ["arm5e-dialog", "dialog"],
+            height: "400px"
           }
         ).render(true);
       });

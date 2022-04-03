@@ -139,9 +139,8 @@
         "items": [],
         "books": [],
         "spells": [],
-        "magicalEffects": []
-      },
-      "pc": {
+        "magicalEffects": [],
+
         "season": {
           "value": "",
           "label": "Season",
@@ -177,17 +176,17 @@
             "notes": ""
           },
           "per3": {
-            "label": "Trait 3",
+            "label": "",
             "score": "0",
             "notes": ""
           },
           "per4": {
-            "label": "Trait 4",
+            "label": "",
             "score": "0",
             "notes": ""
           },
           "per5": {
-            "label": "Trait 5",
+            "label": "",
             "score": "0",
             "notes": ""
           }
@@ -646,7 +645,6 @@
       "templates": [
         "base",
         "npcbase",
-        "pc",
         "personality",
         "wounds",
         "fatigue",
@@ -735,19 +733,19 @@
         "description": "",
         "value": 0
       },
-      "security": {
+      "safety": {
         "description": "",
         "value": 0
       },
-      "salubrity": {
+      "health": {
         "description": "",
         "value": 0
       },
-      "improvement": {
+      "refinement": {
         "description": "",
         "value": 0
       },
-      "maintenance": {
+      "upkeep": {
         "description": "",
         "value": 0
       },
@@ -779,7 +777,7 @@
       "season": "",
       "tribunal": "",
       "typeAura": "",
-      "levelAura": "",
+      "levelAura": 0,
       "levelsRegio": "",
       "modifiersLife": {
         "magi": 1,

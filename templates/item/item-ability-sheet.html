@@ -19,8 +19,8 @@
         <label
           >{{localize "arm5e.sheet.score"}}<input
             type="text"
-            name="data.derivedScore"
-            value="{{data.derivedScore}}"
+            name="data.finalScore"
+            value="{{data.finalScore}}"
             data-dtype="Number"
             readonly
         /></label>
@@ -41,7 +41,7 @@
         <label>{{localize "arm5e.sheet.defaultCharacteristicForAbility"}}</label>
         <div class="flexcol flexrow">
           <select name="data.defaultChaAb" data-type="String" class="default-characteristic">
-            {{#select data.defaultChaAb}} {{#each metadata.character.characteristics as |item key|}}
+            {{#select data.defaultChaAb}} {{#each config.character.characteristics as |item key|}}
             <option value="{{key}}">{{localize label}}</option>
             {{/each}} {{/select}}
           </select>
@@ -80,12 +80,12 @@
       <div class="resource">
         {{#if (lookup (lookup abilityKeysList data.key) "option")}}
         <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-        <input type="text" name="data.option" value="{{data.option}}" style="width: 200px" />
+        <input type="text" class="ability-option" name="data.option" value="{{data.option}}" style="width: 200px" />
         {{else}}
         <label for="data.option" class="header-label" style="color: gray"
           >{{localize "arm5e.sheet.skill.abilityOption"}}</label
         >
-        <input type="text" name="data.option" data-dtype="String" value="" disabled style="width: 200px" />
+        <input type="text" name="data.option" data-dtype="String" value="" readonly style="width: 200px" />
         {{/if}}
       </div>
     </div>

@@ -89,7 +89,7 @@
                 <label><span class="flexrow bold width15"></span>{{item.data.job}}</label>
                 <label><span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: </span> {{item.data.yearBorn}}</label>
                 <label><span class="flexrow bold flex05">{{localize "arm5e.sheet.points"}}: </span> {{item.data.points}}</label>
-                <label><span class="flexrow bold"> {{#with (lookup @root.metadata.magic.gift item.data.giftType)}}{{localize this}} {{/with}}</label>
+                <label><span class="flexrow bold"> {{#with (lookup @root.config.magic.gift item.data.giftType)}}{{localize this}} {{/with}}</label>
 </div>
 <div class="item-controls">
     {{#if (eq item.data.linked true)}}

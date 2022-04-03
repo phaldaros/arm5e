@@ -70,7 +70,7 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
 
   async _pickRequisites(event) {
     event.preventDefault();
-    this.item.data.metadata = {
+    this.item.data.config = {
       magic: {
         techniques: CONFIG.ARM5E.magic.techniques,
         forms: CONFIG.ARM5E.magic.forms

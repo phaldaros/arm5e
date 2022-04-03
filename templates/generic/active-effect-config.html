@@ -1,5 +1,5 @@
 <form class="{{cssClass}} arm5ActiveEffect" autocomplete="off">
-  {{> "systems/arm5e/templates/roll/parts/roll-header.html" }}
+  {{> "systems/arm5e/templates/generic/largeDialog-header.html" header="Inputs" }}
   <!-- Effect Header -->
   <header class="sheet-header effect-options">
     <img class="effect-icon" src="{{ data.icon }}" data-edit="icon" />
@@ -96,9 +96,9 @@
                 class="effect-subtype"
                 data-index="{{i}}"
               >
-                {{#select (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "key")}} {{#each
-                (lookup ../subtypes i) as |st id |}}
-                <option data-subtype="{{id}}" value="{{st.key}}">{{localize st.label}}</option>
+                {{#select (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "computedKey")}}
+                {{#each (lookup ../subtypes i) as |st id |}}
+                <option data-subtype="{{id}}" value="{{st.computedKey}}">{{localize st.label}}</option>
                 {{/each}} {{/select}}
               </select>
               <div style="font-size: 8pt; overflow-wrap: break-word">{{#if ../devMode}}{{change.key}}{{/if}}</div>
@@ -109,6 +109,9 @@
             </div>
 
             <div class="effect-controls">
+              {{#if (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "option")}}
+              <a class="effect-control" data-idx="{{i}}" data-action="option"><i class="fas fa-book"></i></a>
+              {{/if}}
               <a class="effect-control" data-idx="{{i}}" data-action="delete"><i class="fas fa-trash"></i></a>
             </div>
           </div>
@@ -121,8 +124,6 @@
     </section>
   </section>
 
-  <footer class="sheet-footer" style="height: auto">
-    {{> "systems/arm5e/templates/roll/parts/roll-footer.html" }}
-  </footer>
+  {{> "systems/arm5e/templates/generic/largeDialog-footer.html" footer="Inputs"}}
   <!-- <button type="submit"><i class="fas fa-save"></i> {{localize submitText}}</button> -->
 </form>

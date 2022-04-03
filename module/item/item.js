@@ -43,14 +43,8 @@ export class ArM5eItem extends Item {
 
         itemData.data.abilities = abilitiesSelect;
       }
-
-      if (this.data.type == "ability") {
-        this.data.data.derivedScore = this.actor._getAbilityScore(this.data.data.xp);
-
-        this.data.data.xpNextLevel = (this.data.data.derivedScore + 1) * 5;
-        this.data.data.remainingXp = this.data.data.xp - this.actor._getAbilityXp(this.data.data.derivedScore);
-      }
     }
+
     if (this._needLevelComputation()) {
       if (this._isNotMigrated()) {
         return;
@@ -362,7 +356,7 @@ export class ArM5eItem extends Item {
     if (actorData.type != "player" && actorData.type != "npc") {
       return 0;
     }
-    let res = actorData.data.sta;
+    let res = actorData.data.characteristics.sta.value;
     let tech = 1000;
     let form = 1000;
     let focusBonus = 0;

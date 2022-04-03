@@ -22,7 +22,7 @@
       <span class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
       <span class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.data.quality}} </span>
       <span class="flexrow bold"
-        >{{localize "arm5e.sheet.art"}}: {{#with (lookup @root.metadata.magic.arts item.data.art.value)~}}{{label~}}
+        >{{localize "arm5e.sheet.art"}}: {{#with (lookup @root.config.magic.arts item.data.art.value)~}}{{label~}}
         {{/with}}</span
       >
     </div>
@@ -53,9 +53,9 @@
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
     <div class="flexrow flex-center">
       <span class="flexrow item-title width15">
-        {{localize (lookup @root.metadata.lab.labTextType item.data.type)~}} : {{item.name}} ( {{#with (lookup
-        @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}} {{/with}} {{#with (lookup
-        @root.metadata.magic.forms item.data.form.value)~}}{{label~}} {{/with}} - {{item.data.level}} ) {{#if (eq
+        {{localize (lookup @root.config.lab.labTextType item.data.type)~}} : {{item.name}} ( {{#with (lookup
+        @root.config.magic.techniques item.data.technique.value)~}}{{label~}} {{/with}} {{#with (lookup
+        @root.config.magic.forms item.data.form.value)~}}{{label~}} {{/with}} - {{item.data.level}} ) {{#if (eq
         item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
       </span>
     </div>

@@ -13,13 +13,13 @@
           {{#if (eq @root.artsIcons "symbol")}}
           <img
             src="/systems/arm5e/assets/magic/{{key}}.png"
-            style="border: 0px; height: 40px; box-shadow: 0 0 10px {{technique.ui.shadow}}"
+            {{{technique.ui.style}}}
             title="{{technique.ui.title}}{{numberFormat technique.bonus decimals=0 sign=true}}"
           />
           {{else}}
           <img
             src="/systems/arm5e/assets/hands/{{key}}.png"
-            style="border: 0px; height: 40px; box-shadow: 0 0 10px {{technique.ui.shadow}}"
+            {{{technique.ui.style}}}
             title="{{technique.ui.title}}{{numberFormat technique.bonus decimals=0 sign=true}}"
           />
           {{/if}}
@@ -71,22 +71,21 @@
       <li class="flexrow">
         <label class="smallTitle width15">{{localize "arm5e.sheet.forms"}}</label>
       </li>
-      {{#each data.arts.forms as |forms key|}}
+      {{#each data.arts.forms as |form key|}}
       <li class="flexrow art" data-attribute="{{key}}">
         <span class="flex03">
           <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
             {{#if (eq @root.artsIcons "symbol")}}
             <img
               src="/systems/arm5e/assets/magic/{{key}}.png"
-              box-sha
-              style="border: 0px; height: 40px; box-shadow: 0 0 10px {{forms.ui.shadow}}"
-              title="{{forms.ui.title}}{{numberFormat forms.bonus decimals=0 sign=true}}"
+              {{{form.ui.style}}}
+              title="{{form.ui.title}}{{numberFormat form.bonus decimals=0 sign=true}}"
             />
             {{else}}
             <img
               src="/systems/arm5e/assets/hands/{{key}}.png"
-              style="border: 0px; height: 40px; box-shadow: 0 0 10px {{forms.ui.shadow}}"
-              title="{{forms.ui.title}}{{numberFormat forms.bonus decimals=0 sign=true}}"
+              {{{form.ui.style}}}
+              title="{{form.ui.title}}{{numberFormat form.bonus decimals=0 sign=true}}"
             />
             {{/if}}
           </a>
@@ -101,14 +100,14 @@
               data-form="{{key}}"
               data-divide="2"
             >
-              {{label}}&nbsp;({{ forms.magicResistance }})
+              {{label}}&nbsp;({{ form.magicResistance }})
             </span>
             <div class="flexrow">
               <a class="item-control decrease-form" title="Decrease score"><i class="fas fa-minus"></i></a>
               <input
                 type="text"
                 name="data.arts.forms.{{key}}.finalScore"
-                value="{{forms.finalScore}}"
+                value="{{form.finalScore}}"
                 data-dtype="Number"
                 readonly
               />
@@ -120,11 +119,11 @@
             <input
               type="number"
               name="data.arts.forms.{{key}}.xp"
-              value="{{forms.xp}}"
+              value="{{form.xp}}"
               data-dtype="Number"
               style="color: #625d52cc; width: 40px"
             />
-            <label class="fontSize8"> / {{ forms.xpNextLevel }} </label>
+            <label class="fontSize8"> / {{ form.xpNextLevel }} </label>
           </div>
         </div>
       </li>
@@ -142,7 +141,7 @@
 </div>
 
 {{> "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html" show="arts" }} {{>
-"systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="arts" }}
+"systems/arm5e/templates/actor/parts/actor-magic-attributes.html" show="arts" }}
 
 <div class="flexrow backSection margintop18">
   <ol class="items-list">
@@ -174,20 +173,20 @@
           data-name="{{item.name}}"
           name="item.name"
         >
-          {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
-          {{/with}} {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
+          {{item.name}} ( {{#with (lookup @root.config.magic.techniques item.data.technique.value)~}}{{label~}}
+          {{/with}} {{#with (lookup @root.config.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
           {{item.data.level}}) {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
         </span>
         <label
           ><span class="bold">{{localize "arm5e.sheet.range"}}:</span>
-          {{#with (lookup @root.metadata.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}
+          {{#with (lookup @root.config.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}
         </label>
         <label
-          ><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{#with (lookup @root.metadata.magic.durations
+          ><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{#with (lookup @root.config.magic.durations
           item.data.duration.value)~}} {{localize label~}} {{/with}}</label
         >
         <label
-          ><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{#with (lookup @root.metadata.magic.targets
+          ><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{#with (lookup @root.config.magic.targets
           item.data.target.value)~}} {{localize label~}} {{/with}}</label
         >
         <label><span class="bold">{{localize "arm5e.sheet.castingTotal"}}:</span> {{item.data.castingTotal}}</label>
@@ -231,20 +230,20 @@
           data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}"
           name="item.name"
         >
-          {{item.name}} ( {{#with (lookup @root.metadata.magic.techniques item.data.technique.value)~}}{{label~}}
-          {{/with}} {{#with (lookup @root.metadata.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
+          {{item.name}} ( {{#with (lookup @root.config.magic.techniques item.data.technique.value)~}}{{label~}}
+          {{/with}} {{#with (lookup @root.config.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
           {{item.data.level}})
         </span>
         <label
           ><span class="bold">{{localize "arm5e.sheet.range"}}:</span>
-          {{#with (lookup @root.metadata.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}
+          {{#with (lookup @root.config.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}
         </label>
         <label
-          ><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{#with (lookup @root.metadata.magic.durations
+          ><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{#with (lookup @root.config.magic.durations
           item.data.duration.value)~}} {{localize label~}} {{/with}}</label
         >
         <label
-          ><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{#with (lookup @root.metadata.magic.targets
+          ><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{#with (lookup @root.config.magic.targets
           item.data.target.value)~}} {{localize label~}} {{/with}}</label
         >
         <label><span class="bold">{{localize "arm5e.sheet.castingTotal"}}:</span> {{item.data.castingTotal}}</label>
@@ -275,7 +274,7 @@
       <div class="flexrow flex-center">
         <span class="flexrow item-title width4" name="item.name"> {{item.name}} </span>
         <span class="bold" name="item.name">
-          {{#with (lookup @root.metadata.magic.forms item.data.form)~}}{{label~}}{{/with}}
+          {{#with (lookup @root.config.magic.forms item.data.form)~}}{{label~}}{{/with}}
         </span>
         <span class="bold" name="item.name"> {{item.data.cost }} {{localize "arm5e.sheet.points"}} </span>
       </div>

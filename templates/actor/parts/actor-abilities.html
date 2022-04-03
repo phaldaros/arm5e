@@ -31,10 +31,11 @@
       <label class="marginRight8">{{localize "arm5e.sheet.score"}}</label
       ><input
         type="text"
-        name="item.{{id}}.derivedScore"
-        value="{{item.data.derivedScore}}"
+        name="item.{{id}}.finalScore"
+        value="{{item.data.finalScore}}"
         readonly
         data-dtype="Number"
+        {{{item.ui.style}}}
       />
       <span></span>
       <label class="marginRight8">{{localize "arm5e.sheet.experience"}}</label

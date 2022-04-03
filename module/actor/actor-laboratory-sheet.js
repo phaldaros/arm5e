@@ -28,7 +28,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   getData() {
     const context = super.getData();
 
-    context.metadata = CONFIG.ARM5E;
+    context.config = CONFIG.ARM5E;
 
     context.data.world = {};
     context.data.world.covenants = game.actors
@@ -80,19 +80,29 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
    * @return {undefined}
    */
   _prepareCharacterItems(sheetData) {
+    super._prepareCharacterItems(sheetData);
     //let actorData = sheetData.actor.data;
     //console.log("sheetData from laboratory sheet");
     //console.log(sheetData);
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
+      case "virtue":
+      case "flaw":
+        switch (itemData.data.type.value) {
+          case "laboratoryOutfitting":
+          case "laboratoryStructure":
+          case "laboratorySupernatural":
+          case "other":
+            return true;
+          default:
+            return false;
+        }
       case "spell":
       case "vis":
       case "item":
       case "book":
-      case "virtue":
-      case "flaw":
       case "speciality":
       case "distinctive":
       case "sanctumRoom":

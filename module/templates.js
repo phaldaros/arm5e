@@ -21,6 +21,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/actor/parts/actor-diary.html",
     "systems/arm5e/templates/generic/active-effects.html",
     "systems/arm5e/templates/actor/parts/actor-setAbilities.html",
+    "systems/arm5e/templates/actor/parts/actor-magic-attributes.html",
 
     "systems/arm5e/templates/actor/parts/actor-base-effects.html",
     "systems/arm5e/templates/actor/parts/actor-magical-effects.html",
@@ -54,6 +55,9 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/roll/parts/roll-footer.html",
     // generic partials
     "systems/arm5e/templates/generic/simpleListPicker.html",
+    "systems/arm5e/templates/generic/textInput.html",
+    "systems/arm5e/templates/generic/largeDialog-footer.html",
+    "systems/arm5e/templates/generic/largeDialog-header.html",
     "systems/arm5e/templates/generic/source.html"
   ]);
 };

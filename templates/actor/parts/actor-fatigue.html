@@ -8,8 +8,8 @@
       {{#each data.fatigue as |fatigue key|}}
       <li class="flexrow" data-attribute="{{key}}">
         <div class="flexrow flex-between marginbot6">
-          {{#with (lookup @root.metadata.character.fatigueLevels key)}}
-          <label for="metadata.character.fatigueLevels.{{key}}.label">{{localize label}}</label>
+          {{#with (lookup @root.config.character.fatigueLevels key)}}
+          <label for="config.character.fatigueLevels.{{key}}.label">{{localize label}}</label>
           {{/with}}
           <span>
             <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} />
@@ -24,13 +24,15 @@
             />
           </span>
           <span>
+            {{#with (lookup @root.config.character.fatigueLevels key)}}
             <input
               type="text"
-              name="metadata.character.fatigueLevels.{{key}}.time"
+              name="config.character.fatigueLevels.{{key}}.time"
               value="{{time}}"
               data-dtype="String"
               readonly
             />
+            {{/with}}
           </span>
         </div>
       </li>
@@ -43,9 +45,9 @@
 
     <div class="flexrow flex-group-left">
       <span class="flex07"><br /></span>
-      <span class="bold flex07">{{localize metadata.character.wounds.labels.number}}</span>
-      <span class="bold">{{localize metadata.character.wounds.labels.penalty}}</span>
-      <span class="bold width15">{{localize metadata.character.wounds.labels.notes}}</span>
+      <span class="bold flex07">{{localize config.character.wounds.labels.number}}</span>
+      <span class="bold">{{localize config.character.wounds.labels.penalty}}</span>
+      <span class="bold width15">{{localize config.character.wounds.labels.notes}}</span>
     </div>
 
     <ol>
@@ -53,8 +55,8 @@
 
       <li class="flexrow flex-group-left" data-attribute="{{key}}">
         <div class="flexrow flex-between">
-          {{#with (lookup @root.metadata.character.wounds key)}}
-          <label for="{{ label}}" class="flex05">{{localize label}}</label>
+          {{#with (lookup @root.config.character.wounds key)}}
+          <label for="{{label}}" class="flex05" title="{{wounds.range}}">{{localize label}}</label>
           {{/with}}
           <span class="flex05">
             <input

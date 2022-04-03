@@ -247,6 +247,10 @@
   "arm5e.sheet.improvement": "Amélioration",
   "arm5e.sheet.maintenance": "Maintenance",
   "arm5e.sheet.aesthetics": "Esthétique",
+  "arm5e.sheet.safety": "Sûreté",
+  "arm5e.sheet.health": "Santé",
+  "arm5e.sheet.refinement": "Raffinement",
+  "arm5e.sheet.upkeep": "Entretient",
   "arm5e.sheet.magicItems": "Objets Magiques",
   "arm5e.sheet.specialities": "Spécialitées",
   "arm5e.sheet.distinctive": "Distinctions",
@@ -650,5 +654,9 @@
   "arm5e.sheet.magic.voiceType.quiet": "Calme",
   "arm5e.sheet.magic.voiceType.none": "Aucune",
   "arm5e.sheet.magic.voice": "Voix",
-  "arm5e.sheet.magic.gestures": "Gestes"
+  "arm5e.sheet.magic.gestures": "Gestes",
+
+  "arm5e.sheet.freeVirtues": "Vertus gratuites",
+  "arm5e.sheet.occupiedSize": "Taille utilisée",
+  "arm5e.sheet.baseSafety": "Sûreté de base"
 }

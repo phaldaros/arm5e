@@ -1,9 +1,5 @@
 import { log } from "../tools.js";
-import {
-  onManageActiveEffect,
-  prepareActiveEffectCategories,
-  findAllActiveEffectsWithType
-} from "../helpers/active-effects.js";
+import ArM5eActiveEffect from "../helpers/active-effects.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -14,7 +10,7 @@ export class ArM5eItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
       width: 650,
-      height: 650,
+      height: 610,
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -53,7 +49,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.data = itemData.data;
     context.flags = itemData.flags;
 
-    context.metadata = CONFIG.ARM5E;
+    context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon") {
       let abilitiesSelect = {};
       const temp = {
@@ -84,14 +80,42 @@ export class ArM5eItemSheet extends ItemSheet {
       context.enforceMagicRules = game.settings.get("arm5e", "magicRulesEnforcement");
     } else if (itemData.type == "ability") {
       // TODO add other categories
-      context.abilityKeysList = {
-        ...CONFIG.ARM5E.character.abilities.general,
-        ...CONFIG.ARM5E.character.abilities.martial,
-        ...CONFIG.ARM5E.character.abilities.academic,
-        ...CONFIG.ARM5E.character.abilities.arcane,
-        ...CONFIG.ARM5E.character.abilities.supernatural,
-        ...CONFIG.ARM5E.character.abilities.mystery
-      };
+      context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
+    }
+
+    if (itemData.type == "virtue" || itemData.type == "flaw") {
+      if (this.item.isOwned) {
+        itemData.data.effectCreation = false;
+        switch (context.item.parent.data.type) {
+          case "laboratory":
+            context.config.virtueFlawTypes.available = {
+              ...context.config.virtueFlawTypes.laboratory,
+              ...context.config.virtueFlawTypes.all
+            };
+            break;
+          case "covenant":
+            context.config.virtueFlawTypes.available = {
+              ...context.config.virtueFlawTypes.covenant,
+              ...context.config.virtueFlawTypes.all
+            };
+            break;
+          case "player":
+          case "npc":
+            context.config.virtueFlawTypes.available = {
+              ...context.config.virtueFlawTypes.character,
+              ...context.config.virtueFlawTypes.all
+            };
+            break;
+        }
+      } else {
+        itemData.data.effectCreation = true;
+        context.config.virtueFlawTypes.available = {
+          ...context.config.virtueFlawTypes.character,
+          ...context.config.virtueFlawTypes.laboratory,
+          ...context.config.virtueFlawTypes.covenant,
+          ...context.config.virtueFlawTypes.all
+        };
+      }
     }
 
     context.metagame = game.settings.get("arm5e", "metagame");
@@ -99,7 +123,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.item.effects);
+    context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.item.effects);
 
     log(false, "item-sheet get data");
     log(false, context);
@@ -134,9 +158,10 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".decrease-ability").click((event) => this._deccreaseScore(this.item));
     html.find(".default-characteristic").change((event) => this._onSelectDefaultCharacteristic(this.item, event));
     html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
+    html.find(".ability-option").change((event) => this._cleanUpOption(this.item, event));
 
     // Active Effect management
-    html.find(".effect-control").click((ev) => onManageActiveEffect(ev, this.item));
+    html.find(".effect-control").click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
   }
 
   async _onSelectDefaultCharacteristic(item, event) {
@@ -154,35 +179,56 @@ export class ArM5eItemSheet extends ItemSheet {
 
   async _increaseScore(item) {
     let oldXp = item.data.data.xp;
+    let newXp = Math.round(
+      ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) / (2 * item.data.data.xpCoeff)
+    );
+
     await item.update(
       {
         data: {
-          xp: ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) / 2
+          xp: newXp
         }
       },
       {}
     );
-    let newXp = item.data.data.xp;
     let delta = newXp - oldXp;
     console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
   }
   async _deccreaseScore(item) {
-    let newScore = 0;
     if (item.data.data.derivedScore != 0) {
       let oldXp = item.data.data.xp;
-
+      let newXp = Math.round(
+        ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) / (2 * item.data.data.xpCoeff)
+      );
       await item.update(
         {
           data: {
-            xp: ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) / 2
+            xp: newXp
           }
         },
         {}
       );
-      let newXp = item.data.data.xp;
       let delta = newXp - oldXp;
       console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
     }
+  }
+
+  async _cleanUpOption(item, event) {
+    event.preventDefault();
+    if (event.currentTarget.value == "") {
+      event.currentTarget.value = "optionName";
+    } else {
+      // remove any non alphanumeric character
+      event.currentTarget.value = event.currentTarget.value.replace(/[^a-zA-Z0-9]/gi, "");
+    }
+    await item.update(
+      {
+        data: {
+          option: event.currentTarget.value
+        }
+      },
+      {}
+    );
   }
 
   async _enchantItemQuestion(item) {

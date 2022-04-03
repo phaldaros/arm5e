@@ -27,8 +27,8 @@
   >
     <div class="flexrow flex-center">
       <span class="flexrow spell-title design" data-name="{{effect.data.name}}">
-        {{effect.data.name}} ( {{#with (lookup @root.metadata.magic.arts effect.data.data.technique.value)~}}{{short~}}
-        {{/with}} {{#with (lookup @root.metadata.magic.arts effect.data.data.form.value)~}}{{short~}} {{/with}}
+        {{effect.data.name}} ( {{#with (lookup @root.config.magic.arts effect.data.data.technique.value)~}}{{short~}}
+        {{/with}} {{#with (lookup @root.config.magic.arts effect.data.data.form.value)~}}{{short~}} {{/with}}
         {{effect.data.data.baseLevel}} )
       </span>
     </div>

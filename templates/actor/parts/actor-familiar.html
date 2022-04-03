@@ -76,8 +76,8 @@
   <div class="characteristics grid grid-4col">
     <div class="flexrow flex-group-center" style="border: 0px">
       <ol style="width: 100%">
-        {{#each data.familiar.characteristicsFam as |data key|}} {{#with (lookup
-        @root.metadata.character.characteristics key)}}
+        {{#each data.familiar.characteristicsFam as |data key|}} {{#with (lookup @root.config.character.characteristics
+        key)}}
         <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
           <label
             for="data.familiar.characteristicsFam.{{key}}.value"
@@ -101,7 +101,7 @@
       <ol style="width: 100%">
         {{#each data.familiar.vitalsFam as |data key|}}
         <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
-          {{#with (lookup @root.metadata.familiar.labels key)}}
+          {{#with (lookup @root.config.familiar.labels key)}}
           <label
             for="data.familiar.vitalsFam.{{key}}.value"
             class="bold rollable"

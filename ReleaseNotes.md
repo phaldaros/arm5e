@@ -4,19 +4,37 @@
 
 Features
 
-- active effects integration in the system
+- active effects integration in the system (Ars Magica has its own class)
 - advanced virtues/flaws with (limited) active effects
-  - art bonuses
-  - art affinities
+  - arts bonuses
+  - arts affinities
+  - abilities bonuses
+  - abilities affinities
   - size
   - soak
   - characteristics
   - fatigue penalties
   - wound penalties
+  - virtues and flaws having effects are in italic
+  - readonly effects have a tooltip when hovering on their icon
+- Rework of all dialogs design with new assets from @Sylph
+- default config for active effect
 - additionnal spell attributes (by Lanneval)
 - updated French version (by Lanneval)
 - penetration total computed during combat
-- fun stress dice rolls option
+- fun stress dice rolls options
+- new abilities keys for the system to identify them.
+- abilities options have all invalid characters removed automatically
+- abilities modified by active effect have now a specific shadow
+- added sub-tabs to the character sheets
+- new sub-tabs for laboratory total (WIP)
+- Add virtue/flaw types for laboratory and covenant virtues/flaws
+  - Update item dropped filter to take the virtue/flaw type into account and only allow them to be dropped on the correct sheet type
+  - Rename laboratory statistics to match the official names (with migration)
+  - Split laboratory statistics into base value, bonus (calculated from active effects) and total
+  - Add active effect type for laboratory statistics bonuses
+  - Add calculation of laboratory derived statistics (occupied size, free virtues and base safety)
+  - Create an active effect dynamically for the laboratory base safety
 
 Bug fixes
 
@@ -24,6 +42,20 @@ Bug fixes
 - reduced font size of spells success/failure in chat
 - soak modifiers/bonuses are not displayed in chat if zero
 - disabled some input field to avoid artefacts on submit
+- Puissant art wasn't taken into account for spontaneous magic
+- Puissant art wasn't taken into account for magic resistance
+- Casting totals are computed using the correct field for stamina
+- Fixed undefined variable in case of dice rolls with callback
+- Voice and gestures effects are no longer not found when an effect has no change at all.
+- Fatigue levels again display the time to recover
+- reduce english version of spell attributes so it doesn't bork the spell design sheet
+- fixed a bug in migration where the lab owner value would be reset and break the link
+- Fix a bug when computing magic resistance to spells with requisites
+- remove the effect creation button for owned items (Foundry limitation, it gives an error anyway)
+- prevent the edition of internal effects
+- fixed a bug where it was impossible to edit an effect with voice or gestures as they were targetting the same key
+- fixed very old display bug where the image footer was not exactly at the bottom of the dialog
+- decrepitude and warping are no longer only computed by magi
 
 ### 1.3.1
 

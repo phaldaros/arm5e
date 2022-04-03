@@ -37,8 +37,8 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     const context = super.getData();
 
     // no need to import everything
-    context.metadata = {};
-    context.metadata.magic = CONFIG.ARM5E.magic;
+    context.config = {};
+    context.config.magic = CONFIG.ARM5E.magic;
     log(false, "Codex-sheet getData");
     log(false, context);
     this._prepareCodexItems(context);

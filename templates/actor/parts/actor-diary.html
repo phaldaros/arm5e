@@ -28,7 +28,7 @@
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
     <div class="flexrow flex-center">
       <span class="flexrow item-title"
-        >{{item.data.year}} ( {{#with (lookup @root.metadata.seasons item.data.season)~}}{{localize label~}} ) {{/with}}
+        >{{item.data.year}} ( {{#with (lookup @root.config.seasons item.data.season)~}}{{localize label~}} ) {{/with}}
         {{item.data.date}}</span
       >
       <span></span>

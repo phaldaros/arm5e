@@ -6,7 +6,7 @@ import {
   VOICE_AND_GESTURES_ICONS,
   VOICE_AND_GESTURES_VALUES
 } from "../constants/voiceAndGestures.js";
-import { findFirstActiveEffectBySubtype } from "./active-effects.js";
+import ArM5eActiveEffect from "./active-effects.js";
 
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 
@@ -34,9 +34,11 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
     },
     flags: {
       arm5e: {
+        noEdit: true,
         type: ["spellcasting"],
-        subType: [type],
-        value: [value.toUpperCase()]
+        subtype: [type],
+        value: [value.toUpperCase()],
+        option: [null]
       }
     },
     changes: changeData,
@@ -44,7 +46,12 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
   };
   console.log("activeEffectData:");
   console.log(activeEffectData);
-  const ae = actor.data.effects.find((m) => m?.data.flags?.arm5e?.subType[0] === type);
+  const ae = actor.data.effects.find(
+    (m) =>
+      m.getFlag("arm5e", "subtype") != null &&
+      m.data.flags.arm5e.subtype.length != 0 &&
+      m?.data.flags?.arm5e?.subtype[0] === type
+  );
   if (ae) {
     activeEffectData._id = ae.data._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
@@ -54,13 +61,25 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
 }
 
 function findVoiceAndGesturesActiveEffects(effects) {
-  const actualVoiceEffect = findFirstActiveEffectBySubtype(effects, VOICE);
-  const actualGesturesEffect = findFirstActiveEffectBySubtype(effects, GESTURES);
-  return {
-    // only one change for voice and gestures => index 0 hardcoded
-    voice: actualVoiceEffect?.getFlag("arm5e", "value")[0] || DEFAULT_VOICE,
-    gestures: actualGesturesEffect?.getFlag("arm5e", "value")[0] || DEFAULT_GESTURES
-  };
+  const actualVoiceEffect = ArM5eActiveEffect.findFirstActiveEffectBySubtype(effects, VOICE);
+  const actualGesturesEffect = ArM5eActiveEffect.findFirstActiveEffectBySubtype(effects, GESTURES);
+  try {
+    return {
+      // // only one change for voice and gestures => index 0 hardcoded
+      voice: actualVoiceEffect?.getFlag("arm5e", "value")[0] || DEFAULT_VOICE,
+      gestures: actualGesturesEffect?.getFlag("arm5e", "value")[0] || DEFAULT_GESTURES
+      // voice: DEFAULT_VOICE,
+      // gestures: DEFAULT_GESTURES
+    };
+  } catch (error) {
+    console.error(error);
+    console.log(`ActualVoiceEffects: ${JSON.stringify(actualVoiceEffect)}`);
+    console.log(`ActualGesturesEffects: ${JSON.stringify(actualGesturesEffect)}`);
+    return {
+      voice: DEFAULT_VOICE,
+      gestures: DEFAULT_GESTURES
+    };
+  }
 }
 
 export { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent };

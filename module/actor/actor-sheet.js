@@ -5,13 +5,9 @@
 
 import { simpleDie, stressDie } from "../dice.js";
 import { resetOwnerFields } from "../item/item-converter.js";
-import { ARM5E } from "../metadata.js";
+import { ARM5E } from "../config.js";
 import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
-import {
-  onManageActiveEffect,
-  prepareActiveEffectCategories,
-  findAllActiveEffectsWithType
-} from "../helpers/active-effects.js";
+import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
 import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";
 
@@ -33,21 +29,23 @@ export class ArM5eActorSheet extends ActorSheet {
          template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
          width: 1100,
          height: 900,
-         tabs: [{
-             navSelector: ".sheet-tabs",
-             contentSelector: ".sheet-body",
-             initial: "description"
-         }]*/
+      tabs: [
+        {
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
+          initial: "description"
+        }
+      ]*/
     });
   }
 
   /* -------------------------------------------- */
 
-  isItemDropAllowed(type) {
+  isItemDropAllowed(itemData) {
     return false;
 
     // template for future sheet:
-    // switch (type) {
+    // switch (itemData.type) {
     //     case "weapon":
     //     case "armor":
     //     case "spell":
@@ -123,8 +121,8 @@ export class ArM5eActorSheet extends ActorSheet {
     context.data = actorData.data;
     context.flags = actorData.flags;
 
-    context.metadata = CONFIG.ARM5E;
-    context.metadata.constants = { VOICE_AND_GESTURES_VALUES: VOICE_AND_GESTURES_VALUES };
+    context.config = CONFIG.ARM5E;
+    context.config.constants = { VOICE_AND_GESTURES_VALUES: VOICE_AND_GESTURES_VALUES };
 
     context.data.dtypes = ["String", "Number", "Boolean"];
 
@@ -133,50 +131,13 @@ export class ArM5eActorSheet extends ActorSheet {
     //   attr.isCheckbox = attr.dtype === "Boolean";
     // }
 
+    // Allow effect creation
+    actorData.data.effectCreation = true;
+
     if (actorData.type == "player" || actorData.type == "npc") {
       context.data.world = {};
-      if (context.data.charType.value == "magusNPC" || context.data.charType.value == "magus") {
-        // Arts icons style
-        context.artsIcons = game.settings.get("arm5e", "artsIcons");
-        context.data.world.labs = game.actors
-          .filter((a) => a.type == "laboratory")
-          .map(({ name, id }) => ({
-            name,
-            id
-          }));
-        if (context.data.sanctum) {
-          let lab = context.data.world.labs.filter((c) => c.name == context.data.sanctum.value);
-          if (lab.length > 0) {
-            context.data.sanctum.linked = true;
-            context.data.sanctum.actorId = lab[0].id;
-          } else {
-            context.data.sanctum.linked = false;
-          }
-        }
-        for (let [key, technique] of Object.entries(context.data.arts.techniques)) {
-          if (!technique.bonus && technique.xpCoeff == 1.0) {
-            technique.ui = { shadow: "" };
-          } else if (!technique.bonus && technique.xpCoeff != 1.0) {
-            technique.ui = { shadow: "maroon", title: "Affinity, " };
-          } else if (technique.bonus && technique.xpCoeff == 1.0) {
-            technique.ui = { shadow: "blue", title: "" };
-          } else {
-            technique.ui = { shadow: "purple", title: "Affinity, " };
-          }
-        }
-        for (let [key, form] of Object.entries(context.data.arts.forms)) {
-          if (!form.bonus && form.xpCoeff == 1.0) {
-            form.ui = { shadow: "" };
-          } else if (!form.bonus && form.xpCoeff != 1.0) {
-            form.ui = { shadow: "maroon", title: "Affinity, " };
-          } else if (form.bonus && form.xpCoeff == 1.0) {
-            form.ui = { shadow: "blue", title: "" };
-          } else {
-            form.ui = { shadow: "purple", title: "Affinity, " };
-          }
-        }
-      }
 
+      // check whether the character is linked to an existing covenant
       context.data.world.covenants = game.actors
         .filter((a) => a.type == "covenant")
         .map(({ name, id }) => ({
@@ -192,6 +153,129 @@ export class ArM5eActorSheet extends ActorSheet {
           context.data.covenant.linked = false;
         }
       }
+
+      if (context.data.charType.value == "magusNPC" || context.data.charType.value == "magus") {
+        // Arts icons style
+        context.artsIcons = game.settings.get("arm5e", "artsIcons");
+        context.data.world.labs = game.actors
+          .filter((a) => a.type == "laboratory")
+          .map(({ name, id }) => ({
+            name,
+            id
+          }));
+
+        // check whether the character is linked to an existing lab
+        if (context.data.sanctum) {
+          let lab = context.data.world.labs.filter((c) => c.name == context.data.sanctum.value);
+          if (lab.length > 0) {
+            context.data.sanctum.linked = true;
+            context.data.sanctum.actorId = lab[0].id;
+          } else {
+            context.data.sanctum.linked = false;
+          }
+        }
+
+        // lab total modifiers
+        if (context.data.labtotal === undefined) {
+          context.data.labtotal = {};
+        }
+        if (context.data.labtotal.modifier === undefined) {
+          context.data.labtotal.modifier = 0;
+        }
+        if (context.data.sanctum.linked) {
+          let lab = game.actors.get(context.data.sanctum.actorId);
+          if (lab) {
+            context.data.labtotal.quality = lab.data.data.generalQuality.value;
+          }
+        } else {
+          if (context.data.labtotal.quality === undefined) {
+            context.data.labtotal.quality = 0;
+          }
+        }
+
+        if (context.data.covenant.linked) {
+          let cov = game.actors.get(context.data.covenant.actorId);
+          if (cov) {
+            if (cov.data.data.levelAura == "") {
+              context.data.labtotal.aura = 0;
+            } else {
+              context.data.labtotal.aura = cov.data.data.levelAura;
+            }
+          }
+        } else {
+          if (context.data.labtotal.aura === undefined) {
+            context.data.labtotal.aura = 0;
+          }
+        }
+
+        if (context.data.labtotal.applyFocus == undefined) {
+          context.data.labtotal.applyFocus = false;
+        }
+
+        // magic arts
+        for (let [key, technique] of Object.entries(context.data.arts.techniques)) {
+          if (!technique.bonus && technique.xpCoeff == 1.0) {
+            technique.ui = { style: 'style="border: 0px; height: 40px;"' };
+          } else if (!technique.bonus && technique.xpCoeff != 1.0) {
+            technique.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"',
+              title: "Affinity, "
+            };
+          } else if (technique.bonus && technique.xpCoeff == 1.0) {
+            technique.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"', title: "" };
+          } else {
+            technique.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
+              title: "Affinity, "
+            };
+          }
+        }
+        context.data.labTotals = {};
+        for (let [key, form] of Object.entries(context.data.arts.forms)) {
+          if (!form.bonus && form.xpCoeff == 1.0) {
+            form.ui = { style: 'style="border: 0px; height: 40px;"' };
+          } else if (!form.bonus && form.xpCoeff != 1.0) {
+            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"', title: "Affinity, " };
+          } else if (form.bonus && form.xpCoeff == 1.0) {
+            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"', title: "" };
+          } else {
+            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"', title: "Affinity, " };
+          }
+          // compute lab totals:
+          context.data.labTotals[key] = {};
+          for (let [k2, technique] of Object.entries(context.data.arts.techniques)) {
+            let techScore = technique.finalScore;
+            let formScore = form.finalScore;
+            if (context.data.labtotal.applyFocus) {
+              if (techScore > formScore) {
+                formScore *= 2;
+              } else {
+                techScore *= 2;
+              }
+            }
+            context.data.labTotals[key][k2] =
+              formScore +
+              techScore +
+              context.data.laboratory.basicLabTotal.value +
+              parseInt(context.data.labtotal.quality) +
+              parseInt(context.data.labtotal.aura) +
+              parseInt(context.data.labtotal.modifier) +
+              context.data.bonuses.arts.laboratory;
+          }
+        }
+      }
+
+      for (let [key, ab] of Object.entries(context.data.abilities)) {
+        if (ab.data.derivedScore == ab.data.finalScore && ab.data.xpCoeff == 1.0) {
+          ab.ui = { style: "" };
+        } else if (ab.data.derivedScore == ab.data.finalScore && ab.data.xpCoeff != 1.0) {
+          ab.ui = { style: 'style="box-shadow: 0 0 10px maroon"', title: "Affinity, " };
+        } else if (ab.data.derivedScore != ab.data.finalScore && ab.data.xpCoeff == 1.0) {
+          ab.ui = { style: 'style="box-shadow: 0 0 10px blue"', title: "" };
+        } else {
+          ab.ui = { style: 'style="box-shadow: 0 0 10px purple"', title: "Affinity, " };
+        }
+      }
     }
     context.isGM = game.user.isGM;
 
@@ -200,7 +284,7 @@ export class ArM5eActorSheet extends ActorSheet {
     context.rollData = context.actor.getRollData();
 
     // Prepare active effects
-    context.effects = prepareActiveEffectCategories(this.actor.effects);
+    context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.actor.effects);
     if (context.data?.arts?.voiceAndGestures) {
       context.data.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
     }
@@ -216,7 +300,25 @@ export class ArM5eActorSheet extends ActorSheet {
    *
    * @return {undefined}
    */
-  _prepareCharacterItems(sheetData) {
+  _prepareCharacterItems(actorData) {
+    if (
+      actorData.actor.type == "player" ||
+      actorData.actor.type == "npc" ||
+      actorData.actor.type == "laboratory" ||
+      actorData.actor.type == "covenant"
+    ) {
+      for (let virtue of actorData.data.virtues) {
+        if (virtue.effects.size > 0) {
+          virtue.data.ui = { style: 'style="font-style:italic"' };
+        }
+      }
+
+      for (let flaw of actorData.data.flaws) {
+        if (flaw.effects.size > 0) {
+          flaw.data.ui = { style: 'style="font-style:italic"' };
+        }
+      }
+    }
     //let actorData = sheetData.actor.data;
   }
 
@@ -335,7 +437,7 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     // Active Effect management
-    html.find(".effect-control").click((ev) => onManageActiveEffect(ev, this.actor));
+    html.find(".effect-control").click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
   }
 
   async _increaseArt(type, art) {
@@ -482,6 +584,7 @@ export class ArM5eActorSheet extends ActorSheet {
         {
           jQuery: true,
           height: "140px",
+          width: "400px",
           classes: ["arm5e-dialog", "dialog"]
         }
       ).render(true);
@@ -537,6 +640,7 @@ export class ArM5eActorSheet extends ActorSheet {
         {
           jQuery: true,
           height: "140px",
+          width: "400px",
           classes: ["arm5e-dialog", "dialog"]
         }
       ).render(true);
@@ -635,7 +739,7 @@ export class ArM5eActorSheet extends ActorSheet {
    */
   async _onDropItemCreate(itemData) {
     itemData = itemData instanceof Array ? itemData : [itemData];
-    let filtered = itemData.filter((e) => this.isItemDropAllowed(e.type));
+    let filtered = itemData.filter((e) => this.isItemDropAllowed(e));
     for (let item of filtered) {
       // log(false, "Before reset " + JSON.stringify(item.data));
       item = resetOwnerFields(item);

@@ -20,6 +20,21 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
           navSelector: ".sheet-tabs",
           contentSelector: ".sheet-body",
           initial: "description"
+        },
+        {
+          navSelector: ".abilities-tabs",
+          contentSelector: ".abilities-body",
+          initial: "abilities"
+        },
+        {
+          navSelector: ".desc-tabs",
+          contentSelector: ".desc-body",
+          initial: "desc"
+        },
+        {
+          navSelector: ".lab-tabs",
+          contentSelector: ".lab-body",
+          initial: "lab"
         }
       ]
     });
@@ -28,7 +43,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
   getData() {
     const context = super.getData();
 
-    context.metadata = CONFIG.ARM5E;
+    context.config = CONFIG.ARM5E;
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
@@ -41,28 +56,36 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
   }
 
   _prepareCharacterItems(actorData) {
-    // for (const item of actorData.data.spells) {
-    //     item.data.localizedDesc = item._getEffectAttributesLabel();
-    // }
-    // for (const item of actorData.data.magicEffects) {
-    //     item.data.localizedDesc = item._getEffectAttributesLabel();
-    // }
+    super._prepareCharacterItems(actorData);
   }
 
   _onRoll(evt) {
     super._onRoll(evt);
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(itemData) {
+    switch (itemData.type) {
+      case "virtue":
+      case "flaw":
+        switch (itemData.data.type.value) {
+          case "laboratoryOutfitting":
+          case "laboratoryStructure":
+          case "laboratorySupernatural":
+          case "covenantSite":
+          case "covenantResources":
+          case "covenantResidents":
+          case "covenantExternalRelations":
+          case "covenantSurroundings":
+            return false;
+          default:
+            return true;
+        }
       case "weapon":
       case "armor":
       case "spell":
       case "vis":
       case "item":
       case "book":
-      case "virtue":
-      case "flaw":
       case "ability":
       case "abilityFamiliar":
       case "diaryEntry":
