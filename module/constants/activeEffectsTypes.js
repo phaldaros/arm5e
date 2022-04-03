@@ -25,7 +25,13 @@ export default {
       },
       gestures: {
         label: "arm5e.sheet.magic.gestures",
-        key: "data.bonuses.arts.gestures",
+        key: "data.bonuses.arts.spellcasting",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      aura: {
+        label: "arm5e.sheet.magic.aura",
+        key: "data.bonuses.arts.spellcasting",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }

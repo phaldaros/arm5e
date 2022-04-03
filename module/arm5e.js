@@ -19,8 +19,10 @@ import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./features/chat-message-hook.js";
 
+import { addActiveEffectAuraToActor, modifyAuraActiveEffectForAllTokensInScene } from "./helpers/aura.js";
+
 // experiment
-//import * as Arm5eUI from "./features/ui-integration.js";
+import * as Arm5eUI from "./features/ui-integration.js";
 
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
@@ -29,7 +31,10 @@ Hooks.once("init", async function () {
   game.arm5e = {
     ArM5ePCActor,
     ArM5eItem,
-    rollItemMacro
+    rollItemMacro,
+    setAuraValueForAllTokensInScene,
+    setAuraValueForToken,
+    resetTokenAuraToSceneAura
   };
 
   /**
@@ -134,7 +139,7 @@ Hooks.once("init", async function () {
       PLAYERS_ONLY: "Players only",
       EVERYONE: "Everyone"
     },
-    default: "PLAYER_ONLY"
+    default: "PLAYERS_ONLY"
   });
 
   /**
@@ -276,9 +281,9 @@ Hooks.once("ready", async function () {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
 
-  Hooks.on("dropActorSheetData", async function (actor, sheet, data) {
-    await onDropActorSheetData(actor, sheet, data);
-  });
+  Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
+  Hooks.on("dropCanvasData", (canvas, data) => onDropOnCanvas(canvas, data));
+
 
   if (game.user.isGM) {
     // Determine whether a system migration is required and feasible
@@ -415,6 +420,31 @@ function rollItemMacro(itemId, actorId) {
   if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
   const dataset = prepareDatasetByTypeOfItem(item);
   actor.sheet._onRoll(dataset);
+}
+
+function setAuraValueForAllTokensInScene(value) {
+  // Store a flag with the current aura
+  game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed.data._id, Number(value));
+  modifyAuraActiveEffectForAllTokensInScene(value);
+}
+
+function setAuraValueForToken(value) {
+  addActiveEffectAuraToActor(this, Number(value));
+}
+
+function resetTokenAuraToSceneAura() {
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
+  if (aura !== undefined && !isNaN(aura)) {
+    addActiveEffectAuraToActor(this, Number(aura));
+  }
+}
+
+function onDropOnCanvas(canvas, data) {
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
+  if (aura !== undefined && !isNaN(aura)) {
+    const actor = game.actors.get(data.id);
+    if (actor) addActiveEffectAuraToActor(actor, Number(aura));
+  }
 }
 
 Hooks.on("renderChatMessage", (message, html, data) => Arm5eChatMessage.addChatListeners(message, html, data));
