@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["player", "npc", "laboratory", "covenant", "magicCodex"],
+    "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast"],
     "templates": {
       "base": {
         "version": "0.3",
@@ -256,42 +256,54 @@
         "fatigueTotal": 0,
         "fatigue": {
           "fresh": {
+            "amount": 0,
             "number": 0,
+            "levels": [],
             "level": {
               "dtype": "Boolean",
               "value": false
             }
           },
           "winded": {
+            "amount": 1,
             "number": 0,
+            "levels": [false],
             "level": {
               "dtype": "Boolean",
               "value": false
             }
           },
           "weary": {
+            "amount": 1,
             "number": -1,
+            "levels": [false],
             "level": {
               "dtype": "Boolean",
               "value": false
             }
           },
           "tired": {
+            "amount": 1,
             "number": -3,
+            "levels": [false],
             "level": {
               "dtype": "Boolean",
               "value": false
             }
           },
           "dazed": {
+            "amount": 1,
             "number": -5,
+            "levels": [false],
             "level": {
               "dtype": "Boolean",
               "value": false
             }
           },
           "unconscious": {
+            "amount": 1,
             "number": 0,
+            "levels": [false],
             "level": {
               "dtype": "Boolean",
               "value": false
@@ -964,6 +976,55 @@
       "magicEffects": [],
       "spells": [],
       "enchantments": []
+    },
+    "beast": {
+      "templates": ["base", "characteristics"],
+      "vitals": {
+        "siz": {
+          "value": 0
+        },
+        "soa": {
+          "value": 0
+        },
+        "enc": {
+          "value": 0
+        }
+      },
+      "con": {
+        "label": "Confidence ",
+        "score": 0,
+        "points": 0
+      },
+      "reputation": {
+        "rep1": {
+          "label": "Reputation 1",
+          "type": "Type",
+          "score": "0"
+        },
+        "rep2": {
+          "label": "Reputation 2",
+          "type": "Type",
+          "score": "0"
+        },
+        "rep3": {
+          "label": "Reputation 3",
+          "type": "Type",
+          "score": "0"
+        },
+        "rep4": {
+          "label": "Reputation 4",
+          "type": "Type",
+          "score": "0"
+        },
+        "rep5": {
+          "label": "Reputation 5",
+          "type": "Type",
+          "score": "0"
+        }
+      },
+      "abilities": [],
+      "weapons": [],
+      "powers": []
     }
   },
 
