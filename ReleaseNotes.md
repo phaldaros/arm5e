@@ -1,10 +1,10 @@
 ## Release Notes
 
-### 1.3.3
+### 1.4.
 
-## Features
+### The Diedne war
 
-## Bug fixes
+A lot of knowledge was lost or hidden and forgotten, let's hope we can recover most of it....
 
 ### 1.3.2
 

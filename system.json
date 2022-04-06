@@ -2,7 +2,7 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition, Development version",
   "description": "Ars Magica 5e for Foundry VTT, BETA",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "templateVersion": 3,
@@ -12,7 +12,8 @@
     { "name": "sylph", "contribution": "design" },
     { "name": "xzotl", "contribution": "dev and unofficial maintainer" },
     { "name": "Ludo.Bermejo", "contribution": "dev" },
-    { "name": "jupotter", "contribution": "French version" },
+    { "name": "jupotter", "contribution": "dev, French version" },
+    { "name": "Lanneval", "contribution": "French version" },
     { "name": "N0Br41nZ", "contribution": "Italian version" },
     { "name": "Ramon Alves", "contribution": "Portuguese version" },
     { "name": "jaircunhavianna", "contribution": "compendium content" }
