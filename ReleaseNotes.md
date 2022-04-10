@@ -1,6 +1,19 @@
-## Release Notes
+# Release Notes
 
-### 1.4.
+## 1.4.1
+
+### Features
+
+- new beast actor with custom sheet
+- aura management
+- first ui integration
+
+### Bug fixes
+
+- Abilities compendium didn't have keys set properly.
+- fixed a bug where effects with generic abilities were impossible to delete.
+
+## 1.4.0
 
 ### The Diedne war
 

@@ -111,6 +111,10 @@ ARM5E.character.charTypes = {
 };
 
 ARM5E.character.characteristics = {
+  cun: {
+    label: "arm5e.sheet.cunning",
+    short: "arm5e.sheet.cun"
+  },
   int: {
     label: "arm5e.sheet.intelligence",
     short: "arm5e.sheet.int"
@@ -291,7 +295,7 @@ ARM5E.virtueFlawTypes.laboratory = {
   },
   laboratorySupernatural: {
     label: "arm5e.sheet.laboratorySupernatural"
-  },
+  }
 };
 
 ARM5E.virtueFlawTypes.covenant = {
@@ -312,7 +316,7 @@ ARM5E.virtueFlawTypes.covenant = {
   },
   covenantSurroundings: {
     label: "arm5e.sheet.covenantSurroundings"
-  },
+  }
 };
 
 ARM5E.character.fatigueLevels = {

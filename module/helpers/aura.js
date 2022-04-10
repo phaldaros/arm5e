@@ -22,7 +22,7 @@ function getAuraActiveEffect(numericValue) {
     flags: {
       arm5e: {
         type: ["spellcasting"],
-        subType: ["aura"],
+        subtype: ["aura"],
         option: [null],
         value: ["AURA"]
       }

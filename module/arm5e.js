@@ -2,7 +2,7 @@
 import { ARM5E, ARM5E_DEFAULT_ICONS } from "./config.js";
 import { ArM5ePCActor } from "./actor/actor-pc.js";
 import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
-
+import { ArM5eBeastActorSheet } from "./actor/actor-beast-sheet.js";
 import { ArM5eNPCActorSheet } from "./actor/actor-npc-sheet.js";
 import { ArM5eLaboratoryActorSheet } from "./actor/actor-laboratory-sheet.js";
 import { ArM5eCovenantActorSheet } from "./actor/actor-covenant-sheet.js";
@@ -22,7 +22,7 @@ import * as Arm5eChatMessage from "./features/chat-message-hook.js";
 import { addActiveEffectAuraToActor, modifyAuraActiveEffectForAllTokensInScene } from "./helpers/aura.js";
 
 // experiment
-import * as Arm5eUI from "./features/ui-integration.js";
+import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
@@ -142,6 +142,11 @@ Hooks.once("init", async function () {
     default: "PLAYERS_ONLY"
   });
 
+  CONFIG.Canvas.layers["arsmagica"] = {
+    layerClass: ArsLayer,
+    group: "primary"
+  };
+
   /**
    * Whether to sort lists of stuff
    */
@@ -177,6 +182,12 @@ Hooks.once("init", async function () {
     makeDefault: true,
     label: "arm5e.sheet.npc"
   });
+  Actors.registerSheet("arm5eBeast", ArM5eBeastActorSheet, {
+    types: ["beast"],
+    makeDefault: true,
+    label: "arm5e.sheet.beast"
+  });
+
   Actors.registerSheet("arm5eLaboratory", ArM5eLaboratoryActorSheet, {
     types: ["laboratory"],
     makeDefault: true,
@@ -283,7 +294,6 @@ Hooks.once("ready", async function () {
 
   Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
   Hooks.on("dropCanvasData", (canvas, data) => onDropOnCanvas(canvas, data));
-
 
   if (game.user.isGM) {
     // Determine whether a system migration is required and feasible
@@ -449,4 +459,4 @@ function onDropOnCanvas(canvas, data) {
 
 Hooks.on("renderChatMessage", (message, html, data) => Arm5eChatMessage.addChatListeners(message, html, data));
 
-//Hooks.on("getSceneControlButtons", (buttons) => Arm5eUI.dummyButton(buttons));
+Hooks.on("getSceneControlButtons", (buttons) => addArsButtons(buttons));
