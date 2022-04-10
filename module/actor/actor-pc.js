@@ -41,7 +41,7 @@ export class ArM5ePCActor extends Actor {
       return;
     }
 
-    if (this.data.type != "player" && this.data.type != "npc") {
+    if (this.data.type != "player" && this.data.type != "npc" && this.data.type != "beast") {
       return;
     }
 

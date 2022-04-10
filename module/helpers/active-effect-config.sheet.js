@@ -208,8 +208,10 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
               callback: async (html) => {
-                let find = html.find(".textInput");
-                chosenOption = find[0].value;
+                let result = html.find('input[name="inputField"]');
+                if (result.val() !== "") {
+                  chosenOption = result.val();
+                }
                 resolve();
               }
             },
@@ -236,7 +238,9 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     }
     let computedKey = ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key;
     let updateData = {};
-    updateData[`flags.arm5e.option.${index}`] = chosenOption;
+    let arrayOptions = this.object.getFlag("arm5e", "option");
+    arrayOptions[index] = chosenOption;
+    updateData[`flags.arm5e.option`] = arrayOptions;
     updateData[`changes.${index}.key`] = computedKey.replace("#OPTION#", chosenOption);
     return this.submit({ preventClose: true, updateData: updateData });
   }

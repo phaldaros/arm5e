@@ -978,7 +978,33 @@
       "enchantments": []
     },
     "beast": {
-      "templates": ["base", "characteristics"],
+      "templates": ["base", "wounds", "fatigue", "personality"],
+      "characteristics": {
+        "cun": {
+          "value": 0
+        },
+        "per": {
+          "value": 0
+        },
+        "str": {
+          "value": 0
+        },
+        "sta": {
+          "value": 0
+        },
+        "pre": {
+          "value": 0
+        },
+        "com": {
+          "value": 0
+        },
+        "dex": {
+          "value": 0
+        },
+        "qik": {
+          "value": 0
+        }
+      },
       "vitals": {
         "siz": {
           "value": 0
@@ -997,28 +1023,28 @@
       },
       "reputation": {
         "rep1": {
-          "label": "Reputation 1",
-          "type": "Type",
+          "label": "",
+          "type": "",
           "score": "0"
         },
         "rep2": {
-          "label": "Reputation 2",
-          "type": "Type",
+          "label": "",
+          "type": "",
           "score": "0"
         },
         "rep3": {
-          "label": "Reputation 3",
-          "type": "Type",
+          "label": "",
+          "type": "",
           "score": "0"
         },
         "rep4": {
-          "label": "Reputation 4",
-          "type": "Type",
+          "label": "",
+          "type": "",
           "score": "0"
         },
         "rep5": {
-          "label": "Reputation 5",
-          "type": "Type",
+          "label": "",
+          "type": "",
           "score": "0"
         }
       },

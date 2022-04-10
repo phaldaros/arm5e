@@ -17,6 +17,7 @@
   "arm5e.sheet.art": "Art",
   "arm5e.sheet.inventory": "Inventory",
   "arm5e.sheet.diary": "Diary",
+  "arm5e.sheet.whereabouts": "Whereabouts",
   "arm5e.sheet.effectsCreate": "Create",
   "arm5e.sheet.effectsEdit": "Edit",
   "arm5e.sheet.effectsDelete": "Delete",
@@ -148,6 +149,8 @@
   "arm5e.sheet.dexterity": "Dexterity",
   "arm5e.sheet.qik": "Qik",
   "arm5e.sheet.quickness": "Quickness",
+  "arm5e.sheet.cun": "Cun",
+  "arm5e.sheet.cunning": "cunning",
 
   "arm5e.sheet.fresh": "Fresh",
   "arm5e.sheet.winded": "Winded",
