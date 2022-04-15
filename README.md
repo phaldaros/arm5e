@@ -15,6 +15,7 @@ Official Foundry VTT System Listing: https://foundryvtt.com/packages/arm5e/
 Thanks to various contributors at https://game-icons.net for some default icons
 
 ![Latest Release Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/latest/arm5e.zip)
+![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FXzotl42%2Farm5e%2Fmaster%2Fsystem.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange)
 
 ## Versión Española
 
