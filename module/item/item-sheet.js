@@ -10,7 +10,7 @@ export class ArM5eItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
       width: 650,
-      height: 610,
+      height: 650,
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -81,6 +81,30 @@ export class ArM5eItemSheet extends ItemSheet {
     } else if (itemData.type == "ability") {
       // TODO add other categories
       context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
+    }
+
+    context.ui = { flavor: "PC" };
+    if (this.item.isOwned) {
+      switch (this.actor.type) {
+        case "player":
+          context.ui.flavor = "PC";
+          break;
+        case "npc":
+        case "beast":
+          context.ui.flavor = "NPC";
+          break;
+        case "covenant":
+          context.ui.flavor = "Covenant";
+          break;
+        case "magicCodex":
+          context.ui.flavor = "Codex";
+          break;
+        case "laboratory":
+          context.ui.flavor = "Lab";
+          break;
+        default:
+          break;
+      }
     }
 
     if (itemData.type == "virtue" || itemData.type == "flaw") {

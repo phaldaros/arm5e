@@ -33,39 +33,42 @@ async function simpleDie(html, actorData, callBack) {
   }
 }
 
+// modes:
+// 0 => standard
+// 1 => force a one
+// 2 => force a zero
+// 4 => Aging roll
 async function stressDie(html, actor, modes = 0, callBack) {
   mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
+  let formula = actor.data.data.roll.rollFormula;
+  let rollLabel = actor.data.data.roll.rollLabel;
 
   let name = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
   let dieRoll = await explodingRoll(actor, modes);
   let flavorTxt = name + game.i18n.localize("arm5e.dialog.button.stressdie") + ": <br />";
   let lastRoll;
-  let confAllowed = actor.data.data.con.score;
+  let confAllowed = actor.data.data.con.score && modes != 4;
   let botchCheck = 0;
-  if (isNaN(dieRoll)) {
-    if (mult > 1) {
-      flavorTxt = name + "<h3>" + game.i18n.localize("arm5e.messages.die.exploding") + "</h3><br/>";
-    }
-    lastRoll = multiplyRoll(mult, dieRoll, actor.data.data.roll.rollFormula, actor.data.data.roll.divide);
-  } else {
-    if (dieRoll == 1) {
+  if (mult > 1) {
+    flavorTxt = name + "<h3>" + game.i18n.localize("arm5e.messages.die.exploding") + "</h3><br/>";
+  } else if (mult === 0) {
+    if (dieRoll._total == 1) {
+      confAllowed = false;
       flavorTxt = name + "<h2>" + game.i18n.localize("arm5e.messages.die.botch") + "</h2><br/>";
-    } else {
-      flavorTxt = name + "<h2>" + game.i18n.format("arm5e.messages.die.botches", { num: dieRoll }) + "</h2><br/>";
+    } else if (dieRoll._total > 1) {
+      confAllowed = false;
+      flavorTxt =
+        name + "<h2>" + game.i18n.format("arm5e.messages.die.botches", { num: dieRoll._total }) + "</h2><br/>";
     }
-
     botchCheck = 1;
-    if (dieRoll > 0) {
-      confAllowed = 0;
-    }
-    lastRoll = new Roll("0");
-    await lastRoll.evaluate({ async: true });
   }
+  lastRoll = multiplyRoll(mult, dieRoll, formula, actor.data.data.roll.divide);
 
+  // if (modes != 4) {
   const message = await lastRoll.toMessage({
-    flavor: flavorTxt + actor.data.data.roll.rollLabel,
+    flavor: flavorTxt + rollLabel,
     speaker: ChatMessage.getSpeaker({
       actor: actor
     }),
@@ -77,10 +80,10 @@ async function stressDie(html, actor, modes = 0, callBack) {
       }
     }
   });
-
   if (callBack) {
     callBack(html, actor, lastRoll, message);
   }
+  // }
 }
 
 function getFormData(html, actorData) {
@@ -281,82 +284,111 @@ function getRollFormula(actor) {
       actorData.config.magic.arts[actorData.roll.form].short +
       ")";
   }
-
-  if (actorData.roll.txtOption1 != "") {
-    total = total + parseInt(actorData.roll.option1);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
-  }
-  if (actorData.roll.txtOption2 != "") {
-    total = total + parseInt(actorData.roll.option2);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
-  }
-  if (actorData.roll.txtOption3 != "") {
-    total = total + parseInt(actorData.roll.option3);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
-  }
-  if (actorData.roll.txtOption4 != "") {
-    total = total + parseInt(actorData.roll.option4);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + actorData.roll.txtOption4 + " (" + actorData.roll.option4 + ")";
-  }
-  if (actorData.roll.txtOption5 != "") {
-    total = total + parseInt(actorData.roll.option5);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
-  }
-
-  if (actorData.roll.bonusActiveEffects) {
-    total = total + actorData.roll.bonusActiveEffects;
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + game.i18n.localize("arm5.sheet.bonus.activeEffects") + " (" + actorData.roll.bonusActiveEffects + ")";
-  }
-  if (actorData.roll.bonus > 0) {
-    total = total + actorData.roll.bonus;
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
-  }
-
-  if (actorData.roll.useFatigue == true) {
-    if (actorData.fatigueTotal != 0) {
-      total = total + actorData.fatigueTotal;
+  if (actorData.roll.type == "aging") {
+    actorData.roll.label =
+      game.i18n.localize("arm5e.aging.roll.label") +
+      " " +
+      game.i18n.localize(actorData.roll.season) +
+      " " +
+      actorData.roll.year;
+    if (actorData.roll.txtOption1 != "") {
+      total = total + parseInt(actorData.roll.option1);
       if (msg != "") {
         msg = msg + " + <br />";
       }
-      msg = msg + game.i18n.localize("arm5e.sheet.fatigue");
-      msg = msg + " (" + actorData.fatigueTotal + ")";
+      msg = msg + actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
     }
-    if (actorData.woundsTotal != 0) {
-      total = total + actorData.woundsTotal;
+    if (actorData.roll.txtOption2 != "") {
+      total = total - parseInt(actorData.roll.option2);
+      if (msg != "") {
+        msg = msg + " - <br />";
+      }
+      msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
+    }
+    if (actorData.roll.txtOption3 != "") {
+      total = total - parseInt(actorData.roll.option3);
+      if (msg != "") {
+        msg = msg + " - <br />";
+      }
+      msg = msg + actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
+    }
+  } else {
+    if (actorData.roll.txtOption1 != "") {
+      total = total + parseInt(actorData.roll.option1);
       if (msg != "") {
         msg = msg + " + <br />";
       }
-      msg = msg + game.i18n.localize("arm5e.sheet.wounds");
-      msg = msg + " (" + actorData.woundsTotal + ")";
+      msg = msg + actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
     }
-  }
+    if (actorData.roll.txtOption2 != "") {
+      total = total + parseInt(actorData.roll.option2);
+      if (msg != "") {
+        msg = msg + " + <br />";
+      }
+      msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
+    }
+    if (actorData.roll.txtOption3 != "") {
+      total = total + parseInt(actorData.roll.option3);
+      if (msg != "") {
+        msg = msg + " + <br />";
+      }
+      msg = msg + actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
+    }
+    if (actorData.roll.txtOption4 != "") {
+      total = total + parseInt(actorData.roll.option4);
+      if (msg != "") {
+        msg = msg + " + <br />";
+      }
+      msg = msg + actorData.roll.txtOption4 + " (" + actorData.roll.option4 + ")";
+    }
+    if (actorData.roll.txtOption5 != "") {
+      total = total + parseInt(actorData.roll.option5);
+      if (msg != "") {
+        msg = msg + " + <br />";
+      }
+      msg = msg + actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
+    }
 
-  if (actorData.roll.divide > 1) {
-    if (msg != "") {
-      msg = msg + " + <br />";
+    if (actorData.roll.bonusActiveEffects) {
+      total = total + actorData.roll.bonusActiveEffects;
+      if (msg != "") {
+        msg = msg + " + <br />";
+      }
+      msg = msg + game.i18n.localize("arm5.sheet.bonus.activeEffects") + " (" + actorData.roll.bonusActiveEffects + ")";
     }
-    msg = msg + game.i18n.localize("arm5e.messages.die.divideBy") + actorData.roll.divide;
+    if (actorData.roll.bonus > 0) {
+      total = total + actorData.roll.bonus;
+      if (msg != "") {
+        msg = msg + " + <br />";
+      }
+      msg = msg + game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
+    }
+
+    if (actorData.roll.useFatigue == true) {
+      if (actorData.fatigueTotal != 0) {
+        total = total + actorData.fatigueTotal;
+        if (msg != "") {
+          msg = msg + " + <br />";
+        }
+        msg = msg + game.i18n.localize("arm5e.sheet.fatigue");
+        msg = msg + " (" + actorData.fatigueTotal + ")";
+      }
+      if (actorData.woundsTotal != 0) {
+        total = total + actorData.woundsTotal;
+        if (msg != "") {
+          msg = msg + " + <br />";
+        }
+        msg = msg + game.i18n.localize("arm5e.sheet.wounds");
+        msg = msg + " (" + actorData.woundsTotal + ")";
+      }
+    }
+
+    if (actorData.roll.divide > 1) {
+      if (msg != "") {
+        msg = msg + " + <br />";
+      }
+      msg = msg + game.i18n.localize("arm5e.messages.die.divideBy") + actorData.roll.divide;
+    }
   }
   actorData.roll.rollFormula = total;
   actorData.roll.rollLabel = msg;
@@ -371,20 +403,19 @@ async function CheckBotch(html, actorData) {
   if (!botchDice) {
     return ui.notifications.info(game.i18n.localize("arm5e.notification.roll.botchNum"));
   }
-
   let rollCommand = botchDice;
   rollCommand = rollCommand.concat("d10cf=10");
   const botchRoll = new Roll(rollCommand);
   await botchRoll.roll({
     async: true
   });
-
-  return botchRoll.terms[0].total;
+  return botchRoll;
+  // return botchRoll.terms[0].total;
 }
 
 async function explodingRoll(actorData, modes = 0) {
   let dieRoll;
-  if (modes === 0) {
+  if (modes === 0 || modes === 4) {
     dieRoll = new Roll(`1d10`);
   } else if (modes === 1) {
     dieRoll = new Roll("1");
@@ -401,7 +432,7 @@ async function explodingRoll(actorData, modes = 0) {
   if (dieRoll.total === 1) {
     mult *= 2;
     let funRolls = game.settings.get("arm5e", "funRolls");
-    let withDialog = funRolls == "EVERYONE" || (funRolls == "PLAYER_ONLY" && actorData.hasPlayerOwner);
+    let withDialog = funRolls == "EVERYONE" || (funRolls == "PLAYERS_ONLY" && actorData.hasPlayerOwner);
     if (withDialog) {
       let data = {
         msg: game.i18n.localize("arm5e.dialog.roll.exploding.multiplier") + " : " + mult
@@ -417,7 +448,7 @@ async function explodingRoll(actorData, modes = 0) {
                 icon: "<i class='fas fa-check'></i>",
                 label: game.i18n.localize("arm5e.dialog.button.roll"),
                 callback: async (html) => {
-                  dieRoll = await explodingRoll();
+                  dieRoll = await explodingRoll(actorData);
                   resolve();
                 }
               }
@@ -430,10 +461,10 @@ async function explodingRoll(actorData, modes = 0) {
         ).render(true);
       });
     } else {
-      dieRoll = await explodingRoll();
+      dieRoll = await explodingRoll(actorData);
     }
   } else {
-    if (mult === 1 && dieRoll.total === 10) {
+    if (modes != 4 && mult === 1 && dieRoll.total === 10) {
       mult *= 0;
       var botchNum = 0;
       const html = await renderTemplate("systems/arm5e/templates/roll/roll-botch.html");
@@ -450,7 +481,7 @@ async function explodingRoll(actorData, modes = 0) {
                 icon: "<i class='fas fa-check'></i>",
                 label: game.i18n.localize("arm5e.dialog.button.rollbotch"),
                 callback: async (html) => {
-                  botchNum = await CheckBotch(html, actorData);
+                  dieRoll = await CheckBotch(html, actorData);
                   resolve();
                 }
               },
@@ -477,9 +508,9 @@ async function explodingRoll(actorData, modes = 0) {
       });
 
       // hack , JS doesn't care about type
-      if (botchNum > 0) {
-        return botchNum;
-      }
+      // if (botchNum > 0) {
+      //   return botchNum;
+      // }
     }
   }
 

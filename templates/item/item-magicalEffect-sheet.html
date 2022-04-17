@@ -1,5 +1,9 @@
-<form class="{{cssClass}} mainItem" autocomplete="off">
-  {{> "systems/arm5e/templates/item/parts/item-header.html" }}
+<form
+  class="{{cssClass}} mainItem"
+  autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
+>
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
@@ -26,7 +30,9 @@
       <div class="grid grid-2col">
         <div class="resource flexcol flex-center">
           <label class="header-label">{{localize "arm5e.sheet.Requisites"}}</label>
-          <a class="item-control advanced-req" title="Advanced Requistes"><i class="fas fa-gavel fa-lg"></i></a>
+          <a class="item-control advanced-req" title="Advanced Requistes" data-flavor="{{ui.flavor}}"
+            ><i class="fas fa-gavel fa-lg"></i
+          ></a>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
@@ -57,5 +63,5 @@
       {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
     </div>
   </section>
-  {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

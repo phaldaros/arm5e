@@ -29,6 +29,7 @@
   "arm5e.sheet.apprenticeship": "Covenant of Apprenticeship",
   "arm5e.sheet.sigil": "Wizard's Sigil",
   "arm5e.sheet.warping": "Warping",
+  "arm5e.sheet.aging": "Aging",
   "arm5e.sheet.decrepitude": "Decrepitude",
   "arm5e.sheet.score": "Score",
   "arm5e.sheet.points": "Points",
@@ -323,9 +324,10 @@
   "arm5e.skill.mystery.verditiusMagic": "Verditius Magic",
   "arm5e.skill.mystery.cult": "Mystery Cult ({option}) Lore",
 
+  "arm5e.sheet.ageModifier": "Age modifier",
   "arm5e.sheet.longevityRitual": "Longevity Ritual",
   "arm5e.sheet.labTotal": "Lab Total",
-  "arm5e.sheet.ageModifier": "Age Roll Modifier",
+  "arm5e.sheet.longevityModifier": "Longevity Modifier",
   "arm5e.sheet.twilightScars": "Twilight Scars",
 
   "arm5e.sheet.owner": "Owner",
@@ -361,6 +363,7 @@
   "arm5e.sheet.typeAura": "Aura Type",
   "arm5e.sheet.levelAura": "Aura Level",
   "arm5e.sheet.levelsRegio": "Regio Levels",
+  "arm5e.sheet.modifiersLife": "Living conditions",
   "arm5e.sheet.modifiersLifeMagi": "Living Conditions Mod (Magi)",
   "arm5e.sheet.modifiersLifeMundane": "Living Conditions Mod (Mundanes)",
 
@@ -798,5 +801,14 @@
 
   "arm5e.sheet.freeVirtues": "Free Virtues",
   "arm5e.sheet.occupiedSize": "Occupied Size",
-  "arm5e.sheet.baseSafety": "Base Safety"
+  "arm5e.sheet.baseSafety": "Base Safety",
+  "arm5e.aging.roll.label": "Aging roll",
+  "arm5e.aging.roll.noaging": "No apparent aging",
+  "arm5e.aging.roll.normal": "Apparent age increases by one year",
+  "arm5e.aging.roll.anyAgingPt": "1 Aging Point in any Characteristic",
+  "arm5e.aging.roll.anyMaxPt": "Gain sufficient Aging Points (in any Characteristics) to reach the next level in Decrepitude, and Crisis",
+  "arm5e.aging.roll.QikPt": "1 Aging Point in Qik",
+  "arm5e.aging.roll.StaPt": "1 Aging Point in Sta",
+  "arm5e.aging.roll.PerPt": "1 Aging Point in Per",
+  "arm5e.aging.roll.PrsPt": "1 Aging Point in Prs"
 }

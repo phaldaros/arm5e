@@ -7,11 +7,16 @@
 - new beast actor with custom sheet
 - aura management
 - first ui integration
+- Item sheets are flavored to the kind of Actor owner (assets by @Sylph)
+- Dice so nice integration: roll botch dice displayed.
+- Basic aging roll (no effect yet)
 
 ### Bug fixes
 
 - Abilities compendium didn't have keys set properly.
 - fixed a bug where effects with generic abilities were impossible to delete.
+- Fixed some cosmetic problems in beast sheet
+- Fixed formula computation resulting 0 when a die explode
 
 ## 1.4.0
 

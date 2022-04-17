@@ -76,6 +76,7 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
         forms: CONFIG.ARM5E.magic.forms
       }
     };
+    this.item.data.ui = { flavor: event.currentTarget.dataset.flavor };
     log("false", this.item.data);
     var itemData = this.item;
     let template = "systems/arm5e/templates/item/parts/requisites.html";

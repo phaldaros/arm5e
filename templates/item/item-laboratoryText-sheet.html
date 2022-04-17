@@ -1,162 +1,155 @@
-<form class="{{cssClass}} mainItem" autocomplete="off">
-    {{> "systems/arm5e/templates/item/parts/item-header.html" }}
-    <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-        <div class="header-fields">
-            <label for="data.type" class="smallTitle" style="padding-left: 24px;">{{localize "arm5e.sheet.type"}}</label>
-            <select class="width2" name="data.type" data-type="String">
-                {{#select data.type}}
-                    {{#each config.lab.labTextType as |type key|}}
-                        <option value="{{key}}">{{localize type}}</option>
-                    {{/each}} {{/select}}
-            </select>
-            </span>
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
-            <div class="grid grid-2col">
-                <div class="resource flexcol flexrow">
-                    <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
-                    <select name="data.technique.value" data-type="String">
-                        {{#select data.technique.value}}
-                            {{#each config.magic.techniques as |techniques key|}}
-                                <option value="{{key}}">{{techniques.label}}</option>
-                            {{/each}} {{/select}}
-                    </select>
-                </div>
-                <div class="resource flexcol flexrow">
-                    <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
-                    <select name="data.form.value" data-type="String">
-                        {{#select data.form.value}}
-                            {{#each config.magic.forms as |forms key|}}
-                                <option value="{{key}}">{{forms.label}}</option>
-                            {{/each}} {{/select}}
-                    </select>
-                </div>
-            </div>
-            <div class="grid grid-3col">
-                <div class="resource flexcol flex-center">
-                    <label class="header-label">{{localize "arm5e.sheet.Requisites"}}</label>
-                    <a class="item-control advanced-req" title="Advanced Requistes"><i class="fas fa-gavel fa-lg"></i></a>
-                </div>
-                {{#if (ne data.type "enchantment")}}
-                    <div class="resource flexcol flex-center">
-                        <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
-                        <input type="checkbox" name="data.ritual" {{checked data.ritual}}>
-                    </div>
-                {{/if}}
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-                    <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
-                </div>
-            </div>
+<form
+  class="{{cssClass}} mainItem"
+  autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
+>
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <label for="data.type" class="smallTitle" style="padding-left: 24px">{{localize "arm5e.sheet.type"}}</label>
+      <select class="width2" name="data.type" data-type="String">
+        {{#select data.type}} {{#each config.lab.labTextType as |type key|}}
+        <option value="{{key}}">{{localize type}}</option>
+        {{/each}} {{/select}}
+      </select>
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+      <div class="grid grid-2col">
+        <div class="resource flexcol flexrow">
+          <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
+          <select name="data.technique.value" data-type="String">
+            {{#select data.technique.value}} {{#each config.magic.techniques as |techniques key|}}
+            <option value="{{key}}">{{techniques.label}}</option>
+            {{/each}} {{/select}}
+          </select>
         </div>
+        <div class="resource flexcol flexrow">
+          <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
+          <select name="data.form.value" data-type="String">
+            {{#select data.form.value}} {{#each config.magic.forms as |forms key|}}
+            <option value="{{key}}">{{forms.label}}</option>
+            {{/each}} {{/select}}
+          </select>
         </div>
-    </header>
-
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="description">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.description"}}
-        </a>
-        <a class="item posRelative" data-tab="attributes">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.attributes"}}
-        </a>
-        {{#if (eq data.type "enchantment")}}
-            <a class="item posRelative" data-tab="enchantment">
-                <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-                <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-                {{localize "arm5e.lab.enchantment.label"}}
-            </a>
+      </div>
+      <div class="grid grid-3col">
+        <div class="resource flexcol flex-center">
+          <label class="header-label">{{localize "arm5e.sheet.Requisites"}}</label>
+          <a class="item-control advanced-req" title="Advanced Requistes" data-flavor="{{ui.flavor}}"
+            ><i class="fas fa-gavel fa-lg"></i
+          ></a>
+        </div>
+        {{#if (ne data.type "enchantment")}}
+        <div class="resource flexcol flex-center">
+          <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
+          <input type="checkbox" name="data.ritual" {{checked data.ritual}} />
+        </div>
         {{/if}}
-        <a class="item posRelative" data-tab="authorship">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-            {{localize "arm5e.sheet.authorship.label"}}
-        </a>
-    </nav>
-
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            <div class="grid grid-3col">
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-                    <select name="data.range.value" data-type="String">
-                        {{#select data.range.value}}
-                            {{#each config.magic.ranges as |range key|}}
-                                <option value="{{key}}">{{localize range.label}}</option>
-                            {{/each}} {{/select}}
-                        <option></option>
-                    </select>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-                    <select name="data.duration.value" data-type="String">
-                        {{#select data.duration.value}}
-                            {{#each config.magic.durations as |duration key|}}
-                                <option value="{{key}}">{{localize duration.label}}</option>
-                            {{/each}} {{/select}}
-                    </select>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-                    <select name="data.target.value" data-type="String">
-                        {{#select data.target.value}}
-                            {{#each config.magic.targets as |target key|}}
-                                <option value="{{key}}">{{localize target.label}}</option>
-                            {{/each}} {{/select}}
-                    </select>
-                </div>
-                {{#if (eq enforceMagicRules true)}}
-                    <div class="arm5eTabs">
-                    </div>
-                    <div class="grid grid-2col">
-                        <div class="resource">
-                            <label class="header-label">{{localize "arm5e.spell.effect.baseLevel"}}</label>
-                            <input type="text" name="data.baseLevel" size="4" value="{{data.baseLevel}}" data-dtype="Number" />
-                        </div>
-                        <div class="resource">
-                            <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
-                            <input type="text" name="data.baseEffectDescription" value="{{data.baseEffectDescription}}" data-dtype="String" />
-                        </div>
-                    </div>
-                    <div class="grid grid-3col">
-                        <div class="resource">
-                            <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
-                            <input type="text" name="data.targetSize" value="{{data.targetSize}}" data-dtype="Number" />
-                        </div>
-                        <div class="resource">
-                            <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
-                            <input type="text" name="data.complexity" value="{{data.complexity}}" data-dtype="Number" />
-                        </div>
-                        <div class="resource">
-                            <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
-                            <input type="text" name="data.enhancingRequisite" value="{{data.enhancingRequisite}}" data-dtype="Number" />
-                        </div>
-                    </div>
-                {{/if}}
-            </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
+          <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
         </div>
-        {{!-- Enchantment Tab --}}
-        {{#if (eq data.type "enchantment")}}
-            {{> "systems/arm5e/templates/item/parts/enchantment.html" }}
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+    <a class="item posRelative" data-tab="attributes">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.attributes"}}
+    </a>
+    {{#if (eq data.type "enchantment")}}
+    <a class="item posRelative" data-tab="enchantment">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.lab.enchantment.label"}}
+    </a>
+    {{/if}}
+    <a class="item posRelative" data-tab="authorship">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.authorship.label"}}
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Attributes Tab --}}
+    <div class="tab attributes" data-group="primary" data-tab="attributes">
+      <div class="grid grid-3col">
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
+          <select name="data.range.value" data-type="String">
+            {{#select data.range.value}} {{#each config.magic.ranges as |range key|}}
+            <option value="{{key}}">{{localize range.label}}</option>
+            {{/each}} {{/select}}
+            <option></option>
+          </select>
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
+          <select name="data.duration.value" data-type="String">
+            {{#select data.duration.value}} {{#each config.magic.durations as |duration key|}}
+            <option value="{{key}}">{{localize duration.label}}</option>
+            {{/each}} {{/select}}
+          </select>
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
+          <select name="data.target.value" data-type="String">
+            {{#select data.target.value}} {{#each config.magic.targets as |target key|}}
+            <option value="{{key}}">{{localize target.label}}</option>
+            {{/each}} {{/select}}
+          </select>
+        </div>
+        {{#if (eq enforceMagicRules true)}}
+        <div class="arm5eTabs"></div>
+        <div class="grid grid-2col">
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.spell.effect.baseLevel"}}</label>
+            <input type="text" name="data.baseLevel" size="4" value="{{data.baseLevel}}" data-dtype="Number" />
+          </div>
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
+            <input
+              type="text"
+              name="data.baseEffectDescription"
+              value="{{data.baseEffectDescription}}"
+              data-dtype="String"
+            />
+          </div>
+        </div>
+        <div class="grid grid-3col">
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
+            <input type="text" name="data.targetSize" value="{{data.targetSize}}" data-dtype="Number" />
+          </div>
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
+            <input type="text" name="data.complexity" value="{{data.complexity}}" data-dtype="Number" />
+          </div>
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
+            <input type="text" name="data.enhancingRequisite" value="{{data.enhancingRequisite}}" data-dtype="Number" />
+          </div>
+        </div>
         {{/if}}
-
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-            {{#if (eq metagame true)}}
-                {{> "systems/arm5e/templates/generic/source.html" }}
-            {{/if}}
-        </div>
-        {{!-- Authorship Tab --}}
-        {{> "systems/arm5e/templates/item/parts/authorship.html" }}
-
-    </section>
-    {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
+      </div>
+    </div>
+    {{!-- Enchantment Tab --}} {{#if (eq data.type "enchantment")}} {{>
+    "systems/arm5e/templates/item/parts/enchantment.html" }} {{/if}} {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}} {{#if (eq
+      metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
+    </div>
+    {{!-- Authorship Tab --}} {{> "systems/arm5e/templates/item/parts/authorship.html" }}
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>
