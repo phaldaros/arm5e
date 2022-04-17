@@ -5,10 +5,14 @@ import { simpleDie, stressDie } from "../dice.js";
 import { getActorsFromTargetedTokens } from "./tokens.js";
 import { calculateSuccessOfMagic } from "./magic.js";
 import { chatContestOfMagic } from "./chat.js";
+import { ArM5ePCActor } from "../actor/actor-pc.js";
 
 const CALL_BACK_AFTER_ROLL = {
   SPELL: {
-    CALLBACK: checkTargetAndCalculateResistante
+    CALLBACK: checkTargetAndCalculateResistance
+  },
+  AGING: {
+    CALLBACK: applyAgingEffects
   }
 };
 
@@ -24,12 +28,17 @@ const STRESS_DIE = {
   },
   OPTION: {
     TITLE: "arm5e.dialog.title.rolldie"
+  },
+  AGING: {
+    TITLE: "arm5e.aging.roll.label"
   }
 };
 
 function prepareRollVariables(dataset, actorData, activeEffects) {
   if (dataset.roll) {
     // clean roll data
+    actorData.data.roll.year = "";
+    actorData.data.roll.season = "";
     actorData.data.roll.type = "";
     actorData.data.roll.label = "";
     actorData.data.roll.modifier = 0;
@@ -153,6 +162,32 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       //         actorData.data.roll.ritual = dataset.ritual;
       //     }
       // }
+    } else if (dataset.roll == "aging") {
+      actorData.data.roll.year = parseInt(dataset.year);
+      actorData.data.roll.season = ARM5E.seasons.winter.label;
+      actorData.data.roll.label =
+        game.i18n.localize("arm5e.aging.roll.label") +
+        " " +
+        actorData.data.roll.season +
+        " " +
+        actorData.data.roll.year;
+      actorData.data.roll.txtOption1 = game.i18n.localize("arm5e.sheet.ageModifier");
+      actorData.data.roll.option1 = Math.ceil(parseInt(actorData.data.age.value) / 10);
+      actorData.data.roll.txtOption2 = game.i18n.localize("arm5e.sheet.modifiersLife");
+      let livingMod = 0;
+      if (actorData.data.covenant.linked) {
+        let cov = game.actors.get(actorData.data.covenant.actorId);
+        if (ArM5ePCActor.isMagus(actorData.type, actorData.data.charType.value)) {
+          livingMod = cov.data.data.modifiersLife.magi;
+        } else {
+          livingMod = cov.data.data.modifiersLife.mundane;
+        }
+      }
+      actorData.data.roll.option2 = livingMod;
+      actorData.data.roll.txtOption3 = game.i18n.localize("arm5e.sheet.longevityModifier");
+      actorData.data.roll.option3 = actorData.data.laboratory.longevityRitual.modifier;
+
+      actorData.data.roll.useFatigue = false;
     }
     if (dataset.divide) {
       actorData.data.roll.divide = dataset.divide;
@@ -229,7 +264,10 @@ function chooseTemplate(dataset) {
   if (dataset.roll == "magic" || dataset.roll == "spell") {
     return "systems/arm5e/templates/roll/roll-spell.html";
   }
-
+  if (dataset.roll == "aging") {
+    //aging roll
+    return "systems/arm5e/templates/roll/roll-aging.html";
+  }
   return "";
 }
 
@@ -259,6 +297,10 @@ function getDebugButtonsIfNeeded(actor, callback) {
 function getDialogData(dataset, html, actor) {
   const callback = CALL_BACK_AFTER_ROLL[dataset.roll.toUpperCase()]?.CALLBACK;
   if (STRESS_DIE[dataset.roll.toUpperCase()]) {
+    let mode = 0;
+    if (dataset.roll == "aging") {
+      mode = 4; // no botches for aging rolls
+    }
     return {
       title: game.i18n.localize(STRESS_DIE[dataset.roll.toUpperCase()].TITLE),
       content: html,
@@ -266,7 +308,7 @@ function getDialogData(dataset, html, actor) {
         yes: {
           icon: "<i class='fas fa-check'></i>",
           label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-          callback: (html) => stressDie(html, actor, 0, callback)
+          callback: (html) => stressDie(html, actor, mode, callback)
         },
         no: {
           icon: "<i class='fas fa-ban'></i>",
@@ -325,7 +367,7 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
   dialog.render(true);
 }
 
-function checkTargetAndCalculateResistante(html, actorCaster, roll, message) {
+function checkTargetAndCalculateResistance(html, actorCaster, roll, message) {
   const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
   if (!actorsTargeted) {
     return false;
@@ -335,6 +377,8 @@ function checkTargetAndCalculateResistante(html, actorCaster, roll, message) {
     chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
   });
 }
+
+function applyAgingEffects(tml, actorCaster, roll, message) {}
 
 export {
   chooseTemplate,

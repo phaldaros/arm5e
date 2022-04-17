@@ -327,14 +327,6 @@
   font-family: "bookAntiquaBold";
 }
 
- {
-  font-size: 10pt;
-  background-image: url("../assets/dialog/Dialog_Background.png");
-  background-repeat: repeat-y;
-  background-size: cover;
-  font-family: "bookAntiquaBold";
-}
-
 .arm5eRequisite {
   font-size: 10pt;
   background-image: url("../assets/item/background.png");
@@ -510,7 +502,6 @@ input[type="time"] {
 }
 
 .arm5e .mainItem {
-  background-image: url("../assets/item/background.png");
   background-repeat: repeat-y;
   background-size: contain;
   font-family: "bookAntiquaBold";
@@ -519,13 +510,22 @@ input[type="time"] {
   overflow-y: hidden;
   font-size: 9pt;
 }
-
+.arm5e .mainItem .header-background {
+  margin-left: -32px;
+  /*margin-top: -32px;*/
+  width: calc(100% + 64px);
+}
 .arm5e .header-background {
   margin-left: -32px;
   /*margin-top: -32px;*/
   width: calc(100% + 64px);
 }
-
+.arm5e .mainItem .footer-background {
+  margin-left: -32px;
+  margin-top: 0px;
+  width: calc(100% + 64px);
+  height: 23px;
+}
 .arm5e .footer-background {
   margin-left: -32px;
   margin-top: 16px;

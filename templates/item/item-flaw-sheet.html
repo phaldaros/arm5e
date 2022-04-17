@@ -1,5 +1,9 @@
-<form class="{{cssClass}} mainItem" autocomplete="off">
-  {{> "systems/arm5e/templates/item/parts/item-header.html" }}
+<form
+  class="{{cssClass}} mainItem"
+  autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
+>
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
@@ -49,5 +53,5 @@
       {{> "systems/arm5e/templates/generic/active-effects.html" }}
     </div>
   </section>
-  {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

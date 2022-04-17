@@ -707,7 +707,7 @@ export class ArM5eActorSheet extends ActorSheet {
       });
       return;
     }
-    if (dataset.roll != "char") {
+    if (dataset.roll != "char" && dataset.roll != "aging") {
       if (this.actor.data.data.fatigue.unconscious.level.value == true) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.unconscious"), {
           permanent: true

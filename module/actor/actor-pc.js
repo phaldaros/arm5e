@@ -1013,6 +1013,10 @@ export class ArM5ePCActor extends Actor {
     );
   }
 
+  static isMagus(type, charType) {
+    return (type == "npc" && charType == "magusNPC") || (type == "player" && charType == "magus");
+  }
+
   _isCharacter() {
     return (this.data.type == "npc" && this.data.data.charType.value != "entity") || this.data.type == "player";
   }

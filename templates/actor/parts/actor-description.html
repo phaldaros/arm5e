@@ -85,7 +85,8 @@
 
   <div class="flex-group-left padding12 backSection">
     <label class="smallTitle">
-      <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank"> {{localize "arm5e.sheet.decrepitude"}} </a>
+      {{localize "arm5e.sheet.aging"}} & {{localize "arm5e.sheet.decrepitude"}}
+      <a class="rollable" data-roll="aging" data-year="{{data.year.value}}"> <i class="fas fa-hourglass"></i></a>
     </label>
     <div class="flexrow marginbot6 margintop6">
       <label for="data.decrepitude.score" class="bold">{{localize "arm5e.sheet.score"}}</label>

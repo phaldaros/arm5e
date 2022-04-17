@@ -1,5 +1,9 @@
-<form class="{{cssClass}} arm5eRequisite" autocomplete="off">
-  {{> "systems/arm5e/templates/item/parts/item-header.html" }}
+<form
+  class="{{cssClass}} arm5eRequisite"
+  autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
+>
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <div class="flexrow grid grid-3col backSection">
     <div>
       <ol style="padding: 0 1em 0 1em">
@@ -49,5 +53,5 @@
       </ol>
     </div>
   </div>
-  {{> "systems/arm5e/templates/item/parts/item-footer.html" }}
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>
