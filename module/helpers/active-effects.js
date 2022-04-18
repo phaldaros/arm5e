@@ -128,14 +128,15 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     return activeEffects;
   }
 
-  static findFirstActiveEffectBySubtype(effects, subtype) {
+  static findAllActiveEffectsWithSubtype(effects, subtype) {
+    let res = [];
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
       if (!e.data.disabled && e?.getFlag("arm5e", "subtype")?.includes(subtype)) {
-        return e;
+        res.push(e);
       }
     }
-    return null;
+    return res;
   }
 
   //********************************* */

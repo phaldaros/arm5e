@@ -23,7 +23,7 @@ const STRESS_DIE = {
   MAGIC: {
     TITLE: "arm5e.dialog.title.rolldie"
   },
-  SPON: {
+  SPONT: {
     TITLE: "arm5e.dialog.title.rolldie"
   },
   OPTION: {

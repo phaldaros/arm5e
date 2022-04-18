@@ -144,6 +144,7 @@ export class ArM5ePCActor extends Actor {
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
+    log(false, `Preparing Actor ${actorData.name} data`);
     let overload = [0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 9999];
     // Initialize containers.
     let weapons = [];
@@ -190,9 +191,10 @@ export class ArM5ePCActor extends Actor {
     if (data.fatigue) {
       data.fatigueTotal = 0;
       for (let [key, item] of Object.entries(data.fatigue)) {
-        if (item.level.value == true) {
-          data.fatigueTotal = item.number;
-        }
+        for (let lvl of item.levels.values())
+          if (lvl == true) {
+            data.fatigueTotal = item.number;
+          }
       }
     }
 

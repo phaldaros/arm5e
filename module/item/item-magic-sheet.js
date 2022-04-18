@@ -10,7 +10,7 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
       width: 654,
-      height: 750,
+      height: 800,
       tabs: [
         {
           navSelector: ".sheet-tabs",

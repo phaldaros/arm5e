@@ -505,8 +505,8 @@ input[type="time"] {
   background-repeat: repeat-y;
   background-size: auto;
   font-family: "bookAntiquaBold";
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-left: 34px;
+  padding-right: 34px;
   overflow-y: hidden;
   font-size: 9pt;
 }
@@ -516,9 +516,9 @@ input[type="time"] {
 }
 
 .arm5e .mainItem .header-background {
-  margin-left: -32px;
+  margin-left: -34px;
   /*margin-top: -32px;*/
-  width: calc(100% + 64px);
+  width: calc(100% + 68px);
 }
 .arm5e .header-background {
   margin-left: -32px;
@@ -526,9 +526,9 @@ input[type="time"] {
   width: calc(100% + 64px);
 }
 .arm5e .mainItem .footer-background {
-  margin-left: -32px;
+  margin-left: -34px;
   margin-top: 0px;
-  width: calc(100% + 64px);
+  width: calc(100% + 68px);
   height: 75px;
 }
 .arm5e .footer-background {

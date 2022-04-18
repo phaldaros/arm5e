@@ -340,11 +340,11 @@ export const migrateActorData = function (actorData) {
         updateData["data.sanctum"] = sanctum;
       }
 
-      if (actorData.data?.laboratory != undefined) {
-        updateData["data.laboratory.longevityRitual.labTotal"] = 0;
-        updateData["data.laboratory.longevityRitual.modifier"] = 0;
-        updateData["data.laboratory.longevityRitual.twilightScars"] = "";
-      }
+      // if (actorData.data?.laboratory != undefined) {
+      //   updateData["data.laboratory.longevityRitual.labTotal"] = 0;
+      //   updateData["data.laboratory.longevityRitual.modifier"] = 0;
+      //   updateData["data.laboratory.longevityRitual.twilightScars"] = "";
+      // }
 
       if (actorData.data?.familiar?.characteristicsFam != undefined) {
         updateData["data.familiar.characteristicsFam.int"] = {
