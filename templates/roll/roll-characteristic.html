@@ -16,6 +16,7 @@
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.abilities"}}</label>
       <select name="data.roll.ability" data-type="String" class="SelectedAbility">
+        <option value="None">{{localize "arm5e.sheet.activeEffect.subtypes.none"}} (0)</option>
         {{#select data.roll.ability}} {{#each data.abilities as |item key|}}
         <option value="{{ item._id }}">{{ item.name}} ({{ item.data.finalScore }})</option>
         {{/each}} {{/select}}

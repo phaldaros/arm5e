@@ -9,8 +9,8 @@ export class ArM5eItemSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
-      width: 650,
-      height: 650,
+      width: 654,
+      height: 750,
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -83,15 +83,17 @@ export class ArM5eItemSheet extends ItemSheet {
       context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
     }
 
-    context.ui = { flavor: "PC" };
+    context.ui = { flavor: "Neutral" };
     if (this.item.isOwned) {
       switch (this.actor.type) {
         case "player":
           context.ui.flavor = "PC";
           break;
         case "npc":
-        case "beast":
           context.ui.flavor = "NPC";
+          break;
+        case "beast":
+          context.ui.flavor = "Beast";
           break;
         case "covenant":
           context.ui.flavor = "Covenant";
@@ -163,7 +165,7 @@ export class ArM5eItemSheet extends ItemSheet {
   setPosition(options = {}) {
     const position = super.setPosition(options);
     const sheetBody = this.element.find(".sheet-body");
-    const bodyHeight = position.height - 380;
+    const bodyHeight = position.height - 500;
     sheetBody.css("height", bodyHeight);
     return position;
   }

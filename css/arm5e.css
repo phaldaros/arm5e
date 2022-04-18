@@ -503,13 +503,18 @@ input[type="time"] {
 
 .arm5e .mainItem {
   background-repeat: repeat-y;
-  background-size: contain;
+  background-size: auto;
   font-family: "bookAntiquaBold";
   padding-left: 32px;
   padding-right: 32px;
   overflow-y: hidden;
   font-size: 9pt;
 }
+
+.arm5e .mainItem .sheet-body {
+  height: 250px;
+}
+
 .arm5e .mainItem .header-background {
   margin-left: -32px;
   /*margin-top: -32px;*/
@@ -524,7 +529,7 @@ input[type="time"] {
   margin-left: -32px;
   margin-top: 0px;
   width: calc(100% + 64px);
-  height: 23px;
+  height: 75px;
 }
 .arm5e .footer-background {
   margin-left: -32px;

@@ -459,4 +459,4 @@ function onDropOnCanvas(canvas, data) {
 
 Hooks.on("renderChatMessage", (message, html, data) => Arm5eChatMessage.addChatListeners(message, html, data));
 
-Hooks.on("getSceneControlButtons", (buttons) => addArsButtons(buttons));
+// Hooks.on("getSceneControlButtons", (buttons) => addArsButtons(buttons));

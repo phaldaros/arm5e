@@ -50,6 +50,8 @@ export class ArsLayer extends CanvasLayer {
       }
     ).render(true);
   }
+
+  static async clearAura() {}
 }
 
 export function addArsButtons(buttons) {
@@ -67,15 +69,15 @@ export function addArsButtons(buttons) {
         visible: true,
         button: true,
         onClick: () => ArsLayer.selectAura()
+      },
+      {
+        name: "clearAura",
+        title: "Clear aura",
+        icon: "fas fa-remove",
+        visible: true,
+        button: true,
+        onClick: () => ArsLayer.clearAura()
       }
-      // {
-      //   name: "localAura",
-      //   title: "Localized auras",
-      //   icon: "fas fa-map-pin",
-      //   visible: true,
-      //   toggle: true,
-      //   active: false
-      // }
     ],
     activeTool: "aura"
   });

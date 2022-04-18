@@ -172,15 +172,15 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
         " " +
         actorData.data.roll.year;
       actorData.data.roll.txtOption1 = game.i18n.localize("arm5e.sheet.ageModifier");
-      actorData.data.roll.option1 = Math.ceil(parseInt(actorData.data.age.value) / 10);
+      actorData.data.roll.option1 = Math.round(parseInt(actorData.data.age.value) / 10);
       actorData.data.roll.txtOption2 = game.i18n.localize("arm5e.sheet.modifiersLife");
       let livingMod = 0;
       if (actorData.data.covenant.linked) {
         let cov = game.actors.get(actorData.data.covenant.actorId);
         if (ArM5ePCActor.isMagus(actorData.type, actorData.data.charType.value)) {
-          livingMod = cov.data.data.modifiersLife.magi;
+          livingMod = cov.data.data.modifiersLife.magi ?? 0;
         } else {
-          livingMod = cov.data.data.modifiersLife.mundane;
+          livingMod = cov.data.data.modifiersLife.mundane ?? 0;
         }
       }
       actorData.data.roll.option2 = livingMod;

@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.4.1
+## 1.4.2
 
 ### Features
 
@@ -16,6 +16,13 @@
 - Abilities compendium didn't have keys set properly.
 - fixed a bug where effects with generic abilities were impossible to delete.
 - Fixed some cosmetic problems in beast sheet
+- Fixed formula computation resulting 0 when a die explode
+- Ability is set to "None" by default if rolling a characteristic
+
+## 1.4.1
+
+### Bug fixes
+
 - Fixed formula computation resulting 0 when a die explode
 
 ## 1.4.0
