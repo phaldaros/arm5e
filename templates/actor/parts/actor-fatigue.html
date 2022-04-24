@@ -19,8 +19,7 @@
         <li class="flexrow" data-attribute="{{key}}">
           {{#each fatigue.levels}}
           <!-- <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} /> -->
-          <input type="checkbox" readonly name="{{data.fatigue.levels.[@index]}}" {{checked this }} />
-          {{/each}}
+          <input type="checkbox" disabled="disabled" name="" {{checked this }} /> {{/each}}
         </li>
         <input
           type="text"

@@ -441,10 +441,20 @@ export const migrateActorData = function (actorData) {
         updateData.effects = effects;
       }
     }
-
-    // for (const [key, fat] of Object.entries(actorData.data.fatigue) {
-    //   if (fat.level != undefined)
-    // }
+    let currentFatigue = 0;
+    if (actorData.data.fatigue) {
+      for (const [key, fat] of Object.entries(actorData.data.fatigue)) {
+        if (fat.level != undefined) {
+          if (fat.level.value) {
+            currentFatigue++;
+          }
+          updateData[`data.fatigue.${key}.-=level`] = null;
+        }
+      }
+      if (currentFatigue > 0 && actorData.data.fatigueCurrent == 0) {
+        updateData["data.fatigueCurrent"] = currentFatigue;
+      }
+    }
   }
   // else {
   //   log(false, `Removing all effects of ${actorData.name}`);

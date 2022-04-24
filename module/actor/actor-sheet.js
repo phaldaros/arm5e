@@ -134,7 +134,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // Allow effect creation
     actorData.data.effectCreation = true;
 
-    if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
+    if (actorData.type == "player" || actorData.type == "npc") {
       context.data.world = {};
 
       // check whether the character is linked to an existing covenant
