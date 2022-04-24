@@ -188,14 +188,27 @@ export class ArM5ePCActor extends Actor {
 
     const data = actorData.data;
 
+    // fatigue management
     if (data.fatigue) {
       data.fatigueTotal = 0;
+      let lvl = 0;
       for (let [key, item] of Object.entries(data.fatigue)) {
-        for (let lvl of item.levels.values())
-          if (lvl == true) {
-            data.fatigueTotal = item.number;
+        let fatigueArray = [];
+
+        for (let ii = 0; ii < item.amount; ii++) {
+          if (lvl < data.fatigueCurrent) {
+            fatigueArray.push(true);
+          } else {
+            fatigueArray.push(false);
           }
+          lvl++;
+        }
+        item.levels = fatigueArray;
+        if (item.level.value == true) {
+          data.fatigueTotal = item.number;
+        }
       }
+      data.fatigueMaxLevel = lvl;
     }
 
     if (data.wounds) {
@@ -413,7 +426,7 @@ export class ArM5ePCActor extends Actor {
     combat.overload = parseInt(combat.overload) * -1;
 
     //warping & decrepitude
-    if (this._isCharacter()) {
+    if ((this.data.type == "npc" && this.data.data.charType.value != "entity") || this.data.type == "player") {
       actorData.data.warping.experienceNextLevel = (parseInt(actorData.data.warping?.score || 0) + 1) * 5;
       if (actorData.data.decrepitude == undefined) {
         actorData.data.decrepitude = {};
@@ -1019,10 +1032,6 @@ export class ArM5ePCActor extends Actor {
     return (type == "npc" && charType == "magusNPC") || (type == "player" && charType == "magus");
   }
 
-  _isCharacter() {
-    return (this.data.type == "npc" && this.data.data.charType.value != "entity") || this.data.type == "player";
-  }
-
   _isCompanion() {
     return this.data.type == "player" && this.data.data.charType.value == "companion";
   }
@@ -1031,8 +1040,12 @@ export class ArM5ePCActor extends Actor {
     return this.data.type == "player" && this.data.data.charType.value == "grog";
   }
 
+  _isCharacter() {
+    return this.data.type == "player" || this.data.type == "npc" || this.data.type == "beast";
+  }
+
   getAbilityScore(abilityKey, abilityOption = "") {
-    if (this.data.type != "player" && this.data.type != "npc") {
+    if (!this._isCharacter()) {
       return null;
     }
     let ability = this.data.data.abilities.filter(
@@ -1048,38 +1061,52 @@ export class ArM5ePCActor extends Actor {
   // Vitals management
 
   loseFatigueLevel(num) {
-    if ((this.data.type != "player" && this.data.type != "npc") || num < 1) {
+    this._changeFatigueLevel(num);
+  }
+
+  async _changeFatigueLevel(num) {
+    if (!this._isCharacter() || (num < 0 && this.data.data.fatigueCurrent == 0)) {
       return;
     }
     let updateData = {};
-    if (this.data.data.fatigue.winded.level.value == false && num > 0) {
-      updateData["data.fatigue.winded.level.value"] = true;
-      num--;
+    let tmp = this.data.data.fatigueCurrent + num;
+    let overflow = 0;
+    if (tmp < 0) {
+      res = 0;
+      updateData["data.fatigueCurrent"] = 0;
+    } else if (tmp > this.data.data.fatigueMaxLevel) {
+      updateData["data.fatigueCurrent"] = this.data.data.fatigueMaxLevel;
+      overflow = tmp - this.data.data.fatigueMaxLevel;
+    } else {
+      updateData["data.fatigueCurrent"] = tmp;
     }
-    if (this.data.data.fatigue.weary.level.value == false && num > 0) {
-      updateData["data.fatigue.weary.level.value"] = true;
-      num--;
+
+    // fatigue overflow
+    switch (overflow) {
+      case 0:
+        break;
+      case 1:
+        updateData["data.wound.light.number.value"] = data.wound.light.number.value + 1;
+        break;
+      case 2:
+        updateData["data.wound.medium.number.value"] = data.wound.medium.number.value + 1;
+        break;
+      case 3:
+        updateData["data.wound.heavy.number.value"] = data.wound.heavy.number.value + 1;
+        break;
+      case 4:
+        updateData["data.wound.incap.number.value"] = data.wound.incap.number.value + 1;
+        break;
+      default:
+        updateData["data.wound.dead.number.value"] = data.wound.dead.number.value + 1;
+        break;
     }
-    if (this.data.data.fatigue.tired.level.value == false && num > 0) {
-      updateData["data.fatigue.tired.level.value"] = true;
-      num--;
-    }
-    if (this.data.data.fatigue.dazed.level.value == false && num > 0) {
-      updateData["data.fatigue.dazed.level.value"] = true;
-      num--;
-    }
-    if (this.data.data.fatigue.unconscious.level.value == false && num > 0) {
-      updateData["data.fatigue.unconscious.level.value"] = true;
-      num--;
-    }
-    if (num > 0) {
-      updateData["data.wounds.light.number.value"] = this.data.data.wounds.light.number.value + num;
-    }
-    this.update(updateData, {});
+
+    await this.update(updateData, {});
   }
 
   async useConfidencePoint() {
-    if (this.data.type != "player" && this.data.type != "npc") {
+    if (this._isCharacter()) {
       return false;
     }
 
@@ -1095,15 +1122,11 @@ export class ArM5ePCActor extends Actor {
   }
 
   async rest() {
-    if (this.data.type != "player" && this.data.type != "npc") {
+    if (!this._isCharacter()) {
       return;
     }
     let updateData = {};
-    updateData["data.fatigue.winded.level.value"] = false;
-    updateData["data.fatigue.weary.level.value"] = false;
-    updateData["data.fatigue.tired.level.value"] = false;
-    updateData["data.fatigue.dazed.level.value"] = false;
-    updateData["data.fatigue.unconscious.level.value"] = false;
+    updateData["data.fatigueCurrent"] = 0;
     await this.update(updateData, {});
   }
 

@@ -302,7 +302,7 @@ export const migrateActorData = function (actorData) {
   //   updateData["data.spells"] = [];
   // }
 
-  if (actorData.type == "player" || actorData.type == "npc") {
+  if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
     if (actorData.data?.roll != undefined) {
       updateData["data.roll.characteristic"] = "";
       updateData["data.roll.ability"] = "";
@@ -422,7 +422,7 @@ export const migrateActorData = function (actorData) {
     }
   }
 
-  if (actorData.type == "player" || actorData.type == "npc") {
+  if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
     if (actorData.effects && actorData.effects.length > 0) {
       log(false, `Migrating effects of ${actorData.name}`);
       const effects = actorData.effects.reduce((arr, e) => {
@@ -441,6 +441,10 @@ export const migrateActorData = function (actorData) {
         updateData.effects = effects;
       }
     }
+
+    // for (const [key, fat] of Object.entries(actorData.data.fatigue) {
+    //   if (fat.level != undefined)
+    // }
   }
   // else {
   //   log(false, `Removing all effects of ${actorData.name}`);

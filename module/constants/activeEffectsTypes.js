@@ -230,6 +230,12 @@ export default {
     type: "fatigue",
     label: "arm5e.sheet.activeEffect.types.fatigue",
     subtypes: {
+      winded: {
+        label: "arm5e.sheet.winded",
+        key: "data.fatigue.winded.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
       weary: {
         label: "arm5e.sheet.weary",
         key: "data.fatigue.weary.number",
@@ -245,6 +251,30 @@ export default {
       dazed: {
         label: "arm5e.sheet.dazed",
         key: "data.fatigue.dazed.number",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      windedLevel: {
+        label: "arm5e.sheet.windedLvl",
+        key: "data.fatigue.winded.amount",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      wearyLevel: {
+        label: "arm5e.sheet.wearyLvl",
+        key: "data.fatigue.weary.amount",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      tiredLevel: {
+        label: "arm5e.sheet.tiredLvl",
+        key: "data.fatigue.tired.amount",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      dazedLevel: {
+        label: "arm5e.sheet.dazedLvl",
+        key: "data.fatigue.dazed.amount",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }

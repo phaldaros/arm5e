@@ -331,8 +331,9 @@
   font-size: 10pt;
   background-image: url("../assets/item/background.png");
   background-repeat: repeat-y;
-  background-size: contain;
+  background-size: cover;
   font-family: "bookAntiquaBold";
+  width: 410px;
 }
 
 .arm5eRequisite .header-background img {
@@ -344,7 +345,7 @@
 }
 
 .arm5eRequisite .footer-background {
-  height: 14px;
+  height: 45px;
 }
 
 .arm5ActiveEffect {
