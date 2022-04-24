@@ -495,7 +495,6 @@
   "arm5e.messages.wound.incap": "Incapacitante",
   "arm5e.messages.wound.dead": "Muerto",
   "arm5e.messages.noWound": "No se causó ninguna herida",
-  "arm5e.messages.wound": "Recibió una herida $typeWound$",
   "arm5e.messages.woundResult": "Recibió una herida $typeWound$",
   "arm5e.sheet.magic.gesturesType.exaggerated": "Vigorosos",
   "arm5e.sheet.magic.gesturesType.bold": "Vehementes",
