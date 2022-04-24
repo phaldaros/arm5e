@@ -400,7 +400,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
 
     html.find(".rest").click((ev) => {
-      if (this.actor.data.type === "player" || this.actor.data.type === "npc") {
+      if (this.actor.data.type === "player" || this.actor.data.type === "npc" || actorData.type == "beast") {
         this.actor.rest();
       }
     });
@@ -426,6 +426,8 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
     html.find(".voice-and-gestures").change(this._onSelectVoiceAndGestures.bind(this));
+    html.find(".addFatigue").click((event) => this.actor._changeFatigueLevel(1));
+    html.find(".removeFatigue").click((event) => this.actor._changeFatigueLevel(-1));
 
     // Drag events for macros.
     if (this.actor.isOwner) {

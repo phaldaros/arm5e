@@ -61,8 +61,8 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
 }
 
 function findVoiceAndGesturesActiveEffects(effects) {
-  const actualVoiceEffect = ArM5eActiveEffect.findFirstActiveEffectBySubtype(effects, VOICE);
-  const actualGesturesEffect = ArM5eActiveEffect.findFirstActiveEffectBySubtype(effects, GESTURES);
+  const actualVoiceEffect = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(effects, VOICE)[0];
+  const actualGesturesEffect = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(effects, GESTURES)[0];
   try {
     return {
       // // only one change for voice and gestures => index 0 hardcoded

@@ -35,7 +35,7 @@ function getAuraActiveEffect(numericValue) {
 }
 
 async function addEffect(actor, activeEffectData) {
-  const ae = ArM5eActiveEffect.findFirstActiveEffectBySubtype(actor.data.effects, "aura");
+  const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.data.effects, "aura")[0];
   if (ae) {
     activeEffectData._id = ae.data._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);

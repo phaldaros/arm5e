@@ -1,41 +1,43 @@
 <div class="flexcol grid grid-2col margintop18">
   <div class="flex-group-left backSection padding12">
-    <div class="grid grid-2col">
-      <label class="smallTitle">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label
-      ><button class="arm5e rest" style="font-family: blackmoor">{{localize "arm5e.sheet.action.rest"}}</button>
+    <div class="grid grid-3col">
+      <label class="smallTitle">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label>
+      <div>
+        <a class="item-control removeFatigue" title="Remove fatigue level"><i class="fas fa-minus fa-lg"></i></a>
+        <a class="item-control addFatigue" title="Add fatigue level"> <i class="fas fa-plus fa-lg"></i></a>
+      </div>
+      <button class="arm5e rest" style="font-family: blackmoor">{{localize "arm5e.sheet.action.rest"}}</button>
     </div>
+
     <ol>
+      <div class="flexrow flex-between marginbot6"></div>
       {{#each data.fatigue as |fatigue key|}}
-      <li class="flexrow" data-attribute="{{key}}">
-        <div class="flexrow flex-between marginbot6">
-          {{#with (lookup @root.config.character.fatigueLevels key)}}
-          <label for="config.character.fatigueLevels.{{key}}.label">{{localize label}}</label>
-          {{/with}}
-          <span>
-            <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} />
-          </span>
-          <span>
-            <input
-              type="text"
-              name="data.fatigue.{{key}}.number"
-              value="{{numberFormat fatigue.number decimals=0 sign=true}}"
-              data-dtype="Number"
-              readonly
-            />
-          </span>
-          <span>
-            {{#with (lookup @root.config.character.fatigueLevels key)}}
-            <input
-              type="text"
-              name="config.character.fatigueLevels.{{key}}.time"
-              value="{{time}}"
-              data-dtype="String"
-              readonly
-            />
-            {{/with}}
-          </span>
-        </div>
-      </li>
+      <span class="grid grid-4col">
+        {{#with (lookup @root.config.character.fatigueLevels key)}}
+        <label for="config.character.fatigueLevels.{{key}}.label">{{localize label}}</label>
+        {{/with}}
+        <li class="flexrow" data-attribute="{{key}}">
+          {{#each fatigue.levels}}
+          <!-- <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} /> -->
+          <input type="checkbox" disabled="disabled" name="" {{checked this }} /> {{/each}}
+        </li>
+        <input
+          type="text"
+          name="data.fatigue.{{key}}.number"
+          value="{{numberFormat fatigue.number decimals=0 sign=true}}"
+          data-dtype="Number"
+          readonly
+        />
+        {{#with (lookup @root.config.character.fatigueLevels key)}}
+        <input
+          type="text"
+          name="config.character.fatigueLevels.{{key}}.time"
+          value="{{time}}"
+          data-dtype="String"
+          readonly
+        />
+        {{/with}}
+      </span>
       {{/each}}
     </ol>
   </div>

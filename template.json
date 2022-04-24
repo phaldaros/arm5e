@@ -254,60 +254,31 @@
       },
       "fatigue": {
         "fatigueTotal": 0,
+        "fatigueCurrent": 0,
         "fatigue": {
           "fresh": {
             "amount": 0,
-            "number": 0,
-            "levels": [],
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "number": 0
           },
           "winded": {
             "amount": 1,
-            "number": 0,
-            "levels": [false],
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "number": 0
           },
           "weary": {
             "amount": 1,
-            "number": -1,
-            "levels": [false],
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "number": -1
           },
           "tired": {
             "amount": 1,
-            "number": -3,
-            "levels": [false],
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "number": -3
           },
           "dazed": {
             "amount": 1,
-            "number": -5,
-            "levels": [false],
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "number": -5
           },
           "unconscious": {
             "amount": 1,
-            "number": 0,
-            "levels": [false],
-            "level": {
-              "dtype": "Boolean",
-              "value": false
-            }
+            "number": 0
           }
         }
       },

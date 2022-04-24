@@ -302,7 +302,7 @@ export const migrateActorData = function (actorData) {
   //   updateData["data.spells"] = [];
   // }
 
-  if (actorData.type == "player" || actorData.type == "npc") {
+  if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
     if (actorData.data?.roll != undefined) {
       updateData["data.roll.characteristic"] = "";
       updateData["data.roll.ability"] = "";
@@ -340,11 +340,11 @@ export const migrateActorData = function (actorData) {
         updateData["data.sanctum"] = sanctum;
       }
 
-      if (actorData.data?.laboratory != undefined) {
-        updateData["data.laboratory.longevityRitual.labTotal"] = 0;
-        updateData["data.laboratory.longevityRitual.modifier"] = 0;
-        updateData["data.laboratory.longevityRitual.twilightScars"] = "";
-      }
+      // if (actorData.data?.laboratory != undefined) {
+      //   updateData["data.laboratory.longevityRitual.labTotal"] = 0;
+      //   updateData["data.laboratory.longevityRitual.modifier"] = 0;
+      //   updateData["data.laboratory.longevityRitual.twilightScars"] = "";
+      // }
 
       if (actorData.data?.familiar?.characteristicsFam != undefined) {
         updateData["data.familiar.characteristicsFam.int"] = {
@@ -422,7 +422,7 @@ export const migrateActorData = function (actorData) {
     }
   }
 
-  if (actorData.type == "player" || actorData.type == "npc") {
+  if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
     if (actorData.effects && actorData.effects.length > 0) {
       log(false, `Migrating effects of ${actorData.name}`);
       const effects = actorData.effects.reduce((arr, e) => {
@@ -439,6 +439,20 @@ export const migrateActorData = function (actorData) {
       if (effects.length > 0) {
         log(false, effects);
         updateData.effects = effects;
+      }
+    }
+    let currentFatigue = 0;
+    if (actorData.data.fatigue) {
+      for (const [key, fat] of Object.entries(actorData.data.fatigue)) {
+        if (fat.level != undefined) {
+          if (fat.level.value) {
+            currentFatigue++;
+          }
+          updateData[`data.fatigue.${key}.-=level`] = null;
+        }
+      }
+      if (currentFatigue > 0 && actorData.data.fatigueCurrent == 0) {
+        updateData["data.fatigueCurrent"] = currentFatigue;
       }
     }
   }

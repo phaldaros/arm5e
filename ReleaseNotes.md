@@ -10,14 +10,17 @@
 - Item sheets are flavored to the kind of Actor owner (assets by @Sylph)
 - Dice so nice integration: roll botch dice displayed.
 - Basic aging roll (no effect yet)
+- Fatigue management rework
+- New active effect to add fatigue levels
 
 ### Bug fixes
 
 - Abilities compendium didn't have keys set properly.
 - fixed a bug where effects with generic abilities were impossible to delete.
 - Fixed some cosmetic problems in beast sheet
-- Fixed formula computation resulting 0 when a die explode
 - Ability is set to "None" by default if rolling a characteristic
+- migrating doesn't reset your longevity potion bonus and lab total anymore.
+- Spontaneous rolls from arts are no longer able have simple die option
 
 ## 1.4.1
 
