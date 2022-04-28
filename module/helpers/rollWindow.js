@@ -36,6 +36,7 @@ const STRESS_DIE = {
 
 function prepareRollVariables(dataset, actorData, activeEffects) {
   if (dataset.roll) {
+    if (actorData.data.roll == undefined) actorData.data.roll = {};
     // clean roll data
     actorData.data.roll.year = "";
     actorData.data.roll.season = "";
@@ -82,14 +83,15 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       actorData.data.roll.label = dataset.name;
     }
 
-    if (dataset.defaultcharacteristicforability) {
+    if (dataset.roll == "char") {
+      actorData.data.roll.characteristic = dataset.characteristic;
+    } else if (dataset.roll == "ability" && dataset.defaultcharacteristicforability) {
       actorData.data.roll.characteristic = dataset.defaultcharacteristicforability;
-    }
-    if (dataset.ability) {
-      actorData.data.roll.ability = dataset.ability;
-    }
 
-    if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
+      if (dataset.ability) {
+        actorData.data.roll.ability = dataset.ability;
+      }
+    } else if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
       if (dataset.id) {
         actorData.data.roll.effectId = dataset.id;
         // TODO: perf: get it from spells array?

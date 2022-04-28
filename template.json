@@ -29,28 +29,36 @@
         "biography": "Character biography, notes, &c.",
         "characteristics": {
           "int": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           },
           "per": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           },
           "str": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           },
           "sta": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           },
           "pre": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           },
           "com": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           },
           "dex": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           },
           "qik": {
-            "value": 0
+            "value": 0,
+            "aging": 0
           }
         },
         "description": {
@@ -142,13 +150,9 @@
         "magicalEffects": [],
 
         "season": {
-          "value": "",
-          "label": "Season",
-          "dtype": "String"
+          "value": ""
         },
         "year": {
-          "label": "Year",
-          "dtype": "String",
           "value": "1225"
         },
         "decrepitude": {

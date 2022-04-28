@@ -151,7 +151,7 @@
   "arm5e.sheet.qik": "Qik",
   "arm5e.sheet.quickness": "Quickness",
   "arm5e.sheet.cun": "Cun",
-  "arm5e.sheet.cunning": "cunning",
+  "arm5e.sheet.cunning": "Cunning",
 
   "arm5e.sheet.fresh": "Fresh",
   "arm5e.sheet.winded": "Winded",
@@ -737,7 +737,7 @@
   "arm5e.messages.wound.heavy": "heavy",
   "arm5e.messages.wound.incap": "incap",
   "arm5e.messages.wound.dead": "dead",
-  "arm5e.messages.woundResult": "Got a $typeWound$ wound",
+  "arm5e.messages.woundResult": "Received a {typeWound} wound",
   "arm5e.messages.noWound": "No wound inflicted",
   "arm5e.messages.applyDamage": "Apply damage",
   "arm5e.messages.useConf": "Use confidence point",

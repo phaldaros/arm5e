@@ -52,7 +52,7 @@
     </div>
   </div>
 </div>
-{{/if}} {{#if (eq actor.type "player")}}
+{{/if}} {{#if (or (eq actor.type "player") (eq actor.type "npc"))}}
 <div class="flexcol grid grid-2col">
   <div class="flex-group-left padding12 backSection">
     <label class="smallTitle">
