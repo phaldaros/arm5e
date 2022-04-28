@@ -198,7 +198,7 @@ export class ArM5ePCActor extends Actor {
         for (let ii = 0; ii < item.amount; ii++) {
           if (lvl < data.fatigueCurrent) {
             fatigueArray.push(true);
-            data.fatigueTotal = item.number;
+            data.fatigueTotal += item.number > 0 ? 0 : item.number;
           } else {
             fatigueArray.push(false);
           }

@@ -400,7 +400,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
 
     html.find(".rest").click((ev) => {
-      if (this.actor.data.type === "player" || this.actor.data.type === "npc" || actorData.type == "beast") {
+      if (this.actor.data.type === "player" || this.actor.data.type === "npc" || this.actor.type == "beast") {
         this.actor.rest();
       }
     });
@@ -823,9 +823,9 @@ export async function setWounds(selector, actor) {
     messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
   }
   const messageWound = typeOfWound
-    ? game.i18n
-        .localize("arm5e.messages.woundResult")
-        .replace("$typeWound$", game.i18n.localize("arm5e.messages.wound." + typeOfWound.toLowerCase()))
+    ? game.i18n.format("arm5e.messages.woundResult", {
+        typeWound: game.i18n.localize("arm5e.messages.wound." + typeOfWound.toLowerCase())
+      })
     : game.i18n.localize("arm5e.messages.noWound");
 
   ChatMessage.create({

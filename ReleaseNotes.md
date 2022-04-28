@@ -21,6 +21,10 @@
 - Ability is set to "None" by default if rolling a characteristic
 - migrating doesn't reset your longevity potion bonus and lab total anymore.
 - Spontaneous rolls from arts are no longer able have simple die option
+- Fixed Spanish and French language problem
+- Fatigue penalties are capped at 0 (ie: no bonus)
+- Characteristics rolls have now the correct characteristic selected.
+- NPCs can age and have warping
 
 ## 1.4.1
 
