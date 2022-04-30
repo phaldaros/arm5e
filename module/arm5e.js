@@ -123,7 +123,7 @@ Hooks.once("init", async function () {
       SHOW_ALL: "Give me all details!",
       ONLY_RESULTS: "Show me only the result"
     },
-    default: "MONO"
+    default: "ONLY_RESULTS"
   });
 
   /**
