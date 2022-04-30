@@ -25,6 +25,7 @@
 - Fatigue penalties are capped at 0 (ie: no bonus)
 - Characteristics rolls have now the correct characteristic selected.
 - NPCs can age and have warping
+- Fix "Show penetration and defense" feature
 
 ## 1.4.1
 

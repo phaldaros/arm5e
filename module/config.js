@@ -1268,6 +1268,7 @@ ARM5E.item.costs = {
 ARM5E.activities = {};
 
 ARM5E.activities.generic = {
+  exposure: "arm5e.activity.exposure",
   practice: "arm5e.activity.practice",
   training: "arm5e.activity.training",
   teaching: "arm5e.activity.teaching"

@@ -29,7 +29,7 @@ async function simpleDie(html, actorData, callBack) {
   });
 
   if (callBack) {
-    callBack(html, actorData, tmp, message);
+    await callBack(html, actorData, tmp, message);
   }
 }
 

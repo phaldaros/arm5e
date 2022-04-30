@@ -369,14 +369,14 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
   dialog.render(true);
 }
 
-function checkTargetAndCalculateResistance(html, actorCaster, roll, message) {
+async function checkTargetAndCalculateResistance(html, actorCaster, roll, message) {
   const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
   if (!actorsTargeted) {
     return false;
   }
-  actorsTargeted.forEach((actorTarget) => {
+  actorsTargeted.forEach(async (actorTarget) => {
     const successOfMagic = calculateSuccessOfMagic({ actorTarget, actorCaster, roll, spell: message });
-    chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
+    await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
   });
 }
 

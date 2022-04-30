@@ -180,10 +180,10 @@
   "arm5e.sheet.specialityBonus": "Speciality bonus",
   "arm5e.sheet.totalPenetration": "Penetration total",
   "arm5e.sheet.totalMagicResistance": "Magic resistance total",
-  "arm5e.sheet.spellOverMagicResistance": "Spell sucessful on $target$ by $total$",
-  "arm5e.sheet.magicResistanceOverSpell": "Spell failed to work on $target$ by $total$",
+  "arm5e.sheet.spellOverMagicResistance": "Spell successful on $target$ by $total$",
+  "arm5e.sheet.magicResistanceOverSpell": "Spell failed on $target$ by $total$",
 
-  "arm5e.sheet.spellOverMagicResistanceWithNoTotal": "Spell sucessful on $target$",
+  "arm5e.sheet.spellOverMagicResistanceWithNoTotal": "Spell successful on $target$",
   "arm5e.sheet.magicResistanceOverSpellWithNoTotal": "Spell failed to work on $target$",
 
   "arm5e.sheet.formScore": "Form score ($form$)",
@@ -814,5 +814,10 @@
   "arm5e.aging.roll.QikPt": "1 Aging Point in Qik",
   "arm5e.aging.roll.StaPt": "1 Aging Point in Sta",
   "arm5e.aging.roll.PerPt": "1 Aging Point in Per",
-  "arm5e.aging.roll.PrsPt": "1 Aging Point in Prs"
+  "arm5e.aging.roll.PrsPt": "1 Aging Point in Prs",
+  "arm5e.activity.adventuring": "Adventuring",
+  "arm5e.activity.exposure": "Exposure",
+  "arm5e.activity.practice": "Practice",
+  "arm5e.activity.training": "Training",
+  "arm5e.activity.teaching": "Teaching"
 }
