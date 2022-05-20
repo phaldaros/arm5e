@@ -26,7 +26,7 @@
         <div class="resource flex-group-center backSection">
           <label for="data.year.value" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="text" name="data.year.value" value="{{data.year.value}}" data-dtype="String" />
+            {{numberInput data.year.value min=1 step=1 }}
           </div>
         </div>
 
@@ -34,14 +34,14 @@
           <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
             <input
-              type="text"
+              type="number"
               name="data.con.score"
               value="{{data.con.score}}"
               data-dtype="Number"
               style="flex: 0.6; margin-left: 8px; margin-right: 24px"
             />
             (<input
-              type="text"
+              type="number"
               name="data.con.points"
               value="{{data.con.points}}"
               data-dtype="Number"

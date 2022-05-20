@@ -10,5 +10,6 @@ jsconfig.json
 test.js
 .npmignore
 TODO.txt
+foundry.js
 packs/enchantments.db
 .eslintrc.json

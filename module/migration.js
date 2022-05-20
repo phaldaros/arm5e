@@ -332,6 +332,19 @@ export const migrateActorData = function (actorData) {
   }
 
   if (actorData.type == "player" || actorData.type == "npc") {
+    if (actorData.data.charType.value !== "entity") {
+      if (actorData.data.decrepitude.score != undefined) {
+        let exp = (actorData.data.decrepitude.score * (actorData.data.decrepitude.score + 1) * 5) / 2;
+        if (actorData.data.decrepitude.points >= 5 * (technique.score + 1)) {
+          // if the experience is bigger than the needed for next level, ignore it
+          updateData["data.decrepitude.points"] = exp;
+        } else {
+          // compute normally
+          updateData["data.decrepitude.points"] = exp + actorData.data.decrepitude.points;
+        }
+        updateData["data.decrepitude.-=score"] = null;
+      }
+    }
     if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
       if (actorData.data?.sanctum?.value === undefined) {
         let sanctum = {

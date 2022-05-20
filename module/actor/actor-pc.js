@@ -82,7 +82,7 @@ export class ArM5ePCActor extends Actor {
       }
     }
 
-    this.data.data.bonuses.traits = { soak: 0 };
+    this.data.data.bonuses.traits = { soak: 0, aging: 0 };
   }
 
   /** @override */
@@ -429,7 +429,13 @@ export class ArM5ePCActor extends Actor {
       if (actorData.data.decrepitude == undefined) {
         actorData.data.decrepitude = {};
       }
-      actorData.data.decrepitude.experienceNextLevel = (parseInt(actorData.data.decrepitude?.score || 0) + 1) * 5;
+      actorData.data.decrepitude.finalScore = this._getAbilityScore(actorData.data.decrepitude.points);
+      actorData.data.decrepitude.experienceNextLevel =
+        ((parseInt(actorData.data.decrepitude.finalScore) + 1) *
+          (parseInt(actorData.data.decrepitude.finalScore) + 2) *
+          5) /
+          2 -
+        actorData.data.decrepitude.points;
     }
 
     if (this._isMagus()) {
@@ -1104,7 +1110,7 @@ export class ArM5ePCActor extends Actor {
   }
 
   async useConfidencePoint() {
-    if (this._isCharacter()) {
+    if (!this._isCharacter()) {
       return false;
     }
 
@@ -1140,5 +1146,84 @@ export class ArM5ePCActor extends Actor {
           });
       }
     }
+  }
+
+  async addAgingPoints(amount, char1, char2) {
+    if (!this._isCharacter()) {
+      return;
+    }
+    let updateData = {};
+    let result = { crisis: false, apparent: 1, charac: {} };
+    updateData["data.age.value"] = this.data.data.age.value + 1;
+    switch (amount) {
+      case 0:
+        updateData["data.apparent.value"] = this.data.data.apparent.value + 1;
+        break;
+      case undefined:
+        result.apparent = 0;
+        break;
+      case 1:
+        updateData["data.apparent.value"] = this.data.data.apparent.value + 1;
+        updateData["data.decrepitude.points"] = this.data.data.decrepitude.points + 1;
+        result.decrepitude = 1;
+        result.charac[char1] = { aging: 1 };
+
+        if (Math.abs(this.data.data.characteristics[char1].value) < this.data.data.characteristics[char1].aging + 1) {
+          updateData[`data.characteristics.${char1}.value`] = this.data.data.characteristics[char1].value - 1;
+          updateData[`data.characteristics.${char1}.aging`] = 0;
+          result.charac[char1].score = -1;
+        } else {
+          updateData[`data.characteristics.${char1}.aging`] = this.data.data.characteristics[char1].aging + 1;
+        }
+        if (this.data.data.decrepitude.experienceNextLevel == 1) result.crisis = true;
+        break;
+      case 2:
+        updateData["data.apparent.value"] = this.data.data.apparent.value + 1;
+        updateData["data.decrepitude.points"] = this.data.data.decrepitude.points + 2;
+        result.decrepitude = 2;
+        result.charac[char1] = { aging: 1 };
+        result.charac[char2] = { aging: 1 };
+        if (Math.abs(this.data.data.characteristics[char1].value) < this.data.data.characteristics[char1].aging + 1) {
+          updateData[`data.characteristics.${char1}.value`] = this.data.data.characteristics[char1].value - 1;
+          updateData[`data.characteristics.${char1}.aging`] = 0;
+          result.charac[char1].score = -1;
+        } else {
+          updateData[`data.characteristics.${char1}.aging`] = this.data.data.characteristics[char1].aging + 1;
+        }
+        if (Math.abs(this.data.data.characteristics[char2].value) < this.data.data.characteristics[char2].aging + 1) {
+          updateData[`data.characteristics.${char2}.value`] = this.data.data.characteristics[char2].value - 1;
+          updateData[`data.characteristics.${char2}.aging`] = 0;
+          result.charac[char1].score = -1;
+        } else {
+          updateData[`data.characteristics.${char2}.aging`] = this.data.data.characteristics[char2].aging + 1;
+        }
+
+        if (this.data.data.decrepitude.experienceNextLevel <= 2) result.crisis = true;
+
+        break;
+      default: //crisis
+        result.crisis = true;
+        updateData["data.apparent.value"] = this.data.data.apparent.value + 1;
+        updateData["data.decrepitude.points"] =
+          this.data.data.decrepitude.points + this.data.data.decrepitude.experienceNextLevel;
+
+        if (this.data.data.decrepitude.experienceNextLevel > this.data.data.characteristics[char1].value) {
+          updateData[`data.characteristics.${char1}.value`] = this.data.data.characteristics[char1].value - 1;
+          updateData[`data.characteristics.${char1}.aging`] = 0;
+          result.charac[char1] = { aging: this.data.data.characteristics[char1].value + 1, score: -1 };
+        } else {
+          updateData[`data.characteristics.${char1}.aging`] =
+            this.data.data.characteristics[char1].aging + this.data.data.decrepitude.experienceNextLevel;
+          result.charac[char1] = {
+            aging: this.data.data.characteristics[char1].value + this.data.data.decrepitude.experienceNextLevel
+          };
+        }
+
+        result.decrepitude = this.data.data.decrepitude.experienceNextLevel;
+    }
+    log(false, "Aging effect");
+    log(false, updateData);
+    // await this.update(updateData, {});
+    return result;
   }
 }

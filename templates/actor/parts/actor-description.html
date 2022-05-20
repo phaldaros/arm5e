@@ -61,12 +61,12 @@
     <div class="flexrow marginbot6 margintop6">
       <label for="data.warping.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
       <span class="marginbot6" style="margin-right: 24px"
-        ><input type="text" name="data.warping.score" value="{{data.warping.score}}" data-dtype="String"
+        ><input type="number" name="data.warping.score" value="{{data.warping.score}}" data-dtype="String"
       /></span>
       <label for="data.warping.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
       <span class="marginbot6">
         <input
-          type="text"
+          type="number"
           name="data.warping.points"
           value="{{data.warping.points}}"
           data-dtype="String"
@@ -89,9 +89,14 @@
       <a class="rollable" data-roll="aging" data-year="{{data.year.value}}"> <i class="fas fa-hourglass"></i></a>
     </label>
     <div class="flexrow marginbot6 margintop6">
-      <label for="data.decrepitude.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
+      <label for="data.decrepitude.finalScore" class="bold">{{localize "arm5e.sheet.score"}}</label>
       <span class="marginbot6" style="margin-right: 24px"
-        ><input type="text" name="data.decrepitude.score" value="{{data.decrepitude.score}}" data-dtype="String"
+        ><input
+          type="text"
+          name="data.decrepitude.finalScore"
+          value="{{data.decrepitude.finalScore}}"
+          data-dtype="Number"
+          readonly
       /></span>
       <label for="data.decrepitude.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
       <span class="marginbot6">
@@ -99,7 +104,7 @@
           type="text"
           name="data.decrepitude.points"
           value="{{data.decrepitude.points}}"
-          data-dtype="String"
+          data-dtype="Number"
           style="width: 50px"
         />&nbsp;/&nbsp;({{data.decrepitude.experienceNextLevel }})
       </span>

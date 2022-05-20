@@ -1,30 +1,36 @@
 <div class="grid grid-2col">
   <div class="resource">
-    <label class="header-label">{{localize "arm5e.lab.enchantment.effectFrequency" }}</label>
-    <select name="data.effectfrequency" data-dtype="Number">
-      {{#select data.effectfrequency}} {{#each config.lab.enchantment.effectUses as |uses key|}}
-      <option value="{{key}}">{{uses}} {{localize "arm5e.lab.enchantment.uses-per-day"}}</option>
+    <label class="header-label">Activity</label>
+    <select name="data.activity" data-type="String" style="width: 100%">
+      <option value="none">{{localize "arm5e.sheet.activeEffect.subtypes.none"}}</option>
+      {{#select data.activity}} {{#each config.activities.generic as |activity key|}}
+      <option value="{{key}}">{{localize activity}}</option>
       {{/each}} {{/select}}
     </select>
   </div>
   <div class="resource">
-    <label class="header-label">{{localize "arm5e.lab.enchantment.penetration"}}</label>
-    <input type="text" name="data.penetration" value="{{data.penetration}}" data-dtype="Number" />
+    <label class="header-label">{{localize "Source quality"}}</label>
+    <input type="text" name="data.sourceQuality" value="{{data.sourceQuality}}" data-dtype="Number" />
   </div>
   <div class="resource">
-    <label class="header-label">{{localize "arm5e.lab.enchantment.maintainConc" }}</label>
-    <input type="checkbox" name="data.maintainConc" {{checked data.maintainConc}} />
+    <label for="data.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
+    <select name="data.key" data-dtype="String" class="ability-key">
+      {{#select data.key}}
+      <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
+      {{#each abilityKeysList as |item key|}}
+      <option value="{{key}}">{{localize item.mnemonic}}</option>
+      {{/each}} {{/select}}
+    </select>
   </div>
   <div class="resource">
-    <label class="header-label">{{localize "arm5e.lab.enchantment.envTrigger"}}</label>
-    <input type="text" name="data.environmentalTrigger" value="{{data.environmentalTrigger}}" data-dtype="String" />
-  </div>
-  <div class="resource">
-    <label class="header-label">{{localize "arm5e.lab.enchantment.restrictedUse"}}</label>
-    <input type="text" name="data.restrictedUse" value="{{data.restrictedUse}}" data-dtype="String" />
-  </div>
-  <div class="resource">
-    <label class="header-label">{{localize "arm5e.lab.enchantment.linkTrigger"}}</label>
-    <input type="text" name="data.linkedTrigger" value="{{data.linkedTrigger}}" data-dtype="String" />
+    {{#if (lookup (lookup abilityKeysList data.key) "option")}}
+    <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+    <input type="text" class="ability-option" name="data.option" value="{{data.option}}" style="width: 200px" />
+    {{else}}
+    <label for="data.option" class="header-label" style="color: gray"
+      >{{localize "arm5e.sheet.skill.abilityOption"}}</label
+    >
+    <input type="text" name="data.option" data-dtype="String" value="" readonly style="width: 200px" />
+    {{/if}}
   </div>
 </div>

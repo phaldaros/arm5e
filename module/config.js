@@ -1268,10 +1268,13 @@ ARM5E.item.costs = {
 ARM5E.activities = {};
 
 ARM5E.activities.generic = {
+  none: "arm5e.activity.none",
+  adventuring: "arm5e.activity.adventuring",
   exposure: "arm5e.activity.exposure",
   practice: "arm5e.activity.practice",
   training: "arm5e.activity.training",
-  teaching: "arm5e.activity.teaching"
+  teaching: "arm5e.activity.teaching",
+  aging: "arm5e.activity.aging"
 };
 
 ARM5E.activities.lab = {
@@ -1289,6 +1292,21 @@ ARM5E.activities.books = {
   read: "arm5e.book.learnSkill",
   write: "arm5e.book.write",
   copy: "arm5e.book.copy"
+};
+
+ARM5E.activities.aging = {
+  noaging: { desc: "arm5e.aging.roll.noaging" },
+  normal: { desc: "arm5e.aging.roll.normal", impact: 0 },
+  anyAgingPt: { desc: "arm5e.aging.roll.anyAgingPt", impact: 1 },
+  QikPt: { desc: "arm5e.aging.roll.QikPt", impact: 1, char: "qik" },
+  PrsPt: { desc: "arm5e.aging.roll.PrsPt", impact: 1, char: "pre" },
+  StaPt: { desc: "arm5e.aging.roll.StaPt", impact: 1, char: "sta" },
+  PerPt: { desc: "arm5e.aging.roll.PerPt", impact: 1, char: "per" },
+  StrStaPts: { desc: "arm5e.aging.roll.StrStaPts", impact: 2, char: "str", char2: "sta" },
+  DexQikPts: { desc: "arm5e.aging.roll.DexQikPts", impact: 2, char: "dex", char2: "qik" },
+  ComPrsPts: { desc: "arm5e.aging.roll.ComPrsPts", impact: 2, char: "com", char2: "pre" },
+  IntPerPts: { desc: "arm5e.aging.roll.IntPerPts", impact: 2, char: "int", char2: "per" },
+  crisis: { desc: "arm5e.aging.roll.crisis", impact: 42 }
 };
 
 ARM5E.lab = {};

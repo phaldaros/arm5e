@@ -3,7 +3,6 @@
  * @extends {ActorSheet}
  */
 
-import { simpleDie, stressDie } from "../dice.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ARM5E } from "../config.js";
 import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
@@ -17,7 +16,9 @@ import {
   cleanBooleans,
   updateCharacteristicDependingOnRoll,
   renderRollTemplate,
-  chooseTemplate
+  chooseTemplate,
+  ROLL_MODES,
+  getRollTypeProperties
 } from "../helpers/rollWindow.js";
 
 export class ArM5eActorSheet extends ActorSheet {
@@ -276,6 +277,15 @@ export class ArM5eActorSheet extends ActorSheet {
           ab.ui = { style: 'style="box-shadow: 0 0 10px purple"', title: "Affinity, " };
         }
       }
+
+      for (let [key, charac] of Object.entries(context.data.characteristics)) {
+        let shadowWidth = 2 * charac.aging;
+        charac.ui = {
+          style: 'style="box-shadow: 0 0 ' + shadowWidth + 'px black"',
+          title: `${charac.aging} ` + game.i18n.localize("arm5e.sheet.agingPts")
+        };
+        // log(false, `${key} has ${charac.aging} points`);
+      }
     }
     context.isGM = game.user.isGM;
 
@@ -421,6 +431,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Rollable abilities.
     html.find(".rollable").click(this._onRoll.bind(this));
+    // html.find(".agingPoints").click(this._onRoll.bind(this));
 
     html.find(".pick-covenant").click(this._onPickCovenant.bind(this));
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
@@ -709,7 +720,8 @@ export class ArM5eActorSheet extends ActorSheet {
       });
       return;
     }
-    if (dataset.roll != "char" && dataset.roll != "aging") {
+    if ((getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.UNCONSCIOUS) == 0) {
+      // if (dataset.roll != "char" && dataset.roll != "aging" && dataset.roll != "crisis") {
       if (this.actor.data.data.fatigueCurrent == this.actor.data.data.fatigueMaxLevel) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.unconscious"), {
           permanent: true

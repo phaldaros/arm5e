@@ -1,7 +1,6 @@
 <form class="{{cssClass}} arm5eChooser" autocomplete="off">
   {{> "systems/arm5e/templates/item/parts/item-header.html" header="Inputs"}}
   <div class="flexrow backSection" style="padding: 8px">
-    {{log data.data}}
     <select class="SelectedItem" name="data.data.choice" data-type="String">
       {{#select data.data.choice}} {{#each data.data.list}}
       <option value="{{this.id}}">{{this.name}}</option>

@@ -388,13 +388,8 @@ export function generateActiveEffectFromAbilities() {
   debugger;
 }
 
-// wounds: {
-// category: "traits",
-// type: "wounds",
-// label: "arm5e.sheet.activeEffect.types.wounds",
-// subtypes: {
-//     light: {
-//       label: "arm5e.sheet.light",
-//       key: "data.wounds.light.penalty.value",
-//       mode: CONST.ACTIVE_EFFECT_MODES.ADD
-//     },
+export function getSystemCompendium(compendiumName) {
+  let pack = game.packs.filter((p) => p.metadata.package === "arm5e" && p.metadata.name === compendiumName);
+  if (pack.length) return pack[0];
+  return undefined;
+}

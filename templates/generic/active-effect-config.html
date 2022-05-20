@@ -105,7 +105,7 @@
             </div>
             <div class="mode">{{localize (concat "arm5e.sheet.activeEffect.mode_" change.mode)}}</div>
             <div class="value">
-              <input type="text" name="changes.{{i}}.value" value="{{change.value}}" data-dtype="Number" />
+              <input type="number" name="changes.{{i}}.value" value="{{change.value}}" data-dtype="Number" />
             </div>
 
             <div class="effect-controls">
@@ -116,7 +116,7 @@
             </div>
           </div>
           <div style="position: absolute; right: -2300px">
-            <input type="text" name="changes.{{i}}.mode" value="{{change.mode}}" data-dtype="Number" readonly />
+            <input type="number" name="changes.{{i}}.mode" value="{{change.mode}}" data-dtype="Number" readonly />
           </div>
         </li>
         {{/each}}
