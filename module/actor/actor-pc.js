@@ -1207,15 +1207,16 @@ export class ArM5ePCActor extends Actor {
         updateData["data.decrepitude.points"] =
           this.data.data.decrepitude.points + this.data.data.decrepitude.experienceNextLevel;
 
-        if (this.data.data.decrepitude.experienceNextLevel > this.data.data.characteristics[char1].value) {
+        if (this.data.data.decrepitude.experienceNextLevel > Math.abs(this.data.data.characteristics[char1].value)) {
           updateData[`data.characteristics.${char1}.value`] = this.data.data.characteristics[char1].value - 1;
           updateData[`data.characteristics.${char1}.aging`] = 0;
-          result.charac[char1] = { aging: this.data.data.characteristics[char1].value + 1, score: -1 };
+          result.charac[char1] = { aging: Math.abs(this.data.data.characteristics[char1].value) + 1, score: -1 };
         } else {
           updateData[`data.characteristics.${char1}.aging`] =
             this.data.data.characteristics[char1].aging + this.data.data.decrepitude.experienceNextLevel;
           result.charac[char1] = {
-            aging: this.data.data.characteristics[char1].value + this.data.data.decrepitude.experienceNextLevel
+            aging:
+              Math.abs(this.data.data.characteristics[char1].value) + this.data.data.decrepitude.experienceNextLevel
           };
         }
 
@@ -1223,7 +1224,7 @@ export class ArM5ePCActor extends Actor {
     }
     log(false, "Aging effect");
     log(false, updateData);
-    // await this.update(updateData, {});
+    await this.update(updateData, {});
     return result;
   }
 }
