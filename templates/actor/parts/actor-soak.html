@@ -3,7 +3,7 @@
   <div class="roll-options">
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.damage" }}</label>
-      <input type="text" name="damage" value="{{extraData.damage}}" data-dtype="Number" class="SelectedDamage" />
+      <input type="number" name="damage" value="{{extraData.damage}}" data-dtype="Number" class="SelectedDamage" />
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">-</label>
@@ -41,7 +41,13 @@
 
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
-      <input type="text" name="modifier" value="{{extraData.modifier}}" data-dtype="Number" class="SelectedModifier" />
+      <input
+        type="number"
+        name="modifier"
+        value="{{extraData.modifier}}"
+        data-dtype="Number"
+        class="SelectedModifier"
+      />
     </div>
   </div>
   {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Damage_Soak"}}

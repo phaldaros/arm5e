@@ -167,6 +167,12 @@ export default {
         key: "data.bonuses.traits.soak",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
+      },
+      aging: {
+        label: "arm5e.sheet.aging",
+        key: "data.bonuses.traits.aging",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
       }
     }
   },

@@ -47,7 +47,7 @@
         {{/if}}
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-          <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
+          <input type="number" name="data.level" value="{{data.level}}" data-dtype="Number" />
         </div>
       </div>
     </div>
@@ -114,7 +114,7 @@
         <div class="grid grid-2col">
           <div class="resource">
             <label class="header-label">{{localize "arm5e.spell.effect.baseLevel"}}</label>
-            <input type="text" name="data.baseLevel" size="4" value="{{data.baseLevel}}" data-dtype="Number" />
+            <input type="number" name="data.baseLevel" size="4" value="{{data.baseLevel}}" data-dtype="Number" />
           </div>
           <div class="resource">
             <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
@@ -129,15 +129,20 @@
         <div class="grid grid-3col">
           <div class="resource">
             <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
-            <input type="text" name="data.targetSize" value="{{data.targetSize}}" data-dtype="Number" />
+            <input type="number" name="data.targetSize" value="{{data.targetSize}}" data-dtype="Number" />
           </div>
           <div class="resource">
             <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
-            <input type="text" name="data.complexity" value="{{data.complexity}}" data-dtype="Number" />
+            <input type="number" name="data.complexity" value="{{data.complexity}}" data-dtype="Number" />
           </div>
           <div class="resource">
             <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
-            <input type="text" name="data.enhancingRequisite" value="{{data.enhancingRequisite}}" data-dtype="Number" />
+            <input
+              type="number"
+              name="data.enhancingRequisite"
+              value="{{data.enhancingRequisite}}"
+              data-dtype="Number"
+            />
           </div>
         </div>
         {{/if}}

@@ -58,6 +58,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/generic/textInput.html",
     "systems/arm5e/templates/generic/largeDialog-footer.html",
     "systems/arm5e/templates/generic/largeDialog-header.html",
-    "systems/arm5e/templates/generic/source.html"
+    "systems/arm5e/templates/generic/source.html",
+    "systems/arm5e/templates/generic/aging-dialog.html"
   ]);
 };

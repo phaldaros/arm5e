@@ -67,9 +67,9 @@
         <div class="resource flex-group-center backSection">
           <label for="data.age.value" class="smallTitle">{{localize "arm5e.sheet.age"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number" />
+            <input type="number" name="data.age.value" value="{{data.age.value}}" data-dtype="Number" />
             <span> ( </span>
-            <input type="text" name="data.apparent.value" value="{{data.apparent.value}}" data-dtype="Number" />
+            <input type="number" name="data.apparent.value" value="{{data.apparent.value}}" data-dtype="Number" />
             <span> ) </span>
           </div>
         </div>
@@ -77,7 +77,7 @@
         <div class="resource flex-group-center backSection">
           <label for="data.vitals.siz.value" class="smallTitle">{{localize "arm5e.sheet.size"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="text" name="data.vitals.siz.value" value="{{data.vitals.siz.value}}" data-dtype="Number" />
+            <input type="number" name="data.vitals.siz.value" value="{{data.vitals.siz.value}}" data-dtype="Number" />
           </div>
         </div>
 
@@ -85,7 +85,7 @@
           <label for="data.vitals.soa.value" class="smallTitle">{{localize "arm5e.sheet.soak"}}</label>
           <div class="resource-content flexrow flex-center flex-between">
             <input
-              type="text"
+              type="number"
               name="data.vitals.soa.value"
               value="{{data.vitals.soa.value}}"
               data-dtype="Number"
@@ -97,14 +97,14 @@
           <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
             <input
-              type="text"
+              type="number"
               name="data.con.score"
               value="{{data.con.score}}"
               data-dtype="Number"
               style="flex: 0.6; margin-left: 8px; margin-right: 24px"
             />
             (<input
-              type="text"
+              type="number"
               name="data.con.points"
               value="{{data.con.points}}"
               data-dtype="Number"

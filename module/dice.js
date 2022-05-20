@@ -1,35 +1,50 @@
+import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
+
 let mult = 1;
 
-async function simpleDie(html, actorData, callBack) {
-  actorData = getFormData(html, actorData);
-  actorData = getRollFormula(actorData);
+async function simpleDie(html, actor, type = "DEFAULT", callBack) {
+  actor = getFormData(html, actor);
+  actor = getRollFormula(actor);
 
   //console.log('simple die');
   //console.log(actorData);
-  let name = '<h2 class="ars-chat-title">' + actorData.data.data.roll.label + "</h2>";
-  let formula = "1D10+" + actorData.data.data.roll.rollFormula;
-  if (actorData.data.data.roll.divide > 1) {
-    formula = "(1D10+" + actorData.data.data.roll.rollFormula + ")/" + actorData.data.data.roll.divide;
+  let conf = actor.data.data.con.score;
+
+  if ((getRollTypeProperties(type).MODE & ROLL_MODES.NO_CONF) != 0) {
+    conf = 0;
   }
-  const dieRoll = new Roll(formula, actorData.data.data);
+  let name = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
+  let formula = "1D10+" + actor.data.data.roll.rollFormula;
+  if (actor.data.data.roll.divide > 1) {
+    formula = "(1D10+" + actor.data.data.roll.rollFormula + ")/" + actor.data.data.roll.divide;
+  }
+  const dieRoll = new Roll(formula, actor.data.data);
   let tmp = await dieRoll.roll({
     async: true
   });
-  const message = await tmp.toMessage({
-    speaker: ChatMessage.getSpeaker({
-      actor: actorData
-    }),
-    flavor:
-      name + game.i18n.localize("arm5e.dialog.button.simpledie") + ": <br />" + actorData.data.data.roll.rollLabel,
-    flags: {
-      arm5e: {
-        confScore: actorData.data.data.con.score
+
+  let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+  if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE) {
+    rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
+  }
+  const message = await tmp.toMessage(
+    {
+      speaker: ChatMessage.getSpeaker({
+        actor: actor
+      }),
+      flavor: name + game.i18n.localize("arm5e.dialog.button.simpledie") + ": <br />" + actor.data.data.roll.rollLabel,
+      flags: {
+        arm5e: {
+          type: "confidence",
+          confScore: conf
+        }
       }
-    }
-  });
+    },
+    { rollMode: rollMode }
+  );
 
   if (callBack) {
-    await callBack(html, actorData, tmp, message);
+    await callBack(html, actor, tmp, message);
   }
 }
 
@@ -38,7 +53,7 @@ async function simpleDie(html, actorData, callBack) {
 // 1 => force a one
 // 2 => force a zero
 // 4 => Aging roll
-async function stressDie(html, actor, modes = 0, callBack) {
+async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
@@ -49,7 +64,12 @@ async function stressDie(html, actor, modes = 0, callBack) {
   let dieRoll = await explodingRoll(actor, modes);
   let flavorTxt = name + game.i18n.localize("arm5e.dialog.button.stressdie") + ": <br />";
   let lastRoll;
-  let confAllowed = actor.data.data.con.score && modes != 4;
+  let confAllowed = actor.data.data.con.score;
+
+  if ((getRollTypeProperties(type).MODE & ROLL_MODES.NO_CONF) != 0) {
+    confAllowed = 0;
+  }
+
   let botchCheck = 0;
   if (mult > 1) {
     flavorTxt = name + "<h3>" + game.i18n.localize("arm5e.messages.die.exploding") + "</h3><br/>";
@@ -66,22 +86,31 @@ async function stressDie(html, actor, modes = 0, callBack) {
   }
   lastRoll = multiplyRoll(mult, dieRoll, formula, actor.data.data.roll.divide);
 
-  // if (modes != 4) {
-  const message = await lastRoll.toMessage({
-    flavor: flavorTxt + rollLabel,
-    speaker: ChatMessage.getSpeaker({
-      actor: actor
-    }),
-    flags: {
-      arm5e: {
-        divide: actor.data.data.roll.divide,
-        confScore: confAllowed,
-        botchCheck: botchCheck
+  let rollOptions = {};
+  let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+  if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE) {
+    rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
+  }
+  const message = await lastRoll.toMessage(
+    {
+      flavor: flavorTxt + rollLabel,
+      speaker: ChatMessage.getSpeaker({
+        actor: actor
+      }),
+      whisper: ChatMessage.getWhisperRecipients("gm"),
+      flags: {
+        arm5e: {
+          type: "confidence",
+          divide: actor.data.data.roll.divide,
+          confScore: confAllowed,
+          botchCheck: botchCheck
+        }
       }
-    }
-  });
+    },
+    { rollMode: rollMode }
+  );
   if (callBack) {
-    callBack(html, actor, lastRoll, message);
+    await callBack(html, actor, lastRoll, message);
   }
   // }
 }
@@ -130,6 +159,11 @@ function getFormData(html, actorData) {
   find = html.find(".SelectedFocus");
   if (find.length > 0) {
     actorData.data.data.roll.focus = find[0].checked;
+  }
+
+  find = html.find(".SelectedYear");
+  if (find.length > 0) {
+    actorData.data.data.roll.year = find[0].value;
   }
 
   return actorData;
@@ -312,6 +346,14 @@ function getRollFormula(actor) {
       }
       msg = msg + actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
     }
+
+    if (actorData.roll.txtOption4 != "") {
+      total = total - parseInt(actorData.roll.option4);
+      if (msg != "") {
+        msg = msg + " - <br />";
+      }
+      msg = msg + actorData.roll.txtOption4 + " (" + actorData.roll.option4 + ")";
+    }
   } else {
     if (actorData.roll.txtOption1 != "") {
       total = total + parseInt(actorData.roll.option1);
@@ -466,7 +508,6 @@ async function explodingRoll(actorData, modes = 0) {
   } else {
     if (modes != 4 && mult === 1 && dieRoll.total === 10) {
       mult *= 0;
-      var botchNum = 0;
       const html = await renderTemplate("systems/arm5e/templates/roll/roll-botch.html");
 
       // show dialog
@@ -506,11 +547,6 @@ async function explodingRoll(actorData, modes = 0) {
           }
         ).render(true);
       });
-
-      // hack , JS doesn't care about type
-      // if (botchNum > 0) {
-      //   return botchNum;
-      // }
     }
   }
 

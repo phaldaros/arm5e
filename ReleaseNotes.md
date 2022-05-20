@@ -9,9 +9,10 @@
 - first ui integration
 - Item sheets are flavored to the kind of Actor owner (assets by @Sylph)
 - Dice so nice integration: roll botch dice displayed.
-- Basic aging roll (no effect yet)
+- Aging rolls
 - Fatigue management rework
 - New active effect to add fatigue levels
+- New active effect to modify aging rolls
 
 ### Bug fixes
 

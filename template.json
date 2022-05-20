@@ -156,7 +156,6 @@
           "value": "1225"
         },
         "decrepitude": {
-          "score": 0,
           "points": 0,
           "effects": "Decrepitude effects"
         },
@@ -1327,7 +1326,7 @@
       "season": "",
       "date": "",
       "experience": 0,
-      "activity": ""
+      "activity": "none"
     },
     "power": {
       "templates": ["base"],

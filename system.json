@@ -86,6 +86,12 @@
       "label": "Macros",
       "path": "packs/macros.db",
       "type": "Macro"
+    },
+	{
+      "name": "rolltables",
+      "label": "Rolltables",
+      "path": "packs/rolltables.db",
+      "type": "RollTable"
     }
   ],
   "languages": [

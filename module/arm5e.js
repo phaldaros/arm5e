@@ -17,7 +17,7 @@ import ArM5eActiveEffect from "./helpers/active-effects.js";
 import { prepareDatasetByTypeOfItem } from "./helpers/items.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
-import * as Arm5eChatMessage from "./features/chat-message-hook.js";
+import * as Arm5eChatMessage from "./helpers/chat.js";
 
 import { addActiveEffectAuraToActor, modifyAuraActiveEffectForAllTokensInScene } from "./helpers/aura.js";
 

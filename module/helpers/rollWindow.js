@@ -6,33 +6,61 @@ import { getActorsFromTargetedTokens } from "./tokens.js";
 import { calculateSuccessOfMagic } from "./magic.js";
 import { chatContestOfMagic } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor-pc.js";
+import { applyAgingEffects, agingCrisis } from "./long-term-activities.js";
 
-const CALL_BACK_AFTER_ROLL = {
-  SPELL: {
-    CALLBACK: checkTargetAndCalculateResistance
-  },
-  AGING: {
-    CALLBACK: applyAgingEffects
-  }
+// below is a bitmap
+const ROLL_MODES = {
+  STRESS: 1,
+  SIMPLE: 2,
+  NO_BOTCH: 4,
+  NO_CONF: 8, // no confidence use
+  UNCONSCIOUS: 16, // can roll unconscious
+  PRIVATE: 32, // roll is private between the GM and player
+  // common combos
+  STRESS_OR_SIMPLE: 3
 };
 
-const STRESS_DIE = {
+const ROLL_PROPERTIES = {
+  DEFAULT: {
+    MODE: ROLL_MODES.STRESS_OR_SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
   COMBAT: {
+    MODE: ROLL_MODES.STRESS,
     TITLE: "arm5e.dialog.title.rolldie"
   },
   MAGIC: {
+    MODE: ROLL_MODES.STRESS,
     TITLE: "arm5e.dialog.title.rolldie"
   },
   SPONT: {
+    MODE: ROLL_MODES.STRESS,
     TITLE: "arm5e.dialog.title.rolldie"
   },
-  OPTION: {
+  CHAR: {
+    MODE: 19, // STRESS + SIMPLE + UNCONSCIOUS
     TITLE: "arm5e.dialog.title.rolldie"
+  },
+  SPELL: {
+    MODE: ROLL_MODES.STRESS_OR_SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie",
+    CALLBACK: checkTargetAndCalculateResistance
   },
   AGING: {
-    TITLE: "arm5e.aging.roll.label"
+    MODE: 61, // STRESS + NO_BOTCH + NO_CONF + UNCONSCIOUS + PRIVATE
+    TITLE: "arm5e.aging.roll.label",
+    CALLBACK: applyAgingEffects
+  },
+  CRISIS: {
+    MODE: 58, // SIMPLE + NO_CONF + UNCONSCIOUS + PRIVATE
+    TITLE: "arm5e.aging.crisis.label",
+    CALLBACK: agingCrisis
   }
 };
+
+function getRollTypeProperties(type) {
+  return ROLL_PROPERTIES[type.toUpperCase()] ?? ROLL_PROPERTIES.DEFAULT;
+}
 
 function prepareRollVariables(dataset, actorData, activeEffects) {
   if (dataset.roll) {
@@ -187,8 +215,27 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       }
       actorData.data.roll.option2 = livingMod;
       actorData.data.roll.txtOption3 = game.i18n.localize("arm5e.sheet.longevityModifier");
-      actorData.data.roll.option3 = actorData.data.laboratory.longevityRitual.modifier;
+      actorData.data.roll.option3 =
+        actorData.data.laboratory.longevityRitual.modifier + actorData.data.bonuses.traits.aging;
+      if (actorData.data.familiar && actorData.data.familiar.cordFam.bronze > 0) {
+        actorData.data.roll.txtOption4 = game.i18n.localize("arm5e.aging.roll.bronze");
+        actorData.data.roll.option4 = actorData.data.familiar.cordFam.bronze;
+      }
+      actorData.data.roll.useFatigue = false;
+    } else if (dataset.roll == "crisis") {
+      actorData.data.roll.year = parseInt(dataset.year);
+      actorData.data.roll.season = game.i18n.localize(ARM5E.seasons.winter.label);
+      actorData.data.roll.label =
+        game.i18n.localize("arm5e.aging.crisis.label") +
+        " " +
+        actorData.data.roll.season +
+        " " +
+        actorData.data.roll.year;
 
+      actorData.data.roll.txtOption1 = game.i18n.localize("arm5e.sheet.decrepitude");
+      actorData.data.roll.option1 = actorData.data.decrepitude.finalScore;
+      actorData.data.roll.txtOption2 = game.i18n.localize("arm5e.sheet.ageModifier");
+      actorData.data.roll.option2 = Math.round(parseInt(actorData.data.age.value) / 10);
       actorData.data.roll.useFatigue = false;
     }
     if (dataset.divide) {
@@ -270,6 +317,10 @@ function chooseTemplate(dataset) {
     //aging roll
     return "systems/arm5e/templates/roll/roll-aging.html";
   }
+  if (dataset.roll == "crisis") {
+    //aging crisis roll
+    return "systems/arm5e/templates/roll/roll-aging-crisis.html";
+  }
   return "";
 }
 
@@ -287,58 +338,64 @@ function getDebugButtonsIfNeeded(actor, callback) {
   return {
     explode: {
       label: "DEV Roll 1",
-      callback: (html) => stressDie(html, actor, 1, callback)
+      callback: (html) => stressDie(html, actor, 1, callback, actor.data.data.roll.type)
     },
     zero: {
       label: "DEV Roll 0",
-      callback: (html) => stressDie(html, actor, 2, callback)
+      callback: (html) => stressDie(html, actor, 2, callback, actor.data.data.roll.type)
     }
   };
 }
 
 function getDialogData(dataset, html, actor) {
-  const callback = CALL_BACK_AFTER_ROLL[dataset.roll.toUpperCase()]?.CALLBACK;
-  if (STRESS_DIE[dataset.roll.toUpperCase()]) {
-    let mode = 0;
-    if (dataset.roll == "aging") {
-      mode = 4; // no botches for aging rolls
+  const callback = getRollTypeProperties(dataset.roll).CALLBACK;
+  let btns = {};
+  let mode = 0;
+  const title = getRollTypeProperties(dataset.roll).TITLE;
+  if (getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.STRESS) {
+    if (getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.NO_BOTCH) {
+      mode = 4; // no botches
     }
-    return {
-      title: game.i18n.localize(STRESS_DIE[dataset.roll.toUpperCase()].TITLE),
-      content: html,
-      buttons: {
-        yes: {
-          icon: "<i class='fas fa-check'></i>",
-          label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-          callback: (html) => stressDie(html, actor, mode, callback)
-        },
-        no: {
-          icon: "<i class='fas fa-ban'></i>",
-          label: game.i18n.localize("arm5e.dialog.button.cancel"),
-          callback: null
-        },
-        ...getDebugButtonsIfNeeded(actor, callback)
-      }
+    btns.yes = {
+      icon: "<i class='fas fa-check'></i>",
+      label: game.i18n.localize("arm5e.dialog.button.stressdie"),
+      callback: (html) => stressDie(html, actor, mode, callback, dataset.roll)
     };
+    if (getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.SIMPLE) {
+      btns.no = {
+        icon: "<i class='fas fa-check'></i>",
+        label: game.i18n.localize("arm5e.dialog.button.simpledie"),
+        callback: async (html) => await simpleDie(html, actor, dataset.roll, callback)
+      };
+    } else {
+      btns.no = {
+        icon: "<i class='fas fa-ban'></i>",
+        label: game.i18n.localize("arm5e.dialog.button.cancel"),
+        callback: null
+      };
+    }
   } else {
-    return {
-      title: game.i18n.localize("arm5e.dialog.title.rolldie"),
-      content: html,
-      buttons: {
-        yes: {
-          icon: "<i class='fas fa-check'></i>",
-          label: game.i18n.localize("arm5e.dialog.button.simpledie"),
-          callback: (html) => simpleDie(html, actor, callback)
-        },
-        no: {
-          icon: "<i class='fas fa-bomb'></i>",
-          label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-          callback: (html) => stressDie(html, actor, 0, callback)
-        },
-        ...getDebugButtonsIfNeeded(actor, callback)
-      }
+    // Simple die only
+    btns.yes = {
+      icon: "<i class='fas fa-check'></i>",
+      label: game.i18n.localize("arm5e.dialog.button.simpledie"),
+      callback: async (html) => await simpleDie(html, actor, dataset.roll, callback)
+    };
+    btns.no = {
+      icon: "<i class='fas fa-ban'></i>",
+      label: game.i18n.localize("arm5e.dialog.button.cancel"),
+      callback: null
     };
   }
+  return {
+    title: game.i18n.localize(title),
+    content: html,
+    buttons: {
+      yes: btns.yes,
+      no: btns.no,
+      ...getDebugButtonsIfNeeded(actor, callback)
+    }
+  };
 }
 
 function addListenersDialog(html) {
@@ -380,13 +437,14 @@ async function checkTargetAndCalculateResistance(html, actorCaster, roll, messag
   });
 }
 
-function applyAgingEffects(tml, actorCaster, roll, message) {}
-
 export {
   chooseTemplate,
   updateCharacteristicDependingOnRoll,
   cleanBooleans,
   renderRollTemplate,
   prepareRollFields,
-  prepareRollVariables
+  prepareRollVariables,
+  ROLL_MODES,
+  ROLL_PROPERTIES,
+  getRollTypeProperties
 };
