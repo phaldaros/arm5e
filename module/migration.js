@@ -335,7 +335,7 @@ export const migrateActorData = function (actorData) {
     if (actorData.data.charType.value !== "entity") {
       if (actorData.data.decrepitude.score != undefined) {
         let exp = (actorData.data.decrepitude.score * (actorData.data.decrepitude.score + 1) * 5) / 2;
-        if (actorData.data.decrepitude.points >= 5 * (technique.score + 1)) {
+        if (actorData.data.decrepitude.points >= 5 * (actorData.data.decrepitude.score + 1)) {
           // if the experience is bigger than the needed for next level, ignore it
           updateData["data.decrepitude.points"] = exp;
         } else {
@@ -344,8 +344,22 @@ export const migrateActorData = function (actorData) {
         }
         updateData["data.decrepitude.-=score"] = null;
       }
+    } else {
+      // entity
+      // migrate might type to realm Alignment
+      if (actorData.data?.might?.realm != undefined) {
+        updateData["data.realmAlignment"] = actorData.data.might.realm;
+        updateData["data.might.-=realm"] = null;
+        updateData["data.might.-=type"] = null;
+      } else if (actorData.data?.might?.type != undefined) {
+        updateData["data.realmAlignment"] = actorData.data.might.type;
+        updateData["data.might.-=realm"] = null;
+        updateData["data.might.-=type"] = null;
+      }
     }
+
     if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
+      updateData["data.realmAlignment"] = "magic";
       if (actorData.data?.sanctum?.value === undefined) {
         let sanctum = {
           value: actorData.data.sanctum

@@ -26,6 +26,7 @@
           "dtype": "String",
           "value": "Covenant Name"
         },
+        "realmAlignment": "mundane",
         "biography": "Character biography, notes, &c.",
         "characteristics": {
           "int": {
@@ -693,8 +694,7 @@
       "might": {
         "label": "Might",
         "dtype": "Number",
-        "value": 0,
-        "type": "magic"
+        "value": 0
       },
       "powers": []
     },
