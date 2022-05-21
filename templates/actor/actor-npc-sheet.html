@@ -35,8 +35,8 @@
             data-dtype="Number"
             style="padding-top: 4px; margin-left: 8px; margin-right: 10px"
           />
-          <select name="data.might.type" data-type="String">
-            {{#select data.might.type}} {{#each config.realms as |realm key|}}
+          <select name="data.realmAlignment" data-type="String">
+            {{#select data.realmAlignment}} {{#each config.realms as |realm key|}}
             <option value="{{key}}">{{localize realm.label}}</option>
             {{/each}} {{/select}}
           </select>
