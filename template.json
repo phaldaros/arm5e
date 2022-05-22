@@ -26,7 +26,7 @@
           "dtype": "String",
           "value": "Covenant Name"
         },
-        "realmAlignment": "mundane",
+        "realmAlignment": 0,
         "biography": "Character biography, notes, &c.",
         "characteristics": {
           "int": {

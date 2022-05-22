@@ -37,7 +37,7 @@
           />
           <select name="data.realmAlignment" data-type="String">
             {{#select data.realmAlignment}} {{#each config.realms as |realm key|}}
-            <option value="{{key}}">{{localize realm.label}}</option>
+            <option value="{{realm.value}}">{{localize realm.label}}</option>
             {{/each}} {{/select}}
           </select>
         </div>

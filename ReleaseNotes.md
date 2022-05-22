@@ -13,6 +13,8 @@
 - Fatigue management rework
 - New active effect to add fatigue levels
 - New active effect to modify aging rolls
+- New active effect to set realm alignment
+- Dev: possibility to define active effects with a limited number of possible values using a drop box
 
 ### Bug fixes
 

@@ -348,18 +348,22 @@ export const migrateActorData = function (actorData) {
       // entity
       // migrate might type to realm Alignment
       if (actorData.data?.might?.realm != undefined) {
-        updateData["data.realmAlignment"] = actorData.data.might.realm;
+        updateData["data.realmAlignment"] = CONFIG.ARM5E.realms[actorData.data.might.realm].value;
         updateData["data.might.-=realm"] = null;
         updateData["data.might.-=type"] = null;
       } else if (actorData.data?.might?.type != undefined) {
-        updateData["data.realmAlignment"] = actorData.data.might.type;
+        updateData["data.realmAlignment"] = CONFIG.ARM5E.realms[actorData.data.might.type].value;
         updateData["data.might.-=realm"] = null;
         updateData["data.might.-=type"] = null;
       }
     }
 
+    if (actorData.data.realmAlignment && typeof actorData.data.realmAlignment === "string") {
+      updateData["data.realmAlignment"] = CONFIG.ARM5E.realms[actorData.data.realmAlignment].value;
+    }
+
     if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
-      updateData["data.realmAlignment"] = "magic";
+      updateData["data.realmAlignment"] = CONFIG.ARM5E.realms.magic.value;
       if (actorData.data?.sanctum?.value === undefined) {
         let sanctum = {
           value: actorData.data.sanctum

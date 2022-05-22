@@ -61,6 +61,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
           // log(false, `computedKey: ${tmp}`);
         }
       }
+      let withChoice = ACTIVE_EFFECTS_TYPES[context.selectedTypes[idx]].subtypes[context.selectedSubtypes[idx]].choice;
+      if (withChoice) {
+        tmpSubTypes[context.selectedSubtypes[idx]].withChoice = true;
+      } else {
+        tmpSubTypes[context.selectedSubtypes[idx]].withChoice = false;
+      }
       tmpSubTypes[context.selectedSubtypes[idx]].computedKey = tmp;
 
       context.subtypes.push(tmpSubTypes);

@@ -50,6 +50,25 @@ export default {
       }
     }
   },
+  realm: {
+    category: "magic",
+    type: "realm",
+    label: "arm5e.sheet.activeEffect.types.realmAlignment",
+    subtypes: {
+      magic: {
+        label: "arm5e.sheet.realm.label",
+        key: "data.realmAlignment",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 1,
+        choice: {
+          1: "arm5e.sheet.realm.magical",
+          2: "arm5e.sheet.realm.faeric",
+          3: "arm5e.sheet.realm.divine",
+          4: "arm5e.sheet.realm.infernal"
+        }
+      }
+    }
+  },
   art: {
     category: "magic",
     type: "art",
