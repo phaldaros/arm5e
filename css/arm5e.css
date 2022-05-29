@@ -813,9 +813,14 @@ input[type="time"] {
   min-height: 200px;
 }
 
-.arm5e .items-list .item-header {
-  font-weight: bold;
+.filter-item {
+  background-image: unset;
+  border-bottom: 1px solid #232322;
 }
+
+/* .arm5e .items-list .item-header {
+  font-weight: bold;
+} */
 
 .item-header {
   border: 0px !important;
@@ -1015,6 +1020,14 @@ input[type="time"] {
 
 .arm5e .padding12 {
   padding: 12px;
+}
+
+.arm5e .padding4 {
+  padding: 4px;
+}
+
+.arm5e .padding10 {
+  padding: 10px;
 }
 
 .arm5e .margintop6 {

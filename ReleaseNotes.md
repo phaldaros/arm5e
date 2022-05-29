@@ -29,6 +29,7 @@
 - Characteristics rolls have now the correct characteristic selected.
 - NPCs can age and have warping
 - Fix "Show penetration and defense" feature
+- Fixed wrong mnemonics and tab problem for books
 
 ## 1.4.1
 

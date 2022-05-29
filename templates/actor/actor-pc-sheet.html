@@ -7,7 +7,14 @@
   <header class="sheet-header">
     <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
+      <h1 class="charname">
+        <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+          {{#if data.pendingCrisis}}
+            <div class="flex0 padding10" style="width:24px"><a class="rollable" data-roll="crisis"
+                data-year="{{data.year.value}}" title="Resolve aging crisis"><i class="fas fa-skull"></i></a></div>
+          {{/if}}
+        </div>
+      </h1>
 
       <div class="resources flexrow flex-between">
         <div class="flexrow">
@@ -17,23 +24,21 @@
             </h2>
             <div class="flex0">
               {{#if (eq data.covenant.linked true)}}
-              <a class="flexrow0 actor-link" title="Linked to covenant" data-actorid="{{data.covenant.actorId}}"
-                ><i class="fas fa-link fa-sm"></i
-              ></a>
+                <a class="flexrow0 actor-link" title="Linked to covenant" data-actorid="{{data.covenant.actorId}}"><i
+                    class="fas fa-link fa-sm"></i></a>
               {{else}}
-              <a class="flexrow0" title="Not linked to covenant"><i class="fas fa-unlink fa-sm"></i></a>
+                <a class="flexrow0" title="Not linked to covenant"><i class="fas fa-unlink fa-sm"></i></a>
               {{/if}}
             </div>
           </span>
         </div>
         <span class="covenantname" style="padding-top: 4px">
-          <label for="data.charType.value" class="smallTitle" style="padding-left: 24px"
-            >{{localize "arm5e.sheet.charType"}}</label
-          >
+          <label for="data.charType.value" class="smallTitle"
+            style="padding-left: 24px">{{localize "arm5e.sheet.charType"}}</label>
           <select class="width2" name="data.charType.value" data-type="String">
             {{#select data.charType.value}} {{#each config.character.charTypes as |data key|}}
-            <option value="{{key}}">{{localize data.label}}</option>
-            {{/each}} {{/select}}
+                <option value="{{key}}">{{localize data.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </span>
       </div>
@@ -42,20 +47,10 @@
         <div class="resource flex-group-center backSection">
           <label for="data.age.value" class="smallTitle marginbot6">{{localize "arm5e.sheet.age"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input
-              type="text"
-              name="data.age.value"
-              value="{{data.age.value}}"
-              data-dtype="Number"
-              style="flex: 0.6; margin-left: 8px; margin-right: 24px"
-            />
-            (<input
-              type="text"
-              name="data.apparent.value"
-              value="{{data.apparent.value}}"
-              data-dtype="Number"
-              style="flex: 0.6"
-            />)
+            <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number"
+              style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
+            (<input type="text" name="data.apparent.value" value="{{data.apparent.value}}" data-dtype="Number"
+              style="flex: 0.6" />)
           </div>
         </div>
 
@@ -64,8 +59,8 @@
           <div class="resource-content flexrow flex-center flex-between margintop6">
             <select name="data.season.value" data-type="String" style="width: 100%">
               {{#select data.season.value}} {{#each config.seasons as |season key|}}
-              <option value="{{key}}">{{localize season.label}}</option>
-              {{/each}} {{/select}}
+                  <option value="{{key}}">{{localize season.label}}</option>
+                {{/each}} {{/select}}
             </select>
           </div>
         </div>
@@ -80,20 +75,10 @@
         <div class="resource flex-group-center backSection">
           <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input
-              type="number"
-              name="data.con.score"
-              value="{{data.con.score}}"
-              data-dtype="Number"
-              style="flex: 0.6; margin-left: 8px; margin-right: 24px"
-            />
-            (<input
-              type="number"
-              name="data.con.points"
-              value="{{data.con.points}}"
-              data-dtype="Number"
-              style="flex: 0.6"
-            />)
+            <input type="number" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"
+              style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
+            (<input type="number" name="data.con.points" value="{{data.con.points}}" data-dtype="Number"
+              style="flex: 0.6" />)
           </div>
         </div>
       </div>
@@ -115,16 +100,16 @@
       {{localize "arm5e.sheet.abilities"}}
     </a>
     {{#if (eq data.charType.value "magus")}}
-    <a class="item posRelative" data-tab="arts">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.arts"}}
-    </a>
-    <a class="item posRelative" data-tab="laboratory">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.laboratory"}}
-    </a>
+      <a class="item posRelative" data-tab="arts">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.arts"}}
+      </a>
+      <a class="item posRelative" data-tab="laboratory">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.laboratory"}}
+      </a>
     {{/if}}
     <a class="item posRelative" data-tab="inventory">
       <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
@@ -138,11 +123,11 @@
     </a>
 
     {{#if isGM}}
-    <a class="item posRelative" data-tab="effects">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.effects"}}
-    </a>
+      <a class="item posRelative" data-tab="effects">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.effects"}}
+      </a>
     {{/if}}
   </nav>
 
@@ -198,33 +183,33 @@
     </div>
 
     {{#if (eq data.charType.value "magus")}} {{!-- Arts Tab --}}
-    <div class="tab arts" data-group="primary" data-tab="arts">
-      {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
-    </div>
+      <div class="tab arts" data-group="primary" data-tab="arts">
+        {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+      </div>
 
-    {{!-- Laboratory Tab --}}
-    <div class="tab laboratory" data-group="primary" data-tab="laboratory">
-      <nav class="arm5eSubTabs lab-tabs tabs" data-group="lab-secondary">
-        <a class="item posRelative" data-tab="lab" data-group="secondary">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-          {{localize "arm5e.sheet.laboratory"}}
-        </a>
-        <a class="item posRelative" data-tab="lab-total" data-group="lab-secondary">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-          {{localize "arm5e.sheet.labTotal"}}
-        </a>
-      </nav>
-      <section class="lab-body">
-        <div class="tab" data-group="lab-secondary" data-tab="lab">
-          {{> "systems/arm5e/templates/actor/parts/actor-laboratory.html" }}
-        </div>
-        <div class="tab" data-group="lab-secondary" data-tab="lab-total">
-          {{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="laboratory" }}
-        </div>
-      </section>
-    </div>
+      {{!-- Laboratory Tab --}}
+      <div class="tab laboratory" data-group="primary" data-tab="laboratory">
+        <nav class="arm5eSubTabs lab-tabs tabs" data-group="lab-secondary">
+          <a class="item posRelative" data-tab="lab" data-group="secondary">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.laboratory"}}
+          </a>
+          <a class="item posRelative" data-tab="lab-total" data-group="lab-secondary">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.labTotal"}}
+          </a>
+        </nav>
+        <section class="lab-body">
+          <div class="tab" data-group="lab-secondary" data-tab="lab">
+            {{> "systems/arm5e/templates/actor/parts/actor-laboratory.html" }}
+          </div>
+          <div class="tab" data-group="lab-secondary" data-tab="lab-total">
+            {{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="laboratory" }}
+          </div>
+        </section>
+      </div>
     {{/if}} {{!-- Inventory Tab --}}
     <div class="tab inventory" data-group="primary" data-tab="inventory">
       {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}

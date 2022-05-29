@@ -93,9 +93,12 @@ export async function migration(originalVersion) {
 
   // Set the migration as complete
   game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
-  ui.notifications.info(`Ars Magica 5e System Migration to version ${game.system.data.version} completed!`, {
-    permanent: true
-  });
+  ui.notifications.info(
+    `Ars Magica 5e System Migration to version ${game.system.data.version} completed!`,
+    {
+      permanent: true
+    }
+  );
 }
 
 /**
@@ -209,7 +212,10 @@ export const migrateSceneData = function (scene, migrationData) {
 export const migrateActorData = function (actorData) {
   const updateData = {};
 
-  //
+  // setup default flags if they don't exist
+  if (!actorData.flags.arm5e.filters) {
+    updateData["flags.arm5e.filters"] = {};
+  }
   if (actorData.type == "laboratory") {
     // fix recursive problem with laboratory owner
     if (!(actorData.data.owner.value instanceof String)) {
@@ -334,7 +340,8 @@ export const migrateActorData = function (actorData) {
   if (actorData.type == "player" || actorData.type == "npc") {
     if (actorData.data.charType.value !== "entity") {
       if (actorData.data.decrepitude.score != undefined) {
-        let exp = (actorData.data.decrepitude.score * (actorData.data.decrepitude.score + 1) * 5) / 2;
+        let exp =
+          (actorData.data.decrepitude.score * (actorData.data.decrepitude.score + 1) * 5) / 2;
         if (actorData.data.decrepitude.points >= 5 * (actorData.data.decrepitude.score + 1)) {
           // if the experience is bigger than the needed for next level, ignore it
           updateData["data.decrepitude.points"] = exp;
@@ -548,7 +555,10 @@ export const migrateActiveEffectData = function (effectData) {
     }
   }
 
-  if (effectData.flags?.arm5e.subtype != undefined && !(effectData.flags.arm5e.subtype instanceof Array)) {
+  if (
+    effectData.flags?.arm5e.subtype != undefined &&
+    !(effectData.flags.arm5e.subtype instanceof Array)
+  ) {
     effectUpdate["flags.arm5e.subtype"] = [effectData.flags.arm5e.subtype];
   }
 
@@ -670,14 +680,20 @@ export const migrateItemData = function (itemData) {
       updateData["data.-=form-requisites"] = null;
     }
     if (itemData.data["technique-requisite"] != undefined) {
-      if (itemData.data["technique-requisite"].value != "n-a" && itemData.data["technique-requisite"].value != "") {
+      if (
+        itemData.data["technique-requisite"].value != "n-a" &&
+        itemData.data["technique-requisite"].value != ""
+      ) {
         updateData["data.technique-req." + itemData.data["technique-requisite"].value] = true;
       }
       updateData["data.-=technique-requisite"] = null;
     }
 
     if (itemData.data["form-requisite"] != undefined) {
-      if (itemData.data["form-requisite"].value != "n-a" && itemData.data["form-requisite"].value != "") {
+      if (
+        itemData.data["form-requisite"].value != "n-a" &&
+        itemData.data["form-requisite"].value != ""
+      ) {
         updateData["data.form-req." + itemData.data["form-requisite"].value] = true;
       }
       updateData["data.-=form-requisite"] = null;

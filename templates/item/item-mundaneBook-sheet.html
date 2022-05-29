@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -29,13 +26,12 @@
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.attributes"}}
     </a>
+    <a class="item posRelative" data-tab="authorship">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.authorship.label"}}
+    </a>
   </nav>
-  <a class="item posRelative" data-tab="authorship">
-    <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-    <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-    {{localize "arm5e.sheet.authorship"}}
-  </a>
-
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Attributes Tab --}}
@@ -45,8 +41,8 @@
           <label for="data.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
           <select name="data.type.value" data-type="String">
             {{#select data.type.value}} {{#each data.types as |type key|}}
-            <option value="{{key}}">{{type.label}}</option>
-            {{/each}} {{/select}}
+                <option value="{{key}}">{{type.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">

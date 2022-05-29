@@ -239,7 +239,8 @@ export class ArM5ePCActor extends Actor {
         i.data.xpCoeff = this._getAbilityXpCoeff(i.data.key, i.data.option);
         i.data.derivedScore = this._getAbilityScore(Math.round(i.data.xp * i.data.xpCoeff));
         i.data.xpNextLevel = Math.round(5 * i.data.derivedScore + 5 / i.data.xpCoeff);
-        i.data.remainingXp = i.data.xp - Math.round(this._getAbilityXp(i.data.derivedScore) / i.data.xpCoeff);
+        i.data.remainingXp =
+          i.data.xp - Math.round(this._getAbilityXp(i.data.derivedScore) / i.data.xpCoeff);
 
         // for DEBUG purposes
         // if (i.data.xpCoeff != 1.0) {
@@ -255,8 +256,12 @@ export class ArM5ePCActor extends Actor {
         //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
         // }
 
-        if (data.bonuses.skills[computedKey] != undefined && data.bonuses.skills[computedKey].bonus != 0) {
-          i.data.finalScore = i.data.derivedScore + parseInt(data.bonuses.skills[computedKey].bonus);
+        if (
+          data.bonuses.skills[computedKey] != undefined &&
+          data.bonuses.skills[computedKey].bonus != 0
+        ) {
+          i.data.finalScore =
+            i.data.derivedScore + parseInt(data.bonuses.skills[computedKey].bonus);
         } else {
           i.data.finalScore = i.data.derivedScore;
         }
@@ -273,7 +278,11 @@ export class ArM5ePCActor extends Actor {
 
         totalXPAbilities = parseInt(totalXPAbilities) + i.data.xp;
 
-        if (this._isMagus() && actorData.data.laboratory && actorData.data.laboratory.abilitiesSelected) {
+        if (
+          this._isMagus() &&
+          actorData.data.laboratory &&
+          actorData.data.laboratory.abilitiesSelected
+        ) {
           if (i.data.key != "") {
             if (i.data.key == "finesse") {
               actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.finalScore;
@@ -298,7 +307,9 @@ export class ArM5ePCActor extends Actor {
               actorData.data.laboratory.abilitiesSelected.finesse.value = i.data.finalScore;
             } else if (i._id == actorData.data.laboratory.abilitiesSelected.awareness.abilityID) {
               actorData.data.laboratory.abilitiesSelected.awareness.value = i.data.finalScore;
-            } else if (i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID) {
+            } else if (
+              i._id == actorData.data.laboratory.abilitiesSelected.concentration.abilityID
+            ) {
               actorData.data.laboratory.abilitiesSelected.concentration.value = i.data.finalScore;
             } else if (i._id == actorData.data.laboratory.abilitiesSelected.artesLib.abilityID) {
               actorData.data.laboratory.abilitiesSelected.artesLib.value = i.data.finalScore;
@@ -308,7 +319,9 @@ export class ArM5ePCActor extends Actor {
               actorData.data.laboratory.abilitiesSelected.parma.value = i.data.finalScore;
             } else if (i._id == actorData.data.laboratory.abilitiesSelected.magicTheory.abilityID) {
               actorData.data.laboratory.abilitiesSelected.magicTheory.value = i.data.finalScore;
-            } else if (i._id == actorData.data.laboratory.abilitiesSelected?.penetration?.abilityID) {
+            } else if (
+              i._id == actorData.data.laboratory.abilitiesSelected?.penetration?.abilityID
+            ) {
               actorData.data.laboratory.abilitiesSelected.penetration.value = i.data.finalScore;
             }
           }
@@ -419,7 +432,8 @@ export class ArM5ePCActor extends Actor {
     }
     if (actorData.data.characteristics) {
       if (actorData.data.characteristics.str.value > 0) {
-        combat.overload = parseInt(combat.overload) - parseInt(actorData.data.characteristics.str.value);
+        combat.overload =
+          parseInt(combat.overload) - parseInt(actorData.data.characteristics.str.value);
       }
       if (combat.overload < 0) {
         combat.overload = 0;
@@ -428,12 +442,18 @@ export class ArM5ePCActor extends Actor {
     combat.overload = parseInt(combat.overload) * -1;
 
     //warping & decrepitude
-    if ((this.data.type == "npc" && this.data.data.charType.value != "entity") || this.data.type == "player") {
-      actorData.data.warping.experienceNextLevel = (parseInt(actorData.data.warping?.score || 0) + 1) * 5;
+    if (
+      (this.data.type == "npc" && this.data.data.charType.value != "entity") ||
+      this.data.type == "player"
+    ) {
+      actorData.data.warping.experienceNextLevel =
+        (parseInt(actorData.data.warping?.score || 0) + 1) * 5;
       if (actorData.data.decrepitude == undefined) {
         actorData.data.decrepitude = {};
       }
-      actorData.data.decrepitude.finalScore = this._getAbilityScore(actorData.data.decrepitude.points);
+      actorData.data.decrepitude.finalScore = this._getAbilityScore(
+        actorData.data.decrepitude.points
+      );
       actorData.data.decrepitude.experienceNextLevel =
         ((parseInt(actorData.data.decrepitude.finalScore) + 1) *
           (parseInt(actorData.data.decrepitude.finalScore) + 2) *
@@ -456,31 +476,40 @@ export class ArM5ePCActor extends Actor {
 
       // compute the spellcasting bonus:
       this.data.data.bonuses.arts.spellcasting +=
-        parseInt(this.data.data.bonuses.arts.voice) + parseInt(this.data.data.bonuses.arts.gestures);
+        parseInt(this.data.data.bonuses.arts.voice) +
+        parseInt(this.data.data.bonuses.arts.gestures);
 
       if (actorData.data.laboratory === undefined) {
         actorData.data.laboratory = {};
       }
       // calculate laboratory totals
       actorData.data.laboratory.fastCastingSpeed.value =
-        actorData.data.characteristics.qik.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
+        actorData.data.characteristics.qik.value +
+        actorData.data.laboratory.abilitiesSelected.finesse.value;
       actorData.data.laboratory.determiningEffect.value =
-        actorData.data.characteristics.per.value + actorData.data.laboratory.abilitiesSelected.awareness.value;
+        actorData.data.characteristics.per.value +
+        actorData.data.laboratory.abilitiesSelected.awareness.value;
       actorData.data.laboratory.targeting.value =
-        actorData.data.characteristics.per.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
+        actorData.data.characteristics.per.value +
+        actorData.data.laboratory.abilitiesSelected.finesse.value;
       actorData.data.laboratory.concentration.value =
-        actorData.data.characteristics.sta.value + actorData.data.laboratory.abilitiesSelected.concentration.value;
-      actorData.data.laboratory.magicResistance.value = actorData.data.laboratory.abilitiesSelected.parma.value * 5;
+        actorData.data.characteristics.sta.value +
+        actorData.data.laboratory.abilitiesSelected.concentration.value;
+      actorData.data.laboratory.magicResistance.value =
+        actorData.data.laboratory.abilitiesSelected.parma.value * 5;
       actorData.data.laboratory.multipleCasting.value =
-        actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.finesse.value;
+        actorData.data.characteristics.int.value +
+        actorData.data.laboratory.abilitiesSelected.finesse.value;
       actorData.data.laboratory.basicLabTotal.value =
-        actorData.data.characteristics.int.value + actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
+        actorData.data.characteristics.int.value +
+        actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
 
       if (actorData.data.apprentice.magicTheory > 0) {
         actorData.data.laboratory.basicLabTotal.value +=
           actorData.data.apprentice.magicTheory + actorData.data.apprentice.int;
       }
-      actorData.data.laboratory.visLimit.value = actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
+      actorData.data.laboratory.visLimit.value =
+        actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
       if (actorData.data.laboratory.totalPenetration) {
         actorData.data.laboratory.totalPenetration.value =
           actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
@@ -542,7 +571,8 @@ export class ArM5ePCActor extends Actor {
         form.derivedScore = this._getArtScore(Math.round(form.xp * form.xpCoeff));
         form.finalScore = form.derivedScore + form.bonus;
 
-        form.xpNextLevel = Math.round(this._getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
+        form.xpNextLevel =
+          Math.round(this._getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
         // TODO remove once confirmed there is no bug
         // if (form.score != form.derivedScore && form.xp != 0) {
         //   error(
@@ -556,8 +586,13 @@ export class ArM5ePCActor extends Actor {
         //   );
         //   this._getArtScore(form.xp);
         // }
-        if (actorData.type == "player" && actorData.data.laboratory && actorData.data.laboratory.abilitiesSelected) {
-          form.magicResistance = actorData.data.laboratory.abilitiesSelected.parma.value * 5 + form.finalScore;
+        if (
+          actorData.type == "player" &&
+          actorData.data.laboratory &&
+          actorData.data.laboratory.abilitiesSelected
+        ) {
+          form.magicResistance =
+            actorData.data.laboratory.abilitiesSelected.parma.value * 5 + form.finalScore;
         }
         totalXPArts = parseInt(totalXPArts) + form.xp;
       }
@@ -672,9 +707,13 @@ export class ArM5ePCActor extends Actor {
     }
     if (data.techniqueFilter != "") {
       baseEffects = baseEffects.filter((e) => e.data.data.technique.value === data.techniqueFilter);
-      magicEffects = magicEffects.filter((e) => e.data.data.technique.value === data.techniqueFilter);
+      magicEffects = magicEffects.filter(
+        (e) => e.data.data.technique.value === data.techniqueFilter
+      );
       spells = spells.filter((e) => e.data.data.technique.value === data.techniqueFilter);
-      enchantments = enchantments.filter((e) => e.data.data.technique.value === data.techniqueFilter);
+      enchantments = enchantments.filter(
+        (e) => e.data.data.technique.value === data.techniqueFilter
+      );
     }
     if (data.levelFilter != 0 && data.levelFilter != null) {
       if (data.levelOperator == 0) {
@@ -801,7 +840,8 @@ export class ArM5ePCActor extends Actor {
     }
 
     labData.data.size.total = labData.data.size.value + labData.data.size.bonus;
-    labData.data.generalQuality.total = labData.data.generalQuality.value + labData.data.generalQuality.bonus;
+    labData.data.generalQuality.total =
+      labData.data.generalQuality.value + labData.data.generalQuality.bonus;
     labData.data.safety.total = labData.data.safety.value + labData.data.safety.bonus;
     labData.data.health.total = labData.data.health.value + labData.data.health.bonus;
     labData.data.refinement.total = labData.data.refinement.value + labData.data.refinement.bonus;
@@ -1119,9 +1159,12 @@ export class ArM5ePCActor extends Actor {
     }
 
     if (this.data.data.con.points == 0) {
-      ui.notifications.info(game.i18n.format("arm5e.notification.noConfidencePointsLeft", { name: this.data.name }), {
-        permanent: false
-      });
+      ui.notifications.info(
+        game.i18n.format("arm5e.notification.noConfidencePointsLeft", { name: this.data.name }),
+        {
+          permanent: false
+        }
+      );
       return false;
     }
     log(false, "Used confidence point");
@@ -1172,12 +1215,17 @@ export class ArM5ePCActor extends Actor {
         result.decrepitude = 1;
         result.charac[char1] = { aging: 1 };
 
-        if (Math.abs(this.data.data.characteristics[char1].value) < this.data.data.characteristics[char1].aging + 1) {
-          updateData[`data.characteristics.${char1}.value`] = this.data.data.characteristics[char1].value - 1;
+        if (
+          Math.abs(this.data.data.characteristics[char1].value) <
+          this.data.data.characteristics[char1].aging + 1
+        ) {
+          updateData[`data.characteristics.${char1}.value`] =
+            this.data.data.characteristics[char1].value - 1;
           updateData[`data.characteristics.${char1}.aging`] = 0;
           result.charac[char1].score = -1;
         } else {
-          updateData[`data.characteristics.${char1}.aging`] = this.data.data.characteristics[char1].aging + 1;
+          updateData[`data.characteristics.${char1}.aging`] =
+            this.data.data.characteristics[char1].aging + 1;
         }
         if (this.data.data.decrepitude.experienceNextLevel == 1) result.crisis = true;
         break;
@@ -1187,19 +1235,29 @@ export class ArM5ePCActor extends Actor {
         result.decrepitude = 2;
         result.charac[char1] = { aging: 1 };
         result.charac[char2] = { aging: 1 };
-        if (Math.abs(this.data.data.characteristics[char1].value) < this.data.data.characteristics[char1].aging + 1) {
-          updateData[`data.characteristics.${char1}.value`] = this.data.data.characteristics[char1].value - 1;
+        if (
+          Math.abs(this.data.data.characteristics[char1].value) <
+          this.data.data.characteristics[char1].aging + 1
+        ) {
+          updateData[`data.characteristics.${char1}.value`] =
+            this.data.data.characteristics[char1].value - 1;
           updateData[`data.characteristics.${char1}.aging`] = 0;
           result.charac[char1].score = -1;
         } else {
-          updateData[`data.characteristics.${char1}.aging`] = this.data.data.characteristics[char1].aging + 1;
+          updateData[`data.characteristics.${char1}.aging`] =
+            this.data.data.characteristics[char1].aging + 1;
         }
-        if (Math.abs(this.data.data.characteristics[char2].value) < this.data.data.characteristics[char2].aging + 1) {
-          updateData[`data.characteristics.${char2}.value`] = this.data.data.characteristics[char2].value - 1;
+        if (
+          Math.abs(this.data.data.characteristics[char2].value) <
+          this.data.data.characteristics[char2].aging + 1
+        ) {
+          updateData[`data.characteristics.${char2}.value`] =
+            this.data.data.characteristics[char2].value - 1;
           updateData[`data.characteristics.${char2}.aging`] = 0;
           result.charac[char1].score = -1;
         } else {
-          updateData[`data.characteristics.${char2}.aging`] = this.data.data.characteristics[char2].aging + 1;
+          updateData[`data.characteristics.${char2}.aging`] =
+            this.data.data.characteristics[char2].aging + 1;
         }
 
         if (this.data.data.decrepitude.experienceNextLevel <= 2) result.crisis = true;
@@ -1211,16 +1269,25 @@ export class ArM5ePCActor extends Actor {
         updateData["data.decrepitude.points"] =
           this.data.data.decrepitude.points + this.data.data.decrepitude.experienceNextLevel;
 
-        if (this.data.data.decrepitude.experienceNextLevel > Math.abs(this.data.data.characteristics[char1].value)) {
-          updateData[`data.characteristics.${char1}.value`] = this.data.data.characteristics[char1].value - 1;
+        if (
+          this.data.data.decrepitude.experienceNextLevel >
+          Math.abs(this.data.data.characteristics[char1].value)
+        ) {
+          updateData[`data.characteristics.${char1}.value`] =
+            this.data.data.characteristics[char1].value - 1;
           updateData[`data.characteristics.${char1}.aging`] = 0;
-          result.charac[char1] = { aging: Math.abs(this.data.data.characteristics[char1].value) + 1, score: -1 };
+          result.charac[char1] = {
+            aging: Math.abs(this.data.data.characteristics[char1].value) + 1,
+            score: -1
+          };
         } else {
           updateData[`data.characteristics.${char1}.aging`] =
-            this.data.data.characteristics[char1].aging + this.data.data.decrepitude.experienceNextLevel;
+            this.data.data.characteristics[char1].aging +
+            this.data.data.decrepitude.experienceNextLevel;
           result.charac[char1] = {
             aging:
-              Math.abs(this.data.data.characteristics[char1].value) + this.data.data.decrepitude.experienceNextLevel
+              Math.abs(this.data.data.characteristics[char1].value) +
+              this.data.data.decrepitude.experienceNextLevel
           };
         }
 
@@ -1228,6 +1295,9 @@ export class ArM5ePCActor extends Actor {
     }
     log(false, "Aging effect");
     log(false, updateData);
+    if (result.crisis) {
+      updateData["data.pendingCrisis"] = true;
+    }
     await this.update(updateData, {});
     return result;
   }

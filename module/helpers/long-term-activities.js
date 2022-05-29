@@ -12,7 +12,10 @@ export async function applyAgingEffects(html, actor, roll, message) {
   dialogData.choice = res === "crisis" || res === "anyAgingPt";
   dialogData.chars = CONFIG.ARM5E.character.characteristics;
 
-  const renderedTemplate = await renderTemplate("systems/arm5e/templates/generic/aging-dialog.html", dialogData);
+  const renderedTemplate = await renderTemplate(
+    "systems/arm5e/templates/generic/aging-dialog.html",
+    dialogData
+  );
   let resultAging;
   await new Promise((resolve) => {
     new Dialog(
@@ -54,14 +57,6 @@ export async function applyAgingEffects(html, actor, roll, message) {
   resultAging.roll = { formula: roll._formula, result: roll.result };
 
   createDiaryEntry(actor, resultAging);
-  if (resultAging.crisis) {
-    let dataset = {
-      roll: "crisis",
-      year: dialogData.year,
-      properties: ROLL_PROPERTIES.CRISIS
-    };
-    await actor.sheet._onRoll(dataset);
-  }
 }
 
 export async function agingCrisis(html, actor, roll, message) {
@@ -71,9 +66,10 @@ export async function agingCrisis(html, actor, roll, message) {
   const crisisTable = docs.filter((rt) => rt.name === "Aging crisis table")[0];
   let res = crisisTable.getResultsForRoll(roll.total)[0].data.text;
 
-  const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.aging.crisis.summary") + "</h2>";
+  const title =
+    '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.aging.crisis.summary") + "</h2>";
 
-  log(false, `Crisis result expanded: ${msg}`);
+  // log(false, `Crisis result expanded: ${msg}`);
   ChatMessage.create({
     content: title + "<h3>" + game.i18n.localize(`arm5e.aging.crisis.${res}`) + "</h3><br/>",
     speaker: ChatMessage.getSpeaker({
@@ -81,6 +77,8 @@ export async function agingCrisis(html, actor, roll, message) {
     }),
     whisper: ChatMessage.getWhisperRecipients("gm")
   });
+
+  await actor.update({ data: { pendingCrisis: false } }, {});
 }
 
 async function createDiaryEntry(actor, input) {
@@ -101,7 +99,10 @@ async function createDiaryEntry(actor, input) {
         " <br/>";
     }
     if (char.score) {
-      desc += "- Lost one point in " + game.i18n.localize(CONFIG.ARM5E.character.characteristics[key].label) + " <br/>";
+      desc +=
+        "- Lost one point in " +
+        game.i18n.localize(CONFIG.ARM5E.character.characteristics[key].label) +
+        " <br/>";
     }
   }
 
