@@ -19,7 +19,10 @@ import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./helpers/chat.js";
 
-import { addActiveEffectAuraToActor, modifyAuraActiveEffectForAllTokensInScene } from "./helpers/aura.js";
+import {
+  addActiveEffectAuraToActor,
+  modifyAuraActiveEffectForAllTokensInScene
+} from "./helpers/aura.js";
 
 // experiment
 import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
@@ -306,10 +309,14 @@ Hooks.once("ready", async function () {
     if (!currentVersion && totalDocuments === 0) {
       game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
     } else {
-      const needsMigration = !currentVersion || foundry.utils.isNewerVersion(SYSTEM_VERSION_NEEDED, currentVersion);
+      const needsMigration =
+        !currentVersion || foundry.utils.isNewerVersion(SYSTEM_VERSION_NEEDED, currentVersion);
       if (needsMigration) {
         // Perform the migration
-        if (currentVersion && foundry.utils.isNewerVersion(COMPATIBLE_MIGRATION_VERSION, currentVersion)) {
+        if (
+          currentVersion &&
+          foundry.utils.isNewerVersion(COMPATIBLE_MIGRATION_VERSION, currentVersion)
+        ) {
           const warning = `Your Ars Magica system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.`;
           ui.notifications.error(warning, {
             permanent: true
@@ -327,7 +334,7 @@ Hooks.once("ready", async function () {
       permanent: false
     });
   } else if (codex.length === 0) {
-    ui.notifications.error(game.i18n.localize("arm5e.notification.codex.none"), {
+    ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.none"), {
       permanent: false
     });
   }
@@ -356,7 +363,8 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
  */
 async function createArM5eMacro(data, slot) {
   //if (data.type !== "Item") return;
-  if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
+  if (!("data" in data))
+    return ui.notifications.warn("You can only create macro buttons for owned Items");
   const item = data.data;
 
   // Create the macro command
@@ -427,7 +435,8 @@ async function onDropActorSheetData(actor, sheet, data) {
 function rollItemMacro(itemId, actorId) {
   const actor = game.actors.get(actorId);
   const item = actor.items.get(itemId);
-  if (!item) return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+  if (!item)
+    return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
   const dataset = prepareDatasetByTypeOfItem(item);
   actor.sheet._onRoll(dataset);
 }
@@ -457,6 +466,8 @@ function onDropOnCanvas(canvas, data) {
   }
 }
 
-Hooks.on("renderChatMessage", (message, html, data) => Arm5eChatMessage.addChatListeners(message, html, data));
+Hooks.on("renderChatMessage", (message, html, data) =>
+  Arm5eChatMessage.addChatListeners(message, html, data)
+);
 
 Hooks.on("getSceneControlButtons", (buttons) => addArsButtons(buttons));

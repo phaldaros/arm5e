@@ -9,34 +9,22 @@
   <div class="resources grid grid-2col" style="border: 0px">
     <span style="border: 0px">
       <label for="data.wealth.inhabitantsPoints" class="bold">{{localize "arm5e.sheet.inhabitantsPoints"}}</label>
-      <input
-        type="text"
-        name="data.wealth.inhabitantsPoints"
-        value="{{data.wealth.inhabitantsPoints}}"
-        data-dtype="String"
-      />
+      <input type="text" name="data.wealth.inhabitantsPoints" value="{{data.wealth.inhabitantsPoints}}"
+        data-dtype="String" />
     </span>
     <span style="border: 0px">
       <label for="data.wealth.totalIncome" class="bold">{{localize "arm5e.sheet.totalIncome"}}</label>
-      <input type="text" name="data.wealth.totalIncome" value="{{data.wealth.totalIncome}}" data-dtype="String" />
+      <input type="number" name="data.wealth.totalIncome" value="{{data.wealth.totalIncome}}" data-dtype="String" />
     </span>
     <span style="border: 0px">
       <label for="data.wealth.laboratoriesPoints" class="bold">{{localize "arm5e.sheet.laboratoriesPoints"}}</label>
-      <input
-        type="text"
-        name="data.wealth.laboratoriesPoints"
-        value="{{data.wealth.laboratoriesPoints}}"
-        data-dtype="String"
-      />
+      <input type="text" name="data.wealth.laboratoriesPoints" value="{{data.wealth.laboratoriesPoints}}"
+        data-dtype="String" />
     </span>
     <span style="border: 0px">
       <label for="data.wealth.baseExpenditure" class="bold">{{localize "arm5e.sheet.baseExpenditure"}}</label>
-      <input
-        type="text"
-        name="data.wealth.baseExpenditure"
-        value="{{data.wealth.baseExpenditure}}"
-        data-dtype="String"
-      />
+      <input type="text" name="data.wealth.baseExpenditure" value="{{data.wealth.baseExpenditure}}"
+        data-dtype="String" />
     </span>
     <span style="border: 0px">
       <label for="data.wealth.weaponsPoints" class="bold">{{localize "arm5e.sheet.weaponsPoints"}}</label>
@@ -51,12 +39,8 @@
     </span>
     <span style="border: 0px">
       <label for="data.wealth.totalExpenditure" class="bold">{{localize "arm5e.sheet.totalExpenditure"}}</label>
-      <input
-        type="text"
-        name="data.wealth.totalExpenditure"
-        value="{{data.wealth.totalExpenditure}}"
-        data-dtype="String"
-      />
+      <input type="text" name="data.wealth.totalExpenditure" value="{{data.wealth.totalExpenditure}}"
+        data-dtype="String" />
     </span>
   </div>
 </div>
@@ -70,24 +54,23 @@
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.incomingSources"}}</div>
     <div class="item-controls">
-      <a class="item-control item-create" title="Add incomingSource" data-type="incomingSource"
-        ><i class="fas fa-plus"></i
-      ></a>
+      <a class="item-control item-create" title="Add incomingSource" data-type="incomingSource"><i
+          class="fas fa-plus"></i></a>
     </div>
   </li>
   {{#each data.incomingSources as |item id|}}
-  <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-    <div class="flexrow flex-center">
-      <span class="flexrow item-title width15">{{item.name}}</span>
-      <span></span>
-      <span class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type}} </span>
-      <span class="flexrow bold">{{localize "arm5e.sheet.incoming"}}: {{item.data.incoming}} </span>
-    </div>
-    <div class="item-controls">
-      <a class="item-control item-edit" title="Edit incomingSource"><i class="fas fa-edit"></i></a>
-      <a class="item-control item-delete" title="Delete incomingSource"><i class="fas fa-trash"></i></a>
-    </div>
-  </li>
+    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow item-title width15">{{item.name}}</span>
+        <span></span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type}} </span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.incoming"}}: {{item.data.incoming}} </span>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit incomingSource"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-delete" title="Delete incomingSource"><i class="fas fa-trash"></i></a>
+      </div>
+    </li>
   {{/each}}
 </ol>
 
@@ -101,22 +84,18 @@
         <label class="bold width2">{{localize "arm5e.sheet.notes"}}</label>
       </li>
       {{#each data.yearExpenditure as |data key|}}
-      <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
-        <span class="width2">
-          <label class="bold">{{localize data.label}} ({{localize data.sumary}})</label>
-        </span>
-        <span class="flex05">
-          <input
-            type="text"
-            name="data.yearExpenditure.{{key}}.expenditure"
-            value="{{numberFormat data.expenditure decimals=0 sign=true}}"
-            data-dtype="Number"
-          />
-        </span>
-        <span class="width2">
-          <input type="text" name="data.yearExpenditure.{{key}}.notes" value="{{data.notes}}" data-dtype="String" />
-        </span>
-      </li>
+        <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
+          <span class="width2">
+            <label class="bold">{{localize data.label}} ({{localize data.sumary}})</label>
+          </span>
+          <span class="flex05">
+            <input type="text" name="data.yearExpenditure.{{key}}.expenditure"
+              value="{{numberFormat data.expenditure decimals=0 sign=true}}" data-dtype="Number" />
+          </span>
+          <span class="width2">
+            <input type="text" name="data.yearExpenditure.{{key}}.notes" value="{{data.notes}}" data-dtype="String" />
+          </span>
+        </li>
       {{/each}}
     </ol>
   </div>
@@ -133,30 +112,22 @@
         <label class="bold">{{localize "arm5e.sheet.notes"}}</label>
       </li>
       {{#each data.costsSavings as |data key|}}
-      <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
-        <span class="flex07">
-          <label class="bold">{{localize data.label}} ({{localize data.sumary}})</label>
-        </span>
-        <span class="flex05">
-          <input
-            type="text"
-            name="data.costsSavings.{{key}}.quantity"
-            value="{{numberFormat data.quantity decimals=0 sign=true}}"
-            data-dtype="Number"
-          />
-        </span>
-        <span class="flex05">
-          <input
-            type="text"
-            name="data.costsSavings.{{key}}.saving"
-            value="{{numberFormat data.saving decimals=0 sign=true}}"
-            data-dtype="Number"
-          />
-        </span>
-        <span class="width">
-          <input type="text" name="data.costsSavings.{{key}}.notes" value="{{data.notes}}" data-dtype="String" />
-        </span>
-      </li>
+        <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
+          <span class="flex07">
+            <label class="bold">{{localize data.label}} ({{localize data.sumary}})</label>
+          </span>
+          <span class="flex05">
+            <input type="text" name="data.costsSavings.{{key}}.quantity"
+              value="{{numberFormat data.quantity decimals=0 sign=true}}" data-dtype="Number" />
+          </span>
+          <span class="flex05">
+            <input type="text" name="data.costsSavings.{{key}}.saving"
+              value="{{numberFormat data.saving decimals=0 sign=true}}" data-dtype="Number" />
+          </span>
+          <span class="width">
+            <input type="text" name="data.costsSavings.{{key}}.notes" value="{{data.notes}}" data-dtype="String" />
+          </span>
+        </li>
       {{/each}}
     </ol>
   </div>

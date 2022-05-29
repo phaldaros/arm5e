@@ -8,7 +8,10 @@ import { ARM5E } from "../config.js";
 import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
-import { findVoiceAndGesturesActiveEffects, modifyVoiceOrGesturesActiveEvent } from "../helpers/voiceAndGestures.js";
+import {
+  findVoiceAndGesturesActiveEffects,
+  modifyVoiceOrGesturesActiveEvent
+} from "../helpers/voiceAndGestures.js";
 
 import {
   prepareRollVariables,
@@ -136,6 +139,25 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.data.effectCreation = true;
 
     if (actorData.type == "player" || actorData.type == "npc") {
+      // // find out if filters are in place
+      // let filteredList = this.actor.getFlag("arm5e", "filters");
+      // context.display = {};
+      // if (filteredList) {
+      //   for (let [list, attr] of Object.entries(filteredList)) {
+      //     if (
+      //       attr.levelFilter != 0 ||
+      //       attr.levelFilter != "" ||
+      //       attr.levelFilter != null ||
+      //       attr.techniqueFilter != "" ||
+      //       attr.formFilter != ""
+      //     ) {
+      //       context.display[list] = "display:inline";
+      //     } else {
+      //       context.display[list] = "display:none";
+      //     }
+      //   }
+      // }
+
       context.data.world = {};
 
       // check whether the character is linked to an existing covenant
@@ -223,7 +245,10 @@ export class ArM5eActorSheet extends ActorSheet {
               title: "Affinity, "
             };
           } else if (technique.bonus && technique.xpCoeff == 1.0) {
-            technique.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"', title: "" };
+            technique.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"',
+              title: ""
+            };
           } else {
             technique.ui = {
               style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
@@ -236,11 +261,20 @@ export class ArM5eActorSheet extends ActorSheet {
           if (!form.bonus && form.xpCoeff == 1.0) {
             form.ui = { style: 'style="border: 0px; height: 40px;"' };
           } else if (!form.bonus && form.xpCoeff != 1.0) {
-            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"', title: "Affinity, " };
+            form.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"',
+              title: "Affinity, "
+            };
           } else if (form.bonus && form.xpCoeff == 1.0) {
-            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"', title: "" };
+            form.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"',
+              title: ""
+            };
           } else {
-            form.ui = { style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"', title: "Affinity, " };
+            form.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
+              title: "Affinity, "
+            };
           }
           // compute lab totals:
           context.data.labTotals[key] = {};
@@ -410,9 +444,39 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
 
     html.find(".rest").click((ev) => {
-      if (this.actor.data.type === "player" || this.actor.data.type === "npc" || this.actor.type == "beast") {
+      if (
+        this.actor.data.type === "player" ||
+        this.actor.data.type === "npc" ||
+        this.actor.type == "beast"
+      ) {
         this.actor.rest();
       }
+    });
+
+    html.find(".toggleHidden").click(async (ev) => {
+      const hidden = $(ev.target).data("hidden");
+      const list = $(ev.target).data("list");
+      let filteredList = this.actor.getFlag("arm5e", "filters");
+      if (!filteredList) {
+        let value = {};
+        value[list] = {
+          techniqueFilter: "",
+          formFilter: "",
+          levelOperator: 0,
+          levelFilter: ""
+        };
+
+        await this.actor.setFlag("arm5e", "filters", value);
+      } else if (!filteredList[list]) {
+        filteredList[list] = {
+          techniqueFilter: "",
+          formFilter: "",
+          levelOperator: 0,
+          levelFilter: ""
+        };
+        await this.actor.setFlag("arm5e", "filters", filteredList);
+      }
+      html.find(`.${hidden}`).end().find(`.${list}`).toggle();
     });
 
     html.find(".sortable").click((ev) => {
@@ -428,7 +492,6 @@ export class ArM5eActorSheet extends ActorSheet {
         });
       }
     });
-
     // Rollable abilities.
     html.find(".rollable").click(this._onRoll.bind(this));
     // html.find(".agingPoints").click(this._onRoll.bind(this));
@@ -450,7 +513,9 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     // Active Effect management
-    html.find(".effect-control").click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
+    html
+      .find(".effect-control")
+      .click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
   }
 
   async _increaseArt(type, art) {
@@ -472,7 +537,8 @@ export class ArM5eActorSheet extends ActorSheet {
     if (this.actor.data.data.arts[type][art].derivedScore != 0) {
       let oldXp = this.actor.data.data.arts[type][art].xp;
       let newXp = Math.round(
-        ((this.actor.data.data.arts[type][art].derivedScore - 1) * this.actor.data.data.arts[type][art].derivedScore) /
+        ((this.actor.data.data.arts[type][art].derivedScore - 1) *
+          this.actor.data.data.arts[type][art].derivedScore) /
           (2 * this.actor.data.data.arts[type][art].xpCoeff)
       );
       let updateData = {};
@@ -683,7 +749,9 @@ export class ArM5eActorSheet extends ActorSheet {
           );
           if (abs.length == 0) {
             // Then, check if the Abilities compendium exists
-            let abPack = game.packs.filter((p) => p.metadata.package === "arm5e" && p.metadata.name === "abilities");
+            let abPack = game.packs.filter(
+              (p) => p.metadata.package === "arm5e" && p.metadata.name === "abilities"
+            );
             const documents = await abPack[0].getDocuments();
             for (let doc of documents) {
               if (doc.name === localizedA || doc.name === localizedA + "*") {
@@ -722,6 +790,13 @@ export class ArM5eActorSheet extends ActorSheet {
     }
     if ((getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.UNCONSCIOUS) == 0) {
       // if (dataset.roll != "char" && dataset.roll != "aging" && dataset.roll != "crisis") {
+      if (this.actor.data.data.pendingCrisis) {
+        ui.notifications.info(game.i18n.localize("arm5e.notification.pendingCrisis"), {
+          permanent: true
+        });
+        return;
+      }
+
       if (this.actor.data.data.fatigueCurrent == this.actor.data.data.fatigueMaxLevel) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.unconscious"), {
           permanent: true

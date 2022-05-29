@@ -1,0 +1,58 @@
+{{log "display: " (lookup display list)}}
+<div class="backSection margintop18 ">
+    <li class="filter-item toggle-display item flexrow {{list}}">
+        <!--style="{{lookup display list}}"-->
+        <div class="header-fields">
+            <div class="resources flexrow flex-between padding12">
+                <span class="flexrow">
+                    <label for="data.techniqueFilter" class="header-label"
+                        style="padding-left: 24px">{{localize "arm5e.sheet.technique"}}</label>
+                    <select name="flags.arm5e.filters.{{list}}.techniqueFilter" data-type="String"
+                        style="flex: 0 0 100px">
+                        {{#with (lookup flags.arm5e.filters list)}}
+                            {{#select techniqueFilter}}
+                                <option value=""></option>
+                                {{#each ../config.magic.techniques as |technique key|}}
+                                    <option value="{{key}}">{{technique.label}}</option>
+                                {{/each}}
+                            {{/select}}
+                        {{/with}}
+                    </select>
+                </span>
+                <span class="flexrow">
+                    <label for="data.formFilter" class="header-label"
+                        style="padding-left: 24px">{{localize "arm5e.sheet.form"}}</label>
+                    <select name="flags.arm5e.filters.{{list}}.formFilter" data-type="String" style="flex: 0 0">
+                        {{#with (lookup flags.arm5e.filters list)}}
+                            {{#select formFilter}}
+                                <option value=""></option>
+                                {{#each ../config.magic.forms as |form key|}}
+                                    <option value="{{key}}">{{form.label}}</option>
+                                {{/each}}
+                            {{/select}}
+                        {{/with}}
+                    </select>
+                </span>
+                <span class="flexrow">
+                    <label for="data.levelFilter" class="header-label"
+                        style="padding-left: 24px">{{localize "arm5e.sheet.level"}}</label>
+                    <select name="flags.arm5e.filters.{{list}}.levelOperator" data-type="Number"
+                        style="flex: 0 0; font-family: bookAntiqua">
+                        {{#with (lookup flags.arm5e.filters list)}}
+                            {{#select levelOperator}}
+                                <option value="0">=</option>
+                                <option value="-1">&leq;</option>
+                                <option value="1">&geq;</option>
+                            {{/select}}
+                        {{/with}}
+                    </select>
+                    {{log flags.arm5e.filters}}
+                    {{#with (lookup flags.arm5e.filters list)}}
+                        <input type="number" name="flags.arm5e.filters.{{../list}}.levelFilter" value="{{levelFilter}}"
+                            data-dtype="Number" style="margin-right: 36px" />
+                    {{/with}}
+                </span>
+            </div>
+        </div>
+    </li>
+</div>

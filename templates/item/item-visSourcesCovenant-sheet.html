@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -13,14 +10,14 @@
           <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
           <select name="data.art.value" data-type="String">
             {{#select data.art.value}} {{#each config.magic.arts as |arts key|}}
-            <option value="{{key}}">{{arts.label}}</option>
-            {{/each}} {{/select}}
+                <option value="{{key}}">{{arts.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.sheet.pawns"}}</label>
-        <input type="text" name="data.pawns" value="{{data.pawns}}" data-dtype="Number" />
+        <input type="number" name="data.pawns" value="{{data.pawns}}" data-dtype="Number" />
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.sheet.location"}}</label>
@@ -31,8 +28,8 @@
         <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.season"}}</label>
         <select name="data.season" data-type="String">
           {{#select data.season}} {{#each config.seasons as |arts key|}}
-          <option value="{{key}}">{{localize arts.label}}</option>
-          {{/each}} {{/select}}
+              <option value="{{key}}">{{localize arts.label}}</option>
+            {{/each}} {{/select}}
         </select>
       </div>
     </div>
