@@ -154,8 +154,8 @@ export class ArM5eActorSheet extends ActorSheet {
         techniqueFilter: ""
       };
       if (
-        foundry.utils.isObjectEmpty(context.flags.arm5e.filters) ||
-        !context.flags.arm5e.filters
+        !context.flags.arm5e.filters ||
+        foundry.utils.isObjectEmpty(context.flags.arm5e.filters)
       ) {
         context.flags.arm5e.filters = {
           hermetic: {
