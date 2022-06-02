@@ -211,11 +211,8 @@ export const migrateSceneData = function (scene, migrationData) {
  */
 export const migrateActorData = function (actorData) {
   const updateData = {};
+  // updateData["flags.arm5e.-=filters"] = null;
 
-  // setup default flags if they don't exist
-  if (!actorData.flags.arm5e.filters) {
-    updateData["flags.arm5e.filters"] = {};
-  }
   if (actorData.type == "laboratory") {
     // fix recursive problem with laboratory owner
     if (!(actorData.data.owner.value instanceof String)) {
@@ -494,10 +491,6 @@ export const migrateActorData = function (actorData) {
       }
     }
   }
-  // else {
-  //   log(false, `Removing all effects of ${actorData.name}`);
-  //   updateData.effects = [];
-  // }
 
   // Migrate Owned Items
   if (!actorData.items) return updateData;

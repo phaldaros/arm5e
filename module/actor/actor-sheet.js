@@ -5,7 +5,15 @@
 
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ARM5E } from "../config.js";
-import { log, getLastMessageByHeader, calculateWound, getDataset } from "../tools.js";
+import {
+  log,
+  getLastMessageByHeader,
+  calculateWound,
+  getDataset,
+  compareSpellsData,
+  compareMagicalEffectsData,
+  hermeticFilter
+} from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
 import {
@@ -139,24 +147,27 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.data.effectCreation = true;
 
     if (actorData.type == "player" || actorData.type == "npc") {
-      // // find out if filters are in place
-      // let filteredList = this.actor.getFlag("arm5e", "filters");
-      // context.display = {};
-      // if (filteredList) {
-      //   for (let [list, attr] of Object.entries(filteredList)) {
-      //     if (
-      //       attr.levelFilter != 0 ||
-      //       attr.levelFilter != "" ||
-      //       attr.levelFilter != null ||
-      //       attr.techniqueFilter != "" ||
-      //       attr.formFilter != ""
-      //     ) {
-      //       context.display[list] = "display:inline";
-      //     } else {
-      //       context.display[list] = "display:none";
-      //     }
-      //   }
-      // }
+      let hermeticFilters = {
+        formFilter: "",
+        levelFilter: "",
+        levelOperator: 0,
+        techniqueFilter: ""
+      };
+      if (
+        foundry.utils.isObjectEmpty(context.flags.arm5e.filters) ||
+        !context.flags.arm5e.filters
+      ) {
+        context.flags.arm5e.filters = {
+          hermetic: {
+            spells: hermeticFilters,
+            magicalEffects: hermeticFilters,
+            labTexts: hermeticFilters
+          },
+          abilities: {
+            category: ""
+          }
+        };
+      }
 
       context.data.world = {};
 
@@ -234,6 +245,37 @@ export class ArM5eActorSheet extends ActorSheet {
         if (context.data.labtotal.applyFocus == undefined) {
           context.data.labtotal.applyFocus = false;
         }
+
+        // hermetic filters
+        // 1. Filter
+        // Spells
+        let spellsFilters = context.flags.arm5e.filters.hermetic.spells;
+        context.ui = {};
+        context.data.spells = hermeticFilter(spellsFilters, context.data.spells);
+        if (
+          spellsFilters.formFilter != "" ||
+          spellsFilters.techniqueFilter != "" ||
+          (spellsFilters.levelFilter != 0 && spellsFilters.levelFilter != null)
+        ) {
+          context.ui.spellFilter = 'style="box-shadow: 0 0 10px maroon"';
+        }
+
+        // magical effects
+        let magicEffectFilters = context.flags.arm5e.filters.hermetic.magicalEffects;
+        context.data.magicalEffects = hermeticFilter(
+          magicEffectFilters,
+          context.data.magicalEffects
+        );
+        if (
+          magicEffectFilters.formFilter != "" ||
+          magicEffectFilters.techniqueFilter != "" ||
+          (magicEffectFilters.levelFilter != 0 && magicEffectFilters.levelFilter != null)
+        ) {
+          context.ui.magicEffectFilter = 'style="box-shadow: 0 0 10px maroon"';
+        }
+        // 2. Sort
+        context.data.spells = context.data.spells.sort(compareSpellsData);
+        context.data.magicalEffects = context.data.magicalEffects.sort(compareMagicalEffectsData);
 
         // magic arts
         for (let [key, technique] of Object.entries(context.data.arts.techniques)) {
@@ -456,26 +498,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".toggleHidden").click(async (ev) => {
       const hidden = $(ev.target).data("hidden");
       const list = $(ev.target).data("list");
-      let filteredList = this.actor.getFlag("arm5e", "filters");
-      if (!filteredList) {
-        let value = {};
-        value[list] = {
-          techniqueFilter: "",
-          formFilter: "",
-          levelOperator: 0,
-          levelFilter: ""
-        };
 
-        await this.actor.setFlag("arm5e", "filters", value);
-      } else if (!filteredList[list]) {
-        filteredList[list] = {
-          techniqueFilter: "",
-          formFilter: "",
-          levelOperator: 0,
-          levelFilter: ""
-        };
-        await this.actor.setFlag("arm5e", "filters", filteredList);
-      }
       html.find(`.${hidden}`).end().find(`.${list}`).toggle();
     });
 
@@ -516,6 +539,9 @@ export class ArM5eActorSheet extends ActorSheet {
     html
       .find(".effect-control")
       .click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
+
+    // migrate actor
+    html.find(".migrate").click((event) => this.actor.migrate());
   }
 
   async _increaseArt(type, art) {
