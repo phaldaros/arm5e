@@ -219,7 +219,7 @@ export class ArM5eActorSheet extends ActorSheet {
         if (context.data.sanctum.linked) {
           let lab = game.actors.get(context.data.sanctum.actorId);
           if (lab) {
-            context.data.labtotal.quality = lab.data.data.generalQuality.value;
+            context.data.labtotal.quality = lab.data.data.generalQuality.total;
           }
         } else {
           if (context.data.labtotal.quality === undefined) {
