@@ -212,7 +212,9 @@ export const migrateSceneData = function (scene, migrationData) {
 export const migrateActorData = function (actorData) {
   const updateData = {};
   // updateData["flags.arm5e.-=filters"] = null;
-
+  if (!actorData.flags.arm5e) {
+    updateData["flags.arm5e"] = { filters: {} };
+  }
   if (actorData.type == "laboratory") {
     // fix recursive problem with laboratory owner
     if (!(actorData.data.owner.value instanceof String)) {
