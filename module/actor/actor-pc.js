@@ -10,6 +10,8 @@ import {
   error
 } from "../tools.js";
 
+import { migrateActorData } from "../migration.js";
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -613,20 +615,10 @@ export class ArM5ePCActor extends Actor {
       actorData.data.armor = armor;
     }
     if (actorData.data.spells) {
-      let flag = this.getFlag("arm5e", "sorting", "spells");
-      if (flag && flag["spells"] == true) {
-        actorData.data.spells = spells.sort(compareSpellsData);
-      } else {
-        actorData.data.spells = spells;
-      }
+      actorData.data.spells = spells;
     }
     if (actorData.data.magicalEffects) {
-      let flag = this.getFlag("arm5e", "sorting", "magicalEffects");
-      if (flag && flag["magicalEffects"] == true) {
-        actorData.data.magicalEffects = magicalEffects.sort(compareMagicalEffectsData);
-      } else {
-        actorData.data.magicalEffects = magicalEffects;
-      }
+      actorData.data.magicalEffects = magicalEffects;
     }
 
     if (actorData.data.vitals.soa) {
@@ -1300,5 +1292,25 @@ export class ArM5ePCActor extends Actor {
     }
     await this.update(updateData, {});
     return result;
+  }
+
+  // migrate this particular actor and its items
+  async migrate() {
+    try {
+      ui.notifications.info(`Migrating actor ${this.name}.`, {
+        permanent: false
+      });
+      const updateData = migrateActorData(this.data);
+
+      if (!isObjectEmpty(updateData)) {
+        console.log(`Migrating Actor entity ${this.name}`);
+        await this.update(updateData, {
+          enforceTypes: false
+        });
+      }
+    } catch (err) {
+      err.message = `Failed system migration for Actor ${a.name}: ${err.message}`;
+      console.error(err);
+    }
   }
 }

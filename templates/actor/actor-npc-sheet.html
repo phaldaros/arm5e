@@ -13,6 +13,10 @@
             <div class="flex0 padding10" style="width:24px"><a class="rollable" data-roll="crisis"
                 data-year="{{data.year.value}}" title="Resolve aging crisis"><i class="fas fa-skull"></i></a></div>
           {{/if}}
+          {{#if devMode}}
+            <div class="flex0 padding10" style="width:24px"><a class="migrate" title="Migrate actor"><i
+                  class="fas fa-arrow-up"></i></a></div>
+          {{/if}}
         </div>
       </h1>
 

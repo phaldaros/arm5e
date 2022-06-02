@@ -110,6 +110,25 @@ export function compareLabTexts(e1, e2) {
   return compareLabTextsData(e1.data, e2.data);
 }
 
+export function hermeticFilter(filters, inputArray) {
+  if (filters.formFilter != "") {
+    inputArray = inputArray.filter((e) => e.data.form.value === filters.formFilter);
+  }
+  if (filters.techniqueFilter != "") {
+    inputArray = inputArray.filter((e) => e.data.technique.value === filters.techniqueFilter);
+  }
+  if (filters.levelFilter != 0 && filters.levelFilter != null) {
+    if (filters.levelOperator == 0) {
+      inputArray = inputArray.filter((e) => e.data.level === filters.levelFilter);
+    } else if (filters.levelOperator == -1) {
+      inputArray = inputArray.filter((e) => e.data.level <= filters.levelFilter);
+    } else {
+      inputArray = inputArray.filter((e) => e.data.level >= filters.levelFilter);
+    }
+  }
+  return inputArray;
+}
+
 export function compareLabTextsData(e1, e2) {
   if (e1.data.type < e2.data.type) {
     return -1;
@@ -389,7 +408,9 @@ export function generateActiveEffectFromAbilities() {
 }
 
 export function getSystemCompendium(compendiumName) {
-  let pack = game.packs.filter((p) => p.metadata.package === "arm5e" && p.metadata.name === compendiumName);
+  let pack = game.packs.filter(
+    (p) => p.metadata.package === "arm5e" && p.metadata.name === compendiumName
+  );
   if (pack.length) return pack[0];
   return undefined;
 }

@@ -1,15 +1,15 @@
 {{log "display: " (lookup display list)}}
-<div class="backSection margintop18 ">
-    <li class="filter-item toggle-display item flexrow {{list}}">
+<div class="backSection hidden {{list}}">
+    <li class="filter-item toggle-display item flexrow ">
         <!--style="{{lookup display list}}"-->
         <div class="header-fields">
-            <div class="resources flexrow flex-between padding12">
+            <div class="resources flexrow flex-between padding12x5">
                 <span class="flexrow">
                     <label for="data.techniqueFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.technique"}}</label>
-                    <select name="flags.arm5e.filters.{{list}}.techniqueFilter" data-type="String"
+                    <select name="flags.arm5e.filters.hermetic.{{list}}.techniqueFilter" data-type="String"
                         style="flex: 0 0 100px">
-                        {{#with (lookup flags.arm5e.filters list)}}
+                        {{#with (lookup flags.arm5e.filters.hermetic list)}}
                             {{#select techniqueFilter}}
                                 <option value=""></option>
                                 {{#each ../config.magic.techniques as |technique key|}}
@@ -22,8 +22,9 @@
                 <span class="flexrow">
                     <label for="data.formFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.form"}}</label>
-                    <select name="flags.arm5e.filters.{{list}}.formFilter" data-type="String" style="flex: 0 0">
-                        {{#with (lookup flags.arm5e.filters list)}}
+                    <select name="flags.arm5e.filters.hermetic.{{list}}.formFilter" data-type="String"
+                        style="flex: 0 0">
+                        {{#with (lookup flags.arm5e.filters.hermetic list)}}
                             {{#select formFilter}}
                                 <option value=""></option>
                                 {{#each ../config.magic.forms as |form key|}}
@@ -36,9 +37,9 @@
                 <span class="flexrow">
                     <label for="data.levelFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.level"}}</label>
-                    <select name="flags.arm5e.filters.{{list}}.levelOperator" data-type="Number"
+                    <select name="flags.arm5e.filters.hermetic.{{list}}.levelOperator" data-type="Number"
                         style="flex: 0 0; font-family: bookAntiqua">
-                        {{#with (lookup flags.arm5e.filters list)}}
+                        {{#with (lookup flags.arm5e.filters.hermetic list)}}
                             {{#select levelOperator}}
                                 <option value="0">=</option>
                                 <option value="-1">&leq;</option>
@@ -47,9 +48,9 @@
                         {{/with}}
                     </select>
                     {{log flags.arm5e.filters}}
-                    {{#with (lookup flags.arm5e.filters list)}}
-                        <input type="number" name="flags.arm5e.filters.{{../list}}.levelFilter" value="{{levelFilter}}"
-                            data-dtype="Number" style="margin-right: 36px" />
+                    {{#with (lookup flags.arm5e.filters.hermetic list)}}
+                        <input type="number" name="flags.arm5e.filters.hermetic.{{../list}}.levelFilter"
+                            value="{{levelFilter}}" data-dtype="Number" style="margin-right: 36px" />
                     {{/with}}
                 </span>
             </div>

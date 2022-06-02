@@ -82,37 +82,43 @@ export async function agingCrisis(html, actor, roll, message) {
 }
 
 async function createDiaryEntry(actor, input) {
-  let desc = actor.name + " aged 1 year during winter of " + input.year + ".<br/>";
+  let desc =
+    game.i18n.localize("arm5e.aging.result0") +
+    "<br/>" +
+    game.i18n.format("arm5e.aging.result1", {
+      character: actor.name,
+      year: input.year
+    });
   if (input.apparent == 0) {
-    desc += "His/her appearance didn't change. <br/>";
+    desc += game.i18n.localize("arm5e.aging.result2");
   } else if (input.crisis) {
-    desc += "It resulted in a health crisis.<br/>";
+    desc += game.i18n.localize("arm5e.aging.result3");
   }
-
   for (let [key, char] of Object.entries(input.charac)) {
     if (char.aging) {
-      desc +=
-        "- Gained " +
-        char.aging +
-        " point(s) of aging in " +
-        game.i18n.localize(CONFIG.ARM5E.character.characteristics[key].label) +
-        " <br/>";
+      desc += game.i18n.format("arm5e.aging.result4", {
+        num: char.aging,
+        characteristic: game.i18n.localize(CONFIG.ARM5E.character.characteristics[key].label)
+      });
     }
     if (char.score) {
-      desc +=
-        "- Lost one point in " +
-        game.i18n.localize(CONFIG.ARM5E.character.characteristics[key].label) +
-        " <br/>";
+      desc += game.i18n.format("arm5e.aging.result5", {
+        characteristic: game.i18n.localize(CONFIG.ARM5E.character.characteristics[key].label)
+      });
     }
   }
 
   if (input.decrepitude) {
-    desc += "- Gained " + input.decrepitude + " point(s) of decrepitude<br/>";
+    desc += game.i18n.format("arm5e.aging.result6", {
+      num: input.decrepitude
+    });
   }
 
   desc += "<br/>- Roll: " + input.roll.formula + " => " + input.roll.result;
   let diaryEntry = {
-    name: game.i18n.localize("arm5e.aging.roll.label"),
+    name: game.i18n.format("arm5e.aging.resultTitle", {
+      character: actor.name
+    }),
     type: "diaryEntry",
     data: {
       year: input.year,
