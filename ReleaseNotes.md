@@ -5,16 +5,20 @@
 ### Features
 
 - new beast actor with custom sheet
-- basic Aura management
+- Aging rolls
+
 - first ui integration
 - Item sheets are flavored to the kind of Actor owner (assets by @Sylph)
 - Dice so nice integration: roll botch dice displayed.
-- Aging rolls
 - Fatigue management rework
-- New active effect to add fatigue levels
-- New active effect to modify aging rolls
-- New active effect to set realm alignment
 - New filter boxes for spells and magical effects
+- basic Aura management
+- New active effects
+  - New active effect to add fatigue levels
+  - New active effect to modify aging rolls
+  - New active effect to set realm alignment
+- Macro to roll stress die
+- Hints for rollable labels on the combat tab
 - Dev: possibility to define active effects with a limited number of possible values using a drop box
 - Dev: new button to migrate one specific actor
 
