@@ -25,6 +25,8 @@ La utilización e inclusión del logo, iconos y elementos artísticos, así como
 
 IMPORTANT: It is recommended to do a backup of your world before updating.
 
+ALSO IMPORTANT: The process to set this repository as the official one in Foundry VTT in ongoing, soon you will be able to install from within Foundry VTT without the current hassle.
+
 Copy the following url in the Foundry dialog to install new systems (at the bottom, there is a text field) an click install
 
 https://github.com/Xzotl42/arm5e/releases/latest/download/system.json

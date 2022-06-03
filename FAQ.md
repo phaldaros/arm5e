@@ -11,6 +11,13 @@ Update your Foundry VTT version to at least 0.8.9.
 Unless you have edited the system, remove the old "arm5e" folder from the systems folder (Found in the Foundry Data folder)
 Unzip, rename folder to "arm5e" and copy to systems folder.
 
+## Compendium content
+
+### Why are the description of the abilities, virtues, flaws and spells empty?
+
+For copyright reasons, we aren't able to include this content in the system. However, the sourcebook and page are provided if you want to include them in your world/compendium.
+For spells, we recommend you to download the Grand Grimoire of Hermetic spells (https://atlas-games.com/atlas-cms/resources/downloads/arm5-grand-grimoire-of-hermetic-spells.pdf)
+
 ## Modules
 
 ### Is there any recommended modules?

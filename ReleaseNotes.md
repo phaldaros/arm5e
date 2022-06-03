@@ -6,8 +6,7 @@
 
 - new beast actor with custom sheet
 - Aging rolls
-
-- first ui integration
+- First ui integration
 - Item sheets are flavored to the kind of Actor owner (assets by @Sylph)
 - Dice so nice integration: roll botch dice displayed.
 - Fatigue management rework
