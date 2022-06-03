@@ -257,7 +257,7 @@ export class ArM5eActorSheet extends ActorSheet {
           spellsFilters.techniqueFilter != "" ||
           (spellsFilters.levelFilter != 0 && spellsFilters.levelFilter != null)
         ) {
-          context.ui.spellFilter = 'style="box-shadow: 0 0 10px maroon"';
+          context.ui.spellFilter = 'style="text-shadow: 0 0 5px maroon"';
         }
 
         // magical effects
@@ -271,7 +271,7 @@ export class ArM5eActorSheet extends ActorSheet {
           magicEffectFilters.techniqueFilter != "" ||
           (magicEffectFilters.levelFilter != 0 && magicEffectFilters.levelFilter != null)
         ) {
-          context.ui.magicEffectFilter = 'style="box-shadow: 0 0 10px maroon"';
+          context.ui.magicEffectFilter = 'style="text-shadow: 0 0 5px maroon"';
         }
         // 2. Sort
         context.data.spells = context.data.spells.sort(compareSpellsData);

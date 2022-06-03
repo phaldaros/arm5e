@@ -29,6 +29,9 @@ export class ArM5ePCActor extends Actor {
   prepareBaseData() {
     super.prepareBaseData();
 
+    if (!this.data.flags.arm5e) {
+      this.data.flags.arm5e = { filters: {} };
+    }
     // add properties used for active effects:
 
     if (this.data.type == "laboratory") {
@@ -506,9 +509,11 @@ export class ArM5ePCActor extends Actor {
         actorData.data.characteristics.int.value +
         actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
 
-      if (actorData.data.apprentice.magicTheory > 0) {
-        actorData.data.laboratory.basicLabTotal.value +=
-          actorData.data.apprentice.magicTheory + actorData.data.apprentice.int;
+      if (actorData.data.apprentice) {
+        if (actorData.data.apprentice.magicTheory > 0) {
+          actorData.data.laboratory.basicLabTotal.value +=
+            actorData.data.apprentice.magicTheory + actorData.data.apprentice.int;
+        }
       }
       actorData.data.laboratory.visLimit.value =
         actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
