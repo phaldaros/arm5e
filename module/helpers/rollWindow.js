@@ -138,10 +138,14 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       } else {
         if (dataset.technique) {
           actorData.data.roll.techniqueText = ARM5E.magic.techniques[dataset.technique].label;
-          actorData.data.roll.techniqueScore = parseInt(actorData.data.arts.techniques[dataset.technique].finalScore);
+          actorData.data.roll.techniqueScore = parseInt(
+            actorData.data.arts.techniques[dataset.technique].finalScore
+          );
         }
         if (dataset.mform) {
-          actorData.data.roll.formScore = parseInt(actorData.data.arts.forms[dataset.mform].finalScore);
+          actorData.data.roll.formScore = parseInt(
+            actorData.data.arts.forms[dataset.mform].finalScore
+          );
           actorData.data.roll.formText = ARM5E.magic.forms[dataset.mform].label;
         }
       }
@@ -157,14 +161,18 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(activeEffects, "spellcasting");
+        const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
+          activeEffects,
+          "spellcasting"
+        );
         actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
           const label = activeEffect.data.label;
           let value = 0;
           activeEffect.data.changes
             .filter((c, idx) => {
               return (
-                c.mode == CONST.ACTIVE_EFFECT_MODES.ADD && activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+                c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
+                activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
               );
             })
             .forEach((item) => {
@@ -399,7 +407,7 @@ function getDialogData(dataset, html, actor) {
 }
 
 function addListenersDialog(html) {
-  html.find(".toggleHidden").click((event) => {
+  html.find(".toggle").click((event) => {
     const hidden = $(event.target).data("hidden");
     html.find(`.${hidden}`).toggle();
   });
@@ -432,7 +440,12 @@ async function checkTargetAndCalculateResistance(html, actorCaster, roll, messag
     return false;
   }
   actorsTargeted.forEach(async (actorTarget) => {
-    const successOfMagic = calculateSuccessOfMagic({ actorTarget, actorCaster, roll, spell: message });
+    const successOfMagic = calculateSuccessOfMagic({
+      actorTarget,
+      actorCaster,
+      roll,
+      spell: message
+    });
     await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
   });
 }
