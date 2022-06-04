@@ -1,5 +1,13 @@
 # Release Notes
 
+## 1.4.3
+
+### Features
+
+- Combat exertion
+
+### Bug fixes
+
 ## 1.4.2
 
 ### Features

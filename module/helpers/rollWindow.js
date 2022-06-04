@@ -7,6 +7,7 @@ import { calculateSuccessOfMagic } from "./magic.js";
 import { chatContestOfMagic } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor-pc.js";
 import { applyAgingEffects, agingCrisis } from "./long-term-activities.js";
+import { exertSelf } from "./combat.js";
 
 // below is a bitmap
 const ROLL_MODES = {
@@ -26,6 +27,12 @@ const ROLL_PROPERTIES = {
     TITLE: "arm5e.dialog.title.rolldie"
   },
   COMBAT: {
+    MODE: ROLL_MODES.STRESS,
+    TITLE: "arm5e.dialog.title.rolldie",
+    ALT_ACTION: exertSelf,
+    ALT_ACTION_LABEL: "arm5e.dialog.button.exertSelf"
+  },
+  INIT: {
     MODE: ROLL_MODES.STRESS,
     TITLE: "arm5e.dialog.title.rolldie"
   },
@@ -57,7 +64,6 @@ const ROLL_PROPERTIES = {
     CALLBACK: agingCrisis
   }
 };
-
 function getRollTypeProperties(type) {
   return ROLL_PROPERTIES[type.toUpperCase()] ?? ROLL_PROPERTIES.DEFAULT;
 }
@@ -308,7 +314,12 @@ function cleanBooleans(dataset, actorData) {
 }
 
 function chooseTemplate(dataset) {
-  if (dataset.roll == "combat" || dataset.roll == "option" || dataset.roll == "general") {
+  if (
+    dataset.roll == "combat" ||
+    dataset.roll == "init" ||
+    dataset.roll == "option" ||
+    dataset.roll == "general"
+  ) {
     return "systems/arm5e/templates/roll/roll-options.html";
   }
   if (dataset.roll == "char" || dataset.roll == "ability") {
@@ -357,8 +368,20 @@ function getDebugButtonsIfNeeded(actor, callback) {
 
 function getDialogData(dataset, html, actor) {
   const callback = getRollTypeProperties(dataset.roll).CALLBACK;
+
   let btns = {};
   let mode = 0;
+  const altAction = getRollTypeProperties(dataset.roll).ALT_ACTION;
+  let altBtn;
+  if (altAction) {
+    const btnLabel = getRollTypeProperties(dataset.roll).ALT_ACTION_LABEL;
+    altBtn = {
+      icon: "<i class='fas fa-check'></i>",
+      label: game.i18n.localize(btnLabel),
+      callback: (html) => altAction(html, actor, mode, callback, dataset.roll)
+    };
+  }
+
   const title = getRollTypeProperties(dataset.roll).TITLE;
   if (getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.STRESS) {
     if (getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.NO_BOTCH) {
@@ -369,6 +392,9 @@ function getDialogData(dataset, html, actor) {
       label: game.i18n.localize("arm5e.dialog.button.stressdie"),
       callback: (html) => stressDie(html, actor, mode, callback, dataset.roll)
     };
+    if (altAction) {
+      btns.alt = altBtn;
+    }
     if (getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.SIMPLE) {
       btns.no = {
         icon: "<i class='fas fa-check'></i>",
@@ -389,6 +415,9 @@ function getDialogData(dataset, html, actor) {
       label: game.i18n.localize("arm5e.dialog.button.simpledie"),
       callback: async (html) => await simpleDie(html, actor, dataset.roll, callback)
     };
+    if (altAction) {
+      btns.alt = altBtn;
+    }
     btns.no = {
       icon: "<i class='fas fa-ban'></i>",
       label: game.i18n.localize("arm5e.dialog.button.cancel"),
@@ -399,9 +428,8 @@ function getDialogData(dataset, html, actor) {
     title: game.i18n.localize(title),
     content: html,
     buttons: {
-      yes: btns.yes,
-      no: btns.no,
-      ...getDebugButtonsIfNeeded(actor, callback)
+      ...btns
+      // ...getDebugButtonsIfNeeded(actor, callback)
     }
   };
 }

@@ -2,7 +2,7 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition, Development version",
   "description": "Ars Magica 5e for Foundry VTT, BETA",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "templateVersion": 3,
@@ -87,7 +87,7 @@
       "path": "packs/macros.db",
       "type": "Macro"
     },
-	{
+    {
       "name": "rolltables",
       "label": "Rolltables",
       "path": "packs/rolltables.db",

@@ -678,6 +678,7 @@
   "arm5e.dialog.button.cancel": "Cancel",
   "arm5e.dialog.button.stressdie": "Stress die",
   "arm5e.dialog.button.simpledie": "Simple die",
+  "arm5e.dialog.button.exertSelf": "Exert self",
   "arm5e.dialog.woundCalculator": "Wound calculator",
   "arm5e.dialog.damageCalculator": "Damage calculator",
   "arm5e.dialog.hint.abilityOption": "Only alphanumeric characters.",

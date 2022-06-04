@@ -32,7 +32,11 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
       speaker: ChatMessage.getSpeaker({
         actor: actor
       }),
-      flavor: name + game.i18n.localize("arm5e.dialog.button.simpledie") + ": <br />" + actor.data.data.roll.rollLabel,
+      flavor:
+        name +
+        game.i18n.localize("arm5e.dialog.button.simpledie") +
+        ": <br />" +
+        actor.data.data.roll.rollLabel,
       flags: {
         arm5e: {
           type: "confidence",
@@ -80,7 +84,10 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     } else if (dieRoll._total > 1) {
       confAllowed = false;
       flavorTxt =
-        name + "<h2>" + game.i18n.format("arm5e.messages.die.botches", { num: dieRoll._total }) + "</h2><br/>";
+        name +
+        "<h2>" +
+        game.i18n.format("arm5e.messages.die.botches", { num: dieRoll._total }) +
+        "</h2><br/>";
     }
     botchCheck = 1;
   }
@@ -186,7 +193,11 @@ function getRollFormula(actor) {
   let value = 0;
   let msg = "";
   let actorData = actor.data.data;
-  if (actorData.roll.type == "spell" || actorData.roll.type == "magic" || actorData.roll.type == "spont") {
+  if (
+    actorData.roll.type == "spell" ||
+    actorData.roll.type == "magic" ||
+    actorData.roll.type == "spont"
+  ) {
     let valueTech = 0;
     let valueForm = 0;
     if (actorData.roll.type == "spell") {
@@ -363,11 +374,17 @@ function getRollFormula(actor) {
       msg = msg + actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
     }
     if (actorData.roll.txtOption2 != "") {
-      total = total + parseInt(actorData.roll.option2);
       if (msg != "") {
         msg = msg + " + <br />";
       }
-      msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
+      if (actorData.roll.type == "combat" && actorData.roll.exertion) {
+        total = total + parseInt(actorData.roll.option2) * 2;
+
+        msg = msg + actorData.roll.txtOption2 + " ( 2 x " + actorData.roll.option2 + ")";
+      } else {
+        total = total + parseInt(actorData.roll.option2);
+        msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
+      }
     }
     if (actorData.roll.txtOption3 != "") {
       total = total + parseInt(actorData.roll.option3);
@@ -396,14 +413,20 @@ function getRollFormula(actor) {
       if (msg != "") {
         msg = msg + " + <br />";
       }
-      msg = msg + game.i18n.localize("arm5.sheet.bonus.activeEffects") + " (" + actorData.roll.bonusActiveEffects + ")";
+      msg =
+        msg +
+        game.i18n.localize("arm5.sheet.bonus.activeEffects") +
+        " (" +
+        actorData.roll.bonusActiveEffects +
+        ")";
     }
     if (actorData.roll.bonus > 0) {
       total = total + actorData.roll.bonus;
       if (msg != "") {
         msg = msg + " + <br />";
       }
-      msg = msg + game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
+      msg =
+        msg + game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
     }
 
     if (actorData.roll.useFatigue == true) {
@@ -474,7 +497,8 @@ async function explodingRoll(actorData, modes = 0) {
   if (dieRoll.total === 1) {
     mult *= 2;
     let funRolls = game.settings.get("arm5e", "funRolls");
-    let withDialog = funRolls == "EVERYONE" || (funRolls == "PLAYERS_ONLY" && actorData.hasPlayerOwner);
+    let withDialog =
+      funRolls == "EVERYONE" || (funRolls == "PLAYERS_ONLY" && actorData.hasPlayerOwner);
     if (withDialog) {
       let data = {
         msg: game.i18n.localize("arm5e.dialog.roll.exploding.multiplier") + " : " + mult
