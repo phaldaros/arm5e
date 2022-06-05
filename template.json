@@ -1254,8 +1254,7 @@
       "templates": ["base", "magicalEffectAttributes"],
       "ritual": false,
       "bonus": 0,
-      "exp": 0,
-      "mastery": 0,
+      "xp": 0,
       "masteryAbilities": "",
       "applyFocus": false
     },

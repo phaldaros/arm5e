@@ -788,7 +788,7 @@ input[type="time"] {
   position: absolute;
   border: 0px;
   top: 0px;
-  left: calc(100% - 14px);
+  right: -15px;
   text-decoration: none;
 }
 
