@@ -1,4 +1,4 @@
-import { log } from "../tools.js";
+import { compareLabTextsData, log, hermeticFilter } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 
 import { effectToLabText, resetOwnerFields } from "../item/item-converter.js";
@@ -36,6 +36,24 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     // sheets are the actor object, the data object, whether or not it's
     // editable, the items array, and the effects array.
     const context = super.getData();
+
+    let hermeticFilters = {
+      formFilter: "",
+      levelFilter: "",
+      levelOperator: 0,
+      techniqueFilter: ""
+    };
+    if (!context.flags.arm5e.filters || foundry.utils.isObjectEmpty(context.flags.arm5e.filters)) {
+      context.flags.arm5e.filters = {
+        hermetic: {
+          laboratoryTexts: hermeticFilters
+        },
+        books: {
+          hermetic: { art: "", quality: "" },
+          mundane: { art: "", quality: "" }
+        }
+      };
+    }
 
     context.config = CONFIG.ARM5E;
     log(false, "Covenant-sheet getData");
@@ -95,6 +113,25 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         }
       }
     }
+
+    // hermetic filters
+    // 1. Filter
+    //
+    let labtTextFilters = context.flags.arm5e.filters.hermetic.laboratoryTexts;
+    if (!labtTextFilters) {
+      labtTextFilters = { formFilter: "", levelFilter: "", levelOperator: 0, techniqueFilter: "" };
+    }
+    context.ui = {};
+    context.data.laboratoryTexts = hermeticFilter(labtTextFilters, context.data.laboratoryTexts);
+    if (
+      labtTextFilters.formFilter != "" ||
+      labtTextFilters.techniqueFilter != "" ||
+      (labtTextFilters.levelFilter != 0 && labtTextFilters.levelFilter != null)
+    ) {
+      context.ui.labTextFilter = 'style="text-shadow: 0 0 5px maroon"';
+    }
+    // 2. Sort
+    context.data.laboratoryTexts = context.data.laboratoryTexts.sort(compareLabTextsData);
 
     return context;
   }
@@ -270,7 +307,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         itemData[0]._id = comp[0]._id;
         return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
       }
-    } else if (actor._isGrog() || (actor.data.type == "npc" && actor.data.data.charType.value == "mundane")) {
+    } else if (
+      actor._isGrog() ||
+      (actor.data.type == "npc" && actor.data.data.charType.value == "mundane")
+    ) {
       let pts = 1;
       // if (targetActor.data.data.season == "summer" || targetActor.data.data.season == "autumn") {
       //     pts = 5;
