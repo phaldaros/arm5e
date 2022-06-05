@@ -1,4 +1,3 @@
-{{log "display: " (lookup display list)}}
 <div class="backSection hidden {{list}}">
     <li class="filter-item toggle-display item flexrow ">
         <!--style="{{lookup display list}}"-->
@@ -47,7 +46,6 @@
                             {{/select}}
                         {{/with}}
                     </select>
-                    {{log flags.arm5e.filters}}
                     {{#with (lookup flags.arm5e.filters.hermetic list)}}
                         <input type="number" name="flags.arm5e.filters.hermetic.{{../list}}.levelFilter"
                             value="{{levelFilter}}" data-dtype="Number" style="margin-right: 36px" />

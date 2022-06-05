@@ -76,7 +76,11 @@ export class ArM5eItemSheet extends ItemSheet {
 
       //console.log("item-sheet get data weapon")
       //console.log(data)
-    } else if (itemData.type == "spell" || itemData.type == "enchantment" || itemData.type == "laboratoryText") {
+    } else if (
+      itemData.type == "spell" ||
+      itemData.type == "enchantment" ||
+      itemData.type == "laboratoryText"
+    ) {
       context.enforceMagicRules = game.settings.get("arm5e", "magicRulesEnforcement");
     } else if (itemData.type == "ability" || itemData.type == "diaryEntry") {
       // TODO add other categories
@@ -146,7 +150,9 @@ export class ArM5eItemSheet extends ItemSheet {
 
     context.metagame = game.settings.get("arm5e", "metagame");
 
-    context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
+    context.devMode = game.modules
+      .get("_dev-mode")
+      ?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
 
     // Prepare active effects
     context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.item.effects);
@@ -182,12 +188,18 @@ export class ArM5eItemSheet extends ItemSheet {
     // data-id and data-attr needed
     html.find(".increase-ability").click((event) => this._increaseScore(this.item));
     html.find(".decrease-ability").click((event) => this._deccreaseScore(this.item));
-    html.find(".default-characteristic").change((event) => this._onSelectDefaultCharacteristic(this.item, event));
+    html.find(".increase-mastery").click((event) => this._increaseMastery(this.item));
+    html.find(".decrease-mastery").click((event) => this._deccreaseMastery(this.item));
+    html
+      .find(".default-characteristic")
+      .change((event) => this._onSelectDefaultCharacteristic(this.item, event));
     html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
     html.find(".ability-option").change((event) => this._cleanUpOption(this.item, event));
 
     // Active Effect management
-    html.find(".effect-control").click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
+    html
+      .find(".effect-control")
+      .click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
   }
 
   async _onSelectDefaultCharacteristic(item, event) {
@@ -203,10 +215,49 @@ export class ArM5eItemSheet extends ItemSheet {
     return false;
   }
 
+  async _increaseMastery(item) {
+    if (item.type != "spell") {
+      return;
+    }
+    let oldXp = item.data.data.xp;
+    let newXp = Math.round(((item.data.data.mastery + 1) * (item.data.data.mastery + 2) * 5) / 2);
+
+    await item.update(
+      {
+        data: {
+          xp: newXp
+        }
+      },
+      {}
+    );
+    let delta = newXp - oldXp;
+    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
+  }
+  async _deccreaseMastery(item) {
+    if (item.type != "spell") {
+      return;
+    }
+    if (item.data.data.mastery != 0) {
+      let oldXp = item.data.data.xp;
+      let newXp = Math.round(((item.data.data.mastery - 1) * item.data.data.mastery * 5) / 2);
+      await item.update(
+        {
+          data: {
+            xp: newXp
+          }
+        },
+        {}
+      );
+      let delta = newXp - oldXp;
+      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+    }
+  }
+
   async _increaseScore(item) {
     let oldXp = item.data.data.xp;
     let newXp = Math.round(
-      ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) / (2 * item.data.data.xpCoeff)
+      ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) /
+        (2 * item.data.data.xpCoeff)
     );
 
     await item.update(
@@ -224,7 +275,8 @@ export class ArM5eItemSheet extends ItemSheet {
     if (item.data.data.derivedScore != 0) {
       let oldXp = item.data.data.xp;
       let newXp = Math.round(
-        ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) / (2 * item.data.data.xpCoeff)
+        ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) /
+          (2 * item.data.data.xpCoeff)
       );
       await item.update(
         {
@@ -334,7 +386,8 @@ export async function createMagicItem(html, item, codex) {
 
     // prepend the item description
     // itemData[0].data.enchantmentName = enchantment.name;
-    itemData[0].data.description = `<p>${item.data.data.description}</p>` + itemData[0].data.description;
+    itemData[0].data.description =
+      `<p>${item.data.data.description}</p>` + itemData[0].data.description;
     let item = await ArM5eItemSheet.createDocument();
 
     log(false, itemData);

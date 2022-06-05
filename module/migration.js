@@ -700,6 +700,22 @@ export const migrateItemData = function (itemData) {
       updateData["data.-=year"] = null;
       updateData["data.-=season"] = null;
       updateData["data.-=language"] = null;
+
+      if (itemData.data.exp) {
+        let exp = ((itemData.data.mastery * (itemData.data.mastery + 1)) / 2) * 5;
+        if (itemData.data.exp >= exp) {
+          updateData["data.xp"] = itemData.data.exp;
+        } else if (itemData.data.exp >= (itemData.data.mastery + 1) * 5) {
+          // if the experience is bigger than the neeeded for next level, ignore it
+          updateData["data.xp"] = exp;
+        } else {
+          // compute normally
+          updateData["data.xp"] = exp + itemData.data.exp;
+        }
+        // TODO: to be uncommentedm when we are sure the new system works
+        // updateData["data.-=mastery"] = null;
+        updateData["data.-=exp"] = null;
+      }
     }
     // Fix type of Item
     if (itemData.type == "dairyEntry") {

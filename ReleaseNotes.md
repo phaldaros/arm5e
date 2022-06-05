@@ -5,8 +5,13 @@
 ### Features
 
 - Combat exertion
+- Overhaul of spell mastery to align with xp based attributes (ie: abilities, needed for long term activities)
+- Started adding realm alignment effect to some virtues when appropriate
 
 ### Bug fixes
+
+- Mastery is now taken into account for the casting total display
+- Fixed long standing annoying ui bug in the tab selector
 
 ## 1.4.2
 
