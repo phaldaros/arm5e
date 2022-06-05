@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -10,44 +7,28 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
 
       <div class="resource">
-        <label
-          >{{localize "arm5e.sheet.speciality"}}<input
-            type="text"
-            name="data.speciality"
-            value="{{data.speciality}}"
-            data-dtype="String"
-        /></label>
+        <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="data.speciality"
+            value="{{data.speciality}}" data-dtype="String" /></label>
       </div>
       {{#if item.isOwned }}
-      <div class="grid grid-3col">
-        <label
-          >{{localize "arm5e.sheet.score"}}<input
-            type="text"
-            name="data.finalScore"
-            value="{{data.finalScore}}"
-            data-dtype="Number"
-            readonly
-        /></label>
-        <div class="ressource" style="padding-top: 18px">
-          <a class="item-control decrease-ability" title="Decrease score"><i class="fas fa-minus"></i></a>
-          <a class="item-control increase-ability" title="Increase score"><i class="fas fa-plus"></i></a>
+        <div class="grid grid-3col">
+          <label>{{localize "arm5e.sheet.score"}}<input type="text" name="data.finalScore" value="{{data.finalScore}}"
+              data-dtype="Number" readonly /></label>
+          <div class="ressource" style="padding-top: 18px">
+            <a class="item-control decrease-ability" title="Decrease score"><i class="fas fa-minus"></i></a>
+            <a class="item-control increase-ability" title="Increase score"><i class="fas fa-plus"></i></a>
+          </div>
+          <label>{{localize "arm5e.sheet.experience"}}<input type="number" name="data.xp" value="{{data.xp}}"
+              data-dtype="Number" /></label>
         </div>
-        <label
-          >{{localize "arm5e.sheet.experience"}}<input
-            type="text"
-            name="data.xp"
-            value="{{data.xp}}"
-            data-dtype="Number"
-        /></label>
-      </div>
       {{/if}}
       <div class="resource">
         <label>{{localize "arm5e.sheet.defaultCharacteristicForAbility"}}</label>
         <div class="flexcol flexrow">
           <select name="data.defaultChaAb" data-type="String" class="default-characteristic">
             {{#select data.defaultChaAb}} {{#each config.character.characteristics as |item key|}}
-            <option value="{{key}}">{{localize label}}</option>
-            {{/each}} {{/select}}
+                <option value="{{key}}">{{localize label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
       </div>
@@ -75,21 +56,21 @@
         <label for="data.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
         <select name="data.key" data-dtype="String" class="ability-key">
           {{#select data.key}}
-          <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
-          {{#each abilityKeysList as |item key|}}
-          <option value="{{key}}">{{localize item.mnemonic}}</option>
-          {{/each}} {{/select}}
+            <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
+            {{#each abilityKeysList as |item key|}}
+              <option value="{{key}}">{{localize item.mnemonic}}</option>
+            {{/each}}
+          {{/select}}
         </select>
       </div>
       <div class="resource">
         {{#if (lookup (lookup abilityKeysList data.key) "option")}}
-        <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-        <input type="text" class="ability-option" name="data.option" value="{{data.option}}" style="width: 200px" />
+          <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+          <input type="text" class="ability-option" name="data.option" value="{{data.option}}" style="width: 200px" />
         {{else}}
-        <label for="data.option" class="header-label" style="color: gray"
-          >{{localize "arm5e.sheet.skill.abilityOption"}}</label
-        >
-        <input type="text" name="data.option" data-dtype="String" value="" readonly style="width: 200px" />
+          <label for="data.option" class="header-label"
+            style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+          <input type="text" name="data.option" data-dtype="String" value="" readonly style="width: 200px" />
         {{/if}}
       </div>
     </div>

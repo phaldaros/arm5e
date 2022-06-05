@@ -7,6 +7,7 @@
 - Combat exertion
 - Overhaul of spell mastery to align with xp based attributes (ie: abilities, needed for long term activities)
 - Started adding realm alignment effect to some virtues when appropriate
+- Filter box for covenant lab texts
 
 ### Bug fixes
 
