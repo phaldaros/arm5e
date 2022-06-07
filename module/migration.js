@@ -213,7 +213,9 @@ export const migrateActorData = function (actorData) {
   const updateData = {};
   // updateData["flags.arm5e.-=filters"] = null;
   if (!actorData.flags.arm5e) {
-    updateData["flags.arm5e"] = { filters: {} };
+    updateData["flags.arm5e"] = {};
+  } else if (actorData.flags.arm5e.filters) {
+    updateData["flags.arm5e.-filters"] = null;
   }
   if (actorData.type == "laboratory") {
     // fix recursive problem with laboratory owner

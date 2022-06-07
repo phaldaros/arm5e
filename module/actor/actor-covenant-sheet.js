@@ -1,6 +1,6 @@
 import { compareLabTextsData, log, hermeticFilter } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
-
+import { HERMETIC_FILTER } from "../constants/userdata.js";
 import { effectToLabText, resetOwnerFields } from "../item/item-converter.js";
 
 /**
@@ -37,24 +37,24 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     // editable, the items array, and the effects array.
     const context = super.getData();
 
-    let hermeticFilters = {
-      formFilter: "",
-      levelFilter: "",
-      levelOperator: 0,
-      techniqueFilter: ""
-    };
-    if (!context.flags.arm5e.filters || foundry.utils.isObjectEmpty(context.flags.arm5e.filters)) {
-      context.flags.arm5e.filters = {
-        hermetic: {
-          laboratoryTexts: hermeticFilters
-        },
-        books: {
-          hermetic: { art: "", quality: "" },
-          mundane: { art: "", quality: "" }
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[this.actor.id]) {
+      context.userData = usercache[this.actor.id];
+    } else {
+      usercache[this.actor.id] = {
+        filters: {
+          hermetic: {
+            laboratoryTexts: HERMETIC_FILTER
+          },
+          books: {
+            hermetic: { art: "", score: 0, quality: 0 },
+            mundane: { art: "", score: 0, quality: 0 }
+          }
         }
       };
+      context.userData = usercache[this.actor.id];
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     }
-
     context.config = CONFIG.ARM5E;
     log(false, "Covenant-sheet getData");
     log(false, context);
@@ -117,12 +117,17 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     // hermetic filters
     // 1. Filter
     //
-    let labtTextFilters = context.flags.arm5e.filters.hermetic.laboratoryTexts;
-    if (!labtTextFilters) {
-      labtTextFilters = { formFilter: "", levelFilter: "", levelOperator: 0, techniqueFilter: "" };
-    }
+    let labtTextFilters = context.userData.filters.hermetic.laboratoryTexts;
+    // if (!labtTextFilters) {
+    //   labtTextFilters = { formFilter: "", levelFilter: "", levelOperator: 0, techniqueFilter: "" };
+    // }
     context.ui = {};
     context.data.laboratoryTexts = hermeticFilter(labtTextFilters, context.data.laboratoryTexts);
+    if (labtTextFilters.expanded) {
+      context.ui.labtTextFilterVisibility = "";
+    } else {
+      context.ui.labtTextFilterVisibility = "hidden";
+    }
     if (
       labtTextFilters.formFilter != "" ||
       labtTextFilters.techniqueFilter != "" ||

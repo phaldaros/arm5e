@@ -21,21 +21,17 @@ Thanks to various contributors at https://game-icons.net for some default icons
 
 La utilización e inclusión del logo, iconos y elementos artísticos, así como el uso de terminología, ha sido autorizado expresamente y por escrito por Holocubierta Ediciones, S.L. (https://www.holocubierta.com), licenciataria del juego Ars Magica 5ª Edición para su publicación en castellano.
 
-## Installation
+## Installation of the development version
 
-IMPORTANT: It is recommended to do a backup of your world before updating.
-
-ALSO IMPORTANT: The process to set this repository as the official one in Foundry VTT in ongoing, soon you will be able to install from within Foundry VTT without the current hassle.
+If you want to test the newest features in advance before release and give precious feedback and suggestions:
 
 Copy the following url in the Foundry dialog to install new systems (at the bottom, there is a text field) an click install
 
-https://github.com/Xzotl42/arm5e/releases/latest/download/system.json
-
-### The development version
-
-If you want to test the newest features in advance before release and give precious feedback and suggestions, you can do the same with the one below:
-
 https://raw.githubusercontent.com/xzotl42/arm5e/master/system.json
+
+IMPORTANT: It is recommended to do a backup of your world before updating.
+
+ALSO IMPORTANT: The dev system and the official releases can not exist in parallel in the same Foundry data folder. To have both versions, you can follow this [tutorial video](https://youtu.be/B74ZAp3xx3o) by Encounter library: a very clear process on how to do it step by step. (Instead of installing the V10 as in the video, install the latest stable V9, then install the dev version as explained below)
 
 ## Release Notes
 

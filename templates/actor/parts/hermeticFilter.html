@@ -1,14 +1,16 @@
-<div class="backSection hidden {{list}}">
-    <li class="filter-item toggle-display item flexrow ">
-        <!--style="{{lookup display list}}"-->
+<div class="backSection {{list}} {{visibility}}">
+    {{log "visibility: " visibility}}
+    <li class="filter-item toggle-display flexrow" draggable="false" style="padding-bottom: 8px;">
+        <!--style=" {{lookup display list}}"-->
         <div class="header-fields">
             <div class="resources flexrow flex-between padding12x5">
                 <span class="flexrow">
-                    <label for="data.techniqueFilter" class="header-label"
+                    <label for="techniqueFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.technique"}}</label>
-                    <select name="flags.arm5e.filters.hermetic.{{list}}.techniqueFilter" data-type="String"
-                        style="flex: 0 0 100px">
-                        {{#with (lookup flags.arm5e.filters.hermetic list)}}
+
+                    <select id="techniqueFilter" name="techniqueFilter" data-type="String" style="flex: 0 0 100px"
+                        class="technique-filter" data-list="{{list}}">
+                        {{#with (lookup userData.filters.hermetic list)}}
                             {{#select techniqueFilter}}
                                 <option value=""></option>
                                 {{#each ../config.magic.techniques as |technique key|}}
@@ -17,13 +19,14 @@
                             {{/select}}
                         {{/with}}
                     </select>
+
                 </span>
                 <span class="flexrow">
                     <label for="data.formFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.form"}}</label>
-                    <select name="flags.arm5e.filters.hermetic.{{list}}.formFilter" data-type="String"
-                        style="flex: 0 0">
-                        {{#with (lookup flags.arm5e.filters.hermetic list)}}
+                    <select name="formFilter" data-type="String" style="flex: 0 0" class="form-filter"
+                        data-list="{{list}}">
+                        {{#with (lookup userData.filters.hermetic list)}}
                             {{#select formFilter}}
                                 <option value=""></option>
                                 {{#each ../config.magic.forms as |form key|}}
@@ -36,9 +39,9 @@
                 <span class="flexrow">
                     <label for="data.levelFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.level"}}</label>
-                    <select name="flags.arm5e.filters.hermetic.{{list}}.levelOperator" data-type="Number"
-                        style="flex: 0 0; font-family: bookAntiqua">
-                        {{#with (lookup flags.arm5e.filters.hermetic list)}}
+                    <select name="levelOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua"
+                        class="levelOperator-filter" data-list="{{list}}">
+                        {{#with (lookup userData.filters.hermetic list)}}
                             {{#select levelOperator}}
                                 <option value="0">=</option>
                                 <option value="-1">&leq;</option>
@@ -46,9 +49,9 @@
                             {{/select}}
                         {{/with}}
                     </select>
-                    {{#with (lookup flags.arm5e.filters.hermetic list)}}
-                        <input type="number" name="flags.arm5e.filters.hermetic.{{../list}}.levelFilter"
-                            value="{{levelFilter}}" data-dtype="Number" style="margin-right: 36px" />
+                    {{#with (lookup userData.filters.hermetic list)}}
+                        <input type="number" name="levelFilter" value="{{levelFilter}}" data-dtype="Number"
+                            style="margin-right: 36px" class="level-filter" data-list="{{../list}}" />
                     {{/with}}
                 </span>
             </div>
