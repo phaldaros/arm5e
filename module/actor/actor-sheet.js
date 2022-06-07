@@ -16,6 +16,7 @@ import {
 } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
+import { HERMETIC_FILTER, updateUserCache } from "../constants/userdata.js";
 import {
   findVoiceAndGesturesActiveEffects,
   modifyVoiceOrGesturesActiveEvent
@@ -147,26 +148,24 @@ export class ArM5eActorSheet extends ActorSheet {
     actorData.data.effectCreation = true;
 
     if (actorData.type == "player" || actorData.type == "npc") {
-      let hermeticFilters = {
-        formFilter: "",
-        levelFilter: "",
-        levelOperator: 0,
-        techniqueFilter: ""
-      };
-      if (
-        !context.flags.arm5e.filters ||
-        foundry.utils.isObjectEmpty(context.flags.arm5e.filters)
-      ) {
-        context.flags.arm5e.filters = {
-          hermetic: {
-            spells: hermeticFilters,
-            magicalEffects: hermeticFilters,
-            labTexts: hermeticFilters
-          },
-          abilities: {
-            category: ""
+      let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+      if (usercache[this.actor.id]) {
+        context.userData = usercache[this.actor.id];
+      } else {
+        usercache[this.actor.id] = {
+          filters: {
+            hermetic: {
+              spells: HERMETIC_FILTER,
+              magicalEffects: HERMETIC_FILTER,
+              laboratoryTexts: HERMETIC_FILTER
+            },
+            abilities: {
+              category: ""
+            }
           }
         };
+        context.userData = usercache[this.actor.id];
+        sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
       }
 
       context.data.world = {};
@@ -249,9 +248,14 @@ export class ArM5eActorSheet extends ActorSheet {
         // hermetic filters
         // 1. Filter
         // Spells
-        let spellsFilters = context.flags.arm5e.filters.hermetic.spells;
+        let spellsFilters = context.userData.filters.hermetic.spells;
         context.ui = {};
         context.data.spells = hermeticFilter(spellsFilters, context.data.spells);
+        if (spellsFilters.expanded) {
+          context.ui.spellsFilterVisibility = "";
+        } else {
+          context.ui.spellsFilterVisibility = "hidden";
+        }
         if (
           spellsFilters.formFilter != "" ||
           spellsFilters.techniqueFilter != "" ||
@@ -261,11 +265,16 @@ export class ArM5eActorSheet extends ActorSheet {
         }
 
         // magical effects
-        let magicEffectFilters = context.flags.arm5e.filters.hermetic.magicalEffects;
+        let magicEffectFilters = context.userData.filters.hermetic.magicalEffects;
         context.data.magicalEffects = hermeticFilter(
           magicEffectFilters,
           context.data.magicalEffects
         );
+        if (magicEffectFilters.expanded) {
+          context.ui.magicEffectFilterVisibility = "";
+        } else {
+          context.ui.magicEffectFilterVisibility = "hidden";
+        }
         if (
           magicEffectFilters.formFilter != "" ||
           magicEffectFilters.techniqueFilter != "" ||
@@ -414,8 +423,63 @@ export class ArM5eActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // filters
+    html.find(".toggleHidden").click(async (ev) => {
+      const list = $(ev.target).data("list");
+      const val = html.find(`.${list}`).attr("class").indexOf("hidden");
+      await updateUserCache(this.actor.id, list, "expanded", val >= 0);
+      html.find(`.${list}`).toggleClass("hidden");
+    });
+
+    html.find(".technique-filter").change(async (ev) => {
+      ev.preventDefault();
+      const list = $(ev.currentTarget).data("list");
+      const val = ev.target.value;
+      await updateUserCache(this.actor.id, list, "techniqueFilter", val);
+      this.render();
+    });
+
+    html.find(".form-filter").change(async (ev) => {
+      ev.preventDefault();
+      const list = $(ev.currentTarget).data("list");
+      const val = ev.target.value;
+      await updateUserCache(this.actor.id, list, "formFilter", val);
+      this.render();
+    });
+
+    html.find(".levelOperator-filter").change(async (ev) => {
+      ev.preventDefault();
+      const list = $(ev.currentTarget).data("list");
+      const val = ev.target.value;
+      await updateUserCache(this.actor.id, list, "levelOperator", val);
+      this.render();
+    });
+
+    html.find(".level-filter").change(async (ev) => {
+      ev.preventDefault();
+      const list = $(ev.currentTarget).data("list");
+      const val = ev.target.value;
+      await updateUserCache(this.actor.id, list, "levelFilter", val);
+      this.actor.update();
+    });
+
+    html.find(".sortable").click((ev) => {
+      const listName = ev.currentTarget.dataset.list;
+      let val = this.actor.getFlag("arm5e", "sorting", listName);
+      if (val === undefined) {
+        this.actor.setFlag("arm5e", "sorting", {
+          [listName]: true
+        });
+      } else {
+        this.actor.setFlag("arm5e", "sorting", {
+          [listName]: !val[listName]
+        });
+      }
+    });
+
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
+
     // Render the linked actor sheet for viewing/editing prior to the editable check.
     html.find(".actor-link").click(this._onActorRender.bind(this));
 
@@ -495,26 +559,6 @@ export class ArM5eActorSheet extends ActorSheet {
       }
     });
 
-    html.find(".toggleHidden").click(async (ev) => {
-      const hidden = $(ev.target).data("hidden");
-      const list = $(ev.target).data("list");
-
-      html.find(`.${hidden}`).end().find(`.${list}`).toggle();
-    });
-
-    html.find(".sortable").click((ev) => {
-      const listName = ev.currentTarget.dataset.list;
-      let val = this.actor.getFlag("arm5e", "sorting", listName);
-      if (val === undefined) {
-        this.actor.setFlag("arm5e", "sorting", {
-          [listName]: true
-        });
-      } else {
-        this.actor.setFlag("arm5e", "sorting", {
-          [listName]: !val[listName]
-        });
-      }
-    });
     // Rollable abilities.
     html.find(".rollable").click(this._onRoll.bind(this));
     // html.find(".agingPoints").click(this._onRoll.bind(this));

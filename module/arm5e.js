@@ -338,6 +338,14 @@ Hooks.once("ready", async function () {
       permanent: false
     });
   }
+
+  // setup session storage:
+
+  let userData = sessionStorage.getItem(`usercache-${game.user.id}`);
+  if (!userData) {
+    // create user cache if it doesn't exist yet
+    sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify({}));
+  }
 });
 
 /**

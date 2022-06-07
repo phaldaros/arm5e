@@ -117,13 +117,18 @@ export function hermeticFilter(filters, inputArray) {
   if (filters.techniqueFilter != "") {
     inputArray = inputArray.filter((e) => e.data.technique.value === filters.techniqueFilter);
   }
-  if (filters.levelFilter != 0 && filters.levelFilter != null) {
+  if (
+    filters.levelFilter != 0 &&
+    filters.levelFilter != null &&
+    filters.levelFilter != "" &&
+    filters.levelFilter != "0"
+  ) {
     if (filters.levelOperator == 0) {
-      inputArray = inputArray.filter((e) => e.data.level === filters.levelFilter);
+      inputArray = inputArray.filter((e) => e.data.level === parseInt(filters.levelFilter));
     } else if (filters.levelOperator == -1) {
-      inputArray = inputArray.filter((e) => e.data.level <= filters.levelFilter);
+      inputArray = inputArray.filter((e) => e.data.level <= parseInt(filters.levelFilter));
     } else {
-      inputArray = inputArray.filter((e) => e.data.level >= filters.levelFilter);
+      inputArray = inputArray.filter((e) => e.data.level >= parseInt(filters.levelFilter));
     }
   }
   return inputArray;
