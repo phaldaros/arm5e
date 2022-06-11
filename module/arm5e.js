@@ -417,7 +417,7 @@ async function onDropActorSheetData(actor, sheet, data) {
     if (sheet.isItemDropAllowed(item.data)) {
       return true;
     } else {
-      console.log("Prevented invalid item drop");
+      log(true, "Prevented invalid item drop ", item.data, " on actor ", actor)
       return false;
     }
   } else if (data.type == "Actor") {

@@ -88,6 +88,12 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
           default:
             return true;
         }
+        
+      case "power":
+        if (this.actor.data.data.charType.value === "entity")
+          return true;
+        else 
+          return false;
       case "weapon":
       case "armor":
       case "spell":
