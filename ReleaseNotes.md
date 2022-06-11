@@ -9,12 +9,14 @@
 - Started adding realm alignment effect to some virtues when appropriate
 - Filter box for covenant lab texts
 - Filter box attributes are now saved at session level and are distinct for each player
+- Update of Spanish translation (by Teotimus)
 
 ### Bug fixes
 
 - Mastery is now taken into account for the casting total display
 - Fixed long standing annoying ui bug in the tab selector
 - Filter box is no longer "draggable"
+- Added weapon initialtive bonus and overweigtht to init rolls
 
 ## 1.4.2
 
