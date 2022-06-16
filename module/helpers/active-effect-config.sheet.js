@@ -51,17 +51,16 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     context.options = this.object.getFlag("arm5e", "option");
     for (let idx = 0; idx < context.selectedTypes.length; idx++) {
       let tmpSubTypes = context.types[context.selectedTypes[idx]].subtypes;
-      // log(false, tmpSubTypes);
       let tmp = tmpSubTypes[context.selectedSubtypes[idx]].key;
       // option key replacement only done for abilities for now.
       if (ACTIVE_EFFECTS_TYPES[context.selectedTypes[idx]].category === "abilities") {
         if (context.options[idx] != null) {
-          // log(false, `subtype: ${tmpSubTypes[context.selectedSubtypes[idx]].key}`);
           tmp = tmp.replace("#OPTION#", context.options[idx]);
-          // log(false, `computedKey: ${tmp}`);
         }
       }
-      let withChoice = ACTIVE_EFFECTS_TYPES[context.selectedTypes[idx]].subtypes[context.selectedSubtypes[idx]].choice;
+      let withChoice =
+        ACTIVE_EFFECTS_TYPES[context.selectedTypes[idx]].subtypes[context.selectedSubtypes[idx]]
+          .choice;
       if (withChoice) {
         tmpSubTypes[context.selectedSubtypes[idx]].withChoice = true;
       } else {
@@ -72,7 +71,9 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
       context.subtypes.push(tmpSubTypes);
     }
 
-    context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
+    context.devMode = game.modules
+      .get("_dev-mode")
+      ?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
     log(false, "Effect config sheet data");
     log(false, context);
     return context;
@@ -127,7 +128,8 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     let arraySubtypes = this.object.getFlag("arm5e", "subtype");
     let arrayOptions = this.object.getFlag("arm5e", "option");
     arraySubtypes[index] = value;
-    arrayOptions[index] = ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].option || null;
+    arrayOptions[index] =
+      ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].option || null;
     let computedKey = ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].key;
     if (arrayOptions[index] != null) {
       computedKey = computedKey.replace("#OPTION#", arrayOptions[index]);
@@ -173,9 +175,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
 
       case "option":
         const index = parseInt(event.currentTarget.dataset.idx);
-        return this._setOption(index, arrayTypes[index], arraySubtypes[index], arrayOptions[index]).then(() =>
-          this.render()
-        );
+        return this._setOption(
+          index,
+          arrayTypes[index],
+          arraySubtypes[index],
+          arrayOptions[index]
+        ).then(() => this.render());
         break;
       case "delete":
         // remove type and subtype of the erased change
@@ -192,7 +197,9 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
           }
         };
         button.closest(".effect-change").remove();
-        return this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
+        return this.submit({ preventClose: true, updateData: updateFlags }).then(() =>
+          this.render()
+        );
     }
   }
 

@@ -13,13 +13,8 @@
         <div class="resource flex-group-center backSection">
           <label for="data.age.value" class="smallTitle marginbot6">{{localize "arm5e.sheet.age"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input
-              type="text"
-              name="data.age.value"
-              value="{{data.age.value}}"
-              data-dtype="Number"
-              style="flex: 0.6; margin-left: 8px; margin-right: 24px"
-            />
+            <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number"
+              style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
           </div>
         </div>
 
@@ -33,20 +28,10 @@
         <div class="resource flex-group-center backSection">
           <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input
-              type="number"
-              name="data.con.score"
-              value="{{data.con.score}}"
-              data-dtype="Number"
-              style="flex: 0.6; margin-left: 8px; margin-right: 24px"
-            />
-            (<input
-              type="number"
-              name="data.con.points"
-              value="{{data.con.points}}"
-              data-dtype="Number"
-              style="flex: 0.6"
-            />)
+            <input type="number" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"
+              style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
+            (<input type="number" name="data.con.points" value="{{data.con.points}}" data-dtype="Number"
+              style="flex: 0.6" />)
           </div>
         </div>
       </div>
@@ -74,11 +59,11 @@
     </a>
 
     {{#if isGM}}
-    <a class="item posRelative" data-tab="effects">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.effects"}}
-    </a>
+      <a class="item posRelative" data-tab="effects">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.effects"}}
+      </a>
     {{/if}}
   </nav>
 

@@ -11,7 +11,7 @@ import { ArM5eCrucibleSheet } from "./actor/actor-crucible-sheet.js";
 import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
 import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
-// import { ArM5eItemDiarySheet } from "./item/item-diary-sheet.js";
+import { ArM5eItemDiarySheet } from "./item/item-diary-sheet.js";
 import ArM5eActiveEffect from "./helpers/active-effects.js";
 
 import { prepareDatasetByTypeOfItem } from "./helpers/items.js";
@@ -220,10 +220,10 @@ Hooks.once("init", async function () {
     makeDefault: true
   });
 
-  // Items.registerSheet("arm5e", ArM5eItemDiarySheet, {
-  //   types: ["diaryEntry"],
-  //   makeDefault: true
-  // });
+  Items.registerSheet("arm5e", ArM5eItemDiarySheet, {
+    types: ["diaryEntry"],
+    makeDefault: true
+  });
 
   Items.registerSheet("arm5e", ArM5eItemSheet, {
     types: [
@@ -236,7 +236,6 @@ Hooks.once("init", async function () {
       "flaw",
       "ability",
       "abilityFamiliar",
-      "diaryEntry",
       "power",
       "might",
       "powerFamiliar",

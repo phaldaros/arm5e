@@ -51,6 +51,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/item/parts/seasonal-activity.html",
     "systems/arm5e/templates/item/parts/item-header.html",
     "systems/arm5e/templates/item/parts/item-footer.html",
+    "systems/arm5e/templates/item/parts/activities.html",
     // Rolls partials
     "systems/arm5e/templates/roll/parts/roll-header.html",
     "systems/arm5e/templates/roll/parts/roll-footer.html",

@@ -11,6 +11,7 @@ export class ArM5eItemSheet extends ItemSheet {
       classes: ["arm5e", "sheet", "item"],
       width: 654,
       height: 750,
+      // dragDrop: [{dragSelector: ".item-list .item", dropSelector: null}],
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -367,6 +368,11 @@ export class ArM5eItemSheet extends ItemSheet {
       ).render(true);
     });
   }
+
+  // /** @inheritdoc */
+  // async _onDrop(event) {
+  //   return {};
+  // }
 }
 
 export async function createMagicItem(html, item, codex) {

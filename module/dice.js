@@ -1,5 +1,5 @@
 import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
-
+import { log } from "./tools.js";
 let mult = 1;
 
 async function simpleDie(html, actor, type = "DEFAULT", callBack) {
@@ -8,12 +8,15 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
 
   //console.log('simple die');
   //console.log(actorData);
+  let rollLabel = `<div class="arm5e clickable toggleHidden"><p style="text-align:center">${game.i18n.localize(
+    "arm5e.sheet.label.details"
+  )}</p></div><div class="hidden details">${actor.data.data.roll.rollLabel}</div>`;
   let conf = actor.data.data.con.score;
-
+  let flavorTxt = $(`<p>${game.i18n.localize("arm5e.dialog.button.simpledie")}:</p>`);
   if ((getRollTypeProperties(type).MODE & ROLL_MODES.NO_CONF) != 0) {
     conf = 0;
   }
-  let name = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
+  let chatTitle = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
   let formula = "1D10+" + actor.data.data.roll.rollFormula;
   if (actor.data.data.roll.divide > 1) {
     formula = "(1D10+" + actor.data.data.roll.rollFormula + ")/" + actor.data.data.roll.divide;
@@ -32,13 +35,10 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
       speaker: ChatMessage.getSpeaker({
         actor: actor
       }),
-      flavor:
-        name +
-        game.i18n.localize("arm5e.dialog.button.simpledie") +
-        ": <br />" +
-        actor.data.data.roll.rollLabel,
+      flavor: chatTitle + flavorTxt.html() + rollLabel,
       flags: {
         arm5e: {
+          roll: { type: type, img: actor.data.data.roll.img, name: actor.data.data.roll.name },
           type: "confidence",
           confScore: conf
         }
@@ -62,11 +62,12 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
   let formula = actor.data.data.roll.rollFormula;
-  let rollLabel = actor.data.data.roll.rollLabel;
-
-  let name = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
+  let rollLabel = `<div class="arm5e clickable toggleHidden"><p style="text-align:center">${game.i18n.localize(
+    "arm5e.sheet.label.details"
+  )}</p></div><div class="hidden details">${actor.data.data.roll.rollLabel}</div>`;
+  let chatTitle = `<h2 class="ars-chat-title">${actor.data.data.roll.label} </h2>`;
   let dieRoll = await explodingRoll(actor, modes);
-  let flavorTxt = name + game.i18n.localize("arm5e.dialog.button.stressdie") + ": <br />";
+  let flavorTxt = $(`<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`);
   let lastRoll;
   let confAllowed = actor.data.data.con.score;
 
@@ -76,18 +77,16 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
 
   let botchCheck = 0;
   if (mult > 1) {
-    flavorTxt = name + "<h3>" + game.i18n.localize("arm5e.messages.die.exploding") + "</h3><br/>";
+    flavorTxt = `<h3>${game.i18n.localize("arm5e.messages.die.exploding")}</h3><br/>`;
   } else if (mult === 0) {
     if (dieRoll._total == 1) {
       confAllowed = false;
-      flavorTxt = name + "<h2>" + game.i18n.localize("arm5e.messages.die.botch") + "</h2><br/>";
+      flavorTxt = `<h2>${game.i18n.localize("arm5e.messages.die.botch")}</h2><br/>`;
     } else if (dieRoll._total > 1) {
       confAllowed = false;
-      flavorTxt =
-        name +
-        "<h2>" +
-        game.i18n.format("arm5e.messages.die.botches", { num: dieRoll._total }) +
-        "</h2><br/>";
+      flavorTxt = `<h2>${game.i18n.format("arm5e.messages.die.botches", {
+        num: dieRoll._total
+      })}</h2><br/>`; // TODO: mention what is botched
     }
     botchCheck = 1;
   }
@@ -100,13 +99,14 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   }
   const message = await lastRoll.toMessage(
     {
-      flavor: flavorTxt + rollLabel,
+      flavor: chatTitle + flavorTxt.html() + rollLabel,
       speaker: ChatMessage.getSpeaker({
         actor: actor
       }),
       whisper: ChatMessage.getWhisperRecipients("gm"),
       flags: {
         arm5e: {
+          roll: { type: type, img: actor.data.data.roll.img, name: actor.data.data.roll.name },
           type: "confidence",
           divide: actor.data.data.roll.divide,
           confScore: confAllowed,
