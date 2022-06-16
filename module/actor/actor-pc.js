@@ -207,7 +207,7 @@ export class ArM5ePCActor extends Actor {
         for (let ii = 0; ii < item.amount; ii++) {
           if (lvl < data.fatigueCurrent) {
             fatigueArray.push(true);
-            data.fatigueTotal += item.number > 0 ? 0 : item.number;
+            data.fatigueTotal = item.number > 0 ? 0 : item.number;
           } else {
             fatigueArray.push(false);
           }
@@ -346,6 +346,8 @@ export class ArM5ePCActor extends Actor {
           combat.atk = parseInt(combat.atk) + parseInt(i.data.atk);
           combat.dfn = parseInt(combat.dfn) + parseInt(i.data.dfn);
           combat.dam = parseInt(combat.dam) + parseInt(i.data.dam);
+          combat.img = i.img;
+          combat.name = i.name;
 
           if (i.data.ability == "") {
             if (i.data.weaponExpert) {

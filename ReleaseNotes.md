@@ -10,13 +10,17 @@
 - Filter box for covenant lab texts
 - Filter box attributes are now saved at session level and are distinct for each player
 - Update of Spanish translation (by Teotimus)
+- System asks for confirmation before deleting a diary entry
+- Dev: new event listener for confirmation before deletion of items
 
 ### Bug fixes
 
 - Mastery is now taken into account for the casting total display
 - Fixed long standing annoying ui bug in the tab selector
 - Filter box is no longer "draggable"
-- Added weapon initialtive bonus and overweigtht to init rolls
+- Added weapon initialtive bonus and overweigtht to init rolls (still simple roll)
+- It is possible again to drop powers on NPCs
+- Fatigue penalties were not computed properly.
 
 ## 1.4.2
 
