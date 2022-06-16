@@ -67,7 +67,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   )}</p></div><div class="hidden details">${actor.data.data.roll.rollLabel}</div>`;
   let chatTitle = `<h2 class="ars-chat-title">${actor.data.data.roll.label} </h2>`;
   let dieRoll = await explodingRoll(actor, modes);
-  let flavorTxt = $(`<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`);
+  let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`;
   let lastRoll;
   let confAllowed = actor.data.data.con.score;
 
@@ -99,7 +99,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   }
   const message = await lastRoll.toMessage(
     {
-      flavor: chatTitle + flavorTxt.html() + rollLabel,
+      flavor: chatTitle + flavorTxt + rollLabel,
       speaker: ChatMessage.getSpeaker({
         actor: actor
       }),
