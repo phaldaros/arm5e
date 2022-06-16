@@ -93,6 +93,9 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
     actorData.data.roll.ritual = false;
     actorData.data.roll.focus = false;
     actorData.data.roll.spell = null;
+    // This is property will be used in the chat message as an icon for the roll
+    actorData.data.roll.img = null;
+    actorData.data.roll.name = null;
 
     actorData.data.roll.techniqueScore = 0;
     actorData.data.roll.formScore = 0;
@@ -117,6 +120,10 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       actorData.data.roll.label = dataset.name;
     }
 
+    if (dataset.roll == "combat") {
+      actorData.data.roll.img = actorData.data.combat.img;
+      actorData.data.roll.name = actorData.data.combat.name;
+    }
     if (dataset.roll == "char") {
       actorData.data.roll.characteristic = dataset.characteristic;
     } else if (dataset.roll == "ability" && dataset.defaultcharacteristicforability) {
@@ -124,6 +131,9 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
       if (dataset.ability) {
         actorData.data.roll.ability = dataset.ability;
+        const ab = actorData.items.get(dataset.ability);
+        actorData.data.roll.img = ab.img;
+        actorData.data.roll.name = ab.name;
       }
     } else if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
       if (dataset.id) {
@@ -131,6 +141,7 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
         // TODO: perf: get it from spells array?
         actorData.data.roll.spell = actorData.items.get(dataset.id);
         actorData.data.roll.label += " (" + actorData.data.roll.spell.data.data.level + ")";
+        actorData.data.roll.img = actorData.data.roll.spell.img;
         let techData = actorData.data.roll.spell._getTechniqueData(actorData);
         actorData.data.roll.techniqueText = techData[0];
         actorData.data.roll.techniqueScore = techData[1];

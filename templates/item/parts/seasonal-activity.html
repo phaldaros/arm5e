@@ -1,36 +1,27 @@
-<div class="grid grid-2col">
+<div class="grid grid-3col">
   <div class="resource">
-    <label class="header-label">Activity</label>
-    <select name="data.activity" data-type="String" style="width: 100%">
-      <option value="none">{{localize "arm5e.sheet.activeEffect.subtypes.none"}}</option>
-      {{#select data.activity}} {{#each config.activities.generic as |activity key|}}
-      <option value="{{key}}">{{localize activity}}</option>
-      {{/each}} {{/select}}
-    </select>
-  </div>
-  <div class="resource">
-    <label class="header-label">{{localize "Source quality"}}</label>
+    <label class="header-label">{{localize "arm5e.sheet.sourceQuality"}}</label>
     <input type="text" name="data.sourceQuality" value="{{data.sourceQuality}}" data-dtype="Number" />
   </div>
-  <div class="resource">
-    <label for="data.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
-    <select name="data.key" data-dtype="String" class="ability-key">
-      {{#select data.key}}
-      <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
-      {{#each abilityKeysList as |item key|}}
-      <option value="{{key}}">{{localize item.mnemonic}}</option>
-      {{/each}} {{/select}}
-    </select>
-  </div>
+</div>
+{{> "systems/arm5e/templates/item/parts/activities.html" }}
+<div class="flexrow">
+  {{#unless data.applied}}
+    <button class="arm5e flex02 apply" style="font-family: bookAntika">{{localize "arm5e.sheet.action.apply"}}</button>
+  {{else}}
+    <button class="arm5e flex02 rollback"
+      style="font-family: bookAntika">{{localize "arm5e.sheet.action.rollback"}}</button>
+  {{/unless}}
+</div>
+<!-- <div class="grid grid-2col">
   <div class="resource">
     {{#if (lookup (lookup abilityKeysList data.key) "option")}}
-    <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-    <input type="text" class="ability-option" name="data.option" value="{{data.option}}" style="width: 200px" />
+      <label for="data.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+      <input type="text" class="ability-option" name="data.option" value="{{data.option}}" style="width: 200px" />
     {{else}}
-    <label for="data.option" class="header-label" style="color: gray"
-      >{{localize "arm5e.sheet.skill.abilityOption"}}</label
-    >
-    <input type="text" name="data.option" data-dtype="String" value="" readonly style="width: 200px" />
+      <label for="data.option" class="header-label"
+        style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+      <input type="text" name="data.option" data-dtype="String" value="" readonly style="width: 200px" />
     {{/if}}
   </div>
-</div>
+</div> -->

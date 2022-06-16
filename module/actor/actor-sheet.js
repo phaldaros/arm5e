@@ -546,6 +546,24 @@ export class ArM5eActorSheet extends ActorSheet {
       li.slideUp(200, () => this.render(false));
     });
 
+    html.find(".item-delete-confirm").click(async (event) => {
+      event.preventDefault();
+      const question = game.i18n.localize("arm5e.dialog.delete-question");
+      const li = $(event.currentTarget).parents(".item");
+      let itemId = li.data("itemId");
+      await Dialog.confirm({
+        title: `${li[0].dataset.name}`,
+        content: `<p>${question}</p>`,
+        yes: () => {
+          itemId = itemId instanceof Array ? itemId : [itemId];
+          this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+          li.slideUp(200, () => this.render(false));
+        },
+        no: () => null,
+        rejectClose: true
+      });
+    });
+
     // Generate abilities automatically
     html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
 

@@ -45,6 +45,7 @@
   "arm5e.sheet.experienceNext": "Next level",
   "arm5e.sheet.experienceShort": "Xp",
   "arm5e.sheet.pendingExperience": "Pending Experience",
+  "arm5e.sheet.sourceQuality": "Source quality",
   "arm5e.sheet.trainingRequired": "Training Required",
   "arm5e.sheet.virtues": "Virtues",
   "arm5e.sheet.flaws": "Flaws",
@@ -221,6 +222,7 @@
 
   "arm5e.sheet.type": "Type",
   "arm5e.sheet.impact": "Impact",
+  "arm5e.sheet.option.none": "None",
 
   "arm5e.sheet.hermetic": "Hermetic",
   "arm5e.sheet.socialStatus": "Social Status",
@@ -259,6 +261,8 @@
   "arm5e.skill.commonCases.areaLore": "(Area) Lore",
   "arm5e.skill.commonCases.latin": "Latin",
   "arm5e.skill.commonCases.hermesLore": "Order of Hermes Lore",
+
+  "arm5e.skill.category.label": "Category",
 
   "arm5e.skill.general.animalHandling": "Animal Handling",
   "arm5e.skill.general.areaLore": "Area ({option}) Lore",
@@ -658,6 +662,8 @@
   "arm5e.sheet.action.reset": "Reset",
   "arm5e.sheet.action.invest": "Invest",
   "arm5e.sheet.action.update": "Update",
+  "arm5e.sheet.action.apply": "Apply",
+  "arm5e.sheet.action.rollback": "Rollback",
 
   "arm5e.dialog.enchant-question": "Do you want to enchant that item? (The original will be destroyed)",
   "arm5e.dialog.design-effect-question": "Do you want to design a magical effect based on that base effect?",
@@ -852,5 +858,7 @@
   "arm5e.activity.practice": "Practice",
   "arm5e.activity.training": "Training",
   "arm5e.activity.teaching": "Teaching",
-  "arm5e.activity.aging": "Aging"
+  "arm5e.activity.aging": "Aging",
+
+  "arm5e.sheet.label.details": "Details"
 }

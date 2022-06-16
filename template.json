@@ -1336,7 +1336,10 @@
       "season": "",
       "date": "",
       "experience": 0,
-      "activity": "none"
+      "source": 0,
+      "activity": "none",
+      "progress": {},
+      "applied": false
     },
     "power": {
       "templates": ["base"],

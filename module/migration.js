@@ -591,11 +591,10 @@ export const migrateItemData = function (itemData) {
       // updateData["data.-=experience"] = null;
       // updateData["data.-=score"] = null;
       updateData["data.-=experienceNextLevel"] = null;
-
-      // clean-up TODO: remove
-      updateData["data.-=puissant"] = null;
-      updateData["data.-=affinity"] = null;
     }
+    // clean-up TODO: remove
+    updateData["data.-=puissant"] = null;
+    updateData["data.-=affinity"] = null;
 
     // no key assigned to the ability, try to find one
     if (CONFIG.ARM5E.ALL_ABILITIES[itemData.data.key] == undefined || itemData.data.key == "") {
@@ -719,17 +718,19 @@ export const migrateItemData = function (itemData) {
         updateData["data.-=exp"] = null;
       }
     }
-    // Fix type of Item
-    if (itemData.type == "dairyEntry") {
-      updateData["type"] = "diaryEntry";
-    }
-    if (itemData.type == "might") {
-      updateData["type"] = "power";
-    }
-    if (itemData.type == "mightFamiliar") {
-      updateData["type"] = "powerFamiliar";
-    }
   }
+  // Fix type of Item
+  if (itemData.type == "dairyEntry") {
+    updateData["type"] = "diaryEntry";
+  }
+
+  if (itemData.type == "might") {
+    updateData["type"] = "power";
+  }
+  if (itemData.type == "mightFamiliar") {
+    updateData["type"] = "powerFamiliar";
+  }
+
   if (itemData.effects.length > 0) {
     log(false, `Migrating effects of ${itemData.name}`);
     const effects = itemData.effects.reduce((arr, e) => {

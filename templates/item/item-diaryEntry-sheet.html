@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -10,40 +7,35 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
       <div class="grid grid-col">
         <div class="resource">
-          <label
-            >{{localize "arm5e.sheet.year"}}<input
-              type="text"
-              name="data.year"
-              value="{{data.year}}"
-              data-dtype="String"
-          /></label>
+          <label>{{localize "arm5e.sheet.year"}}<input type="text" name="data.year" value="{{data.year}}"
+              data-dtype="String" /></label>
         </div>
         <div class="resource">
-          <label>{{localize "arm5e.sheet.season"}}</label
-          ><select name="data.season" data-type="String" style="width: 100%">
+          <label>{{localize "arm5e.sheet.season"}}</label><select name="data.season" data-type="String"
+            style="width: 100%">
             {{#select data.season}} {{#each config.seasons as |season key|}}
-            <option value="{{key}}">{{localize season.label}}</option>
-            {{/each}} {{/select}}
+                <option value="{{key}}">{{localize season.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">
-          <label
-            >{{localize "arm5e.sheet.date"}}<input
-              type="text"
-              name="data.date"
-              value="{{data.date}}"
-              data-dtype="String"
-          /></label>
+          <label>{{localize "arm5e.sheet.date"}}<input type="text" name="data.date" value="{{data.date}}"
+              data-dtype="String" /></label>
         </div>
-        <div class="resource">
-          <label
-            >{{localize "arm5e.sheet.experience"}}<input
-              type="text"
-              name="data.experience"
-              value="{{data.experience}}"
-              data-dtype="Number"
-          /></label>
-        </div>
+        <!-- <div class="resource">
+          <label class="header-label">Activity</label>
+          <select name="data.activity" data-type="String" style="width: 100%">
+            {{#select data.activity}} {{#each config.activities.generic as |activity key|}}
+                <option value="{{key}}">{{localize activity}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div> -->
+        {{#if ui.showXp}}
+          <div class="resource">
+            <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.experience"
+                value="{{data.experience}}" data-dtype="Number" /></label>
+          </div>
+        {{/if}}
       </div>
     </div>
   </header>
@@ -70,7 +62,9 @@
     </div>
     {{!-- Advanced Tab --}}
     <div class="tab" data-group="primary" data-tab="advanced">
-      {{!--> "systems/arm5e/templates/item/parts/seasonal-activity.html" --}}
+      {{#if showTab}}
+        {{> "systems/arm5e/templates/item/parts/seasonal-activity.html" }}
+      {{/if}}
     </div>
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}

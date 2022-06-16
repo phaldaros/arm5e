@@ -11,6 +11,7 @@
 - Filter box attributes are now saved at session level and are distinct for each player
 - Update of Spanish translation (by Teotimus)
 - System asks for confirmation before deleting a diary entry
+- New fancy chat messages with icons and foldable details
 - Dev: new event listener for confirmation before deletion of items
 
 ### Bug fixes

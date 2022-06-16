@@ -126,7 +126,7 @@
             data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}"
             data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}"
             data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-name="{{item.name}}"
-            name="item.name">
+            data-img="{{item.img}}" name="item.name">
             {{item.name}} ( {{#with (lookup @root.config.magic.techniques item.data.technique.value)~}}{{label~}}
             {{/with}} {{#with (lookup @root.config.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
             {{item.data.level}}) {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}

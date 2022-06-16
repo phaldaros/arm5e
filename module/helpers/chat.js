@@ -1,11 +1,25 @@
 import { log } from "../tools.js";
 
 export function addChatListeners(message, html, data) {
+  let actor = game.actors.get(data.message.speaker.actor);
+
+  const msgTitle = html.find(".message-sender");
+  const actorFace = $(
+    `<div class="item-image flex01"><img src="${actor.img}" title="${actor.name}" width="30" height="30">`
+  );
+  msgTitle.prepend(actorFace);
+
   if (!message.isRoll) return;
-
+  let img = data.message.flags.arm5e?.roll?.img;
+  if (img) {
+    const chatTitle = html.find(".ars-chat-title");
+    const newTitle = $(`<div class="item-image"><img src="${img}" width="30" height="30"></div>`);
+    chatTitle.append(newTitle);
+  }
   let actorId = data.message.speaker.actor;
-
-  if (!(game.users.get(game.userId).isGM || game.users.get(game.userId).data.character == actorId)) {
+  if (
+    !(game.users.get(game.userId).isGM || game.users.get(game.userId).data.character == actorId)
+  ) {
     return;
   }
 
@@ -21,6 +35,10 @@ export function addChatListeners(message, html, data) {
     return;
   }
 
+  html.find(".clickable").click((ev) => {
+    html.find(`.details`).toggle();
+  });
+
   //   const damageButton = $(
   //     `<button class="dice-total-damage" style="${btnStyling}"><i class="fas fa-user-injured" title="{{localize "arm5e.messages.applyDamage"}}"></i></button>`
   //   );
@@ -30,7 +48,9 @@ export function addChatListeners(message, html, data) {
     `<button class="dice-confidence chat-button" data-divide="${divide}" data-msg-id="${data.message._id}" data-actor-id="${actorId}"><i class="fas fa-user-plus" title="${title}" ></i></button>`
   );
 
-  const btnContainer = $('<span class="btn-container" style="position:absolute; right:0; bottom:1px;"></span>');
+  const btnContainer = $(
+    '<span class="btn-container" style="position:absolute; right:0; bottom:1px;"></span>'
+  );
   //   btnContainer.append(damageButton);
   btnContainer.append(useConfButton);
 
@@ -59,7 +79,8 @@ async function useConfidence(ev) {
       let usedConf = message.data.flags.arm5e.usedConf + 1 || 1;
       let flavor = message.data.flavor;
       if (usedConf == 1) {
-        flavor += "<br/> --------------- <br/>" + game.i18n.localize("arm5e.dialog.button.roll") + " : ";
+        flavor +=
+          "<br/> --------------- <br/>" + game.i18n.localize("arm5e.dialog.button.roll") + " : ";
         if ((message.data.flags.arm5e.botchCheck ?? 0) == 0) {
           flavor += message.roll.dice[0].results[0].result;
         } else {
@@ -113,7 +134,11 @@ function getFlavorForPlayersTotalPenetration(flavorTotalPenetration, actorCaster
   return "";
 }
 
-function getFlavorForPlayersTotalMagicResistance(flavorTotalMagicResistance, actorTarget, showDataOfNPC) {
+function getFlavorForPlayersTotalMagicResistance(
+  flavorTotalMagicResistance,
+  actorTarget,
+  showDataOfNPC
+) {
   if (actorTarget.hasPlayerOwner) {
     return flavorTotalMagicResistance;
   }
@@ -139,22 +164,43 @@ function getFlavorForPlayersResult({
   return messageOnlyWithName;
 }
 
-async function chatContestOfMagic({ actorCaster, actorTarget, penetration, magicResistance, total, form }) {
-  const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.contestOfMagic") + "</h2>";
-  const messageTotalOfSpell = `${game.i18n.localize("arm5e.sheet.spellTotal")} (${penetration.totalOfSpell})`;
-  const messageLevelOfSpell = `- ${game.i18n.localize("arm5e.sheet.spellLevel")} (${penetration.levelOfSpell})`;
-  const messagePenetration = `+ ${game.i18n.localize("arm5e.sheet.penetration")} (${penetration.penetration})`;
+async function chatContestOfMagic({
+  actorCaster,
+  actorTarget,
+  penetration,
+  magicResistance,
+  total,
+  form
+}) {
+  const title =
+    '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.contestOfMagic") + "</h2>";
+  const messageTotalOfSpell = `${game.i18n.localize("arm5e.sheet.spellTotal")} (${
+    penetration.totalOfSpell
+  })`;
+  const messageLevelOfSpell = `- ${game.i18n.localize("arm5e.sheet.spellLevel")} (${
+    penetration.levelOfSpell
+  })`;
+  const messagePenetration = `+ ${game.i18n.localize("arm5e.sheet.penetration")} (${
+    penetration.penetration
+  })`;
   const messageSpeciality = penetration.specialityIncluded
-    ? ` (${game.i18n.localize("arm5e.sheet.specialityBonus")}: +1 ${penetration.specialityIncluded})`
+    ? ` (${game.i18n.localize("arm5e.sheet.specialityBonus")}: +1 ${
+        penetration.specialityIncluded
+      })`
     : "";
-  const messageTotalPenetration = `${game.i18n.localize("arm5e.sheet.totalPenetration")}: (${penetration.total})`;
+  const messageTotalPenetration = `${game.i18n.localize("arm5e.sheet.totalPenetration")}: (${
+    penetration.total
+  })`;
 
   const messageMight = magicResistance?.might
     ? `${game.i18n.localize("arm5e.sheet.might")}: (${magicResistance.might})`
     : "";
 
   const messageForm = magicResistance?.formScore
-    ? `+ ${game.i18n.localize("arm5e.sheet.formScore")}: (${magicResistance.formScore})`.replace("$form$", form)
+    ? `+ ${game.i18n.localize("arm5e.sheet.formScore")}: (${magicResistance.formScore})`.replace(
+        "$form$",
+        form
+      )
     : "";
 
   const messageParma = magicResistance?.parma?.score
@@ -162,11 +208,13 @@ async function chatContestOfMagic({ actorCaster, actorTarget, penetration, magic
     : "";
 
   const messageParmaSpeciality = magicResistance?.specialityIncluded
-    ? ` (${game.i18n.localize("arm5e.sheet.specialityBonus")}: +1 ${magicResistance.specialityIncluded})`
+    ? ` (${game.i18n.localize("arm5e.sheet.specialityBonus")}: +1 ${
+        magicResistance.specialityIncluded
+      })`
     : "";
-  const messageTotalMagicResistance = `${game.i18n.localize("arm5e.sheet.totalMagicResistance")}: (${
-    magicResistance.total
-  })`;
+  const messageTotalMagicResistance = `${game.i18n.localize(
+    "arm5e.sheet.totalMagicResistance"
+  )}: (${magicResistance.total})`;
 
   const flavorTotalSpell = `${title} ${messageTotalOfSpell}<br/> ${messageLevelOfSpell}<br/>`;
   const flavorTotalPenetration = `${messagePenetration}${messageSpeciality}<br/><b>${messageTotalPenetration}</b><br/>`;
@@ -193,7 +241,11 @@ async function chatContestOfMagic({ actorCaster, actorTarget, penetration, magic
       : messageWithoutTotal.replace("$target$", actorTarget.data.name);
 
   const showDataOfNPC = game.settings.get("arm5e", "showNPCMagicDetails") === "SHOW_ALL";
-  const flavorForPlayersTotalSpell = getFlavorForPlayersTotalSpell(flavorTotalSpell, actorCaster, showDataOfNPC);
+  const flavorForPlayersTotalSpell = getFlavorForPlayersTotalSpell(
+    flavorTotalSpell,
+    actorCaster,
+    showDataOfNPC
+  );
   const flavorForPlayersTotalPenetration = getFlavorForPlayersTotalPenetration(
     flavorTotalPenetration,
     actorCaster,
