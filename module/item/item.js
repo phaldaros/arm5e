@@ -203,15 +203,13 @@ export class ArM5eItem extends Item {
   }
 
   _needLevelComputation() {
-    let enforceSpellLevel =
-      this.type == "spell" && game.settings.get("arm5e", "magicRulesEnforcement");
     let enforceEnchantmentLevel =
       this.type == "laboratoryText" &&
       (this.data.data.type == "spell" || this.data.data.type == "enchantment");
     return (
       this.type == "magicalEffect" ||
       this.type == "enchantment" ||
-      enforceSpellLevel ||
+      this.type == "spell" ||
       enforceEnchantmentLevel
     );
   }

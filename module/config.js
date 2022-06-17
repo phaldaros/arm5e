@@ -1013,7 +1013,7 @@ ARM5E.magic.durations = {
     dtype: "String",
     impact: 2
   },
-  40: {
+  holy40: {
     label: "arm5e.spell.durations.40",
     dtype: "String",
     impact: 3
