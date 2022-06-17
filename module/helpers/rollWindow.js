@@ -8,6 +8,7 @@ import { chatContestOfMagic } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor-pc.js";
 import { applyAgingEffects, agingCrisis } from "./long-term-activities.js";
 import { exertSelf } from "./combat.js";
+import { log } from "../tools.js";
 
 // below is a bitmap
 const ROLL_MODES = {
@@ -96,6 +97,8 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
     // This is property will be used in the chat message as an icon for the roll
     actorData.data.roll.img = null;
     actorData.data.roll.name = null;
+    //
+    actorData.data.roll.difficulty = 0;
 
     actorData.data.roll.techniqueScore = 0;
     actorData.data.roll.formScore = 0;
@@ -152,6 +155,11 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
 
         actorData.data.roll.focus = actorData.data.roll.spell.data.data.focus;
         actorData.data.roll.ritual = actorData.data.roll.spell.data.data.ritual;
+
+        actorData.data.roll.difficulty =
+          actorData.data.roll.spell.data.data.level - 10 > 0
+            ? actorData.data.roll.spell.data.data.level - 10
+            : 0;
       } else {
         if (dataset.technique) {
           actorData.data.roll.techniqueText = ARM5E.magic.techniques[dataset.technique].label;
@@ -270,6 +278,8 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
       actorData.data.roll.useFatigue = dataset.usefatigue;
     }
   }
+
+  log(false, `Roll data: ${JSON.stringify(actorData.data.roll)}`);
 }
 
 function prepareRollFields(dataset, actorData) {

@@ -105,17 +105,6 @@ Hooks.once("init", async function () {
   });
 
   /**
-   * Whether to enforce or not the magic rules
-   */
-  game.settings.register("arm5e", "magicRulesEnforcement", {
-    name: "Enforce magic rules",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: false
-  });
-
-  /**
    * Show NPC magic details (cast, penetration and defense)
    */
   game.settings.register("arm5e", "showNPCMagicDetails", {

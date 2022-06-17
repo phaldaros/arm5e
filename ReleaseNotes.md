@@ -13,6 +13,7 @@
 - System asks for confirmation before deleting a diary entry
 - New fancy chat messages with icons and foldable details
 - Dev: new event listener for confirmation before deletion of items
+- Removal of magic rules enforcement setting
 
 ### Bug fixes
 
@@ -22,6 +23,7 @@
 - Added weapon initialtive bonus and overweigtht to init rolls (still simple roll)
 - It is possible again to drop powers on NPCs
 - Fatigue penalties were not computed properly.
+- Xps for spell mastery were not removed when dropping a spell on an actor
 
 ## 1.4.2
 

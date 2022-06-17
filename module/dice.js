@@ -97,6 +97,10 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE) {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
+
+  if (actor.data.data.roll.difficulty) {
+  }
+
   const message = await lastRoll.toMessage(
     {
       flavor: chatTitle + flavorTxt + rollLabel,

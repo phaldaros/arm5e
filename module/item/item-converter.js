@@ -16,7 +16,11 @@ import { log } from "../tools.js";
  * @return {Promise<Object|null>}
  */
 export function effectToLabText(spellData) {
-  if (spellData.type != "spell" && spellData.type != "magicalEffect" && spellData.type != "enchantment") {
+  if (
+    spellData.type != "spell" &&
+    spellData.type != "magicalEffect" &&
+    spellData.type != "enchantment"
+  ) {
     return null;
   }
   log(false, "effectToLabText");
@@ -84,6 +88,7 @@ export function resetOwnerFields(itemData) {
       delete itemData.data.masteryAbilities;
       delete itemData.data.exp;
       delete itemData.data.bonus;
+      delete itemData.data.xp;
     case "magicalEffect":
       delete itemData.data.applyFocus;
       return itemData;

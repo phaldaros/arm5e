@@ -77,12 +77,6 @@ export class ArM5eItemSheet extends ItemSheet {
 
       //console.log("item-sheet get data weapon")
       //console.log(data)
-    } else if (
-      itemData.type == "spell" ||
-      itemData.type == "enchantment" ||
-      itemData.type == "laboratoryText"
-    ) {
-      context.enforceMagicRules = game.settings.get("arm5e", "magicRulesEnforcement");
     } else if (itemData.type == "ability" || itemData.type == "diaryEntry") {
       // TODO add other categories
       context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
