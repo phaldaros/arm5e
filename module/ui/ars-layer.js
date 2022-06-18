@@ -1,4 +1,5 @@
 import { log } from "../tools.js";
+import { clearAuraFromActor } from "../helpers/aura.js";
 
 export class ArsLayer extends CanvasLayer {
   async draw() {
@@ -35,11 +36,11 @@ export class ArsLayer extends CanvasLayer {
           }
         },
         default: "yes",
-        close: (html) => {
+        close: async (html) => {
           let result = html.find('input[name="inputField"]');
           if (result.val() !== "") {
             const aura = result.val();
-            game.arm5e.setAuraValueForAllTokensInScene(aura);
+            await game.arm5e.setAuraValueForAllTokensInScene(aura);
           }
         }
       },
@@ -51,7 +52,12 @@ export class ArsLayer extends CanvasLayer {
     ).render(true);
   }
 
-  static async clearAura() {}
+  static async clearAura() {
+    const tokens = canvas.tokens.placeables.filter((token) => token.actor);
+    for (const token of tokens) {
+      clearAuraFromActor(token.actor);
+    }
+  }
 }
 
 export function addArsButtons(buttons) {
@@ -73,7 +79,7 @@ export function addArsButtons(buttons) {
       {
         name: "clearAura",
         title: "Clear aura",
-        icon: "fas fa-remove",
+        icon: "fas fa-trash",
         visible: true,
         button: true,
         onClick: () => ArsLayer.clearAura()
