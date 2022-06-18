@@ -21,6 +21,7 @@ import * as Arm5eChatMessage from "./helpers/chat.js";
 
 import {
   addActiveEffectAuraToActor,
+  clearAuraFromActor,
   modifyAuraActiveEffectForAllTokensInScene
 } from "./helpers/aura.js";
 
@@ -441,7 +442,7 @@ function rollItemMacro(itemId, actorId) {
   actor.sheet._onRoll(dataset);
 }
 
-function setAuraValueForAllTokensInScene(value) {
+async function setAuraValueForAllTokensInScene(value) {
   // Store a flag with the current aura
   game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed.data._id, Number(value));
   modifyAuraActiveEffectForAllTokensInScene(value);
@@ -451,7 +452,7 @@ function setAuraValueForToken(value) {
   addActiveEffectAuraToActor(this, Number(value));
 }
 
-function resetTokenAuraToSceneAura() {
+async function resetTokenAuraToSceneAura() {
   const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
   if (aura !== undefined && !isNaN(aura)) {
     addActiveEffectAuraToActor(this, Number(aura));
@@ -469,5 +470,12 @@ function onDropOnCanvas(canvas, data) {
 Hooks.on("renderChatMessage", (message, html, data) =>
   Arm5eChatMessage.addChatListeners(message, html, data)
 );
+
+Hooks.on("deleteToken", (token, options, userId) => {
+  // if the token is linked to an actor, remove the aura
+  if (token.isLinked) {
+    clearAuraFromActor(token.actor);
+  }
+});
 
 Hooks.on("getSceneControlButtons", (buttons) => addArsButtons(buttons));

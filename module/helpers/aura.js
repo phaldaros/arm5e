@@ -1,5 +1,6 @@
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import ArM5eActiveEffect from "./active-effects.js";
+import { log } from "../tools.js";
 
 const ICON = "icons/magic/defensive/barrier-shield-dome-blue-purple.webp";
 
@@ -37,6 +38,7 @@ function getAuraActiveEffect(numericValue) {
 async function addEffect(actor, activeEffectData) {
   const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.data.effects, "aura")[0];
   if (ae) {
+    log(false, `Change aura for ${actor.name}, effect ID: ${ae.data._id}`);
     activeEffectData._id = ae.data._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }
@@ -48,7 +50,12 @@ async function modifyAuraActiveEffectForAllTokensInScene(value) {
 
   const tokens = canvas.tokens.placeables.filter((token) => token.actor);
   for (const token of tokens) {
-    addEffect(token.actor, activeEffectData);
+    if (token.isLinked) {
+      addEffect(token.actor, activeEffectData);
+    } else {
+      // not used yet, due to filter above
+      addEffect(token, activeEffectData);
+    }
   }
 }
 
@@ -57,4 +64,16 @@ async function addActiveEffectAuraToActor(actor, value) {
   addEffect(actor, auraEffect);
 }
 
-export { modifyAuraActiveEffectForAllTokensInScene, addActiveEffectAuraToActor };
+async function clearAuraFromActor(actor) {
+  const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.data.effects, "aura");
+  for (const e of effects) {
+    log(false, e);
+    actor.deleteEmbeddedDocuments("ActiveEffect", [e.id]);
+  }
+}
+
+export {
+  modifyAuraActiveEffectForAllTokensInScene,
+  addActiveEffectAuraToActor,
+  clearAuraFromActor
+};

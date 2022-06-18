@@ -13,7 +13,8 @@
 - System asks for confirmation before deleting a diary entry
 - New fancy chat messages with icons and foldable details
 - Dev: new event listener for confirmation before deletion of items
-- Removal of magic rules enforcement setting
+- Removal of magic rules enforcement setting (it will always be enforced)
+- New button to clear auras
 
 ### Bug fixes
 
@@ -24,6 +25,7 @@
 - It is possible again to drop powers on NPCs
 - Fatigue penalties were not computed properly.
 - Xps for spell mastery were not removed when dropping a spell on an actor
+- Removing a linked token from a scene will remove the aura effect from the actor too
 
 ## 1.4.2
 
