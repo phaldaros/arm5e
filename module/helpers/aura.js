@@ -50,12 +50,14 @@ async function modifyAuraActiveEffectForAllTokensInScene(value) {
 
   const tokens = canvas.tokens.placeables.filter((token) => token.actor);
   for (const token of tokens) {
-    if (token.isLinked) {
+    if (token.document.isLinked) {
       addEffect(token.actor, activeEffectData);
-    } else {
-      // not used yet, due to filter above
-      addEffect(token, activeEffectData);
     }
+    // else {
+    //   // not used yet, due to filter above
+    //   log(false, `Change aura for ${token.name}`);
+    //   addEffect(token.document, activeEffectData);
+    // }
   }
 }
 
