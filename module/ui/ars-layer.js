@@ -53,6 +53,7 @@ export class ArsLayer extends CanvasLayer {
   }
 
   static async clearAura() {
+    game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed.data._id);
     const tokens = canvas.tokens.placeables.filter((token) => token.actor);
     for (const token of tokens) {
       clearAuraFromActor(token.actor);
