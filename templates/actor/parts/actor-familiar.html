@@ -22,8 +22,8 @@
       <label for="data.familiar.techniqueFam.value" class="bold">{{localize "arm5e.sheet.technique"}}</label>
       <select name="data.familiar.techniqueFam.value" data-type="String">
         {{#select data.familiar.techniqueFam.value}} {{#each data.arts.techniques as |techniques key|}}
-        <option value="{{key}}">{{techniques.label}}</option>
-        {{/each}} {{/select}}
+            <option value="{{key}}">{{techniques.label}}</option>
+          {{/each}} {{/select}}
       </select>
     </div>
 
@@ -31,8 +31,8 @@
       <label for="data.familiar.formFam.value" class="bold">{{localize "arm5e.sheet.form"}}</label>
       <select name="data.familiar.formFam.value" data-type="String">
         {{#select data.familiar.formFam.value}} {{#each data.arts.forms as |techniques key|}}
-        <option value="{{key}}">{{techniques.label}}</option>
-        {{/each}} {{/select}}
+            <option value="{{key}}">{{techniques.label}}</option>
+          {{/each}} {{/select}}
       </select>
     </div>
   </div>
@@ -44,32 +44,20 @@
 
     <div class="flexrow flex-group-center" style="border: 0px">
       <label for="data.familiar.cordFam.bronze" class="bold">{{localize "arm5e.sheet.bronze"}}</label>
-      <input
-        type="text"
-        name="data.familiar.cordFam.bronze"
-        value="{{data.familiar.cordFam.bronze }}"
-        data-dtype="Number"
-      />
+      <input type="text" name="data.familiar.cordFam.bronze" value="{{data.familiar.cordFam.bronze }}"
+        data-dtype="Number" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
       <label for="data.familiar.cordFam.silver" class="bold">{{localize "arm5e.sheet.silver"}}</label>
-      <input
-        type="text"
-        name="data.familiar.cordFam.silver"
-        value="{{data.familiar.cordFam.silver }}"
-        data-dtype="Number"
-      />
+      <input type="text" name="data.familiar.cordFam.silver" value="{{data.familiar.cordFam.silver }}"
+        data-dtype="Number" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
       <label for="data.familiar.cordFam.gold" class="bold">{{localize "arm5e.sheet.gold"}}</label>
-      <input
-        type="text"
-        name="data.familiar.cordFam.gold"
-        value="{{data.familiar.cordFam.gold }}"
-        data-dtype="Number"
-      />
+      <input type="text" name="data.familiar.cordFam.gold" value="{{data.familiar.cordFam.gold }}"
+        data-dtype="Number" />
     </div>
   </div>
 
@@ -78,21 +66,13 @@
       <ol style="width: 100%">
         {{#each data.familiar.characteristicsFam as |data key|}} {{#with (lookup @root.config.character.characteristics
         key)}}
-        <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
-          <label
-            for="data.familiar.characteristicsFam.{{key}}.value"
-            class="bold rollable"
-            data-roll="1d10+@characteristics.{{key}}.value"
-            >{{localize short}}</label
-          >
+            <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
+              <label for="data.familiar.characteristicsFam.{{key}}.value" class="bold rollable"
+                data-roll="1d10+@characteristics.{{key}}.value">{{localize short}}</label>
           {{/with}}
-          <input
-            type="text"
-            name="data.familiar.characteristicsFam.{{key}}.value"
-            value="{{numberFormat data.value decimals=0 sign=true}}"
-            data-dtype="Number"
-          />
-        </li>
+          <input type="text" name="data.familiar.characteristicsFam.{{key}}.value"
+            value="{{numberFormat data.value decimals=0 sign=true}}" data-dtype="Number" />
+          </li>
         {{/each}}
       </ol>
     </div>
@@ -100,22 +80,14 @@
     <div class="flexrow flex-group-center" style="border: 0px">
       <ol style="width: 100%">
         {{#each data.familiar.vitalsFam as |data key|}}
-        <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
-          {{#with (lookup @root.config.familiar.labels key)}}
-          <label
-            for="data.familiar.vitalsFam.{{key}}.value"
-            class="bold rollable"
-            data-roll="1d10+@vitalsFam.{{key}}.value"
-            >{{localize label}}</label
-          >
-          {{/with}}
-          <input
-            type="text"
-            name="data.familiar.vitalsFam.{{key}}.value"
-            value="{{numberFormat data.value decimals=0 sign=true}}"
-            data-dtype="Number"
-          />
-        </li>
+          <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
+            {{#with (lookup @root.config.familiar.labels key)}}
+              <label for="data.familiar.vitalsFam.{{key}}.value" class="bold rollable"
+                data-roll="1d10+@vitalsFam.{{key}}.value">{{localize label}}</label>
+            {{/with}}
+            <input type="text" name="data.familiar.vitalsFam.{{key}}.value"
+              value="{{numberFormat data.value decimals=0 sign=true}}" data-dtype="Number" />
+          </li>
         {{/each}}
       </ol>
     </div>
@@ -128,23 +100,23 @@
 
           <div class="item-name">{{localize "arm5e.sheet.abilities"}}</div>
           <div class="item-controls">
-            <a class="item-control item-create" title="Add abilityFamiliar" data-type="abilityFamiliar"
-              ><i class="fas fa-plus"></i
-            ></a>
+            <a class="item-control item-create" title="Add abilityFamiliar" data-type="abilityFamiliar"><i
+                class="fas fa-plus"></i></a>
           </div>
         </li>
         {{#each data.familiar.abilitiesFam as |ability key|}}
-        <li class="item item-value flexrow" data-item-id="{{ability._id}}">
-          <div class="flexrow flex-center">
-            <span class="flexrow item-title rollable" data-roll="1d10+{{item.data.score}}" name="item.name"
-              >{{ability.name}}
-            </span>
-          </div>
-          <div class="item-controls">
-            <a class="item-control item-edit" title="Edit abilityFamiliar"><i class="fas fa-edit"></i></a>
-            <a class="item-control item-delete" title="Delete abilityFamiliar"><i class="fas fa-trash"></i></a>
-          </div>
-        </li>
+          <li class="item item-value flexrow" data-item-id="{{ability._id}}">
+            <div class="flexrow flex-center">
+              <span class="flexrow item-title rollable" data-roll="1d10+{{item.data.score}}"
+                name="item.name">{{ability.name}}
+              </span>
+            </div>
+            <div class="item-controls">
+              <a class="item-control item-edit" title="Edit abilityFamiliar"><i class="icon-Icon_Edit"></i></a>
+              <a class="item-control item-delete" title="Delete abilityFamiliar"><i
+                  class="icon-Icon_Delete_Hand_Gesture"></i></a>
+            </div>
+          </li>
         {{/each}}
       </ol>
     </div>
@@ -157,21 +129,20 @@
 
           <div class="item-name">{{localize "arm5e.sheet.powers"}}</div>
           <div class="item-controls">
-            <a class="item-control item-create" title="Add power" data-type="powerFamiliar"
-              ><i class="fas fa-plus"></i
-            ></a>
+            <a class="item-control item-create" title="Add power" data-type="powerFamiliar"><i
+                class="fas fa-plus"></i></a>
           </div>
         </li>
         {{#each data.familiar.powersFam as |data key|}}
-        <li class="item item-value flexrow" data-item-id="{{data._id}}">
-          <div class="flexrow flex-center">
-            <span class="flexrow item-title" name="item.name">{{data.name}} </span>
-          </div>
-          <div class="item-controls">
-            <a class="item-control item-edit" title="Edit Power"><i class="fas fa-edit"></i></a>
-            <a class="item-control item-delete" title="Delete Power"><i class="fas fa-trash"></i></a>
-          </div>
-        </li>
+          <li class="item item-value flexrow" data-item-id="{{data._id}}">
+            <div class="flexrow flex-center">
+              <span class="flexrow item-title" name="item.name">{{data.name}} </span>
+            </div>
+            <div class="item-controls">
+              <a class="item-control item-edit" title="Edit Power"><i class="icon-Icon_Edit"></i></a>
+              <a class="item-control item-delete" title="Delete Power"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+            </div>
+          </li>
         {{/each}}
       </ol>
     </div>

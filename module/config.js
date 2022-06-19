@@ -728,14 +728,14 @@ ARM5E.magic.arts = {
     short: "An",
     dtype: "String"
   },
-  au: {
-    label: "Auram",
-    short: "Au",
-    dtype: "String"
-  },
   aq: {
     label: "Aquam",
     short: "Aq",
+    dtype: "String"
+  },
+  au: {
+    label: "Auram",
+    short: "Au",
     dtype: "String"
   },
   co: {

@@ -66,13 +66,13 @@ export function addArsButtons(buttons) {
     name: "ArsMagica",
     title: "ArsMagica",
     layer: "arsmagica",
-    icon: "fas fa-magic",
+    icon: "icon-Icon_Ars",
     visible: game.user.isGM,
     tools: [
       {
         name: "aura",
         title: "Configure Aura",
-        icon: "fas fa-cog",
+        icon: "icon-Icon_Auras",
         visible: true,
         button: true,
         onClick: () => ArsLayer.selectAura()
@@ -80,7 +80,7 @@ export function addArsButtons(buttons) {
       {
         name: "clearAura",
         title: "Clear aura",
-        icon: "fas fa-trash",
+        icon: "icon-Icon_Delete_Perdo2",
         visible: true,
         button: true,
         onClick: () => ArsLayer.clearAura()

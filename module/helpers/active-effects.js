@@ -154,7 +154,9 @@ export default class ArM5eActiveEffect extends ActiveEffect {
       let effectOption = this.getFlag("arm5e", "option");
       for (let c of Object.values(this.data.changes)) {
         descr += game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].label) + ": ";
-        let subtype = game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].subtypes[effectSubtypes[idx]].label);
+        let subtype = game.i18n.localize(
+          ACTIVE_EFFECTS_TYPES[effectTypes[idx]].subtypes[effectSubtypes[idx]].label
+        );
         switch (c.mode) {
           case CONST.ACTIVE_EFFECT_MODES.MULTIPLY:
             if (effectOption[idx]) {

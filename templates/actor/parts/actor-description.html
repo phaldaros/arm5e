@@ -68,12 +68,15 @@
     </div>
 
     <div class="flex-group-left padding12 backSection">
-      <label class="smallTitle">
+      {{#unless data.pendingCrisis }}
+        <a class="rollable " title="Aging roll" data-roll="aging" data-year="{{data.year.value}}"
+          style="font-size: 16pt;">
+          <i class="icon-Icon_Aging2"></i>
+        </a>
+      {{/unless}}
+      <label class="smallTitle padding12">
         {{localize "arm5e.sheet.aging"}} & {{localize "arm5e.sheet.decrepitude"}}
-        {{#unless data.pendingCrisis }}
-          <a class="rollable" title="Aging roll" data-roll="aging" data-year="{{data.year.value}}"> <i
-              class="fas fa-hourglass"></i></a>
-        {{/unless}}
+
       </label>
       <div class="flexrow marginbot6 margintop6">
         <label for="data.decrepitude.finalScore" class="bold">{{localize "arm5e.sheet.score"}}</label>
