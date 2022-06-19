@@ -30,6 +30,8 @@
 - Put Aq and Au forms in the correct alphabetical order
 - Fixed a display bug in lab sheet size where a number was not properly parsed as an integer.
 - Casting a spell whom focus applies will tick the check-box in the roll dialog.
+- Confidence is no longer available for grogs.
+- Chat messages from deleted actors no longer generate errors
 
 ## 1.4.2
 

@@ -48,9 +48,9 @@
   background-color: rgb(236 222 187 / 50%);
 }
 
-/* .arm5e {
-  --color-shadow-primary: #690202;
-} */
+.arm5e {
+  --color-shadow-primary: rgb(200, 0, 0);
+}
 
 .arm5e.button {
   font-family: "blackmoor";
@@ -70,7 +70,7 @@
 .rollable:hover,
 .rollable:focus {
   color: #000;
-  text-shadow: 0 0 10px red;
+  text-shadow: 0 0 10px rgb(200, 0, 0);
   cursor: pointer;
 }
 
@@ -81,14 +81,14 @@
 .clickable:hover,
 .clickable:focus {
   color: #000;
-  text-shadow: 0 0 10px red;
+  text-shadow: 0 0 10px rgb(200, 0, 0);
   cursor: pointer;
 }
 
 .design:hover,
 .design:focus {
   color: #000;
-  text-shadow: 0 0 10px red;
+  text-shadow: 0 0 10px rgb(200, 0, 0);
   cursor: pointer;
 }
 
