@@ -39,6 +39,16 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       ]
     });
   }
+
+  /* -------------------------------------------- */
+  /** @override */
+  get template() {
+    if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER)) {
+      return `systems/arm5e/templates/actor/actor-pc-sheet.html`;
+    }
+    return `systems/arm5e/templates/actor/actor-limited-sheet.html`;
+  }
+
   /** @override */
   getData() {
     const context = super.getData();
