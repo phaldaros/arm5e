@@ -448,6 +448,10 @@ export class ArM5ePCActor extends Actor {
     }
     combat.overload = parseInt(combat.overload) * -1;
 
+    if (this._isGrog()) {
+      actorData.data.con.score = 0;
+      actorData.data.con.points = 0;
+    }
     //warping & decrepitude
     if (
       (this.data.type == "npc" && this.data.data.charType.value != "entity") ||

@@ -3,6 +3,10 @@ import { log } from "../tools.js";
 export function addChatListeners(message, html, data) {
   let actor = game.actors.get(data.message.speaker.actor);
 
+  if (actor == undefined) {
+    // Actor no longer exists in the world
+    return;
+  }
   const msgTitle = html.find(".message-sender");
   const actorFace = $(
     `<div class="item-image flex01"><img src="${actor.img}" title="${actor.name}" width="30" height="30">`
@@ -42,6 +46,9 @@ export function addChatListeners(message, html, data) {
   //   const damageButton = $(
   //     `<button class="dice-total-damage" style="${btnStyling}"><i class="fas fa-user-injured" title="{{localize "arm5e.messages.applyDamage"}}"></i></button>`
   //   );
+  if (actor._isGrog()) {
+    return;
+  }
   let title = game.i18n.localize("arm5e.messages.useConf");
   let divide = data.message.flags.arm5e.divide;
   const useConfButton = $(

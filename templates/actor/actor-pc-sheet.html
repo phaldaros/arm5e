@@ -77,16 +77,17 @@
             <input type="number" name="data.year.value" value="{{data.year.value}}" data-dtype="String" />
           </div>
         </div>
-
-        <div class="resource flex-group-center backSection">
-          <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
-          <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"
-              style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
-            (<input type="number" name="data.con.points" value="{{data.con.points}}" data-dtype="Number"
-              style="flex: 0.6" />)
+        {{#if (ne data.charType.value "grog")}}
+          <div class="resource flex-group-center backSection">
+            <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
+            <div class="resource-content flexrow flex-center flex-between margintop6">
+              <input type="number" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"
+                style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
+              (<input type="number" name="data.con.points" value="{{data.con.points}}" data-dtype="Number"
+                style="flex: 0.6" />)
+            </div>
           </div>
-        </div>
+        {{/if}}
       </div>
 
       {{> "systems/arm5e/templates/actor/parts/actor-characteristics.html" }}
