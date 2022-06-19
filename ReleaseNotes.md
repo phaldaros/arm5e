@@ -4,6 +4,8 @@
 
 ### Features
 
+- Limited character sheet
+
 ### Bug fixes
 
 - Fixed wrong label in defense roll

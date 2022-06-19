@@ -39,6 +39,14 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     });
   }
 
+  /** @override */
+  get template() {
+    if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER)) {
+      return `systems/arm5e/templates/actor/actor-npc-sheet.html`;
+    }
+    return `systems/arm5e/templates/actor/actor-limited-sheet.html`;
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -88,12 +96,10 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
           default:
             return true;
         }
-        
+
       case "power":
-        if (this.actor.data.data.charType.value === "entity")
-          return true;
-        else 
-          return false;
+        if (this.actor.data.data.charType.value === "entity") return true;
+        else return false;
       case "weapon":
       case "armor":
       case "spell":
