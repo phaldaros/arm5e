@@ -15,6 +15,7 @@
 - Dev: new event listener for confirmation before deletion of items
 - Removal of magic rules enforcement setting (it will always be enforced)
 - New button to clear auras
+- New icons by Sylph
 
 ### Bug fixes
 
@@ -26,6 +27,7 @@
 - Fatigue penalties were not computed properly.
 - Xps for spell mastery were not removed when dropping a spell on an actor
 - Removing a linked token from a scene will remove the aura effect from the actor too
+- Put Aq and Au forms in the correct alphabetical order
 
 ## 1.4.2
 
