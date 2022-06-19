@@ -11,6 +11,7 @@
 - Fixed wrong label in defense roll
 - Changed misleading die icon of damage and soak actions into proper ones
 - Fixed broken foldable active effects bonuses
+- Extended lower limit of aging roll tables to negative values
 
 ## 1.4.3
 
