@@ -28,6 +28,8 @@
 - Xps for spell mastery were not removed when dropping a spell on an actor
 - Removing a linked token from a scene will remove the aura effect from the actor too
 - Put Aq and Au forms in the correct alphabetical order
+- Fixed a display bug in lab sheet size where a number was not properly parsed as an integer.
+- Casting a spell whom focus applies will tick the check-box in the roll dialog.
 
 ## 1.4.2
 

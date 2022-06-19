@@ -153,7 +153,7 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
         actorData.data.roll.formText = formData[0];
         actorData.data.roll.formScore = formData[1];
 
-        actorData.data.roll.focus = actorData.data.roll.spell.data.data.focus;
+        actorData.data.roll.focus = actorData.data.roll.spell.data.data.applyFocus;
         actorData.data.roll.ritual = actorData.data.roll.spell.data.data.ritual;
 
         actorData.data.roll.difficulty =
