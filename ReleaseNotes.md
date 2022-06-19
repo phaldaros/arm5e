@@ -8,6 +8,7 @@
 
 - Fixed wrong label in defense roll
 - Changed misleading die icon of damage and soak actions into proper ones
+- Fixed broken foldable active effects bonuses
 
 ## 1.4.3
 

@@ -456,7 +456,8 @@ function getDialogData(dataset, html, actor) {
 }
 
 function addListenersDialog(html) {
-  html.find(".toggle").click((event) => {
+  html.find(".toggleHidden").click((event) => {
+    log(false, "toggle Hidden");
     const hidden = $(event.target).data("hidden");
     html.find(`.${hidden}`).toggle();
   });
