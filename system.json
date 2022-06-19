@@ -19,7 +19,7 @@
     { "name": "jaircunhavianna", "contribution": "compendium content" }
   ],
   "esmodules": ["module/arm5e.js"],
-  "styles": ["css/arm5e.css"],
+  "styles": ["css/arm5e.css", "css/Ars-Magica-icons.css"],
   "packs": [
     {
       "name": "magi",

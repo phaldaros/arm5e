@@ -316,12 +316,12 @@
               "label": "Animal",
               "xp": 0
             },
-            "au": {
-              "label": "Auram",
-              "xp": 0
-            },
             "aq": {
               "label": "Aquam",
+              "xp": 0
+            },
+            "au": {
+              "label": "Auram",
               "xp": 0
             },
             "co": {
@@ -566,15 +566,15 @@
               "peons": 0,
               "label": "Animal"
             },
-            "au": {
-              "notes": "",
-              "peons": 0,
-              "label": "Auram"
-            },
             "aq": {
               "notes": "",
               "peons": 0,
               "label": "Aquam"
+            },
+            "au": {
+              "notes": "",
+              "peons": 0,
+              "label": "Auram"
             },
             "co": {
               "notes": "",

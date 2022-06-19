@@ -10,26 +10,22 @@
     </div>
   </li>
   {{#each data.spells as |spell id|}}
-  <li
-    class="item spell-value flexrow"
-    data-name="{{spell.data.name}}"
-    data-item-id="{{spell.id}}"
-    data-item-type="{{spell.data.type}}"
-  >
-    <div class="flexrow flex-center">
-      <span class="flexrow spell-title design" data-name="{{spell.data.name}}">
-        <!-- data-level="{{spell.data.data.baseLevel}}" data-technique="{{spell.data.data.technique.value}}" data-form="{{spell.data.data.form.value}}"-->
-        <!--div class="item-image">
+    <li class="item spell-value flexrow" data-name="{{spell.data.name}}" data-item-id="{{spell.id}}"
+      data-item-type="{{spell.data.type}}">
+      <div class="flexrow flex-center">
+        <span class="flexrow spell-title design" data-name="{{spell.data.name}}">
+          <!-- data-level="{{spell.data.data.baseLevel}}" data-technique="{{spell.data.data.technique.value}}" data-form="{{spell.data.data.form.value}}"-->
+          <!--div class="item-image">
                             <a class="rollable" data-roll-type="item"><img src="{{spell.img}}" title="{{item.name}}" width="24" height="24" /></a>
                         </div-->
-        {{spell.data.name}} {{#if (eq spell.data.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} - {{/if}}
-        {{spell.data.localizedDesc}}
-      </span>
-    </div>
-    <div class="item-controls">
-      <a class="item-control item-edit" title="Edit Spell"><i class="fas fa-edit"></i></a>
-      <a class="item-control effect-delete" title="Delete Spell"><i class="fas fa-trash"></i></a>
-    </div>
-  </li>
+          {{spell.data.name}} {{#if (eq spell.data.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} - {{/if}}
+          {{spell.data.localizedDesc}}
+        </span>
+      </div>
+      <div class="item-controls">
+        <a class="item-control item-edit" title="Edit Spell"><i class="icon-Icon_Edit"></i></a>
+        <a class="item-control effect-delete" title="Delete Spell"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+      </div>
+    </li>
   {{/each}}
 </ol>

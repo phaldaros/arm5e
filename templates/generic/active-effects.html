@@ -1,54 +1,48 @@
 <ol class="items-list effects-list">
   {{#each effects as |section sid|}}
-  <li class="items-header flexrow" data-effect-type="{{section.type}}">
-    <h3 class="item-name effect-name flexrow">{{localize section.label}}</h3>
-    <div class="effect-source">{{localize "arm5e.sheet.source.label"}}</div>
-    <div class="effect-source">{{localize "arm5e.sheet.duration"}}</div>
-    <div class="item-controls effect-controls flexrow">
-      {{#if ../data.effectCreation}}
-      <a class="effect-control" data-action="create" title="{{localize 'arm5e.sheet.effectsCreate'}}">
-        <i class="fas fa-plus"></i> {{localize "arm5e.sheet.effectsCreate"}}
-      </a>
-      {{/if}}
-    </div>
-  </li>
-
-  <ol class="item-list">
-    {{#each section.effects as |effect|}}
-    <li class="item effect flexrow" data-effect-id="{{effect.id}}">
-      <div class="item-name effect-name flexrow">
-        <img
-          class="item-image"
-          style="max-width: 100px"
-          src="{{effect.data.icon}}"
-          title="{{{effect.data.descr}}}"
-          width="36"
-          height="36"
-        />
-        <h4>{{effect.data.label}}</h4>
-      </div>
-      <div class="effect-source">{{effect.sourceName}}</div>
-      <div class="effect-duration">{{effect.duration.label}}</div>
+    <li class="items-header flexrow" data-effect-type="{{section.type}}">
+      <h3 class="item-name effect-name flexrow">{{localize section.label}}</h3>
+      <div class="effect-source">{{localize "arm5e.sheet.source.label"}}</div>
+      <div class="effect-source">{{localize "arm5e.sheet.duration"}}</div>
       <div class="item-controls effect-controls flexrow">
-        <a class="effect-control" data-action="toggle" title="{{localize 'arm5e.sheet.effectsToggle'}}">
-          <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
-        </a>
-        {{#unless effect.data.noEdit}}
-        <!-- trigger an error if the effect is on an item while belonging to an actor -->
-        <a class="effect-control" data-action="edit" title="{{localize 'arm5e.sheet.effectsEdit'}}">
-          <i class="fas fa-edit"></i>
-        </a>
-        <a class="effect-control" data-action="delete" title="{{localize 'arm5e.sheet.effectsDelete'}}">
-          <i class="fas fa-trash"></i>
-        </a>
-        {{/unless}}
+        {{#if ../data.effectCreation}}
+          <a class="effect-control" data-action="create" title="{{localize 'arm5e.sheet.effectsCreate'}}">
+            <i class="fas fa-plus"></i> {{localize "arm5e.sheet.effectsCreate"}}
+          </a>
+        {{/if}}
       </div>
     </li>
-    {{/each}}
-  </ol>
+
+    <ol class="item-list">
+      {{#each section.effects as |effect|}}
+        <li class="item effect flexrow" data-effect-id="{{effect.id}}">
+          <div class="item-name effect-name flexrow">
+            <img class="item-image" style="max-width: 100px" src="{{effect.data.icon}}" title="{{{effect.data.descr}}}"
+              width="36" height="36" />
+            <h4>{{effect.data.label}}</h4>
+          </div>
+          <div class="effect-source">{{effect.sourceName}}</div>
+          <div class="effect-duration">{{effect.duration.label}}</div>
+          <div class="item-controls effect-controls flexrow">
+            <a class="effect-control" data-action="toggle" title="{{localize 'arm5e.sheet.effectsToggle'}}">
+              <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+            </a>
+            {{#unless effect.data.noEdit}}
+              <!-- trigger an error if the effect is on an item while belonging to an actor -->
+              <a class="effect-control" data-action="edit" title="{{localize 'arm5e.sheet.effectsEdit'}}">
+                <i class="icon-Icon_Edit"></i>
+              </a>
+              <a class="effect-control" data-action="delete" title="{{localize 'arm5e.sheet.effectsDelete'}}">
+                <i class="icon-Icon_Delete_Hand_Gesture"></i>
+              </a>
+            {{/unless}}
+          </div>
+        </li>
+      {{/each}}
+    </ol>
   {{/each}} {{#unless data.effectCreation}}
-  <li class="items-header flexrow" data-effect-type="{{section.type}}" style="text-align: center">
-    {{localize "arm5e.sheet.activeEffect.info.noedit"}}
-  </li>
+    <li class="items-header flexrow" data-effect-type="{{section.type}}" style="text-align: center">
+      {{localize "arm5e.sheet.activeEffect.info.noedit"}}
+    </li>
   {{/unless}}
 </ol>
