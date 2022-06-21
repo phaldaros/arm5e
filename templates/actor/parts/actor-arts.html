@@ -127,9 +127,8 @@
             data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}"
             data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-name="{{item.name}}"
             data-img="{{item.img}}" name="item.name">
-            {{item.name}} ( {{#with (lookup @root.config.magic.techniques item.data.technique.value)~}}{{label~}}
-            {{/with}} {{#with (lookup @root.config.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
-            {{item.data.level}}) {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
+            {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.data.level}})
+            {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
           </span>
           <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span>
             {{#with (lookup @root.config.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}
@@ -172,9 +171,8 @@
             data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}"
             data-bonus="{{ item.data.bonus }}" data-name="{{item.name}}" data-divide="2"
             data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" name="item.name">
-            {{item.name}} ( {{#with (lookup @root.config.magic.techniques item.data.technique.value)~}}{{label~}}
-            {{/with}} {{#with (lookup @root.config.magic.forms item.data.form.value)~}}{{label~}} {{/with}} -
-            {{item.data.level}})
+            {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.data.level}})
+            {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
           </span>
           <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span>
             {{#with (lookup @root.config.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}

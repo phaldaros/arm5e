@@ -5,6 +5,7 @@
 ### Features
 
 - Limited character sheet
+- Requisites are displayed in spell/magical effects lists
 
 ### Bug fixes
 

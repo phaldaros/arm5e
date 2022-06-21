@@ -33,6 +33,8 @@ import {
   getRollTypeProperties
 } from "../helpers/rollWindow.js";
 
+import { spellTechniqueLabel, spellFormLabel } from "../helpers/spells.js";
+
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
   static get defaultOptions() {
@@ -414,7 +416,18 @@ export class ArM5eActorSheet extends ActorSheet {
         }
       }
     }
-    //let actorData = sheetData.actor.data;
+
+    if (actorData.actor.type == "player" || actorData.actor.type == "npc") {
+      for (let spell of actorData.data.spells) {
+        spell.TechReq = spellTechniqueLabel(spell);
+        spell.FormReq = spellFormLabel(spell);
+      }
+
+      for (let effect of actorData.data.magicalEffects) {
+        effect.TechReq = spellTechniqueLabel(effect);
+        effect.FormReq = spellFormLabel(effect);
+      }
+    }
   }
 
   /* -------------------------------------------- */
