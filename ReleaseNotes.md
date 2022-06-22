@@ -5,6 +5,7 @@
 ### Features
 
 - Limited character sheet
+- Requisites are displayed in spell/magical effects lists
 
 ### Bug fixes
 
@@ -12,6 +13,7 @@
 - Changed misleading die icon of damage and soak actions into proper ones
 - Fixed broken foldable active effects bonuses
 - Extended lower limit of aging roll tables to negative values
+- Only spells strictly greater than level 50 become rituals (instead of greater or equal)
 
 ## 1.4.3
 
