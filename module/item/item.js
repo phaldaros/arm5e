@@ -172,7 +172,7 @@ export class ArM5eItem extends Item {
           if (
             CONFIG.ARM5E.magic.durations[data.duration.value].impact > 3 ||
             data.target.value == "bound" ||
-            effectLevel >= 50
+            effectLevel > 50
           ) {
             shouldBeRitual = true;
           }
