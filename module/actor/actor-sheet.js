@@ -1047,7 +1047,7 @@ export async function calculateDamage(selector, actor) {
   const advantage = parseInt(selector.find('input[name$="advantage"]').val());
   const modifier = parseInt(selector.find('input[name$="modifier"]').val());
   const damage = strenght + weapon + advantage + modifier;
-  const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.damage") + "</h2>";
+  const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.damage") + " </h2>";
   const messageStrenght = `${game.i18n.localize("arm5e.sheet.strength")} (${strenght})`;
   const messageWeapon = `${game.i18n.localize("arm5e.sheet.damage")} (${weapon})`;
   const messageAdvantage = `${game.i18n.localize("arm5e.sheet.advantage")} (${advantage})`;

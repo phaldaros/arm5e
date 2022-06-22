@@ -14,6 +14,7 @@
 - Fixed broken foldable active effects bonuses
 - Extended lower limit of aging roll tables to negative values
 - Only spells strictly greater than level 50 become rituals (instead of greater or equal)
+- Fixed the combat automation
 
 ## 1.4.3
 

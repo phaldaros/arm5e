@@ -167,7 +167,7 @@ export function getLabUpkeepCost(upkeep) {
 }
 
 export function getLastMessageByHeader(game, key) {
-  const searchString = game.i18n.localize(key).toLowerCase() + "</h2>";
+  const searchString = game.i18n.localize(key).toLowerCase() + " </h2>";
   const messages = game.messages.filter((msg) => {
     const flavor = (msg?.data?.flavor || "").toLowerCase();
     return flavor.indexOf(searchString) > -1;
