@@ -2,9 +2,8 @@ import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "./active-effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import { simpleDie, stressDie } from "../dice.js";
-import { getActorsFromTargetedTokens } from "./tokens.js";
-import { calculateSuccessOfMagic } from "./magic.js";
-import { chatContestOfMagic } from "./chat.js";
+import { checkTargetAndCalculateResistance } from "./magic.js";
+import { chatFailedCasting } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor-pc.js";
 import { applyAgingEffects, agingCrisis } from "./long-term-activities.js";
 import { exertSelf } from "./combat.js";
@@ -52,7 +51,7 @@ const ROLL_PROPERTIES = {
   SPELL: {
     MODE: ROLL_MODES.STRESS_OR_SIMPLE,
     TITLE: "arm5e.dialog.title.rolldie",
-    CALLBACK: checkTargetAndCalculateResistance
+    CALLBACK: castSpell
   },
   AGING: {
     MODE: 61, // STRESS + NO_BOTCH + NO_CONF + UNCONSCIOUS + PRIVATE
@@ -484,20 +483,24 @@ async function renderRollTemplate(dataset, template, actor, actorData) {
   dialog.render(true);
 }
 
-async function checkTargetAndCalculateResistance(html, actorCaster, roll, message) {
-  const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
-  if (!actorsTargeted) {
-    return false;
+async function castSpell(html, actorCaster, roll, message) {
+  // first check that the spell succeeds
+  const levelOfSpell = actorCaster.data.data.roll.spell.data.data.level;
+  const totalOfSpell = roll._total;
+  if (totalOfSpell < levelOfSpell) {
+    let fatigue = 1;
+    if (actorCaster.data.data.roll.spell.data.data.ritual) {
+      fatigue = Math.ceil((levelOfSpell - totalOfSpell) / 5);
+    }
+    // lose fatigue levels
+    actorCaster.loseFatigueLevel(fatigue);
+    if (totalOfSpell < levelOfSpell - 10) {
+      await chatFailedCasting(actorCaster, roll, message, fatigue);
+      return false;
+    }
   }
-  actorsTargeted.forEach(async (actorTarget) => {
-    const successOfMagic = calculateSuccessOfMagic({
-      actorTarget,
-      actorCaster,
-      roll,
-      spell: message
-    });
-    await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
-  });
+  // then do contest of magic
+  checkTargetAndCalculateResistance(actorCaster, roll, message);
 }
 
 export {

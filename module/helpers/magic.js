@@ -1,7 +1,29 @@
+import { getActorsFromTargetedTokens } from "./tokens.js";
+import { chatContestOfMagic } from "./chat.js";
+
+async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
+  const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
+  if (!actorsTargeted) {
+    return false;
+  }
+  actorsTargeted.forEach(async (actorTarget) => {
+    const successOfMagic = calculateSuccessOfMagic({
+      actorTarget,
+      actorCaster,
+      roll,
+      spell: message
+    });
+    await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
+  });
+}
+
 function getPenetrationAbilityDetails(actorData) {
-  const penetrationId = actorData.data.data?.laboratory?.abilitiesSelected?.penetration?.abilityID || "";
+  const penetrationId =
+    actorData.data.data?.laboratory?.abilitiesSelected?.penetration?.abilityID || "";
   if (penetrationId) {
-    const penetrationAbility = actorData.data.data.abilities.filter((ability) => ability._id === penetrationId)[0];
+    const penetrationAbility = actorData.data.data.abilities.filter(
+      (ability) => ability._id === penetrationId
+    )[0];
     if (penetrationAbility) {
       return {
         score: penetrationAbility.data.score,
@@ -18,7 +40,9 @@ function getPenetrationAbilityDetails(actorData) {
 function getParmaAbilityDetails(actorData) {
   const parmaId = actorData.data.data?.laboratory?.abilitiesSelected?.parma?.abilityID || "";
   if (parmaId) {
-    const parmaAbility = actorData.data.data.abilities.filter((ability) => ability._id === parmaId)[0];
+    const parmaAbility = actorData.data.data.abilities.filter(
+      (ability) => ability._id === parmaId
+    )[0];
     if (parmaAbility) {
       return {
         score: parmaAbility.data.finalScore,
@@ -32,14 +56,19 @@ function getParmaAbilityDetails(actorData) {
   };
 }
 
-function calculatePenetration({ actorCaster, roll, form, technique }) {
-  const levelOfSpell = actorCaster.data.data.roll.spell.data.data.level;
+function calculatePenetration({ actorCaster, roll, spell }) {
+  const levelOfSpell = spell.data.data.level;
   const totalOfSpell = roll._total;
 
   let penetration = actorCaster.data.data.laboratory.totalPenetration.value;
   const speciality = getPenetrationAbilityDetails(actorCaster).speciality;
   let specialityIncluded = "";
-  if (form.toUpperCase() === speciality.toUpperCase() || technique.toUpperCase() === speciality.toUpperCase()) {
+  if (
+    CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
+      speciality.toUpperCase() ||
+    CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
+      speciality.toUpperCase()
+  ) {
     penetration += 1;
     specialityIncluded = speciality;
   }
@@ -52,17 +81,25 @@ function calculatePenetration({ actorCaster, roll, form, technique }) {
   };
 }
 
-function calculateResistance(actorData, form) {
+function calculateResistance(actor, form) {
   let magicResistance =
-    Number(actorData.data.data.laboratory?.magicResistance?.value) || Number(actorData.data.data?.might?.value) || 0;
+    Number(actor.data.data.laboratory?.magicResistance?.value) ||
+    Number(actor.data.data?.might?.value) ||
+    0;
   let specialityIncluded = "";
-  const parma = getParmaAbilityDetails(actorData);
+  const parma = getParmaAbilityDetails(actor);
   if (parma.specialityIncluded && parma.specialityIncluded.toUpperCase() === form.toUpperCase()) {
     specialityIncluded = form;
     magicResistance += 5;
   }
 
-  const arts = actorData.data.data?.arts;
+  const arts = actor.data.data?.arts;
+  let auraMod = 0;
+  // TODO, do a better job for player aligned to a realm
+  if (actor.type == "npc" && actor.data.data.charType.value == "entity") {
+    auraMod = actor.getActiveEffectValue("magic", "aura");
+    magicResistance += parseInt(auraMod);
+  }
 
   let formScore = 0;
   if (arts) {
@@ -73,11 +110,12 @@ function calculateResistance(actorData, form) {
   }
 
   return {
-    might: actorData.data.data?.might?.value,
+    might: actor.data.data?.might?.value,
     specialityIncluded,
     total: magicResistance + formScore,
     formScore,
-    parma
+    parma,
+    aura: auraMod
   };
 }
 
@@ -87,9 +125,9 @@ function getFormWithoutPrerequisite(form) {
 }
 
 function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
-  const technique = actorCaster.data.data.roll.techniqueText;
-  const form = getFormWithoutPrerequisite(actorCaster.data.data.roll.formText);
-  const penetration = calculatePenetration({ actorCaster, roll, form, technique });
+  const spell = actorCaster.data.data.roll.spell;
+  const form = CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label;
+  const penetration = calculatePenetration({ actorCaster, roll, spell });
   const magicResistance = calculateResistance(actorTarget, form);
   return {
     penetration,
@@ -99,4 +137,4 @@ function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
   };
 }
 
-export { calculateSuccessOfMagic };
+export { calculateSuccessOfMagic, checkTargetAndCalculateResistance };

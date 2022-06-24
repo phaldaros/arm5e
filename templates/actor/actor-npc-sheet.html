@@ -37,8 +37,8 @@
           <div class="resource-content flexrow flex-center flex-between">
             <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"
               style="padding-top: 4px; margin-left: 8px; margin-right: 10px" />
-            <select name="data.realmAlignment" data-type="String">
-              {{#select data.realmAlignment}} {{#each config.realms as |realm key|}}
+            <select name="data.realmAlignment" data-type="Number">
+              {{#select data.realmAlignment}} {{#each config.realmsExt as |realm key|}}
                   <option value="{{realm.value}}">{{localize realm.label}}</option>
                 {{/each}} {{/select}}
             </select>

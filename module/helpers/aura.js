@@ -45,13 +45,16 @@ async function addEffect(actor, activeEffectData) {
   return await actor.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
 }
 
-async function modifyAuraActiveEffectForAllTokensInScene(value) {
+async function modifyAuraActiveEffectForAllTokensInScene(value, type) {
   const activeEffectData = getAuraActiveEffect(value);
 
   const tokens = canvas.tokens.placeables.filter((token) => token.actor);
   for (const token of tokens) {
     if (token.document.isLinked) {
-      addEffect(token.actor, activeEffectData);
+      const modifier = computeAuraModifier(token.actor.data.data.realmAlignment, value, type);
+      // patch the active effect data
+      activeEffectData.changes[0].value = modifier;
+      await addEffect(token.actor, activeEffectData);
     }
     // else {
     //   // not used yet, due to filter above
@@ -61,8 +64,11 @@ async function modifyAuraActiveEffectForAllTokensInScene(value) {
   }
 }
 
-async function addActiveEffectAuraToActor(actor, value) {
+async function addActiveEffectAuraToActor(actor, value, type) {
   const auraEffect = getAuraActiveEffect(value);
+  const modifier = computeAuraModifier(actor.data.data.realmAlignment, Number(value), type);
+  // patch the active effect data
+  auraEffect.changes[0].value = modifier;
   addEffect(actor, auraEffect);
 }
 
@@ -74,7 +80,26 @@ async function clearAuraFromActor(actor) {
   }
 }
 
+function computeAuraModifier(alignment, auraVal, type) {
+  const realm = CONFIG.ARM5E.lookupRealm[parseInt(type)];
+  const char = CONFIG.ARM5E.lookupRealm[parseInt(alignment)];
+  const multiplier = CONFIG.ARM5E.realmsExt[realm].influence[parseInt(alignment)];
+  // log(
+  //   false,
+  //   "Computed aura :" +
+  //     char +
+  //     ", Aura: " +
+  //     auraVal +
+  //     " of type " +
+  //     realm +
+  //     " = " +
+  //     auraVal * multiplier
+  // );
+  return auraVal * multiplier;
+}
+
 export {
+  computeAuraModifier,
   modifyAuraActiveEffectForAllTokensInScene,
   addActiveEffectAuraToActor,
   clearAuraFromActor

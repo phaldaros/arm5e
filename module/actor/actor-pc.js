@@ -12,6 +12,8 @@ import {
 
 import { migrateActorData } from "../migration.js";
 
+import ArM5eActiveEffect from "../helpers/active-effects.js";
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -51,6 +53,7 @@ export class ArM5ePCActor extends Actor {
     }
 
     this.data.data.bonuses = {};
+
     if (this._isMagus()) {
       // hack, if the active effect for magus is not setup
       if (this.data.data.realmAlignment == 0) {
@@ -1322,6 +1325,14 @@ export class ArM5ePCActor extends Actor {
     } catch (err) {
       err.message = `Failed system migration for Actor ${a.name}: ${err.message}`;
       console.error(err);
+    }
+  }
+
+  getActiveEffectValue(type, subtype) {
+    const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(this.data.effects, subtype);
+    if (ae) {
+      log(false, ae);
+      return ae[0].data.changes[0].value;
     }
   }
 }

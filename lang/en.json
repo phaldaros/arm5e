@@ -176,8 +176,9 @@
   "arm5e.sheet.soak": "Soak",
   "arm5e.sheet.soakBonus": "Soak bonus",
 
+  "arm5e.sheet.spellFailed": "Spell failed",
   "arm5e.sheet.contestOfMagic": "Contest of magic",
-  "arm5e.sheet.spellTotal": "Spell total",
+  "arm5e.sheet.spellTotal": "Casting total",
   "arm5e.sheet.spellLevel": "Spell level",
   "arm5e.sheet.specialityBonus": "Speciality bonus",
   "arm5e.sheet.totalPenetration": "Penetration total",
@@ -749,6 +750,7 @@
   "arm5e.messages.wound.incap": "incap",
   "arm5e.messages.wound.dead": "dead",
   "arm5e.messages.woundResult": "Received a {typeWound} wound",
+  "arm5e.messages.fatigueLost": "Lost {num} fatigue level(s)",
   "arm5e.messages.noWound": "No wound inflicted",
   "arm5e.messages.applyDamage": "Apply damage",
   "arm5e.messages.useConf": "Use confidence point",
