@@ -1,0 +1,15 @@
+<form class="{{cssClass}} arm5eChooser" autocomplete="off">
+  {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Inputs" }}
+  <div class="flexrow3 backSection" style="padding: 48px">
+    <label>{{ localize fieldName }}</label>
+    <div class="flexrow">
+      <input type="text" class="textInput" name="inputField" value="{{value}}" placeholder="{{localize placeholder}}" />
+      <select class="aura-type" name="realm" data-type="Number">
+        {{#select realm}} {{#each realms as |realm key|}}
+            <option value="{{realm.value}}">{{localize realm.label}}</option>
+          {{/each}} {{/select}}
+      </select>
+    </div>
+  </div>
+  {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Inputs"}}
+</form>

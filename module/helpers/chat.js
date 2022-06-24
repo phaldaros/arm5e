@@ -171,6 +171,34 @@ function getFlavorForPlayersResult({
   return messageOnlyWithName;
 }
 
+async function chatFailedCasting(actorCaster, roll, message, fatigue) {
+  const levelOfSpell = actorCaster.data.data.roll.spell.data.data.level;
+  const totalOfSpell = roll._total;
+  const title =
+    '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.spellFailed") + "</h2>";
+  const messageTotalOfSpell = `${game.i18n.localize("arm5e.sheet.spellTotal")} (${totalOfSpell})`;
+  const messageLevelOfSpell = `- ${game.i18n.localize("arm5e.sheet.spellLevel")} (${levelOfSpell})`;
+  const castingTotal = `= ${totalOfSpell - levelOfSpell}`;
+  const lostFatigue = `${game.i18n.format("arm5e.messages.fatigueLost", { num: fatigue })} `;
+  const showDataOfNPC = game.settings.get("arm5e", "showNPCMagicDetails") === "SHOW_ALL";
+  let flavorForPlayers = `${title}`;
+  let extendedMsg = ` ${messageTotalOfSpell} ${messageLevelOfSpell} ${castingTotal}<br/>${lostFatigue}`;
+  let flavorForGM = flavorForPlayers + extendedMsg;
+  if (showDataOfNPC) {
+    flavorForPlayers = flavorForGM;
+  }
+  ChatMessage.create({
+    content: "",
+    flavor: flavorForPlayers,
+    speaker: ChatMessage.getSpeaker({
+      actorCaster
+    })
+  });
+  // if (flavorForPlayers !== flavorForGM) {
+  //   privateMessage("", actorCaster, flavorForGM);
+  // }
+}
+
 async function chatContestOfMagic({
   actorCaster,
   actorTarget,
@@ -187,6 +215,7 @@ async function chatContestOfMagic({
   const messageLevelOfSpell = `- ${game.i18n.localize("arm5e.sheet.spellLevel")} (${
     penetration.levelOfSpell
   })`;
+
   const messagePenetration = `+ ${game.i18n.localize("arm5e.sheet.penetration")} (${
     penetration.penetration
   })`;
@@ -209,6 +238,10 @@ async function chatContestOfMagic({
         form
       )
     : "";
+  const messageAura =
+    magicResistance.aura == 0
+      ? ""
+      : ` + ${game.i18n.localize("arm5e.sheet.aura")}: (${magicResistance.aura})`;
 
   const messageParma = magicResistance?.parma?.score
     ? `${game.i18n.localize("arm5e.sheet.parma")}: (${magicResistance.parma.score})`
@@ -222,10 +255,9 @@ async function chatContestOfMagic({
   const messageTotalMagicResistance = `${game.i18n.localize(
     "arm5e.sheet.totalMagicResistance"
   )}: (${magicResistance.total})`;
-
   const flavorTotalSpell = `${title} ${messageTotalOfSpell}<br/> ${messageLevelOfSpell}<br/>`;
   const flavorTotalPenetration = `${messagePenetration}${messageSpeciality}<br/><b>${messageTotalPenetration}</b><br/>`;
-  const flavorTotalMagicResistance = `${messageMight}${messageParma}${messageParmaSpeciality}${messageForm}<br/><b>${messageTotalMagicResistance}</b>`;
+  const flavorTotalMagicResistance = `${messageMight}${messageParma}${messageParmaSpeciality}${messageForm}${messageAura}<br/><b>${messageTotalMagicResistance}</b>`;
 
   const messageTotal =
     total > 0
@@ -282,28 +314,30 @@ async function chatContestOfMagic({
     })
   });
   if (flavorForPlayers !== flavorForGM) {
-    // only roll messages can be hidden from roller
-
-    let roll = new Roll("0");
-
-    let messageData = {
-      content: `<h4 class="dice-total">${messageTotalWithName}</h4>`,
-      flavor: flavorForGM,
-      speaker: ChatMessage.getSpeaker({
-        actorCaster
-      }),
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-      roll: "0",
-      whisper: ChatMessage.getWhisperRecipients("gm"),
-      blind: true,
-      flags: {
-        arm5e: {
-          type: "damage"
-        }
-      }
-    };
-    await roll.toMessage(messageData, { rollMode: CONST.DICE_ROLL_MODES.BLIND });
+    privateMessage(content, actorCaster, flavorForGM);
   }
 }
+async function privateMessage(content, actor, flavor) {
+  // only roll messages can be hidden from roller
 
-export { chatContestOfMagic };
+  let roll = new Roll("0");
+
+  let messageData = {
+    content: content,
+    flavor: flavor,
+    speaker: ChatMessage.getSpeaker({
+      actor
+    }),
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    roll: "0",
+    whisper: ChatMessage.getWhisperRecipients("gm"),
+    blind: true,
+    flags: {
+      arm5e: {
+        type: "damage"
+      }
+    }
+  };
+  await roll.toMessage(messageData, { rollMode: CONST.DICE_ROLL_MODES.BLIND });
+}
+export { chatContestOfMagic, chatFailedCasting };

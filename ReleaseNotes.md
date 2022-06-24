@@ -6,6 +6,10 @@
 
 - Limited character sheet
 - Requisites are displayed in spell/magical effects lists
+- Realm aligned auras
+- Spell will fail if your casting total is too low
+- Fatigue levels will be lost if casting total is too low (rituals too)
+- Aura impacts creatures with might
 
 ### Bug fixes
 
@@ -15,6 +19,7 @@
 - Extended lower limit of aging roll tables to negative values
 - Only spells strictly greater than level 50 become rituals (instead of greater or equal)
 - Fixed the combat automation
+- Fixed error message when changing aura value.
 
 ## 1.4.3
 

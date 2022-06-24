@@ -410,7 +410,7 @@ async function onDropActorSheetData(actor, sheet, data) {
     if (sheet.isItemDropAllowed(item.data)) {
       return true;
     } else {
-      log(true, "Prevented invalid item drop ", item.data, " on actor ", actor)
+      log(true, "Prevented invalid item drop ", item.data, " on actor ", actor);
       return false;
     }
   } else if (data.type == "Actor") {
@@ -442,28 +442,31 @@ function rollItemMacro(itemId, actorId) {
   actor.sheet._onRoll(dataset);
 }
 
-async function setAuraValueForAllTokensInScene(value) {
+async function setAuraValueForAllTokensInScene(value, type) {
   // Store a flag with the current aura
   game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed.data._id, Number(value));
-  modifyAuraActiveEffectForAllTokensInScene(value);
+  game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed.data._id, Number(type));
+  modifyAuraActiveEffectForAllTokensInScene(value, type);
 }
 
-function setAuraValueForToken(value) {
-  addActiveEffectAuraToActor(this, Number(value));
+function setAuraValueForToken(value, type) {
+  addActiveEffectAuraToActor(this, Number(value), Number(type));
 }
 
 async function resetTokenAuraToSceneAura() {
   const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
-  if (aura !== undefined && !isNaN(aura)) {
-    addActiveEffectAuraToActor(this, Number(aura));
+  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed.data._id);
+  if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
+    addActiveEffectAuraToActor(this, Number(aura), Number(type));
   }
 }
 
 function onDropOnCanvas(canvas, data) {
   const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
-  if (aura !== undefined && !isNaN(aura)) {
+  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed.data._id);
+  if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
     const actor = game.actors.get(data.id);
-    if (actor) addActiveEffectAuraToActor(actor, Number(aura));
+    if (actor) addActiveEffectAuraToActor(actor, Number(aura), Number(type));
   }
 }
 

@@ -655,13 +655,20 @@ ARM5E.realms = {
     label: "arm5e.sheet.realm.infernal",
     value: 4,
     influence: [0, -1, -2, 0, 1]
-  },
+  }
+};
+
+ARM5E.lookupRealm = ["mundane", "magic", "faeric", "divine", "infernal"];
+
+ARM5E.realmsExt = {
   mundane: {
     label: "arm5e.sheet.realm.mundane",
     value: 0,
     influence: [0, 0, 0, 0, 0]
-  }
+  },
+  ...ARM5E.realms
 };
+1;
 
 ARM5E.impacts = {
   free: {

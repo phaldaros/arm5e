@@ -1,5 +1,6 @@
 import { log } from "../tools.js";
 import { clearAuraFromActor } from "../helpers/aura.js";
+import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
 
 export class ArsLayer extends CanvasLayer {
   async draw() {
@@ -11,9 +12,10 @@ export class ArsLayer extends CanvasLayer {
     let dialogData = {
       fieldName: "arm5e.sheet.aura",
       placeholder: "0",
-      value: ""
+      value: "",
+      realms: CONFIG.ARM5E.realms
     };
-    const html = await renderTemplate("systems/arm5e/templates/generic/textInput.html", dialogData);
+    const html = await renderTemplate("systems/arm5e/templates/generic/auraInput.html", dialogData);
     //   const html = `<form class="{{cssClass}} arm5eChooser" autocomplete="off">
     //   {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Inputs" }}
     //   <div class="flexrow3 backSection" style="padding: 48px">
@@ -37,10 +39,12 @@ export class ArsLayer extends CanvasLayer {
         },
         default: "yes",
         close: async (html) => {
-          let result = html.find('input[name="inputField"]');
-          if (result.val() !== "") {
-            const aura = result.val();
-            await game.arm5e.setAuraValueForAllTokensInScene(aura);
+          let val = html.find('input[name="inputField"]');
+
+          if (val.val() !== "") {
+            const aura = val.val();
+            const type = html.find(".aura-type")[0].value;
+            await game.arm5e.setAuraValueForAllTokensInScene(aura, type);
           }
         }
       },
@@ -54,6 +58,7 @@ export class ArsLayer extends CanvasLayer {
 
   static async clearAura() {
     game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed.data._id);
+    game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed.data._id);
     const tokens = canvas.tokens.placeables.filter((token) => token.actor);
     for (const token of tokens) {
       clearAuraFromActor(token.actor);

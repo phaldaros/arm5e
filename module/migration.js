@@ -162,6 +162,14 @@ export const migrateCompendium = async function (pack) {
  * @returns {object}                The updateData to apply
  */
 export const migrateSceneData = function (scene, migrationData) {
+  if (scene?.flags?.world) {
+    const aura = scene.flags.world[`aura_${scene.data._id}`];
+    const type = scene.flags.world[`aura_type_${scene.data._id}`];
+    if (aura && !type) {
+      log(false, "Missing aura type");
+    }
+  }
+
   const tokens = scene.tokens.map((token) => {
     const t = token.toObject();
     const update = {};
@@ -181,6 +189,7 @@ export const migrateSceneData = function (scene, migrationData) {
       // else {
       //   actorData.data = { charType: { value: token.actor?.data?.data?.charType?.value } };
       // }
+
       const update = migrateActorData(actorData, migrationData);
       ["items", "effects"].forEach((embeddedName) => {
         if (!update[embeddedName]?.length) return;
@@ -212,9 +221,9 @@ export const migrateSceneData = function (scene, migrationData) {
 export const migrateActorData = function (actorData) {
   const updateData = {};
   // updateData["flags.arm5e.-=filters"] = null;
-  if (!actorData.flags.arm5e) {
+  if (!actorData?.flags.arm5e) {
     updateData["flags.arm5e"] = {};
-  } else if (actorData.flags.arm5e.filters) {
+  } else if (actorData?.flags.arm5e.filters) {
     updateData["flags.arm5e.-filters"] = null;
   }
   if (actorData.type == "laboratory") {
@@ -356,22 +365,25 @@ export const migrateActorData = function (actorData) {
       // entity
       // migrate might type to realm Alignment
       if (actorData.data?.might?.realm != undefined) {
-        updateData["data.realmAlignment"] = CONFIG.ARM5E.realms[actorData.data.might.realm].value;
+        updateData["data.realmAlignment"] =
+          CONFIG.ARM5E.realmsExt[actorData.data.might.realm].value;
         updateData["data.might.-=realm"] = null;
         updateData["data.might.-=type"] = null;
       } else if (actorData.data?.might?.type != undefined) {
-        updateData["data.realmAlignment"] = CONFIG.ARM5E.realms[actorData.data.might.type].value;
+        updateData["data.realmAlignment"] = CONFIG.ARM5E.realmsExt[actorData.data.might.type].value;
         updateData["data.might.-=realm"] = null;
         updateData["data.might.-=type"] = null;
       }
     }
 
-    if (actorData.data.realmAlignment && typeof actorData.data.realmAlignment === "string") {
-      updateData["data.realmAlignment"] = CONFIG.ARM5E.realms[actorData.data.realmAlignment].value;
+    // if (actorData.data.realmAlignment && typeof actorData.data.realmAlignment === "string") {
+    if (actorData.data.realmAlignment && isNaN(actorData.data.realmAlignment)) {
+      updateData["data.realmAlignment"] =
+        CONFIG.ARM5E.realmsExt[actorData.data.realmAlignment].value;
     }
 
     if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
-      updateData["data.realmAlignment"] = CONFIG.ARM5E.realms.magic.value;
+      updateData["data.realmAlignment"] = CONFIG.ARM5E.realmsExt.magic.value;
       if (actorData.data?.sanctum?.value === undefined) {
         let sanctum = {
           value: actorData.data.sanctum
