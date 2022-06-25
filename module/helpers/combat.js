@@ -8,5 +8,5 @@ export async function exertSelf(html, actor, mode, callback, roll) {
 
   await stressDie(html, actor, mode, callback, roll);
 
-  actor.loseFatigueLevel(1);
+  await actor.loseFatigueLevel(1);
 }

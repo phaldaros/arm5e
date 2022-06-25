@@ -150,8 +150,15 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
         log(false, "Invalid drop");
         return false;
       }
+    } else if (type == "ability") {
+      if (this.actor.hasSkill(itemData.data.key)) {
+        ui.notifications.warn(`That character already have the ability: ${itemData.name}`);
+      }
     }
     const res = await super._onDropItem(event, data);
+    if (res.length == 1) {
+      res[0].sheet.render(true);
+    }
     return res;
   }
 

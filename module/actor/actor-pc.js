@@ -245,7 +245,7 @@ export class ArM5ePCActor extends Actor {
           computedKey += "_" + i.data.option;
         }
         i.data.xpCoeff = this._getAbilityXpCoeff(i.data.key, i.data.option);
-        i.data.derivedScore = this._getAbilityScore(Math.round(i.data.xp * i.data.xpCoeff));
+        i.data.derivedScore = this._getAbilityScoreFromXp(Math.round(i.data.xp * i.data.xpCoeff));
         i.data.xpNextLevel = Math.round(5 * i.data.derivedScore + 5 / i.data.xpCoeff);
         i.data.remainingXp =
           i.data.xp - Math.round(this._getAbilityXp(i.data.derivedScore) / i.data.xpCoeff);
@@ -256,8 +256,8 @@ export class ArM5ePCActor extends Actor {
         //   log(false, `xpCoeff: ${coeff}`);
         //   let newxp = i.data.xp * coeff;
         //   log(false, `Xp: ${i.data.xp} and after afinity: ${newxp}`);
-        //   let score = this._getAbilityScore(i.data.xp);
-        //   let affinityscore = this._getAbilityScore(Math.round(i.data.xp * coeff));
+        //   let score = this._getAbilityScoreFromXp(i.data.xp);
+        //   let affinityscore = this._getAbilityScoreFromXp(Math.round(i.data.xp * coeff));
         //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
         //   let nextLvl = this._getAbilityXp(affinityscore + 1) - i.data.xp;
         //   let afterAffinity = nextLvl / coeff;
@@ -465,7 +465,7 @@ export class ArM5ePCActor extends Actor {
       if (actorData.data.decrepitude == undefined) {
         actorData.data.decrepitude = {};
       }
-      actorData.data.decrepitude.finalScore = this._getAbilityScore(
+      actorData.data.decrepitude.finalScore = this._getAbilityScoreFromXp(
         actorData.data.decrepitude.points
       );
       actorData.data.decrepitude.experienceNextLevel =
@@ -1055,7 +1055,7 @@ export class ArM5ePCActor extends Actor {
   }
 
   // get the score given an amount of xp
-  _getAbilityScore(xp) {
+  _getAbilityScoreFromXp(xp) {
     return this._getArtScore(Math.floor(xp / 5));
   }
 
@@ -1084,6 +1084,10 @@ export class ArM5ePCActor extends Actor {
 
   static isMagus(type, charType) {
     return (type == "npc" && charType == "magusNPC") || (type == "player" && charType == "magus");
+  }
+
+  _hasMight() {
+    return this.data.type == "npc" && this.data.data.charType.value == "entity";
   }
 
   _isCompanion() {
@@ -1328,11 +1332,31 @@ export class ArM5ePCActor extends Actor {
     }
   }
 
+  // TODO improve
   getActiveEffectValue(type, subtype) {
     const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(this.data.effects, subtype);
     if (ae) {
       log(false, ae);
       return ae[0].data.changes[0].value;
     }
+    return 0;
+  }
+
+  hasSkill(key) {
+    if (key == "") return false;
+
+    return (
+      this.data.data.abilities.find((e) => e.data.key == key && e.data.option == "") != undefined
+    );
+  }
+
+  getAbilityStats(key, option = "") {
+    const ability = this.data.data.abilities.find(
+      (e) => e.data.key == key && e.data.option == option
+    );
+    if (ability) {
+      return { score: ability.data.derivedScore, speciality: ability.data.speciality };
+    }
+    return { score: 0, speciality: "" };
   }
 }

@@ -21,8 +21,8 @@
         </div>
       </h1>
 
-      <div class="resources flexrow flex-between">
-        <span class="covenantname flexrow" style="padding-top: 4px">
+      <div class="flexrow">
+        <span class="flex0" style="padding-top: 4px">
           <label for="data.charType.value" class="header-label"
             style="padding-top: 4px">{{localize "arm5e.sheet.charType"}}</label>
           <select name="data.charType.value" data-type="String">
@@ -32,11 +32,15 @@
           </select>
         </span>
         {{#if (eq data.charType.value "entity")}}
-          <label for="data.might.value" class="header-label"
-            style="padding-top: 5px; padding-left: 80px; margin-left: 8px">{{localize "arm5e.sheet.might"}}</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"
-              style="padding-top: 4px; margin-left: 8px; margin-right: 10px" />
+          <div class="grid grid-3col">
+            <label for="data.might.value" class="header-label flex0"
+              style="font-size: 14pt; font-family:blackmoor;  padding-left: 15px; margin-left: 8px">{{localize "arm5e.sheet.might"}}</label>
+            <div>
+              <input type="text" name="data.might.points" value="{{data.might.points}}" data-dtype="Number"
+                style="width: 40px; text-align: center;" /> {{localize "arm5e.sheet.pointsShort"}} /
+              <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"
+                style="width: 48px; text-align: center;" />
+            </div>
             <select name="data.realmAlignment" data-type="Number">
               {{#select data.realmAlignment}} {{#each config.realmsExt as |realm key|}}
                   <option value="{{realm.value}}">{{localize realm.label}}</option>
@@ -50,7 +54,8 @@
           </h2>
         {{/if}} {{#if (eq data.charType.value "magusNPC")}}
           <span class="covenantname flexrow" style="padding-top: 4px">
-            <label for="data.house.value" class="bold" style="padding-top: 4px">{{localize "arm5e.sheet.house"}}</label>
+            <label for="data.house.value" class="bold flex0"
+              style="padding-left: 5px; padding-top: 4px; padding-right: 5px;">{{localize "arm5e.sheet.house"}}</label>
             <select name="data.house.value" data-type="String" style="width: 100%">
               {{#select data.house.value}} {{#each config.character.houses as |house key|}}
                   <option value="{{key}}">{{house.label}}</option>
@@ -116,7 +121,7 @@
       <a class="item posRelative" data-tab="arts">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-        {{localize "arm5e.sheet.arts"}}
+        {{localize "arm5e.sheet.powers"}}
       </a>
     {{/if}} {{#if (eq data.charType.value "magusNPC")}}
       <a class="item posRelative" data-tab="arts">
