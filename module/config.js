@@ -1363,6 +1363,19 @@ ARM5E.magic.targets = {
   }
 };
 
+ARM5E.magic.penetration = {
+  arcaneCon: {
+    days: { label: "arm5e.magic.arcaneConnection.days", bonus: 1 },
+    months: { label: "arm5e.magic.arcaneConnection.months", bonus: 2 },
+    decades: { label: "arm5e.magic.arcaneConnection.decades", bonus: 3 },
+    decades: { label: "arm5e.magic.arcaneConnection.indefinitly", bonus: 4 }
+  },
+  sympathy: {
+    low: { label: "arm5e.magic.sympathy.low", bonus: 1 },
+    high: { label: "arm5e.magic.sympathy.high", bonus: 2 }
+  }
+};
+
 ARM5E.item = {};
 
 ARM5E.item.costs = {

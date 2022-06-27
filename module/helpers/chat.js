@@ -1,4 +1,4 @@
-import { log } from "../tools.js";
+import { log, putInFoldableLink } from "../tools.js";
 
 export function addChatListeners(message, html, data) {
   let actor = game.actors.get(data.message.speaker.actor);
@@ -7,30 +7,44 @@ export function addChatListeners(message, html, data) {
     // Actor no longer exists in the world
     return;
   }
+
   const msgTitle = html.find(".message-sender");
   const actorFace = $(
     `<div class="item-image flex01"><img src="${actor.img}" title="${actor.name}" width="30" height="30">`
   );
   msgTitle.prepend(actorFace);
 
+  let actorId = data.message.speaker.actor;
+  const originatorOrGM =
+    game.users.get(game.userId).isGM || game.users.get(game.userId).data.character == actorId;
+  // Hide the details if you are not the GM
+
+  if (originatorOrGM) {
+    html.find(".clickable").click((ev) => {
+      html.find(`.details`).toggle();
+    });
+  } else {
+    html.find(".clickable").remove();
+  }
+
   if (!message.isRoll) return;
+  // old chat messages, ignore them
+  if (data.message.flags.arm5e === undefined || data.message.flags.arm5e.type === undefined) {
+    return;
+  }
   let img = data.message.flags.arm5e?.roll?.img;
   if (img) {
     const chatTitle = html.find(".ars-chat-title");
     const newTitle = $(`<div class="item-image"><img src="${img}" width="30" height="30"></div>`);
     chatTitle.append(newTitle);
   }
-  let actorId = data.message.speaker.actor;
-  if (
-    !(game.users.get(game.userId).isGM || game.users.get(game.userId).data.character == actorId)
-  ) {
+
+  let rollResult = html.find(".dice-total");
+
+  if (!originatorOrGM) {
     return;
   }
 
-  // old chat messages, ignore them
-  if (data.message.flags.arm5e === undefined || data.message.flags.arm5e.type === undefined) {
-    return;
-  }
   // confidence has been used already => no button
   if (
     data.message.flags.arm5e.type === "confidence" &&
@@ -38,10 +52,6 @@ export function addChatListeners(message, html, data) {
   ) {
     return;
   }
-
-  html.find(".clickable").click((ev) => {
-    html.find(`.details`).toggle();
-  });
 
   //   const damageButton = $(
   //     `<button class="dice-total-damage" style="${btnStyling}"><i class="fas fa-user-injured" title="{{localize "arm5e.messages.applyDamage"}}"></i></button>`
@@ -61,7 +71,7 @@ export function addChatListeners(message, html, data) {
   //   btnContainer.append(damageButton);
   btnContainer.append(useConfButton);
 
-  html.find(".dice-total").append(btnContainer);
+  rollResult.append(btnContainer);
 
   // Handle button clicks
   useConfButton.click((ev) => useConfidence(ev));
@@ -86,8 +96,7 @@ async function useConfidence(ev) {
       let usedConf = message.data.flags.arm5e.usedConf + 1 || 1;
       let flavor = message.data.flavor;
       if (usedConf == 1) {
-        flavor +=
-          "<br/> --------------- <br/>" + game.i18n.localize("arm5e.dialog.button.roll") + " : ";
+        flavor += "--------------- <br/>" + game.i18n.localize("arm5e.dialog.button.roll") + " : ";
         if ((message.data.flags.arm5e.botchCheck ?? 0) == 0) {
           flavor += message.roll.dice[0].results[0].result;
         } else {
@@ -255,7 +264,7 @@ async function chatContestOfMagic({
   const messageTotalMagicResistance = `${game.i18n.localize(
     "arm5e.sheet.totalMagicResistance"
   )}: (${magicResistance.total})`;
-  const flavorTotalSpell = `${title} ${messageTotalOfSpell}<br/> ${messageLevelOfSpell}<br/>`;
+  const flavorTotalSpell = `${messageTotalOfSpell}<br/> ${messageLevelOfSpell}<br/>`;
   const flavorTotalPenetration = `${messagePenetration}${messageSpeciality}<br/><b>${messageTotalPenetration}</b><br/>`;
   const flavorTotalMagicResistance = `${messageMight}${messageParma}${messageParmaSpeciality}${messageForm}${messageAura}<br/><b>${messageTotalMagicResistance}</b>`;
 
@@ -308,23 +317,23 @@ async function chatContestOfMagic({
   const content = `<h4 class="dice-total">${flavorForPlayersResult}</h4>`;
   ChatMessage.create({
     content,
-    flavor: flavorForPlayers,
+    flavor: title + putInFoldableLink("arm5e.sheet.label.details", flavorForPlayers),
     speaker: ChatMessage.getSpeaker({
       actorCaster
     })
   });
   if (flavorForPlayers !== flavorForGM) {
-    privateMessage(content, actorCaster, flavorForGM);
+    privateMessage(content, actorCaster, title, flavorForGM);
   }
 }
-async function privateMessage(content, actor, flavor) {
+async function privateMessage(content, actor, title, flavor) {
   // only roll messages can be hidden from roller
 
   let roll = new Roll("0");
 
   let messageData = {
     content: content,
-    flavor: flavor,
+    flavor: title + putInFoldableLink("arm5e.sheet.label.details", flavor),
     speaker: ChatMessage.getSpeaker({
       actor
     }),
@@ -340,4 +349,5 @@ async function privateMessage(content, actor, flavor) {
   };
   await roll.toMessage(messageData, { rollMode: CONST.DICE_ROLL_MODES.BLIND });
 }
+
 export { chatContestOfMagic, chatFailedCasting };

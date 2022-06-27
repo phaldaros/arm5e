@@ -150,8 +150,17 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
         log(false, "Invalid drop");
         return false;
       }
+    } else if (type == "ability") {
+      if (this.actor.hasSkill(itemData.data.key)) {
+        ui.notifications.warn(
+          `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${itemData.name}`
+        );
+      }
     }
     const res = await super._onDropItem(event, data);
+    if (res.length == 1) {
+      res[0].sheet.render(true);
+    }
     return res;
   }
 

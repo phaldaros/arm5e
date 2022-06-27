@@ -46,7 +46,7 @@ export class ArM5eItem extends Item {
 
       // compute mastery score
       if (this.data.type == "spell") {
-        this.data.data.mastery = this.actor._getAbilityScore(this.data.data.xp);
+        this.data.data.mastery = this.actor._getAbilityScoreFromXp(this.data.data.xp);
         this.data.data.experienceNextLevel =
           ((parseInt(this.data.data.mastery) + 1) * (parseInt(this.data.data.mastery) + 2) * 5) /
             2 -

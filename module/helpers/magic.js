@@ -17,67 +17,27 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
   });
 }
 
-function getPenetrationAbilityDetails(actorData) {
-  const penetrationId =
-    actorData.data.data?.laboratory?.abilitiesSelected?.penetration?.abilityID || "";
-  if (penetrationId) {
-    const penetrationAbility = actorData.data.data.abilities.filter(
-      (ability) => ability._id === penetrationId
-    )[0];
-    if (penetrationAbility) {
-      return {
-        score: penetrationAbility.data.score,
-        speciality: penetrationAbility.data.speciality
-      };
-    }
-  }
-  return {
-    score: 0,
-    speciality: ""
-  };
-}
-
-function getParmaAbilityDetails(actorData) {
-  const parmaId = actorData.data.data?.laboratory?.abilitiesSelected?.parma?.abilityID || "";
-  if (parmaId) {
-    const parmaAbility = actorData.data.data.abilities.filter(
-      (ability) => ability._id === parmaId
-    )[0];
-    if (parmaAbility) {
-      return {
-        score: parmaAbility.data.finalScore,
-        specialityIncluded: parmaAbility.data.speciality
-      };
-    }
-  }
-  return {
-    score: 0,
-    specialityIncluded: ""
-  };
-}
-
 function calculatePenetration({ actorCaster, roll, spell }) {
   const levelOfSpell = spell.data.data.level;
   const totalOfSpell = roll._total;
 
-  let penetration = actorCaster.data.data.laboratory.totalPenetration.value;
-  const speciality = getPenetrationAbilityDetails(actorCaster).speciality;
+  const penetration = actorCaster.getAbilityStats("penetration");
   let specialityIncluded = "";
   if (
     CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
-      speciality.toUpperCase() ||
+      penetration.speciality.toUpperCase() ||
     CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
-      speciality.toUpperCase()
+      penetration.speciality.toUpperCase()
   ) {
     penetration += 1;
-    specialityIncluded = speciality;
+    specialityIncluded = penetration.speciality;
   }
   return {
     totalOfSpell,
     levelOfSpell,
-    penetration,
+    penetration: penetration.score,
     specialityIncluded,
-    total: totalOfSpell - levelOfSpell + penetration
+    total: totalOfSpell - levelOfSpell + penetration.score
   };
 }
 
@@ -87,7 +47,7 @@ function calculateResistance(actor, form) {
     Number(actor.data.data?.might?.value) ||
     0;
   let specialityIncluded = "";
-  const parma = getParmaAbilityDetails(actor);
+  const parma = actor.getAbilityStats("parma");
   if (parma.specialityIncluded && parma.specialityIncluded.toUpperCase() === form.toUpperCase()) {
     specialityIncluded = form;
     magicResistance += 5;
@@ -96,8 +56,8 @@ function calculateResistance(actor, form) {
   const arts = actor.data.data?.arts;
   let auraMod = 0;
   // TODO, do a better job for player aligned to a realm
-  if (actor.type == "npc" && actor.data.data.charType.value == "entity") {
-    auraMod = actor.getActiveEffectValue("magic", "aura");
+  if (actor._hasMight()) {
+    auraMod = actor.getActiveEffectValue("spellcasting", "aura");
     magicResistance += parseInt(auraMod);
   }
 
@@ -117,11 +77,6 @@ function calculateResistance(actor, form) {
     parma,
     aura: auraMod
   };
-}
-
-function getFormWithoutPrerequisite(form) {
-  if (!form.includes(" ")) return form;
-  return form.split(" ")[0];
 }
 
 function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {

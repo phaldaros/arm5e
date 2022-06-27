@@ -419,3 +419,13 @@ export function getSystemCompendium(compendiumName) {
   if (pack.length) return pack[0];
   return undefined;
 }
+
+export function putInFoldableLink(label, content, startHidden = true) {
+  let hidden = "";
+  if (startHidden) {
+    hidden = "hidden";
+  }
+  return `<div class="arm5e clickable toggleHidden"><p style="text-align:center">${game.i18n.localize(
+    label
+  )}</p></div><div class="${hidden} details">${content}</div>`;
+}

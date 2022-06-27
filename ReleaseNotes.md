@@ -9,7 +9,14 @@
 - Realm aligned auras
 - Spell will fail if your casting total is too low
 - Fatigue levels will be lost if casting total is too low (rituals too)
-- Aura impacts creatures with might
+- Aura impacts magic resistance of creatures with might
+- Dropping an ability on an actor will open its sheet
+- Dropping an already known ability on a character will raise a warning
+- Redesign of NPC-entity sheet
+- Added might pool in the datamodel.
+- Some cosmetic improvements suggested by Sylph
+- Players will only see the details of their own rolls
+- Most roll chat messages are now in a foldable "details" link
 
 ### Bug fixes
 
@@ -20,6 +27,9 @@
 - Only spells strictly greater than level 50 become rituals (instead of greater or equal)
 - Fixed the combat automation
 - Fixed error message when changing aura value.
+- Tech debt: Cleaned up the Contest of magic feature code using ability key
+- Combat automation was not working with weapons in the macro bar (defaults to attack now)
+- Clarified Soak chat message details.
 
 ## 1.4.3
 

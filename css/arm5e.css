@@ -52,6 +52,11 @@
   --color-shadow-primary: rgb(200, 0, 0);
 }
 
+h4.window-title {
+  font-family: Blackmoor;
+  font-size: 20px;
+}
+
 .arm5e.button {
   font-family: "blackmoor";
   padding: 10px;
@@ -589,9 +594,9 @@ input[type="time"] {
 .arm5e .codex-title {
   text-align: center;
   font-family: "blackmoor";
-  margin-bottom: 6px;
-  font-size: 56px;
-  height: 100px;
+  font-size: 35px;
+  height: 45px;
+  color: #581845;
 }
 
 .arm5e .sheet-header .profile-img {

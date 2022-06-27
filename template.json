@@ -705,7 +705,8 @@
       "might": {
         "label": "Might",
         "dtype": "Number",
-        "value": 0
+        "value": 0,
+        "points": 0
       },
       "powers": []
     },
