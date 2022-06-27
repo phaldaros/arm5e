@@ -205,9 +205,11 @@
         </div>
       </li>
       {{#each data.powers as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+        <li class="item item-value flexrow" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
-            <span class="flexrow item-title width4" name="item.name"> {{item.name}} </span>
+            <span class="flexrow item-title width4 clickable power-use" name="item.name" data-item-id="{{item._id}}"
+              data-cost="{{item.data.cost}}" data-form="{{item.data.form}}" data-name="{{item.name}}"> {{item.name}}
+            </span>
             <span class="bold" name="item.name">
               {{#with (lookup @root.config.magic.forms item.data.form)~}}{{label~}}{{/with}}
             </span>

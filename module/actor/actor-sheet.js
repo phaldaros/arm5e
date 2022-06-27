@@ -12,7 +12,8 @@ import {
   getDataset,
   compareSpellsData,
   compareMagicalEffectsData,
-  hermeticFilter
+  hermeticFilter,
+  putInFoldableLink
 } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
@@ -597,6 +598,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".pick-covenant").click(this._onPickCovenant.bind(this));
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
+    //html.find(".power-use").click(this._onUsePower.bind(this));
     html.find(".voice-and-gestures").change(this._onSelectVoiceAndGestures.bind(this));
     html.find(".addFatigue").click((event) => this.actor._changeFatigueLevel(1));
     html.find(".removeFatigue").click((event) => this.actor._changeFatigueLevel(-1));
@@ -696,7 +698,6 @@ export class ArM5eActorSheet extends ActorSheet {
   async _onPickCovenant(event) {
     event.preventDefault();
     const element = event.currentTarget;
-    log("false", this.actor.data);
     var actor = this.actor;
     let template = "systems/arm5e/templates/generic/simpleListPicker.html";
     renderTemplate(template, this.actor).then(function (html) {
@@ -734,8 +735,6 @@ export class ArM5eActorSheet extends ActorSheet {
       modifier: 0
     };
 
-    const element = event.currentTarget;
-    log("false", this.actor.data);
     var actor = this.actor;
 
     const data = {
@@ -777,8 +776,56 @@ export class ArM5eActorSheet extends ActorSheet {
     await modifyVoiceOrGesturesActiveEvent(this, name, $(event.target).val());
   }
 
-  async _onCalculateDamage(html, actor) {
+  async _onUsePower(event) {
     event.preventDefault();
+    const dataset = getDataset(event);
+
+    if (Number(dataset.cost > this.actor.data.data.might.value)) {
+      ui.notifications.warn(game.i18n.localize("arm5e.notification.noMightPoints"));
+      return;
+    }
+
+    const data = {
+      penetration: this.actor.getAbilityStats("penetration"),
+      cost: Number(dataset.cost) * 5,
+      might: Number(this.actor.data.data.might.value),
+      aura: Number(this.actor.getActiveEffectValue("spellcasting", "aura")),
+      form: dataset.form,
+      name: dataset.name,
+      modifier: 0
+    };
+    data.penetration.specApply = false;
+    data.total = data.penetration.score - data.cost + data.might + data.aura;
+    let template = "systems/arm5e/templates/actor/parts/actor-powerUse.html";
+    renderTemplate(template, data).then(function (html) {
+      new Dialog(
+        {
+          title: game.i18n.localize("arm5e.dialog.powerUse"),
+          content: html,
+          buttons: {
+            yes: {
+              icon: "<i class='fas fa-check'></i>",
+              label: `Yes`,
+              callback: null //(html) => calculateDamage(html, actor)
+            },
+            no: {
+              icon: "<i class='fas fa-ban'></i>",
+              label: `Cancel`,
+              callback: null
+            }
+          }
+        },
+        {
+          jQuery: true,
+          height: "140px",
+          width: "400px",
+          classes: ["arm5e-dialog", "dialog"]
+        }
+      ).render(true);
+    });
+  }
+
+  async _onCalculateDamage(html, actor) {
     const lastAttackMessage = getLastMessageByHeader(game, "arm5e.sheet.attack");
     const lastDefenseMessage = getLastMessageByHeader(game, "arm5e.sheet.defense");
     const attack = parseInt(lastAttackMessage?.data?.content || "0");
@@ -790,8 +837,6 @@ export class ArM5eActorSheet extends ActorSheet {
       modifier: 0
     };
 
-    const element = event.currentTarget;
-    log("false", this.actor.data);
     var actor = this.actor;
 
     const data = {
@@ -983,12 +1028,12 @@ export async function setCovenant(selector, actor) {
 }
 
 export async function setWounds(selector, actor) {
-  const damageToApply = parseInt(selector.find('input[name$="damage"]').val());
+  const damage = parseInt(selector.find('input[name$="damage"]').val());
   const modifier = parseInt(selector.find('input[name$="modifier"]').val());
   const prot = parseInt(selector.find('label[name$="prot"]').attr("value") || 0);
   const bonus = parseInt(selector.find('label[name$="soak"]').attr("value") || 0);
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
-  const damage = damageToApply - modifier - prot - stamina - bonus;
+  const damageToApply = damage - modifier - prot - stamina - bonus;
   const size = actor?.data?.data?.vitals?.siz?.value || 0;
   const typeOfWound = calculateWound(damage, size);
   if (typeOfWound === false) {
@@ -1010,15 +1055,18 @@ export async function setWounds(selector, actor) {
   if (modifier) {
     messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
   }
+
+  const messageTotal = `${game.i18n.localize("arm5e.sheet.totalDamage")} = ${damageToApply}`;
   const messageWound = typeOfWound
     ? game.i18n.format("arm5e.messages.woundResult", {
         typeWound: game.i18n.localize("arm5e.messages.wound." + typeOfWound.toLowerCase())
       })
     : game.i18n.localize("arm5e.messages.noWound");
 
+  const details = ` ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageBonus}${messageModifier}<b>${messageTotal}</b>`;
   ChatMessage.create({
     content: `<h4 class="dice-total">${messageWound}</h4>`,
-    flavor: `${title} ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageBonus}${messageModifier}`,
+    flavor: title + putInFoldableLink("arm5e.sheet.label.details", details),
     speaker: ChatMessage.getSpeaker({
       actor
     })
@@ -1052,10 +1100,12 @@ export async function calculateDamage(selector, actor) {
   const messageWeapon = `${game.i18n.localize("arm5e.sheet.damage")} (${weapon})`;
   const messageAdvantage = `${game.i18n.localize("arm5e.sheet.advantage")} (${advantage})`;
   const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
+
+  const details = ` ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`;
   const messageDamage = `<h4 class="dice-total">${damage}</h4>`;
   ChatMessage.create({
     content: messageDamage,
-    flavor: `${title} ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`,
+    flavor: title + putInFoldableLink("arm5e.sheet.label.details", details),
     speaker: ChatMessage.getSpeaker({
       actor
     })

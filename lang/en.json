@@ -119,6 +119,7 @@
   "arm5e.sheet.silver": "Silver",
   "arm5e.sheet.gold": "Gold",
   "arm5e.sheet.apprentice": "Apprentice",
+  "arm5e.sheet.totalDamage": "Damage applied",
 
   "arm5e.sheet.penetration": "Penetration",
   "arm5e.sheet.years": "Years",
@@ -593,6 +594,15 @@
   "arm5e.spell.targets.baseSize.me": "A mind is a mind, no size",
   "arm5e.spell.targets.baseSize.te": "Depend on material, from 10 cubic paces (sand, dirt) to 1 cubic inch (gem)",
   "arm5e.spell.targets.baseSize.vi": "A spell or depend on the effect",
+
+  "arm5e.magic.arcaneConnection.days": "Last hours or days",
+  "arm5e.magic.arcaneConnection.months": "Last weeks or months",
+  "arm5e.magic.arcaneConnection.decades": "Last years or decades",
+  "arm5e.magic.arcaneConnection.indefinitly": "Indefinitely",
+
+  "arm5e.magic.sympathy.low": "Signature, non-baptismal name, today horoscope,...",
+  "arm5e.magic.sympathy.high": "Nativity horoscope, symbolic representation,...",
+
   "arm5e.sheet.base-effects": "Base effects",
   "arm5e.sheet.magical-effects": "Magical effects",
   "arm5e.sheet.enchantments": "Enchantments",
@@ -689,6 +699,7 @@
   "arm5e.dialog.button.exertSelf": "Exert self",
   "arm5e.dialog.woundCalculator": "Wound calculator",
   "arm5e.dialog.damageCalculator": "Damage calculator",
+  "arm5e.dialog.powerUse": "Use power",
   "arm5e.dialog.hint.abilityOption": "Only alphanumeric characters.",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
@@ -702,6 +713,8 @@
   "arm5e.notification.notPossibleToCalculateWound": "We cannot calculate the wound (check the size of your actor)",
   "arm5e.notification.noConfidencePointsLeft": "{name} has no confidence point left",
   "arm5e.notification.roll.botchNum": "Please enter the number of botch dice.",
+  "arm5e.notification.doubleAbility": "That character already have the ability",
+  "arm5e.notification.noMightPoints": "Not enough points remaining in might pool.",
 
   "arm5e.packs.abilities.name": "Abilities",
 

@@ -25,6 +25,7 @@ function getDatasetForWeapon(item) {
   }
   return {
     roll: "combat",
+    name: game.i18n.localize("arm5e.sheet.attack"),
     option1: item.actor.data.data.characteristics.dex.value,
     txtoption1: game.i18n.localize("arm5e.sheet.dexterity"),
     option2: item.actor.data.data.combat.ability,

@@ -1191,6 +1191,19 @@ export class ArM5ePCActor extends Actor {
     await this.update(updateData, {});
   }
 
+  async loseMightPoints(num) {
+    if (!this._isCharacter()) {
+      return;
+    }
+    if (num > this.data.data.might.points) {
+      ui.notifications.warn("Spending more might points than available");
+      return;
+    }
+    let updateData = {};
+    updateData["data.might.points"] = Number(this.data.data.might.points) - num;
+    await this.update(updateData, {});
+  }
+
   // set the proper default icon just before creation
   async _preCreate(data, options, userId) {
     await super._preCreate(data, options, userId);
@@ -1332,7 +1345,7 @@ export class ArM5ePCActor extends Actor {
     }
   }
 
-  // TODO improve
+  // TODO improve: what should happen if more that one effect is returned?
   getActiveEffectValue(type, subtype) {
     const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(this.data.effects, subtype);
     if (ae) {

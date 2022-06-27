@@ -14,6 +14,9 @@
 - Dropping an already known ability on a character will raise a warning
 - Redesign of NPC-entity sheet
 - Added might pool in the datamodel.
+- Some cosmetic improvements suggested by Sylph
+- Players will only see the details of their own rolls
+- Most roll chat messages are now in a foldable "details" link
 
 ### Bug fixes
 
@@ -25,6 +28,8 @@
 - Fixed the combat automation
 - Fixed error message when changing aura value.
 - Tech debt: Cleaned up the Contest of magic feature code using ability key
+- Combat automation was not working with weapons in the macro bar (defaults to attack now)
+- Clarified Soak chat message details.
 
 ## 1.4.3
 

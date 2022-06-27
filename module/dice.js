@@ -1,5 +1,5 @@
 import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
-import { log } from "./tools.js";
+import { log, putInFoldableLink } from "./tools.js";
 let mult = 1;
 
 async function simpleDie(html, actor, type = "DEFAULT", callBack) {
@@ -8,11 +8,13 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
 
   //console.log('simple die');
   //console.log(actorData);
-  let rollLabel = `<div class="arm5e clickable toggleHidden"><p style="text-align:center">${game.i18n.localize(
-    "arm5e.sheet.label.details"
-  )}</p></div><div class="hidden details">${actor.data.data.roll.rollLabel}</div>`;
+  let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.simpledie")}:</p>`;
+  let rollLabel = putInFoldableLink(
+    "arm5e.sheet.label.details",
+    flavorTxt + actor.data.data.roll.rollLabel
+  );
   let conf = actor.data.data.con.score;
-  let flavorTxt = $(`<p>${game.i18n.localize("arm5e.dialog.button.simpledie")}:</p>`);
+
   if ((getRollTypeProperties(type).MODE & ROLL_MODES.NO_CONF) != 0) {
     conf = 0;
   }
@@ -30,19 +32,24 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
   if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE) {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
+  const flags = {
+    arm5e: {
+      roll: { type: type, img: actor.data.data.roll.img, name: actor.data.data.roll.name },
+      type: "confidence",
+      confScore: conf,
+      secondaryScore: null
+    }
+  };
+
+  // TODO: HERE Do the callback for before message creation
+
   const message = await tmp.toMessage(
     {
       speaker: ChatMessage.getSpeaker({
         actor: actor
       }),
-      flavor: chatTitle + flavorTxt.html() + rollLabel,
-      flags: {
-        arm5e: {
-          roll: { type: type, img: actor.data.data.roll.img, name: actor.data.data.roll.name },
-          type: "confidence",
-          confScore: conf
-        }
-      }
+      flavor: chatTitle + rollLabel,
+      flags: flags
     },
     { rollMode: rollMode }
   );
@@ -62,12 +69,17 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
   let formula = actor.data.data.roll.rollFormula;
-  let rollLabel = `<div class="arm5e clickable toggleHidden"><p style="text-align:center">${game.i18n.localize(
-    "arm5e.sheet.label.details"
-  )}</p></div><div class="hidden details">${actor.data.data.roll.rollLabel}</div>`;
+  // let rollLabel = `<div class="arm5e clickable toggleHidden"><p style="text-align:center">${game.i18n.localize(
+  //   "arm5e.sheet.label.details"
+  // )}</p></div><div class="hidden details">${actor.data.data.roll.rollLabel}</div>`;
+  let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`;
+  let rollLabel = putInFoldableLink(
+    "arm5e.sheet.label.details",
+    flavorTxt + actor.data.data.roll.rollLabel
+  );
   let chatTitle = `<h2 class="ars-chat-title">${actor.data.data.roll.label} </h2>`;
   let dieRoll = await explodingRoll(actor, modes);
-  let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`;
+
   let lastRoll;
   let confAllowed = actor.data.data.con.score;
 
@@ -103,7 +115,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
 
   const message = await lastRoll.toMessage(
     {
-      flavor: chatTitle + flavorTxt + rollLabel,
+      flavor: chatTitle + rollLabel,
       speaker: ChatMessage.getSpeaker({
         actor: actor
       }),
@@ -114,7 +126,8 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
           type: "confidence",
           divide: actor.data.data.roll.divide,
           confScore: confAllowed,
-          botchCheck: botchCheck
+          botchCheck: botchCheck,
+          secondaryScore: 0
         }
       }
     },

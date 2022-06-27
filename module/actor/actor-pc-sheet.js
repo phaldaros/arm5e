@@ -152,7 +152,9 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       }
     } else if (type == "ability") {
       if (this.actor.hasSkill(itemData.data.key)) {
-        ui.notifications.warn(`That character already have the ability: ${itemData.name}`);
+        ui.notifications.warn(
+          `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${itemData.name}`
+        );
       }
     }
     const res = await super._onDropItem(event, data);
