@@ -68,7 +68,8 @@ function getRollTypeProperties(type) {
   return ROLL_PROPERTIES[type.toUpperCase()] ?? ROLL_PROPERTIES.DEFAULT;
 }
 
-function prepareRollVariables(dataset, actorData, activeEffects) {
+function prepareRollVariables(dataset, actor) {
+  const actorData = actor.data;
   if (dataset.roll) {
     if (actorData.data.roll == undefined) actorData.data.roll = {};
     // clean roll data
@@ -113,6 +114,7 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
     actorData.data.roll.option5 = 0;
     actorData.data.roll.txtOption5 = "";
     actorData.data.roll.bonusActiveEffects = 0;
+    actorData.data.roll.hasAuraBonus = false;
 
     // set data to roll
     if (dataset.roll) {
@@ -138,6 +140,11 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
         actorData.data.roll.name = ab.name;
       }
     } else if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
+      actorData.data.roll.penetration = {
+        multiplier: 1,
+        score: 0,
+        speciality: ""
+      };
       if (dataset.id) {
         actorData.data.roll.effectId = dataset.id;
         // TODO: perf: get it from spells array?
@@ -173,18 +180,10 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
           actorData.data.roll.formText = ARM5E.magic.forms[dataset.mform].label;
         }
       }
-      // if (dataset.focus) {
-      //     if ((dataset.focus) == "false") {
-      //         actorData.data.roll.focus = false;
-      //     } else if ((dataset.focus) == "true") {
-      //         actorData.data.roll.focus = true;
-      //     } else {
-      //         actorData.data.roll.focus = dataset.ritual;
-      //     }
-      // }
 
       if (dataset.bonusActiveEffects) {
         actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
+        const activeEffects = actor.effects;
         const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
           activeEffects,
           "spellcasting"
@@ -192,6 +191,9 @@ function prepareRollVariables(dataset, actorData, activeEffects) {
         actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
           const label = activeEffect.data.label;
           let value = 0;
+          if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
+            actorData.data.roll.hasAuraBonus = true;
+          }
           activeEffect.data.changes
             .filter((c, idx) => {
               return (

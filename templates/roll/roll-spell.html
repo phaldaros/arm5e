@@ -16,24 +16,23 @@
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
-      <input
-        type="text"
-        name="data.roll.modifier"
-        value="{{data.roll.modifier}}"
-        data-dtype="Number"
-        class="SelectedModifier"
-      />
+      {{numberInput data.roll.modifier min=1 step=1 name="data.roll.modifier" class="SelectedYear"}}
+      <!-- <input type="number" name="data.roll.modifier" value="{{data.roll.modifier}}" data-dtype="Number"
+        class="SelectedModifier" /> -->
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">{{localize "arm5e.sheet.levelAura"}}</label>
-      <input type="text" name="data.roll.aura" value="{{data.roll.aura}}" data-dtype="Number" class="SelectedAura" />
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
+    {{#unless data.roll.hasAuraBonus}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{localize "arm5e.sheet.levelAura"}}</label>
+        <input type="number" name="data.roll.aura" value="{{data.roll.aura}}" data-dtype="Number"
+          class="SelectedAura" />
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+    {{/unless}}
     <div class="resource">
       <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
       <input type="checkbox" name="data.applyFocus" {{checked data.roll.focus}} class="SelectedFocus" />
@@ -42,25 +41,22 @@
       <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label"
-        >{{ localize data.charmetadata.sta.label }} ({{ data.characteristics.sta.value }})</label
-      >
+      <label class="resource-label">{{ localize data.charmetadata.sta.label }} ({{ data.characteristics.sta.value
+        }})</label>
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
     {{#if (eq data.roll.ritual true)}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label"
-        >{{localize data.config.character.magicAbilities.artesLib }} ({{
-        data.laboratory.abilitiesSelected.artesLib.value }}) + {{localize
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{localize data.config.character.magicAbilities.artesLib }} ({{
+          data.laboratory.abilitiesSelected.artesLib.value }}) + {{localize
         data.config.character.magicAbilities.philosophy }} ({{ data.laboratory.abilitiesSelected.philosophy.value
-        }})</label
-      >
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
+          }})</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
     {{/if}}
     <div class="flexrow flex-group-center">
       <label class="resource-label">Bonus ({{ data.roll.bonus }})</label>
@@ -69,18 +65,18 @@
       <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label clickable toggleHidden" data-hidden="activeEffects"
-        >{{localize "arm5.sheet.bonus.activeEffects"}} ({{ data.roll.bonusActiveEffects }})</label
-      >
+      <label class="resource-label clickable toggleHidden"
+        data-hidden="activeEffects">{{localize "arm5.sheet.bonus.activeEffects"}} ({{ data.roll.bonusActiveEffects
+        }})</label>
     </div>
     <div class="hidden activeEffects">
       {{#each data.roll.activeEffects as |item id|}}
-      <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
-      </div>
-      <div class="flexrow flex-group-center">
-        <label class="resource-label">{{ item.label }} {{ item.value }}</label>
-      </div>
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+</label>
+        </div>
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">{{ item.label }} {{ item.value }}</label>
+        </div>
       {{/each}}
     </div>
     <div class="flexrow flex-group-center">

@@ -951,7 +951,7 @@ export class ArM5eActorSheet extends ActorSheet {
       }
     }
 
-    prepareRollVariables(dataset, this.actor.data, this.actor.effects);
+    prepareRollVariables(dataset, this.actor);
     prepareRollFields(dataset, this.actor.data);
     cleanBooleans(dataset, this.actor.data);
 
