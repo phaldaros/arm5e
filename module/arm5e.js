@@ -464,9 +464,14 @@ async function resetTokenAuraToSceneAura() {
 function onDropOnCanvas(canvas, data) {
   const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
   const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed.data._id);
-  if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
-    const actor = game.actors.get(data.id);
-    if (actor) addActiveEffectAuraToActor(actor, Number(aura), Number(type));
+  const actor = game.actors.get(data.id);
+  if (actor) {
+    if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
+      addActiveEffectAuraToActor(actor, Number(aura), Number(type));
+    } else {
+      // reset aura for actor, if it was in another scene.
+      clearAuraFromActor(token.actor);
+    }
   }
 }
 

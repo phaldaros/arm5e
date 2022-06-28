@@ -30,6 +30,8 @@
 - Tech debt: Cleaned up the Contest of magic feature code using ability key
 - Combat automation was not working with weapons in the macro bar (defaults to attack now)
 - Clarified Soak chat message details.
+- Linked actors which are dropped in multiple scenes with aura only get the modifier of the last one.
+- Aura modifier field won't appear in roll window if you already have an aura effect on going
 
 ## 1.4.3
 

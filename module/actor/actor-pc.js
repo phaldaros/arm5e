@@ -1348,7 +1348,7 @@ export class ArM5ePCActor extends Actor {
   // TODO improve: what should happen if more that one effect is returned?
   getActiveEffectValue(type, subtype) {
     const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(this.data.effects, subtype);
-    if (ae) {
+    if (ae.length) {
       log(false, ae);
       return ae[0].data.changes[0].value;
     }
