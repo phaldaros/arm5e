@@ -16,6 +16,8 @@ Thanks to various contributors at https://game-icons.net for some default icons
 
 ![Latest Release Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/latest/arm5e.zip)
 
+![Release 1.4.3 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.3/arm5e.zip)
+
 ![Release 1.4.2 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.2/arm5e.zip)
 
 ![Release 1.4.1 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.1/arm5e.zip)
