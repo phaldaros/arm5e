@@ -1035,7 +1035,7 @@ export async function setWounds(selector, actor) {
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
   const damageToApply = damage - modifier - prot - stamina - bonus;
   const size = actor?.data?.data?.vitals?.siz?.value || 0;
-  const typeOfWound = calculateWound(damage, size);
+  const typeOfWound = calculateWound(damageToApply, size);
   if (typeOfWound === false) {
     ui.notifications.info(game.i18n.localize("arm5e.notification.notPossibleToCalculateWound"), {
       permanent: true
