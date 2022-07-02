@@ -42,10 +42,14 @@ async function addEffect(actor, activeEffectData) {
     activeEffectData._id = ae.data._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }
+  log(false, `Add aura for ${actor.name}`);
   return await actor.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
 }
 
-async function modifyAuraActiveEffectForAllTokensInScene(value, type) {
+async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
+  if (!scene.active) {
+    return;
+  }
   const activeEffectData = getAuraActiveEffect(value);
 
   const tokens = canvas.tokens.placeables.filter((token) => token.actor);
@@ -55,12 +59,10 @@ async function modifyAuraActiveEffectForAllTokensInScene(value, type) {
       // patch the active effect data
       activeEffectData.changes[0].value = modifier;
       await addEffect(token.actor, activeEffectData);
+    } else {
+      log(false, `Change aura for ${token.name}`);
+      addEffect(token.actor, activeEffectData);
     }
-    // else {
-    //   // not used yet, due to filter above
-    //   log(false, `Change aura for ${token.name}`);
-    //   addEffect(token.document, activeEffectData);
-    // }
   }
 }
 

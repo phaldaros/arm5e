@@ -1,0 +1,65 @@
+<div class="flexrow flex-group-center">
+    <label class="resource-label clickable toggleHidden"
+        data-hidden="penetration">{{localize "arm5e.sheet.penetrationOptions"}}</label>
+</div>
+<div class="hidden penetration">
+    <div class="flexrow flex-group-center">
+        <label class="resource-label">***</label>
+    </div>
+    {{#unless (eq data.roll.penetration.score 0) }}
+        <div class="flexrow flex-group-center sub">
+            <label class="resource-label">{{localize "arm5e.sheet.penetration" }} ({{
+                numberFormat
+                data.roll.penetration.score decimals=0
+                sign=true }})
+            </label>
+        </div>
+        <div class="flexrow flex-group-center sub">
+            <label class="resource-label">{{localize "arm5e.sheet.speciality"}}
+                ({{data.roll.penetration.speciality}})</label>
+            <input type="checkbox" class="penSpeciality" name="penetration.specApply" {{checked data.roll.specApply}} />
+        </div>
+    {{/unless}}
+    {{#if (eq data.roll.type "spell")}}
+        <div class="flexrow flex-group-center sub">
+            <label class="resource-label">+</label>
+        </div>
+        <div class="flexrow flex-group-center sub">
+            <label class="resource-label">{{localize "arm5e.spell.masteries.penetration"}}</label>
+            <input type="checkbox" class="spellMastery" name="penetration.spellMastery" {{checked
+                data.roll.spellMastery}} />
+        </div>
+    {{/if}}
+    <div class="flexrow flex-group-center sub">
+        <label class="resource-label">*</label>
+    </div>
+    <div class="flexrow flex-group-center sub">
+        <label class="resource-label">{{ localize "arm5e.generic.multipliers"}}</label>
+    </div>
+    <div class="flexrow flex-group-center sub">
+        <label class="resource-label">{{localize "arm5e.sheet.penetrationBonusArcanic"}}</label>
+        <select name="data.roll.penetration.multiplierBonusArcanic" data-type="number" class="multiplierBonusArcanic">
+            {{#select data.roll.penetration.multiplierBonusArcanic}}
+                <option value=0>{{localize "arm5e.generic.none"}} (0)</option>
+                {{#each data.roll.penetration.config.arcaneCon as |item key|}}
+                    <option value="{{item.bonus}}">{{ localize item.label }} (+{{ item.bonus }})</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+    <div class="flexrow flex-group-center sub">
+        <label class="resource-label">+</label>
+    </div>
+    <div class="flexrow flex-group-center sub">
+        <label class="resource-label">{{localize "arm5e.sheet.penetrationBonusSympathic"}}</label>
+        <select name="data.roll.penetration.multiplierBonusSympathic" data-type="number"
+            class="multiplierBonusSympathic">
+            {{#select data.roll.penetration.multiplierBonusSympathic}}
+                <option value=0>{{localize "arm5e.generic.none"}} (0)</option>
+                {{#each data.roll.penetration.config.sympathy as |item key|}}
+                    <option value="{{item.bonus}}">{{ localize item.label }} (+{{ item.bonus }})</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</div>

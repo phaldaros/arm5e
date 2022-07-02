@@ -55,6 +55,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     // Rolls partials
     "systems/arm5e/templates/roll/parts/roll-header.html",
     "systems/arm5e/templates/roll/parts/roll-footer.html",
+    "systems/arm5e/templates/roll/parts/penetration-options.html",
     // generic partials
     "systems/arm5e/templates/generic/simpleListPicker.html",
     "systems/arm5e/templates/generic/textInput.html",

@@ -754,6 +754,7 @@ export class ArM5ePCActor extends Actor {
     };
     rollData.config.character.magicAbilities = CONFIG.ARM5E.character.magicAbilities;
     rollData.config.magic.arts = ARM5E.magic.arts;
+    rollData.config.magic.penetration = ARM5E.magic.penetration;
     return rollData;
   }
 

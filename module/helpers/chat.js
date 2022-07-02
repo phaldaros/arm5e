@@ -39,10 +39,14 @@ export function addChatListeners(message, html, data) {
     chatTitle.append(newTitle);
   }
 
-  let rollResult = html.find(".dice-total");
-
   if (!originatorOrGM) {
     return;
+  }
+
+  let rollResult = html.find(".dice-total");
+  if (data.message.flags.arm5e.secondaryScore) {
+    let newValue = data.message.flags.arm5e.secondaryScore + Number(message._roll.total);
+    rollResult.text(rollResult.text() + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `);
   }
 
   // confidence has been used already => no button
