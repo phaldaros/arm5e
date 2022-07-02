@@ -11,7 +11,7 @@ export class ArM5eScene extends Scene {
    * @protected
    */
   _onActivate(active) {
-    log(false, `Scene activated: ${this.name}`);
+    log(false, `AURA_MANAGEMENT Scene activated: ${this.name}`);
     super._onActivate(active);
 
     if (active) {
