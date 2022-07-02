@@ -38,11 +38,17 @@ function getAuraActiveEffect(numericValue) {
 async function addEffect(actor, activeEffectData) {
   const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.data.effects, "aura")[0];
   if (ae) {
-    log(false, `Change aura for ${actor.name}, effect ID: ${ae.data._id}`);
+    log(
+      false,
+      `AURA_MANAGEMENT Change aura for ${actor.name}, Aura impact: ${activeEffectData.changes[0].value}`
+    );
     activeEffectData._id = ae.data._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }
-  log(false, `Add aura for ${actor.name}`);
+  log(
+    false,
+    `AURA_MANAGEMENT Add aura for ${actor.name}, Aura impact: ${activeEffectData.changes[0].value}`
+  );
   return await actor.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
 }
 
@@ -52,16 +58,21 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
   }
   const activeEffectData = getAuraActiveEffect(value);
 
-  const tokens = canvas.tokens.placeables.filter((token) => token.actor);
+  const tokens = scene.tokens.filter((token) => token.actor);
   for (const token of tokens) {
-    if (token.document.isLinked) {
-      const modifier = computeAuraModifier(token.actor.data.data.realmAlignment, value, type);
-      // patch the active effect data
-      activeEffectData.changes[0].value = modifier;
-      await addEffect(token.actor, activeEffectData);
-    } else {
-      log(false, `Change aura for ${token.name}`);
-      addEffect(token.actor, activeEffectData);
+    if (token.actor._isCharacter()) {
+      if (token.isLinked) {
+        const modifier = computeAuraModifier(token.actor.data.data.realmAlignment, value, type);
+        // patch the active effect data
+        activeEffectData.changes[0].value = modifier;
+        await addEffect(token.actor, activeEffectData);
+      } else {
+        const modifier = computeAuraModifier(token.actor.data.data.realmAlignment, value, type);
+        // patch the active effect data
+        activeEffectData.changes[0].value = modifier;
+        log(false, `Change aura for ${token.name}`);
+        await addEffect(token.actor, activeEffectData);
+      }
     }
   }
 }
@@ -77,7 +88,7 @@ async function addActiveEffectAuraToActor(actor, value, type) {
 async function clearAuraFromActor(actor) {
   const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.data.effects, "aura");
   for (const e of effects) {
-    log(false, e);
+    log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);
     actor.deleteEmbeddedDocuments("ActiveEffect", [e.id]);
   }
 }
@@ -86,17 +97,17 @@ function computeAuraModifier(alignment, auraVal, type) {
   const realm = CONFIG.ARM5E.lookupRealm[parseInt(type)];
   const char = CONFIG.ARM5E.lookupRealm[parseInt(alignment)];
   const multiplier = CONFIG.ARM5E.realmsExt[realm].influence[parseInt(alignment)];
-  // log(
-  //   false,
-  //   "Computed aura :" +
-  //     char +
-  //     ", Aura: " +
-  //     auraVal +
-  //     " of type " +
-  //     realm +
-  //     " = " +
-  //     auraVal * multiplier
-  // );
+  log(
+    false,
+    "Computed aura :" +
+      char +
+      ", Aura: " +
+      auraVal +
+      " of type " +
+      realm +
+      " = " +
+      auraVal * multiplier
+  );
   return auraVal * multiplier;
 }
 
