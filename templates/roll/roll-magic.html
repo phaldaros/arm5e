@@ -73,18 +73,23 @@
       <label class="resource-label">{{localize data.charmetadata.sta.label }} ({{ data.characteristics.sta.value
         }})</label>
     </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">{{localize "arm5e.sheet.wounds"}} ({{ data.woundsTotal }})</label>
-    </div>
+    {{#unless (eq data.fatigueTotal 0) }}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label>
+      </div>
+    {{/unless}}
+    {{#unless (eq data.woundsTotal 0) }}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{localize "arm5e.sheet.wounds"}} ({{ data.woundsTotal }})</label>
+      </div>
+    {{/unless}}
+    {{> "systems/arm5e/templates/roll/parts/penetration-options.html" data=data}}
   </div>
   {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Rolls"}}
 </form>

@@ -17,6 +17,12 @@
 - Some cosmetic improvements suggested by Sylph
 - Players will only see the details of their own rolls
 - Most roll chat messages are now in a foldable "details" link
+- More compact footers for actor sheets (by Sylph)
+- Penetration computation of spells and magical effects
+- Magic effect casting will fail if the level is not reached
+- Update of Spanish translation (by Teotimus)
+- Aura now impact unlinked tokens
+- Aura of a scene is applied to token on scene activation or if scene is active
 
 ### Bug fixes
 
@@ -32,6 +38,8 @@
 - Clarified Soak chat message details.
 - Linked actors which are dropped in multiple scenes with aura only get the modifier of the last one.
 - Aura modifier field won't appear in roll window if you already have an aura effect on going
+- Fatigue and wounds penalties only appear in roll dialog if they are non zero
+- Modifier for spell casting is again taken into account
 
 ## 1.4.3
 

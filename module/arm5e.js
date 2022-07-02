@@ -14,6 +14,7 @@ import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 import { ArM5eItemDiarySheet } from "./item/item-diary-sheet.js";
 import ArM5eActiveEffect from "./helpers/active-effects.js";
 
+import { ArM5eScene } from "./ui/ars-scene.js";
 import { prepareDatasetByTypeOfItem } from "./helpers/items.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
@@ -140,17 +141,6 @@ Hooks.once("init", async function () {
     group: "primary"
   };
 
-  /**
-   * Whether to sort lists of stuff
-   */
-  // game.settings.register("arm5e", "sortItems", {
-  //     name: "Sort lists of item",
-  //     scope: "world",
-  //     config: true,
-  //     type: Boolean,
-  //     default: false
-  // });
-
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
 
@@ -160,6 +150,7 @@ Hooks.once("init", async function () {
   CONFIG.Actor.documentClass = ArM5ePCActor;
   CONFIG.Item.documentClass = ArM5eItem;
   CONFIG.ActiveEffect.documentClass = ArM5eActiveEffect;
+  CONFIG.Scene.documentClass = ArM5eScene;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -446,7 +437,7 @@ async function setAuraValueForAllTokensInScene(value, type) {
   // Store a flag with the current aura
   game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed.data._id, Number(value));
   game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed.data._id, Number(type));
-  modifyAuraActiveEffectForAllTokensInScene(value, type);
+  modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
 }
 
 function setAuraValueForToken(value, type) {
@@ -462,6 +453,9 @@ async function resetTokenAuraToSceneAura() {
 }
 
 function onDropOnCanvas(canvas, data) {
+  if (!canvas.scene.active) {
+    return;
+  }
   const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
   const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed.data._id);
   const actor = game.actors.get(data.id);

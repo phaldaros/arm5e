@@ -122,6 +122,10 @@
   "arm5e.sheet.totalDamage": "Damage applied",
 
   "arm5e.sheet.penetration": "Penetration",
+  "arm5e.sheet.penetrationOptions": "Penetration options",
+  "arm5e.sheet.penetrationBonusArcanic": "Arcane link",
+  "arm5e.sheet.penetrationBonusSympathic": "Sympathic link",
+
   "arm5e.sheet.years": "Years",
 
   "arm5e.sheet.magus": "Magus",
@@ -595,13 +599,18 @@
   "arm5e.spell.targets.baseSize.te": "Depend on material, from 10 cubic paces (sand, dirt) to 1 cubic inch (gem)",
   "arm5e.spell.targets.baseSize.vi": "A spell or depend on the effect",
 
+  "arm5e.spell.masteries.penetration": "Penetration mastery",
+
   "arm5e.magic.arcaneConnection.days": "Last hours or days",
   "arm5e.magic.arcaneConnection.months": "Last weeks or months",
   "arm5e.magic.arcaneConnection.decades": "Last years or decades",
   "arm5e.magic.arcaneConnection.indefinitly": "Indefinitely",
 
-  "arm5e.magic.sympathy.low": "Signature, non-baptismal name, today horoscope,...",
-  "arm5e.magic.sympathy.high": "Nativity horoscope, symbolic representation,...",
+  "arm5e.magic.sympathy.weak": "Weak link",
+  "arm5e.magic.sympathy.strong": "Strong link",
+
+  "arm5e.magic.sympathy.weakHint": "Signature, non-baptismal name, today horoscope,...",
+  "arm5e.magic.sympathy.strongHint": "Nativity horoscope, symbolic representation,...",
 
   "arm5e.sheet.base-effects": "Base effects",
   "arm5e.sheet.magical-effects": "Magical effects",
@@ -876,5 +885,7 @@
   "arm5e.activity.teaching": "Teaching",
   "arm5e.activity.aging": "Aging",
 
-  "arm5e.sheet.label.details": "Details"
+  "arm5e.sheet.label.details": "Details",
+  "arm5e.generic.none": "None",
+  "arm5e.generic.multipliers": "Multipliers"
 }

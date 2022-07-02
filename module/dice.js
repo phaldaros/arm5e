@@ -37,7 +37,7 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
       roll: { type: type, img: actor.data.data.roll.img, name: actor.data.data.roll.name },
       type: "confidence",
       confScore: conf,
-      secondaryScore: null
+      secondaryScore: actor.data.data.roll.secondaryScore
     }
   };
 
@@ -69,9 +69,6 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
   let formula = actor.data.data.roll.rollFormula;
-  // let rollLabel = `<div class="arm5e clickable toggleHidden"><p style="text-align:center">${game.i18n.localize(
-  //   "arm5e.sheet.label.details"
-  // )}</p></div><div class="hidden details">${actor.data.data.roll.rollLabel}</div>`;
   let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`;
   let rollLabel = putInFoldableLink(
     "arm5e.sheet.label.details",
@@ -110,9 +107,6 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
 
-  if (actor.data.data.roll.difficulty) {
-  }
-
   const message = await lastRoll.toMessage(
     {
       flavor: chatTitle + rollLabel,
@@ -127,7 +121,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
           divide: actor.data.data.roll.divide,
           confScore: confAllowed,
           botchCheck: botchCheck,
-          secondaryScore: 0
+          secondaryScore: actor.data.data.roll.secondaryScore
         }
       }
     },
@@ -188,6 +182,26 @@ function getFormData(html, actorData) {
   find = html.find(".SelectedYear");
   if (find.length > 0) {
     actorData.data.data.roll.year = find[0].value;
+  }
+
+  if (actorData.data.data.roll.type == "spell" || actorData.data.data.roll.type == "magic") {
+    find = html.find(".penSpeciality");
+    if (find.length > 0) {
+      actorData.data.data.roll.penetration.specApply = find[0].checked;
+    }
+    find = html.find(".spellMastery");
+    if (find.length > 0) {
+      actorData.data.data.roll.penetration.PenetrationMastery = find[0].checked;
+    }
+    find = html.find(".multiplierBonusArcanic");
+    if (find.length > 0) {
+      actorData.data.data.roll.penetration.multiplierBonusArcanic = Number(find[0].value);
+    }
+
+    find = html.find(".multiplierBonusSympathic");
+    if (find.length > 0) {
+      actorData.data.data.roll.penetration.multiplierBonusSympathic = Number(find[0].value);
+    }
   }
 
   return actorData;
@@ -386,43 +400,43 @@ function getRollFormula(actor) {
     if (actorData.roll.txtOption1 != "") {
       total = total + parseInt(actorData.roll.option1);
       if (msg != "") {
-        msg = msg + " + <br />";
+        msg += " + <br />";
       }
-      msg = msg + actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
+      msg += actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
     }
     if (actorData.roll.txtOption2 != "") {
       if (msg != "") {
-        msg = msg + " + <br />";
+        msg += " + <br />";
       }
       if (actorData.roll.type == "combat" && actorData.roll.exertion) {
         total = total + parseInt(actorData.roll.option2) * 2;
 
-        msg = msg + actorData.roll.txtOption2 + " ( 2 x " + actorData.roll.option2 + ")";
+        msg += actorData.roll.txtOption2 + " ( 2 x " + actorData.roll.option2 + ")";
       } else {
-        total = total + parseInt(actorData.roll.option2);
-        msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
+        total += parseInt(actorData.roll.option2);
+        msg += actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
       }
     }
     if (actorData.roll.txtOption3 != "") {
       total = total + parseInt(actorData.roll.option3);
       if (msg != "") {
-        msg = msg + " + <br />";
+        msg += " + <br />";
       }
-      msg = msg + actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
+      msg += actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
     }
     if (actorData.roll.txtOption4 != "") {
       total = total + parseInt(actorData.roll.option4);
       if (msg != "") {
-        msg = msg + " + <br />";
+        msg += " + <br />";
       }
       msg = msg + actorData.roll.txtOption4 + " (" + actorData.roll.option4 + ")";
     }
     if (actorData.roll.txtOption5 != "") {
       total = total + parseInt(actorData.roll.option5);
       if (msg != "") {
-        msg = msg + " + <br />";
+        msg += " + <br />";
       }
-      msg = msg + actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
+      msg += actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
     }
 
     if (actorData.roll.bonusActiveEffects) {
@@ -430,8 +444,7 @@ function getRollFormula(actor) {
       if (msg != "") {
         msg = msg + " + <br />";
       }
-      msg =
-        msg +
+      msg +=
         game.i18n.localize("arm5.sheet.bonus.activeEffects") +
         " (" +
         actorData.roll.bonusActiveEffects +
@@ -440,38 +453,61 @@ function getRollFormula(actor) {
     if (actorData.roll.bonus > 0) {
       total = total + actorData.roll.bonus;
       if (msg != "") {
-        msg = msg + " + <br />";
+        msg += " + <br />";
       }
-      msg =
-        msg + game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
+      msg += game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
     }
 
     if (actorData.roll.useFatigue == true) {
       if (actorData.fatigueTotal != 0) {
         total = total + actorData.fatigueTotal;
         if (msg != "") {
-          msg = msg + " + <br />";
+          msg += " + <br />";
         }
-        msg = msg + game.i18n.localize("arm5e.sheet.fatigue");
-        msg = msg + " (" + actorData.fatigueTotal + ")";
+        msg += game.i18n.localize("arm5e.sheet.fatigue");
+        msg += " (" + actorData.fatigueTotal + ")";
       }
       if (actorData.woundsTotal != 0) {
         total = total + actorData.woundsTotal;
         if (msg != "") {
-          msg = msg + " + <br />";
+          msg += " + <br />";
         }
-        msg = msg + game.i18n.localize("arm5e.sheet.wounds");
-        msg = msg + " (" + actorData.woundsTotal + ")";
+        msg += game.i18n.localize("arm5e.sheet.wounds");
+        msg += " (" + actorData.woundsTotal + ")";
       }
     }
 
     if (actorData.roll.divide > 1) {
       if (msg != "") {
-        msg = msg + " + <br />";
+        msg += " + <br />";
       }
-      msg = msg + game.i18n.localize("arm5e.messages.die.divideBy") + actorData.roll.divide;
+      msg += game.i18n.localize("arm5e.messages.die.divideBy") + actorData.roll.divide;
     }
   }
+
+  ///
+  // after computing total
+  ///
+  actorData.roll.secondaryScore = 0;
+  if (actorData.roll.type == "spell" || actorData.roll.type == "magic") {
+    const multiplier =
+      actorData.roll.penetration.multiplierBonusArcanic +
+      actorData.roll.penetration.multiplierBonusSympathic +
+      1;
+    let score = actorData.roll.penetration.score;
+    if (actorData.roll.penetration.specApply) {
+      score += 1;
+    }
+    if (actorData.roll.penetration.PenetrationMastery) {
+      score += actorData.roll.penetration.MasteryScore;
+    }
+    if (score > 0) {
+      msg += " + <br /><b>Penetration: </b> <br />";
+      msg += "Score (" + score + ") * Multiplier (" + multiplier + ") = " + score * multiplier;
+    }
+    actorData.roll.secondaryScore = +score * multiplier - actorData.roll.spell.data.data.level;
+  }
+
   actorData.roll.rollFormula = total;
   actorData.roll.rollLabel = msg;
 
@@ -600,7 +636,7 @@ function multiplyRoll(mult, roll, rollFormula, divide) {
   output_roll.data = {};
   // output_roll._total = [ mult, `*`, ...roll.result];
   output_roll.terms = [mult, `*`, ...roll.terms];
-  //console.log(output_roll)
+  //console.log(roll._total);
   //if(parseInt(divide) > 1){
   //    output_roll.terms.push("/"+ divide);
   //}

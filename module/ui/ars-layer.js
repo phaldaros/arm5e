@@ -16,17 +16,6 @@ export class ArsLayer extends CanvasLayer {
       realms: CONFIG.ARM5E.realms
     };
     const html = await renderTemplate("systems/arm5e/templates/generic/auraInput.html", dialogData);
-    //   const html = `<form class="{{cssClass}} arm5eChooser" autocomplete="off">
-    //   {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Inputs" }}
-    //   <div class="flexrow3 backSection" style="padding: 48px">
-    //     <label>{{ localize fieldName }}</label>
-    //     <div class="form-fields">
-    //     <label>Aura</label>
-    //     <input type="text" name="inputField"></input>
-    //     </div>
-    //   </div>
-    //   {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Inputs"}}
-    // </form>`;
     new Dialog(
       {
         title: game.i18n.localize("arm5e.sheet.aura"),

@@ -1368,11 +1368,11 @@ ARM5E.magic.penetration = {
     days: { label: "arm5e.magic.arcaneConnection.days", bonus: 1 },
     months: { label: "arm5e.magic.arcaneConnection.months", bonus: 2 },
     decades: { label: "arm5e.magic.arcaneConnection.decades", bonus: 3 },
-    decades: { label: "arm5e.magic.arcaneConnection.indefinitly", bonus: 4 }
+    indef: { label: "arm5e.magic.arcaneConnection.indefinitly", bonus: 4 }
   },
   sympathy: {
-    low: { label: "arm5e.magic.sympathy.low", bonus: 1 },
-    high: { label: "arm5e.magic.sympathy.high", bonus: 2 }
+    low: { label: "arm5e.magic.sympathy.weak", bonus: 1 },
+    high: { label: "arm5e.magic.sympathy.strong", bonus: 2 }
   }
 };
 

@@ -38,7 +38,8 @@ const ROLL_PROPERTIES = {
   },
   MAGIC: {
     MODE: ROLL_MODES.STRESS,
-    TITLE: "arm5e.dialog.title.rolldie"
+    TITLE: "arm5e.dialog.title.rolldie",
+    CALLBACK: castSpell
   },
   SPONT: {
     MODE: ROLL_MODES.STRESS,
@@ -98,8 +99,6 @@ function prepareRollVariables(dataset, actor) {
     actorData.data.roll.img = null;
     actorData.data.roll.name = null;
     //
-    actorData.data.roll.difficulty = 0;
-
     actorData.data.roll.techniqueScore = 0;
     actorData.data.roll.formScore = 0;
 
@@ -140,11 +139,16 @@ function prepareRollVariables(dataset, actor) {
         actorData.data.roll.name = ab.name;
       }
     } else if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
-      actorData.data.roll.penetration = {
-        multiplier: 1,
-        score: 0,
-        speciality: ""
-      };
+      // penetration  management
+      actorData.data.roll.penetration = actor.getAbilityStats("penetration");
+      actorData.data.roll.penetration.multiplier = 1;
+      actorData.data.roll.penetration.specApply = false;
+      actorData.data.roll.penetration.PenetrationMastery = false;
+      actorData.data.roll.penetration.MasteryScore = 0;
+      actorData.data.roll.penetration.multiplierBonusArcanic = 0;
+      actorData.data.roll.penetration.multiplierBonusSympathic = 0;
+      actorData.data.roll.penetration.config = CONFIG.ARM5E.magic.penetration;
+
       if (dataset.id) {
         actorData.data.roll.effectId = dataset.id;
         // TODO: perf: get it from spells array?
@@ -161,11 +165,7 @@ function prepareRollVariables(dataset, actor) {
 
         actorData.data.roll.focus = actorData.data.roll.spell.data.data.applyFocus;
         actorData.data.roll.ritual = actorData.data.roll.spell.data.data.ritual;
-
-        actorData.data.roll.difficulty =
-          actorData.data.roll.spell.data.data.level - 10 > 0
-            ? actorData.data.roll.spell.data.data.level - 10
-            : 0;
+        actorData.data.roll.penetration.MasteryScore = actorData.data.roll.spell.data.data.mastery;
       } else {
         if (dataset.technique) {
           actorData.data.roll.techniqueText = ARM5E.magic.techniques[dataset.technique].label;
@@ -450,8 +450,8 @@ function getDialogData(dataset, html, actor) {
     title: game.i18n.localize(title),
     content: html,
     buttons: {
-      ...btns
-      // ...getDebugButtonsIfNeeded(actor, callback)
+      ...btns,
+      ...getDebugButtonsIfNeeded(actor, callback)
     }
   };
 }
@@ -489,15 +489,23 @@ async function castSpell(html, actorCaster, roll, message) {
   // first check that the spell succeeds
   const levelOfSpell = actorCaster.data.data.roll.spell.data.data.level;
   const totalOfSpell = roll._total;
-  if (totalOfSpell < levelOfSpell) {
-    let fatigue = 1;
-    if (actorCaster.data.data.roll.spell.data.data.ritual) {
-      fatigue = Math.ceil((levelOfSpell - totalOfSpell) / 5);
+  if (actorCaster.data.data.roll.type == "spell") {
+    if (totalOfSpell < levelOfSpell) {
+      let fatigue = 1;
+      if (actorCaster.data.data.roll.spell.data.data.ritual) {
+        fatigue = Math.ceil((levelOfSpell - totalOfSpell) / 5);
+      }
+      // lose fatigue levels
+      actorCaster.loseFatigueLevel(fatigue);
+      if (totalOfSpell < levelOfSpell - 10) {
+        await chatFailedCasting(actorCaster, roll, message, fatigue);
+        return false;
+      }
     }
-    // lose fatigue levels
-    actorCaster.loseFatigueLevel(fatigue);
-    if (totalOfSpell < levelOfSpell - 10) {
-      await chatFailedCasting(actorCaster, roll, message, fatigue);
+  } else {
+    // Magic effect
+    if (totalOfSpell < levelOfSpell) {
+      await chatFailedCasting(actorCaster, roll, message, 0);
       return false;
     }
   }
