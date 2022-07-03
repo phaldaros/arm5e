@@ -53,8 +53,9 @@ export class ArM5ePCActor extends Actor {
     }
 
     this.data.data.bonuses = {};
-
-    this.data.data.realmAlignment = 0;
+    if (this.data.data.realmAlignment == undefined) {
+      this.data.data.realmAlignment = 0;
+    }
     if (this._isMagus()) {
       // hack, if the active effect for magus is not setup
       if (this.data.data.realmAlignment == 0) {
