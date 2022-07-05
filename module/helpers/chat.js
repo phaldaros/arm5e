@@ -29,7 +29,7 @@ export function addChatListeners(message, html, data) {
 
   if (!message.isRoll) return;
   // old chat messages, ignore them
-  if (data.message.flags.arm5e === undefined || data.message.flags.arm5e.type === undefined) {
+  if (data.message.flags.arm5e === undefined) {
     return;
   }
   let img = data.message.flags.arm5e?.roll?.img;

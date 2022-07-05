@@ -184,7 +184,11 @@ function getFormData(html, actorData) {
     actorData.data.data.roll.year = find[0].value;
   }
 
-  if (actorData.data.data.roll.type == "spell" || actorData.data.data.roll.type == "magic") {
+  if (
+    actorData.data.data.roll.type == "spell" ||
+    actorData.data.data.roll.type == "magic" ||
+    actorData.data.data.roll.type == "power"
+  ) {
     find = html.find(".penSpeciality");
     if (find.length > 0) {
       actorData.data.data.roll.penetration.specApply = find[0].checked;
@@ -272,6 +276,10 @@ function getRollFormula(actor) {
       actor.loseFatigueLevel(1);
     }
   }
+
+  // if (actorData.roll.type == "power") {
+  //   total += actorData.mightValue - 5 * actorData.roll.penetrationPenalty;
+  // }
 
   if (actorData.roll.characteristic != "") {
     value = actorData.characteristics[actorData.roll.characteristic].value;
@@ -508,6 +516,30 @@ function getRollFormula(actor) {
     actorData.roll.secondaryScore = +score * multiplier - actorData.roll.spell.data.data.level;
   }
 
+  if (actorData.roll.type == "power") {
+    const multiplier =
+      actorData.roll.penetration.multiplierBonusArcanic +
+      actorData.roll.penetration.multiplierBonusSympathic +
+      1;
+    let score = actorData.roll.penetration.score;
+    if (actorData.roll.penetration.specApply) {
+      score += 1;
+    }
+    actorData.roll.secondaryScore =
+      actorData.might.value + score * multiplier - actorData.roll.penetrationPenalty;
+    msg += " + <br /><b>Penetration: </b>  <br />";
+    msg += `Might (${actorData.might.value}) - 5 times cost (${actorData.roll.powerCost})`;
+    if (score > 0) {
+      msg +=
+        " + Score (" +
+        score +
+        ") * Multiplier (" +
+        multiplier +
+        ") = " +
+        actorData.roll.secondaryScore;
+    }
+  }
+
   actorData.roll.rollFormula = total;
   actorData.roll.rollLabel = msg;
 
@@ -646,4 +678,40 @@ function multiplyRoll(mult, roll, rollFormula, divide) {
   return output_roll;
 }
 
-export { simpleDie, stressDie };
+async function noRoll(html, actor, callBack) {
+  actor = getFormData(html, actor);
+  actor = getRollFormula(actor);
+
+  //console.log('simple die');
+  //console.log(actorData);
+  let rollLabel = putInFoldableLink("arm5e.sheet.label.details", actor.data.data.roll.rollLabel);
+
+  let chatTitle = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
+
+  const flags = {
+    arm5e: {
+      roll: { type: "power", img: actor.data.data.roll.img, name: actor.data.data.roll.name },
+      secondaryScore: actor.data.data.roll.secondaryScore
+    }
+  };
+  let formula = `${actor.data.data.roll.rollFormula}`;
+  const dieRoll = new Roll(formula, actor.data.data);
+  let tmp = await dieRoll.roll({
+    async: true
+  });
+  const message = await tmp.toMessage({
+    content: "",
+    flavor: chatTitle + rollLabel,
+    flags: flags,
+    speaker: ChatMessage.getSpeaker({
+      actor
+    })
+  });
+
+  await actor.update({
+    data: { might: { points: actor.data.data.might.points - actor.data.data.roll.powerCost } }
+  });
+  // await checkTargetAndCalculateResistance(actor, dieRoll, message);
+}
+
+export { simpleDie, stressDie, noRoll };

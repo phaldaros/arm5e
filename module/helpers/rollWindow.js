@@ -1,7 +1,7 @@
 import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "./active-effects.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
-import { simpleDie, stressDie } from "../dice.js";
+import { simpleDie, stressDie, noRoll } from "../dice.js";
 import { checkTargetAndCalculateResistance } from "./magic.js";
 import { chatFailedCasting } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor-pc.js";
@@ -67,6 +67,17 @@ const ROLL_PROPERTIES = {
 };
 function getRollTypeProperties(type) {
   return ROLL_PROPERTIES[type.toUpperCase()] ?? ROLL_PROPERTIES.DEFAULT;
+}
+
+function initPenetrationVariables(actor) {
+  actor.data.data.roll.penetration = actor.getAbilityStats("penetration");
+  actor.data.data.roll.penetration.multiplier = 1;
+  actor.data.data.roll.penetration.specApply = false;
+  actor.data.data.roll.penetration.PenetrationMastery = false;
+  actor.data.data.roll.penetration.MasteryScore = 0;
+  actor.data.data.roll.penetration.multiplierBonusArcanic = 0;
+  actor.data.data.roll.penetration.multiplierBonusSympathic = 0;
+  actor.data.data.roll.penetration.config = CONFIG.ARM5E.magic.penetration;
 }
 
 function prepareRollVariables(dataset, actor) {
@@ -138,17 +149,45 @@ function prepareRollVariables(dataset, actor) {
         actorData.data.roll.img = ab.img;
         actorData.data.roll.name = ab.name;
       }
+    } else if (dataset.roll == "power") {
+      initPenetrationVariables(actor);
+      actorData.data.roll.powerCost = Number(dataset.cost);
+      actorData.data.roll.penetrationPenalty = Number(dataset.cost) * 5;
+      actorData.data.roll.label += ` (${ARM5E.magic.arts[dataset.form].short})`;
+      actorData.data.roll.form = dataset.form;
+      actorData.data.roll.img = dataset.img;
+      if (dataset.bonusActiveEffects) {
+        actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
+        const activeEffects = actor.effects;
+        const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
+          activeEffects,
+          "spellcasting"
+        );
+        actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
+          const label = activeEffect.data.label;
+          let value = 0;
+          if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
+            actorData.data.roll.hasAuraBonus = true;
+          }
+          activeEffect.data.changes
+            .filter((c, idx) => {
+              return (
+                c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
+                activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+              );
+            })
+            .forEach((item) => {
+              value += Number(item.value);
+            });
+          return {
+            label,
+            value
+          };
+        });
+      }
     } else if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
       // penetration  management
-      actorData.data.roll.penetration = actor.getAbilityStats("penetration");
-      actorData.data.roll.penetration.multiplier = 1;
-      actorData.data.roll.penetration.specApply = false;
-      actorData.data.roll.penetration.PenetrationMastery = false;
-      actorData.data.roll.penetration.MasteryScore = 0;
-      actorData.data.roll.penetration.multiplierBonusArcanic = 0;
-      actorData.data.roll.penetration.multiplierBonusSympathic = 0;
-      actorData.data.roll.penetration.config = CONFIG.ARM5E.magic.penetration;
-
+      initPenetrationVariables(actor);
       if (dataset.id) {
         actorData.data.roll.effectId = dataset.id;
         // TODO: perf: get it from spells array?
@@ -456,6 +495,44 @@ function getDialogData(dataset, html, actor) {
   };
 }
 
+async function usePower(dataset, actor) {
+  if (Number(dataset.cost > actor.data.data.might.points)) {
+    ui.notifications.warn(game.i18n.localize("arm5e.notification.noMightPoints"));
+    return;
+  }
+
+  prepareRollVariables(dataset, actor);
+  log(false, `Roll variables: ${JSON.stringify(actor.data.data.roll)}`);
+  let template = "systems/arm5e/templates/actor/parts/actor-powerUse.html";
+  const renderedTemplate = await renderTemplate(template, actor.data);
+
+  const dialog = new Dialog(
+    {
+      title: dataset.name,
+      content: renderedTemplate,
+      render: addListenersDialog,
+      buttons: {
+        yes: {
+          icon: "<i class='fas fa-check'></i>",
+          label: game.i18n.localize("arm5e.dialog.powerUse"),
+          callback: async (html) => await noRoll(html, actor)
+        },
+        no: {
+          icon: "<i class='fas fa-ban'></i>",
+          label: game.i18n.localize("arm5e.dialog.button.cancel"),
+          callback: null
+        }
+      }
+    },
+    {
+      jQuery: true,
+      height: "600px",
+      width: "400px",
+      classes: ["arm5e-dialog", "dialog"]
+    }
+  );
+  dialog.render(true);
+}
 function addListenersDialog(html) {
   html.find(".toggleHidden").click((event) => {
     log(false, "toggle Hidden");
@@ -522,5 +599,6 @@ export {
   prepareRollVariables,
   ROLL_MODES,
   ROLL_PROPERTIES,
-  getRollTypeProperties
+  getRollTypeProperties,
+  usePower
 };
