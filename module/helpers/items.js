@@ -1,7 +1,8 @@
 const TYPE_OF_ROLL = {
   ABILITY: "ability",
   SPELL: "spell",
-  MAGIC: "magicalEffect",
+  MAGIC: "magic",
+  POWER: "power",
   SPONT: "spont",
   WEAPON: "weapon"
 };
@@ -46,15 +47,36 @@ function getDatasetForSpell(item, noCheck) {
     bonus: item.data.data.bonus,
     bonus2: item.data.data.mastery,
     bonusActiveEffects: item.actor.data.data.bonuses.arts.spellcasting,
-    name: item.data.name
+    name: item.name,
+    img: item.img
   };
 }
 
 function getDatasetForMagic(item) {
-  if (item?.data?.type !== TYPE_OF_ROLL.MAGIC) return {};
+  if (item?.data?.type !== "magicalEffect") return {};
   return {
-    ...getDatasetForSpell(item, true),
+    roll: TYPE_OF_ROLL.MAGIC,
+    id: item.data._id,
+    technique: item.data.data.technique.value,
+    mform: item.data.data.form.value,
+    bonus: item.data.data.bonus,
+    bonusActiveEffects: item.actor.data.data.bonuses.arts.spellcasting,
+    name: item.name,
+    img: item.img,
     divide: 2
+  };
+}
+
+function getDatasetForPower(item) {
+  if (item?.data?.type !== TYPE_OF_ROLL.POWER) return {};
+  return {
+    roll: TYPE_OF_ROLL.POWER,
+    id: item.data._id,
+    form: item.data.data.form,
+    cost: item.data.data.cost,
+    bonusActiveEffects: item.actor.data.data.bonuses.arts.spellcasting,
+    name: item.name,
+    img: item.img
   };
 }
 
@@ -63,7 +85,8 @@ function prepareDatasetByTypeOfItem(item) {
     ...getDatasetForAbility(item),
     ...getDatasetForWeapon(item),
     ...getDatasetForSpell(item),
-    ...getDatasetForMagic(item)
+    ...getDatasetForMagic(item),
+    ...getDatasetForPower(item)
   };
 }
 

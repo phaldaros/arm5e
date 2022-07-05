@@ -430,7 +430,11 @@ function rollItemMacro(itemId, actorId) {
   if (!item)
     return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
   const dataset = prepareDatasetByTypeOfItem(item);
-  actor.sheet._onRoll(dataset);
+  if (item.data.type == "power") {
+    actor.sheet._onUsePower(dataset);
+  } else {
+    actor.sheet._onRoll(dataset);
+  }
 }
 
 async function setAuraValueForAllTokensInScene(value, type) {

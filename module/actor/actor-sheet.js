@@ -22,7 +22,6 @@ import {
   findVoiceAndGesturesActiveEffects,
   modifyVoiceOrGesturesActiveEvent
 } from "../helpers/voiceAndGestures.js";
-
 import {
   prepareRollVariables,
   prepareRollFields,
@@ -31,7 +30,8 @@ import {
   renderRollTemplate,
   chooseTemplate,
   ROLL_MODES,
-  getRollTypeProperties
+  getRollTypeProperties,
+  usePower
 } from "../helpers/rollWindow.js";
 
 import { spellTechniqueLabel, spellFormLabel } from "../helpers/spells.js";
@@ -598,7 +598,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".pick-covenant").click(this._onPickCovenant.bind(this));
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
-    //html.find(".power-use").click(this._onUsePower.bind(this));
+    html.find(".power-use").click(this._onUsePower.bind(this));
     html.find(".voice-and-gestures").change(this._onSelectVoiceAndGestures.bind(this));
     html.find(".addFatigue").click((event) => this.actor._changeFatigueLevel(1));
     html.find(".removeFatigue").click((event) => this.actor._changeFatigueLevel(-1));
@@ -777,52 +777,8 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   async _onUsePower(event) {
-    event.preventDefault();
     const dataset = getDataset(event);
-
-    if (Number(dataset.cost > this.actor.data.data.might.value)) {
-      ui.notifications.warn(game.i18n.localize("arm5e.notification.noMightPoints"));
-      return;
-    }
-
-    const data = {
-      penetration: this.actor.getAbilityStats("penetration"),
-      cost: Number(dataset.cost) * 5,
-      might: Number(this.actor.data.data.might.value),
-      aura: Number(this.actor.getActiveEffectValue("spellcasting", "aura")),
-      form: dataset.form,
-      name: dataset.name,
-      modifier: 0
-    };
-    data.penetration.specApply = false;
-    data.total = data.penetration.score - data.cost + data.might + data.aura;
-    let template = "systems/arm5e/templates/actor/parts/actor-powerUse.html";
-    renderTemplate(template, data).then(function (html) {
-      new Dialog(
-        {
-          title: game.i18n.localize("arm5e.dialog.powerUse"),
-          content: html,
-          buttons: {
-            yes: {
-              icon: "<i class='fas fa-check'></i>",
-              label: `Yes`,
-              callback: null //(html) => calculateDamage(html, actor)
-            },
-            no: {
-              icon: "<i class='fas fa-ban'></i>",
-              label: `Cancel`,
-              callback: null
-            }
-          }
-        },
-        {
-          jQuery: true,
-          height: "140px",
-          width: "400px",
-          classes: ["arm5e-dialog", "dialog"]
-        }
-      ).render(true);
-    });
+    await usePower(dataset, this.actor);
   }
 
   async _onCalculateDamage(html, actor) {
