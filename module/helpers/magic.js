@@ -1,43 +1,59 @@
 import { getActorsFromTargetedTokens } from "./tokens.js";
-import { chatContestOfMagic } from "./chat.js";
+import { chatContestOfMagic, chatContestOfPower } from "./chat.js";
 
 async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
   const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
   if (!actorsTargeted) {
     return false;
   }
-  actorsTargeted.forEach(async (actorTarget) => {
-    const successOfMagic = calculateSuccessOfMagic({
-      actorTarget,
-      actorCaster,
-      roll,
-      spell: message
+  if (actorCaster.data.data.roll.type != "power") {
+    actorsTargeted.forEach(async (actorTarget) => {
+      const successOfMagic = calculateSuccessOfMagic({
+        actorTarget,
+        actorCaster,
+        roll,
+        spell: message
+      });
+      await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
     });
-    await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
-  });
+  } else {
+    actorsTargeted.forEach(async (actorTarget) => {
+      const successOfPower = calculateSuccessOfPower({
+        actorTarget,
+        actorCaster,
+        roll,
+        spell: message
+      });
+      await chatContestOfPower({ actorCaster, actorTarget, ...successOfPower });
+    });
+  }
 }
 
 function calculatePenetration({ actorCaster, roll, spell }) {
   const levelOfSpell = spell.data.data.level;
   const totalOfSpell = roll._total;
-
+  const penetrationRolldata = actorCaster.data.data.roll.penetration;
   const penetration = actorCaster.getAbilityStats("penetration");
   let specialityIncluded = "";
-  if (
-    CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
-      penetration.speciality.toUpperCase() ||
-    CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
-      penetration.speciality.toUpperCase()
-  ) {
-    penetration += 1;
+  if (penetrationRolldata.specApply) {
     specialityIncluded = penetration.speciality;
   }
+  // if (
+  //   CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
+  //     penetration.speciality.toUpperCase() ||
+  //   CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
+  //     penetration.speciality.toUpperCase()
+  // ) {
+  //   penetration += 1;
+  //   specialityIncluded = penetration.speciality;
+  // }
+
   return {
     totalOfSpell,
     levelOfSpell,
-    penetration: penetration.score,
+    penetration: penetrationRolldata.total,
     specialityIncluded,
-    total: totalOfSpell - levelOfSpell + penetration.score
+    total: totalOfSpell - levelOfSpell + penetrationRolldata.total
   };
 }
 
@@ -88,6 +104,23 @@ function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
     penetration,
     magicResistance,
     total: penetration.total - magicResistance.total,
+    form
+  };
+}
+
+// TODO: merge with above for big refactorization next version
+
+function calculateSuccessOfPower({ actorCaster, actorTarget, roll }) {
+  const spell = actorCaster.data.data.roll.spell;
+  const form = CONFIG.ARM5E.magic.arts[spell.data.data.form].label;
+  const penetrationTotal = actorCaster.data.data.roll.secondaryScore + roll.total;
+
+  // calculatePenetration({ actorCaster, roll, spell });
+  const magicResistance = calculateResistance(actorTarget, form);
+  return {
+    penetrationTotal,
+    magicResistance,
+    total: penetrationTotal - magicResistance.total,
     form
   };
 }

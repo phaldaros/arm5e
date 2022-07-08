@@ -33,7 +33,13 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
       ]
     });
   }
-
+  /** @override */
+  get template() {
+    if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER)) {
+      return `systems/arm5e/templates/actor/actor-beast-sheet.html`;
+    }
+    return `systems/arm5e/templates/actor/actor-limited-sheet.html`;
+  }
   /* -------------------------------------------- */
 
   /** @override */

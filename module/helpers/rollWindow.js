@@ -78,6 +78,37 @@ function initPenetrationVariables(actor) {
   actor.data.data.roll.penetration.multiplierBonusArcanic = 0;
   actor.data.data.roll.penetration.multiplierBonusSympathic = 0;
   actor.data.data.roll.penetration.config = CONFIG.ARM5E.magic.penetration;
+  actor.data.data.roll.penetration.total = 0;
+}
+
+function getSpellcastingModifiers(actor, bonusActiveEffects) {
+  actor.data.data.roll.bonusActiveEffects = Number(bonusActiveEffects);
+  const activeEffects = actor.effects;
+  const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
+    activeEffects,
+    "spellcasting"
+  );
+  actor.data.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
+    const label = activeEffect.data.label;
+    let value = 0;
+    if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
+      actor.data.data.roll.hasAuraBonus = true;
+    }
+    activeEffect.data.changes
+      .filter((c, idx) => {
+        return (
+          c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
+          activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+        );
+      })
+      .forEach((item) => {
+        value += Number(item.value);
+      });
+    return {
+      label,
+      value
+    };
+  });
 }
 
 function prepareRollVariables(dataset, actor) {
@@ -156,34 +187,9 @@ function prepareRollVariables(dataset, actor) {
       actorData.data.roll.label += ` (${ARM5E.magic.arts[dataset.form].short})`;
       actorData.data.roll.form = dataset.form;
       actorData.data.roll.img = dataset.img;
+      actorData.data.roll.spell = actorData.items.get(dataset.id);
       if (dataset.bonusActiveEffects) {
-        actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        const activeEffects = actor.effects;
-        const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
-          activeEffects,
-          "spellcasting"
-        );
-        actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
-          const label = activeEffect.data.label;
-          let value = 0;
-          if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
-            actorData.data.roll.hasAuraBonus = true;
-          }
-          activeEffect.data.changes
-            .filter((c, idx) => {
-              return (
-                c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
-                activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
-              );
-            })
-            .forEach((item) => {
-              value += Number(item.value);
-            });
-          return {
-            label,
-            value
-          };
-        });
+        getSpellcastingModifiers(actor, dataset.bonusActiveEffects);
       }
     } else if (dataset.roll == "spell" || dataset.roll == "magic" || dataset.roll == "spont") {
       // penetration  management
@@ -221,33 +227,7 @@ function prepareRollVariables(dataset, actor) {
       }
 
       if (dataset.bonusActiveEffects) {
-        actorData.data.roll.bonusActiveEffects = Number(dataset.bonusActiveEffects);
-        const activeEffects = actor.effects;
-        const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
-          activeEffects,
-          "spellcasting"
-        );
-        actorData.data.roll.activeEffects = activeEffectsByType.map((activeEffect) => {
-          const label = activeEffect.data.label;
-          let value = 0;
-          if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
-            actorData.data.roll.hasAuraBonus = true;
-          }
-          activeEffect.data.changes
-            .filter((c, idx) => {
-              return (
-                c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
-                activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
-              );
-            })
-            .forEach((item) => {
-              value += Number(item.value);
-            });
-          return {
-            label,
-            value
-          };
-        });
+        getSpellcastingModifiers(actor, dataset.bonusActiveEffects);
       }
 
       if (dataset.technique) {

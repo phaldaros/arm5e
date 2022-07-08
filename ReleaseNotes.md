@@ -23,6 +23,8 @@
 - Update of Spanish translation (by Teotimus)
 - Aura now impact unlinked tokens
 - Aura of a scene is applied to token on scene activation or if scene is active
+- Powers integration in contests of magic
+- Beast sheets now also have a limited version
 
 ### Bug fixes
 
