@@ -1,7 +1,6 @@
 <form class="{{cssClass}} arm5eRoll" autocomplete="off">
   {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Confirmation" }}
   <div class="roll-options">
-    {{log "Power use data: " data}}
     <div class="flexrow flex-group-center">
       <label class="resource-label" name="might" value="{{might}}">{{localize "arm5e.sheet.might" }} ({{ numberFormat
         data.might.value decimals=0

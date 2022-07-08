@@ -1,4 +1,5 @@
 import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
+import { checkTargetAndCalculateResistance } from "./helpers/magic.js";
 import { log, putInFoldableLink } from "./tools.js";
 let mult = 1;
 
@@ -513,6 +514,7 @@ function getRollFormula(actor) {
       msg += " + <br /><b>Penetration: </b> <br />";
       msg += "Score (" + score + ") * Multiplier (" + multiplier + ") = " + score * multiplier;
     }
+    actorData.roll.penetration.total = score * multiplier;
     actorData.roll.secondaryScore = +score * multiplier - actorData.roll.spell.data.data.level;
   }
 
@@ -538,6 +540,7 @@ function getRollFormula(actor) {
         ") = " +
         actorData.roll.secondaryScore;
     }
+    actorData.roll.penetration.total = actorData.roll.secondaryScore;
   }
 
   actorData.roll.rollFormula = total;
@@ -707,11 +710,10 @@ async function noRoll(html, actor, callBack) {
       actor
     })
   });
-
+  await checkTargetAndCalculateResistance(actor, dieRoll, message);
   await actor.update({
     data: { might: { points: actor.data.data.might.points - actor.data.data.roll.powerCost } }
   });
-  // await checkTargetAndCalculateResistance(actor, dieRoll, message);
 }
 
 export { simpleDie, stressDie, noRoll };
