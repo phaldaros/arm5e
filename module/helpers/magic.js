@@ -7,7 +7,7 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
     return false;
   }
   if (actorCaster.data.data.roll.type != "power") {
-    actorsTargeted.forEach(async (actorTarget) => {
+    actorsTargeted.forEach(async actorTarget => {
       const successOfMagic = calculateSuccessOfMagic({
         actorTarget,
         actorCaster,
@@ -17,7 +17,7 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
       await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
     });
   } else {
-    actorsTargeted.forEach(async (actorTarget) => {
+    actorsTargeted.forEach(async actorTarget => {
       const successOfPower = calculateSuccessOfPower({
         actorTarget,
         actorCaster,
@@ -30,9 +30,9 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
 }
 
 function calculatePenetration({ actorCaster, roll, spell }) {
-  const levelOfSpell = spell.data.data.level;
+  const levelOfSpell = actorCaster.rollData.magic.level;
   const totalOfSpell = roll._total;
-  const penetrationRolldata = actorCaster.data.data.roll.penetration;
+  const penetrationRolldata = actorCaster.rollData.penetration;
   const penetration = actorCaster.getAbilityStats("penetration");
   let specialityIncluded = "";
   if (penetrationRolldata.specApply) {
@@ -80,7 +80,7 @@ function calculateResistance(actor, form) {
   let formScore = 0;
   if (arts) {
     const formKey = Object.keys(arts.forms).filter(
-      (key) => arts.forms[key].label.toUpperCase() === form.toUpperCase()
+      key => arts.forms[key].label.toUpperCase() === form.toUpperCase()
     )[0];
     formScore = arts.forms[formKey].finalScore || 0;
   }
@@ -96,8 +96,7 @@ function calculateResistance(actor, form) {
 }
 
 function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
-  const spell = actorCaster.data.data.roll.spell;
-  const form = CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label;
+  const form = CONFIG.ARM5E.magic.arts[actorCaster.rollData.magic.form].label;
   const penetration = calculatePenetration({ actorCaster, roll, spell });
   const magicResistance = calculateResistance(actorTarget, form);
   return {
@@ -111,9 +110,8 @@ function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
 // TODO: merge with above for big refactorization next version
 
 function calculateSuccessOfPower({ actorCaster, actorTarget, roll }) {
-  const spell = actorCaster.data.data.roll.spell;
-  const form = CONFIG.ARM5E.magic.arts[spell.data.data.form].label;
-  const penetrationTotal = actorCaster.data.data.roll.secondaryScore + roll.total;
+  const form = CONFIG.ARM5E.magic.arts[actorCaster.rollData.power.form].label;
+  const penetrationTotal = actorCaster.rollData.secondaryScore + roll.total;
 
   // calculatePenetration({ actorCaster, roll, spell });
   const magicResistance = calculateResistance(actorTarget, form);

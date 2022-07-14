@@ -69,7 +69,7 @@ export async function migration(originalVersion) {
         await s.update(updateData, { enforceTypes: false });
         // If we do not do this, then synthetic token actors remain in cache
         // with the un-updated actorData.
-        s.tokens.forEach((t) => (t._actor = null));
+        s.tokens.forEach(t => (t._actor = null));
       }
     } catch (err) {
       err.message = `Failed system migration for Scene ${s.name}: ${err.message}`;
@@ -106,7 +106,7 @@ export async function migration(originalVersion) {
  * @param pack
  * @return {Promise}
  */
-export const migrateCompendium = async function (pack) {
+export const migrateCompendium = async function(pack) {
   const documentName = pack.documentName;
   if (!["Actor", "Item", "Scene"].includes(documentName)) return;
 
@@ -161,7 +161,7 @@ export const migrateCompendium = async function (pack) {
  * @param {object} [migrationData]  Additional data to perform the migration
  * @returns {object}                The updateData to apply
  */
-export const migrateSceneData = function (scene, migrationData) {
+export const migrateSceneData = function(scene, migrationData) {
   if (scene?.flags?.world) {
     const aura = scene.flags.world[`aura_${scene.data._id}`];
     const type = scene.flags.world[`aura_type_${scene.data._id}`];
@@ -170,7 +170,7 @@ export const migrateSceneData = function (scene, migrationData) {
     }
   }
 
-  const tokens = scene.tokens.map((token) => {
+  const tokens = scene.tokens.map(token => {
     const t = token.toObject();
     const update = {};
 
@@ -191,10 +191,10 @@ export const migrateSceneData = function (scene, migrationData) {
       // }
 
       const update = migrateActorData(actorData, migrationData);
-      ["items", "effects"].forEach((embeddedName) => {
+      ["items", "effects"].forEach(embeddedName => {
         if (!update[embeddedName]?.length) return;
-        const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
-        t.actorData[embeddedName].forEach((original) => {
+        const updates = new Map(update[embeddedName].map(u => [u._id, u]));
+        t.actorData[embeddedName].forEach(original => {
           const update = updates.get(original._id);
           if (update) mergeObject(original, update);
         });
@@ -218,7 +218,7 @@ export const migrateSceneData = function (scene, migrationData) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
-export const migrateActorData = function (actorData) {
+export const migrateActorData = function(actorData) {
   const updateData = {};
   // updateData["flags.arm5e.-=filters"] = null;
   if (!actorData?.flags.arm5e) {
@@ -320,14 +320,7 @@ export const migrateActorData = function (actorData) {
 
   if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
     if (actorData.data?.roll != undefined) {
-      updateData["data.roll.characteristic"] = "";
-      updateData["data.roll.ability"] = "";
-      updateData["data.roll.technique"] = "";
-      updateData["data.roll.form"] = "";
-      updateData["data.roll.total"] = "";
-      updateData["data.roll.aura"] = 0;
-      updateData["data.roll.rollLabel"] = "";
-      updateData["data.roll.rollFormula"] = "";
+      updateData["data.-=roll"] = null;
     }
     if (actorData.data.decrepitude == undefined) {
       actorData.data.decrepitude = {};
@@ -531,7 +524,7 @@ export const migrateActorData = function (actorData) {
   return updateData;
 };
 
-export const migrateActiveEffectData = function (effectData) {
+export const migrateActiveEffectData = function(effectData) {
   let effectUpdate = {};
   // update flags
 
@@ -582,7 +575,7 @@ export const migrateActiveEffectData = function (effectData) {
   return effectUpdate;
 };
 
-export const migrateItemData = function (itemData) {
+export const migrateItemData = function(itemData) {
   const updateData = {};
   updateData["data.version"] = "1.3.2";
 

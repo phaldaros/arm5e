@@ -32,7 +32,7 @@ import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
 
-Hooks.once("init", async function () {
+Hooks.once("init", async function() {
   game.arm5e = {
     ArM5ePCActor,
     ArM5eItem,
@@ -75,7 +75,7 @@ Hooks.once("init", async function () {
       COLOR: "Color"
     },
     default: "MONO",
-    onChange: (value) => {
+    onChange: value => {
       CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[value];
     }
   });
@@ -251,7 +251,7 @@ Hooks.once("init", async function () {
   ArM5ePreloadHandlebarsTemplates();
 
   // If you need to add Handlebars helpers, here are a few useful examples:
-  Handlebars.registerHelper("concat", function () {
+  Handlebars.registerHelper("concat", function() {
     var outStr = "";
     for (var arg in arguments) {
       if (typeof arguments[arg] != "object") {
@@ -260,11 +260,11 @@ Hooks.once("init", async function () {
     }
     return outStr;
   });
-  Handlebars.registerHelper("toLowerCase", function (str) {
+  Handlebars.registerHelper("toLowerCase", function(str) {
     return str.toLowerCase();
   });
 
-  Handlebars.registerHelper("ifIn", function (elem, list, options) {
+  Handlebars.registerHelper("ifIn", function(elem, list, options) {
     if (list.indexOf(elem) > -1) {
       return options.fn(this);
     }
@@ -272,7 +272,7 @@ Hooks.once("init", async function () {
   });
 });
 
-Hooks.once("ready", async function () {
+Hooks.once("ready", async function() {
   // DEV:
   // generateActiveEffectFromAbilities();
 
@@ -312,7 +312,7 @@ Hooks.once("ready", async function () {
   }
 
   // check and warning that magic codex is missing or more than one occurence.
-  const codex = game.actors.filter((a) => a.data.type === "magicCodex");
+  const codex = game.actors.filter(a => a.data.type === "magicCodex");
   if (codex.length > 1) {
     ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.tooMany"), {
       permanent: false
@@ -336,7 +336,7 @@ Hooks.once("ready", async function () {
  * This function runs after game data has been requested and loaded from the servers, so entities exist
  */
 
-Hooks.once("setup", function () {});
+Hooks.once("setup", function() {});
 
 Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(ARM5E.MODULE_ID);
@@ -361,7 +361,7 @@ async function createArM5eMacro(data, slot) {
 
   // Create the macro command
   const command = `game.arm5e.rollItemMacro('${data.data._id}', '${data.actorId}');`;
-  let macro = game.macros.contents.find((m) => m.name === item.name && m.command === command);
+  let macro = game.macros.contents.find(m => m.name === item.name && m.command === command);
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
@@ -484,4 +484,4 @@ Hooks.on("deleteToken", (token, options, userId) => {
   }
 });
 
-Hooks.on("getSceneControlButtons", (buttons) => addArsButtons(buttons));
+Hooks.on("getSceneControlButtons", buttons => addArsButtons(buttons));

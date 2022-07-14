@@ -175,13 +175,13 @@ export class ArM5eActorSheet extends ActorSheet {
 
       // check whether the character is linked to an existing covenant
       context.data.world.covenants = game.actors
-        .filter((a) => a.type == "covenant")
+        .filter(a => a.type == "covenant")
         .map(({ name, id }) => ({
           name,
           id
         }));
       if (context.data.covenant) {
-        let cov = context.data.world.covenants.filter((c) => c.name == context.data.covenant.value);
+        let cov = context.data.world.covenants.filter(c => c.name == context.data.covenant.value);
         if (cov.length > 0) {
           context.data.covenant.linked = true;
           context.data.covenant.actorId = cov[0].id;
@@ -194,7 +194,7 @@ export class ArM5eActorSheet extends ActorSheet {
         // Arts icons style
         context.artsIcons = game.settings.get("arm5e", "artsIcons");
         context.data.world.labs = game.actors
-          .filter((a) => a.type == "laboratory")
+          .filter(a => a.type == "laboratory")
           .map(({ name, id }) => ({
             name,
             id
@@ -202,7 +202,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
         // check whether the character is linked to an existing lab
         if (context.data.sanctum) {
-          let lab = context.data.world.labs.filter((c) => c.name == context.data.sanctum.value);
+          let lab = context.data.world.labs.filter(c => c.name == context.data.sanctum.value);
           if (lab.length > 0) {
             context.data.sanctum.linked = true;
             context.data.sanctum.actorId = lab[0].id;
@@ -438,14 +438,17 @@ export class ArM5eActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     // filters
-    html.find(".toggleHidden").click(async (ev) => {
+    html.find(".toggleHidden").click(async ev => {
       const list = $(ev.target).data("list");
-      const val = html.find(`.${list}`).attr("class").indexOf("hidden");
+      const val = html
+        .find(`.${list}`)
+        .attr("class")
+        .indexOf("hidden");
       await updateUserCache(this.actor.id, list, "expanded", val >= 0);
       html.find(`.${list}`).toggleClass("hidden");
     });
 
-    html.find(".technique-filter").change(async (ev) => {
+    html.find(".technique-filter").change(async ev => {
       ev.preventDefault();
       const list = $(ev.currentTarget).data("list");
       const val = ev.target.value;
@@ -453,7 +456,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".form-filter").change(async (ev) => {
+    html.find(".form-filter").change(async ev => {
       ev.preventDefault();
       const list = $(ev.currentTarget).data("list");
       const val = ev.target.value;
@@ -461,7 +464,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".levelOperator-filter").change(async (ev) => {
+    html.find(".levelOperator-filter").change(async ev => {
       ev.preventDefault();
       const list = $(ev.currentTarget).data("list");
       const val = ev.target.value;
@@ -469,7 +472,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".level-filter").change(async (ev) => {
+    html.find(".level-filter").change(async ev => {
       ev.preventDefault();
       const list = $(ev.currentTarget).data("list");
       const val = ev.target.value;
@@ -477,7 +480,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.actor.update();
     });
 
-    html.find(".sortable").click((ev) => {
+    html.find(".sortable").click(ev => {
       const listName = ev.currentTarget.dataset.list;
       let val = this.actor.getFlag("arm5e", "sorting", listName);
       if (val === undefined) {
@@ -501,33 +504,33 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".item-create").click(this._onItemCreate.bind(this));
 
     // Update Inventory Item
-    html.find(".item-edit").click((ev) => {
+    html.find(".item-edit").click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       // const item = this.actor.items.get(li.data("itemId"))
       item.sheet.render(true);
     });
 
-    html.find(".increase-tech").click((event) => {
+    html.find(".increase-tech").click(event => {
       const element = $(event.currentTarget).parents(".art");
       this._increaseArt("techniques", element[0].dataset.attribute);
     });
-    html.find(".decrease-tech").click((event) => {
+    html.find(".decrease-tech").click(event => {
       const element = $(event.currentTarget).parents(".art");
       this._deccreaseArt("techniques", element[0].dataset.attribute);
     });
 
-    html.find(".increase-form").click((event) => {
+    html.find(".increase-form").click(event => {
       const element = $(event.currentTarget).parents(".art");
       this._increaseArt("forms", element[0].dataset.attribute);
     });
-    html.find(".decrease-form").click((event) => {
+    html.find(".decrease-form").click(event => {
       const element = $(event.currentTarget).parents(".art");
       this._deccreaseArt("forms", element[0].dataset.attribute);
     });
 
     // Quick edit of Item from inside Actor sheet
-    html.find(".quick-edit").change((event) => {
+    html.find(".quick-edit").change(event => {
       const li = $(event.currentTarget).parents(".item");
       let field = $(event.currentTarget).attr("name");
       let itemId = li.data("itemId");
@@ -552,7 +555,7 @@ export class ArM5eActorSheet extends ActorSheet {
     });
 
     // Delete Inventory Item
-    html.find(".item-delete").click((ev) => {
+    html.find(".item-delete").click(ev => {
       const li = $(ev.currentTarget).parents(".item");
       let itemId = li.data("itemId");
       itemId = itemId instanceof Array ? itemId : [itemId];
@@ -560,7 +563,7 @@ export class ArM5eActorSheet extends ActorSheet {
       li.slideUp(200, () => this.render(false));
     });
 
-    html.find(".item-delete-confirm").click(async (event) => {
+    html.find(".item-delete-confirm").click(async event => {
       event.preventDefault();
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       const li = $(event.currentTarget).parents(".item");
@@ -581,7 +584,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // Generate abilities automatically
     html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
 
-    html.find(".rest").click((ev) => {
+    html.find(".rest").click(ev => {
       if (
         this.actor.data.type === "player" ||
         this.actor.data.type === "npc" ||
@@ -600,12 +603,12 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".damage").click(this._onCalculateDamage.bind(this));
     html.find(".power-use").click(this._onUsePower.bind(this));
     html.find(".voice-and-gestures").change(this._onSelectVoiceAndGestures.bind(this));
-    html.find(".addFatigue").click((event) => this.actor._changeFatigueLevel(1));
-    html.find(".removeFatigue").click((event) => this.actor._changeFatigueLevel(-1));
+    html.find(".addFatigue").click(event => this.actor._changeFatigueLevel(1));
+    html.find(".removeFatigue").click(event => this.actor._changeFatigueLevel(-1));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = (ev) => this._onDragStart(ev);
+      let handler = ev => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
         li.setAttribute("draggable", true);
         li.addEventListener("dragstart", handler, false);
@@ -615,10 +618,10 @@ export class ArM5eActorSheet extends ActorSheet {
     // Active Effect management
     html
       .find(".effect-control")
-      .click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
+      .click(ev => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
 
     // migrate actor
-    html.find(".migrate").click((event) => this.actor.migrate());
+    html.find(".migrate").click(event => this.actor.migrate());
   }
 
   async _increaseArt(type, art) {
@@ -700,7 +703,7 @@ export class ArM5eActorSheet extends ActorSheet {
     const element = event.currentTarget;
     var actor = this.actor;
     let template = "systems/arm5e/templates/generic/simpleListPicker.html";
-    renderTemplate(template, this.actor).then(function (html) {
+    renderTemplate(template, this.actor).then(function(html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.dialog.chooseCovenant"),
@@ -709,7 +712,7 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => setCovenant(html, actor)
+              callback: html => setCovenant(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -742,7 +745,7 @@ export class ArM5eActorSheet extends ActorSheet {
       extraData
     };
     let template = "systems/arm5e/templates/actor/parts/actor-soak.html";
-    renderTemplate(template, data).then(function (html) {
+    renderTemplate(template, data).then(function(html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.dialog.woundCalculator"),
@@ -751,7 +754,7 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => setWounds(html, actor)
+              callback: html => setWounds(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -800,7 +803,7 @@ export class ArM5eActorSheet extends ActorSheet {
       extraData
     };
     let template = "systems/arm5e/templates/actor/parts/actor-calculateDamage.html";
-    renderTemplate(template, data).then(function (html) {
+    renderTemplate(template, data).then(function(html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.dialog.damageCalculator"),
@@ -809,7 +812,7 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => calculateDamage(html, actor)
+              callback: html => calculateDamage(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -832,12 +835,12 @@ export class ArM5eActorSheet extends ActorSheet {
     let charType = this.actor.data.data.charType.value;
     let updateData = {};
     if (charType === "magus" || charType === "magusNPC") {
-      let abilities = this.actor.items.filter((i) => i.type == "ability");
+      let abilities = this.actor.items.filter(i => i.type == "ability");
       let newAbilities = [];
       for (let [key, a] of Object.entries(CONFIG.ARM5E.character.magicAbilities)) {
         let localizedA = game.i18n.localize(a);
         // check if the ability already exists in the Actor
-        let abs = abilities.filter((ab) => ab.name == localizedA || ab.name === localizedA + "*");
+        let abs = abilities.filter(ab => ab.name == localizedA || ab.name === localizedA + "*");
 
         if (abs.length == 0) {
           log(false, `Did not find ${game.i18n.localize(a)}, creating it...`);
@@ -847,12 +850,12 @@ export class ArM5eActorSheet extends ActorSheet {
           };
           // First, check if the Ability is found in the world
           abs = game.items.filter(
-            (i) => i.type === "ability" && (i.name === localizedA || i.name === localizedA + "*")
+            i => i.type === "ability" && (i.name === localizedA || i.name === localizedA + "*")
           );
           if (abs.length == 0) {
             // Then, check if the Abilities compendium exists
             let abPack = game.packs.filter(
-              (p) => p.metadata.package === "arm5e" && p.metadata.name === "abilities"
+              p => p.metadata.package === "arm5e" && p.metadata.name === "abilities"
             );
             const documents = await abPack[0].getDocuments();
             for (let doc of documents) {
@@ -908,15 +911,15 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     prepareRollVariables(dataset, this.actor);
-    prepareRollFields(dataset, this.actor.data);
+    prepareRollFields(dataset, this.actor);
     cleanBooleans(dataset, this.actor.data);
 
-    var actor = this.actor;
+    // var actor = this.actor;
     this.actor.data.data.charmetadata = ARM5E.character.characteristics;
-    updateCharacteristicDependingOnRoll(dataset, this.actor.data);
+    updateCharacteristicDependingOnRoll(dataset, this.actor);
 
     const template = chooseTemplate(dataset);
-    renderRollTemplate(dataset, template, actor, this.actor.data);
+    renderRollTemplate(dataset, template, this.actor);
   }
 
   // Overloaded core functions (TODO: review at each Foundry update)
@@ -930,7 +933,7 @@ export class ArM5eActorSheet extends ActorSheet {
    */
   async _onDropItemCreate(itemData) {
     itemData = itemData instanceof Array ? itemData : [itemData];
-    let filtered = itemData.filter((e) => this.isItemDropAllowed(e));
+    let filtered = itemData.filter(e => this.isItemDropAllowed(e));
     for (let item of filtered) {
       // log(false, "Before reset " + JSON.stringify(item.data));
       item = resetOwnerFields(item);

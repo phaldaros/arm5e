@@ -20,7 +20,7 @@ export function addChatListeners(message, html, data) {
   // Hide the details if you are not the GM
 
   if (originatorOrGM) {
-    html.find(".clickable").click((ev) => {
+    html.find(".clickable").click(ev => {
       html.find(`.details`).toggle();
     });
   } else {
@@ -78,7 +78,7 @@ export function addChatListeners(message, html, data) {
   rollResult.append(btnContainer);
 
   // Handle button clicks
-  useConfButton.click((ev) => useConfidence(ev));
+  useConfButton.click(ev => useConfidence(ev));
 }
 
 async function useConfidence(ev) {
@@ -96,7 +96,9 @@ async function useConfidence(ev) {
       }
 
       // horrible code, TODO find a cleaner way.
-      let total = $(ev.currentTarget).closest(".dice-total").text();
+      let total = $(ev.currentTarget)
+        .closest(".dice-total")
+        .text();
       let usedConf = message.data.flags.arm5e.usedConf + 1 || 1;
       let flavor = message.data.flavor;
       if (usedConf == 1) {
@@ -185,7 +187,7 @@ function getFlavorForPlayersResult({
 }
 
 async function chatFailedCasting(actorCaster, roll, message, fatigue) {
-  const levelOfSpell = actorCaster.data.data.roll.spell.data.data.level;
+  const levelOfSpell = actorCaster.rollData.magic.level;
   const totalOfSpell = roll._total;
   const title =
     '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.spellFailed") + "</h2>";

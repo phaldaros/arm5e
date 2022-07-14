@@ -13,6 +13,7 @@ import {
 import { migrateActorData } from "../migration.js";
 
 import ArM5eActiveEffect from "../helpers/active-effects.js";
+import { ArM5eRollData } from "../helpers/rollData.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -22,6 +23,11 @@ export class ArM5ePCActor extends Actor {
   /**
    * Augment the basic actor data with additional dynamic data.
    **/
+
+  constructor(data, context) {
+    super(data, context);
+    this.rollData = new ArM5eRollData(this);
+  }
 
   prepareData() {
     super.prepareData();
@@ -107,7 +113,7 @@ export class ArM5ePCActor extends Actor {
   }
 
   _prepareLaboratoryEmbeddedDocuments(labData) {
-    var baseSafetyEffect = labData.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
+    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
     if (!baseSafetyEffect) {
       this.createEmbeddedDocuments("ActiveEffect", [
         {
@@ -657,7 +663,7 @@ export class ArM5ePCActor extends Actor {
     if (actorData.data.abilities) {
       let flag = this.getFlag("arm5e", "sorting", "abilities");
       if (flag && flag["abilities"] == true) {
-        actorData.data.abilities = abilities.sort(function (e1, e2) {
+        actorData.data.abilities = abilities.sort(function(e1, e2) {
           return e1.name.localeCompare(e2.name);
         });
       } else {
@@ -706,34 +712,30 @@ export class ArM5ePCActor extends Actor {
       }
     }
     if (data.formFilter != "") {
-      baseEffects = baseEffects.filter((e) => e.data.data.form.value === data.formFilter);
-      magicEffects = magicEffects.filter((e) => e.data.data.form.value === data.formFilter);
-      spells = spells.filter((e) => e.data.data.form.value === data.formFilter);
-      enchantments = enchantments.filter((e) => e.data.data.form.value === data.formFilter);
+      baseEffects = baseEffects.filter(e => e.data.data.form.value === data.formFilter);
+      magicEffects = magicEffects.filter(e => e.data.data.form.value === data.formFilter);
+      spells = spells.filter(e => e.data.data.form.value === data.formFilter);
+      enchantments = enchantments.filter(e => e.data.data.form.value === data.formFilter);
     }
     if (data.techniqueFilter != "") {
-      baseEffects = baseEffects.filter((e) => e.data.data.technique.value === data.techniqueFilter);
-      magicEffects = magicEffects.filter(
-        (e) => e.data.data.technique.value === data.techniqueFilter
-      );
-      spells = spells.filter((e) => e.data.data.technique.value === data.techniqueFilter);
-      enchantments = enchantments.filter(
-        (e) => e.data.data.technique.value === data.techniqueFilter
-      );
+      baseEffects = baseEffects.filter(e => e.data.data.technique.value === data.techniqueFilter);
+      magicEffects = magicEffects.filter(e => e.data.data.technique.value === data.techniqueFilter);
+      spells = spells.filter(e => e.data.data.technique.value === data.techniqueFilter);
+      enchantments = enchantments.filter(e => e.data.data.technique.value === data.techniqueFilter);
     }
     if (data.levelFilter != 0 && data.levelFilter != null) {
       if (data.levelOperator == 0) {
-        magicEffects = magicEffects.filter((e) => e.data.data.level === data.levelFilter);
-        spells = spells.filter((e) => e.data.data.level === data.levelFilter);
-        enchantments = enchantments.filter((e) => e.data.data.level === data.levelFilter);
+        magicEffects = magicEffects.filter(e => e.data.data.level === data.levelFilter);
+        spells = spells.filter(e => e.data.data.level === data.levelFilter);
+        enchantments = enchantments.filter(e => e.data.data.level === data.levelFilter);
       } else if (data.levelOperator == -1) {
-        magicEffects = magicEffects.filter((e) => e.data.data.level <= data.levelFilter);
-        spells = spells.filter((e) => e.data.data.level <= data.levelFilter);
-        enchantments = enchantments.filter((e) => e.data.data.level <= data.levelFilter);
+        magicEffects = magicEffects.filter(e => e.data.data.level <= data.levelFilter);
+        spells = spells.filter(e => e.data.data.level <= data.levelFilter);
+        enchantments = enchantments.filter(e => e.data.data.level <= data.levelFilter);
       } else {
-        magicEffects = magicEffects.filter((e) => e.data.data.level >= data.levelFilter);
-        spells = spells.filter((e) => e.data.data.level >= data.levelFilter);
-        enchantments = enchantments.filter((e) => e.data.data.level >= data.levelFilter);
+        magicEffects = magicEffects.filter(e => e.data.data.level >= data.levelFilter);
+        spells = spells.filter(e => e.data.data.level >= data.levelFilter);
+        enchantments = enchantments.filter(e => e.data.data.level >= data.levelFilter);
       }
     }
     data.baseEffects = baseEffects.sort(compareBaseEffects);
@@ -867,7 +869,7 @@ export class ArM5ePCActor extends Actor {
     labData.data.totalVirtues = totalVirtues;
     labData.data.totalFlaws = totalFlaws;
 
-    var baseSafetyEffect = labData.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
+    var baseSafetyEffect = labData.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
     if (baseSafetyEffect != null && baseSafetyEffect.data.changes[0].value != String(baseSafety)) {
       let changes = duplicate(baseSafetyEffect.data.changes);
       changes[0].value = String(baseSafety);
@@ -1108,7 +1110,7 @@ export class ArM5ePCActor extends Actor {
       return null;
     }
     let ability = this.data.data.abilities.filter(
-      (val) => val.data.key == abilityKey && val.data.option == abilityOption
+      val => val.data.key == abilityKey && val.data.option == abilityOption
     );
 
     if (ability.length) {
@@ -1287,7 +1289,8 @@ export class ArM5ePCActor extends Actor {
         if (this.data.data.decrepitude.experienceNextLevel <= 2) result.crisis = true;
 
         break;
-      default: //crisis
+      default:
+        //crisis
         result.crisis = true;
         updateData["data.apparent.value"] = this.data.data.apparent.value + 1;
         updateData["data.decrepitude.points"] =
@@ -1360,13 +1363,13 @@ export class ArM5ePCActor extends Actor {
     if (key == "") return false;
 
     return (
-      this.data.data.abilities.find((e) => e.data.key == key && e.data.option == "") != undefined
+      this.data.data.abilities.find(e => e.data.key == key && e.data.option == "") != undefined
     );
   }
 
   getAbilityStats(key, option = "") {
     const ability = this.data.data.abilities.find(
-      (e) => e.data.key == key && e.data.option == option
+      e => e.data.key == key && e.data.option == option
     );
     if (ability) {
       return { score: ability.data.derivedScore, speciality: ability.data.speciality };

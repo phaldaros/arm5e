@@ -17,8 +17,9 @@ export class ArM5eScene extends Scene {
     if (active) {
       const aura = this.getFlag("world", "aura_" + this.data._id);
       const type = this.getFlag("world", "aura_type_" + this.data._id);
-
-      modifyAuraActiveEffectForAllTokensInScene(this, aura, type);
+      if (aura && type) {
+        modifyAuraActiveEffectForAllTokensInScene(this, aura, type);
+      }
     }
   }
 }

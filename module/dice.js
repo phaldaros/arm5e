@@ -1,28 +1,27 @@
 import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
 import { checkTargetAndCalculateResistance } from "./helpers/magic.js";
 import { log, putInFoldableLink } from "./tools.js";
+import { ARM5E } from "./config.js";
 let mult = 1;
 
 async function simpleDie(html, actor, type = "DEFAULT", callBack) {
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
+  const rollData = actor.rollData;
 
   //console.log('simple die');
   //console.log(actorData);
   let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.simpledie")}:</p>`;
-  let rollLabel = putInFoldableLink(
-    "arm5e.sheet.label.details",
-    flavorTxt + actor.data.data.roll.rollLabel
-  );
+  let rollLabel = putInFoldableLink("arm5e.sheet.label.details", flavorTxt + rollData.label);
   let conf = actor.data.data.con.score;
 
   if ((getRollTypeProperties(type).MODE & ROLL_MODES.NO_CONF) != 0) {
     conf = 0;
   }
-  let chatTitle = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
-  let formula = "1D10+" + actor.data.data.roll.rollFormula;
-  if (actor.data.data.roll.divide > 1) {
-    formula = "(1D10+" + actor.data.data.roll.rollFormula + ")/" + actor.data.data.roll.divide;
+  let chatTitle = '<h2 class="ars-chat-title">' + rollData.label + "</h2>";
+  let formula = "1D10+" + rollData.formula;
+  if (rollData.magic.divide > 1) {
+    formula = "(1D10+" + rollData.formula + ")/" + rollData.magic.divide;
   }
   const dieRoll = new Roll(formula, actor.data.data);
   let tmp = await dieRoll.roll({
@@ -35,10 +34,10 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
   }
   const flags = {
     arm5e: {
-      roll: { type: type, img: actor.data.data.roll.img, name: actor.data.data.roll.name },
+      roll: { type: type, img: rollData.img, name: rollData.name },
       type: "confidence",
       confScore: conf,
-      secondaryScore: actor.data.data.roll.secondaryScore
+      secondaryScore: rollData.secondaryScore
     }
   };
 
@@ -69,13 +68,11 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
-  let formula = actor.data.data.roll.rollFormula;
+  const rollData = actor.rollData;
+  let formula = rollData.formula;
   let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`;
-  let rollLabel = putInFoldableLink(
-    "arm5e.sheet.label.details",
-    flavorTxt + actor.data.data.roll.rollLabel
-  );
-  let chatTitle = `<h2 class="ars-chat-title">${actor.data.data.roll.label} </h2>`;
+  let rollLabel = putInFoldableLink("arm5e.sheet.label.details", flavorTxt + rollData.label);
+  let chatTitle = `<h2 class="ars-chat-title">${rollData.label} </h2>`;
   let dieRoll = await explodingRoll(actor, modes);
 
   let lastRoll;
@@ -100,7 +97,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     }
     botchCheck = 1;
   }
-  lastRoll = multiplyRoll(mult, dieRoll, formula, actor.data.data.roll.divide);
+  lastRoll = multiplyRoll(mult, dieRoll, formula, rollData.magic.divide);
 
   let rollOptions = {};
   let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
@@ -117,12 +114,12 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
       whisper: ChatMessage.getWhisperRecipients("gm"),
       flags: {
         arm5e: {
-          roll: { type: type, img: actor.data.data.roll.img, name: actor.data.data.roll.name },
+          roll: { type: type, img: rollData.img, name: rollData.name },
           type: "confidence",
-          divide: actor.data.data.roll.divide,
+          divide: actor.rollData.magic.divide,
           confScore: confAllowed,
           botchCheck: botchCheck,
-          secondaryScore: actor.data.data.roll.secondaryScore
+          secondaryScore: rollData.secondaryScore
         }
       }
     },
@@ -134,419 +131,345 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   // }
 }
 
-function getFormData(html, actorData) {
+function getFormData(html, actor) {
   let find = html.find(".SelectedCharacteristic");
   if (find.length > 0) {
-    actorData.data.data.roll.characteristic = find[0].value;
+    actor.rollData.characteristic = find[0].value;
   }
-
+  // TODO
   find = html.find(".SelectedAbility");
   if (find.length > 0) {
-    actorData.data.data.roll.ability = find[0].value;
+    actor.rollData.ability.score = find[0].value;
   }
 
   find = html.find(".abilitySpeciality");
   if (find.length > 0) {
-    actorData.data.data.roll.abilitySpeciality = find[0].checked;
+    actor.rollData.ability.specApply = find[0].checked;
   }
 
   find = html.find(".SelectedTechnique");
   if (find.length > 0) {
-    actorData.data.data.roll.technique = find[0].value;
+    actor.rollData.magic.technique = find[0].value;
   }
 
   find = html.find(".SelectedForm");
   if (find.length > 0) {
-    actorData.data.data.roll.form = find[0].value;
+    actor.rollData.magic.form = find[0].value;
   }
 
   find = html.find(".SelectedAura");
   if (find.length > 0) {
-    actorData.data.data.roll.aura = find[0].value;
+    actor.rollData.environment.aura = find[0].value;
   }
 
   find = html.find(".SelectedModifier");
   if (find.length > 0) {
-    actorData.data.data.roll.modifier = find[0].value;
+    actor.rollData.modifier = find[0].value;
   }
 
   find = html.find(".SelectedAdvantage");
   if (find.length > 0) {
-    actorData.data.data.roll.advantage = find[0].value;
+    actor.rollData.combat.advantage = find[0].value;
   }
 
   find = html.find(".SelectedFocus");
   if (find.length > 0) {
-    actorData.data.data.roll.focus = find[0].checked;
+    actor.rollData.magic.focus = find[0].checked;
   }
 
   find = html.find(".SelectedYear");
   if (find.length > 0) {
-    actorData.data.data.roll.year = find[0].value;
+    actor.rollData.environment.year = find[0].value;
   }
 
   if (
-    actorData.data.data.roll.type == "spell" ||
-    actorData.data.data.roll.type == "magic" ||
-    actorData.data.data.roll.type == "power"
+    actor.rollData.type == "spell" ||
+    actor.rollData.type == "magic" ||
+    actor.rollData.type == "power"
   ) {
     find = html.find(".penSpeciality");
     if (find.length > 0) {
-      actorData.data.data.roll.penetration.specApply = find[0].checked;
+      actor.rollData.penetration.specApply = find[0].checked;
     }
     find = html.find(".spellMastery");
     if (find.length > 0) {
-      actorData.data.data.roll.penetration.PenetrationMastery = find[0].checked;
+      actor.rollData.penetration.penetrationMastery = find[0].checked;
     }
     find = html.find(".multiplierBonusArcanic");
     if (find.length > 0) {
-      actorData.data.data.roll.penetration.multiplierBonusArcanic = Number(find[0].value);
+      actor.rollData.penetration.multiplierBonusArcanic = Number(find[0].value);
     }
 
     find = html.find(".multiplierBonusSympathic");
     if (find.length > 0) {
-      actorData.data.data.roll.penetration.multiplierBonusSympathic = Number(find[0].value);
+      actor.rollData.penetration.multiplierBonusSympathic = Number(find[0].value);
     }
   }
 
-  return actorData;
+  return actor;
 }
-
-/*
-    "roll":{
-        "characteristic": "",
-        "ability": "",
-        "technique": "",
-        "form": "",
-        "total": "",
-        "rollLabel": "",
-        "rollFormula": ""
-    }
-*/
 
 function getRollFormula(actor) {
   let total = 0;
   let value = 0;
   let msg = "";
-  let actorData = actor.data.data;
-  if (
-    actorData.roll.type == "spell" ||
-    actorData.roll.type == "magic" ||
-    actorData.roll.type == "spont"
-  ) {
+  const rollData = actor.rollData;
+  let actorSystemData = actor.data.data;
+  if (rollData.type == "spell" || rollData.type == "magic" || rollData.type == "spont") {
     let valueTech = 0;
     let valueForm = 0;
-    if (actorData.roll.type == "spell") {
-      valueTech = actorData.roll.techniqueScore;
-      valueForm = actorData.roll.formScore;
-      actorData.roll.technique = actorData.roll.spell.technique;
-      actorData.roll.form = actorData.roll.spell.form;
-    } else {
-      actorData.roll.techniqueText = actorData.arts.techniques[actorData.roll.technique].label;
-      actorData.roll.formText = actorData.arts.forms[actorData.roll.form].label;
-      valueTech = parseInt(actorData.arts.techniques[actorData.roll.technique].finalScore);
-      valueForm = parseInt(actorData.arts.forms[actorData.roll.form].finalScore);
-    }
-    if (actorData.roll.focus === true) {
+    valueTech = rollData.magic.techniqueScore;
+    valueForm = rollData.magic.formScore;
+    if (rollData.magic.focus === true) {
       if (valueTech < valueForm) {
         total = parseInt(total) + 2 * valueTech + valueForm;
-        msg = msg + actorData.roll.techniqueText;
-        msg = msg + " ( 2 x " + valueTech + ") + <br />";
-        msg = msg + actorData.roll.formText;
-        msg = msg + " (" + valueForm + ")";
+        msg += rollData.magic.techniqueLabel;
+        msg += " ( 2 x " + valueTech + ") + <br />";
+        msg += rollData.magic.formLabel;
+        msg += " (" + valueForm + ")";
       } else {
         total = parseInt(total) + 2 * valueForm + valueTech;
-        msg = msg + actorData.roll.techniqueText;
-        msg = msg + " (" + valueTech + ") + <br />";
-        msg = msg + actorData.roll.formText;
-        msg = msg + " ( 2 x " + valueForm + ")";
+        msg += rollData.magic.techniqueLabel;
+        msg += " (" + valueTech + ") + <br />";
+        msg += rollData.magic.formLabel;
+        msg += " ( 2 x " + valueForm + ")";
       }
     } else {
       total = parseInt(total) + valueTech;
-      msg = msg + actorData.roll.techniqueText;
-      msg = msg + " (" + valueTech + ")";
+      msg += rollData.magic.techniqueLabel;
+      msg += " (" + valueTech + ")";
 
       total = parseInt(total) + valueForm;
-      if (msg != "") {
-        msg = msg + " + <br />";
-      }
-      msg = msg + actorData.roll.formText;
-      msg = msg + " (" + valueForm + ")";
+      msg = newLine(msg);
+      msg += rollData.magic.formLabel;
+      msg += " (" + valueForm + ")";
     }
-    if (actorData.roll.type == "magic" || actorData.roll.type == "spont") {
+    if (rollData.type == "magic" || rollData.type == "spont") {
       actor.loseFatigueLevel(1);
     }
   }
 
-  // if (actorData.roll.type == "power") {
-  //   total += actorData.mightValue - 5 * actorData.roll.penetrationPenalty;
-  // }
-
-  if (actorData.roll.characteristic != "") {
-    value = actorData.characteristics[actorData.roll.characteristic].value;
+  if (rollData.characteristic != "") {
+    value = actorSystemData.characteristics[rollData.characteristic].value;
     total = parseInt(total) + parseInt(value);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    let name = game.i18n.localize(actorData.charmetadata[actorData.roll.characteristic].label);
-    if (actorData.roll.type == "char") {
-      actorData.roll.label = name;
+    msg = newLine(msg);
+    let name = game.i18n.localize(ARM5E.characteristics[rollData.characteristic].label);
+    if (rollData.type == "char") {
+      rollData.label = name;
     }
 
-    msg = msg + name;
-    msg = msg + " (" + value + ")";
+    msg += name;
+    msg += " (" + value + ")";
   }
 
-  if (actorData.roll.ability != "") {
-    for (var i = 0; i < actorData.abilities.length; i++) {
-      if (actorData.abilities[i]._id == actorData.roll.ability) {
-        value = actorData.abilities[i].data.finalScore;
-        total = parseInt(total) + parseInt(value);
-        if (msg != "") {
-          msg = msg + " + <br />";
-        }
-        actorData.roll.label = actorData.abilities[i].name;
-        msg = msg + actorData.roll.label;
-        msg = msg + " (" + value + ")";
-        break;
-      }
-    }
+  if (rollData.ability.name != "") {
+    value = rollData.ability.finalScore;
+    total = parseInt(total) + parseInt(value);
+    msg = newLine(msg);
+    msg += rollData.label;
+    msg += " (" + value + ")";
 
-    if (actorData.roll.abilitySpeciality == true) {
+    if (rollData.ability.specApply == true) {
       total = parseInt(total) + 1;
-      msg = msg + " ( + 1 " + game.i18n.localize("arm5e.sheet.speciality") + " )";
+      msg += " ( + 1 " + game.i18n.localize("arm5e.sheet.speciality") + " )";
     }
   }
 
-  if (actorData.roll.aura != "" && actorData.roll.aura != 0) {
-    value = actorData.roll.aura;
+  if (rollData.environment.aura != 0) {
+    value = rollData.environment.aura;
     total = parseInt(total) + parseInt(value);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + "Aura";
-    msg = msg + " (" + value + ")";
+    msg = newLine(msg);
+    msg += "Aura";
+    msg += " (" + value + ")";
   }
 
-  if (actorData.roll.ritual === true) {
-    value = actorData.laboratory.abilitiesSelected.artesLib.value;
-    value += actorData.laboratory.abilitiesSelected.philosophy.value;
+  if (rollData.magic.ritual === true) {
+    value = actorSystemData.laboratory.abilitiesSelected.artesLib.value;
+    value += actorSystemData.laboratory.abilitiesSelected.philosophy.value;
     total = parseInt(total) + parseInt(value);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
+    msg = newLine(msg);
     msg =
       msg +
       game.i18n.localize("arm5e.skill.academic.artesLib") +
       " + " +
       game.i18n.localize("arm5e.skill.academic.philosophy");
-    msg = msg + " (" + value + ")";
+    msg += " (" + value + ")";
   }
-  if (actorData.roll.advantage != 0) {
-    value = actorData.roll.advantage;
+  if (rollData.combat.advantage != 0) {
+    value = rollData.combat.advantage;
     total = parseInt(total) + parseInt(value);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + game.i18n.localize("arm5e.sheet.advantage");
-    msg = msg + " (" + value + ")";
+    msg = newLine(msg);
+    msg += game.i18n.localize("arm5e.sheet.advantage");
+    msg += " (" + value + ")";
   }
-  if (actorData.roll.modifier != 0) {
-    value = actorData.roll.modifier;
+  if (rollData.modifier != 0) {
+    value = rollData.modifier;
     total = parseInt(total) + parseInt(value);
-    if (msg != "") {
-      msg = msg + " + <br />";
-    }
-    msg = msg + game.i18n.localize("arm5e.sheet.modifier");
-    msg = msg + " (" + value + ")";
+    msg = newLine(msg);
+    msg += game.i18n.localize("arm5e.sheet.modifier");
+    msg += " (" + value + ")";
   }
 
-  if (actorData.roll.type == "spont") {
-    actorData.roll.label =
+  if (rollData.type == "spont") {
+    rollData.label =
       game.i18n.localize("arm5e.sheet.spontaneousMagic") +
       " (" +
-      actorData.config.magic.arts[actorData.roll.technique].short +
-      actorData.config.magic.arts[actorData.roll.form].short +
+      ARM5E.magic.arts[rollData.technique].short +
+      ARM5E.magic.arts[rollData.form].short +
       ")";
-  }
-  if (actorData.roll.type == "aging") {
-    actorData.roll.label =
+  } else if (rollData.type == "aging") {
+    rollData.label =
       game.i18n.localize("arm5e.aging.roll.label") +
       " " +
-      game.i18n.localize(actorData.roll.season) +
+      game.i18n.localize(rollData.environment.season) +
       " " +
-      actorData.roll.year;
-    if (actorData.roll.txtOption1 != "") {
-      total = total + parseInt(actorData.roll.option1);
-      if (msg != "") {
-        msg = msg + " + <br />";
-      }
-      msg = msg + actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
+      rollData.environment.year;
+
+    if (rollData.hasGenericField(1)) {
+      total += rollData.getGenericFieldValue(1);
+      msg = newLine(msg);
+      msg += rollData.getGenericFieldLabel(1) + " (" + rollData.getGenericFieldValue(1) + ")";
     }
-    if (actorData.roll.txtOption2 != "") {
-      total = total - parseInt(actorData.roll.option2);
-      if (msg != "") {
-        msg = msg + " - <br />";
-      }
-      msg = msg + actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
+    if (rollData.hasGenericField(2)) {
+      total -= rollData.getGenericFieldValue(2);
+      msg = newLine(msg);
+      msg += rollData.getGenericFieldLabel(2) + " (" + rollData.getGenericFieldValue(2) + ")";
     }
-    if (actorData.roll.txtOption3 != "") {
-      total = total - parseInt(actorData.roll.option3);
-      if (msg != "") {
-        msg = msg + " - <br />";
-      }
-      msg = msg + actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
+    if (rollData.hasGenericField(3)) {
+      total -= rollData.getGenericFieldValue(3);
+      msg = newLine(msg);
+      msg += rollData.getGenericFieldLabel(3) + " (" + rollData.getGenericFieldValue(3) + ")";
     }
 
-    if (actorData.roll.txtOption4 != "") {
-      total = total - parseInt(actorData.roll.option4);
-      if (msg != "") {
-        msg = msg + " - <br />";
-      }
-      msg = msg + actorData.roll.txtOption4 + " (" + actorData.roll.option4 + ")";
+    if (rollData.hasGenericField(4)) {
+      total -= rollData.getGenericFieldValue(4);
+      msg = newLine(msg);
+      msg += rollData.getGenericFieldLabel(4) + " (" + rollData.getGenericFieldValue(4) + ")";
     }
   } else {
-    if (actorData.roll.txtOption1 != "") {
-      total = total + parseInt(actorData.roll.option1);
-      if (msg != "") {
-        msg += " + <br />";
-      }
-      msg += actorData.roll.txtOption1 + " (" + actorData.roll.option1 + ")";
+    if (rollData.hasGenericField(1)) {
+      total += rollData.getGenericFieldValue(1);
+      msg = newLine(msg);
+      msg += getGenericFieldLabel + " (" + rollData.getGenericFieldValue(1) + ")";
     }
-    if (actorData.roll.txtOption2 != "") {
-      if (msg != "") {
-        msg += " + <br />";
-      }
-      if (actorData.roll.type == "combat" && actorData.roll.exertion) {
-        total = total + parseInt(actorData.roll.option2) * 2;
-
-        msg += actorData.roll.txtOption2 + " ( 2 x " + actorData.roll.option2 + ")";
+    if (rollData.hasGenericField(2)) {
+      msg = newLine(msg);
+      if (rollData.type == "combat" && rollData.combat.exertion) {
+        total += rollData.getGenericFieldValue(2) * 2;
+        msg +=
+          rollData.getGenericFieldLabel(2) + " ( 2 x " + rollData.getGenericFieldValue(2) + ")";
       } else {
-        total += parseInt(actorData.roll.option2);
-        msg += actorData.roll.txtOption2 + " (" + actorData.roll.option2 + ")";
+        total += rollData.getGenericFieldValue(2);
+        msg += rollData.getGenericFieldLabel(2) + " (" + rollData.getGenericFieldValue(2) + ")";
       }
     }
-    if (actorData.roll.txtOption3 != "") {
-      total = total + parseInt(actorData.roll.option3);
-      if (msg != "") {
-        msg += " + <br />";
-      }
-      msg += actorData.roll.txtOption3 + " (" + actorData.roll.option3 + ")";
+    if (rollData.hasGenericField(3)) {
+      total += rollData.getGenericFieldValue(3);
+      msg = newLine(msg);
+      msg += rollData.getGenericFieldLabel(3) + " (" + rollData.getGenericFieldValue(3) + ")";
     }
-    if (actorData.roll.txtOption4 != "") {
-      total = total + parseInt(actorData.roll.option4);
-      if (msg != "") {
-        msg += " + <br />";
-      }
-      msg = msg + actorData.roll.txtOption4 + " (" + actorData.roll.option4 + ")";
+    if (rollData.hasGenericField(4)) {
+      total += rollData.getGenericFieldValue(4);
+      msg = newLine(msg);
+      msg += rollData.getGenericFieldLabel(4) + " (" + rollData.getGenericFieldValue(4) + ")";
     }
-    if (actorData.roll.txtOption5 != "") {
-      total = total + parseInt(actorData.roll.option5);
-      if (msg != "") {
-        msg += " + <br />";
-      }
-      msg += actorData.roll.txtOption5 + " (" + actorData.roll.option5 + ")";
+    if (rollData.hasGenericField(5)) {
+      total += rollData.getGenericFieldValue(5);
+      msg = newLine(msg);
+      msg += rollData.getGenericFieldValue(5) + " (" + rollData.getGenericFieldValue(5) + ")";
     }
 
-    if (actorData.roll.bonusActiveEffects) {
-      total = total + actorData.roll.bonusActiveEffects;
-      if (msg != "") {
-        msg = msg + " + <br />";
-      }
+    if (rollData.bonusActiveEffects) {
+      total += rollData.bonusActiveEffects;
+      msg = newLine(msg);
       msg +=
         game.i18n.localize("arm5.sheet.bonus.activeEffects") +
         " (" +
-        actorData.roll.bonusActiveEffects +
+        rollData.bonusActiveEffects +
         ")";
     }
-    if (actorData.roll.bonus > 0) {
-      total = total + actorData.roll.bonus;
-      if (msg != "") {
-        msg += " + <br />";
-      }
-      msg += game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
-    }
+    // TODO
+    // if (actorData.roll.bonus > 0) {
+    //   total = total + actorData.roll.bonus;
+    //   msg = newLine(msg);
+    //   msg += game.i18n.localize("arm5e.messages.die.bonus") + " (" + actorData.roll.bonus + ")";
+    // }
 
-    if (actorData.roll.useFatigue == true) {
-      if (actorData.fatigueTotal != 0) {
-        total = total + actorData.fatigueTotal;
-        if (msg != "") {
-          msg += " + <br />";
-        }
+    if (rollData.useFatigue == true) {
+      if (actorSystemData.fatigueTotal != 0) {
+        total += actorSystemData.fatigueTotal;
+        msg = newLine(msg);
         msg += game.i18n.localize("arm5e.sheet.fatigue");
-        msg += " (" + actorData.fatigueTotal + ")";
+        msg += " (" + actorSystemData.fatigueTotal + ")";
       }
-      if (actorData.woundsTotal != 0) {
-        total = total + actorData.woundsTotal;
-        if (msg != "") {
-          msg += " + <br />";
-        }
+      if (actorSystemData.woundsTotal != 0) {
+        total += actorSystemData.woundsTotal;
+        msg = newLine(msg);
         msg += game.i18n.localize("arm5e.sheet.wounds");
-        msg += " (" + actorData.woundsTotal + ")";
+        msg += " (" + actorSystemData.woundsTotal + ")";
       }
     }
 
-    if (actorData.roll.divide > 1) {
-      if (msg != "") {
-        msg += " + <br />";
-      }
-      msg += game.i18n.localize("arm5e.messages.die.divideBy") + actorData.roll.divide;
+    if (rollData.magic.divide > 1) {
+      msg = newLine(msg);
+      msg += game.i18n.localize("arm5e.messages.die.divideBy") + rollData.magic.divide;
     }
   }
 
   ///
   // after computing total
   ///
-  actorData.roll.secondaryScore = 0;
-  if (actorData.roll.type == "spell" || actorData.roll.type == "magic") {
+  if (rollData.type == "spell" || rollData.type == "magic") {
     const multiplier =
-      actorData.roll.penetration.multiplierBonusArcanic +
-      actorData.roll.penetration.multiplierBonusSympathic +
+      rollData.penetration.multiplierBonusArcanic +
+      rollData.penetration.multiplierBonusSympathic +
       1;
-    let score = actorData.roll.penetration.score;
-    if (actorData.roll.penetration.specApply) {
+    let score = rollData.penetration.score;
+    if (rollData.penetration.specApply) {
       score += 1;
     }
-    if (actorData.roll.penetration.PenetrationMastery) {
-      score += actorData.roll.penetration.MasteryScore;
+    if (rollData.penetration.penetrationMastery) {
+      score += rollData.penetration.masteryScore;
     }
     if (score > 0) {
       msg += " + <br /><b>Penetration: </b> <br />";
       msg += "Score (" + score + ") * Multiplier (" + multiplier + ") = " + score * multiplier;
     }
-    actorData.roll.penetration.total = score * multiplier;
-    actorData.roll.secondaryScore = +score * multiplier - actorData.roll.spell.data.data.level;
+    rollData.penetration.total = score * multiplier;
+    rollData.secondaryScore = score * multiplier - rollData.magic.level;
   }
 
-  if (actorData.roll.type == "power") {
+  if (rollData.type == "power") {
     const multiplier =
-      actorData.roll.penetration.multiplierBonusArcanic +
-      actorData.roll.penetration.multiplierBonusSympathic +
+      rollData.penetration.multiplierBonusArcanic +
+      rollData.penetration.multiplierBonusSympathic +
       1;
-    let score = actorData.roll.penetration.score;
-    if (actorData.roll.penetration.specApply) {
+    let score = rollData.penetration.score;
+    if (rollData.penetration.specApply) {
       score += 1;
     }
-    actorData.roll.secondaryScore =
-      actorData.might.value + score * multiplier - actorData.roll.penetrationPenalty;
+    rollData.secondaryScore =
+      actorSystemData.might.value + score * multiplier - rollData.power.penetrationPenalty;
     msg += " + <br /><b>Penetration: </b>  <br />";
-    msg += `Might (${actorData.might.value}) - 5 times cost (${actorData.roll.powerCost})`;
+    msg += `Might (${actorSystemData.might.value}) - 5 times cost (${rollData.power.cost})`;
     if (score > 0) {
       msg +=
-        " + Score (" +
-        score +
-        ") * Multiplier (" +
-        multiplier +
-        ") = " +
-        actorData.roll.secondaryScore;
+        " + Score (" + score + ") * Multiplier (" + multiplier + ") = " + rollData.secondaryScore;
     }
-    actorData.roll.penetration.total = actorData.roll.secondaryScore;
+    rollData.penetration.total = rollData.secondaryScore;
   }
 
-  actorData.roll.rollFormula = total;
-  actorData.roll.rollLabel = msg;
+  rollData.formula = total;
+  rollData.label = msg;
 
   return actor;
+}
+
+function newLine(msg) {
+  if (msg != "") {
+    msg += " + <br />";
+  }
+  return msg;
 }
 
 async function CheckBotch(html, actorData) {
@@ -592,7 +515,7 @@ async function explodingRoll(actorData, modes = 0) {
         msg: game.i18n.localize("arm5e.dialog.roll.exploding.multiplier") + " : " + mult
       };
       const html = await renderTemplate("systems/arm5e/templates/generic/explodingRoll.html", data);
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         new Dialog(
           {
             title: game.i18n.localize("arm5e.dialog.roll.explodingroll"),
@@ -601,7 +524,7 @@ async function explodingRoll(actorData, modes = 0) {
               yes: {
                 icon: "<i class='fas fa-check'></i>",
                 label: game.i18n.localize("arm5e.dialog.button.roll"),
-                callback: async (html) => {
+                callback: async html => {
                   dieRoll = await explodingRoll(actorData);
                   resolve();
                 }
@@ -624,7 +547,7 @@ async function explodingRoll(actorData, modes = 0) {
 
       // show dialog
 
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         new Dialog(
           {
             title: game.i18n.localize("arm5e.dialog.botch.title"),
@@ -633,7 +556,7 @@ async function explodingRoll(actorData, modes = 0) {
               yes: {
                 icon: "<i class='fas fa-check'></i>",
                 label: game.i18n.localize("arm5e.dialog.button.rollbotch"),
-                callback: async (html) => {
+                callback: async html => {
                   dieRoll = await CheckBotch(html, actorData);
                   resolve();
                 }
@@ -641,7 +564,7 @@ async function explodingRoll(actorData, modes = 0) {
               no: {
                 icon: "<i class='fas fa-times'></i>",
                 label: `Cancel`,
-                callback: (html) => {
+                callback: html => {
                   ChatMessage.create({
                     content: game.i18n.localize("arm5e.dialog.button.rollnobotch"),
                     speaker: ChatMessage.getSpeaker({
@@ -684,20 +607,20 @@ function multiplyRoll(mult, roll, rollFormula, divide) {
 async function noRoll(html, actor, callBack) {
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
-
+  const rollData = actor.rollData;
   //console.log('simple die');
   //console.log(actorData);
-  let rollLabel = putInFoldableLink("arm5e.sheet.label.details", actor.data.data.roll.rollLabel);
+  let rollLabel = putInFoldableLink("arm5e.sheet.label.details", rollData.label);
 
-  let chatTitle = '<h2 class="ars-chat-title">' + actor.data.data.roll.label + "</h2>";
+  let chatTitle = '<h2 class="ars-chat-title">' + rollData.label + "</h2>";
 
   const flags = {
     arm5e: {
-      roll: { type: "power", img: actor.data.data.roll.img, name: actor.data.data.roll.name },
-      secondaryScore: actor.data.data.roll.secondaryScore
+      roll: { type: "power", img: rollData.img, name: rollData.name },
+      secondaryScore: rollData.secondaryScore
     }
   };
-  let formula = `${actor.data.data.roll.rollFormula}`;
+  let formula = `${rollData.formula}`;
   const dieRoll = new Roll(formula, actor.data.data);
   let tmp = await dieRoll.roll({
     async: true
