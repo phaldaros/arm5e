@@ -97,13 +97,6 @@ function prepareRollFields(dataset, actor) {
   }
 }
 
-function cleanBooleans(dataset, actorData) {
-  // clean booleans
-  if (actorData.rollData.useFatigue === "false") {
-    actorData.rollData.useFatigue = false;
-  }
-}
-
 function chooseTemplate(dataset) {
   if (
     dataset.roll == "combat" ||
@@ -323,7 +316,6 @@ async function castSpell(html, actorCaster, roll, message) {
 export {
   chooseTemplate,
   updateCharacteristicDependingOnRoll,
-  cleanBooleans,
   renderRollTemplate,
   prepareRollFields,
   prepareRollVariables,

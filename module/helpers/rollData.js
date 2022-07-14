@@ -22,11 +22,11 @@ export class ArM5eRollData {
         this.name = actorSystemData.combat.name;
         break;
       case "char":
-        this.common.characteristic = dataset.characteristic;
+        this.characteristic = dataset.characteristic;
         break;
       case "ability":
         if (dataset.defaultCharacteristic) {
-          this.common.characteristic = dataset.defaultCharacteristic;
+          this.characteristic = dataset.defaultCharacteristic;
         }
 
         const ab = actor.items.get(dataset.ability);

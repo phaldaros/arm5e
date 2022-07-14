@@ -467,8 +467,9 @@ function onDropOnCanvas(canvas, data) {
     if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
       addActiveEffectAuraToActor(actor, Number(aura), Number(type));
     } else {
-      // reset aura for actor, if it was in another scene.
-      clearAuraFromActor(token.actor);
+      // no aura
+      // => reset aura for actor, if it was in another scene.
+      clearAuraFromActor(actor);
     }
   }
 }
