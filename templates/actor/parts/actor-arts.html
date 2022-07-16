@@ -123,8 +123,8 @@
       <li class="item item-value flexrow macro-ready" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="spell" data-id="{{item._id}}"
-            data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}"
-            data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}"
+            data-technique="{{item.data.technique.value}}" data-form="{{item.data.form.value}}"
+            data-modifier="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}"
             data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-name="{{item.name}}"
             data-img="{{item.img}}" name="item.name">
             {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.data.level}})
@@ -168,8 +168,8 @@
       <li class="item item-value flexrow macro-ready" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="magic" data-id="{{item._id}}"
-            data-technique="{{item.data.technique.value}}" data-mform="{{item.data.form.value}}"
-            data-bonus="{{ item.data.bonus }}" data-name="{{item.name}}" data-divide="2"
+            data-technique="{{item.data.technique.value}}" data-form="{{item.data.form.value}}"
+            data-modifier="{{ item.data.bonus }}" data-name="{{item.name}}" data-divide="2"
             data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" name="item.name">
             {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.data.level}})
             {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}

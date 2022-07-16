@@ -4,11 +4,11 @@ import { ROLL_PROPERTIES } from "./rollWindow.js";
 export async function applyAgingEffects(html, actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
-  const agingTable = docs.filter((rt) => rt.name === "Aging table")[0];
+  const agingTable = docs.filter(rt => rt.name === "Aging table")[0];
   let res = agingTable.getResultsForRoll(roll.total)[0].data.text;
   let dialogData = CONFIG.ARM5E.activities.aging[res];
 
-  dialogData.year = actor.data.data.roll.year;
+  dialogData.year = actor.rollData.environment.year;
   dialogData.choice = res === "crisis" || res === "anyAgingPt";
   dialogData.chars = CONFIG.ARM5E.character.characteristics;
 
@@ -17,7 +17,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
     dialogData
   );
   let resultAging;
-  await new Promise((resolve) => {
+  await new Promise(resolve => {
     new Dialog(
       {
         title: game.i18n.localize("arm5e.aging.crisis.summary"),
@@ -26,7 +26,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
           yes: {
             icon: "<i class='fas fa-check'></i>",
             label: game.i18n.localize("Apply"),
-            callback: async (html) => {
+            callback: async html => {
               let char = dialogData.char;
               let find = html.find(".SelectedCharacteristic");
               if (find.length > 0) {
@@ -39,7 +39,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
           no: {
             icon: "<i class='fas fa-bomb'></i>",
             label: game.i18n.localize("Cancel"),
-            callback: (html) => {
+            callback: html => {
               resolve();
             }
           }
@@ -63,7 +63,7 @@ export async function agingCrisis(html, actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
 
-  const crisisTable = docs.filter((rt) => rt.name === "Aging crisis table")[0];
+  const crisisTable = docs.filter(rt => rt.name === "Aging crisis table")[0];
   let res = crisisTable.getResultsForRoll(roll.total)[0].data.text;
 
   const title =

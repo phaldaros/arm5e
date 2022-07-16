@@ -615,17 +615,7 @@
         }
       },
       "roll": {
-        "roll": {
-          "characteristic": "",
-          "ability": "",
-          "abilitySpeciality": false,
-          "technique": "",
-          "form": "",
-          "total": "",
-          "aura": 0,
-          "rollLabel": "",
-          "rollFormula": ""
-        }
+        "roll": {}
       }
     },
 
