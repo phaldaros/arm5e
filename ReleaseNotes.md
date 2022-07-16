@@ -25,6 +25,7 @@
 - Aura of a scene is applied to token on scene activation or if scene is active
 - Powers integration in contests of magic
 - Beast sheets now also have a limited version
+- Dev: refactoring of the roll data (bunch of small bugs fixed)
 
 ### Bug fixes
 
@@ -42,6 +43,9 @@
 - Fatigue and wounds penalties only appear in roll dialog if they are non zero
 - Modifier for spell casting is again taken into account
 - Spells, Magical effects and powers dropped on the hot bar should work (again?)
+- When dropping an Actor on a scene without Aura, any existing Aura effect is removed
+- Parma magica speciality is now taken into account in magic contests
+- Free form spontaneous magic takes the correct arts score if you change them in the roll dialog
 
 ## 1.4.3
 

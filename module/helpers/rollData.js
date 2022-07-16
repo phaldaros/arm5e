@@ -1,5 +1,6 @@
-import { data } from "../../external/common/module.mjs";
-
+import { ARM5E } from "../config.js";
+import ArM5eActiveEffect from "./active-effects.js";
+import { ArM5ePCActor } from "../actor/actor-pc.js";
 export class ArM5eRollData {
   constructor(actor) {
     this.reset();
@@ -14,6 +15,10 @@ export class ArM5eRollData {
     }
     if (dataset.usefatigue) {
       this.useFatigue = dataset.usefatigue;
+    }
+
+    if (dataset.physicalcondition) {
+      this.physicalCondition = dataset.physicalcondition;
     }
 
     switch (this.type) {
@@ -44,10 +49,14 @@ export class ArM5eRollData {
         this.power.cost = Number(dataset.cost);
         this.power.penetrationPenalty = this.power.cost * 5;
         this.power.form = dataset.form;
+        this.initPenetrationVariables(actor);
         break;
-      case "spell":
+
       case "magic":
       case "spont":
+        this.magic.divide = 2;
+      case "spell":
+        this.initPenetrationVariables(actor);
         if (dataset.id) {
           let spell = actor.items.get(dataset.id);
           this.label += " (" + spell.data.data.level + ")";
@@ -56,30 +65,33 @@ export class ArM5eRollData {
           this.magic.technique = dataset.technique;
           this.magic.techniqueLabel = techData[0];
           this.magic.techniqueScore = techData[1];
-          let formData = spell._getFormData(actorata);
+          let formData = spell._getFormData(actor.data);
           this.magic.formLabel = formData[0];
           this.magic.formScore = formData[1];
           this.magic.form = dataset.form;
           this.magic.focus = spell.data.data.applyFocus;
           this.magic.ritual = spell.data.data.ritual;
           this.magic.level = spell.data.data.level;
-          this.penetration.masteryScore = this.magic.spell.data.data.mastery;
+          this.penetration.masteryScore = spell.data.data.mastery;
         } else {
           if (dataset.technique) {
             this.magic.technique = dataset.technique;
+            this.magic.techniqueLabel = ARM5E.magic.techniques[dataset.technique].label;
+            this.magic.techniqueScore = parseInt(
+              actorSystemData.arts.techniques[dataset.technique].finalScore
+            );
           }
-          this.magic.techniqueLabel = ARM5E.magic.techniques[dataset.technique].label;
-          this.magic.techniqueScore = parseInt(
-            actorSystemData.arts.techniques[dataset.technique].finalScore
-          );
+
           if (dataset.form) {
             this.magic.form = dataset.form;
+            this.magic.formLabel = ARM5E.magic.forms[dataset.form].label;
+            this.magic.formScore = parseInt(actorSystemData.arts.forms[dataset.form].finalScore);
           }
-          this.magic.formLabel = ARM5E.magic.forms[dataset.form].label;
-          this.magic.formScore = parseInt(actorSystemData.arts.forms[dataset.form].finalScore);
         }
+
         break;
       case "aging":
+        this.physicalCondition = false;
         this.environment.year = parseInt(dataset.year);
         this.environment.season = ARM5E.seasons.winter.label;
         this.label =
@@ -102,23 +114,26 @@ export class ArM5eRollData {
             livingMod = cov.data.data.modifiersLife.mundane ?? 0;
           }
         }
-        this.setGenericField(game.i18n.localize("arm5e.sheet.modifiersLife"), livingMod, 2);
+        this.setGenericField(game.i18n.localize("arm5e.sheet.modifiersLife"), livingMod, 2, "-");
 
         this.setGenericField(
           game.i18n.localize("arm5e.sheet.longevityModifier"),
           actorSystemData.laboratory.longevityRitual.modifier +
             actorSystemData.bonuses.traits.aging,
-          3
+          3,
+          "-"
         );
         if (actorSystemData.familiar && actorSystemData.familiar.cordFam.bronze > 0) {
           this.setGenericField(
             game.i18n.localize("arm5e.aging.roll.bronze"),
             actorSystemData.familiar.cordFam.bronze,
-            4
+            4,
+            "-"
           );
         }
         break;
       case "crisis":
+        this.physicalCondition = false;
         this.environment.year = parseInt(dataset.year);
         this.environment.season = ARM5E.seasons.winter.label;
         this.label =
@@ -141,13 +156,28 @@ export class ArM5eRollData {
     }
 
     if (dataset.bonusActiveEffects) {
-      this.activeEffects = this.getSpellcastingModifiers(actor, bonusActiveEffects);
+      this.activeEffects = this.getSpellcastingModifiers(actor, dataset.bonusActiveEffects);
     }
+    this.prepareRollFields(dataset);
+    this.cleanBooleans();
   }
 
-  setGenericField(name, value, idx) {
+  initPenetrationVariables(actor) {
+    this.penetration = actor.getAbilityStats("penetration");
+    this.penetration.multiplier = 1;
+    this.penetration.specApply = false;
+    this.penetration.penetrationMastery = false;
+    this.penetration.masteryScore = 0;
+    this.penetration.multiplierBonusArcanic = 0;
+    this.penetration.multiplierBonusSympathic = 0;
+    this.penetration.config = ARM5E.magic.penetration;
+    this.penetration.total = 0;
+  }
+
+  setGenericField(name, value, idx, op = "+") {
     this.generic.txtOption[idx - 1] = name;
     this.generic.option[idx - 1] = value;
+    this.generic.operatorOpt[idx - 1] = op;
   }
 
   hasGenericField(idx) {
@@ -160,6 +190,42 @@ export class ArM5eRollData {
 
   getGenericFieldValue(idx) {
     return Number(this.generic.option[idx - 1]);
+  }
+
+  prepareRollFields(dataset) {
+    if (dataset.modifier) {
+      this.modifier = parseInt(this.modifier) + parseInt(dataset.modifier);
+    }
+    if (dataset.txtoption1) {
+      this.setGenericField(dataset.txtoption1, dataset.option1, 1);
+    }
+    if (dataset.txtoption2) {
+      this.setGenericField(dataset.txtoption2, dataset.option2, 2);
+    }
+    if (dataset.txtoption3) {
+      this.setGenericField(dataset.txtoption3, dataset.option3, 3);
+    }
+    if (dataset.txtoption4) {
+      this.setGenericField(dataset.txtoption4, dataset.option4, 4);
+    }
+    if (dataset.txtoption5) {
+      this.setGenericField(dataset.txtoption5, dataset.option5, 5);
+    }
+  }
+
+  cleanBooleans() {
+    // clean booleans
+    if (this.useFatigue === "false") {
+      this.useFatigue = false;
+    } else if (this.useFatigue === "true") {
+      this.useFatigue = true;
+    }
+
+    if (this.physicalCondition === "false") {
+      this.physicalCondition = false;
+    } else if (this.physicalCondition === "true") {
+      this.physicalCondition = true;
+    }
   }
 
   reset() {
@@ -199,13 +265,14 @@ export class ArM5eRollData {
 
     this.characteristic = "";
 
-    this.ability = { name: "", score: "", speciality: "", specApply: false };
+    this.ability = { name: "", score: 0, speciality: "", specApply: false };
 
     this.combat = { exertion: false, advantage: 0 };
 
     this.generic = {
       option: [0, 0, 0, 0, 0],
-      txtOption: ["", "", "", "", ""]
+      txtOption: ["", "", "", "", ""],
+      operatorOpt: ["+", "+", "+", "+", "+"]
     };
 
     this.environment = { aura: 0, year: "", season: "", hasAuraBonus: false };
@@ -215,6 +282,7 @@ export class ArM5eRollData {
 
     this.type = "";
     this.label = "";
+    this.details = "";
     // roll formula
     this.formula = "";
     // added to chat message as an icon for the roll
@@ -224,6 +292,8 @@ export class ArM5eRollData {
     // arbitrary bonus
     this.modifier = 0;
     this.useFatigue = false;
+    // whether physical condition impact the roll
+    this.physicalCondition = true;
     this.secondaryScore = 0;
   }
 

@@ -1,5 +1,5 @@
 import { ARM5E } from "../config.js";
-import ArM5eActiveEffect from "./active-effects.js";
+
 import { simpleDie, stressDie, noRoll } from "../dice.js";
 import { checkTargetAndCalculateResistance } from "./magic.js";
 import { chatFailedCasting } from "./chat.js";
@@ -73,30 +73,6 @@ function prepareRollVariables(dataset, actor) {
   log(false, `Roll data: ${JSON.stringify(actor.rollData)}`);
 }
 
-function prepareRollFields(dataset, actor) {
-  const rollData = actor.rollData;
-  if (dataset.modifier) {
-    rollData.common.modifier =
-      parseInt(actorData.rollData.common.modifier) + parseInt(dataset.modifier);
-  }
-
-  if (dataset.txtoption1) {
-    rollData.setGenericField(dataset.txtoption1, dataset.option1, 1);
-  }
-  if (dataset.txtoption2) {
-    rollData.setGenericField(dataset.txtoption2, dataset.option2, 2);
-  }
-  if (dataset.txtoption3) {
-    rollData.setGenericField(dataset.txtoption3, dataset.option3, 3);
-  }
-  if (dataset.txtoption4) {
-    rollData.setGenericField(dataset.txtoption4, dataset.option4, 4);
-  }
-  if (dataset.txtoption5) {
-    rollData.setGenericField(dataset.txtoption5, dataset.option5, 5);
-  }
-}
-
 function chooseTemplate(dataset) {
   if (
     dataset.roll == "combat" ||
@@ -132,7 +108,7 @@ function updateCharacteristicDependingOnRoll(dataset, actor) {
     //spontaneous magic
     actor.rollData.characteristic = "sta";
   } else if (dataset.roll == "magic" || dataset.roll == "spell") {
-    actorData.rollData.characteristic = "sta";
+    actor.rollData.characteristic = "sta";
   }
 }
 
@@ -212,8 +188,8 @@ function getDialogData(dataset, html, actor) {
     title: game.i18n.localize(title),
     content: html,
     buttons: {
-      ...btns,
-      ...getDebugButtonsIfNeeded(actor, callback)
+      ...btns
+      //...getDebugButtonsIfNeeded(actor, callback)
     }
   };
 }
@@ -227,6 +203,7 @@ async function usePower(dataset, actor) {
   prepareRollVariables(dataset, actor);
   log(false, `Roll variables: ${JSON.stringify(actor.data.data.roll)}`);
   let template = "systems/arm5e/templates/actor/parts/actor-powerUse.html";
+  actor.data.data.roll = actor.rollData;
   const renderedTemplate = await renderTemplate(template, actor.data);
 
   const dialog = new Dialog(
@@ -268,8 +245,8 @@ async function renderRollTemplate(dataset, template, actor) {
   if (!template) {
     return;
   }
-
-  const renderedTemplate = await renderTemplate(template, actor.rollData);
+  actor.data.data.roll = actor.rollData;
+  const renderedTemplate = await renderTemplate(template, actor.data);
   const dialogData = getDialogData(dataset, renderedTemplate, actor);
   const dialog = new Dialog(
     {
@@ -289,7 +266,7 @@ async function castSpell(html, actorCaster, roll, message) {
   // first check that the spell succeeds
   const levelOfSpell = actorCaster.rollData.magic.level;
   const totalOfSpell = roll._total;
-  if (actorCaster.data.data.roll.type == "spell") {
+  if (actorCaster.rollData.type == "spell") {
     if (totalOfSpell < levelOfSpell) {
       let fatigue = 1;
       if (actorCaster.rollData.magic.ritual) {
@@ -317,7 +294,6 @@ export {
   chooseTemplate,
   updateCharacteristicDependingOnRoll,
   renderRollTemplate,
-  prepareRollFields,
   prepareRollVariables,
   ROLL_MODES,
   ROLL_PROPERTIES,

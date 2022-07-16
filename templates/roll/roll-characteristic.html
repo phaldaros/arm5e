@@ -6,8 +6,8 @@
       <select name="data.roll.characteristic" data-type="String" class="SelectedCharacteristic">
         {{#select data.roll.characteristic}} {{#each data.characteristics as |item key|}} {{#with (lookup
         @root.data.charmetadata key)~}}
-        <option value="{{key}}">{{localize label}} ({{ item.value }})</option>
-        {{/with}} {{/each}} {{/select}}
+              <option value="{{key}}">{{localize label}} ({{ item.value }})</option>
+            {{/with}} {{/each}} {{/select}}
       </select>
     </div>
     <div class="flexrow flex-group-center">
@@ -16,34 +16,24 @@
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.abilities"}}</label>
       <select name="data.roll.ability" data-type="String" class="SelectedAbility">
-        <option value="None">{{localize "arm5e.sheet.activeEffect.subtypes.none"}} (0)</option>
-        {{#select data.roll.ability}} {{#each data.abilities as |item key|}}
-        <option value="{{ item._id }}">{{ item.name}} ({{ item.data.finalScore }})</option>
-        {{/each}} {{/select}}
+        <option value="-1">{{localize "arm5e.sheet.activeEffect.subtypes.none"}} (0)</option>
+        {{#select data.roll.ability.score}} {{#each data.abilities as |item key|}}
+            <option value="{{ item.data.finalScore }}">{{ item.name}} ({{ item.data.finalScore }})</option>
+          {{/each}} {{/select}}
       </select>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label">{{localize "arm5e.sheet.speciality"}}</label>
-      <input
-        type="checkbox"
-        class="abilitySpeciality"
-        name="data.roll.abilitySpeciality"
-        {{checked
-        data.roll.abilitySpeciality}}
-      />
+      <label class="resource-label">{{localize "arm5e.sheet.speciality"}} ({{data.roll.ability.speciality}})</label>
+      <input type="checkbox" class="abilitySpeciality" name="data.roll.ability.specApply" {{checked
+        data.roll.ability.specApply}} />
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
-      <input
-        type="text"
-        name="data.roll.modifier"
-        value="{{data.roll.modifier}}"
-        data-dtype="Number"
-        class="SelectedModifier"
-      />
+      <input type="text" name="data.roll.modifier" value="{{data.roll.modifier}}" data-dtype="Number"
+        class="SelectedModifier" />
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>

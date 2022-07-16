@@ -64,7 +64,7 @@ function calculateResistance(actor, form) {
     0;
   let specialityIncluded = "";
   const parma = actor.getAbilityStats("parma");
-  if (parma.specialityIncluded && parma.specialityIncluded.toUpperCase() === form.toUpperCase()) {
+  if (parma.speciality && parma.speciality.toUpperCase() === form.toUpperCase()) {
     specialityIncluded = form;
     magicResistance += 5;
   }
@@ -97,7 +97,7 @@ function calculateResistance(actor, form) {
 
 function calculateSuccessOfMagic({ actorCaster, actorTarget, roll }) {
   const form = CONFIG.ARM5E.magic.arts[actorCaster.rollData.magic.form].label;
-  const penetration = calculatePenetration({ actorCaster, roll, spell });
+  const penetration = calculatePenetration({ actorCaster, roll });
   const magicResistance = calculateResistance(actorTarget, form);
   return {
     penetration,

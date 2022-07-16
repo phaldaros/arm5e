@@ -2,53 +2,53 @@
   {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Botch_rolls"}}
   <div class="roll-options">
     <div class="flexrow flex-group-center" style="font-size: large">
-      <label class="resource-label">{{ localize "arm5e.sheet.winter" }} {{data.roll.year}}</label>
+      <label class="resource-label">{{ localize "arm5e.sheet.winter" }} {{data.roll.environment.year}}</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ data.roll.txtOption1 }} ({{ data.roll.option1 }})</label>
+      <label class="resource-label">{{ lookup data.roll.generic.txtOption 0 }} ({{lookup data.roll.generic.option 0
+        }})</label>
     </div>
-
-    {{#unless (eq data.roll.txtOption2 "")}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ data.roll.txtOption2 }} ({{ data.roll.option2 }})</label>
-    </div>
-    {{/unless}} {{#unless (eq data.roll.txtOption3 "")}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">-</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ data.roll.txtOption3 }} ({{ data.roll.option3 }})</label>
-    </div>
-    {{/unless}} {{#unless (eq data.roll.txtOption4 "")}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ data.roll.txtOption4 }} ({{ data.roll.option4}})</label>
-    </div>
-    {{/unless}} {{#unless (eq data.roll.txtOption5 "")}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ data.roll.txtOption5 }} ({{ data.roll.option5 }})</label>
-    </div>
+    {{#unless (eq (lookup data.roll.generic.txtOption 1) "")}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{ lookup data.roll.generic.txtOption 1 }} ({{lookup data.roll.generic.option 1
+          }})</label>
+      </div>
+    {{/unless}}
+    {{#unless (eq (lookup data.roll.generic.txtOption 2) "")}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">-</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{ lookup data.roll.generic.txtOption 2 }} ({{lookup data.roll.generic.option 2
+          }})</label>
+      </div>
+    {{/unless}} {{#unless (eq (lookup data.roll.generic.txtOption 3) "")}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{ lookup data.roll.generic.txtOption 3 }} ({{lookup data.roll.generic.option
+          3}})</label>
+      </div>
+    {{/unless}} {{#unless (eq (lookup data.roll.generic.txtOption 4) "")}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">{{ lookup data.roll.generic.txtOption 4 }} ({{lookup data.roll.generic.option 4
+          }})</label>
+      </div>
     {{/unless}}
     <div class="flexrow flex-group-center">
       <label class="resource-label">-</label>
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.aging.crisis.medicalAssistance" }}</label>
-      <input
-        type="number"
-        name="data.roll.modifier"
-        value="{{data.roll.modifier}}"
-        data-dtype="Number"
-        class="SelectedModifier"
-      />
+      <input type="number" name="data.roll.modifier" value="{{data.roll.modifier}}" data-dtype="Number"
+        class="SelectedModifier" />
     </div>
   </div>
   {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Botch_rolls" }}

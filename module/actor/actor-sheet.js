@@ -24,7 +24,6 @@ import {
 } from "../helpers/voiceAndGestures.js";
 import {
   prepareRollVariables,
-  prepareRollFields,
   updateCharacteristicDependingOnRoll,
   renderRollTemplate,
   chooseTemplate,
@@ -910,7 +909,6 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     prepareRollVariables(dataset, this.actor);
-    prepareRollFields(dataset, this.actor);
 
     // var actor = this.actor;
     this.actor.data.data.charmetadata = ARM5E.character.characteristics;

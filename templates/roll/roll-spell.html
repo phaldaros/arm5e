@@ -3,13 +3,13 @@
   <div class="roll-options">
     {{!--log data.roll--}}
     <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ data.roll.techniqueText }} ({{ data.roll.techniqueScore }})</label>
+      <label class="resource-label">{{ data.roll.magic.techniqueLabel }} ({{ data.roll.magic.techniqueScore }})</label>
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ data.roll.formText }} ({{ data.roll.formScore }})</label>
+      <label class="resource-label">{{ data.roll.magic.formLabel }} ({{ data.roll.magic.formScore }})</label>
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
@@ -23,7 +23,7 @@
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
-    {{#unless data.roll.hasAuraBonus}}
+    {{#unless data.roll.environment.hasAuraBonus}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">{{localize "arm5e.sheet.levelAura"}}</label>
         <input type="number" name="data.roll.aura" value="{{data.roll.aura}}" data-dtype="Number"
@@ -35,7 +35,7 @@
     {{/unless}}
     <div class="resource">
       <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
-      <input type="checkbox" name="data.applyFocus" {{checked data.roll.focus}} class="SelectedFocus" />
+      <input type="checkbox" name="data.applyFocus" {{checked data.roll.magic.focus}} class="SelectedFocus" />
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
@@ -58,12 +58,6 @@
         <label class="resource-label">+</label>
       </div>
     {{/if}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">Bonus ({{ data.roll.bonus }})</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">+</label>
-    </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label clickable toggleHidden"
         data-hidden="activeEffects">{{localize "arm5.sheet.bonus.activeEffects"}} ({{ data.roll.bonusActiveEffects

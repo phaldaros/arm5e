@@ -11,12 +11,12 @@
       <label class="resource-label">-</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label" name="cost" value="{{cost}}">5 * {{data.roll.powerCost}} points cost ({{
+      <label class="resource-label" name="cost" value="{{cost}}">5 * {{data.roll.power.cost}} points cost ({{
         numberFormat
-        data.roll.penetrationPenalty decimals=0 sign=true }})</label>
+        data.roll.power.penetrationPenalty decimals=0 sign=true }})</label>
     </div>
 
-    {{#unless data.roll.hasAuraBonus}}
+    {{#unless data.roll.environment.hasAuraBonus}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">+</label>
       </div>
