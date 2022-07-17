@@ -32,6 +32,11 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
           initial: "desc"
         },
         {
+          navSelector: ".arts-tabs",
+          contentSelector: ".arts-body",
+          initial: "arts-subtab"
+        },
+        {
           navSelector: ".lab-tabs",
           contentSelector: ".lab-body",
           initial: "lab"

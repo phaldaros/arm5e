@@ -168,7 +168,7 @@
     <div class="tab abilities" data-group="primary" data-tab="abilities">
       {{!-- Sheet Tab Navigation --}}
       <nav class="arm5eSubTabs abilities-tabs tabs" data-group="abilities-secondary">
-        <a class="item posRelative" data-tab="abilities" data-group="secondary">
+        <a class="item posRelative" data-tab="abilities" data-group="abilities-secondary">
           <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
           <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
           {{localize "arm5e.sheet.abilities"}}
@@ -191,7 +191,28 @@
 
     {{#if (eq data.charType.value "magus")}} {{!-- Arts Tab --}}
       <div class="tab arts" data-group="primary" data-tab="arts">
-        {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+        {{!-- Sheet Tab Navigation --}}
+        <nav class="arm5eSubTabs arts-tabs tabs" data-group="arts-secondary">
+          <a class="item posRelative" data-tab="arts-subtab" data-group="arts-secondary">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.arts"}}
+          </a>
+          <a class="item posRelative" data-tab="casting-total" data-group="arts-secondary">
+            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.castingTotals"}}
+          </a>
+        </nav>
+        <section class="arts-body">
+          <div class="tab" data-group="arts-secondary" data-tab="arts-subtab">
+            {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+          </div>
+          <div class="tab" data-group="arts-secondary" data-tab="casting-total">
+            {{> "systems/arm5e/templates/actor/parts/actor-castingTotals.html" }}
+          </div>
+        </section>
+
       </div>
 
       {{!-- Laboratory Tab --}}
@@ -213,7 +234,7 @@
             {{> "systems/arm5e/templates/actor/parts/actor-laboratory.html" }}
           </div>
           <div class="tab" data-group="lab-secondary" data-tab="lab-total">
-            {{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="laboratory" }}
+            {{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html"}}
           </div>
         </section>
       </div>

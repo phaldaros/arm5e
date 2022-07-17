@@ -139,7 +139,11 @@ function getFormData(html, actor) {
   }
   find = html.find(".SelectedAbility");
   if (find.length > 0) {
-    actor.rollData.ability.score = find[0].value;
+    if (find[0].value == 999) {
+      actor.rollData.ability.score = 0;
+    } else {
+      actor.rollData.ability.score = find[0].value;
+    }
   }
 
   find = html.find(".abilitySpeciality");

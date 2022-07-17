@@ -103,7 +103,10 @@
   "arm5e.sheet.target": "Target",
   "arm5e.sheet.creator": "Creator",
   "arm5e.sheet.bonus": "Bonus",
+  "arm5e.sheet.bonusDesc": "Bonus description",
+  "arm5e.sheet.bonuses": "Bonuses",
   "arm5e.sheet.castingTotal": "Casting total",
+  "arm5e.sheet.castingTotals": "Casting totals",
   "arm5e.sheet.mastery": "Mastery",
   "arm5e.sheet.masteryAbilities": "Mastery abilities",
   "arm5e.sheet.source.label": "Source",
@@ -201,6 +204,7 @@
   "arm5e.sheet.might": "Might",
   "arm5e.sheet.powers": "Powers",
   "arm5e.sheet.modifier": "Modifier",
+  "arm5e.sheet.divider": "Divider",
   "arm5e.sheet.advantage": "Advantage",
 
   "arm5e.sheet.yearBorn": "Year Born",
@@ -824,6 +828,8 @@
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
+  "arm5e.sheet.activeEffect.subtypes.fatigueTotal": "Fatigue total",
+  "arm5e.sheet.activeEffect.subtypes.woundsTotal": "Wounds total",
 
   "arm5e.sheet.activeEffect.bonuses.penetration": "Penetration bonus",
 

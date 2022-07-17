@@ -208,12 +208,34 @@ export class ArM5eActorSheet extends ActorSheet {
             context.data.sanctum.linked = false;
           }
         }
+        // casting total modifiers
+
+        if (context.data.castingtotal === undefined) {
+          context.data.castingtotal = {};
+        }
+        if (context.data.castingtotal.modifier === undefined) {
+          context.data.castingtotal.modifier = 0;
+        }
+
+        if (context.data.castingtotal.aura === undefined) {
+          context.data.castingtotal.aura = 0;
+        }
+        if (context.data.castingtotal.applyFocus == undefined) {
+          context.data.castingtotal.applyFocus = false;
+        }
+
+        if (context.data.castingtotal.divider == undefined) {
+          context.data.castingtotal.divider = 1;
+        }
 
         // lab total modifiers
         if (context.data.labtotal === undefined) {
           context.data.labtotal = {};
         }
-        if (context.data.labtotal.modifier === undefined) {
+        if (
+          context.data.labtotal.modifier === undefined ||
+          context.data.labtotal.modifier == null
+        ) {
           context.data.labtotal.modifier = 0;
         }
         if (context.data.sanctum.linked) {
@@ -308,6 +330,10 @@ export class ArM5eActorSheet extends ActorSheet {
             };
           }
         }
+
+        // castingTotals
+        context.data.castingTotals = {};
+        // labTotals
         context.data.labTotals = {};
         for (let [key, form] of Object.entries(context.data.arts.forms)) {
           if (!form.bonus && form.xpCoeff == 1.0) {
@@ -328,26 +354,46 @@ export class ArM5eActorSheet extends ActorSheet {
               title: "Affinity, "
             };
           }
+
+          // compute casting totals:
+          context.data.castingTotals[key] = {};
           // compute lab totals:
           context.data.labTotals[key] = {};
           for (let [k2, technique] of Object.entries(context.data.arts.techniques)) {
-            let techScore = technique.finalScore;
-            let formScore = form.finalScore;
+            let techScoreLab = technique.finalScore;
+            let formScoreLab = form.finalScore;
             if (context.data.labtotal.applyFocus) {
-              if (techScore > formScore) {
-                formScore *= 2;
+              if (techScoreLab > formScoreLab) {
+                formScoreLab *= 2;
               } else {
-                techScore *= 2;
+                techScoreLab *= 2;
               }
             }
             context.data.labTotals[key][k2] =
-              formScore +
-              techScore +
+              formScoreLab +
+              techScoreLab +
               context.data.laboratory.basicLabTotal.value +
               parseInt(context.data.labtotal.quality) +
               parseInt(context.data.labtotal.aura) +
               parseInt(context.data.labtotal.modifier) +
               context.data.bonuses.arts.laboratory;
+
+            let techScoreCast = technique.finalScore;
+            let formScoreCast = form.finalScore;
+            if (context.data.castingtotal.applyFocus) {
+              if (techScoreCast > formScoreCast) {
+                formScoreCast *= 2;
+              } else {
+                techScoreCast *= 2;
+              }
+            }
+            context.data.castingTotals[key][k2] =
+              (formScoreCast +
+                techScoreCast +
+                context.data.characteristics.sta.value +
+                context.data.castingtotal.aura +
+                context.data.castingtotal.modifier) /
+              Number(context.data.castingtotal.divider);
           }
         }
       }

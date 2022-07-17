@@ -3,7 +3,7 @@
  * Pre-loaded templates are compiled and cached for fast access when rendering
  * @return {Promise}
  */
-export const ArM5ePreloadHandlebarsTemplates = async function () {
+export const ArM5ePreloadHandlebarsTemplates = async function() {
   return loadTemplates([
     // Actor Sheet Partials
     "systems/arm5e/templates/actor/parts/actor-characteristics.html",
@@ -17,6 +17,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/actor/parts/actor-familiar.html",
     "systems/arm5e/templates/actor/parts/actor-laboratory.html",
     "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html",
+    "systems/arm5e/templates/actor/parts/actor-castingTotals.html",
     "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html",
     "systems/arm5e/templates/actor/parts/actor-diary.html",
     "systems/arm5e/templates/generic/active-effects.html",

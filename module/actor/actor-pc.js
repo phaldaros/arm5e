@@ -100,7 +100,7 @@ export class ArM5ePCActor extends Actor {
       }
     }
 
-    this.data.data.bonuses.traits = { soak: 0, aging: 0 };
+    this.data.data.bonuses.traits = { soak: 0, aging: 0, wounds: 0, fatigue: 0 };
   }
 
   /** @override */
@@ -224,6 +224,10 @@ export class ArM5ePCActor extends Actor {
         }
         item.levels = fatigueArray;
       }
+      data.fatigueTotal =
+        data.fatigueTotal + data.bonuses.traits.fatigue > 0
+          ? 0
+          : data.fatigueTotal + data.bonuses.traits.fatigue;
       data.fatigueMaxLevel = lvl;
     }
 
@@ -232,6 +236,10 @@ export class ArM5ePCActor extends Actor {
       for (let [key, item] of Object.entries(data.wounds)) {
         data.woundsTotal = data.woundsTotal + item.number.value * item.penalty.value;
       }
+      data.woundsTotal =
+        data.woundsTotal + data.bonuses.traits.wounds > 0
+          ? 0
+          : data.woundsTotal + data.bonuses.traits.wounds;
     }
 
     //abilities

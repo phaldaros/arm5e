@@ -26,6 +26,9 @@
 - Powers integration in contests of magic
 - Beast sheets now also have a limited version
 - Dev: refactoring of the roll data (bunch of small bugs fixed)
+- New active effects: Wound and fatigue total penalties
+- New field in spell sheet to describe the bonus
+- New sub-tab for casting totals
 
 ### Bug fixes
 
@@ -46,6 +49,7 @@
 - When dropping an Actor on a scene without Aura, any existing Aura effect is removed
 - Parma magica speciality is now taken into account in magic contests
 - Free form spontaneous magic takes the correct arts score if you change them in the roll dialog
+- Characteristic rolls don't select the first ability with 0 score instead of "None".
 
 ## 1.4.3
 
