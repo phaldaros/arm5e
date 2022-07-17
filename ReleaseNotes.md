@@ -29,6 +29,8 @@
 - New active effects: Wound and fatigue total penalties
 - New field in spell sheet to describe the bonus
 - New sub-tab for casting totals
+- New field for spell bonus description
+- Combat section moved after wound and fatigue
 
 ### Bug fixes
 
