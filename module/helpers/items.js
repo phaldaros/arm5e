@@ -47,7 +47,7 @@ function getDatasetForSpell(item, noCheck) {
     id: item.data._id,
     technique: item.data.data.technique.value,
     form: item.data.data.form.value,
-    modifier: item.data.data.bonus,
+    bonus: item.data.data.bonus,
     mastery: item.data.data.mastery,
     bonusActiveEffects: item.actor.data.data.bonuses.arts.spellcasting,
     name: item.name,
@@ -55,7 +55,6 @@ function getDatasetForSpell(item, noCheck) {
   };
 }
 
-//TODO
 function getDatasetForMagic(item) {
   if (item?.data?.type !== "magicalEffect") return {};
   return {
@@ -63,7 +62,7 @@ function getDatasetForMagic(item) {
     id: item.data._id,
     technique: item.data.data.technique.value,
     form: item.data.data.form.value,
-    modifier: item.data.data.bonus,
+    bonus: item.data.data.bonus,
     bonusActiveEffects: item.actor.data.data.bonuses.arts.spellcasting,
     name: item.name,
     img: item.img,
@@ -71,7 +70,6 @@ function getDatasetForMagic(item) {
   };
 }
 
-//TODO
 function getDatasetForPower(item) {
   if (item?.data?.type !== TYPE_OF_ROLL.POWER) return {};
   return {

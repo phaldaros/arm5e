@@ -165,7 +165,7 @@ function getDialogData(dataset, html, actor) {
       btns.no = {
         icon: "<i class='fas fa-ban'></i>",
         label: game.i18n.localize("arm5e.dialog.button.cancel"),
-        callback: null
+        callback: async html => await actor.rollData.reset()
       };
     }
   } else {
@@ -181,7 +181,7 @@ function getDialogData(dataset, html, actor) {
     btns.no = {
       icon: "<i class='fas fa-ban'></i>",
       label: game.i18n.localize("arm5e.dialog.button.cancel"),
-      callback: null
+      callback: async html => await actor.rollData.reset()
     };
   }
   return {

@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -10,31 +7,16 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
       <div class="grid grid-col">
         <div class="resource">
-          <label
-            >{{localize "arm5e.sheet.foco"}}<input
-              type="text"
-              name="data.foco"
-              value="{{data.foco}}"
-              data-dtype="String"
-          /></label>
+          <label>{{localize "arm5e.sheet.focus"}}<input type="text" name="data.foco" value="{{data.foco}}"
+              data-dtype="String" /></label>
         </div>
         <div class="resource">
-          <label
-            >{{localize "arm5e.sheet.speciality"}}<input
-              type="text"
-              name="data.speciality"
-              value="{{data.speciality}}"
-              data-dtype="String"
-          /></label>
+          <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="data.speciality"
+              value="{{data.speciality}}" data-dtype="String" /></label>
         </div>
         <div class="resource">
-          <label
-            >{{localize "arm5e.sheet.bonus"}}<input
-              type="text"
-              name="data.bonus"
-              value="{{data.bonus}}"
-              data-dtype="Number"
-          /></label>
+          <label>{{localize "arm5e.sheet.bonus.label"}}<input type="text" name="data.bonus" value="{{data.bonus}}"
+              data-dtype="Number" /></label>
         </div>
       </div>
     </div>

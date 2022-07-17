@@ -60,10 +60,18 @@
     {{/if}}
     <div class="flexrow flex-group-center">
       <label class="resource-label clickable toggleHidden"
-        data-hidden="activeEffects">{{localize "arm5.sheet.bonus.activeEffects"}} ({{ data.roll.bonusActiveEffects
+        data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
+        ({{ data.roll.bonuses
         }})</label>
     </div>
     <div class="hidden activeEffects">
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+      <div class="flexrow flex-group-center sub">
+        <label class="resource-label">{{ data.roll.magic.bonusDesc }} : {{ data.roll.magic.bonus }}</label>
+      </div>
+
       {{#each data.roll.activeEffects as |item id|}}
         <div class="flexrow flex-group-center">
           <label class="resource-label">+</label>

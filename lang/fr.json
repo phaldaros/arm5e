@@ -98,7 +98,7 @@
   "arm5e.sheet.duration": "Durée",
   "arm5e.sheet.target": "Cible",
   "arm5e.sheet.creator": "Créateur",
-  "arm5e.sheet.bonus": "Bonus",
+  "arm5e.sheet.bonus.label": "Bonus",
   "arm5e.sheet.castingTotal": "Total de lancer",
   "arm5e.sheet.mastery": "Maîtrise",
   "arm5e.sheet.masteryAbilities": "Capacités de Maîtrise",
@@ -107,7 +107,7 @@
   "arm5e.sheet.quality": "Qualitée",
   "arm5e.sheet.protection": "Protection",
   "arm5e.sheet.fullSet": "Jeu complet",
-  "arm5e.sheet.foco": "Focus",
+  "arm5e.sheet.focus": "Focus",
   "arm5e.sheet.uses": "Utilisations",
   "arm5e.sheet.familiar": "Familier",
   "arm5e.sheet.cord": "Cordes",
@@ -165,7 +165,7 @@
   "arm5e.sheet.size": "Taille",
   "arm5e.sheet.soak": "Encaissement",
   "arm5e.sheet.soakBonus": "Bonus d'Encaissement",
-  
+
   "arm5e.sheet.contestOfMagic": "Concours de Magie",
   "arm5e.sheet.spellTotal": "Total du Sort",
   "arm5e.sheet.spellLevel": "Niveau du Sort",
@@ -250,7 +250,7 @@
   "arm5e.skill.commonCases.areaLore": "Connaissance (Région)",
   "arm5e.skill.commonCases.latin": "Latin",
   "arm5e.skill.commonCases.hermesLore": "Connaissance Ordre d'Hermes",
-  
+
   "arm5e.skill.general.animalHandling": "Connaissance des Animaux",
   "arm5e.skill.general.areaLore": "Connaissance Région ({option})",
   "arm5e.skill.general.athletics": "Athlétisme",
@@ -282,7 +282,7 @@
   "arm5e.skill.martial.singleWeapon": "Armes à 1 main",
   "arm5e.skill.martial.greatWeapon": "Armes à 2 mains",
   "arm5e.skill.martial.trownWeapon": "Armes de jet",
-  
+
   "arm5e.skill.academic.artesLib": "Artes Liberales",
   "arm5e.skill.academic.civilCanonLaw": "Droit Civil & Canon",
   "arm5e.skill.academic.commonLaw": "Droit Commun",
@@ -748,13 +748,13 @@
   "arm5e.sheet.magic.voiceType.none": "Aucune",
   "arm5e.sheet.magic.voice": "Voix",
   "arm5e.sheet.magic.gestures": "Gestes",
-  
+
   "arm5e.sheet.skill.affinity": "Affinité",
   "arm5e.sheet.skill.puissant": "Puissant",
   "arm5e.sheet.skill.abilityKey": "Compétence clé",
   "arm5e.sheet.skill.abilityOption": "Compétence optionnelle",
   "arm5e.sheet.skill.abilityNoKey": "Compétence personnelle",
-  
+
   "arm5e.sheet.activeEffect.info.noedit": "Remarque : la création d'un effet actif n'est pas possible si l'élément appartient à un acteur, modifiez l'original ou faites une copie dans votre monde pour le modifier.",
   "arm5e.sheet.activeEffect.types.arts.affinity": "Affinité pour un Art",
   "arm5e.sheet.activeEffect.types.vitals": "Vitals",

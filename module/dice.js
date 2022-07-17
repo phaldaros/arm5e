@@ -394,14 +394,10 @@ function getRollFormula(actor) {
       msg += rollData.getGenericFieldValue(5) + " (" + rollData.getGenericFieldValue(5) + ")";
     }
   }
-  if (rollData.bonusActiveEffects) {
-    total += rollData.bonusActiveEffects;
+  if (rollData.bonuses) {
+    total += rollData.bonuses;
     msg = newLineAdd(msg);
-    msg +=
-      game.i18n.localize("arm5.sheet.bonus.activeEffects") +
-      " (" +
-      rollData.bonusActiveEffects +
-      ")";
+    msg += game.i18n.localize("arm5.sheet.bonuses") + " (" + rollData.bonuses + ")";
   }
   // TODO
   // if (actorData.roll.bonus > 0) {
@@ -462,13 +458,11 @@ function getRollFormula(actor) {
     if (rollData.penetration.specApply) {
       score += 1;
     }
-    rollData.secondaryScore =
-      actorSystemData.might.value + score * multiplier - rollData.power.penetrationPenalty;
-    msg += " + <br /><b>Penetration: </b>  <br />";
+    rollData.secondaryScore = score * multiplier;
+    msg += `<br /> + <b>Penetration </b> (${score * multiplier}) :  <br />`;
     // msg += `Might (${actorSystemData.might.value}) - 5 times cost (${rollData.power.cost})`;
     if (score > 0) {
-      msg +=
-        " + Score (" + score + ") * Multiplier (" + multiplier + ") = " + rollData.secondaryScore;
+      msg += " ( Score (" + score + ") * Multiplier (" + multiplier + ") )";
     }
     rollData.penetration.total = rollData.secondaryScore;
   }
