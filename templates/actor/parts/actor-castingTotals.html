@@ -1,0 +1,53 @@
+<div class="characteristics grid backSection margintop18">
+  <header class="arts-total-header grid-6col flexrow flex-group-center">
+    <div class="techLabel">{{localize "arm5e.sheet.castingTotals"}}</div>
+    {{#each data.arts.techniques as |technique key|}}
+      <div class="techLabel">{{label}}</div>
+    {{/each}}
+  </header>
+  <ol class="form-list grid-6col">
+    {{#each data.arts.forms as |form key|}}
+      <li class="flexrow flex-group-center" style="padding: 0px">
+        <div class="formLabel flexrow flex-group-center">{{label}}</div>
+        {{#each ../data.arts.techniques as |technique k2|}}
+          <div class="arts-total flexrow flex-group-center">{{lookup ( lookup @root.data.castingTotals key) k2}}</div>
+        {{/each}}
+      </li>
+    {{/each}}
+  </ol>
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+      <input type="checkbox" name="data.castingtotal.applyFocus" {{checked data.castingtotal.applyFocus}} />
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.aura" }}</label>
+      {{numberInput data.castingtotal.aura name="data.castingtotal.aura" step=1}}
+      <!-- <input
+        type="number"
+        name="data.castingtotal.aura"
+        value="{{numberFormat data.castingtotal.aura decimals=0 sign=true }}"
+      /> -->
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.divider"}}</label>
+      <select name="data.castingtotal.divider" data-type="number" class="divider">
+        {{#select data.castingtotal.divider}}
+          <option value="1">{{localize "arm5e.messages.die.divideBy"}}1</option>
+          <option value="2">{{localize "arm5e.messages.die.divideBy"}}2</option>
+          <option value="5">{{localize "arm5e.messages.die.divideBy"}}5</option>
+        {{/select}}
+      </select>
+
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.modifier" }}</label>
+      {{numberInput data.castingtotal.modifier name="data.castingtotal.modifier" step=1}}
+      <!-- <input
+        type="number"
+        name="data.castingtotal.modifier"
+        value="{{numberFormat data.castingtotal.modifier decimals=0 sign=true }}"
+      /> -->
+    </div>
+  </div>
+</div>

@@ -74,21 +74,96 @@ export default {
     type: "art",
     label: "arm5e.sheet.arts",
     subtypes: {
-      cr: { label: "Creo", key: "data.arts.techniques.cr.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      in: { label: "Intellego", key: "data.arts.techniques.in.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      mu: { label: "Muto", key: "data.arts.techniques.mu.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      pe: { label: "Perdo", key: "data.arts.techniques.pe.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      re: { label: "Rego", key: "data.arts.techniques.re.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      an: { label: "Animal", key: "data.arts.forms.an.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      aq: { label: "Aquam", key: "data.arts.forms.aq.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      au: { label: "Auram", key: "data.arts.forms.au.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      co: { label: "Corpus", key: "data.arts.forms.co.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      he: { label: "Herbam", key: "data.arts.forms.he.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      ig: { label: "Ignem", key: "data.arts.forms.ig.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      im: { label: "Imaginem", key: "data.arts.forms.im.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      me: { label: "Mentem", key: "data.arts.forms.me.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      te: { label: "Terram", key: "data.arts.forms.te.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 },
-      vi: { label: "Vim", key: "data.arts.forms.vi.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, default: 3 }
+      cr: {
+        label: "Creo",
+        key: "data.arts.techniques.cr.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      in: {
+        label: "Intellego",
+        key: "data.arts.techniques.in.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      mu: {
+        label: "Muto",
+        key: "data.arts.techniques.mu.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      pe: {
+        label: "Perdo",
+        key: "data.arts.techniques.pe.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      re: {
+        label: "Rego",
+        key: "data.arts.techniques.re.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      an: {
+        label: "Animal",
+        key: "data.arts.forms.an.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      aq: {
+        label: "Aquam",
+        key: "data.arts.forms.aq.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      au: {
+        label: "Auram",
+        key: "data.arts.forms.au.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      co: {
+        label: "Corpus",
+        key: "data.arts.forms.co.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      he: {
+        label: "Herbam",
+        key: "data.arts.forms.he.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      ig: {
+        label: "Ignem",
+        key: "data.arts.forms.ig.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      im: {
+        label: "Imaginem",
+        key: "data.arts.forms.im.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      me: {
+        label: "Mentem",
+        key: "data.arts.forms.me.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      te: {
+        label: "Terram",
+        key: "data.arts.forms.te.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      vi: {
+        label: "Vim",
+        key: "data.arts.forms.vi.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      }
     }
   },
 
@@ -133,8 +208,18 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
-      aq: { label: "Aquam", key: "data.arts.forms.aq.xpCoeff", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, default: 1.5 },
-      au: { label: "Auram", key: "data.arts.forms.au.xpCoeff", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, default: 1.5 },
+      aq: {
+        label: "Aquam",
+        key: "data.arts.forms.aq.xpCoeff",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        default: 1.5
+      },
+      au: {
+        label: "Auram",
+        key: "data.arts.forms.au.xpCoeff",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        default: 1.5
+      },
       co: {
         label: "Corpus",
         key: "data.arts.forms.co.xpCoeff",
@@ -147,7 +232,12 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
-      ig: { label: "Ignem", key: "data.arts.forms.ig.xpCoeff", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, default: 1.5 },
+      ig: {
+        label: "Ignem",
+        key: "data.arts.forms.ig.xpCoeff",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        default: 1.5
+      },
       im: {
         label: "Imaginem",
         key: "data.arts.forms.im.xpCoeff",
@@ -166,7 +256,12 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
-      vi: { label: "Vim", key: "data.arts.forms.vi.xpCoeff", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, default: 1.5 }
+      vi: {
+        label: "Vim",
+        key: "data.arts.forms.vi.xpCoeff",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        default: 1.5
+      }
     }
   },
 
@@ -255,6 +350,12 @@ export default {
     type: "fatigue",
     label: "arm5e.sheet.activeEffect.types.fatigue",
     subtypes: {
+      total: {
+        label: "arm5e.sheet.activeEffect.subtypes.fatigueTotal",
+        key: "data.bonuses.traits.fatigue",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
       winded: {
         label: "arm5e.sheet.winded",
         key: "data.fatigue.winded.number",
@@ -310,6 +411,12 @@ export default {
     type: "wounds",
     label: "arm5e.sheet.activeEffect.types.wounds",
     subtypes: {
+      total: {
+        label: "arm5e.sheet.activeEffect.subtypes.woundsTotal",
+        key: "data.bonuses.traits.wounds",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
       light: {
         label: "arm5e.sheet.light",
         key: "data.wounds.light.penalty.value",

@@ -265,7 +265,8 @@ export class ArM5eRollData {
 
     this.characteristic = "";
 
-    this.ability = { name: "", score: 0, speciality: "", specApply: false };
+    // the 999 is a trick to force the system to take the "None" option for abilities in case of charac roll
+    this.ability = { name: "", score: 999, speciality: "", specApply: false };
 
     this.combat = { exertion: false, advantage: 0 };
 

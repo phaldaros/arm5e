@@ -1,18 +1,18 @@
 <div class="characteristics grid backSection margintop18">
-  <header class="lab-total-header grid-6col flexrow flex-group-center">
+  <header class="arts-total-header grid-6col flexrow flex-group-center">
     <div class="techLabel">{{localize "arm5e.sheet.labTotal"}}</div>
     {{#each data.arts.techniques as |technique key|}}
-    <div class="techLabel">{{label}}</div>
+      <div class="techLabel">{{label}}</div>
     {{/each}}
   </header>
   <ol class="form-list grid-6col">
     {{#each data.arts.forms as |form key|}}
-    <li class="flexrow flex-group-center" style="padding: 0px">
-      <div class="formLabel flexrow flex-group-center">{{label}}</div>
-      {{#each ../data.arts.techniques as |technique k2|}}
-      <div class="lab-total flexrow flex-group-center">{{lookup ( lookup @root.data.labTotals key) k2}}</div>
-      {{/each}}
-    </li>
+      <li class="flexrow flex-group-center" style="padding: 0px">
+        <div class="formLabel flexrow flex-group-center">{{label}}</div>
+        {{#each ../data.arts.techniques as |technique k2|}}
+          <div class="lab-total flexrow flex-group-center">{{lookup ( lookup @root.data.labTotals key) k2}}</div>
+        {{/each}}
+      </li>
     {{/each}}
   </ol>
   <div class="characteristics grid grid-3col">
@@ -80,12 +80,8 @@
 
     <div class="flexrow flex-group-center" style="border: 0px">
       <label for="data.apprentice.magicTheory" class="bold">{{localize "arm5e.skill.arcane.magicTheory"}}</label>
-      <input
-        type="number"
-        name="data.apprentice.magicTheory"
-        value="{{data.apprentice.magicTheory }}"
-        data-dtype="Number"
-      />
+      <input type="number" name="data.apprentice.magicTheory" value="{{data.apprentice.magicTheory }}"
+        data-dtype="Number" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
