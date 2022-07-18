@@ -9,6 +9,7 @@ export class ArM5eRollData {
   }
 
   init(dataset, actor) {
+    this.reset();
     const actorSystemData = actor.data.data;
     this.type = dataset.roll;
     this.label = dataset.name;
