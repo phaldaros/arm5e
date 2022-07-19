@@ -695,6 +695,7 @@
       "might": {
         "label": "Might",
         "dtype": "Number",
+        "form": "",
         "value": 0,
         "points": 0
       },

@@ -30,7 +30,8 @@
 - New field in spell sheet to describe the bonus
 - New sub-tab for casting totals
 - New field for spell bonus description
-- Combat section moved after wound and fatigue
+- Combat section moved after wounds and fatigue
+- Entities now have a associated form
 
 ### Bug fixes
 
