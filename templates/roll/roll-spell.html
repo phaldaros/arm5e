@@ -65,13 +65,14 @@
         }})</label>
     </div>
     <div class="hidden activeEffects">
-      <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
-      </div>
-      <div class="flexrow flex-group-center sub">
-        <label class="resource-label">{{ data.roll.magic.bonusDesc }} : {{ data.roll.magic.bonus }}</label>
-      </div>
-
+      {{#unless (eq data.roll.magic.bonus 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+</label>
+        </div>
+        <div class="flexrow flex-group-center sub">
+          <label class="resource-label">{{ data.roll.magic.bonusDesc }} : {{ data.roll.magic.bonus }}</label>
+        </div>
+      {{/unless}}
       {{#each data.roll.activeEffects as |item id|}}
         <div class="flexrow flex-group-center">
           <label class="resource-label">+</label>
@@ -80,6 +81,7 @@
           <label class="resource-label">{{ item.label }} {{ item.value }}</label>
         </div>
       {{/each}}
+
     </div>
     {{#unless (eq data.fatigueTotal 0) }}
       <div class="flexrow flex-group-center">
