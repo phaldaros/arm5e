@@ -32,20 +32,30 @@
           </select>
         </span>
         {{#if (eq data.charType.value "entity")}}
-          <div class="grid grid-3col">
+          <div class="flexrow">
+
             <label for="data.might.value" class="header-label flex0"
-              style="font-size: 14pt; font-family:blackmoor;  padding-left: 15px; margin-left: 8px">{{localize "arm5e.sheet.might"}}</label>
-            <div>
+              style="font-size: 13pt; font-family:blackmoor;  padding-top: 15px; padding-left: 5px;padding-right: 5px;">{{localize "arm5e.sheet.might"}}</label>
+            <div style="padding-top: 15px">
               <input type="number" name="data.might.points" value="{{data.might.points}}" data-dtype="Number"
-                style="width: 40px; text-align: center;" /> {{localize "arm5e.sheet.pointsShort"}} /
+                style="width: 36px; text-align: center;" /> {{localize "arm5e.sheet.pointsShort"}} /
               <input type="number" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"
-                style="width: 48px; text-align: center;" />
+                style="width: 40px; text-align: center; " />
             </div>
-            <select name="data.realmAlignment" data-type="Number">
-              {{#select data.realmAlignment}} {{#each config.realmsExt as |realm key|}}
-                  <option value="{{realm.value}}">{{localize realm.label}}</option>
-                {{/each}} {{/select}}
-            </select>
+            <div style="padding-top: 15px; padding-left: 5px;">
+              <select name="data.realmAlignment" data-type="Number">
+                {{#select data.realmAlignment}} {{#each config.realmsExt as |realm key|}}
+                    <option value="{{realm.value}}">{{localize realm.label}}</option>
+                  {{/each}} {{/select}}
+              </select>
+            </div>
+            <div style="padding-top: 15px">
+              <select name="data.might.form" data-type="String">
+                {{#select data.might.form}} {{#each config.magic.forms as |forms key|}}
+                    <option value="{{key}}">{{forms.label}}</option>
+                  {{/each}} {{/select}}
+              </select>
+            </div>
           </div>
         {{else}}
           <h2 class="covenantname flexrow">
