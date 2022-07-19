@@ -72,7 +72,7 @@ export class ArM5eRollData {
           this.magic.formLabel = formData[0];
           this.magic.formScore = formData[1];
           this.magic.form = dataset.form;
-          this.magic.bonus = spell.data.data.bonus;
+          this.magic.bonus = spell.data.data.bonus == undefined ? 0 : spell.data.data.bonus;
           this.magic.bonusDesc = spell.data.data.bonusDesc;
           this.magic.focus = spell.data.data.applyFocus;
           this.magic.ritual = spell.data.data.ritual;

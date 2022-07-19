@@ -20,7 +20,7 @@ const ROLL_MODES = {
   STRESS_OR_SIMPLE: 3
 };
 
-const ROLL_PROPERTIES = {
+const DEFAULT_ROLL_PROPERTIES = {
   DEFAULT: {
     MODE: ROLL_MODES.STRESS_OR_SIMPLE,
     TITLE: "arm5e.dialog.title.rolldie"
@@ -64,6 +64,56 @@ const ROLL_PROPERTIES = {
     CALLBACK: agingCrisis
   }
 };
+
+// experimental, allow simple die for everything
+const ALTERNATE_ROLL_PROPERTIES = {
+  DEFAULT: {
+    MODE: ROLL_MODES.SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
+  COMBAT: {
+    MODE: ROLL_MODES.SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie",
+    ALT_ACTION: exertSelf,
+    ALT_ACTION_LABEL: "arm5e.dialog.button.exertSelf"
+  },
+  INIT: {
+    MODE: ROLL_MODES.SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
+  MAGIC: {
+    MODE: ROLL_MODES.SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie",
+    CALLBACK: castSpell
+  },
+  SPONT: {
+    MODE: ROLL_MODES.SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
+  CHAR: {
+    MODE: 18, // STRESS + SIMPLE + UNCONSCIOUS
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
+  SPELL: {
+    MODE: ROLL_MODES.SIMPLE,
+    TITLE: "arm5e.dialog.title.rolldie",
+    CALLBACK: castSpell
+  },
+  AGING: {
+    MODE: 61, // STRESS + NO_BOTCH + NO_CONF + UNCONSCIOUS + PRIVATE
+    TITLE: "arm5e.aging.roll.label",
+    CALLBACK: applyAgingEffects
+  },
+  CRISIS: {
+    MODE: 58, // SIMPLE + NO_CONF + UNCONSCIOUS + PRIVATE
+    TITLE: "arm5e.aging.crisis.label",
+    CALLBACK: agingCrisis
+  }
+};
+
+const ROLL_PROPERTIES = DEFAULT_ROLL_PROPERTIES;
+//const ROLL_PROPERTIES = ALTERNATE_ROLL_PROPERTIES;
+
 function getRollTypeProperties(type) {
   return ROLL_PROPERTIES[type.toUpperCase()] ?? ROLL_PROPERTIES.DEFAULT;
 }
