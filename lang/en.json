@@ -827,6 +827,7 @@
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities (xp)",
   "arm5e.sheet.activeEffect.types.laboratory": "Laboratory",
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",
+  "arm5e.sheet.activeEffect.types.optional": "Optional bonus",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
   "arm5e.sheet.activeEffect.subtypes.fatigueTotal": "Fatigue total",
