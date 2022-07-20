@@ -326,8 +326,8 @@ export const migrateActorData = function(actorData) {
       actorData.data.decrepitude = {};
     }
 
-    if (this.data.data.realmAlignment == undefined) {
-      this.data.data.realmAlignment = 0;
+    if (actorData.data.realmAlignment == undefined) {
+      actorData.data.realmAlignment = 0;
     }
     // remove garbage stuff if it exists
 
