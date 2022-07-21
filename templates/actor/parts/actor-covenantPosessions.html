@@ -12,7 +12,8 @@
         </div>
     </li>
     {{#each data.possessions as |item id|}}
-        <li class="item flexrow item-value flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
@@ -44,7 +45,8 @@
         </div>
     </li>
     {{#each data.labs as |item id|}}
-        <li class="item flexrow item-value flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class=" flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <label><span class="bold">{{localize "arm5e.sheet.owner"}}: </label>{{item.data.owner}} </span>
@@ -82,7 +84,8 @@
         </div>
     </li>
     {{#each data.magicItems as |item id|}}
-        <li class="item flexrow item-value flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
@@ -113,7 +116,8 @@
         </div>
     </li>
     {{#each data.visSources as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
@@ -146,7 +150,8 @@
         </div>
     </li>
     {{#each data.visStock as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
@@ -178,7 +183,8 @@
         </div>
     </li>
     {{#each data.items as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>

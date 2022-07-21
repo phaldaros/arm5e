@@ -32,6 +32,7 @@
 - New field for spell bonus description
 - Combat section moved after wounds and fatigue
 - Entities now have a associated form
+- New client setting to ask for confirmation when deleting an owned item
 
 ### Bug fixes
 

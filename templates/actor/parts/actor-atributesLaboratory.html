@@ -12,7 +12,7 @@
       </div>
     </li>
     {{#each data.specialities as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4" name="item.name"> {{item.name}} </span>
           <label><span class="bold">{{localize "arm5e.sheet.points"}}:</span> {{item.data.points}}</label>
@@ -40,7 +40,7 @@
       </div>
     </li>
     {{#each data.personalities as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
             {{item.name}}
@@ -71,7 +71,7 @@
       </div>
     </li>
     {{#each data.distinctive as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width2" name="item.name"> {{item.name}} </span>
           <label><span class="bold">{{localize "arm5e.sheet.focus"}}:</span> {{item.data.foco}}</label>
@@ -101,7 +101,7 @@
       </div>
     </li>
     {{#each data.rooms as |item id|}}
-      <li class="item item-value flexrow" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4" data-roll="1d10+{{item.data.score}}" name="item.name">
             {{item.name}}

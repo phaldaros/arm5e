@@ -98,7 +98,8 @@
             </div>
         </li>
         {{#each data.habitants.magi as |item id|}}
-            <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}" ">
+            <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+                data-item-id="{{item._id}}" ">
                 <div class=" flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}} </span>
                 <label><span class="flexrow bold width15"></span>{{item.data.job}}</label>
@@ -138,7 +139,8 @@
         </div>
     </li>
     {{#each data.habitants.companion as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <label><span class="flexrow bold width15"></span>{{item.data.job}} ({{ item.data.score }})</label>
@@ -179,7 +181,8 @@
         </div>
     </li>
     {{#each data.habitants.specialists as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
@@ -212,7 +215,8 @@
         </div>
     </li>
     {{#each data.habitants.habitants as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span class="flexrow bold width15">{{item.data.job}} ({{ item.data.score }})</span>
@@ -250,7 +254,8 @@
         </div>
     </li>
     {{#each data.habitants.horses as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width2">{{item.name}}</span>
                 <span></span>
@@ -281,7 +286,8 @@
         </div>
     </li>
     {{#each data.habitants.livestock as |item id|}}
-        <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+            data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width2">{{item.name}}</span>
                 <span></span>

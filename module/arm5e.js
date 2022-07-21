@@ -136,6 +136,14 @@ Hooks.once("init", async function() {
     default: "PLAYERS_ONLY"
   });
 
+  game.settings.register("arm5e", "confirmDelete", {
+    name: "Ask for confirmation when deleting an owned item",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+
   CONFIG.Canvas.layers["arsmagica"] = {
     layerClass: ArsLayer,
     group: "primary"
