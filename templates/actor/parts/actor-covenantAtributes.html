@@ -16,7 +16,8 @@
     </div>
   </li>
   {{#each data.reputations as |item id|}}
-    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+      data-item-id="{{item._id}}">
       <div class="flexrow flex-center">
         <span class="flexrow item-title width3">{{item.name}}</span>
         <span></span>

@@ -120,7 +120,8 @@
     </li>
     {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="spells" visibility=ui.spellsFilterVisibility}}
     {{#each data.spells as |item id|}}
-      <li class="item item-value flexrow macro-ready" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
+        data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="spell" data-id="{{item._id}}"
             data-technique="{{item.data.technique.value}}" data-form="{{item.data.form.value}}"
@@ -165,7 +166,8 @@
     </li>
     {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="magicalEffects" visibility=ui.magicEffectFilterVisibility}}
     {{#each data.magicalEffects as |item id|}}
-      <li class="item item-value flexrow macro-ready" data-item-id="{{item._id}}" data-attribute="{{id}}">
+      <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
+        data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="magic" data-id="{{item._id}}"
             data-technique="{{item.data.technique.value}}" data-form="{{item.data.form.value}}"
@@ -205,7 +207,7 @@
         </div>
       </li>
       {{#each data.powers as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
             {{log item.img}}
             <span class="flexrow item-title width4 clickable power-use" name="item.name" data-item-id="{{item._id}}"

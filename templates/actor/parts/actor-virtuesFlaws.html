@@ -20,7 +20,7 @@
       </li>
 
       {{#each data.virtues as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
             <span class="flexrow item-title" {{{item.data.ui.style}}}>{{item.name}}</span>
           </div>
@@ -52,7 +52,7 @@
       </li>
 
       {{#each data.flaws as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}">
+        <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
             <span class="flexrow item-title" {{{item.data.ui.style}}}>{{item.name}} </span>
           </div>

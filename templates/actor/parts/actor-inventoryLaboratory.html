@@ -10,7 +10,7 @@
     </div>
   </li>
   {{#each data.books as |item id|}}
-    <li class="item item-value flexrow" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <span class="flexrow bold">{{localize "arm5e.sheet.type"}}:
@@ -41,7 +41,7 @@
     </div>
   </li>
   {{#each data.rawVis as |item id|}}
-    <li class="item item-value flexrow" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <span></span>
@@ -70,7 +70,7 @@
     </div>
   </li>
   {{#each data.magicItems as |item id|}}
-    <li class="item item-value flexrow" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <span></span>
@@ -96,7 +96,7 @@
     </div>
   </li>
   {{#each data.items as |item id|}}
-    <li class="item item-value flexrow" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <div class="item-controls">

@@ -11,7 +11,8 @@
     </div>
   </li>
   {{#each data.magicBooks as |item id|}}
-    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+      data-item-id="{{item._id}}">
       <div class="flexrow flex-center">
         <span class="flexrow item-title width15">{{item.name}}</span>
 
@@ -50,7 +51,8 @@
   {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="laboratoryTexts" visibility=ui.labtTextFilterVisibility }}
   {{#each
   data.laboratoryTexts as |item id|}}
-    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+      data-item-id="{{item._id}}">
       <div class="flexrow flex-center">
         <span class="flexrow item-title width15">
           {{localize (lookup @root.config.lab.labTextType item.data.type)~}} : {{item.name}} ( {{#with
@@ -83,7 +85,8 @@
     </div>
   </li>
   {{#each data.mundaneBooks as |item id|}}
-    <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
+    <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
+      data-item-id="{{item._id}}">
       <div class="flexrow flex-center">
         <span class="flexrow item-title width15">{{item.name}}</span>
         <span class="flexrow bold">{{localize "arm5e.sheet.ability"}}: {{item.data.ability}} </span>

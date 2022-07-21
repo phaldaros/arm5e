@@ -105,7 +105,7 @@
           </div>
         </li>
         {{#each data.familiar.abilitiesFam as |ability key|}}
-          <li class="item item-value flexrow" data-item-id="{{ability._id}}">
+          <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{ability._id}}">
             <div class="flexrow flex-center">
               <span class="flexrow item-title rollable" data-roll="1d10+{{item.data.score}}"
                 name="item.name">{{ability.name}}
@@ -134,7 +134,7 @@
           </div>
         </li>
         {{#each data.familiar.powersFam as |data key|}}
-          <li class="item item-value flexrow" data-item-id="{{data._id}}">
+          <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{data._id}}">
             <div class="flexrow flex-center">
               <span class="flexrow item-title" name="item.name">{{data.name}} </span>
             </div>

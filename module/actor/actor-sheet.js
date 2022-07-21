@@ -598,15 +598,32 @@ export class ArM5eActorSheet extends ActorSheet {
       ]);
     });
 
-    // Delete Inventory Item
-    html.find(".item-delete").click(ev => {
+    // Delete Inventory Item, optionally ask for confirmation
+    html.find(".item-delete").click(async ev => {
+      ev.preventDefault();
       const li = $(ev.currentTarget).parents(".item");
       let itemId = li.data("itemId");
       itemId = itemId instanceof Array ? itemId : [itemId];
-      this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-      li.slideUp(200, () => this.render(false));
+      if (game.settings.get("arm5e", "confirmDelete")) {
+        const question = game.i18n.localize("arm5e.dialog.delete-question");
+        await Dialog.confirm({
+          title: `${li[0].dataset.name}`,
+          content: `<p>${question}</p>`,
+          yes: () => {
+            itemId = itemId instanceof Array ? itemId : [itemId];
+            this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+            li.slideUp(200, () => this.render(false));
+          },
+          no: () => null,
+          rejectClose: true
+        });
+      } else {
+        this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+        li.slideUp(200, () => this.render(false));
+      }
     });
 
+    // Delete Inventory Item and always ask for confirmation
     html.find(".item-delete-confirm").click(async event => {
       event.preventDefault();
       const question = game.i18n.localize("arm5e.dialog.delete-question");
