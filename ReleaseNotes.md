@@ -54,6 +54,7 @@
 - Parma magica speciality is now taken into account in magic contests
 - Free form spontaneous magic takes the correct arts score if you change them in the roll dialog
 - Characteristic rolls don't select the first ability with 0 score instead of "None".
+- NPC rolls results are only visible for the GM
 
 ## 1.4.3
 

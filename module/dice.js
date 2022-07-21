@@ -29,7 +29,7 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
   });
 
   let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
-  if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE) {
+  if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE || actor.data.type != "player") {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
   const flags = {
@@ -102,7 +102,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
 
   let rollOptions = {};
   let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
-  if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE) {
+  if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE || actor.data.type != "player") {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
 
@@ -636,18 +636,26 @@ async function noRoll(html, actor, callBack) {
     }
   };
   let formula = `${rollData.formula}`;
+  let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+  if (actor.data.type != "player") {
+    rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
+  }
+
   const dieRoll = new Roll(formula, actor.data.data);
   let tmp = await dieRoll.roll({
     async: true
   });
-  const message = await tmp.toMessage({
-    content: "",
-    flavor: chatTitle + details,
-    flags: flags,
-    speaker: ChatMessage.getSpeaker({
-      actor
-    })
-  });
+  const message = await tmp.toMessage(
+    {
+      content: "",
+      flavor: chatTitle + details,
+      flags: flags,
+      speaker: ChatMessage.getSpeaker({
+        actor
+      })
+    },
+    { rollMode: rollMode }
+  );
   await checkTargetAndCalculateResistance(actor, dieRoll, message);
   await actor.update({
     data: { might: { points: actor.data.data.might.points - rollData.power.cost } }

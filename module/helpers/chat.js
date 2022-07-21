@@ -25,6 +25,7 @@ export function addChatListeners(message, html, data) {
     });
   } else {
     html.find(".clickable").remove();
+    if (actor.data.type != "player") return;
   }
 
   if (!message.isRoll) return;
