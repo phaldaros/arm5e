@@ -1,5 +1,16 @@
 # Release Notes
 
+## 1.4.5
+
+### Features
+
+- Compacted GM private rolls to take less space in the chat
+
+### Bug fixes
+
+- Fixed mnemonic for default characteristic in ability sheet
+- Fixed a bug for migration legacy auras.
+
 ## 1.4.4
 
 ### Features
