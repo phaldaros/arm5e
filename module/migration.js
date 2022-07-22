@@ -163,11 +163,15 @@ export const migrateCompendium = async function(pack) {
  */
 export const migrateSceneData = function(scene, migrationData) {
   if (scene?.flags?.world) {
-    const aura = scene.flags.world[`aura_${scene.data._id}`];
-    const type = scene.flags.world[`aura_type_${scene.data._id}`];
+    let updateData = {};
+    const aura = scene.flags.world[`aura_${scene._id}`];
+    const type = scene.flags.world[`aura_type_${scene._id}`];
     if (aura && !type) {
       log(false, "Missing aura type");
+
+      updateData[`data.flags.world.aura_type_${scene._id}`] = 1;
     }
+    return updateData;
   }
 
   const tokens = scene.tokens.map(token => {
