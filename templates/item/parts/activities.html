@@ -19,46 +19,64 @@
 </nav>
 <section class="diary-body">
   <div class="tab" data-tab="abilities" data-group="diary-secondary">
+
     <header class="effect-change effects-header flexrow">
       <div class="type">{{ localize "arm5e.skill.category.label" }}</div>
       <div class="key">{{ localize "arm5e.sheet.ability" }}</div>
       <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       <div class="progress-controls">
-        <a class="progress-control" data-action="add" data-type="abilities"><i class="fas fa-plus"></i></a>
+        {{#if (eq data.defaultAbility "")}}
+          {{localize "TODO.noAbility"}}
+        {{else}}
+          <a class="progress-control" data-action="add" data-type="abilities" data-default="{{data.defaultAbility}}"><i
+              class="fas fa-plus"></i></a>
+        {{/if}}
       </div>
+
     </header>
     <div class="resource">
       <ol class="progresses-list">
         {{#each data.progress.abilities as |ability idx|}}
-          {{log "ability: " ability ", idx: " idx}}
+
           <li class="item diary-progress flexrow">
-            <select name="data.progress.{{idx}}.abilities.category" data-dtype="String" class="ability-key flex02">
+            <select name="data.progress.abilities.{{idx}}.category" data-dtype="String" data-index="{{idx}}"
+              data-type="abilities" data-id="{{lookup ../data.ownedAbilities ability.category}}"
+              class="progress-category ability-key flex02" style="min-width: 135px;">
               {{#select ability.category}}
-                {{#each ../config.ABILITIES_CATEGORIES }}
-                  <option value="{{@key}}">{{localize this}}</option>
+                {{#each ../data.ownedAbilities as | ab key|   }}
+                  <option value="{{key}}">{{localize (lookup ../../config.ABILITIES_CATEGORIES key)}}</option>
                 {{/each}}
               {{/select}}
             </select>
-            {{ log ../diary.abilities}}
-            <select name="data.progress.abilities.{{idx}}.key" data-dtype="String" class="ability-key flex02">
-              {{#select ability.key}}
-                {{#each ../diary.abilities as |ab i|}}
-                  <option value="{{ab.key}}">{{ab.name}}</option>
+            <select name="data.progress.abilities.{{idx}}.id" data-dtype="String" data-index="{{idx}}"
+              data-type="abilities" class="progress-ability flex02" style="min-width: 150px;">
+              {{#select ability.id}}
+                {{#each (lookup ../data.ownedAbilities ability.category) as |ab i|}}
+                  <option value="{{ab.id}}">{{ab.name}}</option>
                 {{/each}}
               {{/select}}
             </select>
             <div class="xp">
               <input type="number" name="data.progress.abilities.{{idx}}.xp" value="{{ability.xp}}" data-dtype="Number"
-                class="flex0" style="width:50px" />
+                data-index="{{idx}}" data-type="abilities" class="flex0" style="width:50px" />
             </div>
             <div class="progress-controls">
               <a class="progress-control" data-idx="{{idx}}" data-type="abilities" data-action="delete"><i
                   class="icon-Icon_Delete_Hand_Gesture"></i></a>
             </div>
+            <div style="position: absolute; right: -4300px">
+              <input type="text" name="data.progress.abilities.{{idx}}.option" value="{{ability.option}}"
+                data-dtype="String" readonly />
+            </div>
+            <div style="position: absolute; right: -4300px">
+              <input type="text" name="data.progress.abilities.{{idx}}.key" value="{{ability.key}}" data-dtype="String"
+                readonly />
+            </div>
           </li>
         {{/each}}
       </ol>
     </div>
+
   </div>
   <div class="tab" data-tab="arts">b</div>
   <div class="tab" data-tab="spells">c</div>

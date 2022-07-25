@@ -734,6 +734,14 @@ export const migrateItemData = function(itemData) {
   // Fix type of Item
   if (itemData.type == "dairyEntry") {
     updateData["type"] = "diaryEntry";
+
+    if (itemData.data.progress == undefined || isObjectEmpty(itemData.data.progress)) {
+      updateData["data.progress"] = { abilities: [], spells: [], arts: [] };
+    }
+  } else if (itemData.type == "diaryEntry") {
+    if (itemData.data.progress == undefined || isObjectEmpty(itemData.data.progress)) {
+      updateData["data.progress"] = { abilities: [], spells: [], arts: [] };
+    }
   }
 
   if (itemData.type == "might") {

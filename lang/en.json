@@ -275,6 +275,12 @@
   "arm5e.skill.commonCases.hermesLore": "Order of Hermes Lore",
 
   "arm5e.skill.category.label": "Category",
+  "arm5e.skill.category.general": "General",
+  "arm5e.skill.category.martial": "Martial",
+  "arm5e.skill.category.academic": "Academic",
+  "arm5e.skill.category.arcane": "Arcane",
+  "arm5e.skill.category.supernatural": "Supernatural",
+  "arm5e.skill.category.mystery": "Mystery",
 
   "arm5e.skill.general.animalHandling": "Animal Handling",
   "arm5e.skill.general.areaLore": "Area ({option}) Lore",

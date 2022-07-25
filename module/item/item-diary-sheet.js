@@ -45,9 +45,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     // TODO remove to enable code again.
-    context.showTab = false;
-    context.ui.showXp = true;
-    return context;
+    // context.showTab = false;
+    // context.ui.showXp = true;
+    // return context;
 
     if (this.actor._isMagus()) {
       context.ui.showMagicProgress = true;
@@ -57,7 +57,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     // legacy diary or just a simple recounting of events
     if (context.data.activity == "none") {
       context.showTab = false;
-      return;
+      return context;
     } else if (context.data.activity == "aging") {
       context.ui.showXp = false;
       context.ui.showProgress = false;
@@ -73,31 +73,60 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.data.progress = {};
     }
 
-    context.diary = { abilities: [] };
+    // create the actor abilities tree
+    context.data.ownedAbilities = {};
+    context.data.defaultAbility = "";
+    let firstAb = true;
+
+    // for each progressed ability, list the category and abilities available
     for (const ability of this.actor.data.data.abilities) {
+      if (context.data.ownedAbilities[ability.data.category] == undefined)
+        context.data.ownedAbilities[ability.data.category] = [];
       let tmp = {
         id: ability._id,
-        category: CONFIG.ARM5E.ALL_ABILITIES[ability.data.key]?.category ?? "general",
+        category: ability.data.category,
         name: ability.name,
         key: ability.data.key,
         option: ability.data.option
       };
-      context.diary.abilities.push(tmp);
-    }
-
-    if (!isObjectEmpty(itemData.data.progress)) {
-      if (itemData.data.progress.abilities.length > 0) {
-        context.diary.selectedAbilities = itemData.data.progress.abilities;
+      if (firstAb) {
+        let filteredList = Object.values(context.data.progress.abilities).filter(e => {
+          return e.id === ability._id;
+        });
+        log(false, `Length of filterd abilities is ${filteredList.length}`);
+        if (
+          // if ability doesn't exist in rows, set it as next default
+          filteredList.length === 0
+        ) {
+          context.data.defaultAbility = ability._id;
+          log(false, `Default ability is ${ability.name}`);
+          firstAb = false;
+        }
       }
-      // if (this.actor._isMagus()) {
-      //   if (itemData.data.progress.arts.length > 0) {
-      //     context.diary.selectedArts = itemData.data.progress.arts;
-      //   }
-      //   if (itemData.data.progress.spells.length > 0) {
-      //     context.diary.selectedSpells = itemData.data.progress.spells;
-      //   }
-      // }
+      context.data.ownedAbilities[ability.data.category].push(tmp);
     }
+    // log(false, categories);
+
+    // if (!isObjectEmpty(itemData.data.progress)) {
+    //   context.choices = {};
+    //   if (itemData.data.progress.abilities.length > 0) {
+    //     context.choices.selectableAbilities = [];
+    //     let idx = 0;
+    //     for (const progress of itemData.data.progress.abilities) {
+    //       context.choices.selectableAbilities[idx++] = context.data.abilities.filter(
+    //         a => a.category == progress.category
+    //       );
+    //     }
+    //   }
+    // if (this.actor._isMagus()) {
+    //   if (itemData.data.progress.arts.length > 0) {
+    //     context.diary.selectedArts = itemData.data.progress.arts;
+    //   }
+    //   if (itemData.data.progress.spells.length > 0) {
+    //     context.diary.selectedSpells = itemData.data.progress.spells;
+    //   }
+    // }
+    // }
 
     log(false, "item-diary-sheet get data");
     log(false, context);
@@ -128,96 +157,97 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (!this.options.editable) return;
 
     html.find(".progress-control").click(this._onProgressControl.bind(this));
-    html.find(".progress-category").click(this._setType.bind(this));
-    html.find(".progress-ability").click(this._setAbility.bind(this));
+    html.find(".progress-category").change(this._setCategory.bind(this));
+    html.find(".progress-ability").change(this._setAbility.bind(this));
   }
 
   async _onProgressControl(event) {
     event.preventDefault();
     const button = event.currentTarget;
-    const idx = button.dataset.idx;
-    let currentData = this.item.data.data.progress[button.dataset.type] ?? [];
+
+    let currentData = Object.values(this.item.data.data.progress[button.dataset.type]) ?? [];
     let updateData = {};
     switch (button.dataset.action) {
       case "add":
-        // updateData[`data.progress`] = {};
-        // this.item.update(updateData, {});
-        const data = { id: "", name: "none", category: "general", key: "", option: "", xp: 0 };
+        // get first ability of the tree
+        const newAb = this.actor.items.get(button.dataset.default);
+        const data = {
+          id: newAb.id,
+          // category: newAb.data.data.category,
+          // name: newAb.name,
+          // key: newAb.data.data.key,
+          // option: newAb.data.data.option,
+          xp: 0
+        };
         currentData.push(data);
         updateData[`data.progress.abilities`] = currentData;
-        this.item.update(updateData, {});
+        // return this.submit({ preventClose: true, updateData: updateData }).then(() =>
+        //   this.render()
+        // );
+        await this.item.update(updateData, {});
         break;
       case "delete":
+        const idx = Number(button.dataset.idx);
         currentData.splice(idx, 1);
         button.closest(".diary-progress").remove();
-        return this.submit({ preventClose: true, updateData: currentData }).then(() =>
-          this.render()
-        );
+        updateData[`data.progress.abilities`] = currentData;
+        // return this.submit({ preventClose: true, updateData: updateData }).then(() =>
+        //   this.render()
+        // );
+        await this.item.update(updateData, {});
         break;
       default:
     }
   }
 
-  async _setType(event) {
+  async _setCategory(event) {
     event.preventDefault();
-    const button = event.currentTarget;
-    const idx = button.dataset.idx;
-    const value = button.selectedOptions[0];
-    let currentData = this.item.data.data.progress[button.dataset.type] ?? [];
+    let updateData = {};
+    const target = event.currentTarget;
+    const idx = target.dataset.index;
+    const value = $(target).val();
+    let currentData = Object.values(this.item.data.data.progress[target.dataset.type]) ?? [];
+    log(false, `Current data: ${currentData}`);
+    currentData[idx] = this.item.data.data.ownedAbilities[value][0];
+    currentData[idx].xp = 0;
+    updateData[`data.progress.abilities`] = currentData;
+    // return this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
+    // let updateData = { data: { progress: { abilities: currentData } } };
 
-    currentData[idx].category = value;
-    // if (this.actor.)
-
-    let updateData;
-    updateData[`data.progress.${button.dataset.type}`] = currentData;
-
-    // also update subtype
-    let arraySubtypes = this.object.getFlag("arm5e", "subtype");
-    arraySubtypes[index] = Object.keys(ACTIVE_EFFECTS_TYPES[value].subtypes)[0];
-    let arrayOptions = this.object.getFlag("arm5e", "option");
-    arrayOptions[index] = ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].option || null;
-
-    this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
-    // await this.object.setFlag("arm5e", "type", arrayTypes);
+    await this.item.update(updateData, {});
   }
 
   async _setAbility(event) {
-    let arrayTypes = this.object.getFlag("arm5e", "type");
-    let arraySubtypes = this.object.getFlag("arm5e", "subtype");
-    let arrayOptions = this.object.getFlag("arm5e", "option");
-    arraySubtypes[index] = value;
-    arrayOptions[index] =
-      ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].option || null;
-    let computedKey = ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].key;
-    if (arrayOptions[index] != null) {
-      computedKey = computedKey.replace("#OPTION#", arrayOptions[index]);
-    }
-    let update = {
-      flags: {
-        arm5e: {
-          type: arrayTypes,
-          subtype: arraySubtypes,
-          option: arrayOptions
-        }
-      },
-      [`changes.${index}`]: {
-        mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].mode,
-        key: computedKey,
-        value: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].default
-      }
+    event.preventDefault();
+    let updateData = {};
+    const target = event.currentTarget;
+    const idx = target.dataset.index;
+    const value = $(target).val();
+    let currentData = Object.values(this.item.data.data.progress[target.dataset.type]) ?? [];
+    const selectedAbility = this.actor.items.get(value);
+    const data = {
+      id: selectedAbility.id,
+      category: selectedAbility.data.data.category,
+      name: selectedAbility.name,
+      key: selectedAbility.data.data.key,
+      option: selectedAbility.data.data.option,
+      xp: 0
     };
-
-    this.submit({ preventClose: true, updateData: update }).then(() => this.render());
+    currentData[idx] = data;
+    updateData[`data.progress.abilities`] = currentData;
+    // return this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
+    // let updateData = { data: { progress: { abilities: currentData } } };
+    await this.item.update(updateData, {});
   }
 
-  async _addAbility() {
-    const idx = this.document.data.changes.length;
-    return this.submit({
-      preventClose: true,
-      updateData: {
-        [`changes.${idx}`]: { key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "" },
-        flags: updateFlags
-      }
-    });
-  }
+  // async _addAbility() {
+  //   const idx = this.document.data.changes.length;
+  //   return this.submit({
+  //     preventClose: true,
+  //     updateData: {
+  //       [`changes.${idx}`]: { key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "" },
+  //       flags: updateFlags
+  //     }
+  //   });
+  // }
 }

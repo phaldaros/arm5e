@@ -1331,7 +1331,8 @@
       "experience": 0,
       "source": 0,
       "activity": "none",
-      "progress": {},
+      "confidence": 0,
+      "progress": { "abilities": [], "spells": [], "arts": [] },
       "applied": false
     },
     "power": {

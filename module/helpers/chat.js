@@ -9,13 +9,17 @@ export function addChatListeners(message, html, data) {
   }
 
   const tokenName = actor.data.token.name;
+  let actorImg = actor.img;
+  if (actor.data.token.img != undefined) {
+    actorImg = actor.data.token.img;
+  }
   const msgTitle = html.find(".message-sender");
   // is there a better way?
   let text = msgTitle.text();
   text = text.replace("Gamemaster", tokenName);
   msgTitle.text(text);
   const actorFace = $(
-    `<div class="item-image flex01"><img src="${actor.img}" title="${tokenName}" width="30" height="30">`
+    `<div class="item-image flex01"><img src="${actorImg}" title="${tokenName}" width="30" height="30">`
   );
 
   msgTitle.prepend(actorFace);

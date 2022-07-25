@@ -202,6 +202,14 @@ export class ArM5eItem extends Item {
     // log(false,itemData);
   }
 
+  prepareDerivedData() {
+    // add category to ability
+    if (this.data.type == "ability") {
+      this.data.data.category =
+        CONFIG.ARM5E.ALL_ABILITIES[this.data.data.key]?.category ?? "general";
+    }
+  }
+
   _needLevelComputation() {
     let enforceEnchantmentLevel =
       this.type == "laboratoryText" &&
@@ -272,10 +280,10 @@ export class ArM5eItem extends Item {
 
   _getTechLabel() {
     let label = CONFIG.ARM5E.magic.arts[this.data.data.technique.value].short;
-    let techReq = Object.entries(this.data.data["technique-req"]).filter((r) => r[1] === true);
+    let techReq = Object.entries(this.data.data["technique-req"]).filter(r => r[1] === true);
     if (techReq.length > 0) {
       label += " (";
-      techReq.forEach((key) => {
+      techReq.forEach(key => {
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
       // remove last whitespace
@@ -287,10 +295,10 @@ export class ArM5eItem extends Item {
 
   _getFormLabel() {
     let label = CONFIG.ARM5E.magic.arts[this.data.data.form.value].short;
-    let formReq = Object.entries(this.data.data["form-req"]).filter((r) => r[1] === true);
+    let formReq = Object.entries(this.data.data["form-req"]).filter(r => r[1] === true);
     if (formReq.length > 0) {
       label += " (";
-      formReq.forEach((key) => {
+      formReq.forEach(key => {
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
       // remove last whitespace
@@ -306,10 +314,10 @@ export class ArM5eItem extends Item {
 
     let label = CONFIG.ARM5E.magic.techniques[this.data.data.technique.value].label;
     let tech = 1000;
-    let techReq = Object.entries(this.data.data["technique-req"]).filter((r) => r[1] === true);
+    let techReq = Object.entries(this.data.data["technique-req"]).filter(r => r[1] === true);
     if (techReq.length > 0) {
       label += " (";
-      techReq.forEach((key) => {
+      techReq.forEach(key => {
         tech = Math.min(tech, actorData.data.arts.techniques[key[0]].finalScore);
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
@@ -331,10 +339,10 @@ export class ArM5eItem extends Item {
 
     let label = CONFIG.ARM5E.magic.forms[this.data.data.form.value].label;
     let form = 1000;
-    let formReq = Object.entries(this.data.data["form-req"]).filter((r) => r[1] === true);
+    let formReq = Object.entries(this.data.data["form-req"]).filter(r => r[1] === true);
     if (formReq.length > 0) {
       label += " (";
-      formReq.forEach((key) => {
+      formReq.forEach(key => {
         form = Math.min(form, actorData.data.arts.forms[key[0]].finalScore);
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
@@ -400,11 +408,11 @@ export class ArM5eItem extends Item {
     let form = 1000;
     let focusBonus = 0;
 
-    let techReq = Object.entries(itemData.data["technique-req"]).filter((r) => r[1] === true);
-    let formReq = Object.entries(itemData.data["form-req"]).filter((r) => r[1] === true);
+    let techReq = Object.entries(itemData.data["technique-req"]).filter(r => r[1] === true);
+    let formReq = Object.entries(itemData.data["form-req"]).filter(r => r[1] === true);
 
     if (techReq.length > 0) {
-      techReq.forEach((key) => {
+      techReq.forEach(key => {
         tech = Math.min(tech, actorData.data.arts.techniques[key[0]].finalScore);
       });
 
@@ -416,7 +424,7 @@ export class ArM5eItem extends Item {
       tech = actorData.data.arts.techniques[itemData.data.technique.value].finalScore;
     }
     if (formReq.length > 0) {
-      formReq.forEach((key) => {
+      formReq.forEach(key => {
         form = Math.min(tech, actorData.data.arts.forms[key[0]].finalScore);
       });
       form = Math.min(actorData.data.arts.forms[itemData.data.form.value].finalScore, form);
