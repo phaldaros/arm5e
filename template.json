@@ -3,7 +3,7 @@
     "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast"],
     "templates": {
       "base": {
-        "version": "0.3",
+        "version": "1.4.5",
         "virtues": [],
         "flaws": [],
         "diaryEntries": []
@@ -165,8 +165,7 @@
           "score": 0,
           "points": 0,
           "effects": "Warping effects"
-        },
-        "pendingXP": 0
+        }
       },
       "personality": {
         "personality": {

@@ -166,7 +166,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.data.sourceQuality
     ) {
       context.data.applyPossible = "disabled";
-      context.data.applyError = "arm5e.activity.msg.wrongTotalXp";
+      if (context.data.applyError === "")
+        context.data.applyError = "arm5e.activity.msg.wrongTotalXp";
     }
     let firstAb = true;
     // for each progressed ability, list the category and abilities available
@@ -278,6 +279,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     let description = this.item.data.data.description + "<h4>Technical part:<h4><ol>";
     let updateData = [];
     for (const ab of Object.values(this.item.data.data.progress.abilities)) {
+      // ignore 0 xp gain
+      if (ab.xp == 0) {
+        continue;
+      }
       // check that ability still exists
       let ability = this.actor.items.get(ab.id);
       if (ability == undefined) {
@@ -299,6 +304,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       updateData.push(data);
     }
     for (const s of Object.values(this.item.data.data.progress.spells)) {
+      // ignore 0 xp gain
+      if (s.xp == 0) {
+        continue;
+      }
       // check that spell still exists
       let spell = this.actor.items.get(s.id);
       if (spell == undefined) {
@@ -322,6 +331,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     let actorUpdate = { data: { arts: { forms: {}, techniques: {} } } };
     for (const a of Object.values(this.item.data.data.progress.arts)) {
+      // ignore 0 xp gain
+      if (a.xp == 0) {
+        continue;
+      }
       let artType = "techniques";
       if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
         artType = "forms";

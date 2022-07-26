@@ -6,8 +6,8 @@
           {{localize "arm5e.sheet.pendingExperience"}}
         </a>
       </label>
-      <span><input type="number" name="data.pendingXP" value="{{data.pendingXP}}" data-dtype="Number"
-          style="margin-top: 12px" /></span>
+      <span><input type="number" name="data.pendingXps" value="{{data.pendingXps}}" data-dtype="Number"
+          style="margin-top: 12px" readonly /></span>
     </div>
   </div>
 {{/if}}
@@ -31,7 +31,8 @@
           {{#with (lookup @root.config.seasons item.data.season)~}}{{localize label~}} ) {{/with}}
           {{item.data.date}}</span>
         <span></span>
-        <span class="flexrow bold width3">{{item.name}} ({{localize (lookup @root.config.activities.generic
+        <span class="flexrow bold width3" {{{ui.diary}}}>{{item.name}} ({{localize (lookup
+          @root.config.activities.generic
           item.data.activity)}})</span>
       </div>
       <div class="item-controls">
