@@ -31,7 +31,8 @@
           {{#with (lookup @root.config.seasons item.data.season)~}}{{localize label~}} ) {{/with}}
           {{item.data.date}}</span>
         <span></span>
-        <span class="flexrow bold width3">{{item.name}}</span>
+        <span class="flexrow bold width3">{{item.name}} ({{localize (lookup @root.config.activities.generic
+          item.data.activity)}})</span>
       </div>
       <div class="item-controls">
         <a class="item-control item-edit" title="Edit diary"><i class="icon-Icon_Edit"></i></a>

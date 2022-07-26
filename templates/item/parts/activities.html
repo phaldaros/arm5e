@@ -2,54 +2,63 @@
   <a class="posRelative" data-tab="abilities" data-group="diary-secondary">
     <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
     <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-    {{localize "arm5e.sheet.abilities"}}
+    {{localize "arm5e.sheet.abilities"}} ({{data.totalXp.abilities}})
   </a>
   {{#if ui.showMagicProgress}}
     <a class="posRelative" data-tab="arts" data-group="diary-secondary">
       <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.arts"}}
+      {{localize "arm5e.sheet.arts"}} ({{data.totalXp.arts}})
     </a>
     <a class="posRelative" data-tab="spells" data-group="diary-secondary">
       <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.spells"}}
+      {{localize "arm5e.sheet.spells"}} ({{data.totalXp.spells}})
     </a>
   {{/if}}
 </nav>
 <section class="diary-body">
   <div class="tab" data-tab="abilities" data-group="diary-secondary">
+
     <header class="effect-change effects-header flexrow">
       <div class="type">{{ localize "arm5e.skill.category.label" }}</div>
       <div class="key">{{ localize "arm5e.sheet.ability" }}</div>
       <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       <div class="progress-controls">
-        <a class="progress-control" data-action="add" data-type="abilities"><i class="fas fa-plus"></i></a>
+        {{#if (eq data.defaultAbility "")}}
+          {{localize "arm5e.activity.msg.noAbility"}}
+        {{else}}
+          <a class="progress-control" data-action="add" data-type="abilities" data-default="{{data.defaultAbility}}"
+            data-applied="{{data.applied}}"><i class="fas fa-plus"></i></a>
+        {{/if}}
       </div>
+
     </header>
     <div class="resource">
       <ol class="progresses-list">
         {{#each data.progress.abilities as |ability idx|}}
-          {{log "ability: " ability ", idx: " idx}}
           <li class="item diary-progress flexrow">
-            <select name="data.progress.{{idx}}.abilities.category" data-dtype="String" class="ability-key flex02">
+            <select name="data.progress.abilities.{{idx}}.category" data-dtype="String" data-index="{{idx}}"
+              data-type="abilities" {{@root.data.disabled}} class="progress-category ability-key flex02"
+              style="min-width: 135px;">
               {{#select ability.category}}
-                {{#each ../config.ABILITIES_CATEGORIES }}
-                  <option value="{{@key}}">{{localize this}}</option>
+                {{#each ../data.ownedAbilities as | ab key|   }}
+                  <option value="{{key}}">{{localize (lookup ../../config.ABILITIES_CATEGORIES key)}}</option>
                 {{/each}}
               {{/select}}
             </select>
-            {{ log ../diary.abilities}}
-            <select name="data.progress.abilities.{{idx}}.key" data-dtype="String" class="ability-key flex02">
-              {{#select ability.key}}
-                {{#each ../diary.abilities as |ab i|}}
-                  <option value="{{ab.key}}">{{ab.name}}</option>
+            <select name="data.progress.abilities.{{idx}}.id" data-dtype="String" data-index="{{idx}}"
+              data-type="abilities" class="progress-ability flex02" {{@root.data.disabled}} style="min-width: 150px;">
+              {{#select ability.id}}
+                {{#each (lookup ../data.ownedAbilities ability.category) as |ab i|}}
+                  <option value="{{ab.id}}">{{ab.name}}</option>
                 {{/each}}
               {{/select}}
             </select>
             <div class="xp">
               <input type="number" name="data.progress.abilities.{{idx}}.xp" value="{{ability.xp}}" data-dtype="Number"
-                class="flex0" style="width:50px" />
+                data-index="{{idx}}" data-type="abilities" {{@root.data.canEdit}} class="flex0" style="width:50px"
+                min="0" max="5" step="1" />
             </div>
             <div class="progress-controls">
               <a class="progress-control" data-idx="{{idx}}" data-type="abilities" data-action="delete"><i
@@ -59,60 +68,96 @@
         {{/each}}
       </ol>
     </div>
+
   </div>
-  <div class="tab" data-tab="arts">b</div>
-  <div class="tab" data-tab="spells">c</div>
-</section>
+  <div class="tab" data-tab="arts">
+    <header class="effect-change effects-header flexrow" style="padding-left: 15px">
+      <div class="key">{{ localize "arm5e.sheet.arts" }}</div>
+      <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
+      <div class="progress-controls">
+        {{#if (eq data.defaultArt "")}}
+          {{localize "arm5e.activity.msg.noArt"}}
+        {{else}}
+          <a class="progress-control" data-action="add" data-type="arts" data-default="{{data.defaultArt}}"
+            data-applied="{{data.applied}}"><i class="fas fa-plus"></i></a>
+        {{/if}}
+      </div>
 
-
-<ol class="changes-list">
-  {{#each data.skills as |change i|}}
-
-    <li class="effect-change">
-      <div class="flexrow">
-        <div class="type">
-          <select name="../flags.arm5e.type.{{i}}" data-type="String" class="effect-type" data-index="{{i}}">
-            {{#select (lookup ../selectedTypes i)}} {{#each ../types as |type id|}}
-                <option value="{{id}}">{{localize type.label}}</option>
-              {{/each}} {{/select}}
-          </select>
-        </div>
-        <div class="key">
-          <select name="changes.{{i}}.key" data-subtype="{{lookup ../subtypes i}}" class="effect-subtype"
-            data-index="{{i}}">
-            {{#select (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "computedKey")}}
-              {{#each (lookup ../subtypes i) as |st id |}}
-                <option data-subtype="{{id}}" value="{{st.computedKey}}">{{localize st.label}}</option>
-              {{/each}} {{/select}}
-          </select>
-          <div style="font-size: 8pt; overflow-wrap: break-word">{{#if ../devMode}}{{change.key}}{{/if}}</div>
-        </div>
-        <div class="mode">{{localize (concat "arm5e.sheet.activeEffect.mode_" change.mode)}}</div>
-        <div class="value">
-          {{#if (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "withChoice")}}
-            <select name="changes.{{i}}.value">
-              {{#select (lookup change "value") }} {{#each (lookup (lookup (lookup ../subtypes i) (lookup
-                ../selectedSubtypes i)) "choice") as | value key|}}
-                  <option value="{{key}}">{{localize value}}</option>
-                {{/each}} {{/select}}
+    </header>
+    <div class="resource">
+      <ol class="progresses-list">
+        {{#each data.progress.arts as |art idx|}}
+          <li class="item diary-progress flexrow">
+            <select name="data.progress.arts.{{idx}}.key" data-dtype="String" data-index="{{idx}}" data-type="arts"
+              class="progress-art flex02" {{@root.data.disabled}} style="min-width: 150px;">
+              {{#select art.key}}
+                {{#each ../config.magic.arts as |a key|}}
+                  <option value="{{key}}">{{a.label}}</option>
+                {{/each}}
+              {{/select}}
             </select>
-          {{else}}
+            <div class="xp">
+              <input type="number" name="data.progress.arts.{{idx}}.xp" value="{{art.xp}}" data-dtype="Number"
+                data-index="{{idx}}" data-type="arts" {{@root.data.canEdit}} class="flex0" style="width:50px" min="0"
+                max="5" step="1" />
+            </div>
+            <div class="progress-controls">
+              <a class="progress-control" data-idx="{{idx}}" data-type="arts" data-action="delete"><i
+                  class="icon-Icon_Delete_Hand_Gesture"></i></a>
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+    </div>
+  </div>
 
-            <input type="number" name="changes.{{i}}.value" value="{{change.value}}" data-dtype="Number" />
-          {{/if }}
-        </div>
+  <div class="tab" data-tab="spells">
+    <header class="effect-change effects-header flexrow" style="padding-left: 15px">
+      <div class="form">{{ localize "arm5e.sheet.form" }}</div>
+      <div class="key" style="min-width: 200px;">{{ localize "arm5e.sheet.spell" }}</div>
+      <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
+      <div class="progress-controls">
+        {{#if (eq data.defaultSpell "")}}
+          {{localize "arm5e.activity.msg.noSpell"}}
+        {{else}}
+          <a class="progress-control" data-action="add" data-type="spells" data-applied="{{data.applied}}"
+            data-default="{{data.defaultSpell}}"><i class="fas fa-plus"></i></a>
+        {{/if}}
+      </div>
+    </header>
+    <div class="resource">
+      <ol class="progresses-list">
+        {{#each data.progress.spells as |spell idx|}}
 
-        <div class="effect-controls">
-          {{#if (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "option")}}
-            <a class="effect-control" data-idx="{{i}}" data-action="option"><i class="fas fa-book"></i></a>
-          {{/if}}
-          <a class="effect-control" data-idx="{{i}}" data-action="delete"><i
-              class="icon-Icon_Delete_Hand_Gesture"></i></a>
-        </div>
-      </div>
-      <div style="position: absolute; right: -2300px">
-        <input type="number" name="changes.{{i}}.mode" value="{{change.mode}}" data-dtype="Number" readonly />
-      </div>
-    </li>
-  {{/each}}
-</ol>
+          <li class="item diary-progress flexrow">
+            <select name="data.progress.spells.{{idx}}.form" data-dtype="String" data-index="{{idx}}" data-type="spells"
+              {{@root.data.disabled}} class="progress-category  flex02" style="min-width: 135px;">
+              {{#select spell.form}}
+                {{#each ../data.ownedSpells  as | form key|   }}
+                  <option value="{{key}}">{{lookup (lookup ../../config.magic.forms key) "label"}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+            <select name="data.progress.spells.{{idx}}.id" data-dtype="String" data-index="{{idx}}" data-type="spells"
+              {{@root.data.disabled}} class="progress-spell flex02" style="min-width: 200px;">
+              {{#select spell.id}}
+                {{#each (lookup ../data.ownedSpells spell.form) as |spell i|}}
+                  <option value="{{spell.id}}">{{spell.name}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+            <div class="xp">
+              <input type="number" name="data.progress.spells.{{idx}}.xp" value="{{spell.xp}}" data-dtype="Number"
+                data-index="{{idx}}" data-type="spells" {{@root.data.canEdit}} class="flex0" style="width:50px" min="0"
+                max="5" step="1" {{data.canEdit}} />
+            </div>
+            <div class="progress-controls">
+              <a class="progress-control" data-idx="{{idx}}" data-type="spells" data-action="delete"
+                data-applied="{{data.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+    </div>
+  </div>
+</section>

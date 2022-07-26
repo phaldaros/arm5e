@@ -5,6 +5,8 @@
 ### Features
 
 - Compacted GM private rolls to take less space in the chat
+- Clicking on a non-rollable item put in the macro bar will open its sheet
+- Adventuring seasonal activities
 
 ### Bug fixes
 
