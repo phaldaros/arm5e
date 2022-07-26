@@ -1,15 +1,18 @@
 <div class="grid grid-3col">
   <div class="resource">
     <label class="header-label">{{localize "arm5e.sheet.sourceQuality"}}</label>
-    <input type="text" name="data.sourceQuality" value="{{data.sourceQuality}}" data-dtype="Number" />
+    <input type="text" name="data.sourceQuality" value="{{data.sourceQuality}}" data-dtype="Number" {{data.canEdit}} />
   </div>
 </div>
 {{> "systems/arm5e/templates/item/parts/activities.html" }}
 <div class="flexrow">
   {{#unless data.applied}}
-    <button class="arm5e flex02 apply" style="font-family: bookAntika">{{localize "arm5e.sheet.action.apply"}}</button>
+    <button class="arm5e flex02 progress-apply" style="font-family: bookAntika"
+      {{data.applyPossible}}>{{localize "arm5e.sheet.action.apply"}}</button>
+    <label class="header-label"
+      style="color:red; padding: 10px;">{{localize data.applyError item=data.errorParam}}</label>
   {{else}}
-    <button class="arm5e flex02 rollback"
+    <button class="arm5e flex02 progress-rollback"
       style="font-family: bookAntika">{{localize "arm5e.sheet.action.rollback"}}</button>
   {{/unless}}
 </div>

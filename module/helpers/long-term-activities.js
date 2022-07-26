@@ -56,7 +56,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
   resultAging.year = dialogData.year;
   resultAging.roll = { formula: roll._formula, result: roll.result };
 
-  createDiaryEntry(actor, resultAging);
+  createAgingDiaryEntry(actor, resultAging);
 }
 
 export async function agingCrisis(html, actor, roll, message) {
@@ -81,7 +81,7 @@ export async function agingCrisis(html, actor, roll, message) {
   await actor.update({ data: { pendingCrisis: false } }, {});
 }
 
-async function createDiaryEntry(actor, input) {
+async function createAgingDiaryEntry(actor, input) {
   let desc =
     game.i18n.localize("arm5e.aging.result0") +
     "<br/>" +

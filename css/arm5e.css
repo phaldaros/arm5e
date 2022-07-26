@@ -682,11 +682,14 @@ input[type="time"] {
   -ms-flex: 0;
   flex: 0;
   font-family: "bookAntiqua";
-  font-size: "initial";
+  font-size: 12pt;
 }
 
 .arm5e .progresses-list {
   list-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 112px;
   margin: 0;
   padding: 0;
 }
