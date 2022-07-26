@@ -180,6 +180,7 @@ export class ArM5ePCActor extends Actor {
     let diaryEntries = [];
     let abilitiesFamiliar = [];
     let powersFamiliar = [];
+    let pendingXps = 0;
 
     let soak = actorData.data.characteristics.sta.value + actorData.data.bonuses.traits.soak;
 
@@ -423,6 +424,10 @@ export class ArM5ePCActor extends Actor {
       // to be removed when we break backward compatibility with 0.7
       else if (i.type === "diaryEntry" || i.type === "dairyEntry") {
         diaryEntries.push(i);
+
+        if (!i.data.applied) {
+          pendingXps += i.data.sourceQuality;
+        }
       } else if (i.type === "abilityFamiliar") {
         abilitiesFamiliar.push(i);
       } else if (i.type === "mightFamiliar" || i.type === "powerFamiliar") {
@@ -634,7 +639,7 @@ export class ArM5ePCActor extends Actor {
     actorData.data.totalVirtues = totalVirtues;
     actorData.data.totalFlaws = totalFlaws;
     actorData.data.totalXPSpells = totalXPSpells;
-
+    actorData.data.pendingXps = pendingXps;
     if (actorData.data.weapons) {
       actorData.data.weapons = weapons;
       actorData.data.combat = combat;
@@ -1352,7 +1357,7 @@ export class ArM5ePCActor extends Actor {
         });
       }
     } catch (err) {
-      err.message = `Failed system migration for Actor ${a.name}: ${err.message}`;
+      err.message = `Failed system migration for Actor ${this.name}: ${err.message}`;
       console.error(err);
     }
   }

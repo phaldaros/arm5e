@@ -410,6 +410,14 @@ export class ArM5eActorSheet extends ActorSheet {
         }
       }
 
+      for (let [key, entry] of Object.entries(context.data.diaryEntries)) {
+        if (entry.data.applied) {
+          entry.ui = { diary: 'style="font-style: normal;"' };
+        } else {
+          entry.ui = { diary: 'style="font-style: italic;"' };
+        }
+      }
+
       for (let [key, charac] of Object.entries(context.data.characteristics)) {
         let shadowWidth = 2 * charac.aging;
         charac.ui = {

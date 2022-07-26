@@ -257,7 +257,7 @@ export const migrateActorData = function(actorData) {
     return updateData;
   }
 
-  updateData["data.version"] = "0.3";
+  updateData["data.version"] = "1.4.5";
 
   // token with barely anything to migrate
   if (actorData.data == undefined) {
@@ -343,6 +343,16 @@ export const migrateActorData = function(actorData) {
     updateData["data.-=qik"] = null;
     updateData["data.-=cha"] = null;
     updateData["data.-=com"] = null;
+
+    if (actorData.data.pendingXP != undefined && actorData.data.pendingXP > 0) {
+      ChatMessage.create({
+        content:
+          "<b>MIGRATION NOTIFICATION</b><br/>" +
+          `The field "Pending experience" has been repurposed for the new long term activities feature. ` +
+          `This is a one time notification that <b>the character ${actorData.name} had ${actorData.data.pendingXP} xps pending.</b>`
+      });
+      updateData["data.-=pendingXP"] = null;
+    }
   } else {
     updateData["data.-=roll"] = null;
   }
@@ -581,7 +591,7 @@ export const migrateActiveEffectData = function(effectData) {
 
 export const migrateItemData = function(itemData) {
   const updateData = {};
-  updateData["data.version"] = "1.3.2";
+  updateData["data.version"] = "1.4.5";
 
   //
   // migrate abilities xp
