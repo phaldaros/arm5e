@@ -435,7 +435,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           }
         );
         if (!confirmed) return;
-        let actorUpdate = { data: { age: { value: actorData.data.age.value - 1 } } };
+        let actorUpdate = {
+          data: { age: { value: actorData.data.age.value - 1 }, pendingCrisis: false }
+        };
 
         let effects = this.item.getFlag("arm5e", "effect");
         if (effects.apparent) {
@@ -445,15 +447,17 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           actorUpdate.data.characteristics = {};
         }
         for (let [char, stats] of Object.entries(effects.charac)) {
+          let newAgingPts = actorData.data.characteristics[char].aging - stats.aging;
+          let currentCharValue = actorData.data.characteristics[char].value;
           if (stats.score) {
+            // characteristic was reduced
             actorUpdate.data.characteristics[char] = {
-              value: actorData.data.characteristics[char].value + 1,
-              aging: 0
+              value: currentCharValue + 1,
+              aging: Math.max(0, Math.abs(currentCharValue + 1) - stats.aging)
             };
           } else {
-            let newAgingPts = actorData.data.characteristics[char].aging - stats.aging;
             actorUpdate.data.characteristics[char] = {
-              value: actorData.data.characteristics[char].value + 1,
+              value: currentCharValue + 1,
               aging: newAgingPts < 0 ? 0 : newAgingPts
             };
           }

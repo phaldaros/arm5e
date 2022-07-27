@@ -1253,7 +1253,7 @@ export class ArM5ePCActor extends Actor {
         updateData["data.decrepitude.points"] = this.data.data.decrepitude.points + 1;
         result.decrepitude = 1;
         result.charac[char1] = { aging: 1 };
-
+        // number of Aging Points greater than the absolute value of the Characteristic
         if (
           Math.abs(this.data.data.characteristics[char1].value) <
           this.data.data.characteristics[char1].aging + 1
@@ -1263,6 +1263,7 @@ export class ArM5ePCActor extends Actor {
           updateData[`data.characteristics.${char1}.aging`] = 0;
           result.charac[char1].score = -1;
         } else {
+          // aging points still lesser or equal than absolute value of characteristic score.
           updateData[`data.characteristics.${char1}.aging`] =
             this.data.data.characteristics[char1].aging + 1;
         }
