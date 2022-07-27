@@ -614,17 +614,21 @@ export class ArM5eActorSheet extends ActorSheet {
       itemId = itemId instanceof Array ? itemId : [itemId];
       if (game.settings.get("arm5e", "confirmDelete")) {
         const question = game.i18n.localize("arm5e.dialog.delete-question");
-        await Dialog.confirm({
-          title: `${li[0].dataset.name}`,
-          content: `<p>${question}</p>`,
-          yes: () => {
-            itemId = itemId instanceof Array ? itemId : [itemId];
-            this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-            li.slideUp(200, () => this.render(false));
+        await Dialog.confirm(
+          {
+            title: `${li[0].dataset.name}`,
+            content: `<p>${question}</p>`,
+            yes: () => {
+              itemId = itemId instanceof Array ? itemId : [itemId];
+              this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+              li.slideUp(200, () => this.render(false));
+            },
+            no: () => null
           },
-          no: () => null,
-          rejectClose: true
-        });
+          {
+            rejectClose: true
+          }
+        );
       } else {
         this.actor.deleteEmbeddedDocuments("Item", itemId, {});
         li.slideUp(200, () => this.render(false));
@@ -637,17 +641,19 @@ export class ArM5eActorSheet extends ActorSheet {
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       const li = $(event.currentTarget).parents(".item");
       let itemId = li.data("itemId");
-      await Dialog.confirm({
-        title: `${li[0].dataset.name}`,
-        content: `<p>${question}</p>`,
-        yes: () => {
-          itemId = itemId instanceof Array ? itemId : [itemId];
-          this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-          li.slideUp(200, () => this.render(false));
+      await Dialog.confirm(
+        {
+          title: `${li[0].dataset.name}`,
+          content: `<p>${question}</p>`,
+          yes: () => {
+            itemId = itemId instanceof Array ? itemId : [itemId];
+            this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+            li.slideUp(200, () => this.render(false));
+          },
+          no: () => null
         },
-        no: () => null,
-        rejectClose: true
-      });
+        { rejectClose: true }
+      );
     });
 
     // Generate abilities automatically

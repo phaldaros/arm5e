@@ -496,3 +496,13 @@ Hooks.on("deleteToken", (token, options, userId) => {
 });
 
 Hooks.on("getSceneControlButtons", buttons => addArsButtons(buttons));
+
+Hooks.on("renderPause", function() {
+  if ($("#pause").attr("class") !== "paused") return;
+  const path = "/systems/arm5e/assets/clockwork.svg";
+  // const opacity = 100
+  const speed = "20s linear 0s infinite normal none running rotation";
+  const opacity = 0.6;
+  $("#pause.paused img").attr("src", path);
+  $("#pause.paused img").css({ opacity: opacity, "-webkit-animation": speed });
+});
