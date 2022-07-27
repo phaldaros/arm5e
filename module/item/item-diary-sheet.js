@@ -458,10 +458,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             };
           }
         }
-        let newDecrepitude = actorData.data.decrepitude.point - effects.decrepitude;
+        let newDecrepitude = actorData.data.decrepitude.points - effects.decrepitude;
         actorUpdate.data.decrepitude = { points: newDecrepitude < 0 ? 0 : newDecrepitude };
         await this.actor.update(actorUpdate, {});
-        await this.item.delete();
+        await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
         return;
         break;
       }
