@@ -7,11 +7,13 @@
 - Compacted GM private rolls to take less space in the chat
 - Clicking on a non-rollable item put in the macro bar will open its sheet
 - Adventuring seasonal activities
+- Aging roll effects can be rollbacked
+- New custom pause icon by @Sylph
 
 ### Bug fixes
 
 - Fixed mnemonic for default characteristic in ability sheet
-- Fixed a bug for migration legacy auras.
+- Fixed a bug for migration of legacy auras.
 
 ## 1.4.4
 

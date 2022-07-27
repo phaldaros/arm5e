@@ -74,6 +74,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.data.progress = {};
     }
 
+    if (itemData.data.sourceQuality == undefined || isNaN(itemData.data.sourceQuality)) {
+      itemData.data.sourceQuality = 0;
+    }
+
     // create the actor abilities tree
     context.data.ownedAbilities = {};
     context.data.defaultAbility = "";
@@ -356,58 +360,112 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
   async _onProgressRollback(event) {
     event.preventDefault();
-
+    const actorData = this.actor.data;
     let updateData = [];
-    for (const ab of Object.values(this.item.data.data.progress.abilities)) {
-      // check that ability still exists
-      let ability = this.actor.items.get(ab.id);
-      if (ability == undefined) {
-        ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
-          permanent: false
-        });
-        continue;
-      }
-      let xps = ability.data.data.xp - ab.xp;
-      let data = {
-        _id: ab.id,
-        data: {
-          xp: xps < 0 ? 0 : xps
+    switch (this.item.data.data.activity) {
+      case "adventuring": {
+        for (const ab of Object.values(this.item.data.data.progress.abilities)) {
+          // check that ability still exists
+          let ability = this.actor.items.get(ab.id);
+          if (ability == undefined) {
+            ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
+              permanent: false
+            });
+            continue;
+          }
+          let xps = ability.data.data.xp - ab.xp;
+          let data = {
+            _id: ab.id,
+            data: {
+              xp: xps < 0 ? 0 : xps
+            }
+          };
+          updateData.push(data);
         }
-      };
-      updateData.push(data);
-    }
-    for (const s of Object.values(this.item.data.data.progress.spells)) {
-      let spell = this.actor.items.get(s.id);
-      if (spell == undefined) {
-        ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
-          permanent: false
-        });
-        continue;
-      }
-      let xps = spell.data.data.xp - s.xp;
-      let data = {
-        _id: s.id,
-        data: {
-          xp: xps < 0 ? 0 : xps
+        for (const s of Object.values(this.item.data.data.progress.spells)) {
+          let spell = this.actor.items.get(s.id);
+          if (spell == undefined) {
+            ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
+              permanent: false
+            });
+            continue;
+          }
+          let xps = spell.data.data.xp - s.xp;
+          let data = {
+            _id: s.id,
+            data: {
+              xp: xps < 0 ? 0 : xps
+            }
+          };
+          updateData.push(data);
         }
-      };
-      updateData.push(data);
-    }
 
-    let actorUpdate = { data: { arts: { forms: {}, techniques: {} } } };
-    for (const a of Object.values(this.item.data.data.progress.arts)) {
-      let artType = "techniques";
-      if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
-        artType = "forms";
+        let actorUpdate = { data: { arts: { forms: {}, techniques: {} } } };
+        for (const a of Object.values(this.item.data.data.progress.arts)) {
+          let artType = "techniques";
+          if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
+            artType = "forms";
+          }
+
+          let xps = actorData.data.arts[artType][a.key].xp - a.xp;
+          actorUpdate.data.arts[artType][a.key] = {};
+          actorUpdate.data.arts[artType][a.key].xp = xps < 0 ? 0 : xps;
+        }
+
+        await this.actor.updateEmbeddedDocuments("Item", updateData, {});
+        await this.actor.update(actorUpdate, {});
+        break;
       }
+      case "aging": {
+        let confirmed = await new Promise(
+          resolve => {
+            Dialog.confirm({
+              title: game.i18n.localize("arm5e.aging.rollback.title"),
+              content: `<p>${game.i18n.localize("arm5e.aging.rollback.confirm")}</p>`,
+              yes: () => {
+                resolve(true);
+              },
+              no: () => {
+                resolve(false);
+              }
+            });
+          },
+          {
+            rejectClose: true
+          }
+        );
+        if (!confirmed) return;
+        let actorUpdate = { data: { age: { value: actorData.data.age.value - 1 } } };
 
-      let xps = this.actor.data.data.arts[artType][a.key].xp - a.xp;
-      actorUpdate.data.arts[artType][a.key] = {};
-      actorUpdate.data.arts[artType][a.key].xp = xps < 0 ? 0 : xps;
+        let effects = this.item.getFlag("arm5e", "effect");
+        if (effects.apparent) {
+          actorUpdate.data.apparent = { value: actorData.data.apparent.value - 1 };
+        }
+        if (effects.charac) {
+          actorUpdate.data.characteristics = {};
+        }
+        for (let [char, stats] of Object.entries(effects.charac)) {
+          if (stats.score) {
+            actorUpdate.data.characteristics[char] = {
+              value: actorData.data.characteristics[char].value + 1,
+              aging: 0
+            };
+          } else {
+            let newAgingPts = actorData.data.characteristics[char].aging - stats.aging;
+            actorUpdate.data.characteristics[char] = {
+              value: actorData.data.characteristics[char].value + 1,
+              aging: newAgingPts < 0 ? 0 : newAgingPts
+            };
+          }
+        }
+        let newDecrepitude = actorData.data.decrepitude.points - effects.decrepitude;
+        actorUpdate.data.decrepitude = { points: newDecrepitude < 0 ? 0 : newDecrepitude };
+        await this.actor.update(actorUpdate, {});
+        await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
+        return;
+        break;
+      }
     }
-
-    await this.actor.updateEmbeddedDocuments("Item", updateData, {});
-    await this.actor.update(actorUpdate, {});
     await this.item.update({ data: { applied: false } });
   }
 
