@@ -26,13 +26,13 @@
           <label class="header-label">Activity</label>
           <select name="data.activity" data-type="String" style="width: 100%">
             {{#select data.activity}} {{#each config.activities.generic as |activity key|}}
-                <option value="{{key}}">{{localize activity}}</option>
+                <option value="{{key}}">{{localize activity.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
-        {{#if ui.showXp}}
+        {{#if ui.showLegacyXp}}
           <div class="resource">
-            <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.experience"
+            <label>{{localize "arm5e.sheet.experience"}}<input type="number" name="data.experience"
                 value="{{data.experience}}" data-dtype="Number" /></label>
           </div>
         {{/if}}
@@ -62,7 +62,7 @@
     </div>
     {{!-- Advanced Tab --}}
     <div class="tab" data-group="primary" data-tab="advanced">
-      {{#if showTab}}
+      {{#if ui.showTab}}
         {{> "systems/arm5e/templates/item/parts/seasonal-activity.html" }}
       {{/if}}
     </div>

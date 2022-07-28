@@ -779,7 +779,7 @@
   "arm5e.aging.result4": "- Obtuvo {num} punto(s) de envejecimiento en {characteristic}.<br/>",
   "arm5e.aging.result5": "- Perdió un punto en {characteristic}.<br/>",
   "arm5e.aging.result6": "- Obtuvo {num} punto(s) de Decrepitud.<br/>",
-  "arm5e.activity.none": "Ninguno",
+  "arm5e.activity.diary": "Diario",
   "arm5e.activity.adventuring": "Adventuras",
   "arm5e.activity.exposure": "Exposición",
   "arm5e.activity.practice": "Práctica",

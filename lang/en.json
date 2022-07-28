@@ -893,7 +893,7 @@
   "arm5e.aging.rollback.title": "Revert effect of aging roll",
   "arm5e.aging.rollback.confirm": "This action will revert the effect of aging and delete the diary entry. Are you sure?",
 
-  "arm5e.activity.none": "None",
+  "arm5e.activity.diary": "Diary",
   "arm5e.activity.adventuring": "Adventuring",
   "arm5e.activity.exposure": "Exposure",
   "arm5e.activity.practice": "Practice",

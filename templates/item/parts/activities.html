@@ -1,20 +1,26 @@
 <nav class="sheet-tabs diary-tabs tabs" data-group="diary-secondary">
-  <a class="posRelative" data-tab="abilities" data-group="diary-secondary">
-    <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-    <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-    {{localize "arm5e.sheet.abilities"}} ({{data.totalXp.abilities}})
-  </a>
+  {{#if ui.showAbilities}}
+    <a class="posRelative" data-tab="abilities" data-group="diary-secondary">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.abilities"}} ({{data.totalXp.abilities}})
+    </a>
+  {{/if}}
   {{#if ui.showMagicProgress}}
-    <a class="posRelative" data-tab="arts" data-group="diary-secondary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.arts"}} ({{data.totalXp.arts}})
-    </a>
-    <a class="posRelative" data-tab="spells" data-group="diary-secondary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.spells"}} ({{data.totalXp.spells}})
-    </a>
+    {{#if ui.showArts}}
+      <a class="posRelative" data-tab="arts" data-group="diary-secondary">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.arts"}} ({{data.totalXp.arts}})
+      </a>
+    {{/if}}
+    {{#if ui.showSpells}}
+      <a class="posRelative" data-tab="spells" data-group="diary-secondary">
+        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.spells"}} ({{data.totalXp.spells}})
+      </a>
+    {{/if}}
   {{/if}}
 </nav>
 <section class="diary-body">

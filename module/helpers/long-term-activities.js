@@ -133,3 +133,88 @@ async function createAgingDiaryEntry(actor, input) {
 
   await actor.createEmbeddedDocuments("Item", [diaryEntry], {});
 }
+
+function genericValidationOfActivity(context) {}
+
+function checkForDuplicate(context, array) {}
+
+export function validAdventuring(context, actor, item) {
+  const itemData = item.data;
+  context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
+  let abilitiesArr = Object.values(itemData.data.progress.abilities);
+  // look for duplicates
+  let abiltiesIds = abilitiesArr.map(e => {
+    return e.id;
+  });
+  if (
+    abiltiesIds.some(e => {
+      return abiltiesIds.indexOf(e) !== abiltiesIds.lastIndexOf(e);
+    })
+  ) {
+    context.data.applyPossible = "disabled";
+    context.data.errorParam = "abilities";
+    context.data.applyError = "arm5e.activity.msg.duplicates";
+  }
+  for (const ab of abilitiesArr) {
+    if (ab.xp < 0 || ab.xp > 5) {
+      context.data.applyPossible = "disabled";
+      context.data.applyError = "arm5e.activity.msg.wrongSingleItemXp";
+      break;
+    }
+    context.data.totalXp.abilities += ab.xp;
+  }
+
+  // look for duplicates arts
+  let artsArr = Object.values(itemData.data.progress.arts);
+  let artsKeys = artsArr.map(e => {
+    return e.key;
+  });
+  if (
+    artsKeys.some(e => {
+      return artsKeys.indexOf(e) !== artsKeys.lastIndexOf(e);
+    })
+  ) {
+    context.data.applyPossible = "disabled";
+    context.data.applyError = "arm5e.activity.msg.duplicates";
+    context.data.errorParam = "arts";
+  }
+  for (const a of artsArr) {
+    if (a.xp < 0 || a.xp > 5) {
+      context.data.applyPossible = "disabled";
+      context.data.applyError = "arm5e.activitymsg.wrongSingleItemXp";
+      break;
+    }
+    context.data.totalXp.arts += a.xp;
+  }
+
+  // look for duplicates spells
+  let spellsArr = Object.values(itemData.data.progress.spells);
+  let spellsIds = spellsArr.map(e => {
+    return e.id;
+  });
+  if (
+    spellsIds.some(e => {
+      return spellsIds.indexOf(e) !== spellsIds.lastIndexOf(e);
+    })
+  ) {
+    context.data.applyPossible = "disabled";
+    context.data.applyError = "arm5e.activity.msg.duplicates";
+    context.data.errorParam = "spells";
+  }
+  for (const s of spellsArr) {
+    if (s.xp < 0 || s.xp > 5) {
+      context.data.applyPossible = "disabled";
+      context.data.applyError = "arm5e.activity.msg.wrongSingleItemXp";
+      break;
+    }
+    context.data.totalXp.spells += s.xp;
+  }
+
+  if (
+    context.data.totalXp.abilities + context.data.totalXp.arts + context.data.totalXp.spells !=
+    context.data.sourceQuality
+  ) {
+    context.data.applyPossible = "disabled";
+    if (context.data.applyError === "") context.data.applyError = "arm5e.activity.msg.wrongTotalXp";
+  }
+}

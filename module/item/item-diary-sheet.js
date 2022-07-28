@@ -38,38 +38,36 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     // editable, the items array, and the effects array.
     const context = super.getData();
     const itemData = context.item.data;
-
+    const actType = context.data.activity;
     if (this.actor == null) {
-      context.showTab = false;
+      context.ui.showTab = false;
       return context;
     }
 
-    // TODO remove to enable code again.
-    // context.showTab = false;
-    // context.ui.showXp = true;
-    // return context;
+    if (itemData.data.year == "") {
+      itemData.data.year = this.actor.data.data.year.value;
+    }
+
+    const activityConfig = CONFIG.ARM5E.activities.generic;
+
+    // legacy diary or just a simple recounting of events
+    if (actType == "none") {
+      context.ui.showTab = false;
+      return context;
+    }
+
+    // configuration
+    context.ui.showTab = true;
+    context.ui.showLegacyXp = activityConfig[actType].display.legacyXp;
+    context.ui.showProgress = activityConfig[actType].display.progress;
+    context.ui.showAbilities = activityConfig[actType].display.abilities;
+    context.ui.showArts = activityConfig[actType].display.arts;
+    context.ui.showSpells = activityConfig[actType].display.spells;
 
     if (this.actor._isMagus()) {
       context.ui.showMagicProgress = true;
     }
-    context.showTab = true;
 
-    // legacy diary or just a simple recounting of events
-    if (context.data.activity == "none") {
-      context.showTab = false;
-      return context;
-    } else if (context.data.activity == "aging") {
-      context.ui.showXp = false;
-      context.ui.showProgress = false;
-      context.ui.buttonRollback = this.actor;
-    } else if (context.data.activity == "adventuring") {
-      context.ui.showXp = false;
-      context.ui.showProgress = true;
-    } else {
-      context.showTab = false;
-      context.ui.showXp = false;
-      context.ui.showProgress = false;
-    }
     if (!itemData.data.progress) {
       context.data.progress = {};
     }
@@ -95,84 +93,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.data.disabled = "disabled";
     }
 
-    context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
-    let abilitiesArr = Object.values(itemData.data.progress.abilities);
-    // look for duplicates
-    let abiltiesIds = abilitiesArr.map(e => {
-      return e.id;
-    });
-    if (
-      abiltiesIds.some(e => {
-        return abiltiesIds.indexOf(e) !== abiltiesIds.lastIndexOf(e);
-      })
-    ) {
-      context.data.applyPossible = "disabled";
-      context.data.errorParam = "abilities";
-      context.data.applyError = "arm5e.activity.msg.duplicates";
-    }
-    for (const ab of abilitiesArr) {
-      if (ab.xp < 0 || ab.xp > 5) {
-        context.data.applyPossible = "disabled";
-        context.data.applyError = "arm5e.activity.msg.wrongSingleItemXp";
-        break;
-      }
-      context.data.totalXp.abilities += ab.xp;
+    if (activityConfig[actType].validation != null) {
+      activityConfig[actType].validation(context, this.actor, this.item);
     }
 
-    // look for duplicates arts
-    let artsArr = Object.values(itemData.data.progress.arts);
-    let artsKeys = artsArr.map(e => {
-      return e.key;
-    });
-    if (
-      artsKeys.some(e => {
-        return artsKeys.indexOf(e) !== artsKeys.lastIndexOf(e);
-      })
-    ) {
-      context.data.applyPossible = "disabled";
-      context.data.applyError = "arm5e.activity.msg.duplicates";
-      context.data.errorParam = "arts";
-    }
-    for (const a of artsArr) {
-      if (a.xp < 0 || a.xp > 5) {
-        context.data.applyPossible = "disabled";
-        context.data.applyError = "arm5e.activitymsg.wrongSingleItemXp";
-        break;
-      }
-      context.data.totalXp.arts += a.xp;
-    }
-
-    // look for duplicates spells
-    let spellsArr = Object.values(itemData.data.progress.spells);
-    let spellsIds = spellsArr.map(e => {
-      return e.id;
-    });
-    if (
-      spellsIds.some(e => {
-        return spellsIds.indexOf(e) !== spellsIds.lastIndexOf(e);
-      })
-    ) {
-      context.data.applyPossible = "disabled";
-      context.data.applyError = "arm5e.activity.msg.duplicates";
-      context.data.errorParam = "spells";
-    }
-    for (const s of spellsArr) {
-      if (s.xp < 0 || s.xp > 5) {
-        context.data.applyPossible = "disabled";
-        context.data.applyError = "arm5e.activity.msg.wrongSingleItemXp";
-        break;
-      }
-      context.data.totalXp.spells += s.xp;
-    }
-
-    if (
-      context.data.totalXp.abilities + context.data.totalXp.arts + context.data.totalXp.spells !=
-      context.data.sourceQuality
-    ) {
-      context.data.applyPossible = "disabled";
-      if (context.data.applyError === "")
-        context.data.applyError = "arm5e.activity.msg.wrongTotalXp";
-    }
     let firstAb = true;
     // for each progressed ability, list the category and abilities available
     for (const ability of this.actor.data.data.abilities) {
