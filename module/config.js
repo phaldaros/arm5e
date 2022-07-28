@@ -1,3 +1,5 @@
+import { validAdventuring } from "./helpers/long-term-activities.js";
+
 export const ARM5E = {};
 export const ARM5E_DEFAULT_ICONS = {};
 /**
@@ -1396,13 +1398,118 @@ ARM5E.item.costs = {
 ARM5E.activities = {};
 
 ARM5E.activities.generic = {
-  none: "arm5e.activity.none",
-  adventuring: "arm5e.activity.adventuring",
-  exposure: "arm5e.activity.exposure",
-  practice: "arm5e.activity.practice",
-  training: "arm5e.activity.training",
-  teaching: "arm5e.activity.teaching",
-  aging: "arm5e.activity.aging"
+  none: {
+    label: "arm5e.activity.diary",
+    display: { legacyXp: true, tab: false, progress: false },
+    source: { default: 0, min: 0, max: 0 },
+    maxXp: 0,
+    progressItems: {},
+    bonusOptions: [],
+    validation: null
+  },
+  adventuring: {
+    label: "arm5e.activity.adventuring",
+    display: {
+      legacyXp: false,
+      tab: true,
+      progress: true,
+      abilities: true,
+      arts: true,
+      spells: true
+    },
+    source: { default: 5, min: 5, max: 300 },
+    maxXp: 5,
+    progressItems: { max: 0 },
+    bonusOptions: [],
+    validation: validAdventuring
+  },
+  exposure: {
+    label: "arm5e.activity.exposure",
+    display: {
+      legacyXp: false,
+      tab: false,
+      progress: true,
+      abilities: true,
+      arts: true,
+      spells: false
+    },
+    source: { default: 2, min: 2, max: 2 },
+    maxXp: 2,
+    progressItems: 2,
+    bonusOptions: [],
+    validation: null
+  },
+  practice: {
+    label: "arm5e.activity.practice",
+    display: {
+      legacyXp: false,
+      tab: false,
+      progress: true,
+      abilities: true,
+      arts: false,
+      spells: true
+    },
+    source: { default: 4, min: 4, max: 8 },
+    maxXp: 0,
+    bonusOptions: [
+      { language: "Practice language", modifier: 4 },
+      { area: "Explore area", modifier: 3 },
+      { area: "Forced practice", modifier: 1 },
+      { area: "Spell mastery", modifier: 1 }
+    ],
+    validation: null
+  },
+  training: {
+    label: "arm5e.activity.training",
+    display: {
+      legacyXp: false,
+      tab: false,
+      progress: true,
+      abilities: true,
+      arts: false,
+      spells: true
+    },
+    source: { default: 2, min: 2, max: 99 },
+    maxXp: 0,
+    bonusOptions: [],
+    validation: null
+  },
+  teaching: {
+    label: "arm5e.activity.teaching",
+    display: {
+      legacyXp: false,
+      tab: false,
+      progress: true,
+      abilities: true,
+      arts: true,
+      spells: true
+    },
+    source: { default: 2, min: 2, max: 0 },
+    maxXp: 0,
+    bonusOptions: [
+      { singleStudent: "Single student", modifier: 6 },
+      { twoStudents: "Two students", modifier: 3 }
+    ],
+    validation: null
+  },
+  aging: {
+    label: "arm5e.activity.aging",
+    display: {
+      legacyXp: false,
+      tab: false,
+      progress: false,
+      abilities: true,
+      arts: false,
+      spells: false
+    },
+    source: { default: 0, min: 0, max: 0 },
+    maxXp: 0,
+    bonusOptions: [
+      { singleStudent: "Single student", modifier: 6 },
+      { twoStudents: "Two students", modifier: 6 }
+    ],
+    validation: null
+  }
 };
 
 ARM5E.activities.lab = {

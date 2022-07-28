@@ -9,6 +9,8 @@
 - Adventuring seasonal activities
 - Aging roll effects can be rollbacked
 - New custom pause icon by @Sylph
+- Update of French verison (by Lanneval and Nono)
+- Some redesign of the UI to have a more unified medieval flavor (by @Sylph)
 
 ### Bug fixes
 
