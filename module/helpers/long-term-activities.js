@@ -136,34 +136,23 @@ async function createAgingDiaryEntry(actor, input) {
 
 function genericValidationOfActivity(context) {}
 
-function checkForDuplicate(context, array) {}
-
-export function validAdventuring(context, actor, item) {
-  const itemData = item.data;
-  context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
-  let abilitiesArr = Object.values(itemData.data.progress.abilities);
+function checkForDuplicates(param, context, array) {
   // look for duplicates
-  let abiltiesIds = abilitiesArr.map(e => {
+  let ids = array.map(e => {
     return e.id;
   });
   if (
-    abiltiesIds.some(e => {
-      return abiltiesIds.indexOf(e) !== abiltiesIds.lastIndexOf(e);
+    ids.some(e => {
+      return ids.indexOf(e) !== ids.lastIndexOf(e);
     })
   ) {
     context.data.applyPossible = "disabled";
-    context.data.errorParam = "abilities";
+    context.data.errorParam = param;
     context.data.applyError = "arm5e.activity.msg.duplicates";
   }
-  for (const ab of abilitiesArr) {
-    if (ab.xp < 0 || ab.xp > 5) {
-      context.data.applyPossible = "disabled";
-      context.data.applyError = "arm5e.activity.msg.wrongSingleItemXp";
-      break;
-    }
-    context.data.totalXp.abilities += ab.xp;
-  }
+}
 
+function checkArtProgressItems(context, itemData, max) {
   // look for duplicates arts
   let artsArr = Object.values(itemData.data.progress.arts);
   let artsKeys = artsArr.map(e => {
@@ -178,37 +167,71 @@ export function validAdventuring(context, actor, item) {
     context.data.applyError = "arm5e.activity.msg.duplicates";
     context.data.errorParam = "arts";
   }
+  let res = 0;
   for (const a of artsArr) {
-    if (a.xp < 0 || a.xp > 5) {
+    if (a.xp < 0 || a.xp > max) {
       context.data.applyPossible = "disabled";
       context.data.applyError = "arm5e.activitymsg.wrongSingleItemXp";
-      break;
+      context.data.errorParam = max;
+      return 0;
     }
-    context.data.totalXp.arts += a.xp;
+    res += a.xp;
   }
+  return res;
+}
 
-  // look for duplicates spells
-  let spellsArr = Object.values(itemData.data.progress.spells);
-  let spellsIds = spellsArr.map(e => {
-    return e.id;
-  });
-  if (
-    spellsIds.some(e => {
-      return spellsIds.indexOf(e) !== spellsIds.lastIndexOf(e);
-    })
-  ) {
-    context.data.applyPossible = "disabled";
-    context.data.applyError = "arm5e.activity.msg.duplicates";
-    context.data.errorParam = "spells";
-  }
-  for (const s of spellsArr) {
-    if (s.xp < 0 || s.xp > 5) {
+// return the total xp
+function checkMaxXpPerItem(context, array, max) {
+  let res = 0;
+  for (const ab of array) {
+    if (ab.xp < 0 || ab.xp > max) {
       context.data.applyPossible = "disabled";
       context.data.applyError = "arm5e.activity.msg.wrongSingleItemXp";
-      break;
+      context.data.errorParam = max;
+      return 0;
     }
-    context.data.totalXp.spells += s.xp;
+    res += ab.xp;
   }
+  return res;
+}
+
+export function validAdventuring(context, actor, item) {
+  const itemData = item.data;
+  context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
+
+  let abilitiesArr = Object.values(itemData.data.progress.abilities);
+  checkForDuplicates("abilities", context, abilitiesArr);
+  context.data.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 5);
+
+  context.data.totalXp.arts += checkArtProgressItems(context, itemData, 5);
+
+  let spellsArr = Object.values(itemData.data.progress.spells);
+  checkForDuplicates("spells", context, spellsArr);
+  context.data.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 5);
+
+  if (
+    context.data.totalXp.abilities + context.data.totalXp.arts + context.data.totalXp.spells !=
+    context.data.sourceQuality
+  ) {
+    context.data.applyPossible = "disabled";
+    if (context.data.applyError === "") context.data.applyError = "arm5e.activity.msg.wrongTotalXp";
+  }
+}
+
+export function validExposure(context, actor, item) {
+  const itemData = item.data;
+
+  context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
+
+  let abilitiesArr = Object.values(itemData.data.progress.abilities);
+  checkForDuplicates("abilities", context, abilitiesArr);
+  context.data.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 2);
+
+  context.data.totalXp.arts += checkArtProgressItems(context, itemData, 2);
+
+  let spellsArr = Object.values(itemData.data.progress.spells);
+  checkForDuplicates("spells", context, spellsArr);
+  context.data.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 2);
 
   if (
     context.data.totalXp.abilities + context.data.totalXp.arts + context.data.totalXp.spells !=

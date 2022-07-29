@@ -2,8 +2,12 @@
   <div class="grid grid-3col">
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.sourceQuality"}}</label>
-      <input type="text" name="data.sourceQuality" value="{{data.sourceQuality}}" data-dtype="Number"
-        {{data.canEdit}} />
+      {{#if ui.editSource}}
+        <input type="text" name="data.sourceQuality" value="{{data.sourceQuality}}" data-dtype="Number"
+          {{data.canEdit}} />
+      {{else}}
+        <label class="header-label"> : {{data.sourceQuality}}</label>
+      {{/if}}
     </div>
   </div>
   {{> "systems/arm5e/templates/item/parts/activities.html" }}
@@ -13,7 +17,7 @@
     <button class="arm5e flex02 progress-apply" style="font-family: bookAntika"
       {{data.applyPossible}}>{{localize "arm5e.sheet.action.apply"}}</button>
     <label class="header-label"
-      style="color:red; padding: 10px;">{{localize data.applyError item=data.errorParam}}</label>
+      style="color:red; padding: 10px;">{{localize data.applyError param=data.errorParam}}</label>
   {{else}}
     <button class="arm5e flex02 progress-rollback"
       style="font-family: bookAntika">{{localize "arm5e.sheet.action.rollback"}}</button>

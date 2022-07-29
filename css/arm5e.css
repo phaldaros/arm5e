@@ -666,7 +666,7 @@ input[type="time"] {
 
 .arm5e .mainItem {
   background-repeat: repeat-y;
-  background-size: auto;
+  background-size: contain;
   font-family: "bookAntiquaBold";
   padding-left: 34px;
   padding-right: 34px;
@@ -675,7 +675,7 @@ input[type="time"] {
 }
 
 .arm5e .mainItem .sheet-body {
-  height: 250px;
+  height: auto;
 }
 
 .arm5e .mainItem .header-background {
@@ -837,7 +837,7 @@ input[type="time"] {
   list-style: none;
   overflow-x: hidden;
   overflow-y: auto;
-  height: 112px;
+  height: auto;
   margin: 0;
   padding: 0;
 }
@@ -858,6 +858,11 @@ input[type="time"] {
 .arm5e .sheet-body .tab,
 .arm5e .sheet-body .tab .editor {
   height: 90%;
+}
+
+.arm5e .diary-body {
+  height: 250px;
+  overflow-y: auto;
 }
 
 .arm5e .tox .tox-editor-container {

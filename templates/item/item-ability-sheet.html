@@ -47,9 +47,9 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}} {{#if (eq
-      metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
+    <div class="tab editor" data-group="primary" data-tab="description" style="height:auto; min-height: 170px;">
+      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+
     </div>
     <div class="grid grid-2col flex2">
       <div class="resource">
@@ -74,6 +74,9 @@
         {{/if}}
       </div>
     </div>
+    {{#if metagame}}
+      {{> "systems/arm5e/templates/generic/source.html" }}
+    {{/if}}
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

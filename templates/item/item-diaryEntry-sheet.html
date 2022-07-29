@@ -2,7 +2,8 @@
   style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
   <header class="sheet-header">
-    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"
+      style="height: 165px; flex-basis: 165px;" />
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
       <div class="grid grid-col">
@@ -24,7 +25,8 @@
         </div>
         <div class="resource">
           <label class="header-label">Activity</label>
-          <select name="data.activity" data-type="String" style="width: 100%">
+          <select class="progress-activity" name="data.activity" data-type="String" style="width: 100%"
+            {{@root.data.disabled}}>
             {{#select data.activity}} {{#each config.activities.generic as |activity key|}}
                 <option value="{{key}}">{{localize activity.label}}</option>
               {{/each}} {{/select}}
@@ -67,5 +69,7 @@
       {{/if}}
     </div>
   </section>
-  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+  <div style=" margin-top: 25px;">
+    {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+  </div>
 </form>
