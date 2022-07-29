@@ -1,4 +1,4 @@
-import { validAdventuring } from "./helpers/long-term-activities.js";
+import { validAdventuring, validExposure } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
 export const ARM5E_DEFAULT_ICONS = {};
@@ -1401,7 +1401,7 @@ ARM5E.activities.generic = {
   none: {
     label: "arm5e.activity.diary",
     display: { legacyXp: true, tab: false, progress: false },
-    source: { default: 0, min: 0, max: 0 },
+    source: { default: 0, readonly: true },
     maxXp: 0,
     progressItems: {},
     bonusOptions: [],
@@ -1417,7 +1417,7 @@ ARM5E.activities.generic = {
       arts: true,
       spells: true
     },
-    source: { default: 5, min: 5, max: 300 },
+    source: { default: 5, readonly: false },
     maxXp: 5,
     progressItems: { max: 0 },
     bonusOptions: [],
@@ -1427,17 +1427,17 @@ ARM5E.activities.generic = {
     label: "arm5e.activity.exposure",
     display: {
       legacyXp: false,
-      tab: false,
+      tab: true,
       progress: true,
       abilities: true,
       arts: true,
-      spells: false
+      spells: true
     },
-    source: { default: 2, min: 2, max: 2 },
+    source: { default: 2, readonly: true },
     maxXp: 2,
     progressItems: 2,
     bonusOptions: [],
-    validation: null
+    validation: validExposure
   },
   practice: {
     label: "arm5e.activity.practice",
@@ -1449,7 +1449,7 @@ ARM5E.activities.generic = {
       arts: false,
       spells: true
     },
-    source: { default: 4, min: 4, max: 8 },
+    source: { default: 4, readonly: true },
     maxXp: 0,
     bonusOptions: [
       { language: "Practice language", modifier: 4 },
@@ -1469,7 +1469,7 @@ ARM5E.activities.generic = {
       arts: false,
       spells: true
     },
-    source: { default: 2, min: 2, max: 99 },
+    source: { default: 2, readonly: true },
     maxXp: 0,
     bonusOptions: [],
     validation: null
@@ -1484,7 +1484,7 @@ ARM5E.activities.generic = {
       arts: true,
       spells: true
     },
-    source: { default: 2, min: 2, max: 0 },
+    source: { default: 2, readonly: true },
     maxXp: 0,
     bonusOptions: [
       { singleStudent: "Single student", modifier: 6 },
@@ -1502,7 +1502,7 @@ ARM5E.activities.generic = {
       arts: false,
       spells: false
     },
-    source: { default: 0, min: 0, max: 0 },
+    source: { default: 0, readonly: true },
     maxXp: 0,
     bonusOptions: [
       { singleStudent: "Single student", modifier: 6 },

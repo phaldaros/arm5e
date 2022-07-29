@@ -11,7 +11,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
       width: 654,
-      height: 750,
+      height: 850,
       // dragDrop: [{dragSelector: ".item-list .item", dropSelector: null}],
       tabs: [
         {
@@ -48,21 +48,28 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       itemData.data.year = this.actor.data.data.year.value;
     }
 
-    const activityConfig = CONFIG.ARM5E.activities.generic;
+    const activityConfig = CONFIG.ARM5E.activities.generic[actType];
 
     // legacy diary or just a simple recounting of events
     if (actType == "none") {
+      context.ui.showLegacyXp = true;
       context.ui.showTab = false;
       return context;
     }
 
     // configuration
     context.ui.showTab = true;
-    context.ui.showLegacyXp = activityConfig[actType].display.legacyXp;
-    context.ui.showProgress = activityConfig[actType].display.progress;
-    context.ui.showAbilities = activityConfig[actType].display.abilities;
-    context.ui.showArts = activityConfig[actType].display.arts;
-    context.ui.showSpells = activityConfig[actType].display.spells;
+    context.ui.showLegacyXp = activityConfig.display.legacyXp;
+    context.ui.showProgress = activityConfig.display.progress;
+    context.ui.showAbilities = activityConfig.display.abilities;
+    context.ui.showArts = activityConfig.display.arts;
+    context.ui.showSpells = activityConfig.display.spells;
+    context.ui.editSource = true;
+
+    if (itemData.data.sourceQuality == 0)
+      itemData.data.sourceQuality = activityConfig.source.default;
+
+    if (activityConfig.source.readonly) context.ui.editSource = false;
 
     if (this.actor._isMagus()) {
       context.ui.showMagicProgress = true;
@@ -70,10 +77,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     if (!itemData.data.progress) {
       context.data.progress = {};
-    }
-
-    if (itemData.data.sourceQuality == undefined || isNaN(itemData.data.sourceQuality)) {
-      itemData.data.sourceQuality = 0;
     }
 
     // create the actor abilities tree
@@ -88,13 +91,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     context.data.canEdit = "";
     context.data.disabled = "";
-    if (context.data.applied) {
+    if (itemData.data.applied) {
       context.data.canEdit = "readonly";
       context.data.disabled = "disabled";
     }
 
-    if (activityConfig[actType].validation != null) {
-      activityConfig[actType].validation(context, this.actor, this.item);
+    if (activityConfig.validation != null) {
+      activityConfig.validation(context, this.actor, this.item);
     }
 
     let firstAb = true;
@@ -115,7 +118,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           return e.id === ability._id;
         });
         if (
-          // if ability doesn't exist in rows, set it as next default
+          // if ability doesn't exist in current items, set it as next default
           filteredList.length === 0
         ) {
           context.data.defaultAbility = ability._id;
@@ -134,7 +137,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             return e.key === key;
           });
           if (
-            // if art doesn't exist in rows, set it as next default
+            // if art doesn't exist in current items, set it as next default
             filteredList.length === 0
           ) {
             context.data.defaultArt = key;
@@ -158,7 +161,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             return e.id === spell._id;
           });
           if (
-            // if spell doesn't exist in rows, set it as next default
+            // if spell doesn't exist in current items, set it as next default
             filteredList.length === 0
           ) {
             context.data.defaultSpell = spell._id;
@@ -200,6 +203,17 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".progress-art").change(this._setArt.bind(this));
     html.find(".progress-apply").click(this._onProgressApply.bind(this));
     html.find(".progress-rollback").click(this._onProgressRollback.bind(this));
+    html.find(".progress-activity").change(this._setActivity.bind(this));
+  }
+
+  async _setActivity(event) {
+    event.preventDefault();
+
+    // just reset some fields so the new default can be set
+    this.submit({ preventClose: true, updateData: { data: { sourceQuality: 0 } } }).then(() =>
+      this.render()
+    );
+    // await this.item.update({ data: { sourceQuality: 0 } });
   }
 
   async _onProgressApply(event) {
@@ -287,7 +301,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const actorData = this.actor.data;
     let updateData = [];
     switch (this.item.data.data.activity) {
-      case "adventuring": {
+      case "adventuring":
+      case "exposure": {
         for (const ab of Object.values(this.item.data.data.progress.abilities)) {
           // check that ability still exists
           let ability = this.actor.items.get(ab.id);

@@ -411,7 +411,7 @@ export class ArM5eActorSheet extends ActorSheet {
       }
 
       for (let [key, entry] of Object.entries(context.data.diaryEntries)) {
-        if (entry.data.applied) {
+        if (entry.data.applied || entry.data.activity == "none") {
           entry.ui = { diary: 'style="font-style: normal;"' };
         } else {
           entry.ui = { diary: 'style="font-style: italic;"' };

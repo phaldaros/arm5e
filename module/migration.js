@@ -752,6 +752,10 @@ export const migrateItemData = function(itemData) {
     if (itemData.data.progress == undefined || isObjectEmpty(itemData.data.progress)) {
       updateData["data.progress"] = { abilities: [], spells: [], arts: [] };
     }
+
+    if (itemData.data.sourceQuality == undefined || isNaN(itemData.data.sourceQuality)) {
+      updateData["data.sourceQuality"] = 0;
+    }
     // if (itemData.data.applied == undefined) {
     //   itemData.data.applied = true;
     // }

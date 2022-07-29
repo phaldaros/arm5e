@@ -14,7 +14,7 @@
   font-family: "Ars Magica icons";
   font-style: normal;
   font-weight: normal;
-  font-size: 12pt;
+  font-size: 13pt;
   line-height: 1;
   padding-top: 6px;
   -webkit-font-smoothing: antialiased;
@@ -71,5 +71,9 @@
 .icon-Icon_Delete_Perdo2:before {
   content: "\0051";
 }
-.icon-Icon_Damage:before{content:'\0052';}
-.icon-Icon_Soak:before{content:'\0053';}
+.icon-Icon_Damage:before {
+  content: "\0052";
+}
+.icon-Icon_Soak:before {
+  content: "\0053";
+}
