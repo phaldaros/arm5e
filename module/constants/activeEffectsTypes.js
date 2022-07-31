@@ -69,6 +69,31 @@ export default {
       }
     }
   },
+  activities: {
+    category: "progress",
+    type: "activities",
+    label: "arm5e.activity.label",
+    subtypes: {
+      practice: {
+        label: "arm5e.activity.practice",
+        key: "data.bonuses.activities.practice",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      training: {
+        label: "arm5e.activity.training",
+        key: "data.bonuses.activities.training",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      teaching: {
+        label: "arm5e.activity.teaching",
+        key: "data.bonuses.activities.teaching",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      }
+    }
+  },
   art: {
     category: "magic",
     type: "art",

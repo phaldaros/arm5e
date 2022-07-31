@@ -1,4 +1,4 @@
-import { validAdventuring, validExposure } from "./helpers/long-term-activities.js";
+import { validAdventuring, validExposure, validPractice } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
 export const ARM5E_DEFAULT_ICONS = {};
@@ -1404,8 +1404,9 @@ ARM5E.activities.generic = {
     source: { default: 0, readonly: true },
     maxXp: 0,
     progressItems: {},
-    bonusOptions: [],
-    validation: null
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null
   },
   adventuring: {
     label: "arm5e.activity.adventuring",
@@ -1420,8 +1421,9 @@ ARM5E.activities.generic = {
     source: { default: 5, readonly: false },
     maxXp: 5,
     progressItems: { max: 0 },
-    bonusOptions: [],
-    validation: validAdventuring
+    bonusOptions: null,
+    validation: validAdventuring,
+    secondaryFilter: null
   },
   exposure: {
     label: "arm5e.activity.exposure",
@@ -1436,14 +1438,15 @@ ARM5E.activities.generic = {
     source: { default: 2, readonly: true },
     maxXp: 2,
     progressItems: 2,
-    bonusOptions: [],
-    validation: validExposure
+    bonusOptions: null,
+    validation: validExposure,
+    secondaryFilter: null
   },
   practice: {
     label: "arm5e.activity.practice",
     display: {
       legacyXp: false,
-      tab: false,
+      tab: true,
       progress: true,
       abilities: true,
       arts: false,
@@ -1451,13 +1454,15 @@ ARM5E.activities.generic = {
     },
     source: { default: 4, readonly: true },
     maxXp: 0,
-    bonusOptions: [
-      { language: "Practice language", modifier: 4 },
-      { area: "Explore area", modifier: 3 },
-      { area: "Forced practice", modifier: 1 },
-      { area: "Spell mastery", modifier: 1 }
-    ],
-    validation: null
+    bonusOptions: {
+      standard: { label: "arm5e.generic.standard", modifier: 0 },
+      language: { label: "arm5e.activity.options.language", modifier: 4 },
+      area: { label: "arm5e.activity.options.area", modifier: 3 },
+      forced: { label: "arm5e.activity.options.forced", modifier: 1 },
+      mastery: { label: "arm5e.activity.options.mastery", modifier: 1 }
+    },
+    validation: validPractice,
+    secondaryFilter: null
   },
   training: {
     label: "arm5e.activity.training",
@@ -1471,8 +1476,9 @@ ARM5E.activities.generic = {
     },
     source: { default: 2, readonly: true },
     maxXp: 0,
-    bonusOptions: [],
-    validation: null
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null
   },
   teaching: {
     label: "arm5e.activity.teaching",
@@ -1486,11 +1492,13 @@ ARM5E.activities.generic = {
     },
     source: { default: 2, readonly: true },
     maxXp: 0,
-    bonusOptions: [
-      { singleStudent: "Single student", modifier: 6 },
-      { twoStudents: "Two students", modifier: 3 }
-    ],
-    validation: null
+    bonusOptions: {
+      standard: { label: "arm5e.generic.standard", modifier: 0 },
+      singleStudent: { label: "Single student", modifier: 6 },
+      twoStudents: { label: "Two students", modifier: 3 }
+    },
+    validation: null,
+    secondaryFilter: null
   },
   aging: {
     label: "arm5e.activity.aging",
@@ -1504,11 +1512,9 @@ ARM5E.activities.generic = {
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
-    bonusOptions: [
-      { singleStudent: "Single student", modifier: 6 },
-      { twoStudents: "Two students", modifier: 6 }
-    ],
-    validation: null
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null
   }
 };
 

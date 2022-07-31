@@ -1332,6 +1332,7 @@
       "activity": "none",
       "confidence": 0,
       "progress": { "abilities": [], "spells": [], "arts": [] },
+      "optionKey": "standard",
       "applied": false
     },
     "power": {
