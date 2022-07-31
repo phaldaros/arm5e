@@ -756,9 +756,13 @@ export const migrateItemData = function(itemData) {
     if (itemData.data.sourceQuality == undefined || isNaN(itemData.data.sourceQuality)) {
       updateData["data.sourceQuality"] = 0;
     }
-    // if (itemData.data.applied == undefined) {
-    //   itemData.data.applied = true;
-    // }
+    if (itemData.data.activity === "") {
+      updateData["data.activity"] = "none";
+    }
+
+    if (itemData.data.optionkey == undefined) {
+      itemData.data.optionkey = "standard";
+    }
   }
 
   if (itemData.type == "might") {

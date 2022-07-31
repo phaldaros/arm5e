@@ -11,6 +11,8 @@
 - New custom pause icon by @Sylph
 - Update of French verison (by Lanneval and Nono)
 - Some redesign of the UI to have a more unified medieval flavor (by @Sylph)
+- Rearranged languague mnemonics of common usage into a generic category (the older ones will be keep for a few versions to allow translators to catch up)
+- New active effects for source quality modifiers of seasonal activities
 
 ### Bug fixes
 

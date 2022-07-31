@@ -305,9 +305,9 @@ export class ArM5eActorSheet extends ActorSheet {
         ) {
           context.ui.magicEffectFilter = 'style="text-shadow: 0 0 5px maroon"';
         }
-        // 2. Sort
-        context.data.spells = context.data.spells.sort(compareSpellsData);
-        context.data.magicalEffects = context.data.magicalEffects.sort(compareMagicalEffectsData);
+        // 2. Sort (not needed since done in prepareData?)
+        // context.data.spells = context.data.spells.sort(compareSpellsData);
+        // context.data.magicalEffects = context.data.magicalEffects.sort(compareMagicalEffectsData);
 
         // magic arts
         for (let [key, technique] of Object.entries(context.data.arts.techniques)) {

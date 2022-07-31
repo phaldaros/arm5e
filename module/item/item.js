@@ -207,6 +207,10 @@ export class ArM5eItem extends Item {
     if (this.data.type == "ability") {
       this.data.data.category =
         CONFIG.ARM5E.ALL_ABILITIES[this.data.data.key]?.category ?? "general";
+    } else if (this.data.type == "diaryEntry") {
+      if (this.data.data.optionKey == undefined) {
+        this.data.data.optionKey = "standard";
+      }
     }
   }
 

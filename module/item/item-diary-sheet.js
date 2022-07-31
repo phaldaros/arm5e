@@ -39,8 +39,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const context = super.getData();
     const itemData = context.item.data;
     const actType = context.data.activity;
-    if (this.actor == null) {
+    if (this.actor == null || this.actor.type == "covenant" || this.actor.type == "laboratory") {
       context.ui.showTab = false;
+      context.data.disabled = "disabled";
       return context;
     }
 
@@ -58,6 +59,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     // configuration
+
+    context.data.sourceBonus = 0;
     context.ui.showTab = true;
     context.ui.showLegacyXp = activityConfig.display.legacyXp;
     context.ui.showProgress = activityConfig.display.progress;
@@ -65,12 +68,20 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.ui.showArts = activityConfig.display.arts;
     context.ui.showSpells = activityConfig.display.spells;
     context.ui.editSource = true;
+    context.ui.bonusOptions = false;
+    if (activityConfig.bonusOptions != null) {
+      context.ui.bonusOptions = true;
+      context.bonusOptions = activityConfig.bonusOptions;
+      context.data.sourceBonus = activityConfig.bonusOptions[itemData.data.optionKey].modifier;
+    }
 
-    if (itemData.data.sourceQuality == 0)
-      itemData.data.sourceQuality = activityConfig.source.default;
+    // context.data.sourceQuality = context.data.sourceQuality + context.data.sourceBonus;
+    // context.aeBonus = this.actor.data.data.bonuses.activities[actType] ?? 0 : this.actor.data.data.bonuses.activities[actType]
 
-    if (activityConfig.source.readonly) context.ui.editSource = false;
-
+    if (activityConfig.source.readonly) {
+      context.ui.editSource = false;
+      context.data.sourceDefault = activityConfig.source.default;
+    }
     if (this.actor._isMagus()) {
       context.ui.showMagicProgress = true;
     }
@@ -204,16 +215,26 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".progress-apply").click(this._onProgressApply.bind(this));
     html.find(".progress-rollback").click(this._onProgressRollback.bind(this));
     html.find(".progress-activity").change(this._setActivity.bind(this));
+    // html.find(".progress-bonus").change(this._setBonusOption.bind(this));
   }
 
   async _setActivity(event) {
     event.preventDefault();
-
+    const target = event.currentTarget;
+    const actType = $(target).val();
     // just reset some fields so the new default can be set
-    this.submit({ preventClose: true, updateData: { data: { sourceQuality: 0 } } }).then(() =>
-      this.render()
-    );
-    // await this.item.update({ data: { sourceQuality: 0 } });
+    let updateData = {};
+    updateData["data.sourceQuality"] = 0;
+    if (CONFIG.ARM5E.activities.generic[actType].display.abilities === false) {
+      updateData["data.progress.abilities"] = [];
+    }
+    if (CONFIG.ARM5E.activities.generic[actType].display.arts === false) {
+      updateData["data.progress.arts"] = [];
+    }
+    if (CONFIG.ARM5E.activities.generic[actType].display.spells === false) {
+      updateData["data.progress.spells"] = [];
+    }
+    this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
   }
 
   async _onProgressApply(event) {
@@ -302,7 +323,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     let updateData = [];
     switch (this.item.data.data.activity) {
       case "adventuring":
-      case "exposure": {
+      case "exposure":
+      case "practice": {
         for (const ab of Object.values(this.item.data.data.progress.abilities)) {
           // check that ability still exists
           let ability = this.actor.items.get(ab.id);
@@ -510,11 +532,22 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const target = event.currentTarget;
     const idx = target.dataset.index;
     const value = $(target).val();
-    let currentData = Object.values(this.item.data.data.progress[target.dataset.type]) ?? [];
-    log(false, `Current data: ${currentData}`);
-    currentData[idx] = this.item.data.data.ownedAbilities[value][0];
-    currentData[idx].xp = 0;
-    updateData[`data.progress.abilities`] = currentData;
+    const progressType = target.dataset.type;
+    let currentData = Object.values(this.item.data.data.progress[progressType]) ?? [];
+
+    switch (progressType) {
+      case "abilities":
+        currentData[idx] = this.item.data.data.ownedAbilities[value][0];
+        currentData[idx].xp = 0;
+        updateData[`data.progress.abilities`] = currentData;
+        break;
+      case "spells":
+        currentData[idx] = this.item.data.data.ownedSpells[value][0];
+        currentData[idx].xp = 0;
+        updateData[`data.progress.spells`] = currentData;
+        break;
+    }
+
     return this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
   }
 

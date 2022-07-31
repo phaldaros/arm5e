@@ -133,6 +133,9 @@ async function createAgingDiaryEntry(actor, input) {
 
   await actor.createEmbeddedDocuments("Item", [diaryEntry], {});
 }
+// ********************
+// Progress activities
+// ********************
 
 function genericValidationOfActivity(context) {}
 
@@ -232,6 +235,73 @@ export function validExposure(context, actor, item) {
   let spellsArr = Object.values(itemData.data.progress.spells);
   checkForDuplicates("spells", context, spellsArr);
   context.data.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 2);
+
+  if (
+    context.data.totalXp.abilities + context.data.totalXp.arts + context.data.totalXp.spells !=
+    context.data.sourceQuality
+  ) {
+    context.data.applyPossible = "disabled";
+    if (context.data.applyError === "") context.data.applyError = "arm5e.activity.msg.wrongTotalXp";
+  }
+}
+
+export function validPractice(context, actor, item) {
+  const itemData = item.data;
+  const activityConfig = CONFIG.ARM5E.activities.generic[context.data.activity];
+  context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
+
+  let abilitiesArr = Object.values(itemData.data.progress.abilities);
+  checkForDuplicates("abilities", context, abilitiesArr);
+  context.data.totalXp.abilities = checkMaxXpPerItem(
+    context,
+    abilitiesArr,
+    context.data.sourceQuality
+  );
+
+  let spellsArr = Object.values(itemData.data.progress.spells);
+  checkForDuplicates("spells", context, spellsArr);
+  context.data.totalXp.spells = checkMaxXpPerItem(context, spellsArr, context.data.sourceQuality);
+  let optionError = false;
+  if (itemData.data.optionKey == "language") {
+    if (spellsArr.length > 0) {
+      optionError = true;
+    } else {
+      const filteredArray = actor.data.data.abilities.filter(e => {
+        return abilitiesArr.some(filter => {
+          return (
+            filter.id === e._id && e.data.key != "livingLanguage" && e.data.key != "deadLanguage"
+          );
+        });
+      });
+      if (filteredArray.length > 0) {
+        optionError = true;
+      }
+    }
+  } else if (itemData.data.optionKey == "area") {
+    if (spellsArr.length > 0) {
+      optionError = true;
+    } else {
+      const filteredArray = actor.data.data.abilities.filter(e => {
+        return abilitiesArr.some(filter => {
+          return filter.id === e._id && e.data.key != "areaLore";
+        });
+      });
+      if (filteredArray.length > 0) {
+        optionError = true;
+      }
+    }
+  } else if (itemData.data.optionKey == "mastery") {
+    if (abilitiesArr.length > 0) {
+      optionError = true;
+    }
+  }
+  if (optionError === true) {
+    context.data.applyPossible = "disabled";
+    context.data.errorParam = game.i18n.localize(
+      activityConfig.bonusOptions[itemData.data.optionKey].label
+    );
+    context.data.applyError = "arm5e.activity.msg.wrongOption";
+  }
 
   if (
     context.data.totalXp.abilities + context.data.totalXp.arts + context.data.totalXp.spells !=

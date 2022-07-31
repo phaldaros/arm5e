@@ -101,6 +101,14 @@ export class ArM5ePCActor extends Actor {
     }
 
     this.data.data.bonuses.traits = { soak: 0, aging: 0, wounds: 0, fatigue: 0 };
+
+    this.data.data.bonuses.activities = {
+      practice: 0,
+      training: 0,
+      teaching: 0,
+      teacher: 0,
+      reading: 0
+    };
   }
 
   /** @override */
@@ -423,11 +431,22 @@ export class ArM5ePCActor extends Actor {
       // ugly fix, but I don't know how to do better since prepare data is called before migration
       // to be removed when we break backward compatibility with 0.7
       else if (i.type === "diaryEntry" || i.type === "dairyEntry") {
-        diaryEntries.push(i);
+        const activityConfig = CONFIG.ARM5E.activities.generic[i.data.activity];
+        if (activityConfig.source.readonly) {
+          i.data.sourceQuality = activityConfig.source.default;
+          if (activityConfig.bonusOptions != null) {
+            i.data.sourceQuality += activityConfig.bonusOptions[i.data.optionKey].modifier;
+          }
+        }
+        if (this.data.data.bonuses.activities[i.data.activity] !== undefined) {
+          i.data.aeBonus = this.data.data.bonuses.activities[i.data.activity];
+          i.data.sourceQuality += i.data.aeBonus;
+        }
 
         if (!i.data.applied) {
           pendingXps += i.data.sourceQuality;
         }
+        diaryEntries.push(i);
       } else if (i.type === "abilityFamiliar") {
         abilitiesFamiliar.push(i);
       } else if (i.type === "mightFamiliar" || i.type === "powerFamiliar") {
@@ -648,10 +667,11 @@ export class ArM5ePCActor extends Actor {
       actorData.data.armor = armor;
     }
     if (actorData.data.spells) {
-      actorData.data.spells = spells;
+      // actorData.data.spells = spells;
+      actorData.data.spells = spells.sort(compareSpellsData);
     }
     if (actorData.data.magicalEffects) {
-      actorData.data.magicalEffects = magicalEffects;
+      actorData.data.magicalEffects = magicalEffects.sort(compareMagicalEffectsData);
     }
 
     if (actorData.data.vitals.soa) {

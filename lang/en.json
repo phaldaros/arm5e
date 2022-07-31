@@ -689,7 +689,7 @@
   "arm5e.lab.enchantment.item.size.large-eg": "Large (staff, shield, cloak, skeleton)",
   "arm5e.lab.enchantment.item.size.huge-eg": "Huge (boat, wagon, human body, small room)",
 
-  "arm5.sheet.bonus.activeEffects": "Active effects bonuses",
+  "arm5.sheet.bonus.activeEffects": "Effects bonuses",
   "arm5e.sheet.action.rest": "Rest",
   "arm5e.sheet.action.reset": "Reset",
   "arm5e.sheet.action.invest": "Invest",
@@ -893,6 +893,7 @@
   "arm5e.aging.rollback.title": "Revert effect of aging roll",
   "arm5e.aging.rollback.confirm": "This action will revert the effect of aging and delete the diary entry. Are you sure?",
 
+  "arm5e.activity.label": "Seasonal activities",
   "arm5e.activity.diary": "Diary",
   "arm5e.activity.adventuring": "Adventuring",
   "arm5e.activity.exposure": "Exposure",
@@ -908,9 +909,25 @@
   "arm5e.activity.msg.wrongTotalXp": "Total experience must be equal to source.",
   "arm5e.activity.msg.abilityMissing": "This ability doesn't exist anymore",
   "arm5e.activity.msg.spellMissing": "This spell doesn't exist anymore",
+  "arm5e.activity.msg.wrongOption": "The option chosen ({param}) is not valid with current progress items",
   "arm5e.activity.descItem": "{item} : {xp} xp(s) increase",
+  "arm5e.activity.options.language": "Practice language",
+  "arm5e.activity.options.area": "Explore area",
+  "arm5e.activity.options.forced": "Forced practice",
+  "arm5e.activity.options.mastery": "Spell mastery",
 
   "arm5e.sheet.label.details": "Details",
+  "arm5e.generic.yes": "Yes",
+  "arm5e.generic.no": "No",
+  "arm5e.generic.always": "Always",
+  "arm5e.generic.never": "Never",
+  "arm5e.generic.once": "Once",
+  "arm5e.generic.standard": "Standard",
+  "arm5e.generic.na": "N/A",
+  "arm5e.generic.abort": "Abort",
   "arm5e.generic.none": "None",
+  "arm5e.generic.default": "Default",
+  "arm5e.generic.summary": "Summary",
+  "arm5e.generic.details": "Details",
   "arm5e.generic.multipliers": "Multipliers"
 }
