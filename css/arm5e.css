@@ -180,12 +180,11 @@ span.player-name {
   border: 2px solid #6f6c66;
 }
 
-.system-arm5e .dialog-buttons {
+.arm5e .dialog-buttons {
   background-color: rgb(236 222 187 / 50%);
 }
 
 .window-app .window-content {
-  display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
@@ -194,6 +193,10 @@ span.player-name {
   color: var(--color-text-dark-primary);
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.arm5e .window-app .window-content {
+  display: flex;
 }
 
 .arm5e {
