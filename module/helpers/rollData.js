@@ -235,7 +235,6 @@ export class ArM5eRollData {
   }
 
   reset() {
-    log(false, "Reset roll data");
     this.magic = {
       technique: "",
       techniqueScore: 0,

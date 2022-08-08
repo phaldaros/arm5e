@@ -763,6 +763,17 @@ export const migrateItemData = function(itemData) {
     if (itemData.data.optionkey == undefined) {
       itemData.data.optionkey = "standard";
     }
+    if (itemData.data.teacher === undefined) {
+      updateData["data.teacher"] = {
+        id: null,
+        name: "",
+        com: 0,
+        teaching: 0,
+        speciality: "",
+        applySpec: false,
+        score: 0
+      };
+    }
   }
 
   if (itemData.type == "might") {

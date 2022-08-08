@@ -53,6 +53,10 @@ export class ArM5eActorSheet extends ActorSheet {
     });
   }
 
+  _canDragStart(selector) {
+    return this.isEditable;
+  }
+
   /* -------------------------------------------- */
 
   isItemDropAllowed(itemData) {

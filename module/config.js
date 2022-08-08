@@ -1,4 +1,10 @@
-import { validAdventuring, validExposure, validPractice } from "./helpers/long-term-activities.js";
+import {
+  validAdventuring,
+  validExposure,
+  validPractice,
+  validTraining,
+  validTeaching
+} from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
 export const ARM5E_DEFAULT_ICONS = {};
@@ -1468,16 +1474,16 @@ ARM5E.activities.generic = {
     label: "arm5e.activity.training",
     display: {
       legacyXp: false,
-      tab: false,
+      tab: true,
       progress: true,
       abilities: true,
       arts: false,
       spells: true
     },
-    source: { default: 2, readonly: true },
+    source: { default: null, readonly: true },
     maxXp: 0,
     bonusOptions: null,
-    validation: null,
+    validation: validTraining,
     secondaryFilter: null
   },
   teaching: {
@@ -1490,14 +1496,14 @@ ARM5E.activities.generic = {
       arts: true,
       spells: true
     },
-    source: { default: 2, readonly: true },
+    source: { default: null, readonly: true },
     maxXp: 0,
     bonusOptions: {
       standard: { label: "arm5e.generic.standard", modifier: 0 },
       singleStudent: { label: "Single student", modifier: 6 },
       twoStudents: { label: "Two students", modifier: 3 }
     },
-    validation: null,
+    validation: validTeaching,
     secondaryFilter: null
   },
   aging: {

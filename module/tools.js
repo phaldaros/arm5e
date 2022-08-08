@@ -14,6 +14,10 @@ export function log(force, ...args) {
   }
 }
 
+export function debug(str) {
+  log(false, "DEBUG: " + str);
+}
+
 export function error(force, ...args) {
   try {
     const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
@@ -112,10 +116,10 @@ export function compareLabTexts(e1, e2) {
 
 export function hermeticFilter(filters, inputArray) {
   if (filters.formFilter != "") {
-    inputArray = inputArray.filter((e) => e.data.form.value === filters.formFilter);
+    inputArray = inputArray.filter(e => e.data.form.value === filters.formFilter);
   }
   if (filters.techniqueFilter != "") {
-    inputArray = inputArray.filter((e) => e.data.technique.value === filters.techniqueFilter);
+    inputArray = inputArray.filter(e => e.data.technique.value === filters.techniqueFilter);
   }
   if (
     filters.levelFilter != 0 &&
@@ -124,11 +128,11 @@ export function hermeticFilter(filters, inputArray) {
     filters.levelFilter != "0"
   ) {
     if (filters.levelOperator == 0) {
-      inputArray = inputArray.filter((e) => e.data.level === parseInt(filters.levelFilter));
+      inputArray = inputArray.filter(e => e.data.level === parseInt(filters.levelFilter));
     } else if (filters.levelOperator == -1) {
-      inputArray = inputArray.filter((e) => e.data.level <= parseInt(filters.levelFilter));
+      inputArray = inputArray.filter(e => e.data.level <= parseInt(filters.levelFilter));
     } else {
-      inputArray = inputArray.filter((e) => e.data.level >= parseInt(filters.levelFilter));
+      inputArray = inputArray.filter(e => e.data.level >= parseInt(filters.levelFilter));
     }
   }
   return inputArray;
@@ -168,7 +172,7 @@ export function getLabUpkeepCost(upkeep) {
 
 export function getLastMessageByHeader(game, key) {
   const searchString = game.i18n.localize(key).toLowerCase() + " </h2>";
-  const messages = game.messages.filter((msg) => {
+  const messages = game.messages.filter(msg => {
     const flavor = (msg?.data?.flavor || "").toLowerCase();
     return flavor.indexOf(searchString) > -1;
   });
@@ -186,7 +190,7 @@ export function calculateWound(damage, size) {
   const wounds = Object.keys(typeOfWoundsBySize);
 
   let typeOfWound = DEFAULT_WOUND;
-  wounds.forEach((wound) => {
+  wounds.forEach(wound => {
     if (Number(wound) <= damage) {
       typeOfWound = typeOfWoundsBySize[wound];
     }
@@ -414,7 +418,7 @@ export function generateActiveEffectFromAbilities() {
 
 export function getSystemCompendium(compendiumName) {
   let pack = game.packs.filter(
-    (p) => p.metadata.package === "arm5e" && p.metadata.name === compendiumName
+    p => p.metadata.package === "arm5e" && p.metadata.name === compendiumName
   );
   if (pack.length) return pack[0];
   return undefined;

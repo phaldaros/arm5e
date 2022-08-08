@@ -1332,6 +1332,15 @@
       "activity": "none",
       "confidence": 0,
       "progress": { "abilities": [], "spells": [], "arts": [] },
+      "teacher": {
+        "id": null,
+        "name": "",
+        "com": 0,
+        "teaching": 0,
+        "speciality": "",
+        "applySpec": false,
+        "score": 0
+      },
       "optionKey": "standard",
       "applied": false
     },

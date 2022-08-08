@@ -1,4 +1,5 @@
 import { getLabUpkeepCost, log } from "../tools.js";
+import { ArM5ePCActor } from "../actor/actor-pc.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -46,7 +47,7 @@ export class ArM5eItem extends Item {
 
       // compute mastery score
       if (this.data.type == "spell") {
-        this.data.data.mastery = this.actor._getAbilityScoreFromXp(this.data.data.xp);
+        this.data.data.mastery = ArM5ePCActor.getAbilityScoreFromXp(this.data.data.xp);
         this.data.data.experienceNextLevel =
           ((parseInt(this.data.data.mastery) + 1) * (parseInt(this.data.data.mastery) + 2) * 5) /
             2 -
@@ -204,12 +205,99 @@ export class ArM5eItem extends Item {
 
   prepareDerivedData() {
     // add category to ability
+
+    if (this.isOwned && this.actor.data == undefined) {
+      // this is a call from constructor, it will be called again with actor data initialied
+      // log(false, `Owned Item : ${this.id} : ${this.name}, actor.data= ${this.actor.data}`);
+      return;
+    }
     if (this.data.type == "ability") {
       this.data.data.category =
         CONFIG.ARM5E.ALL_ABILITIES[this.data.data.key]?.category ?? "general";
     } else if (this.data.type == "diaryEntry") {
-      if (this.data.data.optionKey == undefined) {
-        this.data.data.optionKey = "standard";
+      const systemData = this.data.data;
+      if (systemData.optionKey == undefined) {
+        systemData.optionKey = "standard";
+      }
+      if (this.actor !== null && this.actor._isCharacter()) {
+        const activityConfig = CONFIG.ARM5E.activities.generic[systemData.activity];
+
+        if (systemData.applied) {
+          // keep the existing quality at the time of applying
+          // log(false, `Use source quality (${systemData.sourceQuality}) as base for ${this.name}`);
+          systemData.baseQuality = systemData.sourceQuality;
+        } else {
+          // only recompute source quality if the entry is not applied yet
+          switch (systemData.activity) {
+            case "training": {
+              if (systemData.teacher.id === null) {
+                systemData.baseQuality = Number(systemData.teacher.score) + 3;
+              } else {
+                systemData.baseQuality = 0;
+                if (
+                  Object.values(systemData.progress.abilities).length +
+                    Object.values(systemData.progress.spells).length ===
+                  1
+                ) {
+                  if (Object.values(systemData.progress.abilities).length > 0) {
+                    systemData.baseQuality =
+                      Number(systemData.progress.abilities[0].teacherScore) + 3;
+                  } else {
+                    systemData.baseQuality = Number(systemData.progress.spells[0].teacherScore) + 3;
+                  }
+                }
+              }
+              break;
+            }
+            case "teaching": {
+              if (systemData.teacher.id === null) {
+                systemData.baseQuality = systemData.teacher.teaching + systemData.teacher.com + 6;
+              } else {
+                systemData.baseQuality = 0;
+                if (
+                  Object.values(systemData.progress.abilities).length +
+                    Object.values(systemData.progress.arts).length +
+                    Object.values(systemData.progress.spells).length ===
+                  1
+                ) {
+                  if (Object.values(systemData.progress.abilities).length > 0) {
+                    systemData.baseQuality =
+                      systemData.teacher.teaching + systemData.teacher.com + 6;
+                  } else if (Object.values(systemData.progress.arts).length > 0) {
+                    systemData.baseQuality =
+                      systemData.teacher.teaching + systemData.teacher.com + 6;
+                  } else {
+                    systemData.baseQuality =
+                      systemData.teacher.teaching + systemData.teacher.com + 6;
+                  }
+                  if (systemData.teacher.applySpec) {
+                    systemData.baseQuality++;
+                  }
+                }
+              }
+              break;
+            }
+            case "practice":
+            case "exposure": {
+              systemData.baseQuality = activityConfig.source.default;
+              break;
+            }
+            case "adventuring":
+              {
+                systemData.baseQuality = systemData.sourceQuality;
+              }
+              break;
+            default:
+              break;
+          }
+          // if (activityConfig.bonusOptions != null) {
+          //   systemData.sourceQuality += activityConfig.bonusOptions[systemData.optionKey].modifier;
+          // }
+          // if (this.actor.data.data.bonuses.activities[systemData.activity] !== undefined) {
+          //   systemData.aeBonus = this.actor.data.data.bonuses.activities[systemData.activity];
+          //   systemData.sourceQuality += Number(systemData.aeBonus);
+          // }
+        }
       }
     }
   }

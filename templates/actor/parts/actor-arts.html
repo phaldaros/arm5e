@@ -209,7 +209,6 @@
       {{#each data.powers as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
-            {{log item.img}}
             <span class="flexrow item-title width4 clickable power-use" name="item.name" data-item-id="{{item._id}}"
               data-roll="power" data-img="{{item.img}}" data-cost="{{item.data.cost}}"
               data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-form="{{item.data.form}}"

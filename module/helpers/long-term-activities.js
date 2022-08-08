@@ -1,5 +1,6 @@
 import { log } from "../tools.js";
 import { ROLL_PROPERTIES } from "./rollWindow.js";
+import { ArM5ePCActor } from "../actor/actor-pc.js";
 
 export async function applyAgingEffects(html, actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
@@ -193,7 +194,7 @@ function checkMaxXpPerItem(context, array, max) {
       context.data.errorParam = max;
       return 0;
     }
-    res += ab.xp;
+    res += Number(ab.xp);
   }
   return res;
 }
@@ -309,5 +310,216 @@ export function validPractice(context, actor, item) {
   ) {
     context.data.applyPossible = "disabled";
     if (context.data.applyError === "") context.data.applyError = "arm5e.activity.msg.wrongTotalXp";
+  }
+}
+
+export function validTraining(context, actor, item) {
+  const itemData = item.data;
+  const activityConfig = CONFIG.ARM5E.activities.generic[context.data.activity];
+  context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
+  let abilitiesArr = Object.values(itemData.data.progress.abilities);
+  let spellsArr = Object.values(itemData.data.progress.spells);
+  if (abilitiesArr.length + spellsArr.length > 1) {
+    context.data.applyPossible = "disabled";
+    context.data.applyError = "arm5e.activity.msg.tooManyItems";
+    context.data.errorParam = 1;
+    return;
+  } else if (abilitiesArr.length + spellsArr.length == 0) {
+    context.data.applyPossible = "disabled";
+  }
+  context.data.baseQuality = 3;
+  if (itemData.data.teacher.id === null) {
+    context.data.baseQuality += itemData.data.teacher.score;
+  }
+
+  if (abilitiesArr.length > 0) {
+    const teacherScore = Number(itemData.data.progress.abilities[0].teacherScore);
+    context.data.baseQuality = teacherScore + 3;
+    let ability = Object.values(actor.data.data.abilities).find(e => {
+      return e._id === itemData.data.progress.abilities[0].id;
+    });
+    if (ability === undefined) {
+      // either the ability is no longer teachable or it has been deleted
+      ability = actor.items.get(itemData.data.progress.abilities[0].id);
+
+      if (ability === undefined) {
+        // ability deleted
+        // what should be done here?
+        return;
+      }
+    }
+    const coeff = actor._getAbilityXpCoeff(ability.data.key, ability.data.option);
+    let newXp = (context.data.sourceQuality + ability.data.xp) * coeff;
+    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
+    if (newXp > teacherXp && !context.data.applied) {
+      let newSource = teacherXp / coeff - ability.data.xp;
+      context.data.theoriticalSource = context.data.sourceQuality;
+      context.data.sourceQuality = newSource > 0 ? newSource : 0;
+      context.data.errorParam = context.data.sourceQuality;
+      context.data.applyError = "arm5e.activity.msg.gainCapped";
+      context.data.cappedGain = true;
+    }
+    context.data.progress.abilities[0].xp = Number(context.data.sourceQuality);
+    context.data.totalXp.abilities += Number(context.data.sourceQuality);
+  } else if (spellsArr.length > 0) {
+    const teacherScore = Number(itemData.data.progress.spells[0].teacherScore);
+    context.data.baseQuality = teacherScore + 3;
+    const ability = Object.values(actor.data.data.spells).find(e => {
+      return e._id === itemData.data.progress.spells[0].id;
+    });
+    let newXp = context.data.sourceQuality + ability.data.xp;
+    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
+    if (newXp > teacherXp) {
+      let newSource = teacherXp - ability.data.xp;
+      context.data.theoriticalSource = context.data.sourceQuality;
+      context.data.sourceQuality = newSource > 0 ? newSource : 0;
+      context.data.errorParam = context.data.sourceQuality;
+      context.data.applyError = "arm5e.activity.msg.gainCapped";
+      context.data.cappedGain = true;
+    }
+    context.data.progress.spells[0].xp = Number(context.data.sourceQuality);
+    context.data.totalXp.spells += Number(context.data.sourceQuality);
+  }
+}
+
+export function validTeaching(context, actor, item) {
+  const itemData = item.data;
+  const activityConfig = CONFIG.ARM5E.activities.generic[context.data.activity];
+  context.data.totalXp = { abilities: 0, arts: 0, spells: 0 };
+  let abilitiesArr = Object.values(itemData.data.progress.abilities);
+  let artsArr = Object.values(itemData.data.progress.arts);
+  let spellsArr = Object.values(itemData.data.progress.spells);
+  if (abilitiesArr.length + spellsArr.length + artsArr.length > 1) {
+    context.data.applyPossible = "disabled";
+    context.data.applyError = "arm5e.activity.msg.tooManyItems";
+    context.data.errorParam = 1;
+    return;
+  } else if (abilitiesArr.length + artsArr.length + spellsArr.length == 0) {
+    context.data.applyPossible = "disabled";
+  }
+  context.data.baseQuality = 6 + itemData.data.teacher.teaching + itemData.data.teacher.com;
+  if (itemData.data.teacher.applySpec) {
+    context.data.baseQuality++;
+  }
+
+  if (abilitiesArr.length > 0) {
+    const teacherScore = Number(itemData.data.progress.abilities[0].teacherScore);
+    let ability = Object.values(actor.data.data.abilities).find(e => {
+      return e._id === itemData.data.progress.abilities[0].id;
+    });
+    if (ability === undefined) {
+      // either the ability is no longer teachable or it has been deleted
+      ability = actor.items.get(itemData.data.progress.abilities[0].id);
+
+      if (ability === undefined) {
+        // ability deleted
+        // what should be done here?
+        return;
+      }
+    }
+    const coeff = actor._getAbilityXpCoeff(ability.data.key, ability.data.option);
+    let newXp = (context.data.sourceQuality + ability.data.xp) * coeff;
+    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
+    if (newXp > teacherXp && !context.data.applied) {
+      let newSource = teacherXp / coeff - ability.data.xp;
+      context.data.theoriticalSource = context.data.sourceQuality;
+      context.data.sourceQuality = newSource > 0 ? newSource : 0;
+      context.data.errorParam = context.data.sourceQuality;
+      context.data.applyError = "arm5e.activity.msg.gainCapped";
+      context.data.cappedGain = true;
+    }
+    context.data.progress.abilities[0].xp = Number(context.data.sourceQuality);
+    context.data.totalXp.abilities += Number(context.data.sourceQuality);
+  } else if (spellsArr.length > 0) {
+    const teacherScore = Number(itemData.data.progress.spells[0].teacherScore);
+    const spell = Object.values(actor.data.data.spells).find(e => {
+      return e._id === itemData.data.progress.spells[0].id;
+    });
+    let newXp = context.data.sourceQuality + spell.data.xp;
+    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
+    if (newXp > teacherXp) {
+      let newSource = teacherXp - spell.data.xp;
+      context.data.theoriticalSource = context.data.sourceQuality;
+      context.data.sourceQuality = newSource > 0 ? newSource : 0;
+      context.data.errorParam = context.data.sourceQuality;
+      context.data.applyError = "arm5e.activity.msg.gainCapped";
+      context.data.cappedGain = true;
+    }
+    context.data.progress.spells[0].xp = Number(context.data.sourceQuality);
+    context.data.totalXp.spells += Number(context.data.sourceQuality);
+  } else if (artsArr.length > 0) {
+    const progressArt = itemData.data.progress.arts[0];
+    const teacherScore = Number(progressArt.teacherScore);
+    let artType = "techniques";
+    if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(progressArt.key) == -1) {
+      artType = "forms";
+    }
+    const art = actor.data.data.arts[artType][progressArt.key];
+    let newXp = context.data.sourceQuality + art.xp;
+    let teacherXp = ArM5ePCActor.getArtXp(teacherScore);
+    if (newXp > teacherXp) {
+      let newSource = teacherXp - art.xp;
+      context.data.theoriticalSource = context.data.sourceQuality;
+      context.data.sourceQuality = newSource > 0 ? newSource : 0;
+      context.data.errorParam = context.data.sourceQuality;
+      context.data.applyError = "arm5e.activity.msg.gainCapped";
+      context.data.cappedGain = true;
+    }
+    context.data.progress.arts[0].xp = Number(context.data.sourceQuality);
+    context.data.totalXp.arts += Number(context.data.sourceQuality);
+  }
+}
+
+// get a new title for a diary entry if it is still the default : "New DiaryEntry"
+export function getNewTitleForActivity(actor, item) {
+  const DEFAULT_TITLE = "New DiaryEntry";
+  if (item.data.name !== DEFAULT_TITLE) {
+    return item.data.name;
+  }
+  const systemData = item.data.data;
+  let teacher = systemData.teacher.name;
+  let skills = "";
+  for (const ability of Object.values(systemData.progress.abilities)) {
+    let tmp = actor.items.get(ability.id);
+    if (tmp != null && ability.xp > 0) {
+      skills += `${tmp.name}, `;
+    }
+  }
+  for (const art of Object.values(systemData.progress.arts)) {
+    let tmp = CONFIG.ARM5E.magic.arts[art.key].label;
+    if (art.xp > 0) {
+      skills += `${tmp}, `;
+    }
+  }
+  for (const spell of Object.values(systemData.progress.spells)) {
+    let tmp = actor.items.get(spell.id);
+    if (tmp != null && spell.xp > 0) {
+      skills += `${tmp.name} ${game.i18n.localize("arm5e.sheet.mastery")}, `;
+    }
+  }
+
+  skills = skills.slice(0, -2);
+  switch (item.data.data.activity) {
+    case "adventuring":
+      return game.i18n.format("arm5e.activity.title.adventuring", {
+        season: game.i18n.localize(CONFIG.ARM5E.seasons[systemData.season].label),
+        year: systemData.year
+      });
+    case "practice":
+      return game.i18n.format("arm5e.activity.title.practice", { skills: skills });
+    case "exposure":
+      return game.i18n.format("arm5e.activity.title.exposure", { skills: skills });
+    case "training":
+      return game.i18n.format("arm5e.activity.title.training", {
+        skills: skills,
+        teacher: teacher
+      });
+    case "teaching":
+      return game.i18n.format("arm5e.activity.title.teaching", {
+        skills: skills,
+        teacher: teacher
+      });
+    default:
+      return DEFAULT_TITLE;
   }
 }

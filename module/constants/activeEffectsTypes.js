@@ -84,11 +84,29 @@ export default {
         label: "arm5e.activity.training",
         key: "data.bonuses.activities.training",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-        default: 3
+        default: 5
       },
       teaching: {
         label: "arm5e.activity.teaching",
         key: "data.bonuses.activities.teaching",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 5
+      },
+      teacher: {
+        label: "arm5e.activity.teacher.label",
+        key: "data.bonuses.activities.teacher",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 5
+      },
+      writting: {
+        label: "arm5e.activity.writting",
+        key: "data.bonuses.activities.writting",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      reading: {
+        label: "arm5e.activity.reading",
+        key: "data.bonuses.activities.reading",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       }

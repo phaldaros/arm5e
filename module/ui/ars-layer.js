@@ -27,7 +27,7 @@ export class ArsLayer extends CanvasLayer {
           }
         },
         default: "yes",
-        close: async (html) => {
+        close: async html => {
           let val = html.find('input[name="inputField"]');
 
           if (val.val() !== "") {
@@ -48,7 +48,7 @@ export class ArsLayer extends CanvasLayer {
   static async clearAura() {
     game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed.data._id);
     game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed.data._id);
-    const tokens = canvas.tokens.placeables.filter((token) => token.actor);
+    const tokens = canvas.tokens.placeables.filter(token => token.actor);
     for (const token of tokens) {
       clearAuraFromActor(token.actor);
     }
@@ -60,13 +60,13 @@ export function addArsButtons(buttons) {
     name: "ArsMagica",
     title: "ArsMagica",
     layer: "arsmagica",
-    icon: "icon-Icon_Ars",
+    icon: "icon-Tool_Ars",
     visible: game.user.isGM,
     tools: [
       {
         name: "aura",
         title: "Configure Aura",
-        icon: "icon-Icon_Auras",
+        icon: "icon-Tool_Auras",
         visible: true,
         button: true,
         onClick: () => ArsLayer.selectAura()
@@ -74,7 +74,7 @@ export function addArsButtons(buttons) {
       {
         name: "clearAura",
         title: "Clear aura",
-        icon: "icon-Icon_Delete_Perdo2",
+        icon: "icon-Tool_Delete_Perdo2",
         visible: true,
         button: true,
         onClick: () => ArsLayer.clearAura()
