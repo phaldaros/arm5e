@@ -1,25 +1,37 @@
 {{#if ui.showProgress}}
   <div>
     <div class="resource">
-      <label class="header-label">{{localize "arm5e.sheet.sourceQuality"}}</label>
+      <label class="header-label">{{localize "arm5e.sheet.sourceQuality"}} : </label>
       {{#if ui.editSource}}
         <input type="text" name="data.sourceQuality" value="{{data.sourceQuality}}" data-dtype="Number" {{data.canEdit}}
           style="max-width: 50px;" />
       {{else}}
-        <label class=" header-label"> : {{localize "arm5e.generic.default"}} ({{data.sourceDefault}}) </label>
-        {{#if ui.bonusOptions}}
-          <label class="header-label"> + </label>
-          <select class="progress-bonus" name="data.optionKey" data-dtype="String" {{@root.data.disabled}}>
-            {{#select data.optionKey}} {{#each bonusOptions as |option key|}}
-                <option value="{{key}}">{{localize option.label}} ({{option.modifier}})</option>
-              {{/each}} {{/select}}
-          </select>
+        {{#if data.applied}}
+          <label class="header-label"><b>{{data.baseQuality}}</b></label>
+        {{else}}
+          {{#if ui.showTeacher}}
+            <label class="header-label"> {{localize "arm5e.generic.base"}} ({{data.baseQuality}})</label>
+          {{else}}
+            <label class="header-label"> : {{localize "arm5e.generic.default"}} ({{data.sourceDefault}}) </label>
+          {{/if}}
+          {{#if ui.bonusOptions}}
+            <label class="header-label"> + </label>
+            <select class="progress-bonus" name="data.optionKey" data-dtype="String" {{@root.data.disabled}}>
+              {{#select data.optionKey}} {{#each bonusOptions as |option key|}}
+                  <option value="{{key}}">{{localize option.label}} ({{option.modifier}})</option>
+                {{/each}} {{/select}}
+            </select>
+          {{/if}}
+          {{#unless (eq data.aeBonus 0)}}
+            <label class="header-label"> + </label>
+            <label class="header-label"> {{localize "arm5.sheet.bonus.activeEffects"}} ({{data.aeBonus}})</label>
+          {{/unless}}
+          {{#unless data.cappedGain}}
+            <label class="header-label"> = <b>{{data.sourceQuality}}</b></label>
+          {{else}}
+            <label class="header-label"> => <b>{{data.sourceQuality}} *</b></label>
+          {{/unless}}
         {{/if}}
-        {{#unless (eq data.aeBonus 0)}}
-          <label class="header-label"> + </label>
-          <label class="header-label"> {{localize "arm5.sheet.bonus.activeEffects"}} ({{data.aeBonus}})</label>
-        {{/unless}}
-        <label class="header-label"> = <b>{{data.sourceQuality}}</b></label>
       {{/if}}
     </div>
   </div>

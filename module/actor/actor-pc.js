@@ -107,7 +107,8 @@ export class ArM5ePCActor extends Actor {
       training: 0,
       teaching: 0,
       teacher: 0,
-      reading: 0
+      reading: 0,
+      writting: 0
     };
   }
 
@@ -268,10 +269,12 @@ export class ArM5ePCActor extends Actor {
           computedKey += "_" + i.data.option;
         }
         i.data.xpCoeff = this._getAbilityXpCoeff(i.data.key, i.data.option);
-        i.data.derivedScore = this._getAbilityScoreFromXp(Math.round(i.data.xp * i.data.xpCoeff));
+        i.data.derivedScore = ArM5ePCActor.getAbilityScoreFromXp(
+          Math.round(i.data.xp * i.data.xpCoeff)
+        );
         i.data.xpNextLevel = Math.round(5 * i.data.derivedScore + 5 / i.data.xpCoeff);
         i.data.remainingXp =
-          i.data.xp - Math.round(this._getAbilityXp(i.data.derivedScore) / i.data.xpCoeff);
+          i.data.xp - Math.round(ArM5ePCActor.getAbilityXp(i.data.derivedScore) / i.data.xpCoeff);
 
         // for DEBUG purposes
         // if (i.data.xpCoeff != 1.0) {
@@ -279,10 +282,10 @@ export class ArM5ePCActor extends Actor {
         //   log(false, `xpCoeff: ${coeff}`);
         //   let newxp = i.data.xp * coeff;
         //   log(false, `Xp: ${i.data.xp} and after afinity: ${newxp}`);
-        //   let score = this._getAbilityScoreFromXp(i.data.xp);
-        //   let affinityscore = this._getAbilityScoreFromXp(Math.round(i.data.xp * coeff));
+        //   let score = ArM5ePCActor.getAbilityScoreFromXp(i.data.xp);
+        //   let affinityscore = ArM5ePCActor.getAbilityScoreFromXp(Math.round(i.data.xp * coeff));
         //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = this._getAbilityXp(affinityscore + 1) - i.data.xp;
+        //   let nextLvl = ArM5ePCActor.getAbilityXp(affinityscore + 1) - i.data.xp;
         //   let afterAffinity = nextLvl / coeff;
         //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
         // }
@@ -431,18 +434,6 @@ export class ArM5ePCActor extends Actor {
       // ugly fix, but I don't know how to do better since prepare data is called before migration
       // to be removed when we break backward compatibility with 0.7
       else if (i.type === "diaryEntry" || i.type === "dairyEntry") {
-        const activityConfig = CONFIG.ARM5E.activities.generic[i.data.activity];
-        if (activityConfig.source.readonly) {
-          i.data.sourceQuality = activityConfig.source.default;
-          if (activityConfig.bonusOptions != null) {
-            i.data.sourceQuality += activityConfig.bonusOptions[i.data.optionKey].modifier;
-          }
-        }
-        if (this.data.data.bonuses.activities[i.data.activity] !== undefined) {
-          i.data.aeBonus = this.data.data.bonuses.activities[i.data.activity];
-          i.data.sourceQuality += i.data.aeBonus;
-        }
-
         if (!i.data.applied) {
           pendingXps += i.data.sourceQuality;
         }
@@ -503,7 +494,7 @@ export class ArM5ePCActor extends Actor {
       if (actorData.data.decrepitude == undefined) {
         actorData.data.decrepitude = {};
       }
-      actorData.data.decrepitude.finalScore = this._getAbilityScoreFromXp(
+      actorData.data.decrepitude.finalScore = ArM5ePCActor.getAbilityScoreFromXp(
         actorData.data.decrepitude.points
       );
       actorData.data.decrepitude.experienceNextLevel =
@@ -575,20 +566,23 @@ export class ArM5ePCActor extends Actor {
         //   log(false, `xpCoeff: ${technique.xpCoeff}`);
         //   let newxp = technique.xp * technique.xpCoeff;
         //   log(false, `Xp: ${technique.xp} and after afinity: ${newxp}`);
-        //   let score = this._getArtScore(technique.xp);
-        //   let affinityscore = this._getArtScore(Math.round(technique.xp * technique.xpCoeff));
+        //   let score = ArM5ePCActor.getArtScore(technique.xp);
+        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(technique.xp * technique.xpCoeff));
         //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = this._getArtXp(affinityscore + 1) / technique.xpCoeff - technique.xp;
+        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / technique.xpCoeff - technique.xp;
         //   let afterAffinity = nextLvl / technique.xpCoeff;
         //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
         // }
         // end TODO
 
-        technique.derivedScore = this._getArtScore(Math.round(technique.xp * technique.xpCoeff));
+        technique.derivedScore = ArM5ePCActor.getArtScore(
+          Math.round(technique.xp * technique.xpCoeff)
+        );
         technique.finalScore = technique.derivedScore + technique.bonus;
         // start from scratch to avoid rounding errors
         technique.xpNextLevel =
-          Math.round(this._getArtXp(technique.derivedScore + 1) / technique.xpCoeff) - technique.xp;
+          Math.round(ArM5ePCActor.getArtXp(technique.derivedScore + 1) / technique.xpCoeff) -
+          technique.xp;
 
         // TODO remove once confirmed there is no bug
         // if (technique.score != technique.derivedScore && technique.xp != 0) {
@@ -601,7 +595,7 @@ export class ArM5ePCActor extends Actor {
         //       " XPs:" +
         //       technique.xp
         //   );
-        //   this._getArtScore(technique.xp);
+        //   ArM5ePCActor.getArtScore(technique.xp);
         // }
         // Calculate the next level experience needed
         totalXPArts = parseInt(totalXPArts) + technique.xp;
@@ -613,20 +607,20 @@ export class ArM5ePCActor extends Actor {
         //   log(false, `xpCoeff: ${form.xpCoeff}`);
         //   let newxp = form.xp * form.xpCoeff;
         //   log(false, `Xp: ${form.xp} and after afinity: ${newxp}`);
-        //   let score = this._getArtScore(form.xp);
-        //   let affinityscore = this._getArtScore(Math.round(form.xp * form.xpCoeff));
+        //   let score = ArM5ePCActor.getArtScore(form.xp);
+        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
         //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = this._getArtXp(affinityscore + 1) / form.xpCoeff - form.xp;
+        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / form.xpCoeff - form.xp;
         //   let afterAffinity = nextLvl / form.xpCoeff;
         //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
         // }
         // // end TODO
 
-        form.derivedScore = this._getArtScore(Math.round(form.xp * form.xpCoeff));
+        form.derivedScore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
         form.finalScore = form.derivedScore + form.bonus;
 
         form.xpNextLevel =
-          Math.round(this._getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
+          Math.round(ArM5ePCActor.getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
         // TODO remove once confirmed there is no bug
         // if (form.score != form.derivedScore && form.xp != 0) {
         //   error(
@@ -638,7 +632,7 @@ export class ArM5ePCActor extends Actor {
         //       " XPs:" +
         //       form.xp
         //   );
-        //   this._getArtScore(form.xp);
+        //   ArM5ePCActor.getArtScore(form.xp);
         // }
         if (
           actorData.type == "player" &&
@@ -1086,22 +1080,22 @@ export class ArM5ePCActor extends Actor {
     return this.data.data.bonuses.skills[abilityKey].xpCoeff || 1.0;
   }
   // get the Xps needed for an ability/decrepitude/warping score
-  _getAbilityXp(score) {
-    return this._getArtXp(score) * 5;
+  static getAbilityXp(score) {
+    return ArM5ePCActor.getArtXp(score) * 5;
   }
 
   // get the score given an amount of xp
-  _getAbilityScoreFromXp(xp) {
-    return this._getArtScore(Math.floor(xp / 5));
+  static getAbilityScoreFromXp(xp) {
+    return ArM5ePCActor.getArtScore(Math.floor(xp / 5));
   }
 
   // get the Xps needed for an art score
-  _getArtXp(score) {
+  static getArtXp(score) {
     return (score * (score + 1)) / 2;
   }
 
   // get the score given an amount of xp
-  _getArtScore(xp) {
+  static getArtScore(xp) {
     let res = 0;
     while (xp > res) {
       res++;
@@ -1409,5 +1403,14 @@ export class ArM5ePCActor extends Actor {
       return { score: ability.data.derivedScore, speciality: ability.data.speciality };
     }
     return { score: 0, speciality: "" };
+  }
+
+  getArtStats(key) {
+    let artType = "techniques";
+    if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(key) == -1) {
+      artType = "forms";
+    }
+
+    const art = this.data.data.arts[artType][key];
   }
 }

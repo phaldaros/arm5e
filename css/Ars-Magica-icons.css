@@ -14,7 +14,7 @@
   font-family: "Ars Magica icons";
   font-style: normal;
   font-weight: normal;
-  font-size: 13pt;
+  font-size: 16pt;
   line-height: 1;
   padding-top: 6px;
   -webkit-font-smoothing: antialiased;
@@ -22,6 +22,10 @@
 }
 .icon-Icon_Ars:before {
   content: "\0041";
+}
+.icon-Tool_Ars:before {
+  content: "\0041";
+  font-size: 19pt;
 }
 .icon-Icon_Details:before {
   content: "\0042";
@@ -40,6 +44,10 @@
 }
 .icon-Icon_Auras:before {
   content: "\0047";
+}
+.icon-Tool_Auras:before {
+  content: "\0047";
+  font-size: 19pt;
 }
 .icon-Icon_Auras2:before {
   content: "\0048";
@@ -70,6 +78,10 @@
 }
 .icon-Icon_Delete_Perdo2:before {
   content: "\0051";
+}
+.icon-Tool_Delete_Perdo2:before {
+  content: "\0051";
+  font-size: 19pt;
 }
 .icon-Icon_Damage:before {
   content: "\0052";
