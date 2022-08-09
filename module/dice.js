@@ -28,7 +28,8 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
     async: true
   });
 
-  let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+  // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+  let rollMode = game.settings.get("core", "rollMode");
   if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE || actor.data.type != "player") {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
@@ -101,7 +102,11 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   lastRoll = multiplyRoll(mult, dieRoll, formula, rollData.magic.divide);
 
   let rollOptions = {};
-  let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+
+  //
+  // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+
+  let rollMode = game.settings.get("core", "rollMode");
   if (getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE || actor.data.type != "player") {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
@@ -139,10 +144,11 @@ function getFormData(html, actor) {
   }
   find = html.find(".SelectedAbility");
   if (find.length > 0) {
-    if (find[0].value == 999) {
+    if (find[0].value == "None") {
       actor.rollData.ability.score = 0;
     } else {
-      actor.rollData.ability.score = find[0].value;
+      actor.items.get(find[0].value);
+      actor.rollData.ability.score = actor.items.get(find[0].value).data.data.finalScore;
     }
   }
 
@@ -636,7 +642,8 @@ async function noRoll(html, actor, callBack) {
     }
   };
   let formula = `${rollData.formula}`;
-  let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+  // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+  let rollMode = game.settings.get("core", "rollMode");
   if (actor.data.type != "player") {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }

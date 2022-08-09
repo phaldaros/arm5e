@@ -13,11 +13,13 @@
 - Some redesign of the UI to have a more unified medieval flavor (by @Sylph)
 - Rearranged languague mnemonics of common usage into a generic category (the older ones will be keep for a few versions to allow translators to catch up)
 - New active effects for source quality modifiers of seasonal activities (reading and writting have no effect yet)
+- Rolls from sheet are done in the current rolling mode setting (public, private, blind, ...)
 
 ### Bug fixes
 
 - Fixed mnemonic for default characteristic in ability sheet
 - Fixed a bug for migration of legacy auras.
+- Fixed ability rolls taking the wrong ability and default characteristic in the roll dialog.
 
 ## 1.4.4
 

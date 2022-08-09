@@ -33,15 +33,18 @@ export class ArM5eRollData {
         this.characteristic = dataset.characteristic;
         break;
       case "ability":
-        if (dataset.defaultCharacteristic) {
-          this.characteristic = dataset.defaultCharacteristic;
+        if (dataset.defaultcharacteristic) {
+          this.characteristic = dataset.defaultcharacteristic;
         }
 
         const ab = actor.items.get(dataset.ability);
         this.img = ab.img;
         this.name = ab.name;
         this.label = this.name;
+        this.ability.id = dataset.ability;
         this.ability.name = ab.name;
+        this.ability.key = ab.data.data.key;
+        this.ability.option = ab.data.data.option;
         this.ability.speciality = ab.data.data.speciality;
         this.ability.score = ab.data.data.finalScore;
         break;
@@ -273,8 +276,7 @@ export class ArM5eRollData {
 
     this.characteristic = "";
 
-    // the 999 is a trick to force the system to take the "None" option for abilities in case of charac roll
-    this.ability = { name: "", score: 999, speciality: "", specApply: false };
+    this.ability = { id: "None", name: "", score: 0, speciality: "", specApply: false };
 
     this.combat = { exertion: false, advantage: 0 };
 
