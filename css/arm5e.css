@@ -656,10 +656,7 @@ input[type="time"] {
 }
 
 .arm5e .astrolab input[type="text"],
-.arm5e .astrolab input[type="number"],
-input[type="password"],
-input[type="date"],
-input[type="time"] {
+.arm5e .astrolab input[type="number"] {
   font-family: "bookAntiqua";
   font-weight: bold;
   background: rgba(0, 0, 0, 0.15);

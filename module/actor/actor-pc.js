@@ -6,6 +6,7 @@ import {
   compareMagicalEffects,
   compareMagicalEffectsData,
   compareLabTextsData,
+  compareDiaryEntries,
   log,
   error
 } from "../tools.js";
@@ -718,7 +719,7 @@ export class ArM5ePCActor extends Actor {
       }
     }
     if (actorData.data.diaryEntries) {
-      actorData.data.diaryEntries = diaryEntries;
+      actorData.data.diaryEntries = diaryEntries.sort(compareDiaryEntries);
     }
     if (actorData.data.familiar) {
       actorData.data.familiar.abilitiesFam = abilitiesFamiliar;

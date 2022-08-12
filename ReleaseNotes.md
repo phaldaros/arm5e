@@ -17,6 +17,7 @@
 - First version of the astrolab, to set the world time and synchronize actors (design by Sylph).
 - Unified the way actors are storing the current date (migration needed)
 - Players are now able to drag and drop other actors they have "limited" permission with on a diary entry to act as trainer/teacher
+- Diary entries are now sorted
 
 ### Bug fixes
 
