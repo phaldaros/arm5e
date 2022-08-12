@@ -791,6 +791,11 @@ export const migrateItemData = function(itemData) {
         score: 0
       };
     }
+    if (itemData.data.year instanceof String) {
+      if (!isNaN(itemData.data.year)) {
+        updateData["data.year"] = Number(itemData.data.year);
+      }
+    }
   }
 
   if (itemData.type == "might") {

@@ -58,7 +58,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     if (itemData.data.year == "") {
+      // supposedly the first time a diary entry is created
       itemData.data.year = this.actor.data.data.datetime.year;
+      itemData.data.season = this.actor.data.data.datetime.season;
     }
 
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];

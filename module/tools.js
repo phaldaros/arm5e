@@ -59,6 +59,27 @@ export function compareBaseEffects(e1, e2) {
   }
 }
 
+const seasonOrder = { spring: 0, summer: 1, autumn: 2, winter: 3 };
+
+export function compareDiaryEntries(e1, e2) {
+  if (e1.data.year < e2.data.year) {
+    return 1;
+  }
+  if (e1.data.year > e2.data.year) {
+    return -1;
+  } else {
+    if (seasonOrder[e1.data.season] < seasonOrder[e2.data.season]) {
+      return 1;
+    }
+    if (seasonOrder[e1.data.season] > seasonOrder[e2.data.season]) {
+      return -1;
+    }
+    if (seasonOrder[e1.data.season] == seasonOrder[e2.data.season]) {
+      return e1.name.localeCompare(e2.name);
+    }
+  }
+}
+
 export function compareMagicalEffects(e1, e2) {
   return compareMagicalEffectsData(e1.data, e2.data);
 }
