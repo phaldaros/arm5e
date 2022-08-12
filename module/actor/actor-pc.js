@@ -53,9 +53,29 @@ export class ArM5ePCActor extends Actor {
       this.data.data.aesthetics.bonus = 0;
       return;
     }
+    let datetime = game.settings.get("arm5e", "currentDate");
+    if (this.data.type == "covenant") {
+      if (this.data.data.datetime === null) {
+        this.data.data.datetime = {
+          year: datetime.year,
+          season: datetime.season,
+          month: "mar",
+          day: 21
+        };
+      }
+    }
 
     if (this.data.type != "player" && this.data.type != "npc" && this.data.type != "beast") {
       return;
+    }
+
+    if (this.data.data.datetime === null) {
+      this.data.data.datetime = {
+        year: datetime.year,
+        season: datetime.season,
+        month: "mar",
+        day: 21
+      };
     }
 
     this.data.data.bonuses = {};

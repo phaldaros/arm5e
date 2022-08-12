@@ -150,13 +150,6 @@
         "books": [],
         "spells": [],
         "magicalEffects": [],
-
-        "season": {
-          "value": ""
-        },
-        "year": {
-          "value": "1225"
-        },
         "decrepitude": {
           "points": 0,
           "effects": "Decrepitude effects"
@@ -167,6 +160,8 @@
           "effects": "Warping effects"
         }
       },
+      "datetime": { "datetime": null },
+
       "personality": {
         "personality": {
           "per1": {
@@ -622,6 +617,7 @@
       "templates": [
         "base",
         "npcbase",
+        "datetime",
         "personality",
         "wounds",
         "fatigue",
@@ -669,6 +665,7 @@
       "templates": [
         "base",
         "npcbase",
+        "datetime",
         "personality",
         "wounds",
         "familiar",
@@ -701,7 +698,7 @@
       "powers": []
     },
     "laboratory": {
-      "templates": ["base"],
+      "templates": ["base", "datetime"],
       "covenant": {
         "dtype": "String",
         "value": "Covenant Name"
@@ -755,13 +752,12 @@
       "personalities": []
     },
     "covenant": {
-      "templates": ["base", "visRegistry"],
+      "templates": ["base", "visRegistry", "datetime"],
       "description": "",
       "narrator": "",
       "saga": "",
       "sagaType": "",
       "foundationYear": "",
-      "currentYear": "",
       "season": "",
       "tribunal": "",
       "typeAura": "",
@@ -954,7 +950,7 @@
       "enchantments": []
     },
     "beast": {
-      "templates": ["base", "wounds", "fatigue", "personality"],
+      "templates": ["base", "wounds", "fatigue", "personality", "datetime"],
       "characteristics": {
         "cun": {
           "value": 0

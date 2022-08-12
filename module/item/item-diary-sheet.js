@@ -58,7 +58,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     if (itemData.data.year == "") {
-      itemData.data.year = this.actor.data.data.year.value;
+      itemData.data.year = this.actor.data.data.datetime.year;
     }
 
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];

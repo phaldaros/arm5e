@@ -12,8 +12,8 @@
       <label class="header-label">{{localize "arm5e.sheet.season"}}</label>
       <select name="data.season" data-type="String">
         {{#select data.season}} {{#each config.seasons as |season key|}}
-        <option value="{{key}}">{{localize season.label}}</option>
-        {{/each}} {{/select}}
+            <option value="{{key}}">{{localize season.label}}</option>
+          {{/each}} {{/select}}
       </select>
     </div>
     <div class="resource">

@@ -1,0 +1,40 @@
+<form class="{{cssClass}} astrolab astrolab-sheet" autocomplete="off">
+  <div class="astrolab header-background" style="width:600px; margin: 0px;">
+    <img src="/systems/arm5e/assets/astrolab/Astrolab_Header.png" />
+  </div>
+  <h1 class="astrolab-title width: 100%;" text-align="center">Astrolab</h1>
+  <label class="smallTitle flexrow flex-center"
+    style="font-size: 20pt;">{{localize (lookup (lookup seasons curSeason) "label") }}
+    {{curYear}}</label>
+  <div class="sheet-body grid-2col" style="height:228px">
+    <div style="margin:10px">
+      <div class="resource-content flexrow flex-center flex-between margintop6">
+        <label for="season" class="smallTitle" style="font-size:16pt">{{localize "arm5e.sheet.season"}}</label>
+        <select name="season" data-type="String" class="change-season flex0 astrolab" style="font-size: 14pt;">
+          {{#select season}} {{#each seasons as |season key|}}
+              <option value="{{key}}">{{localize season.label}}</option>
+            {{/each}} {{/select}}
+        </select>
+      </div>
+      <div class="resource-content flexrow flex-center flex-between margintop6">
+        <label for="year" class="smallTitle" style="font-size:16pt">{{localize "arm5e.sheet.year"}}</label>
+        <input type="number" name="year" value="{{year}}" data-dtype="Number" class="astrolab change-year" style="
+        font-size: 18pt;" />
+      </div>
+    </div>
+    <div style=" margin:10px">
+      <button class="astrolab button set-date" data-year="{{year}}" data-season="{{season}}" style="font-size:16pt">
+        {{localize "arm5e.astrolab.setWorldDate"}}
+      </button>
+      <button class="astrolab button update-actors" data-year="{{year}}" data-season="{{season}}"
+        style="font-size:16pt">
+        {{localize "arm5e.astrolab.updateActors"}}
+      </button>
+
+    </div>
+  </div>
+
+  <div class="astrolab footer-background" style="width:600px; margin: 0px; height: 75px;">
+    <img src="/systems/arm5e/assets/astrolab/Astrolab_Footer.png" />
+  </div>
+</form>

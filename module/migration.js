@@ -257,6 +257,14 @@ export const migrateActorData = function(actorData) {
     return updateData;
   }
 
+  if (actorData.type == "covenant") {
+    if (actorData.data.currentYear != undefined) {
+      updateData["data.datetime.year"] = actorData.data.currentYear;
+      updateData["data.datetime.season"] = "spring";
+      updateData["data.-=currentYear"] = null;
+    }
+  }
+
   updateData["data.version"] = "1.4.5";
 
   // token with barely anything to migrate
@@ -323,6 +331,15 @@ export const migrateActorData = function(actorData) {
   // }
 
   if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
+    if (actorData.data.year?.value != undefined) {
+      updateData["data.datetime.year"] = actorData.data.year.value;
+      updateData["data.-=year"] = null;
+    }
+    if (actorData.data.season?.value != undefined) {
+      updateData["data.datetime.season"] = actorData.data?.season.value ?? "spring";
+      updateData["data.-=season"] = null;
+    }
+
     if (actorData.data?.roll != undefined) {
       updateData["data.-=roll"] = null;
     }
