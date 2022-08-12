@@ -735,6 +735,8 @@
   "arm5e.notification.roll.botchNum": "Please enter the number of botch dice.",
   "arm5e.notification.doubleAbility": "That character already have the ability",
   "arm5e.notification.noMightPoints": "Not enough points remaining in might pool.",
+  "arm5e.notification.setDate": "The current date has been set to {season} {year}",
+  "arm5e.notification.synchActors": "All actors have been synchronized to {season} {year}",
 
   "arm5e.packs.abilities.name": "Abilities",
 
@@ -932,6 +934,9 @@
   "arm5e.activity.teacher.label": "Teacher",
   "arm5e.activity.teacher.name": "Teacher's name",
   "arm5e.activity.teacher.score": "Teacher's score",
+
+  "arm5e.astrolab.setWorldDate": "Set world date",
+  "arm5e.astrolab.updateActors": "Update actors",
 
   "arm5e.sheet.label.details": "Details",
   "arm5e.generic.yes": "Yes",

@@ -7,6 +7,7 @@ import { ArM5eNPCActorSheet } from "./actor/actor-npc-sheet.js";
 import { ArM5eLaboratoryActorSheet } from "./actor/actor-laboratory-sheet.js";
 import { ArM5eCovenantActorSheet } from "./actor/actor-covenant-sheet.js";
 import { ArM5eMagicCodexSheet } from "./actor/actor-magic-codex-sheet.js";
+import { ArM5eActorsDirectory } from "./ui/ars-actors-directory.js";
 import { ArM5eCrucibleSheet } from "./actor/actor-crucible-sheet.js";
 import { ArM5eItem } from "./item/item.js";
 import { ArM5eItemSheet } from "./item/item-sheet.js";
@@ -144,13 +145,26 @@ Hooks.once("init", async function() {
     default: true
   });
 
+  game.settings.register("arm5e", "currentDate", {
+    name: "Current date of the system",
+    scope: "world",
+    config: false,
+    type: Object,
+    default: { year: 1225, season: "spring" }
+  });
+
   CONFIG.Canvas.layers["arsmagica"] = {
     layerClass: ArsLayer,
     group: "primary"
   };
 
+  CONFIG.ui.actors = ArM5eActorsDirectory;
+
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
+
+  // const astrolab = game.settings.get("arm5e", "currentDate");
+  // CONFIG.ARM5E.ASTROLAB = astrolab;
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
@@ -203,6 +217,7 @@ Hooks.once("init", async function() {
   //     label: "arm5e.sheet.crucible"
   // });
 
+  // let astrolabData = game.
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
     types: ["magicalEffect", "enchantment", "spell", "baseEffect", "laboratoryText", "magicItem"],

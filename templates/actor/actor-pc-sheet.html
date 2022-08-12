@@ -11,7 +11,7 @@
         <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
           {{#if data.pendingCrisis}}
             <div class="flex0 padding10" style="width:36px"><a class="rollable" data-roll="crisis"
-                data-year="{{data.year.value}}" title="Resolve aging crisis" style="font-size: 20pt;"><i
+                data-year="{{data.datetime.year}}" title="Resolve aging crisis" style="font-size: 20pt;"><i
                   class="icon-Icon_Aging_crisis"></i></a>
             </div>
           {{/if}}
@@ -61,10 +61,10 @@
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="data.season.value" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
+          <label for="data.datetime.season" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <select name="data.season.value" data-type="String" style="width: 100%">
-              {{#select data.season.value}} {{#each config.seasons as |season key|}}
+            <select name="data.datetime.season" data-type="String" style="width: 100%">
+              {{#select data.datetime.season}} {{#each config.seasons as |season key|}}
                   <option value="{{key}}">{{localize season.label}}</option>
                 {{/each}} {{/select}}
             </select>
@@ -72,9 +72,9 @@
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="data.year.value" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
+          <label for="data.datetime.year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="data.year.value" value="{{data.year.value}}" data-dtype="String" />
+            <input type="number" name="data.datetime.year" value="{{data.datetime.year}}" data-dtype="String" />
           </div>
         </div>
         {{#if (ne data.charType.value "grog")}}

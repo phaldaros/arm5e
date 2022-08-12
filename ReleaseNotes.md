@@ -14,6 +14,9 @@
 - Rearranged languague mnemonics of common usage into a generic category (the older ones will be keep for a few versions to allow translators to catch up)
 - New active effects for source quality modifiers of seasonal activities (reading and writting have no effect yet)
 - Rolls from sheet are done in the current rolling mode setting (public, private, blind, ...)
+- First version of the astrolab, to set the world time and synchronize actors (design by Sylph).
+- Unified the way actors are storing the current date (migration needed)
+- Players are now able to drag and drop other actors they have "limited" permission with on a diary entry to act as trainer/teacher
 
 ### Bug fixes
 

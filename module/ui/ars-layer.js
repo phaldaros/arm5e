@@ -1,5 +1,6 @@
 import { log } from "../tools.js";
 import { clearAuraFromActor } from "../helpers/aura.js";
+import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
 
 export class ArsLayer extends CanvasLayer {
@@ -45,6 +46,17 @@ export class ArsLayer extends CanvasLayer {
     ).render(true);
   }
 
+  static async openAstrolab() {
+    let formData = {
+      seasons: CONFIG.ARM5E.seasons,
+      ...game.settings.get("arm5e", "currentDate")
+    };
+    // const html = await renderTemplate("systems/arm5e/templates/generic/astrolab.html", dialogData);
+
+    const astrolab = new Astrolab(formData, {}); // data, options
+    const res = await astrolab.render(true);
+  }
+
   static async clearAura() {
     game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed.data._id);
     game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed.data._id);
@@ -78,6 +90,14 @@ export function addArsButtons(buttons) {
         visible: true,
         button: true,
         onClick: () => ArsLayer.clearAura()
+      },
+      {
+        name: "astrolab",
+        title: "Astrolab",
+        icon: "icon-Tool_Astrolab",
+        visible: true,
+        button: true,
+        onClick: () => ArsLayer.openAstrolab()
       }
     ],
     activeTool: "aura"

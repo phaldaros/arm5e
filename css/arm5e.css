@@ -208,6 +208,15 @@ h4.window-title {
   font-size: 20px;
 }
 
+.arm5e .astrolab.button {
+  font-family: "blackmoor";
+  font-size: 13pt;
+  padding: 5px;
+  width: 140px;
+  margin: 5px;
+  background-image: none;
+}
+
 .arm5e.button {
   font-family: "blackmoor";
   padding: 10px;
@@ -454,6 +463,10 @@ h4.window-title {
   border: 0px;
 }
 
+.astrolab-sheet .sheet-body {
+  padding: 40px;
+}
+
 .arm5eEffect .sheet-body {
   height: auto;
   background-image: url("../assets/dialog/Dialog_Background.png");
@@ -486,6 +499,41 @@ h4.window-title {
   background-repeat: repeat-y;
   background-size: cover;
   font-family: "bookAntiquaBold";
+}
+
+.arm5e .astrolab.astrolab-sheet {
+  background-image: url("../assets/astrolab/Astrolab_Background.png");
+  background-repeat: repeat-y;
+}
+
+.arm5e .astrolab.header-background img {
+  border: 0px;
+}
+
+.arm5e .astrolab .header-background {
+  height: 120px;
+  width: 600px;
+  margin: 0px;
+}
+
+.arm5e .astrolab .footer-background img {
+  border: 0px;
+}
+
+.arm5e .astrolab .footer-background {
+  height: 75px;
+  width: 600px;
+  margin: 0px;
+  background-image: none;
+}
+
+.arm5e .astrolab-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 32pt;
+  height: 45px;
+  border: none;
+  color: #2d3b51;
 }
 
 .arm5eRequisite {
@@ -607,6 +655,18 @@ input[type="time"] {
   user-select: text;
 }
 
+.arm5e .astrolab input[type="text"],
+.arm5e .astrolab input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="time"] {
+  font-family: "bookAntiqua";
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.15);
+  height: 25px;
+  background-image: none;
+}
+
 .arm5e select {
   height: 20px;
   background: rgba(0, 0, 0, 0.05);
@@ -615,6 +675,13 @@ input[type="time"] {
   font-family: inherit;
   padding: 0 3px;
   text-overflow: ellipsis;
+}
+
+.arm5e .astrolab select {
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.15);
+  height: 25px;
+  font-family: "bookAntiqua";
 }
 
 .arm5e .mainPlayer {
