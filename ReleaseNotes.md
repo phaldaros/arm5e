@@ -12,9 +12,9 @@
 - Update of French verison (by Lanneval and Nono)
 - Some redesign of the UI to have a more unified medieval flavor (by @Sylph)
 - Rearranged languague mnemonics of common usage into a generic category (the older ones will be keep for a few versions to allow translators to catch up)
-- New active effects for source quality modifiers of seasonal activities (reading and writting have no effect yet)
+- New active effects for source quality modifiers of seasonal activities (reading and writing have no effect yet)
 - Rolls from sheet are done in the current rolling mode setting (public, private, blind, ...)
-- First version of the astrolab, to set the world time and synchronize actors (design by Sylph).
+- First version of the Astrolab, to set the world time and synchronize actors (design by Sylph).
 - Unified the way actors are storing the current date (migration needed)
 - Players are now able to drag and drop other actors they have "limited" permission with on a diary entry to act as trainer/teacher
 - Diary entries are now sorted

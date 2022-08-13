@@ -898,6 +898,7 @@ input[type="time"] {
   flex: 0;
   font-family: "bookAntiqua";
   font-size: 12pt;
+  text-align: center;
 }
 
 .arm5e .progresses-list {

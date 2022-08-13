@@ -129,7 +129,7 @@ export class ArM5ePCActor extends Actor {
       teaching: 0,
       teacher: 0,
       reading: 0,
-      writting: 0
+      writing: 0
     };
   }
 
