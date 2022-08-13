@@ -183,6 +183,20 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               );
           });
         });
+      } else {
+        if (itemData.data.teacher.score < 2) {
+          context.data.canEdit = "readonly";
+          context.data.applyPossible = "disabled";
+          context.data.applyError = "arm5e.activity.msg.uselessTeacher";
+          context.data.errorParam =
+            itemData.data.teacher.name === ""
+              ? game.i18n.localize("arm5e.activity.teacher.label")
+              : itemData.data.teacher.name;
+          return context;
+        }
+        availableAbilities = this.actor.data.data.abilities.filter(e => {
+          return e.data.finalScore < itemData.data.teacher.score;
+        });
       }
 
       // if teacher is not a Magus, he/she cannot teach spell masteries and arts
@@ -235,73 +249,83 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (context.ui.showMagicProgress) {
       // Arts
       let availableArts = Object.keys(CONFIG.ARM5E.magic.arts);
-      // get the arts the teacher is skilled enough in to teach
-      if (context.data.teacherLinked) {
-        let teacherTechniques = Object.entries(teacher.data.data.arts.techniques)
-          .filter(e => {
-            if (context.data.applied) {
-              return e[1].finalScore >= 5;
-            } else {
-              return (
-                e[1].finalScore >= 5 &&
-                e[1].finalScore > this.actor.data.data.arts.techniques[e[0]].finalScore
-              );
-            }
-          })
-          .map(e => {
-            return {
-              key: e[0],
-              label: CONFIG.ARM5E.magic.arts[e[0]].label,
-              score: this.actor.data.data.arts.techniques[e[0]].finalScore,
-              teacherScore: e[1].finalScore
-            };
-          });
+      if (hasTeacher) {
+        // get the arts the teacher is skilled enough in to teach
+        if (context.data.teacherLinked) {
+          let teacherTechniques = Object.entries(teacher.data.data.arts.techniques)
+            .filter(e => {
+              if (context.data.applied) {
+                return e[1].finalScore >= 5;
+              } else {
+                return (
+                  e[1].finalScore >= 5 &&
+                  e[1].finalScore > this.actor.data.data.arts.techniques[e[0]].finalScore
+                );
+              }
+            })
+            .map(e => {
+              return {
+                key: e[0],
+                label: CONFIG.ARM5E.magic.arts[e[0]].label,
+                score: this.actor.data.data.arts.techniques[e[0]].finalScore,
+                teacherScore: e[1].finalScore
+              };
+            });
 
-        let teacherForms = Object.entries(teacher.data.data.arts.forms)
-          .filter(e => {
-            if (context.data.applied) {
-              return e[1].finalScore >= 5;
-            } else {
-              return (
-                e[1].finalScore >= 5 &&
-                e[1].finalScore > this.actor.data.data.arts.forms[e[0]].finalScore
-              );
-            }
-          })
-          .map(e => {
-            return {
-              key: e[0],
-              label: CONFIG.ARM5E.magic.arts[e[0]].label,
-              score: this.actor.data.data.arts.forms[e[0]].finalScore,
-              teacherScore: e[1].finalScore
-            };
-          });
+          let teacherForms = Object.entries(teacher.data.data.arts.forms)
+            .filter(e => {
+              if (context.data.applied) {
+                return e[1].finalScore >= 5;
+              } else {
+                return (
+                  e[1].finalScore >= 5 &&
+                  e[1].finalScore > this.actor.data.data.arts.forms[e[0]].finalScore
+                );
+              }
+            })
+            .map(e => {
+              return {
+                key: e[0],
+                label: CONFIG.ARM5E.magic.arts[e[0]].label,
+                score: this.actor.data.data.arts.forms[e[0]].finalScore,
+                teacherScore: e[1].finalScore
+              };
+            });
 
-        availableArts = teacherTechniques.concat(teacherForms);
-      } else {
-        let teacherScore = 0;
-        if (hasTeacher && itemData.data.teacher.id === null) {
-          teacherScore = itemData.data.teacher.score ?? 0;
+          availableArts = teacherTechniques.concat(teacherForms);
+        } else {
+          let teacherScore = 0;
+          if (hasTeacher && itemData.data.teacher.id === null) {
+            teacherScore = itemData.data.teacher.score ?? 0;
+          }
+          if (teacherScore < 5) {
+            // must have a score of 5 to teach an Art
+            availableArts = [];
+          } else {
+            let actorTechniques = Object.entries(this.actor.data.data.arts.techniques).map(e => {
+              return {
+                key: e[0],
+                label: CONFIG.ARM5E.magic.arts[e[0]].label,
+                score: this.actor.data.data.arts.techniques[e[0]].finalScore,
+                teacherScore: teacherScore
+              };
+            });
+
+            let actorForms = Object.entries(this.actor.data.data.arts.forms).map(e => {
+              return {
+                key: e[0],
+                label: CONFIG.ARM5E.magic.arts[e[0]].label,
+                score: this.actor.data.data.arts.forms[e[0]].finalScore,
+                teacherScore: teacherScore
+              };
+            });
+
+            availableArts = actorTechniques.concat(actorForms);
+            availableArts = availableArts.filter(e => {
+              return e.score < itemData.data.teacher.score;
+            });
+          }
         }
-        let actorTechniques = Object.entries(this.actor.data.data.arts.techniques).map(e => {
-          return {
-            key: e[0],
-            label: CONFIG.ARM5E.magic.arts[e[0]].label,
-            score: this.actor.data.data.arts.techniques[e[0]].finalScore,
-            teacherScore: teacherScore
-          };
-        });
-
-        let actorForms = Object.entries(this.actor.data.data.arts.forms).map(e => {
-          return {
-            key: e[0],
-            label: CONFIG.ARM5E.magic.arts[e[0]].label,
-            score: this.actor.data.data.arts.forms[e[0]].finalScore,
-            teacherScore: teacherScore
-          };
-        });
-
-        availableArts = actorTechniques.concat(actorForms);
       }
 
       let firstArt = true;
@@ -324,33 +348,38 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       //spells
 
       let availableSpells = this.actor.data.data.spells;
-      if (context.data.teacherLinked) {
-        context.teacherMasteries = teacher.data.data.spells.filter(e => {
-          return e.data.mastery >= 2;
-        });
-        availableSpells = this.actor.data.data.spells.filter(e => {
-          return context.teacherMasteries.some(filter => {
-            if (context.data.applied) {
-              return (
-                // for rollback, the item must still be there
-                filter.data.key === e.data.key &&
-                filter.name === e.name &&
-                filter.data.technique === e.data.technique &&
-                filter.data.form === e.data.form
-              );
-            } else {
-              return (
-                filter.data.key === e.data.key &&
-                filter.name === e.name &&
-                filter.data.technique === e.data.technique &&
-                filter.data.form === e.data.form &&
-                filter.data.mastery > e.data.mastery
-              );
-            }
+      if (hasTeacher) {
+        if (context.data.teacherLinked) {
+          context.teacherMasteries = teacher.data.data.spells.filter(e => {
+            return e.data.mastery >= 2;
           });
-        });
+          availableSpells = this.actor.data.data.spells.filter(e => {
+            return context.teacherMasteries.some(filter => {
+              if (context.data.applied) {
+                return (
+                  // for rollback, the item must still be there
+                  filter.data.key === e.data.key &&
+                  filter.name === e.name &&
+                  filter.data.technique === e.data.technique &&
+                  filter.data.form === e.data.form
+                );
+              } else {
+                return (
+                  filter.data.key === e.data.key &&
+                  filter.name === e.name &&
+                  filter.data.technique === e.data.technique &&
+                  filter.data.form === e.data.form &&
+                  filter.data.mastery > e.data.mastery
+                );
+              }
+            });
+          });
+        } else {
+          availableSpells = this.actor.data.data.spells.filter(e => {
+            return e.data.mastery < itemData.data.teacher.score;
+          });
+        }
       }
-
       let firstSpell = true;
       for (const spell of availableSpells) {
         let teacherScore = 0;

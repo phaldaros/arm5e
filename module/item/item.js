@@ -250,30 +250,9 @@ export class ArM5eItem extends Item {
               break;
             }
             case "teaching": {
-              if (systemData.teacher.id === null) {
-                systemData.baseQuality = systemData.teacher.teaching + systemData.teacher.com + 6;
-              } else {
-                systemData.baseQuality = 0;
-                if (
-                  Object.values(systemData.progress.abilities).length +
-                    Object.values(systemData.progress.arts).length +
-                    Object.values(systemData.progress.spells).length ===
-                  1
-                ) {
-                  if (Object.values(systemData.progress.abilities).length > 0) {
-                    systemData.baseQuality =
-                      systemData.teacher.teaching + systemData.teacher.com + 6;
-                  } else if (Object.values(systemData.progress.arts).length > 0) {
-                    systemData.baseQuality =
-                      systemData.teacher.teaching + systemData.teacher.com + 6;
-                  } else {
-                    systemData.baseQuality =
-                      systemData.teacher.teaching + systemData.teacher.com + 6;
-                  }
-                  if (systemData.teacher.applySpec) {
-                    systemData.baseQuality++;
-                  }
-                }
+              systemData.baseQuality = systemData.teacher.teaching + systemData.teacher.com + 6;
+              if (systemData.teacher.applySpec) {
+                systemData.baseQuality++;
               }
               break;
             }

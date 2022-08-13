@@ -98,9 +98,9 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 5
       },
-      writting: {
-        label: "arm5e.activity.writting",
-        key: "data.bonuses.activities.writting",
+      writing: {
+        label: "arm5e.activity.writing",
+        key: "data.bonuses.activities.writing",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
