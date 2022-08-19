@@ -185,13 +185,6 @@ export class ArM5eItem extends Item {
         }
         this.data.data.level = effectLevel;
       }
-
-      // compute casting total
-      if (this.isOwned) {
-        itemData.data.castingTotal = this._computeCastingTotal(actorData, itemData);
-      } else {
-        itemData.data.castingTotal = 0;
-      }
     }
     if (this.type == "labCovenant") {
       let pts = getLabUpkeepCost(data.upkeep);
@@ -470,7 +463,7 @@ export class ArM5eItem extends Item {
     }
   }
 
-  _computeCastingTotal(actorData, itemData) {
+  static _computeCastingTotal(actorData, itemData) {
     if (actorData.type != "player" && actorData.type != "npc") {
       return 0;
     }

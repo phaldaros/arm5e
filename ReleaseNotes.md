@@ -24,6 +24,8 @@
 - Fixed mnemonic for default characteristic in ability sheet
 - Fixed a bug for migration of legacy auras.
 - Fixed ability rolls taking the wrong ability and default characteristic in the roll dialog.
+- Casting totals are now properly computed for brand new characters
+- It is possible to drop items on the Codex again.
 
 ## 1.4.4
 
