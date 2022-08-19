@@ -309,12 +309,12 @@ Hooks.once("ready", async function() {
     // Determine whether a system migration is required and feasible
     // this below assumes that we stay on single digit version numbers...
     const currentVersion = game.settings.get("arm5e", "systemMigrationVersion");
-    const SYSTEM_VERSION_NEEDED = game.system.data.version;
+    const SYSTEM_VERSION_NEEDED = game.system.version;
     const COMPATIBLE_MIGRATION_VERSION = "1.0";
     const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
 
     if (!currentVersion && totalDocuments === 0) {
-      game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
+      game.settings.set("arm5e", "systemMigrationVersion", SYSTEM_VERSION_NEEDED);
     } else {
       const needsMigration =
         !currentVersion || foundry.utils.isNewerVersion(SYSTEM_VERSION_NEEDED, currentVersion);
@@ -335,7 +335,7 @@ Hooks.once("ready", async function() {
   }
 
   // check and warning that magic codex is missing or more than one occurence.
-  const codex = game.actors.filter(a => a.data.type === "magicCodex");
+  const codex = game.actors.filter(a => a.type === "magicCodex");
   if (codex.length > 1) {
     ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.tooMany"), {
       permanent: false
@@ -376,14 +376,15 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
+// TODOV10
 async function createArM5eMacro(data, slot) {
-  //if (data.type !== "Item") return;
-  if (!("data" in data))
+  if (data.type !== "Item") return;
+  const item = await fromUuid(data.uuid);
+  if (!item.isOwned)
     return ui.notifications.warn("You can only create macro buttons for owned Items");
-  const item = data.data;
 
   // Create the macro command
-  const command = `game.arm5e.rollItemMacro('${data.data._id}', '${data.actorId}');`;
+  const command = `game.arm5e.rollItemMacro('${item._id}', '${item.actor._id}');`;
   let macro = game.macros.contents.find(m => m.name === item.name && m.command === command);
   if (!macro) {
     macro = await Macro.create({
@@ -404,31 +405,17 @@ async function onDropActorSheetData(actor, sheet, data) {
   if (data.type == "Folder") {
     return true;
   }
-  if (data.pack) {
-    const item = await getDocumentFromCompendium(data.pack, data.id);
-    if (sheet.isItemDropAllowed(item.data)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
   if (data.type == "Item") {
-    let item;
-    if (data.actorId === undefined) {
-      // Doesn't have owner,
-      item = game.items.get(data.id);
-    } else {
-      item = data;
-    }
+    let item = await fromUuid(data.uuid);
 
-    if (sheet.isItemDropAllowed(item.data)) {
+    if (sheet.isItemDropAllowed(item)) {
       return true;
     } else {
-      log(true, "Prevented invalid item drop ", item.data, " on actor ", actor);
+      log(true, "Prevented invalid item drop " + item.name + " on actor " + actor.name);
       return false;
     }
   } else if (data.type == "Actor") {
-    let droppedActor = game.actors.get(data.id);
+    let droppedActor = await fromUuid(data.uuid);
 
     if (sheet.isActorDropAllowed(droppedActor.type)) {
       return true;
@@ -455,7 +442,7 @@ function rollItemMacro(itemId, actorId) {
   const dataset = prepareDatasetByTypeOfItem(item);
   if (isObjectEmpty(dataset)) {
     item.sheet.render(true);
-  } else if (item.data.type == "power") {
+  } else if (item.type == "power") {
     actor.sheet._onUsePower(dataset);
   } else {
     actor.sheet._onRoll(dataset);
@@ -464,8 +451,8 @@ function rollItemMacro(itemId, actorId) {
 
 async function setAuraValueForAllTokensInScene(value, type) {
   // Store a flag with the current aura
-  game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed.data._id, Number(value));
-  game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed.data._id, Number(type));
+  game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
+  game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
   modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
 }
 
@@ -474,8 +461,8 @@ function setAuraValueForToken(value, type) {
 }
 
 async function resetTokenAuraToSceneAura() {
-  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
-  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed.data._id);
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
+  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
   if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
     addActiveEffectAuraToActor(this, Number(aura), Number(type));
   }
@@ -485,8 +472,8 @@ function onDropOnCanvas(canvas, data) {
   if (!canvas.scene.active) {
     return;
   }
-  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed.data._id);
-  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed.data._id);
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
+  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
   const actor = game.actors.get(data.id);
   if (actor) {
     if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {

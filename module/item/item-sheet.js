@@ -30,24 +30,20 @@ export class ArM5eItemSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
-    return `${path}/item-${this.item.data.type}-sheet.html`;
+    return `${path}/item-${this.item.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */
 
   /** @override */
   getData() {
-    // Retrieve the data structure from the base sheet. You can inspect or log
-    // the context variable to see the structure, but some key properties for
-    // sheets are the item object, the data object, whether or not it's
-    // editable, the items array, and the effects array.
     const context = super.getData();
 
     // Use a safe clone of the item data for further operations.
-    const itemData = context.item.data;
+    const itemData = this.item.toObject(false);
 
-    // Add the item's data to context.data for easier access, as well as flags.
-    context.data = itemData.data;
+    // Add the item's data to context.system for easier access, as well as flags.
+    context.system = itemData.system;
     context.flags = itemData.flags;
 
     context.config = CONFIG.ARM5E;
@@ -60,7 +56,7 @@ export class ArM5eItemSheet extends ItemSheet {
       abilitiesSelect["a0"] = temp;
       if (this.actor != null) {
         // find the actor habilities and create the select
-        for (let [key, i] of this.actor.data.items.entries()) {
+        for (let [key, i] of this.actor.system.items.entries()) {
           if (i.type === "ability") {
             const temp = {
               id: i.id,
@@ -72,13 +68,11 @@ export class ArM5eItemSheet extends ItemSheet {
         }
       }
 
-      context.data.abilities = abilitiesSelect;
-      itemData.data.abilities = abilitiesSelect;
+      context.system.abilities = abilitiesSelect;
 
       //console.log("item-sheet get data weapon")
       //console.log(data)
     } else if (itemData.type == "ability" || itemData.type == "diaryEntry") {
-      // TODO add other categories
       context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
     }
 
@@ -110,8 +104,8 @@ export class ArM5eItemSheet extends ItemSheet {
 
     if (itemData.type == "virtue" || itemData.type == "flaw") {
       if (this.item.isOwned) {
-        itemData.data.effectCreation = false;
-        switch (context.item.parent.data.type) {
+        context.system.effectCreation = false;
+        switch (context.item.parent.type) {
           case "laboratory":
             context.config.virtueFlawTypes.available = {
               ...context.config.virtueFlawTypes.laboratory,
@@ -133,7 +127,7 @@ export class ArM5eItemSheet extends ItemSheet {
             break;
         }
       } else {
-        itemData.data.effectCreation = true;
+        context.system.effectCreation = true;
         context.config.virtueFlawTypes.available = {
           ...context.config.virtueFlawTypes.character,
           ...context.config.virtueFlawTypes.laboratory,
@@ -154,8 +148,6 @@ export class ArM5eItemSheet extends ItemSheet {
 
     log(false, "item-sheet get data");
     log(false, context);
-    // console.log('item-sheet get data');
-    // console.log(context);
 
     return context;
   }
@@ -181,28 +173,28 @@ export class ArM5eItemSheet extends ItemSheet {
     if (!this.options.editable) return;
 
     // data-id and data-attr needed
-    html.find(".increase-ability").click((event) => this._increaseScore(this.item));
-    html.find(".decrease-ability").click((event) => this._deccreaseScore(this.item));
-    html.find(".increase-mastery").click((event) => this._increaseMastery(this.item));
-    html.find(".decrease-mastery").click((event) => this._deccreaseMastery(this.item));
+    html.find(".increase-ability").click(event => this._increaseScore(this.item));
+    html.find(".decrease-ability").click(event => this._deccreaseScore(this.item));
+    html.find(".increase-mastery").click(event => this._increaseMastery(this.item));
+    html.find(".decrease-mastery").click(event => this._deccreaseMastery(this.item));
     html
       .find(".default-characteristic")
-      .change((event) => this._onSelectDefaultCharacteristic(this.item, event));
-    html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
-    html.find(".ability-option").change((event) => this._cleanUpOption(this.item, event));
+      .change(event => this._onSelectDefaultCharacteristic(this.item, event));
+    html.find(".item-enchant").click(event => this._enchantItemQuestion(this.item));
+    html.find(".ability-option").change(event => this._cleanUpOption(this.item, event));
 
     // Active Effect management
-    html
-      .find(".effect-control")
-      .click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
+    html.find(".effect-control").click(ev => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
   }
 
   async _onSelectDefaultCharacteristic(item, event) {
     event.preventDefault();
     await item.update(
       {
-        data: {
-          defaultChaAb: $(".default-characteristic").find("option:selected").val()
+        system: {
+          defaultChaAb: $(".default-characteristic")
+            .find("option:selected")
+            .val()
         }
       },
       {}
@@ -214,12 +206,12 @@ export class ArM5eItemSheet extends ItemSheet {
     if (item.type != "spell") {
       return;
     }
-    let oldXp = item.data.data.xp;
-    let newXp = Math.round(((item.data.data.mastery + 1) * (item.data.data.mastery + 2) * 5) / 2);
+    let oldXp = item.system.xp;
+    let newXp = Math.round(((item.system.mastery + 1) * (item.system.mastery + 2) * 5) / 2);
 
     await item.update(
       {
-        data: {
+        system: {
           xp: newXp
         }
       },
@@ -232,12 +224,12 @@ export class ArM5eItemSheet extends ItemSheet {
     if (item.type != "spell") {
       return;
     }
-    if (item.data.data.mastery != 0) {
-      let oldXp = item.data.data.xp;
-      let newXp = Math.round(((item.data.data.mastery - 1) * item.data.data.mastery * 5) / 2);
+    if (item.system.mastery != 0) {
+      let oldXp = item.system.xp;
+      let newXp = Math.round(((item.system.mastery - 1) * item.system.mastery * 5) / 2);
       await item.update(
         {
-          data: {
+          system: {
             xp: newXp
           }
         },
@@ -249,15 +241,15 @@ export class ArM5eItemSheet extends ItemSheet {
   }
 
   async _increaseScore(item) {
-    let oldXp = item.data.data.xp;
+    let oldXp = item.system.xp;
     let newXp = Math.round(
-      ((item.data.data.derivedScore + 1) * (item.data.data.derivedScore + 2) * 5) /
-        (2 * item.data.data.xpCoeff)
+      ((item.system.derivedScore + 1) * (item.system.derivedScore + 2) * 5) /
+        (2 * item.system.xpCoeff)
     );
 
     await item.update(
       {
-        data: {
+        system: {
           xp: newXp
         }
       },
@@ -267,15 +259,14 @@ export class ArM5eItemSheet extends ItemSheet {
     console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
   }
   async _deccreaseScore(item) {
-    if (item.data.data.derivedScore != 0) {
-      let oldXp = item.data.data.xp;
+    if (item.system.derivedScore != 0) {
+      let oldXp = item.system.xp;
       let newXp = Math.round(
-        ((item.data.data.derivedScore - 1) * item.data.data.derivedScore * 5) /
-          (2 * item.data.data.xpCoeff)
+        ((item.system.derivedScore - 1) * item.system.derivedScore * 5) / (2 * item.system.xpCoeff)
       );
       await item.update(
         {
-          data: {
+          system: {
             xp: newXp
           }
         },
@@ -296,7 +287,7 @@ export class ArM5eItemSheet extends ItemSheet {
     }
     await item.update(
       {
-        data: {
+        system: {
           option: event.currentTarget.value
         }
       },
@@ -325,7 +316,7 @@ export class ArM5eItemSheet extends ItemSheet {
   }
 
   async _onEnchant(item) {
-    var codex = game.actors.filter((a) => a.data.type === "magicCodex");
+    var codex = game.actors.filter(a => a.type === "magicCodex");
 
     if (codex.length === 0) {
       ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.enchant"), {
@@ -333,11 +324,11 @@ export class ArM5eItemSheet extends ItemSheet {
       });
       return;
     }
-    this.item.data.data.list = codex[0].items.filter((i) => i.data.type === "enchantment");
+    this.item.system.list = codex[0].items.filter(i => i.type === "enchantment");
 
     let template = "systems/arm5e/templates/generic/simpleListPicker.html";
     var item = this.item;
-    renderTemplate(template, this.item).then(function (html) {
+    renderTemplate(template, this.item).then(function(html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.sheet.enchantment"),
@@ -346,7 +337,7 @@ export class ArM5eItemSheet extends ItemSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: (html) => createMagicItem(html, item, codex[0])
+              callback: html => createMagicItem(html, item, codex[0])
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -375,19 +366,19 @@ export async function createMagicItem(html, item, codex) {
     return null;
   } else {
     log(false, found[0].value);
-    const enchantment = codex.items.get(found[0].value).data;
+    const enchantment = codex.items.get(found[0].value).system;
     let itemData = [
       {
         name: item.name,
         type: "magicItem",
-        data: foundry.utils.deepClone(enchantment.data)
+        system: foundry.utils.deepClone(enchantment.system)
       }
     ];
 
     // prepend the item description
-    // itemData[0].data.enchantmentName = enchantment.name;
-    itemData[0].data.description =
-      `<p>${item.data.data.description}</p>` + itemData[0].data.description;
+    // itemData[0].system.enchantmentName = enchantment.name;
+    itemData[0].system.description =
+      `<p>${item.system.description}</p>` + itemData[0].system.description;
     let item = await ArM5eItemSheet.createDocument();
 
     log(false, itemData);

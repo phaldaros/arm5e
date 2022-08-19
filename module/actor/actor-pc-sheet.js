@@ -81,7 +81,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "virtue":
       case "flaw":
-        switch (itemData.data.type.value) {
+        switch (itemData.system.type.value) {
           case "laboratoryOutfitting":
           case "laboratoryStructure":
           case "laboratorySupernatural":
@@ -146,16 +146,17 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
     }
     // transform input into labText
     if (type == "laboratoryText") {
-      if (itemData.data.type == "spell") {
+      if (itemData.system.type == "spell") {
         log(false, "Valid drop");
         // create a spell or enchantment data:
+        // TODOV10 check that
         data.data = labTextToEffect(foundry.utils.deepClone(itemData));
       } else {
         log(false, "Invalid drop");
         return false;
       }
     } else if (type == "ability") {
-      if (this.actor.hasSkill(itemData.data.key)) {
+      if (this.actor.hasSkill(itemData.system.key)) {
         ui.notifications.warn(
           `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${itemData.name}`
         );

@@ -11,26 +11,26 @@
 
       <div class="resources grid grid-4col">
         <div class="resource flex-group-center backSection">
-          <label for="data.age.value" class="smallTitle marginbot6">{{localize "arm5e.sheet.age"}}</label>
+          <label for="system.age.value" class="smallTitle marginbot6">{{localize "arm5e.sheet.age"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number"
+            <input type="text" name="system.age.value" value="{{system.age.value}}" data-dtype="Number"
               style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
           </div>
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="data.datetime.year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
+          <label for="system.datetime.year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            {{numberInput data.datetime.year min=1 step=1 }}
+            {{numberInput system.datetime.year min=1 step=1 }}
           </div>
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
+          <label for="system.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"
+            <input type="number" name="system.con.score" value="{{system.con.score}}" data-dtype="Number"
               style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
-            (<input type="number" name="data.con.points" value="{{data.con.points}}" data-dtype="Number"
+            (<input type="number" name="system.con.points" value="{{system.con.points}}" data-dtype="Number"
               style="flex: 0.6" />)
           </div>
         </div>

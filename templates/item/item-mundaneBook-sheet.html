@@ -8,7 +8,7 @@
       <div class="grid grid-2col">
         <div class="resource">
           <label class="resource-label">{{localize "arm5e.sheet.ability"}}</label>
-          <input type="text" name="data.ability" value="{{data.ability}}" data-dtype="String" />
+          <input type="text" name="system.ability" value="{{system.ability}}" data-dtype="String" />
         </div>
       </div>
     </div>
@@ -38,27 +38,27 @@
     <div class="tab attributes" data-group="primary" data-tab="attributes">
       <div class="grid grid-2col">
         <div class="resource flexcol flexrow">
-          <label for="data.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
-          <select name="data.type.value" data-type="String">
-            {{#select data.type.value}} {{#each data.types as |type key|}}
+          <label for="system.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
+          <select name="system.type.value" data-type="String">
+            {{#select system.type.value}} {{#each system.types as |type key|}}
                 <option value="{{key}}">{{type.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-          <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
+          <input type="text" name="system.level" value="{{system.level}}" data-dtype="Number" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.quality"}}</label>
-          <input type="text" name="data.quality" value="{{data.quality}}" data-dtype="Number" />
+          <input type="text" name="system.quality" value="{{system.quality}}" data-dtype="Number" />
         </div>
       </div>
     </div>
 
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}} {{#if (eq
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}} {{#if (eq
       metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
     </div>
     {{!-- Authorship Tab --}} {{> "systems/arm5e/templates/item/parts/authorship.html" }}

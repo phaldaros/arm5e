@@ -3,11 +3,13 @@ import { clearAuraFromActor } from "../helpers/aura.js";
 import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
 
-export class ArsLayer extends CanvasLayer {
+export class ArsLayer extends InteractionLayer {
   async draw() {
     await super.draw();
     return this;
   }
+
+  async _draw() {}
 
   static async selectAura() {
     let dialogData = {
@@ -58,8 +60,8 @@ export class ArsLayer extends CanvasLayer {
   }
 
   static async clearAura() {
-    game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed.data._id);
-    game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed.data._id);
+    game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed._id);
+    game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed._id);
     const tokens = canvas.tokens.placeables.filter(token => token.actor);
     for (const token of tokens) {
       clearAuraFromActor(token.actor);

@@ -12,17 +12,17 @@
               {{localize "arm5e.sheet.virtues"}}
             </a>
           </span>
-          <span> ( {{data.totalVirtues }} {{localize "arm5e.sheet.pointsShort"}} )</span>
+          <span> ( {{system.totalVirtues }} {{localize "arm5e.sheet.pointsShort"}} )</span>
         </div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add virtue" data-type="virtue"><i class="fas fa-plus"></i></a>
         </div>
       </li>
 
-      {{#each data.virtues as |item id|}}
+      {{#each system.virtues as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
-            <span class="flexrow item-title" {{{item.data.ui.style}}}>{{item.name}}</span>
+            <span class="flexrow item-title" {{{item.system.ui.style}}}>{{item.name}}</span>
           </div>
           <div class="item-controls">
             <a class="item-control item-edit" title="Edit virtue"><i class="icon-Icon_Edit"></i></a>
@@ -44,17 +44,17 @@
           <span class="item-name">
             <a class="link" href="/systems/arm5e/pdf/flaws.pdf" target="_blank"> {{localize "arm5e.sheet.flaws"}} </a>
           </span>
-          <span> ( {{ data.totalFlaws }} {{localize "arm5e.sheet.pointsShort"}} )</span>
+          <span> ( {{ system.totalFlaws }} {{localize "arm5e.sheet.pointsShort"}} )</span>
         </div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add flaw" data-type="flaw"><i class="fas fa-plus"></i></a>
         </div>
       </li>
 
-      {{#each data.flaws as |item id|}}
+      {{#each system.flaws as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
-            <span class="flexrow item-title" {{{item.data.ui.style}}}>{{item.name}} </span>
+            <span class="flexrow item-title" {{{item.system.ui.style}}}>{{item.name}} </span>
           </div>
           <div class="item-controls">
             <a class="item-control item-edit" title="Edit flaw"><i class="icon-Icon_Edit"></i></a>

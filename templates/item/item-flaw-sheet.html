@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -10,17 +7,17 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
       <div class="grid grid-2col">
         <div class="resource">
-          <label for="data.type.value" class="header-label">{{localize data.type.label}}</label>
-          <select name="data.type.value" data-type="String">
-            {{#select data.type.value}} {{#each config.virtueFlawTypes.available as |type key|}}
-            <option value="{{key}}">{{localize label}}</option>
-            {{/each}} {{/select}}
+          <label for="system.type.value" class="header-label">{{localize system.type.label}}</label>
+          <select name="system.type.value" data-type="String">
+            {{#select system.type.value}} {{#each config.virtueFlawTypes.available as |type key|}}
+                <option value="{{key}}">{{localize label}}</option>
+              {{/each}} {{/select}}
           </select>
-          <label for="data.impact.value" class="header-label">{{localize data.impact.label}}</label>
-          <select name="data.impact.value" data-type="String">
-            {{#select data.impact.value}} {{#each config.impacts as |impact key|}}
-            <option value="{{key}}">{{localize impact.label}}</option>
-            {{/each}} {{/select}}
+          <label for="system.impact.value" class="header-label">{{localize system.impact.label}}</label>
+          <select name="system.impact.value" data-type="String">
+            {{#select system.impact.value}} {{#each config.impacts as |impact key|}}
+                <option value="{{key}}">{{localize impact.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
       </div>
@@ -45,7 +42,7 @@
   <section class="sheet-body">
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}} {{#if (eq
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}} {{#if (eq
       metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
     </div>
     {{!-- Effects Tab --}}

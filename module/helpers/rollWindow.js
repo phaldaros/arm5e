@@ -245,16 +245,16 @@ function getDialogData(dataset, html, actor) {
 }
 
 async function usePower(dataset, actor) {
-  if (Number(dataset.cost > actor.data.data.might.points)) {
+  if (Number(dataset.cost > actor.system.might.points)) {
     ui.notifications.warn(game.i18n.localize("arm5e.notification.noMightPoints"));
     return;
   }
 
   prepareRollVariables(dataset, actor);
-  log(false, `Roll variables: ${JSON.stringify(actor.data.data.roll)}`);
+  log(false, `Roll variables: ${JSON.stringify(actor.system.roll)}`);
   let template = "systems/arm5e/templates/actor/parts/actor-powerUse.html";
-  actor.data.data.roll = actor.rollData;
-  const renderedTemplate = await renderTemplate(template, actor.data);
+  actor.system.roll = actor.rollData;
+  const renderedTemplate = await renderTemplate(template, actor);
 
   const dialog = new Dialog(
     {
@@ -295,8 +295,8 @@ async function renderRollTemplate(dataset, template, actor) {
   if (!template) {
     return;
   }
-  actor.data.data.roll = actor.rollData;
-  const renderedTemplate = await renderTemplate(template, actor.data);
+  actor.system.roll = actor.rollData;
+  const renderedTemplate = await renderTemplate(template, actor);
   const dialogData = getDialogData(dataset, renderedTemplate, actor);
   const dialog = new Dialog(
     {

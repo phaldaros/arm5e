@@ -9,9 +9,9 @@
     <div class="header-fields">
       <h1 class="charname">
         <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
-          {{#if data.pendingCrisis}}
+          {{#if system.pendingCrisis}}
             <div class="flex0 padding10" style="width:24px"><a class="rollable" data-roll="crisis"
-                data-year="{{data.datetime.year}}" title="Resolve aging crisis"><i
+                data-year="{{system.datetime.year}}" title="Resolve aging crisis"><i
                   class="icon-Icon_Aging_crisis"></i></a>
             </div>
           {{/if}}
@@ -24,35 +24,35 @@
 
       <div class="flexrow">
         <span class="flex0" style="padding-top: 4px">
-          <label for="data.charType.value" class="header-label"
+          <label for="system.charType.value" class="header-label"
             style="padding-top: 4px">{{localize "arm5e.sheet.charType"}}</label>
-          <select name="data.charType.value" data-type="String">
-            {{#select data.charType.value}} {{#each config.npc.types as |data key|}}
-                <option value="{{key}}">{{localize data.label}}</option>
+          <select name="system.charType.value" data-type="String">
+            {{#select system.charType.value}} {{#each config.npc.types as |type key|}}
+                <option value="{{key}}">{{localize type.label}}</option>
               {{/each}} {{/select}}
           </select>
         </span>
-        {{#if (eq data.charType.value "entity")}}
+        {{#if (eq system.charType.value "entity")}}
           <div class="flexrow">
 
-            <label for="data.might.value" class="header-label flex0"
+            <label for="system.might.value" class="header-label flex0"
               style="font-size: 13pt; font-family:blackmoor;  padding-top: 15px; padding-left: 5px;padding-right: 5px;">{{localize "arm5e.sheet.might"}}</label>
             <div style="padding-top: 15px">
-              <input type="number" name="data.might.points" value="{{data.might.points}}" data-dtype="Number"
+              <input type="number" name="system.might.points" value="{{system.might.points}}" data-dtype="Number"
                 style="width: 36px; text-align: center;" /> {{localize "arm5e.sheet.pointsShort"}} /
-              <input type="number" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"
+              <input type="number" name="system.might.value" value="{{system.might.value}}" data-dtype="Number"
                 style="width: 40px; text-align: center; " />
             </div>
             <div style="padding-top: 15px; padding-left: 5px;">
-              <select name="data.realmAlignment" data-type="Number">
-                {{#select data.realmAlignment}} {{#each config.realmsExt as |realm key|}}
+              <select name="system.realmAlignment" data-type="Number">
+                {{#select system.realmAlignment}} {{#each config.realmsExt as |realm key|}}
                     <option value="{{realm.value}}">{{localize realm.label}}</option>
                   {{/each}} {{/select}}
               </select>
             </div>
             <div style="padding-top: 15px">
-              <select name="data.might.form" data-type="String">
-                {{#select data.might.form}} {{#each config.magic.forms as |forms key|}}
+              <select name="system.might.form" data-type="String">
+                {{#select system.might.form}} {{#each config.magic.forms as |forms key|}}
                     <option value="{{key}}">{{forms.label}}</option>
                   {{/each}} {{/select}}
               </select>
@@ -60,15 +60,15 @@
           </div>
         {{else}}
           <h2 class="covenantname flexrow">
-            <input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String"
+            <input name="system.covenant.value" type="text" value="{{system.covenant.value}}" data-dtype="String"
               style="margin-left: 8px" />
           </h2>
-        {{/if}} {{#if (eq data.charType.value "magusNPC")}}
+        {{/if}} {{#if (eq system.charType.value "magusNPC")}}
           <span class="covenantname flexrow" style="padding-top: 4px">
-            <label for="data.house.value" class="bold flex0"
+            <label for="system.house.value" class="bold flex0"
               style="padding-left: 5px; padding-top: 4px; padding-right: 5px;">{{localize "arm5e.sheet.house"}}</label>
-            <select name="data.house.value" data-type="String" style="width: 100%">
-              {{#select data.house.value}} {{#each config.character.houses as |house key|}}
+            <select name="system.house.value" data-type="String" style="width: 100%">
+              {{#select system.house.value}} {{#each config.character.houses as |house key|}}
                   <option value="{{key}}">{{house.label}}</option>
                 {{/each}} {{/select}}
             </select>
@@ -78,35 +78,36 @@
 
       <div class="resources grid grid-4col">
         <div class="resource flex-group-center backSection">
-          <label for="data.age.value" class="smallTitle">{{localize "arm5e.sheet.age"}}</label>
+          <label for="system.age.value" class="smallTitle">{{localize "arm5e.sheet.age"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="data.age.value" value="{{data.age.value}}" data-dtype="Number" />
+            <input type="number" name="system.age.value" value="{{system.age.value}}" data-dtype="Number" />
             <span> ( </span>
-            <input type="number" name="data.apparent.value" value="{{data.apparent.value}}" data-dtype="Number" />
+            <input type="number" name="system.apparent.value" value="{{system.apparent.value}}" data-dtype="Number" />
             <span> ) </span>
           </div>
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="data.vitals.siz.value" class="smallTitle">{{localize "arm5e.sheet.size"}}</label>
+          <label for="system.vitals.siz.value" class="smallTitle">{{localize "arm5e.sheet.size"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="data.vitals.siz.value" value="{{data.vitals.siz.value}}" data-dtype="Number" />
+            <input type="number" name="system.vitals.siz.value" value="{{system.vitals.siz.value}}"
+              data-dtype="Number" />
           </div>
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="data.vitals.soa.value" class="smallTitle">{{localize "arm5e.sheet.soak"}}</label>
+          <label for="system.vitals.soa.value" class="smallTitle">{{localize "arm5e.sheet.soak"}}</label>
           <div class="resource-content flexrow flex-center flex-between">
-            <input type="number" name="data.vitals.soa.value" value="{{data.vitals.soa.value}}" data-dtype="Number"
+            <input type="number" name="system.vitals.soa.value" value="{{system.vitals.soa.value}}" data-dtype="Number"
               readonly />
           </div>
         </div>
         <div class="resource flex-group-center backSection">
-          <label for="data.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
+          <label for="system.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="data.con.score" value="{{data.con.score}}" data-dtype="Number"
+            <input type="number" name="system.con.score" value="{{system.con.score}}" data-dtype="Number"
               style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
-            (<input type="number" name="data.con.points" value="{{data.con.points}}" data-dtype="Number"
+            (<input type="number" name="system.con.points" value="{{system.con.points}}" data-dtype="Number"
               style="flex: 0.6" />)
           </div>
         </div>
@@ -128,13 +129,13 @@
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.abilities"}}
     </a>
-    {{#if (eq data.charType.value "entity")}}
+    {{#if (eq system.charType.value "entity")}}
       <a class="item posRelative" data-tab="arts">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.powers"}}
       </a>
-    {{/if}} {{#if (eq data.charType.value "magusNPC")}}
+    {{/if}} {{#if (eq system.charType.value "magusNPC")}}
       <a class="item posRelative" data-tab="arts">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
@@ -218,11 +219,11 @@
         </div>
       </section>
     </div>
-    {{#if (eq data.charType.value "entity")}} {{!-- Arts Tab --}}
+    {{#if (eq system.charType.value "entity")}} {{!-- Arts Tab --}}
       <div class="tab arts" data-group="primary" data-tab="arts">
         {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
       </div>
-    {{/if}} {{#if (eq data.charType.value "magusNPC")}} {{!-- Arts Tab --}}
+    {{/if}} {{#if (eq system.charType.value "magusNPC")}} {{!-- Arts Tab --}}
       <div class="tab arts" data-group="primary" data-tab="arts">
         {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
       </div>

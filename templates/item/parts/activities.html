@@ -3,14 +3,14 @@
     <a class="posRelative diary-tabs" data-tab="teacher" data-group="diary-secondary">
       <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.activity.teacher.label"}} ({{data.teacher.name}})
+      {{localize "arm5e.activity.teacher.label"}} ({{system.teacher.name}})
     </a>
   {{/if}}
   {{#if ui.showAbilities}}
     <a class="posRelative diary-tabs" data-tab="abilities" data-group="diary-secondary">
       <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.abilities"}} ({{data.totalXp.abilities}})
+      {{localize "arm5e.sheet.abilities"}} ({{system.totalXp.abilities}})
     </a>
   {{/if}}
   {{#if ui.showMagicProgress}}
@@ -18,14 +18,14 @@
       <a class="posRelative diary-tabs" data-tab="arts" data-group="diary-secondary">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-        {{localize "arm5e.sheet.arts"}} ({{data.totalXp.arts}})
+        {{localize "arm5e.sheet.arts"}} ({{system.totalXp.arts}})
       </a>
     {{/if}}
     {{#if ui.showSpells}}
       <a class="posRelative diary-tabs" data-tab="spells" data-group="diary-secondary">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-        {{localize "arm5e.sheet.spells"}} ({{data.totalXp.spells}})
+        {{localize "arm5e.sheet.spells"}} ({{system.totalXp.spells}})
       </a>
     {{/if}}
   {{/if}}
@@ -36,28 +36,28 @@
     <section class="progress-teacher flexrow flex-group-left backSection" style="height: 200px; margin: 5px;">
       <div class="flexcol">
         <label class="header-label">{{localize "arm5e.activity.teacher.name"}}</label>
-        <input type="text" name="data.teacher.name" value="{{data.teacher.name}}" data-dtype="String"
-          style="max-width: 220px;" {{data.canEditTeacher}}>
-        {{#if (eq data.activity "teaching")}} <label class="header-label">{{localize "arm5e.sheet.com"}}</label>
-          <input type="number" name="data.teacher.com" value="{{data.teacher.com}}" data-dtype="Number"
-            style="max-width: 50px;" {{data.canEditTeacher}}>
+        <input type="text" name="system.teacher.name" value="{{system.teacher.name}}" data-dtype="String"
+          style="max-width: 220px;" {{system.canEditTeacher}}>
+        {{#if (eq system.activity "teaching")}} <label class="header-label">{{localize "arm5e.sheet.com"}}</label>
+          <input type="number" name="system.teacher.com" value="{{system.teacher.com}}" data-dtype="Number"
+            style="max-width: 50px;" {{system.canEditTeacher}}>
           <label class="header-label">{{localize "arm5e.skill.general.teaching"}}</label>
-          <input type="number" name="data.teacher.teaching" value="{{data.teacher.teaching}}" data-dtype="Number"
-            style="max-width: 50px;" {{data.canEditTeacher}}>
-          <label class="header-label">{{localize "arm5e.sheet.speciality"}} ({{data.teacher.speciality}})</label>
-          <input type="checkbox" name="data.teacher.applySpec" {{checked data.teacher.applySpec}} data-dtype="Boolean"
-            {{data.disabled}} />
+          <input type="number" name="system.teacher.teaching" value="{{system.teacher.teaching}}" data-dtype="Number"
+            style="max-width: 50px;" {{system.canEditTeacher}}>
+          <label class="header-label">{{localize "arm5e.sheet.speciality"}} ({{system.teacher.speciality}})</label>
+          <input type="checkbox" name="system.teacher.applySpec" {{checked system.teacher.applySpec}}
+            data-dtype="Boolean" {{system.disabled}} />
         {{/if}}
-        {{#unless data.teacherLinked}}
+        {{#unless system.teacherLinked}}
           <label class="header-label">{{localize "arm5e.sheet.score"}}</label>
-          <input type="number" class="score-teacher" name="data.teacher.score" value="{{data.teacher.score}}"
-            data-dtype="Number" style="max-width: 50px;" {{data.canEditTeacher}}>
+          <input type="number" class="score-teacher" name="system.teacher.score" value="{{system.teacher.score}}"
+            data-dtype="Number" style="max-width: 50px;" {{system.canEditTeacher}}>
         {{/unless}}
       </div>
       <div class="flexcol" style="text-align: center;">
         <label style="padding: 15px;">Drop an actor here to act as a teacher/trainer.</label>
-        {{#unless (eq data.teacher.id null)}}
-          <a class="break-link" title="Break link to teacher" data-applied="{{data.applied}}"><i class="fas fa-unlink"
+        {{#unless (eq system.teacher.id null)}}
+          <a class="break-link" title="Break link to teacher" data-applied="{{system.applied}}"><i class="fas fa-unlink"
               style="font-size: 18pt;"></i></a>
         {{/unless}}
       </div>
@@ -74,52 +74,53 @@
         <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       {{/if}}
       <div class="progress-controls">
-        {{#if (eq data.defaultAbility "")}}
+        {{#if (eq system.defaultAbility "")}}
           {{localize "arm5e.activity.msg.noAbility"}}
         {{else}}
-          <a class="progress-control" data-action="add" data-type="abilities" data-default="{{data.defaultAbility}}"
-            data-applied="{{data.applied}}" data-teacherscore="{{data.teacherScore}}"><i class="fas fa-plus"></i></a>
+          <a class="progress-control" data-action="add" data-type="abilities" data-default="{{system.defaultAbility}}"
+            data-applied="{{system.applied}}" data-teacherscore="{{system.teacherScore}}"><i
+              class="fas fa-plus"></i></a>
         {{/if}}
       </div>
     </header>
     <div class="resource">
       <ol class="progresses-list">
-        {{#each data.progress.abilities as |ability idx|}}
+        {{#each system.progress.abilities as |ability idx|}}
           <li class="item diary-progress flexrow">
-            <select name="data.progress.abilities.{{idx}}.category" data-dtype="String" data-index="{{idx}}"
-              data-type="abilities" {{@root.data.disabled}} class="progress-category ability-key flex02"
+            <select name="system.progress.abilities.{{idx}}.category" data-dtype="String" data-index="{{idx}}"
+              data-type="abilities" {{@root.system.disabled}} class="progress-category ability-key flex02"
               style="min-width: 135px;">
               {{#select ability.category}}
-                {{#each ../data.ownedAbilities as | ab key|   }}
+                {{#each ../system.ownedAbilities as | ab key|   }}
                   <option value="{{key}}">{{localize (lookup ../../config.ABILITIES_CATEGORIES key)}}</option>
                 {{/each}}
               {{/select}}
             </select>
-            <select name="data.progress.abilities.{{idx}}.id" data-dtype="String" data-index="{{idx}}"
-              data-type="abilities" class="progress-ability flex02" {{@root.data.disabled}} style="min-width: 150px;">
+            <select name="system.progress.abilities.{{idx}}.id" data-dtype="String" data-index="{{idx}}"
+              data-type="abilities" class="progress-ability flex02" {{@root.system.disabled}} style="min-width: 150px;">
               {{#select ability.id}}
-                {{#each (lookup ../data.ownedAbilities ability.category) as |ab i|}}
+                {{#each (lookup ../system.ownedAbilities ability.category) as |ab i|}}
                   <option value="{{ab.id}}">{{ab.name}} ({{ab.score}})</option>
                 {{/each}}
               {{/select}}
             </select>
             <div class="xp">
               {{#unless ../ui.showTeacher}}
-                <input type="number" name="data.progress.abilities.{{idx}}.xp" value="{{ability.xp}}"
-                  data-dtype="Number" data-index="{{idx}}" data-type="abilities" {{@root.data.canEdit}}
+                <input type="number" name="system.progress.abilities.{{idx}}.xp" value="{{ability.xp}}"
+                  data-dtype="Number" data-index="{{idx}}" data-type="abilities" {{@root.system.canEdit}}
                   class="progress-xp flex0" style="width:50px" min="0" step="1" />
               {{else}}
-                <input type="number" name="data.progress.abilities.{{idx}}.teacherScore"
+                <input type="number" name="system.progress.abilities.{{idx}}.teacherScore"
                   value="{{ability.teacherScore}}" data-dtype="Number" data-index="{{idx}}" data-type="abilities"
                   readonly class="flex0" style="width:50px" min="0" step="1" />
-                <input type="number" name="data.progress.abilities.{{idx}}.xp" value="{{ability.xp}}"
+                <input type="number" name="system.progress.abilities.{{idx}}.xp" value="{{ability.xp}}"
                   data-dtype="Number" data-index="{{idx}}" data-type="abilities" class="progress-xp flex0"
                   style="width:50px; display:none" min="0" step="1" />
               {{/unless}}
             </div>
             <div class="progress-controls">
               <a class="progress-control" data-idx="{{idx}}" data-type="abilities" data-action="delete"
-                data-applied="{{../data.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+                data-applied="{{../system.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
             </div>
           </li>
         {{/each}}
@@ -135,11 +136,12 @@
         <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       {{/if}}
       <div class="progress-controls">
-        {{#if (eq data.defaultArt "")}}
+        {{#if (eq system.defaultArt "")}}
           {{localize "arm5e.activity.msg.noArt"}}
         {{else}}
-          <a class="progress-control" data-action="add" data-type="arts" data-default="{{data.defaultArt}}"
-            data-teacherscore="{{data.teacherScore}}" data-applied="{{data.applied}}"><i class="fas fa-plus"></i></a>
+          <a class="progress-control" data-action="add" data-type="arts" data-default="{{system.defaultArt}}"
+            data-teacherscore="{{system.teacherScore}}" data-applied="{{system.applied}}"><i
+              class="fas fa-plus"></i></a>
         {{/if}}
       </div>
 
@@ -147,33 +149,33 @@
 
     <div class="resource">
       <ol class="progresses-list">
-        {{#each data.progress.arts as |art idx|}}
+        {{#each system.progress.arts as |art idx|}}
           <li class="item diary-progress flexrow">
-            <select name="data.progress.arts.{{idx}}.key" data-dtype="String" data-index="{{idx}}" data-type="arts"
-              class="progress-art flex02" {{@root.data.disabled}} style="min-width: 150px;">
+            <select name="system.progress.arts.{{idx}}.key" data-dtype="String" data-index="{{idx}}" data-type="arts"
+              class="progress-art flex02" {{@root.system.disabled}} style="min-width: 150px;">
               {{#select art.key}}
-                {{#each ../data.ownedArts }}
+                {{#each ../system.ownedArts }}
                   <option value="{{key}}">{{label}} ({{score}})</option>
                 {{/each}}
               {{/select}}
             </select>
             <div class="xp">
               {{#unless ../ui.showTeacher}}
-                <input type="number" name="data.progress.arts.{{idx}}.xp" value="{{art.xp}}" data-dtype="Number"
-                  data-index="{{idx}}" data-type="arts" {{@root.data.canEdit}} class="progress-xp flex0"
+                <input type="number" name="system.progress.arts.{{idx}}.xp" value="{{art.xp}}" data-dtype="Number"
+                  data-index="{{idx}}" data-type="arts" {{@root.system.canEdit}} class="progress-xp flex0"
                   style="width:50px" min="0" step="1" />
               {{else}}
-                <input type="number" name="data.progress.arts.{{idx}}.teacherScore" value="{{art.teacherScore}}"
+                <input type="number" name="system.progress.arts.{{idx}}.teacherScore" value="{{art.teacherScore}}"
                   data-dtype="Number" data-index="{{idx}}" data-type="arts" readonly class="flex0" style="width:50px"
                   min="0" step="1" />
-                <input type="number" name="data.progress.arts.{{idx}}.xp" value="{{art.xp}}" data-dtype="Number"
+                <input type="number" name="system.progress.arts.{{idx}}.xp" value="{{art.xp}}" data-dtype="Number"
                   data-index="{{idx}}" data-type="arts" class="progress-xp flex0" style="width:50px; display:none"
                   min="0" step="1" />
               {{/unless}}
             </div>
             <div class="progress-controls">
               <a class="progress-control" data-idx="{{idx}}" data-type="arts" data-action="delete"
-                data-applied="{{../data.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+                data-applied="{{../system.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
             </div>
           </li>
         {{/each}}
@@ -191,52 +193,52 @@
         <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       {{/if}}
       <div class="progress-controls">
-        {{#if (eq data.defaultSpell "")}}
+        {{#if (eq system.defaultSpell "")}}
           {{localize "arm5e.activity.msg.noSpell"}}
         {{else}}
-          <a class="progress-control" data-action="add" data-type="spells" data-applied="{{data.applied}}"
-            data-teacherscore="{{data.teacherScore}}" data-default="{{data.defaultSpell}}"><i
+          <a class="progress-control" data-action="add" data-type="spells" data-applied="{{system.applied}}"
+            data-teacherscore="{{system.teacherScore}}" data-default="{{system.defaultSpell}}"><i
               class="fas fa-plus"></i></a>
         {{/if}}
       </div>
     </header>
     <div class="resource">
       <ol class="progresses-list">
-        {{#each data.progress.spells as |spell idx|}}
+        {{#each system.progress.spells as |spell idx|}}
           <li class="item diary-progress flexrow">
-            <select name="data.progress.spells.{{idx}}.form" data-dtype="String" data-index="{{idx}}" data-type="spells"
-              {{@root.data.disabled}} class="progress-category  flex02" style="min-width: 135px;">
+            <select name="system.progress.spells.{{idx}}.form" data-dtype="String" data-index="{{idx}}"
+              data-type="spells" {{@root.system.disabled}} class="progress-category  flex02" style="min-width: 135px;">
               {{#select spell.form}}
-                {{#each ../data.ownedSpells  as | form key|   }}
+                {{#each ../system.ownedSpells  as | form key|   }}
                   <option value="{{key}}">{{lookup (lookup ../../config.magic.forms key) "label"}}</option>
                 {{/each}}
               {{/select}}
             </select>
-            <select name="data.progress.spells.{{idx}}.id" data-dtype="String" data-index="{{idx}}" data-type="spells"
-              {{@root.data.disabled}} class="progress-spell flex02" style="min-width: 200px;">
+            <select name="system.progress.spells.{{idx}}.id" data-dtype="String" data-index="{{idx}}" data-type="spells"
+              {{@root.system.disabled}} class="progress-spell flex02" style="min-width: 200px;">
               {{#select spell.id}}
-                {{#each (lookup ../data.ownedSpells spell.form) as |spell i|}}
+                {{#each (lookup ../system.ownedSpells spell.form) as |spell i|}}
                   <option value="{{spell.id}}">{{spell.name}} ({{spell.score}})</option>
                 {{/each}}
               {{/select}}
             </select>
             <div class="xp">
               {{#unless ../ui.showTeacher}}
-                <input type="number" name="data.progress.spells.{{idx}}.xp" value="{{spell.xp}}" data-dtype="Number"
-                  data-index="{{idx}}" data-type="spells" {{@root.data.canEdit}} class="progress-xp flex0"
+                <input type="number" name="system.progress.spells.{{idx}}.xp" value="{{spell.xp}}" data-dtype="Number"
+                  data-index="{{idx}}" data-type="spells" {{@root.system.canEdit}} class="progress-xp flex0"
                   style="width:50px" min="0" step="1" />
               {{else}}
-                <input type="number" name="data.progress.spells.{{idx}}.teacherScore" value="{{spell.teacherScore}}"
+                <input type="number" name="system.progress.spells.{{idx}}.teacherScore" value="{{spell.teacherScore}}"
                   data-dtype="Number" data-index="{{idx}}" data-type="spells" readonly class="flex0" style="width:50px"
                   min="0" step="1" />
-                <input type="number" name="data.progress.spells.{{idx}}.xp" value="{{spell.xp}}" data-dtype="Number"
+                <input type="number" name="system.progress.spells.{{idx}}.xp" value="{{spell.xp}}" data-dtype="Number"
                   data-index="{{idx}}" data-type="spells" class="progress-xp flex0" style="width:50px; display:none"
                   min="0" step="1" />
               {{/unless}}
             </div>
             <div class="progress-controls">
               <a class="progress-control" data-idx="{{idx}}" data-type="spells" data-action="delete"
-                data-applied="{{../data.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+                data-applied="{{../system.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
             </div>
           </li>
         {{/each}}

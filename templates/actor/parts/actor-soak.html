@@ -9,30 +9,30 @@
       <label class="resource-label">-</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label" name="stamina" value="{{actor.data.data.characteristics.sta.value}}"
-        >{{localize "arm5e.sheet.stamina" }} ({{ numberFormat actor.data.data.characteristics.sta.value decimals=0
-        sign=true }})</label
-      >
+      <label class="resource-label" name="stamina"
+        value="{{actor.system.characteristics.sta.value}}">{{localize "arm5e.sheet.stamina" }} ({{ numberFormat
+        actor.system.characteristics.sta.value decimals=0
+        sign=true }})</label>
     </div>
-    {{#if actor.data.data.bonuses.traits.soak}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label">-</label>
-    </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label" name="soak" value="{{actor.data.data.bonuses.traits.soak}}"
-        >{{localize "arm5e.sheet.soakBonus" }} ({{ numberFormat actor.data.data.bonuses.traits.soak decimals=0 sign=true
-        }})</label
-      >
-    </div>
+    {{#if actor.system.bonuses.traits.soak}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">-</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="resource-label" name="soak"
+          value="{{actor.system.bonuses.traits.soak}}">{{localize "arm5e.sheet.soakBonus" }} ({{ numberFormat
+          actor.system.bonuses.traits.soak decimals=0 sign=true
+          }})</label>
+      </div>
     {{/if}}
     <div class="flexrow flex-group-center">
       <label class="resource-label">-</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label" name="prot" value="{{actor.data.data.combat.prot}}"
-        >{{localize "arm5e.sheet.protection" }} ({{ numberFormat actor.data.data.combat.prot decimals=0 sign=true
-        }})</label
-      >
+      <label class="resource-label" name="prot"
+        value="{{actor.system.combat.prot}}">{{localize "arm5e.sheet.protection" }} ({{ numberFormat
+        actor.system.combat.prot decimals=0 sign=true
+        }})</label>
     </div>
 
     <div class="flexrow flex-group-center">
@@ -41,13 +41,8 @@
 
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
-      <input
-        type="number"
-        name="modifier"
-        value="{{extraData.modifier}}"
-        data-dtype="Number"
-        class="SelectedModifier"
-      />
+      <input type="number" name="modifier" value="{{extraData.modifier}}" data-dtype="Number"
+        class="SelectedModifier" />
     </div>
   </div>
   {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Damage_Soak"}}

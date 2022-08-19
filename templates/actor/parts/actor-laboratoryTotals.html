@@ -1,16 +1,16 @@
 <div class="characteristics grid backSection margintop18">
   <header class="arts-total-header grid-6col flexrow flex-group-center">
     <div class="techLabel">{{localize "arm5e.sheet.labTotal"}}</div>
-    {{#each data.arts.techniques as |technique key|}}
+    {{#each system.arts.techniques as |technique key|}}
       <div class="techLabel">{{label}}</div>
     {{/each}}
   </header>
   <ol class="form-list grid-6col">
-    {{#each data.arts.forms as |form key|}}
+    {{#each system.arts.forms as |form key|}}
       <li class="flexrow flex-group-center" style="padding: 0px">
         <div class="formLabel flexrow flex-group-center">{{label}}</div>
-        {{#each ../data.arts.techniques as |technique k2|}}
-          <div class="lab-total flexrow flex-group-center">{{lookup ( lookup @root.data.labTotals key) k2}}</div>
+        {{#each ../system.arts.techniques as |technique k2|}}
+          <div class="lab-total flexrow flex-group-center">{{lookup ( lookup @root.system.labTotals key) k2}}</div>
         {{/each}}
       </li>
     {{/each}}
@@ -18,33 +18,33 @@
   <div class="characteristics grid grid-3col">
     <div class="flexrow flex-group-center" style="border: 0px">
       <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
-      <input type="checkbox" name="data.labtotal.applyFocus" {{checked data.labtotal.applyFocus}} />
+      <input type="checkbox" name="system.labtotal.applyFocus" {{checked system.labtotal.applyFocus}} />
     </div>
     <div class="flexrow flex-group-center" style="border: 0px">
       <label class="header-label">{{localize "arm5e.sheet.aura" }}</label>
-      {{numberInput data.labtotal.aura name="data.labtotal.aura" step=1}}
+      {{numberInput system.labtotal.aura name="system.labtotal.aura" step=1}}
       <!-- <input
         type="number"
-        name="data.labtotal.aura"
-        value="{{numberFormat data.labtotal.aura decimals=0 sign=true }}"
+        name="system.labtotal.aura"
+        value="{{numberFormat system.labtotal.aura decimals=0 sign=true }}"
       /> -->
     </div>
     <div class="flexrow flex-group-center" style="border: 0px">
       <label class="header-label">{{localize "arm5e.sheet.laboratory" }} {{localize "arm5e.sheet.quality" }}</label>
-      {{numberInput data.labtotal.quality name="data.labtotal.quality" step=1}}
+      {{numberInput system.labtotal.quality name="system.labtotal.quality" step=1}}
       <!-- <input
         type="number"
-        name="data.labtotal.quality"
-        value="{{numberFormat data.labtotal.quality decimals=0 sign=true }}"
+        name="system.labtotal.quality"
+        value="{{numberFormat system.labtotal.quality decimals=0 sign=true }}"
       /> -->
     </div>
     <div class="flexrow flex-group-center" style="border: 0px">
       <label class="header-label">{{localize "arm5e.sheet.modifier" }}</label>
-      {{numberInput data.labtotal.modifier name="data.labtotal.modifier" step=1}}
+      {{numberInput system.labtotal.modifier name="system.labtotal.modifier" step=1}}
       <!-- <input
         type="number"
-        name="data.labtotal.modifier"
-        value="{{numberFormat data.labtotal.modifier decimals=0 sign=true }}"
+        name="system.labtotal.modifier"
+        value="{{numberFormat system.labtotal.modifier decimals=0 sign=true }}"
       /> -->
     </div>
   </div>
@@ -56,37 +56,37 @@
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.name" class="bold">{{localize "arm5e.sheet.name"}}</label>
-      <input type="text" name="data.apprentice.name" value="{{data.apprentice.name }}" data-dtype="String" />
+      <label for="system.apprentice.name" class="bold">{{localize "arm5e.sheet.name"}}</label>
+      <input type="text" name="system.apprentice.name" value="{{system.apprentice.name }}" data-dtype="String" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.age" class="bold">{{localize "arm5e.sheet.age"}}</label>
-      <input type="number" name="data.apprentice.age" value="{{data.apprentice.age }}" data-dtype="Number" />
+      <label for="system.apprentice.age" class="bold">{{localize "arm5e.sheet.age"}}</label>
+      <input type="number" name="system.apprentice.age" value="{{system.apprentice.age }}" data-dtype="Number" />
     </div>
   </div>
 
   <div class="characteristics grid grid-3col">
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.int" class="bold">{{localize "arm5e.sheet.int"}}</label>
-      {{numberInput data.apprentice.int name="data.apprentice.int" step=1}}
+      <label for="system.apprentice.int" class="bold">{{localize "arm5e.sheet.int"}}</label>
+      {{numberInput system.apprentice.int name="system.apprentice.int" step=1}}
       <!-- <input
         type="number"
-        name="data.apprentice.int"
-        value="{{numberFormat data.apprentice.int decimals=0 sign=true }}"
+        name="system.apprentice.int"
+        value="{{numberFormat system.apprentice.int decimals=0 sign=true }}"
         data-dtype="Number"
       /> -->
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.magicTheory" class="bold">{{localize "arm5e.skill.arcane.magicTheory"}}</label>
-      <input type="number" name="data.apprentice.magicTheory" value="{{data.apprentice.magicTheory }}"
+      <label for="system.apprentice.magicTheory" class="bold">{{localize "arm5e.skill.arcane.magicTheory"}}</label>
+      <input type="number" name="system.apprentice.magicTheory" value="{{system.apprentice.magicTheory }}"
         data-dtype="Number" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.apprentice.years" class="bold">{{localize "arm5e.sheet.years"}}</label>
-      <input type="number" name="data.apprentice.years" value="{{data.apprentice.years }}" data-dtype="Number" />
+      <label for="system.apprentice.years" class="bold">{{localize "arm5e.sheet.years"}}</label>
+      <input type="number" name="system.apprentice.years" value="{{system.apprentice.years }}" data-dtype="Number" />
     </div>
   </div>
 </div>

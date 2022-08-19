@@ -11,13 +11,13 @@
           class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each data.calendar as |item id|}}
+  {{#each system.calendar as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">
       <div class="flexrow flex-center">
         <span class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
-        <span class="flexrow bold">{{localize "arm5e.sheet.season"}}: {{item.data.season}} </span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.season"}}: {{item.system.season}} </span>
       </div>
       <div class="item-controls">
         <a class="item-control item-edit" title="Edit calendarCovenant"><i class="icon-Icon_Edit"></i></a>

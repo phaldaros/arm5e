@@ -37,11 +37,11 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
 
     // first effect created, add null effect type and subtype (still needed?)
     context.selectedTypes = this.object.getFlag("arm5e", "type");
-    if (context.data.changes.length > 0 && context.selectedTypes == null) {
+    if (context.effect.changes.length > 0 && context.selectedTypes == null) {
       context.selectedTypes = ["none"];
     }
     context.selectedSubtypes = this.object.getFlag("arm5e", "subtype");
-    if (context.data.changes.length > 0 && context.selectedSubtypes == null) {
+    if (context.effect.changes.length > 0 && context.selectedSubtypes == null) {
       context.selectedSubtypes = ["none"];
     }
 
@@ -87,12 +87,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     if (!this.options.editable) return;
 
     // // Active Effect management
-    html.find(".effect-type").change((ev) => {
+    html.find(".effect-type").change(ev => {
       const index = parseInt(ev.currentTarget.dataset.index);
       this._setType($(ev.currentTarget).val(), index);
     });
 
-    html.find(".effect-subtype").change((ev) => {
+    html.find(".effect-subtype").change(ev => {
       const index = parseInt(ev.currentTarget.dataset.index);
       this._setSubtype(ev.currentTarget.selectedOptions[0].dataset.subtype, index);
     });
@@ -211,7 +211,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
       value: option
     };
     const html = await renderTemplate("systems/arm5e/templates/generic/textInput.html", dialogData);
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.sheet.skill.abilityOption"),
@@ -220,7 +220,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: async (html) => {
+              callback: async html => {
                 let result = html.find('input[name="inputField"]');
                 if (result.val() !== "") {
                   chosenOption = result.val();
@@ -259,7 +259,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
   }
 
   async _addEffectChange(updateFlags) {
-    const idx = this.document.data.changes.length;
+    const idx = this.document.changes.length;
     return this.submit({
       preventClose: true,
       updateData: {

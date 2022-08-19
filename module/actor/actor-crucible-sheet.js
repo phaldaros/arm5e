@@ -28,10 +28,6 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
 
   /** @override */
   getData() {
-    // Retrieve the data structure from the base sheet. You can inspect or log
-    // the context variable to see the structure, but some key properties for
-    // sheets are the actor object, the data object, whether or not it's
-    // editable, the items array, and the effects array.
     const context = super.getData();
 
     // no need to import everything
@@ -39,40 +35,43 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
     context.config.magic = CONFIG.ARM5E.magic;
     context.config.lab = CONFIG.ARM5E.lab;
     context.config.seasons = CONFIG.ARM5E.seasons;
-    log(false, "Crucible-sheet getData");
-    log(false, context);
+    // log(false, "Crucible-sheet getData");
+    // log(false, context);
 
-    if (context.data.receptacle == null) {
-      context.data.state = 0; // empty
+    if (context.system.receptacle == null) {
+      context.system.state = 0; // empty
     } else {
-      const receptacleData = context.data.receptacle.data;
+      const receptacleData = context.system.receptacle.data;
 
-      if (this.actor.data.data.enchantments.length) {
-        const enchantData = this.actor.data.data.enchantments[0].data;
-        if (receptacleData.data.maxLevel < enchantData.data.level) {
-          context.data.labInfo = game.i18n.localize("arm5e.notification.crucible.no.invest.possible");
+      if (this.actor.system.enchantments.length) {
+        const enchantData = this.actor.system.enchantments[0].data;
+        if (receptacleData.system.maxLevel < enchantData.system.level) {
+          context.system.labInfo = game.i18n.localize(
+            "arm5e.notification.crucible.no.invest.possible"
+          );
         } else {
           let neededLevel;
-          if (receptacleData.data.charged === false) {
-            neededLevel = enchantData.data.level * 2;
+          if (receptacleData.system.charged === false) {
+            neededLevel = enchantData.system.level * 2;
           } else {
             // for 1 charge, exceeding by one is enough
-            if (receptacleData.data.charges === 1) {
-              neededLevel = enchantData.data.level + 1;
+            if (receptacleData.system.charges === 1) {
+              neededLevel = enchantData.system.level + 1;
             } else {
-              neededLevel = enchantData.data.level + receptacleData.data.charges * 5;
+              neededLevel = enchantData.system.level + receptacleData.system.charges * 5;
             }
           }
 
-          context.data.labInfo = game.i18n.localize("arm5e.notification.crucible.labTotal.needed") + ": " + neededLevel;
+          context.system.labInfo =
+            game.i18n.localize("arm5e.notification.crucible.labTotal.needed") + ": " + neededLevel;
         }
-        if (receptacleData.data.status === 0) {
-          context.data.state = 2; // prepared
+        if (receptacleData.system.status === 0) {
+          context.system.state = 2; // prepared
         } else {
-          context.data.state = 3; // invested
+          context.system.state = 3; // invested
         }
       } else {
-        context.data.state = 1; // inert
+        context.system.state = 1; // inert
       }
     }
     return context;
@@ -90,7 +89,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
     // Add Inventory Item
     // html.find('.item-create').click(this._onItemCreate.bind(this));
 
-    html.find(".reset").click((ev) => {
+    html.find(".reset").click(ev => {
       const ids = this.actor.items.keys();
       this.actor.deleteEmbeddedDocuments("Item", Array.from(ids), {
         render: false
@@ -106,10 +105,10 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       });
     });
 
-    html.find(".invest").click((ev) => {
-      const receptacleData = this.actor.data.data.receptacle.data;
-      const enchantData = this.actor.data.data.enchantments[0].data;
-      if (receptacleData.data.maxLevel < enchantData.data.level) {
+    html.find(".invest").click(ev => {
+      const receptacleData = this.actor.system.receptacle.data;
+      const enchantData = this.actor.system.enchantments[0].data;
+      if (receptacleData.system.maxLevel < enchantData.system.level) {
         ui.notifications.warn(game.i18n.localize("arm5e.notification.crucible.no.invest.possible"));
       }
       // copy enchantment fields
@@ -120,18 +119,18 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
         }
       ];
       // patch some additional fields
-      updateData[0].name = this.actor.data.data.magicItemName;
-      updateData[0].data.enchantmentName = enchantData.name;
-      updateData[0].data.status = 1;
-      updateData[0].data.description = this.actor.data.data.description;
+      updateData[0].name = this.actor.system.magicItemName;
+      updateData[0].system.enchantmentName = enchantData.name;
+      updateData[0].system.status = 1;
+      updateData[0].system.description = this.actor.system.description;
       this.actor.updateEmbeddedDocuments("Item", updateData, {});
       log(false, "Investing");
     });
 
-    html.find(".update").click((ev) => {
-      const receptacleData = this.actor.data.data.receptacle.data;
-      const enchantData = this.actor.data.data.enchantments[0].data;
-      if (receptacleData.data.maxLevel < enchantData.data.level) {
+    html.find(".update").click(ev => {
+      const receptacleData = this.actor.system.receptacle.data;
+      const enchantData = this.actor.system.enchantments[0].data;
+      if (receptacleData.system.maxLevel < enchantData.system.level) {
         ui.notifications.warn(game.i18n.localize("arm5e.notification.crucible.no.invest.possible"));
       }
       // copy enchantment fields
@@ -142,10 +141,10 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
         }
       ];
       // patch some additional fields
-      updateData[0].name = this.actor.data.data.magicItemName;
-      updateData[0].data.enchantmentName = enchantData.name;
-      updateData[0].data.status = 1;
-      updateData[0].data.description = this.actor.data.data.description;
+      updateData[0].name = this.actor.system.magicItemName;
+      updateData[0].system.enchantmentName = enchantData.name;
+      updateData[0].system.status = 1;
+      updateData[0].system.description = this.actor.system.description;
       this.actor.updateEmbeddedDocuments("Item", updateData, {});
       log(false, "Update enchantment");
     });
@@ -154,7 +153,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = (ev) => this._onDragStart(ev);
+      let handler = ev => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
@@ -205,52 +204,52 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
     if (type == "item") {
       // TODO or weapon or armor
       log(false, "Valid drop");
-      if (this.actor.data.data.receptacle != null) {
+      if (this.actor.system.receptacle != null) {
         let updateData = [
           {
-            _id: this.actor.data.data.receptacle.id,
+            _id: this.actor.system.receptacle.id,
             name: itemData.name,
             type: "magicItem",
             img: itemData.img,
-            data: foundry.utils.deepClone(itemData.data)
+            system: foundry.utils.deepClone(itemData.data)
           }
         ];
-        updateDesc["data.magicItemName"] = this.actor.data.data.receptacle.name;
+        updateDesc["system.magicItemName"] = this.actor.system.receptacle.name;
         await this.actor.update(updateDesc, {
           render: false
         });
 
         return await this.actor.updateEmbeddedDocuments("Item", updateData, {});
       } else {
-        updateDesc["data.magicItemName"] = itemData.name;
+        updateDesc["system.magicItemName"] = itemData.name;
         await this.actor.update(updateDesc);
       }
     } else if (type == "enchantment") {
       // if there is no item yet, reject
-      if (this.actor.data.data.receptacle === null) {
+      if (this.actor.system.receptacle === null) {
         return [];
       }
-      if (this.actor.data.data.enchantments.length > 0) {
+      if (this.actor.system.enchantments.length > 0) {
         // update status of item too
         let updateData = [
           {
-            _id: this.actor.data.data.receptacle.id,
-            data: {
+            _id: this.actor.system.receptacle.id,
+            system: {
               status: 0
             }
           },
           {
-            _id: this.actor.data.data.enchantments[0].id,
+            _id: this.actor.system.enchantments[0].id,
             name: itemData.name,
             img: itemData.img,
-            data: foundry.utils.deepClone(itemData.data)
+            system: foundry.utils.deepClone(itemData.system)
           }
         ];
-        updateDesc["data.description"] =
+        updateDesc["system.description"] =
           "<p>" +
-          this.actor.data.data.receptacle.data.data.description +
+          this.actor.system.receptacle.system.description +
           "</p><p><b>Enchantment:</b></p><p>" +
-          this.actor.data.data.enchantments[0].data.data.description +
+          this.actor.system.enchantments[0].system.description +
           "</p>";
         await this.actor.update(updateDesc, {
           render: false
@@ -261,7 +260,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
         // update status of item
         let updateData = [
           {
-            _id: this.actor.data.data.receptacle.id,
+            _id: this.actor.system.receptacle.id,
             data: {
               status: 0
             }
@@ -284,30 +283,30 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       //     name: itemData.name,
       //     type: "enchantment",
       //     data: {
-      //         effectfrequency: itemData.data.effectfrequency,
-      //         penetration: itemData.data.penetration,
-      //         maintainConc: itemData.data.maintainConc,
-      //         environmentalTrigger: itemData.data.environmentalTrigger,
-      //         restrictedUse: itemData.data.restrictedUse,
-      //         linkedTrigger: itemData.data.linkedTrigger
+      //         effectfrequency: itemData.system.effectfrequency,
+      //         penetration: itemData.system.penetration,
+      //         maintainConc: itemData.system.maintainConc,
+      //         environmentalTrigger: itemData.system.environmentalTrigger,
+      //         restrictedUse: itemData.system.restrictedUse,
+      //         linkedTrigger: itemData.system.linkedTrigger
       //     }
       // };
       let enchantData = {
-        name: itemData.data.enchantmentName,
+        name: itemData.system.enchantmentName,
         type: "enchantment",
         data: foundry.utils.deepClone(itemData.data)
       };
       // remove item specific fields:
-      delete enchantData.data.enchantmentName;
-      delete enchantData.data.charged;
-      delete enchantData.data.charges;
-      delete enchantData.data.materialBase;
-      delete enchantData.data.sizeMultiplier;
-      delete enchantData.data.material;
-      delete enchantData.data.materialBonus;
-      delete enchantData.data.shape;
-      delete enchantData.data.shapeBonus;
-      delete enchantData.data.expiry;
+      delete enchantData.system.enchantmentName;
+      delete enchantData.system.charged;
+      delete enchantData.system.charges;
+      delete enchantData.system.materialBase;
+      delete enchantData.system.sizeMultiplier;
+      delete enchantData.system.material;
+      delete enchantData.system.materialBonus;
+      delete enchantData.system.shape;
+      delete enchantData.system.shapeBonus;
+      delete enchantData.system.expiry;
       itemData = [itemData];
       itemData.push(enchantData);
       await this.actor.createEmbeddedDocuments("Item", itemData, {
@@ -317,7 +316,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       let actorUpdate = {
         data: {
           magicItemName: itemData[0].name,
-          description: itemData[0].data.description
+          description: itemData[0].system.description
         }
       };
       return await this.actor.update(actorUpdate);

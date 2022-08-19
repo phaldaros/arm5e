@@ -19,19 +19,19 @@ export default {
     subtypes: {
       voice: {
         label: "arm5e.sheet.magic.voice",
-        key: "data.bonuses.arts.voice",
+        key: "system.bonuses.arts.voice",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       gestures: {
         label: "arm5e.sheet.magic.gestures",
-        key: "data.bonuses.arts.spellcasting",
+        key: "system.bonuses.arts.spellcasting",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       aura: {
         label: "arm5e.sheet.magic.aura",
-        key: "data.bonuses.arts.spellcasting",
+        key: "system.bonuses.arts.spellcasting",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }
@@ -44,7 +44,7 @@ export default {
     subtypes: {
       bonus: {
         label: "arm5e.sheet.activeEffect.bonuses.penetration",
-        key: "data.bonuses.arts.penetration",
+        key: "system.bonuses.arts.penetration",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }
@@ -57,7 +57,7 @@ export default {
     subtypes: {
       magic: {
         label: "arm5e.sheet.realm.label",
-        key: "data.realmAlignment",
+        key: "system.realmAlignment",
         mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
         default: 1,
         choice: {
@@ -76,37 +76,37 @@ export default {
     subtypes: {
       practice: {
         label: "arm5e.activity.practice",
-        key: "data.bonuses.activities.practice",
+        key: "system.bonuses.activities.practice",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       training: {
         label: "arm5e.activity.training",
-        key: "data.bonuses.activities.training",
+        key: "system.bonuses.activities.training",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 5
       },
       teaching: {
         label: "arm5e.activity.teaching",
-        key: "data.bonuses.activities.teaching",
+        key: "system.bonuses.activities.teaching",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 5
       },
       teacher: {
         label: "arm5e.activity.teacher.label",
-        key: "data.bonuses.activities.teacher",
+        key: "system.bonuses.activities.teacher",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 5
       },
       writing: {
         label: "arm5e.activity.writing",
-        key: "data.bonuses.activities.writing",
+        key: "system.bonuses.activities.writing",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       reading: {
         label: "arm5e.activity.reading",
-        key: "data.bonuses.activities.reading",
+        key: "system.bonuses.activities.reading",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       }
@@ -119,91 +119,91 @@ export default {
     subtypes: {
       cr: {
         label: "Creo",
-        key: "data.arts.techniques.cr.bonus",
+        key: "system.arts.techniques.cr.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       in: {
         label: "Intellego",
-        key: "data.arts.techniques.in.bonus",
+        key: "system.arts.techniques.in.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       mu: {
         label: "Muto",
-        key: "data.arts.techniques.mu.bonus",
+        key: "system.arts.techniques.mu.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       pe: {
         label: "Perdo",
-        key: "data.arts.techniques.pe.bonus",
+        key: "system.arts.techniques.pe.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       re: {
         label: "Rego",
-        key: "data.arts.techniques.re.bonus",
+        key: "system.arts.techniques.re.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       an: {
         label: "Animal",
-        key: "data.arts.forms.an.bonus",
+        key: "system.arts.forms.an.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       aq: {
         label: "Aquam",
-        key: "data.arts.forms.aq.bonus",
+        key: "system.arts.forms.aq.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       au: {
         label: "Auram",
-        key: "data.arts.forms.au.bonus",
+        key: "system.arts.forms.au.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       co: {
         label: "Corpus",
-        key: "data.arts.forms.co.bonus",
+        key: "system.arts.forms.co.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       he: {
         label: "Herbam",
-        key: "data.arts.forms.he.bonus",
+        key: "system.arts.forms.he.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       ig: {
         label: "Ignem",
-        key: "data.arts.forms.ig.bonus",
+        key: "system.arts.forms.ig.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       im: {
         label: "Imaginem",
-        key: "data.arts.forms.im.bonus",
+        key: "system.arts.forms.im.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       me: {
         label: "Mentem",
-        key: "data.arts.forms.me.bonus",
+        key: "system.arts.forms.me.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       te: {
         label: "Terram",
-        key: "data.arts.forms.te.bonus",
+        key: "system.arts.forms.te.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       vi: {
         label: "Vim",
-        key: "data.arts.forms.vi.bonus",
+        key: "system.arts.forms.vi.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       }
@@ -217,91 +217,91 @@ export default {
     subtypes: {
       cr: {
         label: "Creo",
-        key: "data.arts.techniques.cr.xpCoeff",
+        key: "system.arts.techniques.cr.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       in: {
         label: "Intellego",
-        key: "data.arts.techniques.in.xpCoeff",
+        key: "system.arts.techniques.in.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       mu: {
         label: "Muto",
-        key: "data.arts.techniques.mu.xpCoeff",
+        key: "system.arts.techniques.mu.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       pe: {
         label: "Perdo",
-        key: "data.arts.techniques.pe.xpCoeff",
+        key: "system.arts.techniques.pe.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       re: {
         label: "Rego",
-        key: "data.arts.techniques.re.xpCoeff",
+        key: "system.arts.techniques.re.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       an: {
         label: "Animal",
-        key: "data.arts.forms.an.xpCoeff",
+        key: "system.arts.forms.an.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       aq: {
         label: "Aquam",
-        key: "data.arts.forms.aq.xpCoeff",
+        key: "system.arts.forms.aq.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       au: {
         label: "Auram",
-        key: "data.arts.forms.au.xpCoeff",
+        key: "system.arts.forms.au.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       co: {
         label: "Corpus",
-        key: "data.arts.forms.co.xpCoeff",
+        key: "system.arts.forms.co.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       he: {
         label: "Herbam",
-        key: "data.arts.forms.he.xpCoeff",
+        key: "system.arts.forms.he.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       ig: {
         label: "Ignem",
-        key: "data.arts.forms.ig.xpCoeff",
+        key: "system.arts.forms.ig.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       im: {
         label: "Imaginem",
-        key: "data.arts.forms.im.xpCoeff",
+        key: "system.arts.forms.im.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       me: {
         label: "Mentem",
-        key: "data.arts.forms.me.xpCoeff",
+        key: "system.arts.forms.me.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       te: {
         label: "Terram",
-        key: "data.arts.forms.te.xpCoeff",
+        key: "system.arts.forms.te.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       },
       vi: {
         label: "Vim",
-        key: "data.arts.forms.vi.xpCoeff",
+        key: "system.arts.forms.vi.xpCoeff",
         mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
         default: 1.5
       }
@@ -315,19 +315,19 @@ export default {
     subtypes: {
       size: {
         label: "arm5e.sheet.size",
-        key: "data.vitals.siz.value",
+        key: "system.vitals.siz.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       soak: {
         label: "arm5e.sheet.soak",
-        key: "data.bonuses.traits.soak",
+        key: "system.bonuses.traits.soak",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
       aging: {
         label: "arm5e.sheet.aging",
-        key: "data.bonuses.traits.aging",
+        key: "system.bonuses.traits.aging",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }
@@ -340,49 +340,49 @@ export default {
     subtypes: {
       int: {
         label: "arm5e.sheet.intelligence",
-        key: "data.characteristics.int.value",
+        key: "system.characteristics.int.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       per: {
         label: "arm5e.sheet.perception",
-        key: "data.characteristics.per.value",
+        key: "system.characteristics.per.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       str: {
         label: "arm5e.sheet.strength",
-        key: "data.characteristics.str.value",
+        key: "system.characteristics.str.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       sta: {
         label: "arm5e.sheet.stamina",
-        key: "data.characteristics.sta.value",
+        key: "system.characteristics.sta.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       pre: {
         label: "arm5e.sheet.presence",
-        key: "data.characteristics.pre.value",
+        key: "system.characteristics.pre.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       com: {
         label: "arm5e.sheet.communication",
-        key: "data.characteristics.com.value",
+        key: "system.characteristics.com.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       dex: {
         label: "arm5e.sheet.dexterity",
-        key: "data.characteristics.dex.value",
+        key: "system.characteristics.dex.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       qik: {
         label: "arm5e.sheet.quickness",
-        key: "data.characteristics.qik.value",
+        key: "system.characteristics.qik.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }
@@ -395,55 +395,55 @@ export default {
     subtypes: {
       total: {
         label: "arm5e.sheet.activeEffect.subtypes.fatigueTotal",
-        key: "data.bonuses.traits.fatigue",
+        key: "system.bonuses.traits.fatigue",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       winded: {
         label: "arm5e.sheet.winded",
-        key: "data.fatigue.winded.number",
+        key: "system.fatigue.winded.number",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       weary: {
         label: "arm5e.sheet.weary",
-        key: "data.fatigue.weary.number",
+        key: "system.fatigue.weary.number",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       tired: {
         label: "arm5e.sheet.tired",
-        key: "data.fatigue.tired.number",
+        key: "system.fatigue.tired.number",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       dazed: {
         label: "arm5e.sheet.dazed",
-        key: "data.fatigue.dazed.number",
+        key: "system.fatigue.dazed.number",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       windedLevel: {
         label: "arm5e.sheet.windedLvl",
-        key: "data.fatigue.winded.amount",
+        key: "system.fatigue.winded.amount",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       wearyLevel: {
         label: "arm5e.sheet.wearyLvl",
-        key: "data.fatigue.weary.amount",
+        key: "system.fatigue.weary.amount",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       tiredLevel: {
         label: "arm5e.sheet.tiredLvl",
-        key: "data.fatigue.tired.amount",
+        key: "system.fatigue.tired.amount",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       dazedLevel: {
         label: "arm5e.sheet.dazedLvl",
-        key: "data.fatigue.dazed.amount",
+        key: "system.fatigue.dazed.amount",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }
@@ -456,25 +456,25 @@ export default {
     subtypes: {
       total: {
         label: "arm5e.sheet.activeEffect.subtypes.woundsTotal",
-        key: "data.bonuses.traits.wounds",
+        key: "system.bonuses.traits.wounds",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       light: {
         label: "arm5e.sheet.light",
-        key: "data.wounds.light.penalty.value",
+        key: "system.wounds.light.penalty.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       medium: {
         label: "arm5e.sheet.medium",
-        key: "data.wounds.medium.penalty.value",
+        key: "system.wounds.medium.penalty.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       heavy: {
         label: "arm5e.sheet.heavy",
-        key: "data.wounds.heavy.penalty.value",
+        key: "system.wounds.heavy.penalty.value",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }
@@ -487,162 +487,162 @@ export default {
     subtypes: {
       animalHandling: {
         label: "arm5e.skill.general.animalHandling",
-        key: "data.bonuses.skills.animalHandling.bonus",
+        key: "system.bonuses.skills.animalHandling.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       areaLore: {
         label: "arm5e.skill.general.areaLore",
-        key: "data.bonuses.skills.areaLore_#OPTION#.bonus",
+        key: "system.bonuses.skills.areaLore_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "areaName"
       },
       athletics: {
         label: "arm5e.skill.general.athletics",
-        key: "data.bonuses.skills.athletics.bonus",
+        key: "system.bonuses.skills.athletics.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       awareness: {
         label: "arm5e.skill.general.awareness",
-        key: "data.bonuses.skills.awareness.bonus",
+        key: "system.bonuses.skills.awareness.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       bargain: {
         label: "arm5e.skill.general.bargain",
-        key: "data.bonuses.skills.bargain.bonus",
+        key: "system.bonuses.skills.bargain.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       brawl: {
         label: "arm5e.skill.general.brawl",
-        key: "data.bonuses.skills.brawl.bonus",
+        key: "system.bonuses.skills.brawl.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       carouse: {
         label: "arm5e.skill.general.carouse",
-        key: "data.bonuses.skills.carouse.bonus",
+        key: "system.bonuses.skills.carouse.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       charm: {
         label: "arm5e.skill.general.charm",
-        key: "data.bonuses.skills.charm.bonus",
+        key: "system.bonuses.skills.charm.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       concentration: {
         label: "arm5e.skill.general.concentration",
-        key: "data.bonuses.skills.concentration.bonus",
+        key: "system.bonuses.skills.concentration.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       craft: {
         label: "arm5e.skill.general.craft",
-        key: "data.bonuses.skills.craft_#OPTION#.bonus",
+        key: "system.bonuses.skills.craft_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "craftName"
       },
       etiquette: {
         label: "arm5e.skill.general.etiquette",
-        key: "data.bonuses.skills.etiquette.bonus",
+        key: "system.bonuses.skills.etiquette.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       folkKen: {
         label: "arm5e.skill.general.folkKen",
-        key: "data.bonuses.skills.folkKen.bonus",
+        key: "system.bonuses.skills.folkKen.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       guile: {
         label: "arm5e.skill.general.guile",
-        key: "data.bonuses.skills.guile.bonus",
+        key: "system.bonuses.skills.guile.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       hunt: {
         label: "arm5e.skill.general.hunt",
-        key: "data.bonuses.skills.hunt.bonus",
+        key: "system.bonuses.skills.hunt.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       intrigue: {
         label: "arm5e.skill.general.intrigue",
-        key: "data.bonuses.skills.intrigue.bonus",
+        key: "system.bonuses.skills.intrigue.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       leadership: {
         label: "arm5e.skill.general.leadership",
-        key: "data.bonuses.skills.leadership.bonus",
+        key: "system.bonuses.skills.leadership.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       legerdemain: {
         label: "arm5e.skill.general.legerdemain",
-        key: "data.bonuses.skills.legerdemain.bonus",
+        key: "system.bonuses.skills.legerdemain.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       livingLanguage: {
         label: "arm5e.skill.general.livingLanguage",
-        key: "data.bonuses.skills.livingLanguage_#OPTION#.bonus",
+        key: "system.bonuses.skills.livingLanguage_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "languageName"
       },
       music: {
         label: "arm5e.skill.general.music",
-        key: "data.bonuses.skills.music.bonus",
+        key: "system.bonuses.skills.music.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       organizationLore: {
         label: "arm5e.skill.general.organizationLore",
-        key: "data.bonuses.skills.organizationLore_#OPTION#.bonus",
+        key: "system.bonuses.skills.organizationLore_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "organizationName"
       },
       profession: {
         label: "arm5e.skill.general.profession",
-        key: "data.bonuses.skills.profession_#OPTION#.bonus",
+        key: "system.bonuses.skills.profession_#OPTION#.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2,
         option: "professionName"
       },
       ride: {
         label: "arm5e.skill.general.ride",
-        key: "data.bonuses.skills.ride.bonus",
+        key: "system.bonuses.skills.ride.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       stealth: {
         label: "arm5e.skill.general.stealth",
-        key: "data.bonuses.skills.stealth.bonus",
+        key: "system.bonuses.skills.stealth.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       survival: {
         label: "arm5e.skill.general.survival",
-        key: "data.bonuses.skills.survival.bonus",
+        key: "system.bonuses.skills.survival.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       swim: {
         label: "arm5e.skill.general.swim",
-        key: "data.bonuses.skills.swim.bonus",
+        key: "system.bonuses.skills.swim.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       },
       teaching: {
         label: "arm5e.skill.general.teaching",
-        key: "data.bonuses.skills.teaching.bonus",
+        key: "system.bonuses.skills.teaching.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
       }
@@ -655,55 +655,55 @@ export default {
     subtypes: {
       hermeticCode: {
         label: "arm5e.skill.arcane.hermeticCode",
-        key: "data.bonuses.skills.hermeticCode.bonus",
+        key: "system.bonuses.skills.hermeticCode.bonus",
         mode: 2,
         default: 2
       },
       dominionLore: {
         label: "arm5e.skill.arcane.dominionLore",
-        key: "data.bonuses.skills.dominionLore.bonus",
+        key: "system.bonuses.skills.dominionLore.bonus",
         mode: 2,
         default: 2
       },
       faerieLore: {
         label: "arm5e.skill.arcane.faerieLore",
-        key: "data.bonuses.skills.faerieLore.bonus",
+        key: "system.bonuses.skills.faerieLore.bonus",
         mode: 2,
         default: 2
       },
       finesse: {
         label: "arm5e.skill.arcane.finesse",
-        key: "data.bonuses.skills.finesse.bonus",
+        key: "system.bonuses.skills.finesse.bonus",
         mode: 2,
         default: 2
       },
       infernalLore: {
         label: "arm5e.skill.arcane.infernalLore",
-        key: "data.bonuses.skills.infernalLore.bonus",
+        key: "system.bonuses.skills.infernalLore.bonus",
         mode: 2,
         default: 2
       },
       magicLore: {
         label: "arm5e.skill.arcane.magicLore",
-        key: "data.bonuses.skills.magicLore.bonus",
+        key: "system.bonuses.skills.magicLore.bonus",
         mode: 2,
         default: 2
       },
       magicTheory: {
         label: "arm5e.skill.arcane.magicTheory",
-        key: "data.bonuses.skills.magicTheory.bonus",
+        key: "system.bonuses.skills.magicTheory.bonus",
         mode: 2,
         default: 2
       },
       parma: {
         label: "arm5e.skill.arcane.parma",
-        key: "data.bonuses.skills.parma.bonus",
+        key: "system.bonuses.skills.parma.bonus",
         mode: 2,
         default: 2
       },
       penetration: {
         label: "arm5e.skill.arcane.penetration",
-        key: "data.bonuses.skills.penetration.bonus",
+        key: "system.bonuses.skills.penetration.bonus",
         mode: 2,
         default: 2
       }
@@ -716,44 +716,44 @@ export default {
     subtypes: {
       artesLib: {
         label: "arm5e.skill.academic.artesLib",
-        key: "data.bonuses.skills.artesLib.bonus",
+        key: "system.bonuses.skills.artesLib.bonus",
         mode: 2,
         default: 2
       },
       civilCanonLaw: {
         label: "arm5e.skill.academic.civilCanonLaw",
-        key: "data.bonuses.skills.civilCanonLaw.bonus",
+        key: "system.bonuses.skills.civilCanonLaw.bonus",
         mode: 2,
         default: 2
       },
       commonLaw: {
         label: "arm5e.skill.academic.commonLaw",
-        key: "data.bonuses.skills.commonLaw.bonus",
+        key: "system.bonuses.skills.commonLaw.bonus",
         mode: 2,
         default: 2
       },
       deadLanguage: {
         label: "arm5e.skill.academic.deadLanguage",
-        key: "data.bonuses.skills.deadLanguage_#OPTION#.bonus",
+        key: "system.bonuses.skills.deadLanguage_#OPTION#.bonus",
         mode: 2,
         default: 2,
         option: "languageName"
       },
       medicine: {
         label: "arm5e.skill.academic.medicine",
-        key: "data.bonuses.skills.medicine.bonus",
+        key: "system.bonuses.skills.medicine.bonus",
         mode: 2,
         default: 2
       },
       philosophy: {
         label: "arm5e.skill.academic.philosophy",
-        key: "data.bonuses.skills.philosophy.bonus",
+        key: "system.bonuses.skills.philosophy.bonus",
         mode: 2,
         default: 2
       },
       theology: {
         label: "arm5e.skill.academic.theology",
-        key: "data.bonuses.skills.theology.bonus",
+        key: "system.bonuses.skills.theology.bonus",
         mode: 2,
         default: 2
       }
@@ -766,25 +766,25 @@ export default {
     subtypes: {
       bows: {
         label: "arm5e.skill.martial.bows",
-        key: "data.bonuses.skills.bows.bonus",
+        key: "system.bonuses.skills.bows.bonus",
         mode: 2,
         default: 2
       },
       singleWeapon: {
         label: "arm5e.skill.martial.singleWeapon",
-        key: "data.bonuses.skills.singleWeapon.bonus",
+        key: "system.bonuses.skills.singleWeapon.bonus",
         mode: 2,
         default: 2
       },
       greatWeapon: {
         label: "arm5e.skill.martial.greatWeapon",
-        key: "data.bonuses.skills.greatWeapon.bonus",
+        key: "system.bonuses.skills.greatWeapon.bonus",
         mode: 2,
         default: 2
       },
       trownWeapon: {
         label: "arm5e.skill.martial.trownWeapon",
-        key: "data.bonuses.skills.trownWeapon.bonus",
+        key: "system.bonuses.skills.trownWeapon.bonus",
         mode: 2,
         default: 2
       }
@@ -797,31 +797,31 @@ export default {
     subtypes: {
       enigma: {
         label: "arm5e.skill.mystery.enigma",
-        key: "data.bonuses.skills.enigma.bonus",
+        key: "system.bonuses.skills.enigma.bonus",
         mode: 2,
         default: 2
       },
       faerieMagic: {
         label: "arm5e.skill.mystery.faerieMagic",
-        key: "data.bonuses.skills.faerieMagic.bonus",
+        key: "system.bonuses.skills.faerieMagic.bonus",
         mode: 2,
         default: 2
       },
       heartbeast: {
         label: "arm5e.skill.mystery.heartbeast",
-        key: "data.bonuses.skills.heartbeast.bonus",
+        key: "system.bonuses.skills.heartbeast.bonus",
         mode: 2,
         default: 2
       },
       verditiusMagic: {
         label: "arm5e.skill.mystery.verditiusMagic",
-        key: "data.bonuses.skills.verditiusMagic.bonus",
+        key: "system.bonuses.skills.verditiusMagic.bonus",
         mode: 2,
         default: 2
       },
       cult: {
         label: "arm5e.skill.mystery.cult",
-        key: "data.bonuses.skills.cult_#OPTION#.bonus",
+        key: "system.bonuses.skills.cult_#OPTION#.bonus",
         mode: 2,
         default: 2,
         option: "cultName"
@@ -835,68 +835,68 @@ export default {
     subtypes: {
       animalKen: {
         label: "arm5e.skill.supernatural.animalKen",
-        key: "data.bonuses.skills.animalKen.bonus",
+        key: "system.bonuses.skills.animalKen.bonus",
         mode: 2,
         default: 2
       },
       dowsing: {
         label: "arm5e.skill.supernatural.dowsing",
-        key: "data.bonuses.skills.dowsing.bonus",
+        key: "system.bonuses.skills.dowsing.bonus",
         mode: 2,
         default: 2
       },
       enchantingMusic: {
         label: "arm5e.skill.supernatural.enchantingMusic",
-        key: "data.bonuses.skills.enchantingMusic.bonus",
+        key: "system.bonuses.skills.enchantingMusic.bonus",
         mode: 2,
         default: 2
       },
       entrancement: {
         label: "arm5e.skill.supernatural.entrancement",
-        key: "data.bonuses.skills.entrancement.bonus",
+        key: "system.bonuses.skills.entrancement.bonus",
         mode: 2,
         default: 2
       },
       magicSensitivity: {
         label: "arm5e.skill.supernatural.magicSensitivity",
-        key: "data.bonuses.skills.magicSensitivity.bonus",
+        key: "system.bonuses.skills.magicSensitivity.bonus",
         mode: 2,
         default: 2
       },
       premonitions: {
         label: "arm5e.skill.supernatural.premonitions",
-        key: "data.bonuses.skills.premonitions.bonus",
+        key: "system.bonuses.skills.premonitions.bonus",
         mode: 2,
         default: 2
       },
       secondSight: {
         label: "arm5e.skill.supernatural.secondSight",
-        key: "data.bonuses.skills.secondSight.bonus",
+        key: "system.bonuses.skills.secondSight.bonus",
         mode: 2,
         default: 2
       },
       senseHolyAndUnholy: {
         label: "arm5e.skill.supernatural.senseHolyAndUnholy",
-        key: "data.bonuses.skills.senseHolyAndUnholy.bonus",
+        key: "system.bonuses.skills.senseHolyAndUnholy.bonus",
         mode: 2,
         default: 2
       },
       shapeshifter: {
         label: "arm5e.skill.supernatural.shapeshifter",
-        key: "data.bonuses.skills.shapeshifter.bonus",
+        key: "system.bonuses.skills.shapeshifter.bonus",
         mode: 2,
         default: 2
       },
       supernatural: {
         label: "arm5e.skill.supernatural.generic",
-        key: "data.bonuses.skills.supernatural_#OPTION#.bonus",
+        key: "system.bonuses.skills.supernatural_#OPTION#.bonus",
         mode: 2,
         default: 2,
         option: "supernaturalAbilityName"
       },
       wildernessSense: {
         label: "arm5e.skill.supernatural.wildernessSense",
-        key: "data.bonuses.skills.wildernessSense.bonus",
+        key: "system.bonuses.skills.wildernessSense.bonus",
         mode: 2,
         default: 2
       }
@@ -909,162 +909,162 @@ export default {
     subtypes: {
       animalHandling: {
         label: "arm5e.skill.general.animalHandling",
-        key: "data.bonuses.skills.animalHandling.xpCoeff",
+        key: "system.bonuses.skills.animalHandling.xpCoeff",
         mode: 1,
         default: 1.5
       },
       areaLore: {
         label: "arm5e.skill.general.areaLore",
-        key: "data.bonuses.skills.areaLore_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.areaLore_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "areaName"
       },
       athletics: {
         label: "arm5e.skill.general.athletics",
-        key: "data.bonuses.skills.athletics.xpCoeff",
+        key: "system.bonuses.skills.athletics.xpCoeff",
         mode: 1,
         default: 1.5
       },
       awareness: {
         label: "arm5e.skill.general.awareness",
-        key: "data.bonuses.skills.awareness.xpCoeff",
+        key: "system.bonuses.skills.awareness.xpCoeff",
         mode: 1,
         default: 1.5
       },
       bargain: {
         label: "arm5e.skill.general.bargain",
-        key: "data.bonuses.skills.bargain.xpCoeff",
+        key: "system.bonuses.skills.bargain.xpCoeff",
         mode: 1,
         default: 1.5
       },
       brawl: {
         label: "arm5e.skill.general.brawl",
-        key: "data.bonuses.skills.brawl.xpCoeff",
+        key: "system.bonuses.skills.brawl.xpCoeff",
         mode: 1,
         default: 1.5
       },
       carouse: {
         label: "arm5e.skill.general.carouse",
-        key: "data.bonuses.skills.carouse.xpCoeff",
+        key: "system.bonuses.skills.carouse.xpCoeff",
         mode: 1,
         default: 1.5
       },
       charm: {
         label: "arm5e.skill.general.charm",
-        key: "data.bonuses.skills.charm.xpCoeff",
+        key: "system.bonuses.skills.charm.xpCoeff",
         mode: 1,
         default: 1.5
       },
       concentration: {
         label: "arm5e.skill.general.concentration",
-        key: "data.bonuses.skills.concentration.xpCoeff",
+        key: "system.bonuses.skills.concentration.xpCoeff",
         mode: 1,
         default: 1.5
       },
       craft: {
         label: "arm5e.skill.general.craft",
-        key: "data.bonuses.skills.craft_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.craft_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "craftName"
       },
       etiquette: {
         label: "arm5e.skill.general.etiquette",
-        key: "data.bonuses.skills.etiquette.xpCoeff",
+        key: "system.bonuses.skills.etiquette.xpCoeff",
         mode: 1,
         default: 1.5
       },
       folkKen: {
         label: "arm5e.skill.general.folkKen",
-        key: "data.bonuses.skills.folkKen.xpCoeff",
+        key: "system.bonuses.skills.folkKen.xpCoeff",
         mode: 1,
         default: 1.5
       },
       guile: {
         label: "arm5e.skill.general.guile",
-        key: "data.bonuses.skills.guile.xpCoeff",
+        key: "system.bonuses.skills.guile.xpCoeff",
         mode: 1,
         default: 1.5
       },
       hunt: {
         label: "arm5e.skill.general.hunt",
-        key: "data.bonuses.skills.hunt.xpCoeff",
+        key: "system.bonuses.skills.hunt.xpCoeff",
         mode: 1,
         default: 1.5
       },
       intrigue: {
         label: "arm5e.skill.general.intrigue",
-        key: "data.bonuses.skills.intrigue.xpCoeff",
+        key: "system.bonuses.skills.intrigue.xpCoeff",
         mode: 1,
         default: 1.5
       },
       leadership: {
         label: "arm5e.skill.general.leadership",
-        key: "data.bonuses.skills.leadership.xpCoeff",
+        key: "system.bonuses.skills.leadership.xpCoeff",
         mode: 1,
         default: 1.5
       },
       legerdemain: {
         label: "arm5e.skill.general.legerdemain",
-        key: "data.bonuses.skills.legerdemain.xpCoeff",
+        key: "system.bonuses.skills.legerdemain.xpCoeff",
         mode: 1,
         default: 1.5
       },
       livingLanguage: {
         label: "arm5e.skill.general.livingLanguage",
-        key: "data.bonuses.skills.livingLanguage_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.livingLanguage_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "languageName"
       },
       music: {
         label: "arm5e.skill.general.music",
-        key: "data.bonuses.skills.music.xpCoeff",
+        key: "system.bonuses.skills.music.xpCoeff",
         mode: 1,
         default: 1.5
       },
       organizationLore: {
         label: "arm5e.skill.general.organizationLore",
-        key: "data.bonuses.skills.organizationLore_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.organizationLore_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "orgName"
       },
       profession: {
         label: "arm5e.skill.general.profession",
-        key: "data.bonuses.skills.profession_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.profession_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "professionName"
       },
       ride: {
         label: "arm5e.skill.general.ride",
-        key: "data.bonuses.skills.ride.xpCoeff",
+        key: "system.bonuses.skills.ride.xpCoeff",
         mode: 1,
         default: 1.5
       },
       stealth: {
         label: "arm5e.skill.general.stealth",
-        key: "data.bonuses.skills.stealth.xpCoeff",
+        key: "system.bonuses.skills.stealth.xpCoeff",
         mode: 1,
         default: 1.5
       },
       survival: {
         label: "arm5e.skill.general.survival",
-        key: "data.bonuses.skills.survival.xpCoeff",
+        key: "system.bonuses.skills.survival.xpCoeff",
         mode: 1,
         default: 1.5
       },
       swim: {
         label: "arm5e.skill.general.swim",
-        key: "data.bonuses.skills.swim.xpCoeff",
+        key: "system.bonuses.skills.swim.xpCoeff",
         mode: 1,
         default: 1.5
       },
       teaching: {
         label: "arm5e.skill.general.teaching",
-        key: "data.bonuses.skills.teaching.xpCoeff",
+        key: "system.bonuses.skills.teaching.xpCoeff",
         mode: 1,
         default: 1.5
       }
@@ -1077,55 +1077,55 @@ export default {
     subtypes: {
       hermeticCode: {
         label: "arm5e.skill.arcane.hermeticCode",
-        key: "data.bonuses.skills.hermeticCode.xpCoeff",
+        key: "system.bonuses.skills.hermeticCode.xpCoeff",
         mode: 1,
         default: 1.5
       },
       dominionLore: {
         label: "arm5e.skill.arcane.dominionLore",
-        key: "data.bonuses.skills.dominionLore.xpCoeff",
+        key: "system.bonuses.skills.dominionLore.xpCoeff",
         mode: 1,
         default: 1.5
       },
       faerieLore: {
         label: "arm5e.skill.arcane.faerieLore",
-        key: "data.bonuses.skills.faerieLore.xpCoeff",
+        key: "system.bonuses.skills.faerieLore.xpCoeff",
         mode: 1,
         default: 1.5
       },
       finesse: {
         label: "arm5e.skill.arcane.finesse",
-        key: "data.bonuses.skills.finesse.xpCoeff",
+        key: "system.bonuses.skills.finesse.xpCoeff",
         mode: 1,
         default: 1.5
       },
       infernalLore: {
         label: "arm5e.skill.arcane.infernalLore",
-        key: "data.bonuses.skills.infernalLore.xpCoeff",
+        key: "system.bonuses.skills.infernalLore.xpCoeff",
         mode: 1,
         default: 1.5
       },
       magicLore: {
         label: "arm5e.skill.arcane.magicLore",
-        key: "data.bonuses.skills.magicLore.xpCoeff",
+        key: "system.bonuses.skills.magicLore.xpCoeff",
         mode: 1,
         default: 1.5
       },
       magicTheory: {
         label: "arm5e.skill.arcane.magicTheory",
-        key: "data.bonuses.skills.magicTheory.xpCoeff",
+        key: "system.bonuses.skills.magicTheory.xpCoeff",
         mode: 1,
         default: 1.5
       },
       parma: {
         label: "arm5e.skill.arcane.parma",
-        key: "data.bonuses.skills.parma.xpCoeff",
+        key: "system.bonuses.skills.parma.xpCoeff",
         mode: 1,
         default: 1.5
       },
       penetration: {
         label: "arm5e.skill.arcane.penetration",
-        key: "data.bonuses.skills.penetration.xpCoeff",
+        key: "system.bonuses.skills.penetration.xpCoeff",
         mode: 1,
         default: 1.5
       }
@@ -1138,44 +1138,44 @@ export default {
     subtypes: {
       artesLib: {
         label: "arm5e.skill.academic.artesLib",
-        key: "data.bonuses.skills.artesLib.xpCoeff",
+        key: "system.bonuses.skills.artesLib.xpCoeff",
         mode: 1,
         default: 1.5
       },
       civilCanonLaw: {
         label: "arm5e.skill.academic.civilCanonLaw",
-        key: "data.bonuses.skills.civilCanonLaw.xpCoeff",
+        key: "system.bonuses.skills.civilCanonLaw.xpCoeff",
         mode: 1,
         default: 1.5
       },
       commonLaw: {
         label: "arm5e.skill.academic.commonLaw",
-        key: "data.bonuses.skills.commonLaw.xpCoeff",
+        key: "system.bonuses.skills.commonLaw.xpCoeff",
         mode: 1,
         default: 1.5
       },
       deadLanguage: {
         label: "arm5e.skill.academic.deadLanguage",
-        key: "data.bonuses.skills.deadLanguage_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.deadLanguage_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "languageName"
       },
       medicine: {
         label: "arm5e.skill.academic.medicine",
-        key: "data.bonuses.skills.medicine.xpCoeff",
+        key: "system.bonuses.skills.medicine.xpCoeff",
         mode: 1,
         default: 1.5
       },
       philosophy: {
         label: "arm5e.skill.academic.philosophy",
-        key: "data.bonuses.skills.philosophy.xpCoeff",
+        key: "system.bonuses.skills.philosophy.xpCoeff",
         mode: 1,
         default: 1.5
       },
       theology: {
         label: "arm5e.skill.academic.theology",
-        key: "data.bonuses.skills.theology.xpCoeff",
+        key: "system.bonuses.skills.theology.xpCoeff",
         mode: 1,
         default: 1.5
       }
@@ -1188,25 +1188,25 @@ export default {
     subtypes: {
       bows: {
         label: "arm5e.skill.martial.bows",
-        key: "data.bonuses.skills.bows.xpCoeff",
+        key: "system.bonuses.skills.bows.xpCoeff",
         mode: 1,
         default: 1.5
       },
       singleWeapon: {
         label: "arm5e.skill.martial.singleWeapon",
-        key: "data.bonuses.skills.singleWeapon.xpCoeff",
+        key: "system.bonuses.skills.singleWeapon.xpCoeff",
         mode: 1,
         default: 1.5
       },
       greatWeapon: {
         label: "arm5e.skill.martial.greatWeapon",
-        key: "data.bonuses.skills.greatWeapon.xpCoeff",
+        key: "system.bonuses.skills.greatWeapon.xpCoeff",
         mode: 1,
         default: 1.5
       },
       trownWeapon: {
         label: "arm5e.skill.martial.trownWeapon",
-        key: "data.bonuses.skills.trownWeapon.xpCoeff",
+        key: "system.bonuses.skills.trownWeapon.xpCoeff",
         mode: 1,
         default: 1.5
       }
@@ -1219,31 +1219,31 @@ export default {
     subtypes: {
       enigma: {
         label: "arm5e.skill.mystery.enigma",
-        key: "data.bonuses.skills.enigma.xpCoeff",
+        key: "system.bonuses.skills.enigma.xpCoeff",
         mode: 1,
         default: 1.5
       },
       faerieMagic: {
         label: "arm5e.skill.mystery.faerieMagic",
-        key: "data.bonuses.skills.faerieMagic.xpCoeff",
+        key: "system.bonuses.skills.faerieMagic.xpCoeff",
         mode: 1,
         default: 1.5
       },
       heartbeast: {
         label: "arm5e.skill.mystery.heartbeast",
-        key: "data.bonuses.skills.heartbeast.xpCoeff",
+        key: "system.bonuses.skills.heartbeast.xpCoeff",
         mode: 1,
         default: 1.5
       },
       verditiusMagic: {
         label: "arm5e.skill.mystery.verditiusMagic",
-        key: "data.bonuses.skills.verditiusMagic.xpCoeff",
+        key: "system.bonuses.skills.verditiusMagic.xpCoeff",
         mode: 1,
         default: 1.5
       },
       cult: {
         label: "arm5e.skill.mystery.cult",
-        key: "data.bonuses.skills.cult_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.cult_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "cultName"
@@ -1257,68 +1257,68 @@ export default {
     subtypes: {
       animalKen: {
         label: "arm5e.skill.supernatural.animalKen",
-        key: "data.bonuses.skills.animalKen.xpCoeff",
+        key: "system.bonuses.skills.animalKen.xpCoeff",
         mode: 1,
         default: 1.5
       },
       dowsing: {
         label: "arm5e.skill.supernatural.dowsing",
-        key: "data.bonuses.skills.dowsing.xpCoeff",
+        key: "system.bonuses.skills.dowsing.xpCoeff",
         mode: 1,
         default: 1.5
       },
       enchantingMusic: {
         label: "arm5e.skill.supernatural.enchantingMusic",
-        key: "data.bonuses.skills.enchantingMusic.xpCoeff",
+        key: "system.bonuses.skills.enchantingMusic.xpCoeff",
         mode: 1,
         default: 1.5
       },
       entrancement: {
         label: "arm5e.skill.supernatural.entrancement",
-        key: "data.bonuses.skills.entrancement.xpCoeff",
+        key: "system.bonuses.skills.entrancement.xpCoeff",
         mode: 1,
         default: 1.5
       },
       magicSensitivity: {
         label: "arm5e.skill.supernatural.magicSensitivity",
-        key: "data.bonuses.skills.magicSensitivity.xpCoeff",
+        key: "system.bonuses.skills.magicSensitivity.xpCoeff",
         mode: 1,
         default: 1.5
       },
       premonitions: {
         label: "arm5e.skill.supernatural.premonitions",
-        key: "data.bonuses.skills.premonitions.xpCoeff",
+        key: "system.bonuses.skills.premonitions.xpCoeff",
         mode: 1,
         default: 1.5
       },
       secondSight: {
         label: "arm5e.skill.supernatural.secondSight",
-        key: "data.bonuses.skills.secondSight.xpCoeff",
+        key: "system.bonuses.skills.secondSight.xpCoeff",
         mode: 1,
         default: 1.5
       },
       senseHolyAndUnholy: {
         label: "arm5e.skill.supernatural.senseHolyAndUnholy",
-        key: "data.bonuses.skills.senseHolyAndUnholy.xpCoeff",
+        key: "system.bonuses.skills.senseHolyAndUnholy.xpCoeff",
         mode: 1,
         default: 1.5
       },
       shapeshifter: {
         label: "arm5e.skill.supernatural.shapeshifter",
-        key: "data.bonuses.skills.shapeshifter.xpCoeff",
+        key: "system.bonuses.skills.shapeshifter.xpCoeff",
         mode: 1,
         default: 1.5
       },
       supernatural: {
         label: "arm5e.skill.supernatural.generic",
-        key: "data.bonuses.skills.supernatural_#OPTION#.xpCoeff",
+        key: "system.bonuses.skills.supernatural_#OPTION#.xpCoeff",
         mode: 1,
         default: 1.5,
         option: "supernaturalAbilityName"
       },
       wildernessSense: {
         label: "arm5e.skill.supernatural.wildernessSense",
-        key: "data.bonuses.skills.wildernessSense.xpCoeff",
+        key: "system.bonuses.skills.wildernessSense.xpCoeff",
         mode: 1,
         default: 1.5
       }
@@ -1332,49 +1332,49 @@ export default {
     subtypes: {
       size: {
         label: "arm5e.sheet.size",
-        key: "data.size.bonus",
+        key: "system.size.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       generalQuality: {
         label: "arm5e.sheet.generalQuality",
-        key: "data.generalQuality.bonus",
+        key: "system.generalQuality.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       safety: {
         label: "arm5e.sheet.safety",
-        key: "data.safety.bonus",
+        key: "system.safety.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       health: {
         label: "arm5e.sheet.health",
-        key: "data.health.bonus",
+        key: "system.health.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       refinement: {
         label: "arm5e.sheet.refinement",
-        key: "data.refinement.bonus",
+        key: "system.refinement.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       upkeep: {
         label: "arm5e.sheet.upkeep",
-        key: "data.upkeep.bonus",
+        key: "system.upkeep.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       warping: {
         label: "arm5e.sheet.warping",
-        key: "data.warping.bonus",
+        key: "system.warping.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       },
       aesthetics: {
         label: "arm5e.sheet.aesthetics",
-        key: "data.aesthetics.bonus",
+        key: "system.aesthetics.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
       }
@@ -1385,6 +1385,6 @@ export default {
   //   category: "traits",
   //   type: "strength",
   //   label: "arm5e.sheet.strength",
-  //   key: "data.characteristics.str.value"
+  //   key: "system.characteristics.str.value"
   // }
 };

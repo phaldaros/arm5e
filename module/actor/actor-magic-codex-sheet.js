@@ -30,17 +30,11 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
   /** @override */
   getData() {
-    // Retrieve the data structure from the base sheet. You can inspect or log
-    // the context variable to see the structure, but some key properties for
-    // sheets are the actor object, the data object, whether or not it's
-    // editable, the items array, and the effects array.
     const context = super.getData();
 
     // no need to import everything
     context.config = {};
     context.config.magic = CONFIG.ARM5E.magic;
-    log(false, "Codex-sheet getData");
-    log(false, context);
     this._prepareCodexItems(context);
 
     return context;
@@ -56,15 +50,15 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
   _prepareCodexItems(codexData) {
     //let actorData = sheetData.actor.data;
     // log(false, "_prepareCodexItems");
-    for (const item of codexData.data.enchantments) {
-      item.data.localizedDesc = item._getEffectAttributesLabel();
+    for (const item of codexData.system.enchantments) {
+      item.system.localizedDesc = item._getEffectAttributesLabel();
     }
-    for (const item of codexData.data.spells) {
-      item.data.localizedDesc = item._getEffectAttributesLabel();
+    for (const item of codexData.system.spells) {
+      item.system.localizedDesc = item._getEffectAttributesLabel();
     }
 
-    for (const item of codexData.data.magicEffects) {
-      item.data.localizedDesc = item._getEffectAttributesLabel();
+    for (const item of codexData.system.magicEffects) {
+      item.system.localizedDesc = item._getEffectAttributesLabel();
     }
   }
 
@@ -104,7 +98,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = (ev) => this._onDragStart(ev);
+      let handler = ev => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
@@ -155,7 +149,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
       {
         name: name,
         type: "baseEffect",
-        data: {
+        system: {
           technique: {
             value: tech
           },
@@ -166,7 +160,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
       }
     ];
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData[0].data["type"];
+    delete itemData[0].system["type"];
 
     // Finally, create the item!
     // console.log("Add item");
@@ -199,8 +193,9 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
   _onClickEffect(event) {
     event.preventDefault();
     const li = $(event.currentTarget).parents(".item");
-    let itemId = li.data("itemId");
-    let type = li.data("itemType");
+    const itemDataset = li[0].dataset;
+    let itemId = itemDataset.itemId;
+    let type = itemDataset.itemType;
     let mnemo;
     switch (type) {
       case "baseEffect":
@@ -238,24 +233,24 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
   async _onDesignEffect(id, alt) {
     const item = this.actor.items.get(id);
-    const itemdata = item.data;
-    const dataset = itemdata.data;
+    // const itemdata = item.data;
+    const dataset = item.system;
     let newItemData;
-    if (itemdata.type == "baseEffect") {
+    if (item.type == "baseEffect") {
       // Initialize a default name.
-      let name = `_New "${itemdata.name}" effect`;
+      let name = `_New "${item.name}" effect`;
       let type = "magicalEffect";
       if (alt === true) {
         // alternate design
-        let name = `_New "${itemdata.name}" spell`;
+        let name = `_New "${item.name}" spell`;
         type = "spell";
       }
       newItemData = [
         {
           name: name,
           type: type,
-          data: {
-            baseEffectDescription: itemdata.name,
+          system: {
+            baseEffectDescription: item.name,
             baseLevel: dataset.baseLevel,
             technique: {
               value: dataset.technique.value
@@ -266,7 +261,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
           }
         }
       ];
-    } else if (itemdata.type == "magicalEffect") {
+    } else if (item.type == "magicalEffect") {
       //
       let itemType = "spell";
       if (alt === true) {
@@ -275,34 +270,34 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
       }
       newItemData = [
         {
-          name: itemdata.name,
+          name: item.name,
           type: itemType,
-          data: foundry.utils.deepClone(itemdata.data)
+          system: foundry.utils.deepClone(item.system)
         }
       ];
       // Remove the type from the dataset since it's in the itemData.type prop.
-      delete newItemData[0].data["type"];
+      // delete newItemData[0]["type"];
     } else {
-      if (itemdata.data.ritual) {
+      if (dataset.ritual) {
         ui.notifications.info("Impossible to make an enchantment with a ritual effect.");
         return [];
       }
 
       newItemData = [
         {
-          name: itemdata.name,
+          name: item.name,
           type: "enchantment",
-          data: foundry.utils.deepClone(itemdata.data)
+          system: foundry.utils.deepClone(dataset)
         }
       ];
       // Remove the type from the dataset since it's in the itemData.type prop.
 
-      delete newItemData[0].data["type"];
+      // delete newItemData[0]["type"];
       // remove spell attributes linked to actor
-      delete newItemData[0].data.ritual;
-      delete newItemData[0].data.mastery;
-      delete newItemData[0].data.exp;
-      delete newItemData[0].data.bonus;
+      delete newItemData[0].system.ritual;
+      delete newItemData[0].system.mastery;
+      delete newItemData[0].system.exp;
+      delete newItemData[0].system.bonus;
     }
     let newItem = await this.actor.createEmbeddedDocuments("Item", newItemData, {});
 
@@ -311,8 +306,8 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     return newItem;
   }
 
-  isItemDropAllowed(type) {
-    switch (type) {
+  isItemDropAllowed(item) {
+    switch (item.type) {
       case "baseEffect":
       case "magicalEffect":
       case "enchantment":
@@ -333,6 +328,8 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
    * @private
    * @override
    */
+
+  // TODOV10
   async _onDropItem(event, data) {
     let itemData = {};
     let type;

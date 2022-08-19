@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -11,11 +8,11 @@
       <div class="grid grid-2col">
         <div class="resource">
           <label class="resource-label">{{localize "arm5e.sheet.quantity"}}</label>
-          <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
+          <input type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" />
         </div>
         <div class="resource">
           <label class="resource-label">{{localize "arm5e.sheet.weight"}}</label>
-          <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />
+          <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
         </div>
       </div>
     </div>
@@ -39,7 +36,7 @@
   <section class="sheet-body">
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
     </div>
 
     {{!-- Attributes Tab --}}

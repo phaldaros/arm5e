@@ -58,9 +58,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     context.rollData = context.actor.getRollData();
 
     // Prepare items.
-    //if (this.actor.data.type == 'magus') {
     this._prepareCharacterItems(context);
-    //}
     log(false, "Npc-sheet getData");
     log(false, context);
 
@@ -83,7 +81,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "virtue":
       case "flaw":
-        switch (itemData.data.type.value) {
+        switch (itemData.system.type.value) {
           case "laboratoryOutfitting":
           case "laboratoryStructure":
           case "laboratorySupernatural":
@@ -98,7 +96,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
         }
 
       case "power":
-        if (this.actor.data.data.charType.value === "entity") return true;
+        if (this.actor.system.charType.value === "entity") return true;
         else return false;
       case "weapon":
       case "armor":
@@ -122,9 +120,9 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
   async _bindActor(actor) {
     let updateData = {};
     if (actor.type == "covenant") {
-      updateData["data.covenant.value"] = actor.name;
+      updateData["system.covenant.value"] = actor.name;
     } else if (actor.type == "laboratory") {
-      updateData["data.sanctum.value"] = actor.name;
+      updateData["system.sanctum.value"] = actor.name;
     }
     return await this.actor.update(updateData, {});
   }
@@ -146,7 +144,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
     }
     // transform input into labText
     if (type == "laboratoryText") {
-      if (itemData.data.type == "spell") {
+      if (itemData.system.type == "spell") {
         log(false, "Valid drop");
         // create a spell or enchantment data:
         data.data = labTextToEffect(foundry.utils.deepClone(itemData));
@@ -155,7 +153,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
         return false;
       }
     } else if (type == "ability") {
-      if (this.actor.hasSkill(itemData.data.key)) {
+      if (this.actor.hasSkill(itemData.system.key)) {
         ui.notifications.warn(`This character already have the ability: ${itemData.name}`);
       }
     }

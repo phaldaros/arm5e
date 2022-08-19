@@ -2,7 +2,7 @@ import { log } from "./tools.js";
 
 export async function migration(originalVersion) {
   ui.notifications.info(
-    `Applying ARM5E System Migration for version ${game.system.data.version}. Please be patient and do not close your game or shut down your server.`,
+    `Applying ARM5E System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`,
     {
       permanent: true
     }
@@ -13,11 +13,11 @@ export async function migration(originalVersion) {
   // Migrate World Actors
   for (let a of game.actors.contents) {
     try {
-      if (a.data.type == "magus") {
-        a.data.type = "player";
+      if (a.type == "magus") {
+        a.type = "player";
       }
 
-      const updateData = migrateActorData(a.data);
+      const updateData = migrateActorData(a);
 
       if (!isObjectEmpty(updateData)) {
         console.log(`Migrating Actor entity ${a.name}`);
@@ -26,10 +26,10 @@ export async function migration(originalVersion) {
         });
       }
 
-      // const cleanData = cleanActorData(a.data)
+      // const cleanData = cleanActorData(a)
       // if (!isObjectEmpty(cleanData)) {
       //     console.log(`Cleaning up Actor entity ${a.name}`);
-      //     a.data.data = cleanData.data;
+      //     a.system = cleanData.system;
       // }
     } catch (err) {
       err.message = `Failed system migration for Actor ${a.name}: ${err.message}`;
@@ -49,10 +49,10 @@ export async function migration(originalVersion) {
       }
       console.log(`Migrated Item entity ${i.name}`);
 
-      // const cleanData = cleanItemData(i.data)
+      // const cleanData = cleanItemData(i)
       // if (!isObjectEmpty(cleanData)) {
       //     console.log(`Cleaning up Item entity ${i.name}`);
-      //     i.data.data = cleanData.data;
+      //     i.system = cleanData.system;
       // }
     } catch (err) {
       err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
@@ -63,12 +63,12 @@ export async function migration(originalVersion) {
   // Migrate Actor Override Tokens
   for (let s of game.scenes) {
     try {
-      const updateData = migrateSceneData(s.data);
+      const updateData = migrateSceneData(s.system);
       if (!foundry.utils.isObjectEmpty(updateData)) {
         console.log(`Migrating Scene entity ${s.name}`);
         await s.update(updateData, { enforceTypes: false });
         // If we do not do this, then synthetic token actors remain in cache
-        // with the un-updated actorData.
+        // with the un-updated actor.
         s.tokens.forEach(t => (t._actor = null));
       }
     } catch (err) {
@@ -79,22 +79,22 @@ export async function migration(originalVersion) {
 
   // [DEV] Uncomment below to migrate system compendiums
   // for (let p of game.packs) {
-  //   if (p.metadata.package !== "arm5e") continue;
+  //   if (p.metadata.packageName !== "arm5e") continue;
   //   if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
   //   await migrateCompendium(p);
   // }
 
   // Migrate World Compendium Packs
   for (let p of game.packs) {
-    if (p.metadata.package !== "world") continue;
+    if (p.metadata.packageName !== "world") continue;
     if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
     await migrateCompendium(p);
   }
 
   // Set the migration as complete
-  game.settings.set("arm5e", "systemMigrationVersion", game.system.data.version);
+  game.settings.set("arm5e", "systemMigrationVersion", game.system.version);
   ui.notifications.info(
-    `Ars Magica 5e System Migration to version ${game.system.data.version} completed!`,
+    `Ars Magica 5e System Migration to version ${game.system.version} completed!`,
     {
       permanent: true
     }
@@ -168,8 +168,8 @@ export const migrateSceneData = function(scene, migrationData) {
     const type = scene.flags.world[`aura_type_${scene._id}`];
     if (aura && !type) {
       log(false, "Missing aura type");
-
-      updateData[`data.flags.world.aura_type_${scene._id}`] = 1;
+      // TODOV10 check where flags are for scenes
+      updateData[`flags.world.aura_type_${scene._id}`] = 1;
     }
     return updateData;
   }
@@ -184,14 +184,14 @@ export const migrateSceneData = function(scene, migrationData) {
       t.actorId = null;
       t.actorData = {};
     } else if (!t.actorLink) {
-      const actorData = duplicate(t.actorData);
-      actorData.type = token.actor?.type;
+      const actor = duplicate(t.actorData);
+      actor.type = token.actor?.type;
 
-      if (actorData.data) {
-        actorData.data.charType = { value: token.actor?.data?.data?.charType?.value };
+      if (actor.system) {
+        actor.system.charType = { value: token.actor?.system?.charType?.value };
       }
       // else {
-      //   actorData.data = { charType: { value: token.actor?.data?.data?.charType?.value } };
+      //   actor.system = { charType: { value: token.actor?.system?.charType?.value } };
       // }
 
       const update = migrateActorData(actorData, migrationData);
@@ -222,288 +222,287 @@ export const migrateSceneData = function(scene, migrationData) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
-export const migrateActorData = function(actorData) {
+export const migrateActorData = function(actor) {
   const updateData = {};
   // updateData["flags.arm5e.-=filters"] = null;
-  if (!actorData?.flags.arm5e) {
+  if (!actor?.flags.arm5e) {
     updateData["flags.arm5e"] = {};
-  } else if (actorData?.flags.arm5e.filters) {
+  } else if (actor?.flags.arm5e.filters) {
     updateData["flags.arm5e.-filters"] = null;
   }
-  if (actorData.type == "laboratory") {
+  if (actor.type == "laboratory") {
     // fix recursive problem with laboratory owner
-    if (!(actorData.data.owner.value instanceof String)) {
-      updateData["data.owner.value"] = "";
+    if (!(actor.system.owner.value instanceof String)) {
+      updateData["system.owner.value"] = "";
     }
 
     // Update data to official names
-    if (actorData.data.salubrity) {
-      updateData["data.health"] = actorData.data.salubrity;
-      updateData["data.-=salubrity"] = null;
+    if (actor.system.salubrity) {
+      updateData["system.health"] = actor.system.salubrity;
+      updateData["system.-=salubrity"] = null;
     }
-    if (actorData.data.improvement) {
-      updateData["data.refinement"] = actorData.data.improvement;
-      updateData["data.-=improvement"] = null;
+    if (actor.system.improvement) {
+      updateData["system.refinement"] = actor.system.improvement;
+      updateData["system.-=improvement"] = null;
     }
-    if (actorData.data.security) {
-      updateData["data.safety"] = actorData.data.security;
-      updateData["data.-=security"] = null;
+    if (actor.system.security) {
+      updateData["system.safety"] = actor.system.security;
+      updateData["system.-=security"] = null;
     }
-    if (actorData.data.maintenance) {
-      updateData["data.upkeep"] = actorData.data.maintenance;
-      updateData["data.-=maintenance"] = null;
+    if (actor.system.maintenance) {
+      updateData["system.upkeep"] = actor.system.maintenance;
+      updateData["system.-=maintenance"] = null;
     }
 
     return updateData;
   }
 
-  if (actorData.type == "covenant") {
-    if (actorData.data.currentYear != undefined) {
-      updateData["data.datetime.year"] = actorData.data.currentYear;
-      updateData["data.datetime.season"] = "spring";
-      updateData["data.-=currentYear"] = null;
+  if (actor.type == "covenant") {
+    if (actor.system.currentYear != undefined) {
+      updateData["system.datetime.year"] = actor.system.currentYear;
+      updateData["system.datetime.season"] = "spring";
+      updateData["system.-=currentYear"] = null;
     }
   }
 
-  updateData["data.version"] = "1.4.5";
+  updateData["system.version"] = "1.4.5";
 
   // token with barely anything to migrate
-  if (actorData.data == undefined) {
+  if (actor.system == undefined) {
     return updateData;
   }
   // convert after fixing typo dairy => diary
-  if (actorData.data.dairyEntries) {
-    updateData["data.diaryEntries"] = actorData.data.dairyEntries;
-    updateData["data.-=dairyEntries"] = null;
+  if (actor.system.dairyEntries) {
+    updateData["system.diaryEntries"] = actor.system.dairyEntries;
+    updateData["system.-=dairyEntries"] = null;
   }
 
   // convert after fixing typo labarotary => laboratory
-  if (actorData.data.version == "0.1") {
-    if (actorData.data.labarotary) {
-      updateData["data.laboratory"] = actorData.data.labarotary;
-      updateData["data.-=labarotary"] = null;
+  if (actor.system.version == "0.1") {
+    if (actor.system.labarotary) {
+      updateData["system.laboratory"] = actor.system.labarotary;
+      updateData["system.-=labarotary"] = null;
     }
   }
 
-  if (actorData.data.mightsFam) {
-    updateData["data.powersFam"] = actorData.data.mightsFam;
-    updateData["data.-=mightsFam"] = null;
+  if (actor.system.mightsFam) {
+    updateData["system.powersFam"] = actor.system.mightsFam;
+    updateData["system.-=mightsFam"] = null;
   }
 
-  if (actorData.data.mights) {
-    updateData["data.powers"] = actorData.data.mights;
-    updateData["data.-=mights"] = null;
+  if (actor.system.mights) {
+    updateData["system.powers"] = actor.system.mights;
+    updateData["system.-=mights"] = null;
   }
 
-  if (actorData.data.soak) {
-    updateData["data.vitals.soa.value"] = actorData.data.soak.value;
-    updateData["data.-=soak"] = null;
+  if (actor.system.soak) {
+    updateData["system.vitals.soa.value"] = actor.system.soak.value;
+    updateData["system.-=soak"] = null;
   }
 
-  if (actorData.data.size) {
-    updateData["data.vitals.siz.value"] = actorData.data.size.value;
-    updateData["data.-=size"] = null;
+  if (actor.system.size) {
+    updateData["system.vitals.siz.value"] = actor.system.size.value;
+    updateData["system.-=size"] = null;
   }
 
   // remove redundant data
-  if (actorData.data.houses != undefined) {
-    updateData["data.-=houses"] = null;
+  if (actor.system.houses != undefined) {
+    updateData["system.-=houses"] = null;
   }
 
   // useless?
-  // if (actorData.data.weapons === undefined) {
-  //   updateData["data.weapons"] = [];
+  // if (actor.system.weapons === undefined) {
+  //   updateData["system.weapons"] = [];
   // }
-  // if (actorData.data.armor === undefined) {
-  //   updateData["data.armor"] = [];
+  // if (actor.system.armor === undefined) {
+  //   updateData["system.armor"] = [];
   // }
-  // if (actorData.data.vis === undefined) {
-  //   updateData["data.vis"] = [];
+  // if (actor.system.vis === undefined) {
+  //   updateData["system.vis"] = [];
   // }
-  // if (actorData.data.items === undefined) {
-  //   updateData["data.items"] = [];
+  // if (actor.system.items === undefined) {
+  //   updateData["system.items"] = [];
   // }
-  // if (actorData.data.books === undefined) {
-  //   updateData["data.books"] = [];
+  // if (actor.system.books === undefined) {
+  //   updateData["system.books"] = [];
   // }
-  // if (actorData.data.spells === undefined) {
-  //   updateData["data.spells"] = [];
+  // if (actor.system.spells === undefined) {
+  //   updateData["system.spells"] = [];
   // }
 
-  if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
-    if (actorData.data.year?.value != undefined) {
-      updateData["data.datetime.year"] = actorData.data.year.value;
-      updateData["data.-=year"] = null;
+  if (actor.type == "player" || actor.type == "npc" || actor.type == "beast") {
+    if (actor.system.year?.value != undefined) {
+      updateData["system.datetime.year"] = actor.system.year.value;
+      updateData["system.-=year"] = null;
     }
-    if (actorData.data.season?.value != undefined) {
-      updateData["data.datetime.season"] = actorData.data?.season.value ?? "spring";
-      updateData["data.-=season"] = null;
-    }
-
-    if (actorData.data?.roll != undefined) {
-      updateData["data.-=roll"] = null;
-    }
-    if (actorData.data.decrepitude == undefined) {
-      actorData.data.decrepitude = {};
+    if (actor.system.season?.value != undefined) {
+      updateData["system.datetime.season"] = actor.system?.season.value ?? "spring";
+      updateData["system.-=season"] = null;
     }
 
-    if (actorData.data.realmAlignment == undefined) {
-      actorData.data.realmAlignment = 0;
+    if (actor.system?.roll != undefined) {
+      updateData["system.-=roll"] = null;
+    }
+    if (actor.system.decrepitude == undefined) {
+      actor.system.decrepitude = {};
+    }
+
+    if (actor.system.realmAlignment == undefined) {
+      actor.system.realmAlignment = 0;
     }
     // remove garbage stuff if it exists
 
-    updateData["data.-=str"] = null;
-    updateData["data.-=sta"] = null;
-    updateData["data.-=int"] = null;
-    updateData["data.-=per"] = null;
-    updateData["data.-=dex"] = null;
-    updateData["data.-=qik"] = null;
-    updateData["data.-=cha"] = null;
-    updateData["data.-=com"] = null;
+    updateData["system.-=str"] = null;
+    updateData["system.-=sta"] = null;
+    updateData["system.-=int"] = null;
+    updateData["system.-=per"] = null;
+    updateData["system.-=dex"] = null;
+    updateData["system.-=qik"] = null;
+    updateData["system.-=cha"] = null;
+    updateData["system.-=com"] = null;
 
-    if (actorData.data.pendingXP != undefined && actorData.data.pendingXP > 0) {
+    if (actor.system.pendingXP != undefined && actor.system.pendingXP > 0) {
       ChatMessage.create({
         content:
           "<b>MIGRATION NOTIFICATION</b><br/>" +
           `The field "Pending experience" has been repurposed for the new long term activities feature. ` +
-          `This is a one time notification that <b>the character ${actorData.name} had ${actorData.data.pendingXP} xps pending.</b>`
+          `This is a one time notification that <b>the character ${actor.name} had ${actor.system.pendingXP} xps pending.</b>`
       });
-      updateData["data.-=pendingXP"] = null;
+      updateData["system.-=pendingXP"] = null;
     }
   } else {
-    updateData["data.-=roll"] = null;
+    updateData["system.-=roll"] = null;
   }
 
-  if (actorData.type == "player" || actorData.type == "npc") {
-    if (actorData.data.charType.value !== "entity") {
-      if (actorData.data.decrepitude.score != undefined) {
-        let exp =
-          (actorData.data.decrepitude.score * (actorData.data.decrepitude.score + 1) * 5) / 2;
-        if (actorData.data.decrepitude.points >= 5 * (actorData.data.decrepitude.score + 1)) {
+  if (actor.type == "player" || actor.type == "npc") {
+    if (actor.system.charType.value !== "entity") {
+      if (actor.system.decrepitude.score != undefined) {
+        let exp = (actor.system.decrepitude.score * (actor.system.decrepitude.score + 1) * 5) / 2;
+        if (actor.system.decrepitude.points >= 5 * (actor.system.decrepitude.score + 1)) {
           // if the experience is bigger than the needed for next level, ignore it
-          updateData["data.decrepitude.points"] = exp;
+          updateData["system.decrepitude.points"] = exp;
         } else {
           // compute normally
-          updateData["data.decrepitude.points"] = exp + actorData.data.decrepitude.points;
+          updateData["system.decrepitude.points"] = exp + actor.system.decrepitude.points;
         }
-        updateData["data.decrepitude.-=score"] = null;
+        updateData["system.decrepitude.-=score"] = null;
       }
     } else {
       // entity
       // migrate might type to realm Alignment
-      if (actorData.data?.might?.realm != undefined) {
-        updateData["data.realmAlignment"] =
-          CONFIG.ARM5E.realmsExt[actorData.data.might.realm].value;
-        updateData["data.might.-=realm"] = null;
-        updateData["data.might.-=type"] = null;
-      } else if (actorData.data?.might?.type != undefined) {
-        updateData["data.realmAlignment"] = CONFIG.ARM5E.realmsExt[actorData.data.might.type].value;
-        updateData["data.might.-=realm"] = null;
-        updateData["data.might.-=type"] = null;
+      if (actor.system?.might?.realm != undefined) {
+        updateData["system.realmAlignment"] =
+          CONFIG.ARM5E.realmsExt[actor.system.might.realm].value;
+        updateData["system.might.-=realm"] = null;
+        updateData["system.might.-=type"] = null;
+      } else if (actor.system?.might?.type != undefined) {
+        updateData["system.realmAlignment"] = CONFIG.ARM5E.realmsExt[actor.system.might.type].value;
+        updateData["system.might.-=realm"] = null;
+        updateData["system.might.-=type"] = null;
       }
     }
 
-    // if (actorData.data.realmAlignment && typeof actorData.data.realmAlignment === "string") {
-    if (actorData.data.realmAlignment && isNaN(actorData.data.realmAlignment)) {
-      updateData["data.realmAlignment"] =
-        CONFIG.ARM5E.realmsExt[actorData.data.realmAlignment].value;
+    // if (actor.system.realmAlignment && typeof actor.system.realmAlignment === "string") {
+    if (actor.system.realmAlignment && isNaN(actor.system.realmAlignment)) {
+      updateData["system.realmAlignment"] =
+        CONFIG.ARM5E.realmsExt[actor.system.realmAlignment].value;
     }
 
-    if (actorData.data.charType.value == "magus" || actorData.data.charType.value == "magusNPC") {
-      updateData["data.realmAlignment"] = CONFIG.ARM5E.realmsExt.magic.value;
-      if (actorData.data?.sanctum?.value === undefined) {
+    if (actor.system.charType.value == "magus" || actor.system.charType.value == "magusNPC") {
+      updateData["system.realmAlignment"] = CONFIG.ARM5E.realmsExt.magic.value;
+      if (actor.system?.sanctum?.value === undefined) {
         let sanctum = {
-          value: actorData.data.sanctum
+          value: actor.system.sanctum
         };
-        updateData["data.sanctum"] = sanctum;
+        updateData["system.sanctum"] = sanctum;
       }
 
-      // if (actorData.data?.laboratory != undefined) {
-      //   updateData["data.laboratory.longevityRitual.labTotal"] = 0;
-      //   updateData["data.laboratory.longevityRitual.modifier"] = 0;
-      //   updateData["data.laboratory.longevityRitual.twilightScars"] = "";
+      // if (actor.system?.laboratory != undefined) {
+      //   updateData["system.laboratory.longevityRitual.labTotal"] = 0;
+      //   updateData["system.laboratory.longevityRitual.modifier"] = 0;
+      //   updateData["system.laboratory.longevityRitual.twilightScars"] = "";
       // }
 
-      if (actorData.data?.familiar?.characteristicsFam != undefined) {
-        updateData["data.familiar.characteristicsFam.int"] = {
-          value: actorData.data.familiar.characteristicsFam.int.value
+      if (actor.system?.familiar?.characteristicsFam != undefined) {
+        updateData["system.familiar.characteristicsFam.int"] = {
+          value: actor.system.familiar.characteristicsFam.int.value
         };
-        updateData["data.familiar.characteristicsFam.per"] = {
-          value: actorData.data.familiar.characteristicsFam.per.value
+        updateData["system.familiar.characteristicsFam.per"] = {
+          value: actor.system.familiar.characteristicsFam.per.value
         };
-        updateData["data.familiar.characteristicsFam.str"] = {
-          value: actorData.data.familiar.characteristicsFam.str.value
+        updateData["system.familiar.characteristicsFam.str"] = {
+          value: actor.system.familiar.characteristicsFam.str.value
         };
-        updateData["data.familiar.characteristicsFam.sta"] = {
-          value: actorData.data.familiar.characteristicsFam.sta.value
+        updateData["system.familiar.characteristicsFam.sta"] = {
+          value: actor.system.familiar.characteristicsFam.sta.value
         };
-        updateData["data.familiar.characteristicsFam.pre"] = {
-          value: actorData.data.familiar.characteristicsFam.pre.value
+        updateData["system.familiar.characteristicsFam.pre"] = {
+          value: actor.system.familiar.characteristicsFam.pre.value
         };
-        updateData["data.familiar.characteristicsFam.com"] = {
-          value: actorData.data.familiar.characteristicsFam.com.value
+        updateData["system.familiar.characteristicsFam.com"] = {
+          value: actor.system.familiar.characteristicsFam.com.value
         };
-        updateData["data.familiar.characteristicsFam.dex"] = {
-          value: actorData.data.familiar.characteristicsFam.dex.value
+        updateData["system.familiar.characteristicsFam.dex"] = {
+          value: actor.system.familiar.characteristicsFam.dex.value
         };
-        updateData["data.familiar.characteristicsFam.qik"] = {
-          value: actorData.data.familiar.characteristicsFam.qik.value
+        updateData["system.familiar.characteristicsFam.qik"] = {
+          value: actor.system.familiar.characteristicsFam.qik.value
         };
       }
       //
       // migrate arts xp
       //
-      if (actorData.data?.arts?.techniques != undefined) {
-        for (const [key, technique] of Object.entries(actorData.data.arts.techniques)) {
+      if (actor.system?.arts?.techniques != undefined) {
+        for (const [key, technique] of Object.entries(actor.system.arts.techniques)) {
           if (technique.experienceNextLevel != undefined) {
             // if the experience is equal or bigger than the xp for this score, use it as total xp
             let exp = (technique.score * (technique.score + 1)) / 2;
             if (technique.experience >= exp) {
-              updateData["data.arts.techniques." + key + ".xp"] = technique.experience;
+              updateData["system.arts.techniques." + key + ".xp"] = technique.experience;
             } else if (technique.experience >= technique.score + 1) {
               // if the experience is bigger than the neeeded for next level, ignore it
-              updateData["data.arts.techniques." + key + ".xp"] = exp;
+              updateData["system.arts.techniques." + key + ".xp"] = exp;
             } else {
               // compute normally
-              updateData["data.arts.techniques." + key + ".xp"] = exp + technique.experience;
+              updateData["system.arts.techniques." + key + ".xp"] = exp + technique.experience;
             }
 
             // TODO: to be uncommented when we are sure the new system works
-            // updateData["data.-=experience"] = null;
-            // updateData["data.-=score"] = null;
-            updateData["data.arts.techniques." + key + ".-=experienceNextLevel"] = null;
+            // updateData["system.-=experience"] = null;
+            // updateData["system.-=score"] = null;
+            updateData["system.arts.techniques." + key + ".-=experienceNextLevel"] = null;
           }
         }
       }
-      if (actorData.data?.arts?.forms != undefined) {
-        for (const [key, form] of Object.entries(actorData.data.arts.forms)) {
+      if (actor.system?.arts?.forms != undefined) {
+        for (const [key, form] of Object.entries(actor.system.arts.forms)) {
           if (form.experienceNextLevel != undefined) {
             // if the experience is equal or bigger than the xp for this score, use it as total xp
             let exp = (form.score * (form.score + 1)) / 2;
             if (form.experience >= exp) {
-              updateData["data.arts.forms." + key + ".xp"] = form.experience;
+              updateData["system.arts.forms." + key + ".xp"] = form.experience;
             } else if (form.experience >= form.score + 1) {
               // if the experience is bigger than the neeeded for next level, ignore it
-              updateData["data.arts.forms." + key + ".xp"] = exp;
+              updateData["system.arts.forms." + key + ".xp"] = exp;
             } else {
               // compute normally
-              updateData["data.arts.forms." + key + ".xp"] = exp + form.experience;
+              updateData["system.arts.forms." + key + ".xp"] = exp + form.experience;
             }
 
             // TODO: to be uncommented when we are sure the new system works
-            // updateData["data.forms." + key + ".-=experience"] = null;
-            // updateData["data.forms." + key + "-=score"] = null;
-            updateData["data.arts.forms." + key + ".-=experienceNextLevel"] = null;
+            // updateData["system.forms." + key + ".-=experience"] = null;
+            // updateData["system.forms." + key + "-=score"] = null;
+            updateData["system.arts.forms." + key + ".-=experienceNextLevel"] = null;
           }
         }
       }
     }
   }
 
-  if (actorData.type == "player" || actorData.type == "npc" || actorData.type == "beast") {
-    if (actorData.effects && actorData.effects.length > 0) {
-      log(false, `Migrating effects of ${actorData.name}`);
-      const effects = actorData.effects.reduce((arr, e) => {
+  if (actor.type == "player" || actor.type == "npc" || actor.type == "beast") {
+    if (actor.effects && actor.effects.length > 0) {
+      log(false, `Migrating effects of ${actor.name}`);
+      const effects = actor.effects.reduce((arr, e) => {
         // Migrate effects
         const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
         let effectUpdate = migrateActiveEffectData(effectData);
@@ -520,25 +519,25 @@ export const migrateActorData = function(actorData) {
       }
     }
     let currentFatigue = 0;
-    if (actorData.data.fatigue) {
-      for (const [key, fat] of Object.entries(actorData.data.fatigue)) {
+    if (actor.system.fatigue) {
+      for (const [key, fat] of Object.entries(actor.system.fatigue)) {
         if (fat.level != undefined) {
           if (fat.level.value) {
             currentFatigue++;
           }
-          updateData[`data.fatigue.${key}.-=level`] = null;
+          updateData[`system.fatigue.${key}.-=level`] = null;
         }
       }
-      if (currentFatigue > 0 && actorData.data.fatigueCurrent == 0) {
-        updateData["data.fatigueCurrent"] = currentFatigue;
+      if (currentFatigue > 0 && actor.system.fatigueCurrent == 0) {
+        updateData["system.fatigueCurrent"] = currentFatigue;
       }
     }
   }
 
   // Migrate Owned Items
-  if (!actorData.items) return updateData;
+  if (!actor.items) return updateData;
 
-  const items = actorData.items.reduce((arr, i) => {
+  const items = actor.items.reduce((arr, i) => {
     // Migrate the Owned Item
     const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
     let itemUpdate = migrateItemData(itemData);
@@ -608,35 +607,35 @@ export const migrateActiveEffectData = function(effectData) {
 
 export const migrateItemData = function(itemData) {
   const updateData = {};
-  updateData["data.version"] = "1.4.5";
+  updateData["system.version"] = "1.4.5";
 
   //
   // migrate abilities xp
   //
   if (itemData.type === "ability") {
-    if (itemData.data.experienceNextLevel != undefined) {
+    if (itemData.system.experienceNextLevel != undefined) {
       // if the experience is equal or bigger than the xp for this score, use it as total xp
-      let exp = ((itemData.data.score * (itemData.data.score + 1)) / 2) * 5;
-      if (itemData.data.experience >= exp) {
-        updateData["data.xp"] = itemData.data.experience;
-      } else if (itemData.data.experience >= (itemData.data.score + 1) * 5) {
+      let exp = ((itemData.system.score * (itemData.system.score + 1)) / 2) * 5;
+      if (itemData.system.experience >= exp) {
+        updateData["system.xp"] = itemData.system.experience;
+      } else if (itemData.system.experience >= (itemData.system.score + 1) * 5) {
         // if the experience is bigger than the neeeded for next level, ignore it
-        updateData["data.xp"] = exp;
+        updateData["system.xp"] = exp;
       } else {
         // compute normally
-        updateData["data.xp"] = exp + itemData.data.experience;
+        updateData["system.xp"] = exp + itemData.system.experience;
       }
       // TODO: to be uncommentedm when we are sure the new system works
-      // updateData["data.-=experience"] = null;
-      // updateData["data.-=score"] = null;
-      updateData["data.-=experienceNextLevel"] = null;
+      // updateData["system.-=experience"] = null;
+      // updateData["system.-=score"] = null;
+      updateData["system.-=experienceNextLevel"] = null;
     }
     // clean-up TODO: remove
-    updateData["data.-=puissant"] = null;
-    updateData["data.-=affinity"] = null;
+    updateData["system.-=puissant"] = null;
+    updateData["system.-=affinity"] = null;
 
     // no key assigned to the ability, try to find one
-    if (CONFIG.ARM5E.ALL_ABILITIES[itemData.data.key] == undefined || itemData.data.key == "") {
+    if (CONFIG.ARM5E.ALL_ABILITIES[itemData.system.key] == undefined || itemData.system.key == "") {
       log(true, `Trying to find key for ability ${itemData.name}`);
       let name = itemData.name.toLowerCase();
       // handle those pesky '*' at the end of restricted abilities
@@ -646,115 +645,118 @@ export const migrateItemData = function(itemData) {
 
       // Special common cases
       if (game.i18n.localize("arm5e.skill.commonCases.native").toLowerCase() == name) {
-        updateData["data.key"] = "livingLanguage";
-        updateData["data.option"] = "nativeTongue";
+        updateData["system.key"] = "livingLanguage";
+        updateData["system.option"] = "nativeTongue";
         log(false, `Found key livingLanguage for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.areaLore").toLowerCase() == name) {
-        updateData["data.key"] = "areaLore";
+        updateData["system.key"] = "areaLore";
         log(false, `Found key areaLore for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.latin").toLowerCase() == name) {
-        updateData["data.key"] = "deadLanguage";
-        updateData["data.option"] = "Latin";
+        updateData["system.key"] = "deadLanguage";
+        updateData["system.option"] = "Latin";
         log(false, `Found key latin for ability  ${itemData.name}`);
       } else if (game.i18n.localize("arm5e.skill.commonCases.hermesLore").toLowerCase() == name) {
-        updateData["data.key"] = "organizationLore";
-        updateData["data.option"] = "OrderOfHermes";
+        updateData["system.key"] = "organizationLore";
+        updateData["system.option"] = "OrderOfHermes";
         log(false, `Found key hermesLore for ability  ${itemData.name}`);
       } else {
         for (const [key, value] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
           if (game.i18n.localize(value.mnemonic).toLowerCase() == name) {
-            updateData["data.key"] = key;
+            updateData["system.key"] = key;
             log(false, `Found key ${key} for ability  ${itemData.name}`);
             break;
           }
         }
       }
-      if (updateData["data.key"] == undefined) {
+      if (updateData["system.key"] == undefined) {
         log(true, `Unable to find a key for ability  ${itemData.name}`);
       }
     }
-    if (itemData.data.option != undefined) {
+    if (itemData.system.option != undefined) {
       // keep only alphanum chars
-      updateData["data.option"] = itemData.data.option.replace(/[^a-zA-Z0-9]/gi, "");
+      updateData["system.option"] = itemData.system.option.replace(/[^a-zA-Z0-9]/gi, "");
     }
   }
 
   if (_isMagicalItem(itemData)) {
     if (itemData.type != "baseEffect") {
-      if (itemData.data.duration.value === undefined) {
-        // console.log(`Guessing duration: ${itemData.data.duration}`);
-        updateData["data.duration.value"] = _guessDuration(itemData.name, itemData.data.duration);
+      if (itemData.system.duration.value === undefined) {
+        // console.log(`Guessing duration: ${itemData.system.duration}`);
+        updateData["system.duration.value"] = _guessDuration(
+          itemData.name,
+          itemData.system.duration
+        );
       }
-      if (itemData.data.range.value === undefined) {
-        // console.log(`Guessing range: ${itemData.data.range}`);
-        updateData["data.range.value"] = _guessRange(itemData.name, itemData.data.range);
+      if (itemData.system.range.value === undefined) {
+        // console.log(`Guessing range: ${itemData.system.range}`);
+        updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range);
       }
-      if (itemData.data.target.value === undefined) {
-        // console.log(`Guessing target: ${itemData.data.target}`);
-        updateData["data.target.value"] = _guessTarget(itemData.name, itemData.data.target);
+      if (itemData.system.target.value === undefined) {
+        // console.log(`Guessing target: ${itemData.system.target}`);
+        updateData["system.target.value"] = _guessTarget(itemData.name, itemData.system.target);
       }
     }
 
-    if (itemData.data.technique.value === "") {
-      updateData["data.technique.value"] = "cr";
+    if (itemData.system.technique.value === "") {
+      updateData["system.technique.value"] = "cr";
     }
-    if (itemData.data.form.value === "") {
-      updateData["data.form.value"] = "an";
+    if (itemData.system.form.value === "") {
+      updateData["system.form.value"] = "an";
     }
     // remove redundant data
-    if (itemData.data.techniques != undefined) {
-      updateData["data.-=techniques"] = null;
+    if (itemData.system.techniques != undefined) {
+      updateData["system.-=techniques"] = null;
     }
-    if (itemData.data.forms != undefined) {
-      updateData["data.-=forms"] = null;
+    if (itemData.system.forms != undefined) {
+      updateData["system.-=forms"] = null;
     }
-    if (itemData.data["technique-requisites"] != undefined) {
-      updateData["data.-=technique-requisites"] = null;
+    if (itemData.system["technique-requisites"] != undefined) {
+      updateData["system.-=technique-requisites"] = null;
     }
-    if (itemData.data["form-requisites"] != undefined) {
-      updateData["data.-=form-requisites"] = null;
+    if (itemData.system["form-requisites"] != undefined) {
+      updateData["system.-=form-requisites"] = null;
     }
-    if (itemData.data["technique-requisite"] != undefined) {
+    if (itemData.system["technique-requisite"] != undefined) {
       if (
-        itemData.data["technique-requisite"].value != "n-a" &&
-        itemData.data["technique-requisite"].value != ""
+        itemData.system["technique-requisite"].value != "n-a" &&
+        itemData.system["technique-requisite"].value != ""
       ) {
-        updateData["data.technique-req." + itemData.data["technique-requisite"].value] = true;
+        updateData["system.technique-req." + itemData.system["technique-requisite"].value] = true;
       }
-      updateData["data.-=technique-requisite"] = null;
+      updateData["system.-=technique-requisite"] = null;
     }
 
-    if (itemData.data["form-requisite"] != undefined) {
+    if (itemData.system["form-requisite"] != undefined) {
       if (
-        itemData.data["form-requisite"].value != "n-a" &&
-        itemData.data["form-requisite"].value != ""
+        itemData.system["form-requisite"].value != "n-a" &&
+        itemData.system["form-requisite"].value != ""
       ) {
-        updateData["data.form-req." + itemData.data["form-requisite"].value] = true;
+        updateData["system.form-req." + itemData.system["form-requisite"].value] = true;
       }
-      updateData["data.-=form-requisite"] = null;
+      updateData["system.-=form-requisite"] = null;
     }
 
     // temporary : removal of authorship in spell, it will only be present in lab texts
     if (itemData.type == "spell") {
-      updateData["data.-=author"] = null;
-      updateData["data.-=year"] = null;
-      updateData["data.-=season"] = null;
-      updateData["data.-=language"] = null;
+      updateData["system.-=author"] = null;
+      updateData["system.-=year"] = null;
+      updateData["system.-=season"] = null;
+      updateData["system.-=language"] = null;
 
-      if (itemData.data.exp) {
-        let exp = ((itemData.data.mastery * (itemData.data.mastery + 1)) / 2) * 5;
-        if (itemData.data.exp >= exp) {
-          updateData["data.xp"] = itemData.data.exp;
-        } else if (itemData.data.exp >= (itemData.data.mastery + 1) * 5) {
+      if (itemData.system.exp) {
+        let exp = ((itemData.system.mastery * (itemData.system.mastery + 1)) / 2) * 5;
+        if (itemData.system.exp >= exp) {
+          updateData["system.xp"] = itemData.system.exp;
+        } else if (itemData.system.exp >= (itemData.system.mastery + 1) * 5) {
           // if the experience is bigger than the neeeded for next level, ignore it
-          updateData["data.xp"] = exp;
+          updateData["system.xp"] = exp;
         } else {
           // compute normally
-          updateData["data.xp"] = exp + itemData.data.exp;
+          updateData["system.xp"] = exp + itemData.system.exp;
         }
         // TODO: to be uncommentedm when we are sure the new system works
-        // updateData["data.-=mastery"] = null;
-        updateData["data.-=exp"] = null;
+        // updateData["system.-=mastery"] = null;
+        updateData["system.-=exp"] = null;
       }
     }
   }
@@ -762,26 +764,26 @@ export const migrateItemData = function(itemData) {
   if (itemData.type == "dairyEntry") {
     updateData["type"] = "diaryEntry";
 
-    if (itemData.data.progress == undefined || isObjectEmpty(itemData.data.progress)) {
-      updateData["data.progress"] = { abilities: [], spells: [], arts: [] };
+    if (itemData.system.progress == undefined || isObjectEmpty(itemData.system.progress)) {
+      updateData["system.progress"] = { abilities: [], spells: [], arts: [] };
     }
   } else if (itemData.type == "diaryEntry") {
-    if (itemData.data.progress == undefined || isObjectEmpty(itemData.data.progress)) {
-      updateData["data.progress"] = { abilities: [], spells: [], arts: [] };
+    if (itemData.system.progress == undefined || isObjectEmpty(itemData.system.progress)) {
+      updateData["system.progress"] = { abilities: [], spells: [], arts: [] };
     }
 
-    if (itemData.data.sourceQuality == undefined || isNaN(itemData.data.sourceQuality)) {
-      updateData["data.sourceQuality"] = 0;
+    if (itemData.system.sourceQuality == undefined || isNaN(itemData.system.sourceQuality)) {
+      updateData["system.sourceQuality"] = 0;
     }
-    if (itemData.data.activity === "") {
-      updateData["data.activity"] = "none";
+    if (itemData.system.activity === "") {
+      updateData["system.activity"] = "none";
     }
 
-    if (itemData.data.optionkey == undefined) {
-      itemData.data.optionkey = "standard";
+    if (itemData.system.optionkey == undefined) {
+      itemData.system.optionkey = "standard";
     }
-    if (itemData.data.teacher === undefined) {
-      updateData["data.teacher"] = {
+    if (itemData.system.teacher === undefined) {
+      updateData["system.teacher"] = {
         id: null,
         name: "",
         com: 0,
@@ -791,9 +793,9 @@ export const migrateItemData = function(itemData) {
         score: 0
       };
     }
-    if (itemData.data.year instanceof String) {
-      if (!isNaN(itemData.data.year)) {
-        updateData["data.year"] = Number(itemData.data.year);
+    if (itemData.system.year instanceof String) {
+      if (!isNaN(itemData.system.year)) {
+        updateData["system.year"] = Number(itemData.system.year);
       }
     }
   }
@@ -837,7 +839,7 @@ function _isMagicalItem(itemData) {
     case "baseEffect":
       return true;
     case "laboratoryText": {
-      return itemData.data.type === "spell";
+      return itemData.type === "spell";
     }
     default:
       return false;
@@ -846,30 +848,30 @@ function _isMagicalItem(itemData) {
 
 /**
  * Scrub an Actor's system data, removing all keys which are not explicitly defined in the system template
- * @param {Object} actorData    The data object for an Actor
+ * @param {Object} actor    The data object for an Actor
  * @return {Object}             The scrubbed Actor data
  */
-function cleanActorData(actorData) {
+function cleanActorData(actor) {
   // Scrub system data
-  const model = game.system.model.Actor[actorData.type];
-  actorData.data = filterObject(actorData.data, model);
+  const model = game.system.model.Actor[actor.type];
+  actor.system = filterObject(actor.system, model);
 
   // Return the scrubbed data
-  return actorData;
+  return actor;
 }
 
 /**
  * Scrub an Item's system data, removing all keys which are not explicitly defined in the system template
- * @param {Object} itemData    The data object for an Item
+ * @param {Object} item    The data object for an Item
  * @return {Object}             The scrubbed Item data
  */
-function cleanItemData(itemData) {
+function cleanItemData(item) {
   // Scrub system data
-  const model = game.system.model.Item[itemData.type];
-  itemData.data = filterObject(itemData.data, model);
+  const model = game.system.model.Item[item.type];
+  item.system = filterObject(item.system, model);
 
   // Return the scrubbed data
-  return itemData;
+  return item;
 }
 
 // Unfortunaltly, since the range was a free input field, it has to be guessed

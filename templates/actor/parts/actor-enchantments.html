@@ -6,16 +6,16 @@
     <div class="item-image"></div>
     <div>
       <span class="item-name">{{localize "arm5e.sheet.enchantments"}} </span>
-      <span>( {{ data.enchantmentsCount }} )</span>
+      <span>( {{ system.enchantmentsCount }} )</span>
     </div>
   </li>
-  {{#each data.enchantments as |enchantment id|}}
-    <li class="item spell-value flexrow flex-center" data-name="{{enchantment.data.name}}"
-      data-item-id="{{enchantment.id}}" data-item-type="{{enchantment.data.type}}">
+  {{#each system.enchantments as |enchantment id|}}
+    <li class="item spell-value flexrow flex-center" data-name="{{enchantment.name}}" data-item-id="{{enchantment.id}}"
+      data-item-type="{{enchantment.type}}">
       <div class="flexrow flex-center">
-        <span class="flexrow spell-title design" data-name="{{enchantment.data.name}}">
-          <!-- data-level="{{enchantment.data.data.baseLevel}}" data-technique="{{enchantment.data.data.technique.value}}" data-form="{{enchantment.data.data.form.value}}"-->
-          {{enchantment.data.name}} : {{enchantment.data.localizedDesc}}
+        <span class="flexrow spell-title design" data-name="{{enchantment.name}}">
+          <!-- data-level="{{enchantment.system.baseLevel}}" data-technique="{{enchantment.system.technique.value}}" data-form="{{enchantment.system.form.value}}"-->
+          {{enchantment.name}} : {{enchantment.system.localizedDesc}}
         </span>
       </div>
       <div class="item-controls">

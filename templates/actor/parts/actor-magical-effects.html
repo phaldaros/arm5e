@@ -6,16 +6,16 @@
     <div class="item-image"></div>
     <div>
       <span class="item-name">{{localize "arm5e.sheet.magical-effects"}} </span>
-      <span>( {{ data.magicEffectsCount }} )</span>
+      <span>( {{ system.magicEffectsCount }} )</span>
     </div>
   </li>
-  {{#each data.magicEffects as |effect id|}}
-    <li class="item spell-value flexrow flex-center" data-name="{{effect.data.name}}" data-item-id="{{effect.id}}"
-      data-item-type="{{effect.data.type}}">
+  {{#each system.magicEffects as |effect id|}}
+    <li class="item spell-value flexrow flex-center" data-name="{{effect.name}}" data-item-id="{{effect.id}}"
+      data-item-type="{{effect.type}}">
       <div class="flexrow flex-center">
-        <span class="flexrow spell-title design" data-name="{{effect.data.name}}">
-          <!-- data-level="{{effect.data.data.baseLevel}}" data-technique="{{effect.data.data.technique.value}}" data-form="{{effect.data.data.form.value}}"-->
-          {{effect.data.name}} {{effect.data.localizedDesc}}
+        <span class="flexrow spell-title design" data-name="{{effect.name}}">
+          <!-- data-level="{{effect.system.baseLevel}}" data-technique="{{effect.system.technique.value}}" data-form="{{effect.system.form.value}}"-->
+          {{effect.name}} {{effect.system.localizedDesc}}
         </span>
       </div>
       <div class="item-controls">

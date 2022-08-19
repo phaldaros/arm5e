@@ -1,16 +1,17 @@
-{{#if (ne data.charType.value "entity")}}
+{{#if (ne system.charType.value "entity")}}
   <div class="flexrow grid grid-3col backSection">
     <div>
       <ol style="padding: 0 1em 0 1em">
         <li class="flexrow">
           <div class="width15">
-            <span class="smallTitle">{{localize "arm5e.sheet.techniques"}}</span><span> ({{ data.totalXPArts
+            <span class="smallTitle">{{localize "arm5e.sheet.techniques"}}</span><span> ({{ system.totalXPArts
               }}xp)</span>
           </div>
         </li>
-        {{#each data.arts.techniques as |technique key|}}
+        {{#each system.arts.techniques as |technique key|}}
           <li class="flexrow art" data-attribute="{{key}}">
             <span class="flex03">
+
               {{#if (eq @root.artsIcons "symbol")}}
                 <img src="/systems/arm5e/assets/magic/{{key}}.png" {{{technique.ui.style}}}
                   title="{{technique.ui.title}}{{numberFormat technique.bonus decimals=0 sign=true}}" />
@@ -21,22 +22,22 @@
             </span>
             <div>
               <div class="flexrow marginbot4">
-                <span class="flexrow fontSize10 rollable" name="data.arts.technique.{{key}}.label" data-roll="spont"
-                  data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-technique="{{key}}"
+                <span class="flexrow fontSize10 rollable" name="system.arts.technique.{{key}}.label" data-roll="spont"
+                  data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" data-technique="{{key}}"
                   data-divide="2">
                   {{label}}
                 </span>
                 <div class="flexrow">
                   <a class="item-control decrease-tech" title="Decrease score"><i class="fas fa-minus"></i></a>
-                  <input type="text" name="data.arts.techniques.{{key}}.finalScore" value="{{technique.finalScore}}"
+                  <input type="text" name="system.arts.techniques.{{key}}.finalScore" value="{{technique.finalScore}}"
                     data-dtype="Number" readonly />
                   <a class="item-control increase-tech" title="Increase score"><i class="fas fa-plus"></i></a>
                 </div>
               </div>
               <div class="flex4 marginbot12" style="color: #625d52cc">
                 <label class="fontSize8">{{localize "arm5e.sheet.experienceShort"}}</label>
-                <input type="number" name="data.arts.techniques.{{key}}.xp" value="{{technique.xp}}" data-dtype="Number"
-                  style="color: #625d52cc; width: 40px" />
+                <input type="number" name="system.arts.techniques.{{key}}.xp" value="{{technique.xp}}"
+                  data-dtype="Number" style="color: #625d52cc; width: 40px" />
                 <label class="fontSize8"> / {{ technique.xpNextLevel }} </label>
                 <div></div>
               </div>
@@ -51,7 +52,7 @@
         <li class="flexrow">
           <label class="smallTitle width15">{{localize "arm5e.sheet.forms"}}</label>
         </li>
-        {{#each data.arts.forms as |form key|}}
+        {{#each system.arts.forms as |form key|}}
           <li class="flexrow art" data-attribute="{{key}}">
             <span class="flex03">
               <a class="flex01 link" href="/systems/arm5e/pdf/spells/{{key}}.pdf" target="_blank">
@@ -66,21 +67,21 @@
             </span>
             <div>
               <div class="flexrow marginbot4">
-                <span class="flexrow fontSize10 rollable" name="data.arts.forms.{{key}}.label" data-roll="spont"
-                  data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-form="{{key}}"
+                <span class="flexrow fontSize10 rollable" name="system.arts.forms.{{key}}.label" data-roll="spont"
+                  data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" data-form="{{key}}"
                   data-divide="2">
                   {{label}}&nbsp;({{ form.magicResistance }})
                 </span>
                 <div class="flexrow">
                   <a class="item-control decrease-form" title="Decrease score"><i class="fas fa-minus"></i></a>
-                  <input type="text" name="data.arts.forms.{{key}}.finalScore" value="{{form.finalScore}}"
+                  <input type="text" name="system.arts.forms.{{key}}.finalScore" value="{{form.finalScore}}"
                     data-dtype="Number" readonly />
                   <a class="item-control increase-form" title="Increase score"><i class="fas fa-plus"></i></a>
                 </div>
               </div>
               <div class="flex3 marginbot12" style="color: #625d52cc">
                 <label class="fontSize8">{{localize "arm5e.sheet.experienceShort"}}</label>
-                <input type="number" name="data.arts.forms.{{key}}.xp" value="{{form.xp}}" data-dtype="Number"
+                <input type="number" name="system.arts.forms.{{key}}.xp" value="{{form.xp}}" data-dtype="Number"
                   style="color: #625d52cc; width: 40px" />
                 <label class="fontSize8"> / {{ form.xpNextLevel }} </label>
               </div>
@@ -110,7 +111,7 @@
 
       <div class="item-image"></div>
       <div>
-        <span class="item-name">{{localize "arm5e.sheet.spells"}}</span><span> ({{ data.totalXPSpells }} lvl)</span>
+        <span class="item-name">{{localize "arm5e.sheet.spells"}}</span><span> ({{ system.totalXPSpells }} lvl)</span>
       </div>
       <div class="item-controls">
         <a class="item-control toggleHidden" title="Filter"><i class="fas fa-sort" data-list="spells"
@@ -119,26 +120,26 @@
       </div>
     </li>
     {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="spells" visibility=ui.spellsFilterVisibility}}
-    {{#each data.spells as |item id|}}
+    {{#each system.spells as |item id|}}
       <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
         data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="spell" data-id="{{item._id}}"
-            data-technique="{{item.data.technique.value}}" data-form="{{item.data.form.value}}"
-            data-bonus="{{ item.data.bonus }}" data-bonus2="{{ item.data.mastery }}"
-            data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-name="{{item.name}}"
+            data-technique="{{item.system.technique.value}}" data-form="{{item.system.form.value}}"
+            data-bonus="{{ item.system.bonus }}" data-bonus2="{{ item.system.mastery }}"
+            data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" data-name="{{item.name}}"
             data-img="{{item.img}}" name="item.name">
-            {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.data.level}})
-            {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
+            {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.system.level}})
+            {{#if (eq item.system.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
           </span>
           <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span>
-            {{#with (lookup @root.config.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}
+            {{#with (lookup @root.config.magic.ranges item.system.range.value)~}} {{localize label~}} {{/with}}
           </label>
           <label><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{#with (lookup @root.config.magic.durations
-          item.data.duration.value)~}} {{localize label~}} {{/with}}</label>
+          item.system.duration.value)~}} {{localize label~}} {{/with}}</label>
           <label><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{#with (lookup @root.config.magic.targets
-          item.data.target.value)~}} {{localize label~}} {{/with}}</label>
-          <label><span class="bold">{{localize "arm5e.sheet.castingTotal"}}:</span> {{item.data.castingTotal}}</label>
+          item.system.target.value)~}} {{localize label~}} {{/with}}</label>
+          <label><span class="bold">{{localize "arm5e.sheet.castingTotal"}}:</span> {{item.system.castingTotal}}</label>
         </div>
         <div class="item-controls">
           <a class="item-control item-edit" title="Edit spell"><i class="icon-Icon_Edit"></i></a>
@@ -165,25 +166,25 @@
       </div>
     </li>
     {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="magicalEffects" visibility=ui.magicEffectFilterVisibility}}
-    {{#each data.magicalEffects as |item id|}}
+    {{#each system.magicalEffects as |item id|}}
       <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
         data-attribute="{{id}}">
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="magic" data-id="{{item._id}}"
-            data-technique="{{item.data.technique.value}}" data-form="{{item.data.form.value}}"
-            data-modifier="{{ item.data.bonus }}" data-name="{{item.name}}" data-divide="2"
-            data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" name="item.name">
-            {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.data.level}})
-            {{#if (eq item.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
+            data-technique="{{item.system.technique.value}}" data-form="{{item.system.form.value}}"
+            data-modifier="{{ item.system.bonus }}" data-name="{{item.name}}" data-divide="2"
+            data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" name="item.name">
+            {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.system.level}})
+            {{#if (eq item.system.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
           </span>
           <label><span class="bold">{{localize "arm5e.sheet.range"}}:</span>
-            {{#with (lookup @root.config.magic.ranges item.data.range.value)~}} {{localize label~}} {{/with}}
+            {{#with (lookup @root.config.magic.ranges item.system.range.value)~}} {{localize label~}} {{/with}}
           </label>
           <label><span class="bold">{{localize "arm5e.sheet.duration"}}:</span> {{#with (lookup @root.config.magic.durations
-          item.data.duration.value)~}} {{localize label~}} {{/with}}</label>
+          item.system.duration.value)~}} {{localize label~}} {{/with}}</label>
           <label><span class="bold">{{localize "arm5e.sheet.target"}}:</span> {{#with (lookup @root.config.magic.targets
-          item.data.target.value)~}} {{localize label~}} {{/with}}</label>
-          <label><span class="bold">{{localize "arm5e.sheet.castingTotal"}}:</span> {{item.data.castingTotal}}</label>
+          item.system.target.value)~}} {{localize label~}} {{/with}}</label>
+          <label><span class="bold">{{localize "arm5e.sheet.castingTotal"}}:</span> {{item.system.castingTotal}}</label>
         </div>
         <div class="item-controls">
           <a class="item-control item-edit" title="Edit spell"><i class="icon-Icon_Edit"></i></a>
@@ -206,19 +207,19 @@
           <a class="item-control item-create" title="Create power" data-type="power"><i class="fas fa-plus"></i></a>
         </div>
       </li>
-      {{#each data.powers as |item id|}}
+      {{#each system.powers as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
           <div class="flexrow flex-center">
             <span class="flexrow item-title width4 clickable power-use" name="item.name" data-item-id="{{item._id}}"
-              data-roll="power" data-img="{{item.img}}" data-cost="{{item.data.cost}}"
-              data-bonus-active-effects="{{ ../data.bonuses.arts.spellcasting }}" data-form="{{item.data.form}}"
+              data-roll="power" data-img="{{item.img}}" data-cost="{{item.system.cost}}"
+              data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" data-form="{{item.system.form}}"
               data-name="{{item.name}}">
               {{item.name}}
             </span>
             <span class="bold" name="item.name">
-              {{#with (lookup @root.config.magic.forms item.data.form)~}}{{label~}}{{/with}}
+              {{#with (lookup @root.config.magic.forms item.system.form)~}}{{label~}}{{/with}}
             </span>
-            <span class="bold" name="item.name"> {{item.data.cost }} {{localize "arm5e.sheet.points"}} </span>
+            <span class="bold" name="item.name"> {{item.system.cost }} {{localize "arm5e.sheet.points"}} </span>
           </div>
           <div class="item-controls">
             <a class="item-control item-edit" title="Edit power"><i class="icon-Icon_Edit"></i></a>
@@ -228,5 +229,6 @@
       {{/each}}
     </ol>
   </div>
-  {{/if}} {{#if (ne data.charType.value "entity")}} {{> "systems/arm5e/templates/actor/parts/actor-setAbilities.html" }}
+  {{/if}} {{#if (ne system.charType.value "entity")}}
+    {{> "systems/arm5e/templates/actor/parts/actor-setAbilities.html" }}
   {{/if}}

@@ -46,14 +46,14 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
   };
   console.log("activeEffectData:");
   console.log(activeEffectData);
-  const ae = actor.data.effects.find(
-    (m) =>
+  const ae = actor.effects.find(
+    m =>
       m.getFlag("arm5e", "subtype") != null &&
-      m.data.flags.arm5e.subtype.length != 0 &&
-      m?.data.flags?.arm5e?.subtype[0] === type
+      m.flags.arm5e.subtype.length != 0 &&
+      m?.flags?.arm5e?.subtype[0] === type
   );
   if (ae) {
-    activeEffectData._id = ae.data._id;
+    activeEffectData._id = ae._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   } else {
     return await actor.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
@@ -62,7 +62,10 @@ async function modifyVoiceOrGesturesActiveEvent(origin, type, value) {
 
 function findVoiceAndGesturesActiveEffects(effects) {
   const actualVoiceEffect = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(effects, VOICE)[0];
-  const actualGesturesEffect = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(effects, GESTURES)[0];
+  const actualGesturesEffect = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(
+    effects,
+    GESTURES
+  )[0];
   try {
     return {
       // // only one change for voice and gestures => index 0 hardcoded

@@ -8,17 +8,17 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
       <div class="grid grid-2col">
         <div class="resource flexcol flexrow">
-          <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
-          <select name="data.technique.value" data-type="String">
-            {{#select data.technique.value}} {{#each config.magic.techniques as |techniques key|}}
+          <label for="system.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
+          <select name="system.technique.value" data-type="String">
+            {{#select system.technique.value}} {{#each config.magic.techniques as |techniques key|}}
                 <option value="{{key}}">{{techniques.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource flexcol flexrow">
-          <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
-          <select name="data.form.value" data-type="String">
-            {{#select data.form.value}} {{#each config.magic.forms as |forms key|}}
+          <label for="system.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
+          <select name="system.form.value" data-type="String">
+            {{#select system.form.value}} {{#each config.magic.forms as |forms key|}}
                 <option value="{{key}}">{{forms.label}}</option>
               {{/each}} {{/select}}
           </select>
@@ -32,11 +32,11 @@
         </div>
         <div class="resource flexcol flex-center">
           <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
-          <input type="checkbox" name="data.ritual" {{checked data.ritual}} />
+          <input type="checkbox" name="system.ritual" {{checked system.ritual}} />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-          <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
+          <input type="text" name="system.level" value="{{system.level}}" data-dtype="Number" />
         </div>
       </div>
     </div>
@@ -63,59 +63,60 @@
       <div class="grid grid-3col">
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-          <select name="data.range.value" data-dtype="String">
-            {{#select data.range.value}} {{#each config.magic.ranges as |range key|}}
+          <select name="system.range.value" data-dtype="String">
+            {{#select system.range.value}} {{#each config.magic.ranges as |range key|}}
                 <option value="{{key}}">{{localize range.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-          <select name="data.duration.value" data-dtype="String">
-            {{#select data.duration.value}} {{#each config.magic.durations as |duration key|}}
+          <select name="system.duration.value" data-dtype="String">
+            {{#select system.duration.value}} {{#each config.magic.durations as |duration key|}}
                 <option value="{{key}}">{{localize duration.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-          <select name="data.target.value" data-dtype="String" style="min-width: 95%">
-            {{#select data.target.value}} {{#each config.magic.targets as |target key|}}
+          <select name="system.target.value" data-dtype="String" style="min-width: 95%">
+            {{#select system.target.value}} {{#each config.magic.targets as |target key|}}
                 <option value="{{key}}">{{localize target.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
-        {{#if item.parent}} {{#if (ne item.parent.data.type "magicCodex")}}
+        {{#if item.parent}} {{#if (ne item.parent.type "magicCodex")}}
             <div class="resource">
               <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
-              <input type="checkbox" name="data.applyFocus" {{checked data.applyFocus}} />
+              <input type="checkbox" name="system.applyFocus" {{checked system.applyFocus}} />
             </div>
             <div class="resource">
               <label class="header-label">{{localize "arm5e.sheet.bonus.label"}}</label>
-              <input type="number" name="data.bonus" value="{{data.bonus}}" data-dtype="Number" />
+              <input type="number" name="system.bonus" value="{{system.bonus}}" data-dtype="Number" />
             </div>
             <div class="resource">
               <label class="header-label">{{localize "arm5e.sheet.bonusDesc"}}</label>
-              <input type="text" name="data.bonusDesc" value="{{data.bonusDesc}}" data-dtype="String" />
+              <input type="text" name="system.bonusDesc" value="{{system.bonusDesc}}" data-dtype="String" />
             </div>
             <div class="resource">
               <div class="flexrow">
                 <label class="header-label flex01">{{localize "arm5e.sheet.mastery"}}
-                  <input type="number" class="flex01" name="data.mastery" value="{{data.mastery}}" data-dtype="Number"
-                    readonly /></label>
+                  <input type="number" class="flex01" name="system.mastery" value="{{system.mastery}}"
+                    data-dtype="Number" readonly /></label>
                 <div class="ressource flex0" style="padding-top: 8px; padding-left: 8px; padding-right: 8px;">
                   <a class="item-control increase-mastery" title="Increase mastery"><i class="fas fa-plus"></i></a>
                   <a class="item-control decrease-mastery" title="Decrease mastery"><i class="fas fa-minus"></i></a>
                 </div>
-                <label class="flex01">{{localize "arm5e.sheet.experience"}}<input type="number" name="data.xp"
-                    value="{{data.xp}}" data-dtype="Number" /></label>
-                <label style="padding-top: 16px;"> / {{ data.experienceNextLevel }} </label>
+                <label class="flex01">{{localize "arm5e.sheet.experience"}}<input type="number" name="system.xp"
+                    value="{{system.xp}}" data-dtype="Number" /></label>
+                <label style="padding-top: 16px;"> / {{ system.experienceNextLevel }} </label>
               </div>
-              <!-- <input type="number" name="data.xp" value="{{data.xp}}" data-dtype="Number" readonly /> -->
+              <!-- <input type="number" name="system.xp" value="{{system.xp}}" data-dtype="Number" readonly /> -->
             </div>
             <div class="resource">
               <label class="header-label">{{localize "arm5e.sheet.masteryAbilities"}}</label>
-              <input type="text" name="data.masteryAbilities" value="{{data.masteryAbilities}}" data-dtype="String" />
+              <input type="text" name="system.masteryAbilities" value="{{system.masteryAbilities}}"
+                data-dtype="String" />
             </div>
             <!--div class="resource">
           <a class="item-control decrease-ability" title="Decrease score"><i class="fas fa-minus"></i></a>
@@ -127,37 +128,38 @@
       <div class="grid grid-2col">
         <div class="resource">
           <label class="header-label">{{localize "arm5e.spell.effect.baseLevel"}}</label>
-          <input type="number" name="data.baseLevel" size="4" value="{{data.baseLevel}}" data-dtype="Number" />
+          <input type="number" name="system.baseLevel" size="4" value="{{system.baseLevel}}" data-dtype="Number" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.general"}}</label>
-          <input type="checkbox" name="data.general" size="4" {{checked data.general}} />
+          <input type="checkbox" name="system.general" size="4" {{checked system.general}} />
         </div>
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
-        <input type="text" name="data.baseEffectDescription" value="{{data.baseEffectDescription}}"
+        <input type="text" name="system.baseEffectDescription" value="{{system.baseEffectDescription}}"
           data-dtype="String" />
       </div>
       <div class="grid grid-3col">
         <div class="resource">
           <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
-          <input type="number" name="data.targetSize" value="{{data.targetSize}}" data-dtype="Number" />
+          <input type="number" name="system.targetSize" value="{{system.targetSize}}" data-dtype="Number" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
-          <input type="number" name="data.complexity" value="{{data.complexity}}" data-dtype="Number" />
+          <input type="number" name="system.complexity" value="{{system.complexity}}" data-dtype="Number" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
-          <input type="number" name="data.enhancingRequisite" value="{{data.enhancingRequisite}}" data-dtype="Number" />
+          <input type="number" name="system.enhancingRequisite" value="{{system.enhancingRequisite}}"
+            data-dtype="Number" />
         </div>
       </div>
     </div>
 
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}} {{#if (eq
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}} {{#if (eq
       metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
     </div>
   </section>

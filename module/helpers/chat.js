@@ -3,16 +3,26 @@ import { log, putInFoldableLink } from "../tools.js";
 export function addChatListeners(message, html, data) {
   let actor = game.actors.get(data.message.speaker.actor);
 
-  if (actor == undefined) {
+  if (actor === undefined) {
     // Actor no longer exists in the world
     return;
   }
 
-  const tokenName = actor.data.token.name;
+  let tokenName;
   let actorImg = actor.img;
-  if (actor.data.token.img != undefined) {
-    actorImg = actor.data.token.img;
+
+  if (actor.token != null) {
+    tokenName = actor.token.name;
+    if (actor.token.img != undefined) {
+      actorImg = actor.system.token.img;
+    }
+  } else if (actor.prototypeToken !== null) {
+    tokenName = actor.prototypeToken.name;
+    if (actor.prototypeToken.img) {
+      actorImg = actor.prototypeToken.img;
+    }
   }
+
   const msgTitle = html.find(".message-sender");
   // is there a better way?
   let text = msgTitle.text();
@@ -35,7 +45,7 @@ export function addChatListeners(message, html, data) {
   } else {
     html.find(".clickable").remove();
 
-    if (actor.data.type != "player") {
+    if (actor.type != "player") {
       html.find(".dice-result").remove();
       return;
     }
@@ -59,7 +69,7 @@ export function addChatListeners(message, html, data) {
 
   let rollResult = html.find(".dice-total");
   if (data.message.flags.arm5e.secondaryScore) {
-    let newValue = data.message.flags.arm5e.secondaryScore + Number(message._roll.total);
+    let newValue = data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total);
     rollResult.text(rollResult.text() + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `);
   }
 
@@ -101,7 +111,7 @@ async function useConfidence(ev) {
   const message = game.messages.get(ev.currentTarget.dataset.msgId);
   const actor = game.actors.get(actorId);
 
-  if ((message.data.flags.arm5e.usedConf ?? 0) < message.data.flags.arm5e.confScore) {
+  if ((message.flags.arm5e.usedConf ?? 0) < message.flags.arm5e.confScore) {
     if (await actor.useConfidencePoint()) {
       // add +3 * useConf to roll
       let bonus = 3;
@@ -113,12 +123,12 @@ async function useConfidence(ev) {
       let total = $(ev.currentTarget)
         .closest(".dice-total")
         .text();
-      let usedConf = message.data.flags.arm5e.usedConf + 1 || 1;
-      let flavor = message.data.flavor;
+      let usedConf = message.flags.arm5e.usedConf + 1 || 1;
+      let flavor = message.flavor;
       if (usedConf == 1) {
         flavor += "--------------- <br/>" + game.i18n.localize("arm5e.dialog.button.roll") + " : ";
-        if ((message.data.flags.arm5e.botchCheck ?? 0) == 0) {
-          flavor += message.roll.dice[0].results[0].result;
+        if ((message.flags.arm5e.botchCheck ?? 0) == 0) {
+          flavor += message.rolls[0].dice[0].results[0].result;
         } else {
           flavor += 0;
         }
@@ -130,16 +140,16 @@ async function useConfidence(ev) {
       const dieRoll = new Roll(newContent.toString(10));
       await dieRoll.evaluate({ async: true });
       let msgData = {};
-      msgData.speaker = message.data.speaker;
+      msgData.speaker = message.speaker;
       msgData.flavor = flavor;
       msgData.flags = {
         arm5e: {
           usedConf: usedConf,
-          confScore: message.data.flags.arm5e.confScore
+          confScore: message.flags.arm5e.confScore
         }
       };
       msgData.content = newContent;
-      msgData.roll = message.data.roll;
+      msgData.rolls = message.rolls;
 
       // updateData["data.flags.arm5e.usedConf"] = 1;
       // updateData["data.content"] = newContent;
@@ -284,13 +294,13 @@ async function chatContestOfPower({
 
   const messageTotalWithName =
     total > 0
-      ? messageTotal.replace("$target$", actorTarget.data.name).replace("$total$", total)
-      : messageTotal.replace("$target$", actorTarget.data.name).replace("$total$", -total);
+      ? messageTotal.replace("$target$", actorTarget.name).replace("$total$", total)
+      : messageTotal.replace("$target$", actorTarget.name).replace("$total$", -total);
 
   const messageOnlyWithName =
     total > 0
-      ? messageWithoutTotal.replace("$target$", actorTarget.data.name)
-      : messageWithoutTotal.replace("$target$", actorTarget.data.name);
+      ? messageWithoutTotal.replace("$target$", actorTarget.name)
+      : messageWithoutTotal.replace("$target$", actorTarget.name);
 
   const showDataOfNPC = game.settings.get("arm5e", "showNPCMagicDetails") === "SHOW_ALL";
   const flavorForPlayersTotalSpell = getFlavorForPlayersTotalSpell(
@@ -398,13 +408,13 @@ async function chatContestOfMagic({
 
   const messageTotalWithName =
     total > 0
-      ? messageTotal.replace("$target$", actorTarget.data.name).replace("$total$", total)
-      : messageTotal.replace("$target$", actorTarget.data.name).replace("$total$", -total);
+      ? messageTotal.replace("$target$", actorTarget.name).replace("$total$", total)
+      : messageTotal.replace("$target$", actorTarget.name).replace("$total$", -total);
 
   const messageOnlyWithName =
     total > 0
-      ? messageWithoutTotal.replace("$target$", actorTarget.data.name)
-      : messageWithoutTotal.replace("$target$", actorTarget.data.name);
+      ? messageWithoutTotal.replace("$target$", actorTarget.name)
+      : messageWithoutTotal.replace("$target$", actorTarget.name);
 
   const showDataOfNPC = game.settings.get("arm5e", "showNPCMagicDetails") === "SHOW_ALL";
   const flavorForPlayersTotalSpell = getFlavorForPlayersTotalSpell(

@@ -51,7 +51,6 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
     context.rollData = context.actor.getRollData();
 
     // Prepare items.
-    //if (this.actor.data.type == 'magus') {
     this._prepareCharacterItems(context);
     //}
     log(false, "Beast-sheet getData");
@@ -76,7 +75,7 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "virtue":
       case "flaw":
-        switch (itemData.data.type.value) {
+        switch (itemData.system.type.value) {
           case "laboratoryOutfitting":
           case "laboratoryStructure":
           case "laboratorySupernatural":
@@ -111,13 +110,13 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
   async _bindActor(actor) {
     let updateData = {};
     if (actor.type == "covenant") {
-      updateData["data.covenant.value"] = actor.name;
+      updateData["system.covenant.value"] = actor.name;
     } else if (actor.type == "laboratory") {
-      updateData["data.sanctum.value"] = actor.name;
+      updateData["system.sanctum.value"] = actor.name;
     }
     return await this.actor.update(updateData, {});
   }
-
+  // TODOV10
   async _onDropItem(event, data) {
     let itemData = {};
     let type;

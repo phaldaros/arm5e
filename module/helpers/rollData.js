@@ -10,7 +10,7 @@ export class ArM5eRollData {
 
   init(dataset, actor) {
     this.reset();
-    const actorSystemData = actor.data.data;
+    const actorSystemData = actor.system;
     this.type = dataset.roll;
     this.label = dataset.name;
     if (dataset.divide) {
@@ -43,10 +43,10 @@ export class ArM5eRollData {
         this.label = this.name;
         this.ability.id = dataset.ability;
         this.ability.name = ab.name;
-        this.ability.key = ab.data.data.key;
-        this.ability.option = ab.data.data.option;
-        this.ability.speciality = ab.data.data.speciality;
-        this.ability.score = ab.data.data.finalScore;
+        this.ability.key = ab.system.key;
+        this.ability.option = ab.system.option;
+        this.ability.speciality = ab.system.speciality;
+        this.ability.score = ab.system.finalScore;
         break;
 
       case "power":
@@ -65,22 +65,22 @@ export class ArM5eRollData {
         this.initPenetrationVariables(actor);
         if (dataset.id) {
           let spell = actor.items.get(dataset.id);
-          this.label += " (" + spell.data.data.level + ")";
+          this.label += " (" + spell.system.level + ")";
           this.img = spell.img;
-          let techData = spell._getTechniqueData(actor.data);
+          let techData = spell._getTechniqueData(actor.system);
           this.magic.technique = dataset.technique;
           this.magic.techniqueLabel = techData[0];
           this.magic.techniqueScore = techData[1];
-          let formData = spell._getFormData(actor.data);
+          let formData = spell._getFormData(actor.system);
           this.magic.formLabel = formData[0];
           this.magic.formScore = formData[1];
           this.magic.form = dataset.form;
-          this.magic.bonus = spell.data.data.bonus == undefined ? 0 : spell.data.data.bonus;
-          this.magic.bonusDesc = spell.data.data.bonusDesc;
-          this.magic.focus = spell.data.data.applyFocus;
-          this.magic.ritual = spell.data.data.ritual;
-          this.magic.level = spell.data.data.level;
-          this.penetration.masteryScore = spell.data.data.mastery;
+          this.magic.bonus = spell.system.bonus == undefined ? 0 : spell.system.bonus;
+          this.magic.bonusDesc = spell.system.bonusDesc;
+          this.magic.focus = spell.system.applyFocus;
+          this.magic.ritual = spell.system.ritual;
+          this.magic.level = spell.system.level;
+          this.penetration.masteryScore = spell.system.mastery;
           this.bonuses = this.magic.bonus;
         } else {
           if (dataset.technique) {
@@ -117,10 +117,10 @@ export class ArM5eRollData {
         let livingMod = 0;
         if (actorSystemData.covenant.linked) {
           let cov = game.actors.get(actorSystemData.covenant.actorId);
-          if (ArM5ePCActor.isMagus(actor.data.type, actorSystemData.charType.value)) {
-            livingMod = cov.data.data.modifiersLife.magi ?? 0;
+          if (ArM5ePCActor.isMagus(actor.type, actorSystemData.charType.value)) {
+            livingMod = cov.system.modifiersLife.magi ?? 0;
           } else {
-            livingMod = cov.data.data.modifiersLife.mundane ?? 0;
+            livingMod = cov.system.modifiersLife.mundane ?? 0;
           }
         }
         this.setGenericField(game.i18n.localize("arm5e.sheet.modifiersLife"), livingMod, 2, "-");
@@ -316,12 +316,12 @@ export class ArM5eRollData {
       "spellcasting"
     );
     return activeEffectsByType.map(activeEffect => {
-      const label = activeEffect.data.label;
+      const label = activeEffect.label;
       let value = 0;
       if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
         this.environment.hasAuraBonus = true;
       }
-      activeEffect.data.changes
+      activeEffect.changes
         .filter((c, idx) => {
           return (
             c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&

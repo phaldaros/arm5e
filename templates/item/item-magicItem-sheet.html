@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -10,31 +7,31 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
       <div class="grid grid-col">
         <div class="resource flexcol flexrow">
-          <label for="data.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
-          <select name="data.technique.value" data-type="String">
-            {{#select data.technique.value}} {{#each config.magic.techniques as |techniques key|}}
-            <option value="{{key}}">{{techniques.label}}</option>
-            {{/each}} {{/select}}
+          <label for="system.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
+          <select name="system.technique.value" data-type="String">
+            {{#select system.technique.value}} {{#each config.magic.techniques as |techniques key|}}
+                <option value="{{key}}">{{techniques.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
 
         <div class="resource flexcol flexrow">
-          <label for="data.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
-          <select name="data.form.value" data-type="String">
-            {{#select data.form.value}} {{#each config.magic.forms as |forms key|}}
-            <option value="{{key}}">{{forms.label}}</option>
-            {{/each}} {{/select}}
+          <label for="system.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
+          <select name="system.form.value" data-type="String">
+            {{#select system.form.value}} {{#each config.magic.forms as |forms key|}}
+                <option value="{{key}}">{{forms.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
 
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-          <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
+          <input type="text" name="system.level" value="{{system.level}}" data-dtype="Number" />
         </div>
 
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.uses"}}</label>
-          <input type="text" name="data.uses" value="{{data.uses}}" data-dtype="Number" />
+          <input type="text" name="system.uses" value="{{system.uses}}" data-dtype="Number" />
         </div>
       </div>
     </div>
@@ -61,46 +58,46 @@
       <div class="grid grid-3col">
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-          <select name="data.range.value" data-type="String">
-            {{#select data.range.value}} {{#each config.magic.ranges as |range key|}}
-            <option value="{{key}}">{{localize range.label}}</option>
-            {{/each}} {{/select}}
+          <select name="system.range.value" data-type="String">
+            {{#select system.range.value}} {{#each config.magic.ranges as |range key|}}
+                <option value="{{key}}">{{localize range.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-          <select name="data.duration.value" data-type="String">
-            {{#select data.duration.value}} {{#each config.magic.durations as |duration key|}}
-            <option value="{{key}}">{{localize duration.label}}</option>
-            {{/each}} {{/select}}
+          <select name="system.duration.value" data-type="String">
+            {{#select system.duration.value}} {{#each config.magic.durations as |duration key|}}
+                <option value="{{key}}">{{localize duration.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-          <select name="data.target.value" data-type="String">
-            {{#select data.target.value}} {{#each config.magic.targets as |target key|}}
-            <option value="{{key}}">{{localize target.label}}</option>
-            {{/each}} {{/select}}
+          <select name="system.target.value" data-type="String">
+            {{#select system.target.value}} {{#each config.magic.targets as |target key|}}
+                <option value="{{key}}">{{localize target.label}}</option>
+              {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.effects"}}</label>
-          <input type="text" name="data.effects" value="{{data.effect}}" data-dtype="String" />
+          <input type="text" name="system.effects" value="{{system.effect}}" data-dtype="String" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.creator"}}</label>
-          <input type="text" name="data.creator" value="{{data.creator}}" data-dtype="String" />
+          <input type="text" name="system.creator" value="{{system.creator}}" data-dtype="String" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-          <input type="text" name="data.year" value="{{data.year}}" data-dtype="String" />
+          <input type="text" name="system.year" value="{{system.year}}" data-dtype="String" />
         </div>
       </div>
     </div>
 
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}} {{#if (eq
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}} {{#if (eq
       metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
     </div>
   </section>
