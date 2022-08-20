@@ -272,146 +272,7 @@ export class ArM5ePCActor extends Actor {
           ? 0
           : data.woundsTotal + data.bonuses.traits.wounds;
     }
-    if (this._isMagus()) {
-      /*
-            "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
-            "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },
-            "targeting":{"value": 0, "calc": "Per + Finesse + die" },
-            "concentration":{"value": 0, "calc": "Sta + Concentration + die" },
-            "magicResistance":{"value": 0, "calc": "Parma * 5 + Form" },
-            "multipleCasting":{"value": 0, "calc": "Int + Finesse + stress die - no of spells VS 9" },
-            "basicLabTotal":{"value": 0, "calc": "Int + Magic theory + Aura (+ Technique + Form)" },
-            "visLimit":{"value": 0, "calc": "Magic theory * 2" }
-            */
 
-      // compute the spellcasting bonus:
-      this.data.data.bonuses.arts.spellcasting +=
-        parseInt(this.data.data.bonuses.arts.voice) +
-        parseInt(this.data.data.bonuses.arts.gestures);
-
-      if (actorData.data.laboratory === undefined) {
-        actorData.data.laboratory = {};
-      }
-      // calculate laboratory totals
-      actorData.data.laboratory.fastCastingSpeed.value =
-        actorData.data.characteristics.qik.value +
-        actorData.data.laboratory.abilitiesSelected.finesse.value;
-      actorData.data.laboratory.determiningEffect.value =
-        actorData.data.characteristics.per.value +
-        actorData.data.laboratory.abilitiesSelected.awareness.value;
-      actorData.data.laboratory.targeting.value =
-        actorData.data.characteristics.per.value +
-        actorData.data.laboratory.abilitiesSelected.finesse.value;
-      actorData.data.laboratory.concentration.value =
-        actorData.data.characteristics.sta.value +
-        actorData.data.laboratory.abilitiesSelected.concentration.value;
-      actorData.data.laboratory.magicResistance.value =
-        actorData.data.laboratory.abilitiesSelected.parma.value * 5;
-      actorData.data.laboratory.multipleCasting.value =
-        actorData.data.characteristics.int.value +
-        actorData.data.laboratory.abilitiesSelected.finesse.value;
-      actorData.data.laboratory.basicLabTotal.value =
-        actorData.data.characteristics.int.value +
-        actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
-
-      if (actorData.data.apprentice) {
-        if (actorData.data.apprentice.magicTheory > 0) {
-          actorData.data.laboratory.basicLabTotal.value +=
-            actorData.data.apprentice.magicTheory + actorData.data.apprentice.int;
-        }
-      }
-      actorData.data.laboratory.visLimit.value =
-        actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
-      if (actorData.data.laboratory.totalPenetration) {
-        actorData.data.laboratory.totalPenetration.value =
-          actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
-      }
-
-      for (let [key, technique] of Object.entries(data.arts.techniques)) {
-        // TODO remove once confirmed there is no bug
-        // if (technique.xpCoeff != 1.0) {
-        //   log(false, `xpCoeff: ${technique.xpCoeff}`);
-        //   let newxp = technique.xp * technique.xpCoeff;
-        //   log(false, `Xp: ${technique.xp} and after afinity: ${newxp}`);
-        //   let score = ArM5ePCActor.getArtScore(technique.xp);
-        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(technique.xp * technique.xpCoeff));
-        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / technique.xpCoeff - technique.xp;
-        //   let afterAffinity = nextLvl / technique.xpCoeff;
-        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-        // }
-        // end TODO
-
-        technique.derivedScore = ArM5ePCActor.getArtScore(
-          Math.round(technique.xp * technique.xpCoeff)
-        );
-        technique.finalScore = technique.derivedScore + technique.bonus;
-        // start from scratch to avoid rounding errors
-        technique.xpNextLevel =
-          Math.round(ArM5ePCActor.getArtXp(technique.derivedScore + 1) / technique.xpCoeff) -
-          technique.xp;
-
-        // TODO remove once confirmed there is no bug
-        // if (technique.score != technique.derivedScore && technique.xp != 0) {
-        //   error(
-        //     false,
-        //     "Wrong computation of score: Original: " +
-        //       technique.score +
-        //       " vs Computed: " +
-        //       technique.derivedScore +
-        //       " XPs:" +
-        //       technique.xp
-        //   );
-        //   ArM5ePCActor.getArtScore(technique.xp);
-        // }
-        // Calculate the next level experience needed
-        totalXPArts = parseInt(totalXPArts) + technique.xp;
-      }
-
-      for (let [key, form] of Object.entries(data.arts.forms)) {
-        // TODO remove once confirmed there is no bug
-        // if (form.xpCoeff != 1.0) {
-        //   log(false, `xpCoeff: ${form.xpCoeff}`);
-        //   let newxp = form.xp * form.xpCoeff;
-        //   log(false, `Xp: ${form.xp} and after afinity: ${newxp}`);
-        //   let score = ArM5ePCActor.getArtScore(form.xp);
-        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
-        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / form.xpCoeff - form.xp;
-        //   let afterAffinity = nextLvl / form.xpCoeff;
-        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-        // }
-        // // end TODO
-
-        form.derivedScore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
-        form.finalScore = form.derivedScore + form.bonus;
-
-        form.xpNextLevel =
-          Math.round(ArM5ePCActor.getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
-        // TODO remove once confirmed there is no bug
-        // if (form.score != form.derivedScore && form.xp != 0) {
-        //   error(
-        //     false,
-        //     "Wrong computation of score: Original: " +
-        //       form.score +
-        //       " vs Computed: " +
-        //       form.derivedScore +
-        //       " XPs:" +
-        //       form.xp
-        //   );
-        //   ArM5ePCActor.getArtScore(form.xp);
-        // }
-        if (
-          actorData.type == "player" &&
-          actorData.data.laboratory &&
-          actorData.data.laboratory.abilitiesSelected
-        ) {
-          form.magicResistance =
-            actorData.data.laboratory.abilitiesSelected.parma.value * 5 + form.finalScore;
-        }
-        totalXPArts = parseInt(totalXPArts) + form.xp;
-      }
-    }
     //abilities
     const temp = {
       _id: "",
@@ -520,6 +381,156 @@ export class ArM5ePCActor extends Actor {
             }
           }
         }
+      }
+    }
+
+    if (actorData.data.abilities) {
+      let flag = this.getFlag("arm5e", "sorting", "abilities");
+      if (flag && flag["abilities"] == true) {
+        actorData.data.abilities = abilities.sort(function(e1, e2) {
+          return e1.name.localeCompare(e2.name);
+        });
+      } else {
+        actorData.data.abilities = abilities;
+      }
+    }
+
+    if (this._isMagus()) {
+      /*
+            "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
+            "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },
+            "targeting":{"value": 0, "calc": "Per + Finesse + die" },
+            "concentration":{"value": 0, "calc": "Sta + Concentration + die" },
+            "magicResistance":{"value": 0, "calc": "Parma * 5 + Form" },
+            "multipleCasting":{"value": 0, "calc": "Int + Finesse + stress die - no of spells VS 9" },
+            "basicLabTotal":{"value": 0, "calc": "Int + Magic theory + Aura (+ Technique + Form)" },
+            "visLimit":{"value": 0, "calc": "Magic theory * 2" }
+            */
+
+      // compute the spellcasting bonus:
+      this.data.data.bonuses.arts.spellcasting +=
+        parseInt(this.data.data.bonuses.arts.voice) +
+        parseInt(this.data.data.bonuses.arts.gestures);
+
+      if (actorData.data.laboratory === undefined) {
+        actorData.data.laboratory = {};
+      }
+      // calculate laboratory totals
+      actorData.data.laboratory.fastCastingSpeed.value =
+        actorData.data.characteristics.qik.value +
+        actorData.data.laboratory.abilitiesSelected.finesse.value;
+      actorData.data.laboratory.determiningEffect.value =
+        actorData.data.characteristics.per.value +
+        actorData.data.laboratory.abilitiesSelected.awareness.value;
+      actorData.data.laboratory.targeting.value =
+        actorData.data.characteristics.per.value +
+        actorData.data.laboratory.abilitiesSelected.finesse.value;
+      actorData.data.laboratory.concentration.value =
+        actorData.data.characteristics.sta.value +
+        actorData.data.laboratory.abilitiesSelected.concentration.value;
+      actorData.data.laboratory.magicResistance.value =
+        actorData.data.laboratory.abilitiesSelected.parma.value * 5;
+      actorData.data.laboratory.multipleCasting.value =
+        actorData.data.characteristics.int.value +
+        actorData.data.laboratory.abilitiesSelected.finesse.value;
+      actorData.data.laboratory.basicLabTotal.value =
+        actorData.data.characteristics.int.value +
+        actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
+
+      if (actorData.data.apprentice) {
+        if (actorData.data.apprentice.magicTheory > 0) {
+          actorData.data.laboratory.basicLabTotal.value +=
+            actorData.data.apprentice.magicTheory + actorData.data.apprentice.int;
+        }
+      }
+      actorData.data.laboratory.visLimit.value =
+        actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
+      if (actorData.data.laboratory.totalPenetration) {
+        actorData.data.laboratory.totalPenetration.value =
+          actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
+      }
+
+      for (let [key, technique] of Object.entries(data.arts.techniques)) {
+        // TODO remove once confirmed there is no bug
+        // if (technique.xpCoeff != 1.0) {
+        //   log(false, `xpCoeff: ${technique.xpCoeff}`);
+        //   let newxp = technique.xp * technique.xpCoeff;
+        //   log(false, `Xp: ${technique.xp} and after afinity: ${newxp}`);
+        //   let score = ArM5ePCActor.getArtScore(technique.xp);
+        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(technique.xp * technique.xpCoeff));
+        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
+        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / technique.xpCoeff - technique.xp;
+        //   let afterAffinity = nextLvl / technique.xpCoeff;
+        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
+        // }
+        // end TODO
+
+        technique.derivedScore = ArM5ePCActor.getArtScore(
+          Math.round(technique.xp * technique.xpCoeff)
+        );
+        technique.finalScore = technique.derivedScore + technique.bonus;
+        // start from scratch to avoid rounding errors
+        technique.xpNextLevel =
+          Math.round(ArM5ePCActor.getArtXp(technique.derivedScore + 1) / technique.xpCoeff) -
+          technique.xp;
+
+        // TODO remove once confirmed there is no bug
+        // if (technique.score != technique.derivedScore && technique.xp != 0) {
+        //   error(
+        //     false,
+        //     "Wrong computation of score: Original: " +
+        //       technique.score +
+        //       " vs Computed: " +
+        //       technique.derivedScore +
+        //       " XPs:" +
+        //       technique.xp
+        //   );
+        //   ArM5ePCActor.getArtScore(technique.xp);
+        // }
+        // Calculate the next level experience needed
+        totalXPArts = parseInt(totalXPArts) + technique.xp;
+      }
+
+      const parmaStats = this.getAbilityStats("parma");
+      for (let [key, form] of Object.entries(data.arts.forms)) {
+        // TODO remove once confirmed there is no bug
+        // if (form.xpCoeff != 1.0) {
+        //   log(false, `xpCoeff: ${form.xpCoeff}`);
+        //   let newxp = form.xp * form.xpCoeff;
+        //   log(false, `Xp: ${form.xp} and after afinity: ${newxp}`);
+        //   let score = ArM5ePCActor.getArtScore(form.xp);
+        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
+        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
+        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / form.xpCoeff - form.xp;
+        //   let afterAffinity = nextLvl / form.xpCoeff;
+        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
+        // }
+        // // end TODO
+
+        form.derivedScore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
+        form.finalScore = form.derivedScore + form.bonus;
+
+        form.xpNextLevel =
+          Math.round(ArM5ePCActor.getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
+        // TODO remove once confirmed there is no bug
+        // if (form.score != form.derivedScore && form.xp != 0) {
+        //   error(
+        //     false,
+        //     "Wrong computation of score: Original: " +
+        //       form.score +
+        //       " vs Computed: " +
+        //       form.derivedScore +
+        //       " XPs:" +
+        //       form.xp
+        //   );
+        //   ArM5ePCActor.getArtScore(form.xp);
+        // }
+        form.magicResistance = parmaStats.score * 5 + form.finalScore;
+        if (parmaStats.speciality === form.label) {
+          form.magicResistance += 5;
+        }
+
+        totalXPArts = parseInt(totalXPArts) + form.xp;
       }
     }
 
@@ -667,147 +678,6 @@ export class ArM5ePCActor extends Actor {
         actorData.data.decrepitude.points;
     }
 
-    // if (this._isMagus()) {
-    //   /*
-    //         "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
-    //         "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },
-    //         "targeting":{"value": 0, "calc": "Per + Finesse + die" },
-    //         "concentration":{"value": 0, "calc": "Sta + Concentration + die" },
-    //         "magicResistance":{"value": 0, "calc": "Parma * 5 + Form" },
-    //         "multipleCasting":{"value": 0, "calc": "Int + Finesse + stress die - no of spells VS 9" },
-    //         "basicLabTotal":{"value": 0, "calc": "Int + Magic theory + Aura (+ Technique + Form)" },
-    //         "visLimit":{"value": 0, "calc": "Magic theory * 2" }
-    //         */
-
-    //   // compute the spellcasting bonus:
-    //   this.data.data.bonuses.arts.spellcasting +=
-    //     parseInt(this.data.data.bonuses.arts.voice) +
-    //     parseInt(this.data.data.bonuses.arts.gestures);
-
-    //   if (actorData.data.laboratory === undefined) {
-    //     actorData.data.laboratory = {};
-    //   }
-    //   // calculate laboratory totals
-    //   actorData.data.laboratory.fastCastingSpeed.value =
-    //     actorData.data.characteristics.qik.value +
-    //     actorData.data.laboratory.abilitiesSelected.finesse.value;
-    //   actorData.data.laboratory.determiningEffect.value =
-    //     actorData.data.characteristics.per.value +
-    //     actorData.data.laboratory.abilitiesSelected.awareness.value;
-    //   actorData.data.laboratory.targeting.value =
-    //     actorData.data.characteristics.per.value +
-    //     actorData.data.laboratory.abilitiesSelected.finesse.value;
-    //   actorData.data.laboratory.concentration.value =
-    //     actorData.data.characteristics.sta.value +
-    //     actorData.data.laboratory.abilitiesSelected.concentration.value;
-    //   actorData.data.laboratory.magicResistance.value =
-    //     actorData.data.laboratory.abilitiesSelected.parma.value * 5;
-    //   actorData.data.laboratory.multipleCasting.value =
-    //     actorData.data.characteristics.int.value +
-    //     actorData.data.laboratory.abilitiesSelected.finesse.value;
-    //   actorData.data.laboratory.basicLabTotal.value =
-    //     actorData.data.characteristics.int.value +
-    //     actorData.data.laboratory.abilitiesSelected.magicTheory.value; // aura pending
-
-    //   if (actorData.data.apprentice) {
-    //     if (actorData.data.apprentice.magicTheory > 0) {
-    //       actorData.data.laboratory.basicLabTotal.value +=
-    //         actorData.data.apprentice.magicTheory + actorData.data.apprentice.int;
-    //     }
-    //   }
-    //   actorData.data.laboratory.visLimit.value =
-    //     actorData.data.laboratory.abilitiesSelected.magicTheory.value * 2;
-    //   if (actorData.data.laboratory.totalPenetration) {
-    //     actorData.data.laboratory.totalPenetration.value =
-    //       actorData.data.laboratory.abilitiesSelected?.penetration?.value || 0;
-    //   }
-
-    //   for (let [key, technique] of Object.entries(data.arts.techniques)) {
-    //     // TODO remove once confirmed there is no bug
-    //     // if (technique.xpCoeff != 1.0) {
-    //     //   log(false, `xpCoeff: ${technique.xpCoeff}`);
-    //     //   let newxp = technique.xp * technique.xpCoeff;
-    //     //   log(false, `Xp: ${technique.xp} and after afinity: ${newxp}`);
-    //     //   let score = ArM5ePCActor.getArtScore(technique.xp);
-    //     //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(technique.xp * technique.xpCoeff));
-    //     //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-    //     //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / technique.xpCoeff - technique.xp;
-    //     //   let afterAffinity = nextLvl / technique.xpCoeff;
-    //     //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-    //     // }
-    //     // end TODO
-
-    //     technique.derivedScore = ArM5ePCActor.getArtScore(
-    //       Math.round(technique.xp * technique.xpCoeff)
-    //     );
-    //     technique.finalScore = technique.derivedScore + technique.bonus;
-    //     // start from scratch to avoid rounding errors
-    //     technique.xpNextLevel =
-    //       Math.round(ArM5ePCActor.getArtXp(technique.derivedScore + 1) / technique.xpCoeff) -
-    //       technique.xp;
-
-    //     // TODO remove once confirmed there is no bug
-    //     // if (technique.score != technique.derivedScore && technique.xp != 0) {
-    //     //   error(
-    //     //     false,
-    //     //     "Wrong computation of score: Original: " +
-    //     //       technique.score +
-    //     //       " vs Computed: " +
-    //     //       technique.derivedScore +
-    //     //       " XPs:" +
-    //     //       technique.xp
-    //     //   );
-    //     //   ArM5ePCActor.getArtScore(technique.xp);
-    //     // }
-    //     // Calculate the next level experience needed
-    //     totalXPArts = parseInt(totalXPArts) + technique.xp;
-    //   }
-
-    //   for (let [key, form] of Object.entries(data.arts.forms)) {
-    //     // TODO remove once confirmed there is no bug
-    //     // if (form.xpCoeff != 1.0) {
-    //     //   log(false, `xpCoeff: ${form.xpCoeff}`);
-    //     //   let newxp = form.xp * form.xpCoeff;
-    //     //   log(false, `Xp: ${form.xp} and after afinity: ${newxp}`);
-    //     //   let score = ArM5ePCActor.getArtScore(form.xp);
-    //     //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
-    //     //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-    //     //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / form.xpCoeff - form.xp;
-    //     //   let afterAffinity = nextLvl / form.xpCoeff;
-    //     //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-    //     // }
-    //     // // end TODO
-
-    //     form.derivedScore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
-    //     form.finalScore = form.derivedScore + form.bonus;
-
-    //     form.xpNextLevel =
-    //       Math.round(ArM5ePCActor.getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
-    //     // TODO remove once confirmed there is no bug
-    //     // if (form.score != form.derivedScore && form.xp != 0) {
-    //     //   error(
-    //     //     false,
-    //     //     "Wrong computation of score: Original: " +
-    //     //       form.score +
-    //     //       " vs Computed: " +
-    //     //       form.derivedScore +
-    //     //       " XPs:" +
-    //     //       form.xp
-    //     //   );
-    //     //   ArM5ePCActor.getArtScore(form.xp);
-    //     // }
-    //     if (
-    //       actorData.type == "player" &&
-    //       actorData.data.laboratory &&
-    //       actorData.data.laboratory.abilitiesSelected
-    //     ) {
-    //       form.magicResistance =
-    //         actorData.data.laboratory.abilitiesSelected.parma.value * 5 + form.finalScore;
-    //     }
-    //     totalXPArts = parseInt(totalXPArts) + form.xp;
-    //   }
-    // }
-
     // Assign and return
     actorData.data.totalXPAbilities = totalXPAbilities;
     actorData.data.totalXPArts = totalXPArts;
@@ -849,16 +719,7 @@ export class ArM5ePCActor extends Actor {
     if (actorData.data.flaws) {
       actorData.data.flaws = flaws;
     }
-    if (actorData.data.abilities) {
-      let flag = this.getFlag("arm5e", "sorting", "abilities");
-      if (flag && flag["abilities"] == true) {
-        actorData.data.abilities = abilities.sort(function(e1, e2) {
-          return e1.name.localeCompare(e2.name);
-        });
-      } else {
-        actorData.data.abilities = abilities;
-      }
-    }
+
     if (actorData.data.diaryEntries) {
       actorData.data.diaryEntries = diaryEntries.sort(compareDiaryEntries);
     }
@@ -1562,7 +1423,7 @@ export class ArM5ePCActor extends Actor {
       e => e.data.key == key && e.data.option == option
     );
     if (ability) {
-      return { score: ability.data.derivedScore, speciality: ability.data.speciality };
+      return { score: ability.data.finalScore, speciality: ability.data.speciality };
     }
     return { score: 0, speciality: "" };
   }

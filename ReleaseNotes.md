@@ -1,5 +1,15 @@
 # Release Notes
 
+## 1.4.6
+
+### Features
+
+### Bug fixes
+
+- Magi NPCs have their magic resistance properly computed
+- Parma magica , penetration and teaching were not taking into account active effects (eg Puissant) in some cases
+- Fixed empty dropbox for Arts progression in adventuring and exposure.
+
 ## 1.4.5
 
 ### Features
