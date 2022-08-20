@@ -248,7 +248,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     if (context.ui.showMagicProgress) {
       // Arts
-      let availableArts = Object.keys(CONFIG.ARM5E.magic.arts);
+      let availableArts = [];
       if (hasTeacher) {
         // get the arts the teacher is skilled enough in to teach
         if (context.data.teacherLinked) {
@@ -326,6 +326,25 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             });
           }
         }
+      } else {
+        availableArts = [
+          ...Object.entries(this.actor.data.data.arts.techniques).map(e => {
+            return {
+              key: e[0],
+              score: e[1].finalScore,
+              label: CONFIG.ARM5E.magic.arts[e[0]].label,
+              teacherScore: 0
+            };
+          }),
+          ...Object.entries(this.actor.data.data.arts.forms).map(e => {
+            return {
+              key: e[0],
+              score: e[1].finalScore,
+              label: CONFIG.ARM5E.magic.arts[e[0]].label,
+              teacherScore: 0
+            };
+          })
+        ];
       }
 
       let firstArt = true;
