@@ -193,6 +193,7 @@
   "arm5e.sheet.specialityBonus": "Speciality bonus",
   "arm5e.sheet.totalPenetration": "Penetration total",
   "arm5e.sheet.totalMagicResistance": "Magic resistance total",
+  "arm5e.sheet.noMagicResistance": "No magic resistance",
   "arm5e.sheet.spellOverMagicResistance": "Spell successful on $target$ by $total$",
   "arm5e.sheet.magicResistanceOverSpell": "Spell failed on $target$ by $total$",
 

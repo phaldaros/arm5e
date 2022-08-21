@@ -95,15 +95,16 @@ export class ArM5ePCActor extends Actor {
         this.data.data.arts.forms[key].bonus = 0;
         this.data.data.arts.forms[key].xpCoeff = 1.0;
       }
-
-      this.data.data.bonuses.arts = {
-        voice: 0,
-        gestures: 0,
-        spellcasting: 0,
-        laboratory: 0,
-        penetration: 0
-      };
     }
+
+    this.data.data.bonuses.arts = {
+      voice: 0,
+      gestures: 0,
+      spellcasting: 0,
+      laboratory: 0,
+      penetration: 0,
+      magicResistance: null
+    };
 
     this.data.data.bonuses.skills = {};
     for (const [key, item] of this.items.entries()) {
@@ -1435,5 +1436,11 @@ export class ArM5ePCActor extends Actor {
     }
 
     const art = this.data.data.arts[artType][key];
+  }
+
+  hasMagicResistance() {
+    return (
+      this._isMagus() || this._hasMight() || this.data.data.bonuses.arts.magicResistance !== null
+    );
   }
 }
