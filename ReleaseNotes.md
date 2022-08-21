@@ -2,13 +2,12 @@
 
 ## 1.4.6
 
-### Features
-
 ### Bug fixes
 
 - Magi NPCs have their magic resistance properly computed
-- Parma magica , penetration and teaching were not taking into account active effects (eg Puissant) in some cases
-- Fixed empty dropbox for Arts progression in adventuring and exposure.
+- Parma magica, penetration and teaching were not taking into account active effects (eg Puissant) in some cases
+- Fixed empty dropbox for Arts progression in adventuring and exposure activities.
+- Entities with might no longer raise an error while computing penetration.
 
 ## 1.4.5
 
@@ -16,12 +15,12 @@
 
 - Compacted GM private rolls to take less space in the chat
 - Clicking on a non-rollable item put in the macro bar will open its sheet
-- Adventuring seasonal activities
+- Generic seasonal activities (Adventuring, Exposure, Practice, Training, Teaching)
 - Aging roll effects can be rollbacked
 - New custom pause icon by @Sylph
-- Update of French verison (by Lanneval and Nono)
+- Update of French version (by Lanneval and Nono)
 - Some redesign of the UI to have a more unified medieval flavor (by @Sylph)
-- Rearranged languague mnemonics of common usage into a generic category (the older ones will be keep for a few versions to allow translators to catch up)
+- Rearranged languague mnemonics of common usage into a generic category (the older ones will be kept for a few versions to allow translators to catch up)
 - New active effects for source quality modifiers of seasonal activities (reading and writing have no effect yet)
 - Rolls from sheet are done in the current rolling mode setting (public, private, blind, ...)
 - First version of the Astrolab, to set the world time and synchronize actors (design by Sylph).
