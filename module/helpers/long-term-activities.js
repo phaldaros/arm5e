@@ -397,7 +397,7 @@ export function validTeaching(context, actor, item) {
   } else if (abilitiesArr.length + artsArr.length + spellsArr.length == 0) {
     context.data.applyPossible = "disabled";
   }
-  context.data.baseQuality = 6 + itemData.data.teacher.teaching + itemData.data.teacher.com;
+  context.data.baseQuality = 3 + itemData.data.teacher.teaching + itemData.data.teacher.com;
   if (itemData.data.teacher.applySpec) {
     context.data.baseQuality++;
   }

@@ -1,5 +1,11 @@
 # Release Notes
 
+## 1.4.7
+
+### Bug fixes
+
+- Fixed source quality of teaching activity (+3 instead of +6)
+
 ## 1.4.6
 
 ### Bug fixes
