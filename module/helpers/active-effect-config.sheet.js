@@ -31,17 +31,17 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
   }
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
     context.types = ACTIVE_EFFECTS_TYPES;
 
     // first effect created, add null effect type and subtype (still needed?)
     context.selectedTypes = this.object.getFlag("arm5e", "type");
-    if (context.effect.changes.length > 0 && context.selectedTypes == null) {
+    if (context.data.changes.length > 0 && context.selectedTypes == null) {
       context.selectedTypes = ["none"];
     }
     context.selectedSubtypes = this.object.getFlag("arm5e", "subtype");
-    if (context.effect.changes.length > 0 && context.selectedSubtypes == null) {
+    if (context.data.changes.length > 0 && context.selectedSubtypes == null) {
       context.selectedSubtypes = ["none"];
     }
 
@@ -87,15 +87,33 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     if (!this.options.editable) return;
 
     // // Active Effect management
-    html.find(".effect-type").change(ev => {
+    html.find(".effect-type").change(async ev => {
       const index = parseInt(ev.currentTarget.dataset.index);
-      this._setType($(ev.currentTarget).val(), index);
+      await this._setType($(ev.currentTarget).val(), index);
     });
 
-    html.find(".effect-subtype").change(ev => {
+    html.find(".effect-subtype").change(async ev => {
       const index = parseInt(ev.currentTarget.dataset.index);
-      this._setSubtype(ev.currentTarget.selectedOptions[0].dataset.subtype, index);
+      await this._setSubtype(ev.currentTarget.selectedOptions[0].dataset.subtype, index);
     });
+
+    html.find(".effect-value").change(async ev => {
+      const index = parseInt(ev.currentTarget.dataset.index);
+      await this._setValue(ev.currentTarget.value, index);
+    });
+  }
+
+  async _setValue(value, index) {
+    let arrayTypes = this.object.getFlag("arm5e", "type");
+    let arraySubtypes = this.object.getFlag("arm5e", "subtype");
+    let updateFlags = {
+      [`changes.${index}`]: {
+        mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].mode,
+        key: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].key,
+        value: value
+      }
+    };
+    await this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
   }
 
   async _setType(value, index) {
@@ -120,8 +138,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
         value: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].default
       }
     };
-    this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
-    // await this.object.setFlag("arm5e", "type", arrayTypes);
+    await this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
   }
   async _setSubtype(value, index) {
     let arrayTypes = this.object.getFlag("arm5e", "type");
@@ -149,7 +166,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
       }
     };
 
-    this.submit({ preventClose: true, updateData: update }).then(() => this.render());
+    await this.submit({ preventClose: true, updateData: update }).then(() => this.render());
   }
 
   _onEffectControl(event) {

@@ -27,8 +27,8 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     // no need to import everything
     context.config = {};
@@ -99,7 +99,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       //     deleteAll: true
       // });
       this.actor.update({
-        data: {
+        system: {
           magicItemName: ""
         }
       });
@@ -115,7 +115,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       let updateData = [
         {
           _id: receptacleData._id,
-          data: foundry.utils.deepClone(enchantData.data)
+          system: foundry.utils.deepClone(enchantData.data)
         }
       ];
       // patch some additional fields
@@ -137,7 +137,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       let updateData = [
         {
           _id: receptacleData._id,
-          data: foundry.utils.deepClone(enchantData.data)
+          system: foundry.utils.deepClone(enchantData.data)
         }
       ];
       // patch some additional fields
@@ -184,6 +184,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
    * @private
    * @override
    */
+  // TODO review for V10
   async _onDropItem(event, data) {
     let itemData = {};
     let type;
@@ -261,7 +262,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
         let updateData = [
           {
             _id: this.actor.system.receptacle.id,
-            data: {
+            system: {
               status: 0
             }
           }
@@ -282,7 +283,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       // let enchantData = {
       //     name: itemData.name,
       //     type: "enchantment",
-      //     data: {
+      //     system: {
       //         effectfrequency: itemData.system.effectfrequency,
       //         penetration: itemData.system.penetration,
       //         maintainConc: itemData.system.maintainConc,
@@ -294,7 +295,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       let enchantData = {
         name: itemData.system.enchantmentName,
         type: "enchantment",
-        data: foundry.utils.deepClone(itemData.data)
+        system: foundry.utils.deepClone(itemData.data)
       };
       // remove item specific fields:
       delete enchantData.system.enchantmentName;
@@ -314,7 +315,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
         render: false
       });
       let actorUpdate = {
-        data: {
+        system: {
           magicItemName: itemData[0].name,
           description: itemData[0].system.description
         }

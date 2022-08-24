@@ -247,7 +247,7 @@ export class ArM5eItem extends Item {
               break;
             }
             case "teaching": {
-              systemData.baseQuality = systemData.teacher.teaching + systemData.teacher.com + 6;
+              systemData.baseQuality = systemData.teacher.teaching + systemData.teacher.com + 3;
               if (systemData.teacher.applySpec) {
                 systemData.baseQuality++;
               }

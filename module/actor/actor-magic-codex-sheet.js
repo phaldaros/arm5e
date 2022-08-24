@@ -29,8 +29,8 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     // no need to import everything
     context.config = {};
@@ -106,10 +106,6 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
       });
     }
   }
-
-  // async _onDropItem(event, data) {
-
-  // }
 
   /**
    * Handle clickable base effect.
@@ -331,28 +327,19 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
   // TODOV10
   async _onDropItem(event, data) {
-    let itemData = {};
-    let type;
-    if (data.pack) {
-      const item = await Item.implementation.fromDropData(data);
-      itemData = item.toObject();
-      type = itemData.type;
-    } else if (data.actorId === undefined) {
-      const item = await Item.implementation.fromDropData(data);
-      itemData = item.toObject();
-      type = itemData.type;
-    } else {
-      type = data.data.type;
-      itemData = data.data;
-    }
+    const item = await fromUuid(data.uuid);
+    const type = item.type;
     // transform input into labText
     if (type == "laboratoryText") {
       log(false, "Valid drop");
       // create a spell or enchantment data:
-      data.data = labTextToEffect(foundry.utils.deepClone(itemData));
+      data.data = labTextToEffect(foundry.utils.deepClone(item));
     }
     // }
     const res = await super._onDropItem(event, data);
+    if (res.length == 1) {
+      res[0].sheet.render(true);
+    }
     return res;
   }
 }

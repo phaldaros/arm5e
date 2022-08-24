@@ -440,7 +440,7 @@ function rollItemMacro(itemId, actorId) {
   if (!item)
     return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
   const dataset = prepareDatasetByTypeOfItem(item);
-  if (isObjectEmpty(dataset)) {
+  if (isEmpty(dataset)) {
     item.sheet.render(true);
   } else if (item.type == "power") {
     actor.sheet._onUsePower(dataset);

@@ -5,7 +5,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
   const agingTable = docs.filter(rt => rt.name === "Aging table")[0];
-  let res = agingTable.getResultsForRoll(roll.total)[0].data.text;
+  let res = agingTable.getResultsForRoll(roll.total)[0].text;
   let dialogData = CONFIG.ARM5E.activities.aging[res];
 
   dialogData.year = actor.rollData.environment.year;
@@ -20,7 +20,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
   await new Promise(resolve => {
     new Dialog(
       {
-        title: game.i18n.localize("arm5e.aging.crisis.summary"),
+        title: game.i18n.localize("arm5e.aging.summary"),
         content: renderedTemplate,
         buttons: {
           yes: {
@@ -405,7 +405,7 @@ export function validTeaching(context, actor, item) {
   } else if (abilitiesArr.length + artsArr.length + spellsArr.length == 0) {
     context.system.applyPossible = "disabled";
   }
-  context.system.baseQuality = 6 + item.system.teacher.teaching + item.system.teacher.com;
+  context.system.baseQuality = 3 + item.system.teacher.teaching + item.system.teacher.com;
   if (item.system.teacher.applySpec) {
     context.system.baseQuality++;
   }

@@ -25,8 +25,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     context.config = CONFIG.ARM5E;
 

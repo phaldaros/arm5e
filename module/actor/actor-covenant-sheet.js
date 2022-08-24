@@ -30,12 +30,12 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
    *     @override
    */
 
-  getData() {
+  async getData() {
     // Retrieve the data structure from the base sheet. You can inspect or log
     // the context variable to see the structure, but some key properties for
     // sheets are the actor object, the data object, whether or not it's
     // editable, the items array, and the effects array.
-    const context = super.getData();
+    const context = await super.getData();
 
     let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
     if (usercache[this.actor.id]) {

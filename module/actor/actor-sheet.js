@@ -123,8 +123,8 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     // Use a safe clone of the actor data for further operations.
     const actorData = this.actor.toObject(false);
@@ -1023,16 +1023,7 @@ export class ArM5eActorSheet extends ActorSheet {
     if (!super._onDropActor(event, data)) {
       return false;
     }
-    let droppedActor;
-    // if coming from a compendium, reject
-    if (data.pack) {
-      return false;
-    } else if (data.id != undefined) {
-      droppedActor = game.actors.get(data.id);
-    } else {
-      console.warn("No Id for actor dropped");
-      return false;
-    }
+    let droppedActor = await fromUuid(data.uuid);
     // link both ways
     let res = await this._bindActor(droppedActor);
     let res2 = await droppedActor.sheet._bindActor(this.actor);

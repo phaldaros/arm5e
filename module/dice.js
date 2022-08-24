@@ -403,7 +403,7 @@ function getRollFormula(actor) {
   if (rollData.bonuses) {
     total += rollData.bonuses;
     msg = newLineAdd(msg);
-    msg += game.i18n.localize("arm5.sheet.bonuses") + " (" + rollData.bonuses + ")";
+    msg += game.i18n.localize("arm5e.sheet.bonuses.label") + " (" + rollData.bonuses + ")";
   }
   // TODO
   // if (actorData.roll.bonus > 0) {

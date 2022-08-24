@@ -52,14 +52,14 @@
           </span>
           <span class="flex03" style="margin-right: 6px">
             <input type="text" name="system.constructionPoints.data.{{key}}.initials"
-              value="{{numberFormat system.initials decimals=0 sign=true}}" data-dtype="Number" />
+              value="{{numberFormat data.initials decimals=0 sign=true}}" data-dtype="Number" />
           </span>
           <span class="flex03" style="margin-right: 6px">
             <input type="text" name="system.constructionPoints.data.{{key}}.actuals"
-              value="{{numberFormat system.actuals decimals=0 sign=true}}" data-dtype="Number" />
+              value="{{numberFormat data.actuals decimals=0 sign=true}}" data-dtype="Number" />
           </span>
           <span class="flex2">
-            <input type="text" name="system.constructionPoints.data.{{key}}.notes" value="{{ system.notes }}"
+            <input type="text" name="data.constructionPoints.data.{{key}}.notes" value="{{ system.notes }}"
               data-dtype="String" />
           </span>
         </li>

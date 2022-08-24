@@ -50,8 +50,8 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     context.config = CONFIG.ARM5E;
     // Add roll data for TinyMCE editors.

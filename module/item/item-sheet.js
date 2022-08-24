@@ -36,8 +36,8 @@ export class ArM5eItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     // Use a safe clone of the item data for further operations.
     const itemData = this.item.toObject(false);

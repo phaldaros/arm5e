@@ -19,7 +19,7 @@ export async function migration(originalVersion) {
 
       const updateData = migrateActorData(a);
 
-      if (!isObjectEmpty(updateData)) {
+      if (!isEmpty(updateData)) {
         console.log(`Migrating Actor entity ${a.name}`);
         await a.update(updateData, {
           enforceTypes: false
@@ -27,7 +27,7 @@ export async function migration(originalVersion) {
       }
 
       // const cleanData = cleanActorData(a)
-      // if (!isObjectEmpty(cleanData)) {
+      // if (!isEmpty(cleanData)) {
       //     console.log(`Cleaning up Actor entity ${a.name}`);
       //     a.system = cleanData.system;
       // }
@@ -41,7 +41,7 @@ export async function migration(originalVersion) {
   for (let i of game.items) {
     try {
       const updateData = migrateItemData(i.toObject());
-      if (!foundry.utils.isObjectEmpty(updateData)) {
+      if (!foundry.utils.isEmpty(updateData)) {
         console.log(`Migrating Item entity ${i.name}`);
         await i.update(updateData, {
           enforceTypes: false
@@ -50,7 +50,7 @@ export async function migration(originalVersion) {
       console.log(`Migrated Item entity ${i.name}`);
 
       // const cleanData = cleanItemData(i)
-      // if (!isObjectEmpty(cleanData)) {
+      // if (!isEmpty(cleanData)) {
       //     console.log(`Cleaning up Item entity ${i.name}`);
       //     i.system = cleanData.system;
       // }
@@ -63,8 +63,8 @@ export async function migration(originalVersion) {
   // Migrate Actor Override Tokens
   for (let s of game.scenes) {
     try {
-      const updateData = migrateSceneData(s.system);
-      if (!foundry.utils.isObjectEmpty(updateData)) {
+      const updateData = migrateSceneData(s);
+      if (!foundry.utils.isEmpty(updateData)) {
         console.log(`Migrating Scene entity ${s.name}`);
         await s.update(updateData, { enforceTypes: false });
         // If we do not do this, then synthetic token actors remain in cache
@@ -137,7 +137,7 @@ export const migrateCompendium = async function(pack) {
       }
 
       // Save the entry, if data was changed
-      if (foundry.utils.isObjectEmpty(updateData)) continue;
+      if (foundry.utils.isEmpty(updateData)) continue;
       await doc.update(updateData);
       console.log(`Migrated ${documentName} entity ${doc.name} in Compendium ${pack.collection}`);
     } catch (err) {
@@ -506,7 +506,7 @@ export const migrateActorData = function(actor) {
         // Migrate effects
         const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
         let effectUpdate = migrateActiveEffectData(effectData);
-        if (!isObjectEmpty(effectUpdate)) {
+        if (!isEmpty(effectUpdate)) {
           // Update the effect
           effectUpdate._id = effectData._id;
           arr.push(expandObject(effectUpdate));
@@ -543,7 +543,7 @@ export const migrateActorData = function(actor) {
     let itemUpdate = migrateItemData(itemData);
 
     // Update the Owned Item
-    if (!isObjectEmpty(itemUpdate)) {
+    if (!isEmpty(itemUpdate)) {
       itemUpdate._id = itemData._id;
       arr.push(expandObject(itemUpdate));
     }
@@ -764,11 +764,11 @@ export const migrateItemData = function(itemData) {
   if (itemData.type == "dairyEntry") {
     updateData["type"] = "diaryEntry";
 
-    if (itemData.system.progress == undefined || isObjectEmpty(itemData.system.progress)) {
+    if (itemData.system.progress == undefined || isEmpty(itemData.system.progress)) {
       updateData["system.progress"] = { abilities: [], spells: [], arts: [] };
     }
   } else if (itemData.type == "diaryEntry") {
-    if (itemData.system.progress == undefined || isObjectEmpty(itemData.system.progress)) {
+    if (itemData.system.progress == undefined || isEmpty(itemData.system.progress)) {
       updateData["system.progress"] = { abilities: [], spells: [], arts: [] };
     }
 
@@ -813,7 +813,7 @@ export const migrateItemData = function(itemData) {
       // Migrate effects
       const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
       let effectUpdate = migrateActiveEffectData(effectData);
-      if (!isObjectEmpty(effectUpdate)) {
+      if (!isEmpty(effectUpdate)) {
         // Update the effect
         effectUpdate._id = effectData._id;
         arr.push(expandObject(effectUpdate));

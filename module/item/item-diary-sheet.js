@@ -44,8 +44,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
     const itemData = this.item.toObject(false);
     const actType = context.system.activity;
     if (this.actor == null || this.actor.type == "covenant" || this.actor.type == "laboratory") {
@@ -245,7 +245,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     if (context.ui.showMagicProgress) {
       // Arts
-      let availableArts = Object.keys(CONFIG.ARM5E.magic.arts);
+      let availableArts = [];
       if (hasTeacher) {
         // get the arts the teacher is skilled enough in to teach
         if (context.system.teacherLinked) {
@@ -323,6 +323,25 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             });
           }
         }
+      } else {
+        availableArts = [
+          ...Object.entries(this.actor.system.arts.techniques).map(e => {
+            return {
+              key: e[0],
+              score: e[1].finalScore,
+              label: CONFIG.ARM5E.magic.arts[e[0]].label,
+              teacherScore: 0
+            };
+          }),
+          ...Object.entries(this.actor.system.arts.forms).map(e => {
+            return {
+              key: e[0],
+              score: e[1].finalScore,
+              label: CONFIG.ARM5E.magic.arts[e[0]].label,
+              teacherScore: 0
+            };
+          })
+        ];
       }
 
       let firstArt = true;
@@ -420,7 +439,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     if (!context.system.applied) {
-      context.system.sourceQuality += Number(itemData.system.aeBonus);
+      context.system.sourceQuality += Number(context.system.aeBonus);
     }
     if (activityConfig.validation != null) {
       activityConfig.validation(context, this.actor, this.item);
@@ -541,7 +560,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       }
       let data = {
         _id: ab.id,
-        data: {
+        system: {
           xp: ability.system.xp + ab.xp
         }
       };
@@ -568,7 +587,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       }
       let data = {
         _id: s.id,
-        data: {
+        system: {
           xp: spell.system.xp + s.xp
         }
       };
@@ -581,7 +600,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       updateData.push(data);
     }
 
-    let actorUpdate = { data: { arts: { forms: {}, techniques: {} } } };
+    let actorUpdate = { system: { arts: { forms: {}, techniques: {} } } };
     for (const a of Object.values(this.item.system.progress.arts)) {
       // ignore 0 xp gain
       if (a.xp == 0) {
@@ -643,7 +662,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           let xps = ability.system.xp - ab.xp;
           let data = {
             _id: ab.id,
-            data: {
+            system: {
               xp: xps < 0 ? 0 : xps
             }
           };

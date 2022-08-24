@@ -29,8 +29,8 @@
                 </span>
                 <div class="flexrow">
                   <a class="item-control decrease-tech" title="Decrease score"><i class="fas fa-minus"></i></a>
-                  <input type="text" name="system.arts.techniques.{{key}}.finalScore" value="{{technique.finalScore}}"
-                    data-dtype="Number" readonly />
+                  <input type="number" class="art-score" name="system.arts.techniques.{{key}}.finalScore"
+                    value="{{technique.finalScore}}" data-dtype="Number" readonly />
                   <a class="item-control increase-tech" title="Increase score"><i class="fas fa-plus"></i></a>
                 </div>
               </div>
@@ -74,8 +74,9 @@
                 </span>
                 <div class="flexrow">
                   <a class="item-control decrease-form" title="Decrease score"><i class="fas fa-minus"></i></a>
-                  <input type="text" name="system.arts.forms.{{key}}.finalScore" value="{{form.finalScore}}"
-                    data-dtype="Number" readonly />
+                  <input type="number" class="art-score" name="system.arts.forms.{{key}}.finalScore"
+                    value="{{form.finalScore}}" data-dtype="Number" readonly style="font-size: 13pt;
+                    text-align: center; background: rgba(0, 0, 0, 0.15);" />
                   <a class="item-control increase-form" title="Increase score"><i class="fas fa-plus"></i></a>
                 </div>
               </div>

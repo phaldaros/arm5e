@@ -61,7 +61,7 @@ function calculateResistance(actor, form) {
   let magicResistance =
     Number(actor.system.laboratory?.magicResistance?.value) ||
     Number(actor.system?.might?.value) ||
-    0;
+    0; //  no magicResistance != magicResistance of 0
   let specialityIncluded = "";
   const parma = actor.getAbilityStats("parma");
   if (parma.speciality && parma.speciality.toUpperCase() === form.toUpperCase()) {

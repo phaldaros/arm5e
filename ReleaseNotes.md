@@ -1,5 +1,26 @@
 # Release Notes
 
+## 2.0.0-alpha1
+
+### Post V9 migration
+
+- Html templates update
+- Use of system instead of data.data in all javascript modules
+- Replaced deprecated methods
+
+### Features
+
+- Small redesign of UI in focused areas
+
+### Bug fixes
+
+- Magi NPCs have their magic resistance properly computed
+- Parma magica , penetration and teaching were not taking into account puissant virtue in some cases
+- Fixed empty dropbox for Arts progression in adventuring and exposure.
+- Entities with might no longer raise an error while computing penetration.
+- Fixed source quality of teaching activity (+3 instead of +6)
+- lots of small fixes
+
 ## 1.4.5
 
 ### Features

@@ -859,6 +859,7 @@
   "arm5e.sheet.freeVirtues": "Free Virtues",
   "arm5e.sheet.occupiedSize": "Occupied Size",
   "arm5e.sheet.baseSafety": "Base Safety",
+  "arm5e.aging.summary": "Aging summary",
   "arm5e.aging.roll.label": "Aging roll",
   "arm5e.aging.roll.noaging": "No apparent aging.",
   "arm5e.aging.roll.normal": "Apparent age increases by one year.",
