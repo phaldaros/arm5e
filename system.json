@@ -2,10 +2,9 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition, Development version",
   "description": "Ars Magica 5e for Foundry VTT, BETA",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
-  "templateVersion": 3,
   "authors": [
     { "name": "xzotl", "contribution": "Dev and official maintainer" },
     { "name": "ialbiol", "contribution": "Dev" },
