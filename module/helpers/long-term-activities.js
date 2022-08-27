@@ -205,13 +205,13 @@ export function validAdventuring(context, actor, item) {
 
   let abilitiesArr = Object.values(itemData.data.progress.abilities);
   checkForDuplicates("abilities", context, abilitiesArr);
-  context.data.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 5);
+  context.data.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
 
-  context.data.totalXp.arts += checkArtProgressItems(context, itemData, 5);
+  context.data.totalXp.arts += checkArtProgressItems(context, itemData, 1000);
 
   let spellsArr = Object.values(itemData.data.progress.spells);
   checkForDuplicates("spells", context, spellsArr);
-  context.data.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 5);
+  context.data.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 1000);
 
   if (
     context.data.totalXp.abilities + context.data.totalXp.arts + context.data.totalXp.spells !=

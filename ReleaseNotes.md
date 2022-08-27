@@ -2,6 +2,10 @@
 
 ## 1.4.7
 
+### Features
+
+- temporary removal of max XP per progress item in adventuring activities (until proper activity type is implemented (V10))
+
 ### Bug fixes
 
 - Fixed source quality of teaching activity (+3 instead of +6)
