@@ -518,7 +518,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (CONFIG.ARM5E.activities.generic[actType].display.spells === false) {
       updateData["system.progress.spells"] = [];
     }
-
+    updateData["system.sourceQuality"] = CONFIG.ARM5E.activities.generic[actType].source.default;
     // core bug?
     switch (actType) {
       case "none":
@@ -649,7 +649,11 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "exposure":
       case "practice":
       case "training":
-      case "teaching": {
+      case "teaching":
+      case "hermeticApp":
+      case "childhood":
+      case "laterLife":
+      case "laterLifeMagi": {
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // check that ability still exists
           let ability = this.actor.items.get(ab.id);

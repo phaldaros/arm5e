@@ -106,8 +106,8 @@
       <div class="flexrow flex-center">
         <span class="flexrow item-title">{{item.name}}</span>
         <label><span class="bold">{{localize "arm5e.sheet.art"}}:</span> {{#with (lookup @root.config.magic.arts
-        item.system.art.value)~}}{{label~}} {{/with}}</label>
-        <label><span class="bold">{{localize "arm5e.sheet.type"}}:</span> {{item.system.type.value}}</label>
+        item.system.art)~}}{{label~}} {{/with}}</label>
+        <label><span class="bold">{{localize "arm5e.sheet.type"}}:</span> {{item.system.type}}</label>
         <label><span class="bold">{{localize "arm5e.sheet.quality"}}:</span> {{item.system.quality}}</label>
         <label><span class="bold">{{localize "arm5e.sheet.level"}}:</span> {{item.system.level}}</label>
       </div>
@@ -135,8 +135,9 @@
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
       <div class="flexrow flex-center">
         <span class="flexrow item-title">{{item.name}}</span>
-        <label><span class="bold">{{localize "arm5e.sheet.art"}}:</span> {{#with (lookup @root.config.magic.arts
-        item.system.art.value)~}}{{label~}} {{/with}}</label>
+        <label><span class="bold">{{localize "arm5e.sheet.art"}}:</span>
+          {{#with (lookup @root.config.magic.arts
+        item.system.art)~}}{{label~}} {{/with}}</label>
         <label><span class="bold">{{localize "arm5e.sheet.pawns"}}:</span> {{item.system.pawns}}</label>
       </div>
       <div class="item-controls">

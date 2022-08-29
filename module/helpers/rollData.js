@@ -1,6 +1,6 @@
 import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "./active-effects.js";
-import { ArM5ePCActor } from "../actor/actor-pc.js";
+import { ArM5ePCActor } from "../actor/actor.js";
 import { log } from "../tools.js";
 
 export class ArM5eRollData {

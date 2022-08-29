@@ -7,9 +7,9 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
       <div class="grid grid-2col">
         <div class="resource">
-          <label for="system.type.value" class="header-label">{{localize system.type.label}}</label>
-          <select name="system.type.value" data-type="String">
-            {{#select system.type.value}} {{#each config.virtueFlawTypes.available as |type key|}}
+          <label for="system.type" class="header-label">{{localize "arm5e.sheet.type"}}</label>
+          <select name="system.type" data-type="String">
+            {{#select system.type}} {{#each config.virtueFlawTypes.available as |type key|}}
                 <option value="{{key}}">{{localize label}}</option>
               {{/each}} {{/select}}
           </select>

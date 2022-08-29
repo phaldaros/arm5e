@@ -1362,7 +1362,7 @@ export class ArM5ePCActor extends Actor {
       ui.notifications.info(`Migrating actor ${this.name}.`, {
         permanent: false
       });
-      const updateData = migrateActorData(this.data);
+      const updateData = migrateActorData(this);
 
       if (!isObjectEmpty(updateData)) {
         console.log(`Migrating Actor entity ${this.name}`);

@@ -127,7 +127,7 @@ export class ArM5eActorSheet extends ActorSheet {
     const context = await super.getData();
 
     // Use a safe clone of the actor data for further operations.
-    const actorData = this.actor.toObject(false);
+    const actorData = context.actor;
 
     // Add the actor's data to context.system for easier access, as well as flags.
     context.system = actorData.system;
@@ -435,7 +435,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Prepare active effects
     context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.actor.effects);
-    if (context.data?.arts?.voiceAndGestures) {
+    if (context.system?.arts?.voiceAndGestures) {
       context.system.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
     }
     this._prepareCharacterItems(context);
@@ -751,11 +751,11 @@ export class ArM5eActorSheet extends ActorSheet {
       {
         name: name,
         type: type,
-        data: foundry.utils.deepClone(header.dataset)
+        system: duplicate(header.dataset)
       }
     ];
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData[0].data["type"];
+    delete itemData[0].system["type"];
 
     // Finally, create the item!
     // console.log("Add item");

@@ -116,7 +116,6 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
     }
     return await this.actor.update(updateData, {});
   }
-  // TODOV10
   async _onDropItem(event, data) {
     const item = await fromUuid(data.uuid);
     const type = item.type;

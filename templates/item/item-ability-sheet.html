@@ -12,7 +12,8 @@
       </div>
       {{#if item.isOwned }}
         <div class="grid grid-3col">
-          <label>{{localize "arm5e.sheet.score"}}<input type="text" name="system.finalScore"
+          {{log "final score: " system.finalScore}}
+          <label>{{localize "arm5e.sheet.score"}}<input type="number" name="system.finalScore"
               value="{{system.finalScore}}" data-dtype="Number" readonly /></label>
           <div class="ressource" style="padding-top: 18px">
             <a class="item-control decrease-ability" title="Decrease score"><i class="fas fa-minus"></i></a>
@@ -47,10 +48,7 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Description Tab --}}
-    <div class="tab editor" data-group="primary" data-tab="description" style="height:auto; min-height: 170px;">
-      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
 
-    </div>
     <div class="grid grid-2col flex2">
       <div class="resource">
         <label for="system.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
@@ -67,13 +65,17 @@
         {{#if (lookup (lookup abilityKeysList system.key) "option")}}
           <label for="system.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
           <input type="text" class="ability-option" name="system.option" value="{{system.option}}"
-            style="width: 200px" />
+            style="width: 150px" />
         {{else}}
           <label for="system.option" class="header-label"
             style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-          <input type="text" name="system.option" data-dtype="String" value="" readonly style="width: 200px" />
+          <input type="text" name="system.option" data-dtype="String" value="" readonly style="width: 150px" />
         {{/if}}
       </div>
+    </div>
+    <div class="tab editor" data-group="primary" data-tab="description" style="height:70%;">
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+
     </div>
     {{#if metagame}}
       {{> "systems/arm5e/templates/generic/source.html" }}

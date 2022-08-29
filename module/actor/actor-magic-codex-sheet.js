@@ -325,7 +325,6 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
    * @override
    */
 
-  // TODOV10
   async _onDropItem(event, data) {
     const item = await fromUuid(data.uuid);
     const type = item.type;

@@ -1,5 +1,5 @@
 import { getLabUpkeepCost, log } from "../tools.js";
-import { ArM5ePCActor } from "../actor/actor-pc.js";
+import { ArM5ePCActor } from "../actor/actor.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -259,6 +259,10 @@ export class ArM5eItem extends Item {
               break;
             }
             case "adventuring":
+            case "hermeticApp":
+            case "childhood":
+            case "laterLife":
+            case "laterLifeMagi":
               {
                 systemData.baseQuality = systemData.sourceQuality;
               }

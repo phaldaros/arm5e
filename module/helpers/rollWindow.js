@@ -3,7 +3,7 @@ import { ARM5E } from "../config.js";
 import { simpleDie, stressDie, noRoll } from "../dice.js";
 import { checkTargetAndCalculateResistance } from "./magic.js";
 import { chatFailedCasting } from "./chat.js";
-import { ArM5ePCActor } from "../actor/actor-pc.js";
+import { ArM5ePCActor } from "../actor/actor.js";
 import { applyAgingEffects, agingCrisis } from "./long-term-activities.js";
 import { exertSelf } from "./combat.js";
 import { log } from "../tools.js";

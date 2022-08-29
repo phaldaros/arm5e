@@ -40,7 +40,7 @@ export class ArM5eItemSheet extends ItemSheet {
     const context = await super.getData();
 
     // Use a safe clone of the item data for further operations.
-    const itemData = this.item.toObject(false);
+    const itemData = context.item;
 
     // Add the item's data to context.system for easier access, as well as flags.
     context.system = itemData.system;

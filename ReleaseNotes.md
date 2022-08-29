@@ -1,16 +1,25 @@
 # Release Notes
 
-## 2.0.0-alpha1
+## 2.0.0-alpha2
 
 ### Post V9 migration
 
 - Html templates update
 - Use of system instead of data.data in all javascript modules
 - Replaced deprecated methods
+- Migrated packs
+- Data models
+  - Abilities
 
 ### Features
 
 - Small redesign of UI in focused areas
+- New long term activities for character creation
+  - Childhood
+  - Hermetic apprenticeship
+  - Later years
+- Exposure activity source quality is editable.
+- New gameplay section in FAQ.
 
 ### Bug fixes
 

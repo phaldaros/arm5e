@@ -38,10 +38,10 @@
     <div class="tab attributes" data-group="primary" data-tab="attributes">
       <div class="grid grid-2col">
         <div class="resource flexcol flexrow">
-          <label for="system.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
-          <select name="system.type.value" data-type="String">
-            {{#select system.type.value}} {{#each system.types as |type key|}}
-                <option value="{{key}}">{{type.label}}</option>
+          <label for="system.type" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
+          <select name="system.type" data-type="String">
+            {{#select system.type}} {{#each @root.config.books.types }}
+                <option value="{{this}}">{{this}}</option>
               {{/each}} {{/select}}
           </select>
         </div>

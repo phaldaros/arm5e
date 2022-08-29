@@ -1,6 +1,6 @@
 // Import Modules
 import { ARM5E, ARM5E_DEFAULT_ICONS } from "./config.js";
-import { ArM5ePCActor } from "./actor/actor-pc.js";
+import { ArM5ePCActor } from "./actor/actor.js";
 import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
 import { ArM5eBeastActorSheet } from "./actor/actor-beast-sheet.js";
 import { ArM5eNPCActorSheet } from "./actor/actor-npc-sheet.js";
@@ -32,6 +32,7 @@ import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
+import { AbilitySchema, HermeticArtBookSchema, VirtueFlawSchema } from "./schemas/ItemSchemas.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -104,7 +105,7 @@ Hooks.once("init", async function() {
     scope: "world",
     config: true,
     type: Boolean,
-    default: false
+    default: true
   });
 
   /**
@@ -168,12 +169,14 @@ Hooks.once("init", async function() {
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
-  // Define custom Entity classes
+  // Define custom Document classes
   CONFIG.Actor.documentClass = ArM5ePCActor;
   CONFIG.Item.documentClass = ArM5eItem;
   CONFIG.ActiveEffect.documentClass = ArM5eActiveEffect;
   CONFIG.Scene.documentClass = ArM5eScene;
 
+  // Define datamodel schemas
+  setSystemDatamodels();
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
 
@@ -376,7 +379,6 @@ Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-// TODOV10
 async function createArM5eMacro(data, slot) {
   if (data.type !== "Item") return;
   const item = await fromUuid(data.uuid);
@@ -508,3 +510,10 @@ Hooks.on("renderPause", function() {
   $("#pause.paused img").attr("src", path);
   $("#pause.paused img").css({ opacity: opacity, "-webkit-animation": speed });
 });
+
+function setSystemDatamodels() {
+  CONFIG.Item.systemDataModels["ability"] = AbilitySchema;
+  // CONFIG.Item.systemDataModels["book"] = HermeticArtBookSchema;
+  // CONFIG.Item.systemDataModels["virtue"] = VirtueFlawSchema;
+  // CONFIG.Item.systemDataModels["flaw"] = VirtueFlawSchema;
+}

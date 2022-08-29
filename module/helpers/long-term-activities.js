@@ -1,5 +1,5 @@
 import { log } from "../tools.js";
-import { ArM5ePCActor } from "../actor/actor-pc.js";
+import { ArM5ePCActor } from "../actor/actor.js";
 
 export async function applyAgingEffects(html, actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
@@ -223,18 +223,81 @@ export function validAdventuring(context, actor, item) {
   }
 }
 
+export function validChildhood(context, actor, item) {
+  context.system.totalXp = { abilities: 0, arts: 0, spells: 0 };
+
+  let abilitiesArr = Object.values(item.system.progress.abilities);
+  checkForDuplicates("abilities", context, abilitiesArr);
+  context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
+  const filteredArray = actor.system.abilities.filter(e => {
+    return abilitiesArr.some(filter => {
+      return filter.id === e._id && e.system.key == "livingLanguage" && filter.xp == 75;
+    });
+  });
+
+  if (filteredArray.length != 1) {
+    context.system.applyPossible = "disabled";
+    if (context.system.applyError === "")
+      context.system.applyError = "arm5e.activity.msg.missingMotherTongue";
+  }
+
+  if (
+    context.system.totalXp.abilities +
+      context.system.totalXp.arts +
+      context.system.totalXp.spells !=
+    context.system.sourceQuality
+  ) {
+    context.system.applyPossible = "disabled";
+    if (context.system.applyError === "")
+      context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
+  }
+}
+
+export function validTotalXp(context, actor, item) {
+  context.system.totalXp = { abilities: 0, arts: 0, spells: 0 };
+
+  let abilitiesArr = Object.values(item.system.progress.abilities);
+  checkForDuplicates("abilities", context, abilitiesArr);
+  context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
+
+  context.system.totalXp.arts += checkArtProgressItems(context, item, 1000);
+
+  let spellsArr = Object.values(item.system.progress.spells);
+  checkForDuplicates("spells", context, spellsArr);
+  context.system.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 1000);
+
+  if (
+    context.system.totalXp.abilities +
+      context.system.totalXp.arts +
+      context.system.totalXp.spells !=
+    context.system.sourceQuality
+  ) {
+    context.system.applyPossible = "disabled";
+    if (context.system.applyError === "")
+      context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
+  }
+}
+
 export function validExposure(context, actor, item) {
   context.system.totalXp = { abilities: 0, arts: 0, spells: 0 };
 
   let abilitiesArr = Object.values(item.system.progress.abilities);
   checkForDuplicates("abilities", context, abilitiesArr);
-  context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 2);
+  context.system.totalXp.abilities = checkMaxXpPerItem(
+    context,
+    abilitiesArr,
+    context.system.sourceQuality
+  );
 
-  context.system.totalXp.arts += checkArtProgressItems(context, item, 2);
+  context.system.totalXp.arts += checkArtProgressItems(context, item, context.system.sourceQuality);
 
   let spellsArr = Object.values(item.system.progress.spells);
   checkForDuplicates("spells", context, spellsArr);
-  context.system.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 2);
+  context.system.totalXp.spells = checkMaxXpPerItem(
+    context,
+    spellsArr,
+    context.system.sourceQuality
+  );
 
   if (
     context.system.totalXp.abilities +
@@ -527,6 +590,14 @@ export function getNewTitleForActivity(actor, item) {
         skills: skills,
         teacher: teacher
       });
+    case "apprenticeship":
+      return game.i18n.localize("arm5e.activity.title.apprenticeship");
+    case "childhood":
+      return game.i18n.localize("arm5e.activity.title.childhood");
+    case "laterLife":
+      return game.i18n.localize("arm5e.activity.title.laterLife");
+    case "laterLifeMagi":
+      return game.i18n.localize("arm5e.activity.title.laterLifeMagi");
     default:
       return DEFAULT_TITLE;
   }

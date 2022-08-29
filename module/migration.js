@@ -37,6 +37,33 @@ export async function migration(originalVersion) {
     }
   }
 
+  // Migrate Invalid actors
+
+  const invalidActorIds = Array.from(game.actors.invalidDocumentIds);
+  for (const invalidId of invalidActorIds) {
+    try {
+      const invalidActor = game.actors.getInvalid(invalidId);
+      console.log(`Migrating invalid actor entity ${invalidActor.name}`);
+
+      const updateData = migrateActorData(a);
+
+      if (!isEmpty(updateData)) {
+        await invalidActor.update(updateData, {
+          enforceTypes: false
+        });
+      }
+
+      // const cleanData = cleanActorData(a)
+      // if (!isEmpty(cleanData)) {
+      //     console.log(`Cleaning up Actor entity ${a.name}`);
+      //     a.system = cleanData.system;
+      // }
+    } catch (err) {
+      err.message = `Failed system migration for invalid Actor ${invalidId}: ${err.message}`;
+      console.error(err);
+    }
+  }
+
   // Migrate World Items
   for (let i of game.items) {
     try {
@@ -56,6 +83,32 @@ export async function migration(originalVersion) {
       // }
     } catch (err) {
       err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
+      console.error(err);
+    }
+  }
+
+  // Migrate Invalid items
+
+  const invalidItemIds = Array.from(game.items.invalidDocumentIds);
+  for (const invalidId of invalidItemIds) {
+    try {
+      const invalidItem = game.items.getInvalid(invalidId);
+      console.log(`Migrating invalid item entity ${invalidItem.name}`);
+      const updateData = migrateItemData(invalidItem.toObject());
+      if (!foundry.utils.isEmpty(updateData)) {
+        await invalidItem.update(updateData, {
+          enforceTypes: false
+        });
+      }
+      console.log(`Migrated Item entity ${invalidItem.name}`);
+
+      // const cleanData = cleanItemData(i)
+      // if (!isEmpty(cleanData)) {
+      //     console.log(`Cleaning up Item entity ${invalidItem.name}`);
+      //     invalidItem.system = cleanData.system;
+      // }
+    } catch (err) {
+      err.message = `Failed system migration for Item ${invalidId}: ${err.message}`;
       console.error(err);
     }
   }
@@ -122,6 +175,8 @@ export const migrateCompendium = async function(pack) {
 
   // Iterate over compendium entries - applying fine-tuned migration functions
   for (let doc of documents) {
+    // skip Compendium Folders documents
+    if (doc.name.startsWith("#[CF")) continue;
     let updateData = {};
     try {
       switch (documentName) {
@@ -228,7 +283,7 @@ export const migrateActorData = function(actor) {
   if (!actor?.flags.arm5e) {
     updateData["flags.arm5e"] = {};
   } else if (actor?.flags.arm5e.filters) {
-    updateData["flags.arm5e.-filters"] = null;
+    updateData["flags.arm5e.-=filters"] = null;
   }
   if (actor.type == "laboratory") {
     // fix recursive problem with laboratory owner
@@ -264,8 +319,6 @@ export const migrateActorData = function(actor) {
       updateData["system.-=currentYear"] = null;
     }
   }
-
-  updateData["system.version"] = "1.4.5";
 
   // token with barely anything to migrate
   if (actor.system == undefined) {
@@ -549,6 +602,34 @@ export const migrateActorData = function(actor) {
     }
     return arr;
   }, []);
+
+  // Fix invalid items
+  // Actors from Compendiums don't have the invalidDocumentIds field
+  if (actor.items.invalidDocumentIds !== undefined) {
+    const invalidItemIds = Array.from(actor.items.invalidDocumentIds);
+    const fixedItems = invalidItemIds.reduce((arr, id) => {
+      try {
+        const invalidItem = actor.items.getInvalid(id);
+        console.log(`Migrating invalid owned Item:  ${invalidItem.name}`);
+        const itemData =
+          invalidItem instanceof CONFIG.Item.documentClass ? invalidItem.toObject() : invalidItem;
+        let itemUpdate = migrateItemData(itemData);
+
+        // Update the Owned Item
+        if (!isEmpty(itemUpdate)) {
+          itemUpdate._id = itemData._id;
+          arr.push(expandObject(itemUpdate));
+        }
+        return arr;
+      } catch (err) {
+        err.message = `Failed system migration for Item ${id}: ${err.message}`;
+        console.error(err.message);
+        return arr;
+      }
+    }, []);
+
+    if (fixedItems.length > 0) items.concat(fixedItems);
+  }
   if (items.length > 0) updateData.items = items;
 
   return updateData;
@@ -607,7 +688,6 @@ export const migrateActiveEffectData = function(effectData) {
 
 export const migrateItemData = function(itemData) {
   const updateData = {};
-  updateData["system.version"] = "1.4.5";
 
   //
   // migrate abilities xp
@@ -687,6 +767,16 @@ export const migrateItemData = function(itemData) {
           itemData.system.duration
         );
       }
+      if (itemData.type == "laboratoryText") {
+        // fixing season key
+        if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+          if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+            updateData["system.season"] = itemData.system.season.toLowerCase();
+          } else {
+            updateData["system.season"] = "spring";
+          }
+        }
+      }
       if (itemData.system.range.value === undefined) {
         // console.log(`Guessing range: ${itemData.system.range}`);
         updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range);
@@ -738,11 +828,18 @@ export const migrateItemData = function(itemData) {
 
     // temporary : removal of authorship in spell, it will only be present in lab texts
     if (itemData.type == "spell") {
-      updateData["system.-=author"] = null;
-      updateData["system.-=year"] = null;
-      updateData["system.-=season"] = null;
-      updateData["system.-=language"] = null;
-
+      if (itemData.system.author) {
+        updateData["system.-=author"] = null;
+      }
+      if (itemData.system.year) {
+        updateData["system.-=year"] = null;
+      }
+      if (itemData.system.season) {
+        updateData["system.-=season"] = null;
+      }
+      if (itemData.system.language) {
+        updateData["system.-=language"] = null;
+      }
       if (itemData.system.exp) {
         let exp = ((itemData.system.mastery * (itemData.system.mastery + 1)) / 2) * 5;
         if (itemData.system.exp >= exp) {
@@ -798,10 +895,63 @@ export const migrateItemData = function(itemData) {
         updateData["system.year"] = Number(itemData.system.year);
       }
     }
-  }
-
-  if (itemData.type == "might") {
+  } else if (
+    itemData.type == "vis" ||
+    itemData.type == "visSourcesCovenant" ||
+    itemData.type == "visStockCovenant"
+  ) {
+    // V10 datamodel cleanup (2.0.0)
+    if (itemData.system.art.value !== undefined) {
+      updateData["system.art"] = itemData.system.art.value;
+    }
+  } else if (itemData.type == "book") {
+    // V10 datamodel cleanup (2.0.0)
+    if (itemData.system.art.value !== undefined) {
+      updateData["system.art"] = itemData.system.art.value;
+    }
+    // V10 datamodel cleanup (2.0.0)
+    if (itemData.system.type.value !== undefined) {
+      updateData["system.type"] = itemData.system.type.value.capitalize();
+    } else {
+      if (itemData.system.type == "summa") {
+        updateData["system.type"] = "Summa";
+      } else if (itemData.system.type == "tract") {
+        updateData["system.type"] = "Tractatus";
+      }
+    }
+    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+        updateData["system.season"] = itemData.system.season.toLowerCase();
+      } else {
+        updateData["system.season"] = "spring";
+      }
+    }
+    updateData["system.-=types"] = null;
+  } else if (itemData.type == "mundaneBook") {
+    // V10 datamodel cleanup (2.0.0)
+    if (itemData.system.type.value !== undefined) {
+      updateData["system.type"] = itemData.system.type.value.capitalize();
+    } else {
+      if (itemData.system.type == "summa") {
+        updateData["system.type"] = "Summa";
+      } else if (itemData.system.type == "tract") {
+        updateData["system.type"] = "Tractatus";
+      }
+    }
+    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+        updateData["system.season"] = itemData.system.season.toLowerCase();
+      } else {
+        updateData["system.season"] = "spring";
+      }
+    }
+    updateData["system.-=types"] = null;
+  } else if (itemData.type == "might") {
     updateData["type"] = "power";
+  } else if (itemData.type == "virtue" || itemData.type == "flaw") {
+    if (itemData.system.type.value !== undefined) {
+      updateData["system.type"] = itemData.system.type.value;
+    }
   }
   if (itemData.type == "mightFamiliar") {
     updateData["type"] = "powerFamiliar";

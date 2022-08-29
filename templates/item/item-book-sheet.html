@@ -7,18 +7,18 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
       <div class="grid grid-2col">
         <div class="resource flexcol flexrow">
-          <label for="system.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
-          <select name="system.art.value" data-type="String">
-            {{#select system.art.value}} {{#each config.magic.arts as |art key|}}
+          <label for="system.art" class="header-label">{{localize "arm5e.sheet.art"}}</label>
+          <select name="system.art" data-type="String">
+            {{#select system.art}} {{#each config.magic.arts as |art key|}}
                 <option value="{{key}}">{{art.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
         <div class="resource flexcol flexrow">
-          <label for="system.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
-          <select name="system.type.value" data-type="String">
-            {{#select system.type.value}} {{#each system.types as |type key|}}
-                <option value="{{key}}">{{type.label}}</option>
+          <label for="system.type" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
+          <select name="system.type" data-type="String">
+            {{#select system.type}} {{#each @root.config.books.types }}
+                <option value="{{this}}">{{this}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
