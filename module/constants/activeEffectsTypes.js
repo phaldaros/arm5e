@@ -109,6 +109,12 @@ export default {
         key: "system.bonuses.activities.reading",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
+      },
+      adventuring: {
+        label: "arm5e.activity.adventuring",
+        key: "system.bonuses.activities.adventuring",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
       }
     }
   },

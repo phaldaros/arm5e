@@ -106,12 +106,14 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
   async _setValue(value, index) {
     let arrayTypes = this.object.getFlag("arm5e", "type");
     let arraySubtypes = this.object.getFlag("arm5e", "subtype");
+    const changesData = this.document.changes;
+    changesData[index] = {
+      mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].mode,
+      key: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].key,
+      value: value
+    };
     let updateFlags = {
-      [`changes.${index}`]: {
-        mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].mode,
-        key: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].key,
-        value: value
-      }
+      changes: changesData
     };
     await this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
   }
@@ -124,6 +126,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     arraySubtypes[index] = Object.keys(ACTIVE_EFFECTS_TYPES[value].subtypes)[0];
     let arrayOptions = this.object.getFlag("arm5e", "option");
     arrayOptions[index] = ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].option || null;
+    const changesData = this.document.changes;
+    changesData[index] = {
+      mode: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].mode,
+      key: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].key,
+      value: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].default
+    };
     let updateFlags = {
       flags: {
         arm5e: {
@@ -132,11 +140,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
           option: arrayOptions
         }
       },
-      [`changes.${index}`]: {
-        mode: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].mode,
-        key: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].key,
-        value: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].default
-      }
+      changes: changesData
     };
     await this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
   }
@@ -151,6 +155,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     if (arrayOptions[index] != null) {
       computedKey = computedKey.replace("#OPTION#", arrayOptions[index]);
     }
+    const changesData = this.document.changes;
+    changesData[index] = {
+      mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].mode,
+      key: computedKey,
+      value: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].default
+    };
     let update = {
       flags: {
         arm5e: {
@@ -159,11 +169,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
           option: arrayOptions
         }
       },
-      [`changes.${index}`]: {
-        mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].mode,
-        key: computedKey,
-        value: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].default
-      }
+      changes: changesData
     };
 
     await this.submit({ preventClose: true, updateData: update }).then(() => this.render());
@@ -271,16 +277,19 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     let arrayOptions = this.object.getFlag("arm5e", "option");
     arrayOptions[index] = chosenOption;
     updateData[`flags.arm5e.option`] = arrayOptions;
-    updateData[`changes.${index}.key`] = computedKey.replace("#OPTION#", chosenOption);
+    const changesData = this.document.changes;
+    changesData[index].key = computedKey.replace("#OPTION#", chosenOption);
+    updateData.changes = changesData;
     return this.submit({ preventClose: true, updateData: updateData });
   }
 
   async _addEffectChange(updateFlags) {
-    const idx = this.document.changes.length;
+    const changesData = this.document.changes;
+    changesData.push({ key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "" });
     return this.submit({
       preventClose: true,
       updateData: {
-        [`changes.${idx}`]: { key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "" },
+        changes: changesData,
         flags: updateFlags
       }
     });

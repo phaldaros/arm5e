@@ -2,13 +2,13 @@
 
 ## 2.0.0-alpha2
 
-### Post V9 migration
+### V10 migration (on going)
 
 - Html templates update
 - Use of system instead of data.data in all javascript modules
 - Replaced deprecated methods
 - Migrated packs
-- Data models
+- Data models activated
   - Abilities
 
 ### Features
