@@ -83,7 +83,7 @@ Nothing to worry about, this is normal. You just have to follow instructions and
 
 ### I cannot select the ability I want to progress into.
 
-A character must have an ability in order to progress into it. Add the ability from a compendium with a score of 0.
+A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0.
 
 ### Rolls
 

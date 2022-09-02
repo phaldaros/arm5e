@@ -1,8 +1,9 @@
 {
   "id": "arm5e",
-  "title": "Ars Magica 5th Edition, Development version",
-  "description": "Ars Magica 5e for Foundry VTT, BETA",
+  "title": "Ars Magica 5th Edition",
+  "description": "Ars Magica 5e for Foundry VTT",
   "version": "2.0.0-alpha2",
+  "minimumCoreVersion": "10",
   "compatibility": {
     "minimum": "10",
     "verified": "10"
