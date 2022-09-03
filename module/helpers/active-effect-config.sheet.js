@@ -31,8 +31,8 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
   }
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
     context.types = ACTIVE_EFFECTS_TYPES;
 
     // first effect created, add null effect type and subtype (still needed?)
@@ -87,15 +87,35 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     if (!this.options.editable) return;
 
     // // Active Effect management
-    html.find(".effect-type").change((ev) => {
+    html.find(".effect-type").change(async ev => {
       const index = parseInt(ev.currentTarget.dataset.index);
-      this._setType($(ev.currentTarget).val(), index);
+      await this._setType($(ev.currentTarget).val(), index);
     });
 
-    html.find(".effect-subtype").change((ev) => {
+    html.find(".effect-subtype").change(async ev => {
       const index = parseInt(ev.currentTarget.dataset.index);
-      this._setSubtype(ev.currentTarget.selectedOptions[0].dataset.subtype, index);
+      await this._setSubtype(ev.currentTarget.selectedOptions[0].dataset.subtype, index);
     });
+
+    html.find(".effect-value").change(async ev => {
+      const index = parseInt(ev.currentTarget.dataset.index);
+      await this._setValue(ev.currentTarget.value, index);
+    });
+  }
+
+  async _setValue(value, index) {
+    let arrayTypes = this.object.getFlag("arm5e", "type");
+    let arraySubtypes = this.object.getFlag("arm5e", "subtype");
+    const changesData = this.document.changes;
+    changesData[index] = {
+      mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].mode,
+      key: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].key,
+      value: value
+    };
+    let updateFlags = {
+      changes: changesData
+    };
+    await this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
   }
 
   async _setType(value, index) {
@@ -106,6 +126,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     arraySubtypes[index] = Object.keys(ACTIVE_EFFECTS_TYPES[value].subtypes)[0];
     let arrayOptions = this.object.getFlag("arm5e", "option");
     arrayOptions[index] = ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].option || null;
+    const changesData = this.document.changes;
+    changesData[index] = {
+      mode: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].mode,
+      key: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].key,
+      value: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].default
+    };
     let updateFlags = {
       flags: {
         arm5e: {
@@ -114,14 +140,9 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
           option: arrayOptions
         }
       },
-      [`changes.${index}`]: {
-        mode: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].mode,
-        key: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].key,
-        value: ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].default
-      }
+      changes: changesData
     };
-    this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
-    // await this.object.setFlag("arm5e", "type", arrayTypes);
+    await this.submit({ preventClose: true, updateData: updateFlags }).then(() => this.render());
   }
   async _setSubtype(value, index) {
     let arrayTypes = this.object.getFlag("arm5e", "type");
@@ -134,6 +155,12 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     if (arrayOptions[index] != null) {
       computedKey = computedKey.replace("#OPTION#", arrayOptions[index]);
     }
+    const changesData = this.document.changes;
+    changesData[index] = {
+      mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].mode,
+      key: computedKey,
+      value: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].default
+    };
     let update = {
       flags: {
         arm5e: {
@@ -142,14 +169,10 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
           option: arrayOptions
         }
       },
-      [`changes.${index}`]: {
-        mode: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].mode,
-        key: computedKey,
-        value: ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].default
-      }
+      changes: changesData
     };
 
-    this.submit({ preventClose: true, updateData: update }).then(() => this.render());
+    await this.submit({ preventClose: true, updateData: update }).then(() => this.render());
   }
 
   _onEffectControl(event) {
@@ -211,7 +234,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
       value: option
     };
     const html = await renderTemplate("systems/arm5e/templates/generic/textInput.html", dialogData);
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.sheet.skill.abilityOption"),
@@ -220,7 +243,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: async (html) => {
+              callback: async html => {
                 let result = html.find('input[name="inputField"]');
                 if (result.val() !== "") {
                   chosenOption = result.val();
@@ -254,16 +277,19 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     let arrayOptions = this.object.getFlag("arm5e", "option");
     arrayOptions[index] = chosenOption;
     updateData[`flags.arm5e.option`] = arrayOptions;
-    updateData[`changes.${index}.key`] = computedKey.replace("#OPTION#", chosenOption);
+    const changesData = this.document.changes;
+    changesData[index].key = computedKey.replace("#OPTION#", chosenOption);
+    updateData.changes = changesData;
     return this.submit({ preventClose: true, updateData: updateData });
   }
 
   async _addEffectChange(updateFlags) {
-    const idx = this.document.data.changes.length;
+    const changesData = this.document.changes;
+    changesData.push({ key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "" });
     return this.submit({
       preventClose: true,
       updateData: {
-        [`changes.${idx}`]: { key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "" },
+        changes: changesData,
         flags: updateFlags
       }
     });

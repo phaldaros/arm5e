@@ -36,7 +36,7 @@ function getAuraActiveEffect(numericValue) {
 }
 
 async function addEffect(actor, activeEffectData) {
-  const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.data.effects, "aura")[0];
+  const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.effects, "aura")[0];
   if (ae) {
     log(
       false,
@@ -58,16 +58,16 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
   }
   const activeEffectData = getAuraActiveEffect(value);
 
-  const tokens = scene.tokens.filter((token) => token.actor);
+  const tokens = scene.tokens.filter(token => token.actor);
   for (const token of tokens) {
     if (token.actor._isCharacter()) {
       if (token.isLinked) {
-        const modifier = computeAuraModifier(token.actor.data.data.realmAlignment, value, type);
+        const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
         // patch the active effect data
         activeEffectData.changes[0].value = modifier;
         await addEffect(token.actor, activeEffectData);
       } else {
-        const modifier = computeAuraModifier(token.actor.data.data.realmAlignment, value, type);
+        const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
         // patch the active effect data
         activeEffectData.changes[0].value = modifier;
         log(false, `Change aura for ${token.name}`);
@@ -79,14 +79,14 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
 
 async function addActiveEffectAuraToActor(actor, value, type) {
   const auraEffect = getAuraActiveEffect(value);
-  const modifier = computeAuraModifier(actor.data.data.realmAlignment, Number(value), type);
+  const modifier = computeAuraModifier(actor.system.realmAlignment, Number(value), type);
   // patch the active effect data
   auraEffect.changes[0].value = modifier;
   addEffect(actor, auraEffect);
 }
 
 async function clearAuraFromActor(actor) {
-  const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.data.effects, "aura");
+  const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.effects, "aura");
   for (const e of effects) {
     log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);
     actor.deleteEmbeddedDocuments("ActiveEffect", [e.id]);

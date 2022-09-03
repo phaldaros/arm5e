@@ -1,122 +1,64 @@
 <div class="characteristics grid grid-3col backSection margintop18">
   <div class="flexrow flex-group-center">
-    <label
-      for="data.laboratory.fastCastingSpeed.value"
-      class="item-title width3 rollable"
-      data-roll="option"
-      data-id="{{item._id}}"
-      data-name='{{localize "arm5e.sheet.fastCastingSpeed"}}'
-      data-option1="{{ data.characteristics.qik.value }}"
-      data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
-      data-option2="{{ data.laboratory.abilitiesSelected.finesse.value }}"
-      data-txtoption2='{{ localize "arm5e.skill.arcane.finesse" }}'
-      >{{localize "arm5e.sheet.fastCastingSpeed"}}
+    <label for="system.laboratory.fastCastingSpeed.value" class="item-title width3 rollable" data-roll="option"
+      data-id="{{item._id}}" data-name='{{localize "arm5e.sheet.fastCastingSpeed"}}'
+      data-option1="{{ system.characteristics.qik.value }}" data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
+      data-option2="{{ system.laboratory.abilitiesSelected.finesse.value }}"
+      data-txtoption2='{{ localize "arm5e.skill.arcane.finesse" }}'>{{localize "arm5e.sheet.fastCastingSpeed"}}
     </label>
-    <input
-      type="text"
-      readonly
-      disabled
-      value="{{numberFormat data.laboratory.fastCastingSpeed.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <input type="text" readonly disabled
+      value="{{numberFormat system.laboratory.fastCastingSpeed.value decimals=0 sign=true}}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center">
-    <label for="data.laboratory.determiningEffect.value" class="item-title width3"
-      >{{localize "arm5e.sheet.determiningEffect"}}</label
-    >
-    <input
-      type="text"
-      readonly
-      disabled
-      value="{{numberFormat data.laboratory.determiningEffect.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <label for="system.laboratory.determiningEffect.value"
+      class="item-title width3">{{localize "arm5e.sheet.determiningEffect"}}</label>
+    <input type="text" readonly disabled
+      value="{{numberFormat system.laboratory.determiningEffect.value decimals=0 sign=true}}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center">
-    <label
-      for="data.laboratory.targeting.value"
-      class="item-title width3 rollable"
-      data-roll="general"
-      data-id="{{item._id}}"
-      data-name='{{localize "arm5e.sheet.targeting"}}'
-      data-option1="{{ data.characteristics.per.value }}"
-      data-txtoption1='{{ localize "arm5e.sheet.perception" }}'
-      data-option2="{{ data.laboratory.abilitiesSelected.finesse.value }}"
-      data-txtoption2='{{ localize "arm5e.skill.arcane.finesse" }}'
-      >{{localize "arm5e.sheet.targeting"}}</label
-    >
-    <input
-      type="text"
-      readonly
-      disabled
-      value="{{numberFormat data.laboratory.targeting.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <label for="system.laboratory.targeting.value" class="item-title width3 rollable" data-roll="general"
+      data-id="{{item._id}}" data-name='{{localize "arm5e.sheet.targeting"}}'
+      data-option1="{{ system.characteristics.per.value }}" data-txtoption1='{{ localize "arm5e.sheet.perception" }}'
+      data-option2="{{ system.laboratory.abilitiesSelected.finesse.value }}"
+      data-txtoption2='{{ localize "arm5e.skill.arcane.finesse" }}'>{{localize "arm5e.sheet.targeting"}}</label>
+    <input type="text" readonly disabled value="{{numberFormat system.laboratory.targeting.value decimals=0 sign=true}}"
+      data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center">
-    <label for="data.laboratory.concentration.value" class="item-title width3"
-      >{{localize "arm5e.skill.general.concentration"}}</label
-    >
-    <input
-      type="text"
-      readonly
-      disabled
-      value="{{numberFormat data.laboratory.concentration.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <label for="system.laboratory.concentration.value"
+      class="item-title width3">{{localize "arm5e.skill.general.concentration"}}</label>
+    <input type="text" readonly disabled
+      value="{{numberFormat system.laboratory.concentration.value decimals=0 sign=true}}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center">
-    <label for="data.laboratory.magicResistance.value" class="item-title width3"
-      >{{localize "arm5e.sheet.magicResistance"}}</label
-    >
-    <input
-      type="text"
-      readonly
-      disabled
-      value="{{numberFormat data.laboratory.magicResistance.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <label for="system.laboratory.magicResistance.value"
+      class="item-title width3">{{localize "arm5e.sheet.magicResistance"}}</label>
+    <input type="text" readonly disabled
+      value="{{numberFormat system.laboratory.magicResistance.value decimals=0 sign=true}}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center">
-    <label for="data.laboratory.multipleCasting.value" class="item-title width3"
-      >{{localize "arm5e.sheet.multipleCasting"}}</label
-    >
-    <input
-      type="text"
-      readonly
-      disabled
-      value="{{numberFormat data.laboratory.multipleCasting.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <label for="system.laboratory.multipleCasting.value"
+      class="item-title width3">{{localize "arm5e.sheet.multipleCasting"}}</label>
+    <input type="text" readonly disabled
+      value="{{numberFormat system.laboratory.multipleCasting.value decimals=0 sign=true}}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center">
-    <label for="data.laboratory.basicLabTotal.value" class="item-title width3"
-      >{{localize "arm5e.sheet.basicLabTotal"}}</label
-    >
-    <input
-      type="text"
-      disabled
-      readonly
-      value="{{numberFormat data.laboratory.basicLabTotal.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <label for="system.laboratory.basicLabTotal.value"
+      class="item-title width3">{{localize "arm5e.sheet.basicLabTotal"}}</label>
+    <input type="text" disabled readonly
+      value="{{numberFormat system.laboratory.basicLabTotal.value decimals=0 sign=true}}" data-dtype="Number" />
   </div>
 
   <div class="flexrow flex-group-center">
-    <label for="data.laboratory.visLimit.value" class="item-title width3">{{localize "arm5e.sheet.visLimit"}}</label>
-    <input
-      type="text"
-      disabled
-      readonly
-      value="{{numberFormat data.laboratory.visLimit.value decimals=0 sign=true}}"
-      data-dtype="Number"
-    />
+    <label for="system.laboratory.visLimit.value" class="item-title width3">{{localize "arm5e.sheet.visLimit"}}</label>
+    <input type="text" disabled readonly value="{{numberFormat system.laboratory.visLimit.value decimals=0 sign=true}}"
+      data-dtype="Number" />
   </div>
 </div>
 

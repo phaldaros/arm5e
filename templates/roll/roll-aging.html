@@ -3,44 +3,47 @@
   <div class="roll-options">
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{ localize "arm5e.sheet.winter" }}</label>
-      {{numberInput data.roll.environment.year min=1 step=1 class="SelectedYear"}}
+      {{numberInput system.roll.environment.year min=1 step=1 class="SelectedYear"}}
     </div>
 
     <div class="flexrow flex-group-center">
-      <label class="resource-label">{{ lookup data.roll.generic.txtOption 0 }} ({{lookup data.roll.generic.option 0
+      <label class="resource-label">{{ lookup system.roll.generic.txtOption 0 }} ({{lookup system.roll.generic.option 0
         }})</label>
     </div>
-    {{#unless (eq (lookup data.roll.generic.txtOption 1) "")}}
+    {{#unless (eq (lookup system.roll.generic.txtOption 1) "")}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">-</label>
       </div>
       <div class="flexrow flex-group-center">
-        <label class="resource-label">{{ lookup data.roll.generic.txtOption 1 }} ({{lookup data.roll.generic.option 1
+        <label class="resource-label">{{ lookup system.roll.generic.txtOption 1 }} ({{lookup system.roll.generic.option
+          1
           }})</label>
       </div>
     {{/unless}}
-    {{#unless (eq (lookup data.roll.generic.txtOption 2) "")}}
+    {{#unless (eq (lookup system.roll.generic.txtOption 2) "")}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">-</label>
       </div>
       <div class="flexrow flex-group-center">
-        <label class="resource-label">{{ lookup data.roll.generic.txtOption 2 }} ({{lookup data.roll.generic.option 2
+        <label class="resource-label">{{ lookup system.roll.generic.txtOption 2 }} ({{lookup system.roll.generic.option
+          2
           }})</label>
       </div>
-    {{/unless}} {{#unless (eq (lookup data.roll.generic.txtOption 3) "")}}
+    {{/unless}} {{#unless (eq (lookup system.roll.generic.txtOption 3) "")}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">+</label>
       </div>
       <div class="flexrow flex-group-center">
-        <label class="resource-label">{{ lookup data.roll.generic.txtOption 3 }} ({{lookup data.roll.generic.option
+        <label class="resource-label">{{ lookup system.roll.generic.txtOption 3 }} ({{lookup system.roll.generic.option
           3}})</label>
       </div>
-    {{/unless}} {{#unless (eq (lookup data.roll.generic.txtOption 4) "")}}
+    {{/unless}} {{#unless (eq (lookup system.roll.generic.txtOption 4) "")}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">+</label>
       </div>
       <div class="flexrow flex-group-center">
-        <label class="resource-label">{{ lookup data.roll.generic.txtOption 4 }} ({{lookup data.roll.generic.option 4
+        <label class="resource-label">{{ lookup system.roll.generic.txtOption 4 }} ({{lookup system.roll.generic.option
+          4
           }})</label>
       </div>
     {{/unless}}
@@ -49,7 +52,7 @@
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
-      <input type="text" name="data.roll.modifier" value="{{data.roll.modifier}}" data-dtype="Number"
+      <input type="text" name="system.roll.modifier" value="{{system.roll.modifier}}" data-dtype="Number"
         class="SelectedModifier" />
     </div>
   </div>

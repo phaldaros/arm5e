@@ -1,7 +1,7 @@
 <div class="flexcol grid grid-2col margintop18">
   <div class="flex-group-left backSection padding12">
     <div class="grid grid-3col">
-      <label class="smallTitle">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label>
+      <label class="smallTitle">{{localize "arm5e.sheet.fatigue"}} ({{ system.fatigueTotal }})</label>
       <div>
         <a class="item-control removeFatigue" title="Remove fatigue level"><i class="fas fa-minus fa-lg"></i></a>
         <a class="item-control addFatigue" title="Add fatigue level"> <i class="fas fa-plus fa-lg"></i></a>
@@ -11,39 +11,30 @@
 
     <ol>
       <div class="flexrow flex-between marginbot6"></div>
-      {{#each data.fatigue as |fatigue key|}}
-      <span class="grid grid-4col">
-        {{#with (lookup @root.config.character.fatigueLevels key)}}
-        <label for="config.character.fatigueLevels.{{key}}.label">{{localize label}}</label>
-        {{/with}}
-        <li class="flexrow" data-attribute="{{key}}">
-          {{#each fatigue.levels}}
-          <!-- <input type="checkbox" name="data.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} /> -->
-          <input type="checkbox" disabled="disabled" name="" {{checked this }} /> {{/each}}
-        </li>
-        <input
-          type="text"
-          name="data.fatigue.{{key}}.number"
-          value="{{numberFormat fatigue.number decimals=0 sign=true}}"
-          data-dtype="Number"
-          readonly
-        />
-        {{#with (lookup @root.config.character.fatigueLevels key)}}
-        <input
-          type="text"
-          name="config.character.fatigueLevels.{{key}}.time"
-          value="{{time}}"
-          data-dtype="String"
-          readonly
-        />
-        {{/with}}
-      </span>
+      {{#each system.fatigue as |fatigue key|}}
+        <span class="grid grid-4col">
+          {{#with (lookup @root.config.character.fatigueLevels key)}}
+            <label for="config.character.fatigueLevels.{{key}}.label">{{localize label}}</label>
+          {{/with}}
+          <li class="flexrow" data-attribute="{{key}}">
+            {{#each fatigue.levels}}
+              <!-- <input type="checkbox" name="system.fatigue.{{key}}.level.value" {{checked fatigue.level.value}} /> -->
+              <input type="checkbox" disabled="disabled" name="" {{checked this }} />
+            {{/each}}
+          </li>
+          <input type="text" name="system.fatigue.{{key}}.number"
+            value="{{numberFormat fatigue.number decimals=0 sign=true}}" data-dtype="Number" readonly />
+          {{#with (lookup @root.config.character.fatigueLevels key)}}
+            <input type="text" name="config.character.fatigueLevels.{{key}}.time" value="{{time}}" data-dtype="String"
+              readonly />
+          {{/with}}
+        </span>
       {{/each}}
     </ol>
   </div>
 
   <div class="flex-group-left backSection padding12">
-    <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ data.woundsTotal }})</label>
+    <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
 
     <div class="flexrow flex-group-left">
       <span class="flex07"><br /></span>
@@ -53,41 +44,27 @@
     </div>
 
     <ol>
-      {{#each data.wounds as |wounds key|}}
+      {{#each system.wounds as |wounds key|}}
 
-      <li class="flexrow flex-group-left" data-attribute="{{key}}">
-        <div class="flexrow flex-between">
-          {{#with (lookup @root.config.character.wounds key)}}
-          <label for="{{label}}" class="flex05" title="{{wounds.range}}">{{localize label}}</label>
-          {{/with}}
-          <span class="flex05">
-            <input
-              type="text"
-              name="data.wounds.{{key}}.number.value"
-              value="{{wounds.number.value}}"
-              data-dtype="Number"
-            />
-          </span>
-          <span class="flex03">
-            <input
-              type="text"
-              name="data.wounds.{{key}}.penalty.value"
-              value="{{wounds.penalty.value}}"
-              data-dtype="Number"
-              readonly
-            />
-          </span>
-          <span class="width2">
-            <input
-              type="text"
-              name="data.wounds.{{key}}.notes.value"
-              value="{{wounds.notes.value}}"
-              data-dtype="String"
-              placeholder="Notes"
-            />
-          </span>
-        </div>
-      </li>
+        <li class="flexrow flex-group-left" data-attribute="{{key}}">
+          <div class="flexrow flex-between">
+            {{#with (lookup @root.config.character.wounds key)}}
+              <label for="{{label}}" class="flex05" title="{{wounds.range}}">{{localize label}}</label>
+            {{/with}}
+            <span class="flex05">
+              <input type="text" name="system.wounds.{{key}}.number.value" value="{{wounds.number.value}}"
+                data-dtype="Number" />
+            </span>
+            <span class="flex03">
+              <input type="text" name="system.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}"
+                data-dtype="Number" readonly />
+            </span>
+            <span class="width2">
+              <input type="text" name="system.wounds.{{key}}.notes.value" value="{{wounds.notes.value}}"
+                data-dtype="String" placeholder="Notes" />
+            </span>
+          </div>
+        </li>
 
       {{/each}}
     </ol>

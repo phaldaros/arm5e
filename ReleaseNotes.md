@@ -1,5 +1,35 @@
 # Release Notes
 
+## 2.0.0.0
+
+### Features
+
+- Small redesign of UI in focused areas
+- New long term activities for character creation
+  - Childhood
+  - Hermetic apprenticeship
+  - Later years
+- Exposure activity source quality is editable.
+- New gameplay section in FAQ.
+
+### Bug fixes
+
+- Magi NPCs have their magic resistance properly computed
+- Parma magica , penetration and teaching were not taking into account puissant virtue in some cases
+- Fixed empty dropbox for Arts progression in adventuring and exposure.
+- Entities with might no longer raise an error while computing penetration.
+- Fixed source quality of teaching activity (+3 instead of +6)
+- lots of small fixes
+
+### V10 migration (on going)
+
+- Html templates update
+- Use of system instead of data.data in all javascript modules
+- Replaced deprecated methods
+- Migrated packs
+- Data models activated
+  - Abilities
+  
 ## 1.4.7
 
 ### Features

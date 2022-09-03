@@ -14,8 +14,8 @@ export class Astrolab extends FormApplication {
       height: "auto"
     });
   }
-  getData(options = {}) {
-    const data = super.getData().object;
+  async getData(options = {}) {
+    const data = await super.getData().object;
     let currentDate = game.settings.get("arm5e", "currentDate");
     data.curYear = currentDate.year;
     data.curSeason = currentDate.season;
@@ -64,7 +64,7 @@ export class Astrolab extends FormApplication {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
     const updateData = {
-      data: { datetime: { season: dataset.season, year: dataset.year } }
+      system: { datetime: { season: dataset.season, year: dataset.year } }
     };
     await game.actors.updateAll(updateData, e => {
       return e.type === "player" || e.type === "npc" || e.type === "covenant";

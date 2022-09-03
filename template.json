@@ -1080,12 +1080,6 @@
           "label": "Cost"
         }
       },
-      "art": {
-        "art": {
-          "value": "",
-          "label": "Art"
-        }
-      },
       "ability": {
         "defaultChaAb": "int",
         "speciality": "",
@@ -1262,26 +1256,15 @@
       "type": "spell"
     },
     "vis": {
-      "templates": ["base", "art"],
+      "templates": ["base"],
+      "art": "cr",
       "pawns": 1,
       "form": "Physical form of the raw vis."
     },
     "book": {
-      "templates": ["base", "art", "authorship"],
-      "type": {
-        "value": "",
-        "label": "Book Type"
-      },
-      "types": {
-        "summa": {
-          "label": "Summa",
-          "dtype": "String"
-        },
-        "tract": {
-          "label": "Tractatus",
-          "dtype": "String"
-        }
-      },
+      "templates": ["base", "authorship"],
+      "art": "cr",
+      "type": "Summa",
       "quality": 0,
       "level": 0
     },
@@ -1292,10 +1275,7 @@
     },
     "virtue": {
       "templates": ["base"],
-      "type": {
-        "label": "arm5e.sheet.type",
-        "value": ""
-      },
+      "type": "general",
       "impact": {
         "label": "arm5e.sheet.impact",
         "value": ""
@@ -1303,10 +1283,7 @@
     },
     "flaw": {
       "templates": ["base"],
-      "type": {
-        "label": "arm5e.sheet.type",
-        "value": ""
-      },
+      "type": "general",
       "impact": {
         "label": "arm5e.sheet.impact",
         "value": ""
@@ -1403,13 +1380,15 @@
       "inhabitants": ""
     },
     "visSourcesCovenant": {
-      "templates": ["base", "art", "season"],
+      "templates": ["base", "season"],
+      "art": "cr",
       "pawns": 1,
       "form": "",
       "place": ""
     },
     "visStockCovenant": {
-      "templates": ["base", "art"],
+      "templates": ["base"],
+      "art": "cr",
       "pawns": 1,
       "form": ""
     },
@@ -1424,21 +1403,10 @@
     },
     "mundaneBook": {
       "templates": ["base", "authorship"],
-      "type": {
-        "value": "",
-        "label": "Book Type"
-      },
-      "types": {
-        "summa": {
-          "label": "Summa",
-          "dtype": "String"
-        },
-        "tract": {
-          "label": "Tractatus",
-          "dtype": "String"
-        }
-      },
+      "type": "Summa",
       "ability": "",
+      "key": "",
+      "option": "",
       "level": 0,
       "quality": 0
     }

@@ -43,15 +43,14 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     context.config = CONFIG.ARM5E;
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 
     // Prepare items.
-    //if (this.actor.data.type == 'magus') {
     this._prepareCharacterItems(context);
     //}
     log(false, "Beast-sheet getData");
@@ -76,7 +75,7 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "virtue":
       case "flaw":
-        switch (itemData.data.type.value) {
+        switch (itemData.system.type.value) {
           case "laboratoryOutfitting":
           case "laboratoryStructure":
           case "laboratorySupernatural":
@@ -111,44 +110,22 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
   async _bindActor(actor) {
     let updateData = {};
     if (actor.type == "covenant") {
-      updateData["data.covenant.value"] = actor.name;
+      updateData["system.covenant.value"] = actor.name;
     } else if (actor.type == "laboratory") {
-      updateData["data.sanctum.value"] = actor.name;
+      updateData["system.sanctum.value"] = actor.name;
     }
     return await this.actor.update(updateData, {});
   }
-
   async _onDropItem(event, data) {
-    let itemData = {};
-    let type;
-    if (data.pack) {
-      const item = await Item.implementation.fromDropData(data);
-      itemData = item.toObject();
-      type = itemData.type;
-    } else if (data.actorId === undefined) {
-      const item = await Item.implementation.fromDropData(data);
-      itemData = item.toObject();
-      type = itemData.type;
-    } else {
-      type = data.data.type;
-      itemData = data.data;
-    }
-    // transform input into labText
-    if (type == "laboratoryText") {
-      if (itemData.data.type == "spell") {
-        log(false, "Valid drop");
-        // create a spell or enchantment data:
-        data.data = labTextToEffect(foundry.utils.deepClone(itemData));
-      } else {
-        log(false, "Invalid drop");
-        return false;
-      }
-    } else if (type == "ability") {
-      if (this.actor.hasSkill(itemData.data.key)) {
-        ui.notifications.warn(`This character already have the ability: ${itemData.name}`);
+    const item = await fromUuid(data.uuid);
+    const type = item.type;
+    if (type == "ability") {
+      if (this.actor.hasSkill(item.system.key)) {
+        ui.notifications.warn(
+          `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${item.name}`
+        );
       }
     }
-    // }
     const res = await super._onDropItem(event, data);
     if (res.length == 1) {
       res[0].sheet.render(true);

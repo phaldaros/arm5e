@@ -11,16 +11,16 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
-    {{#each data.possessions as |item id|}}
+    {{#each system.possessions as |item id|}}
         <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
-                <label><span class="bold">{{localize "arm5e.sheet.location"}}:</span> {{item.data.location}} </label>
-                <label><span class="bold">{{localize "arm5e.sheet.dimensions"}}:</span> {{item.data.dimensions}}
+                <label><span class="bold">{{localize "arm5e.sheet.location"}}:</span> {{item.system.location}} </label>
+                <label><span class="bold">{{localize "arm5e.sheet.dimensions"}}:</span> {{item.system.dimensions}}
                 </label>
-                <label><span class="bold">{{localize "arm5e.sheet.inhabitants"}}:</span> {{item.data.inhabitants}}
+                <label><span class="bold">{{localize "arm5e.sheet.inhabitants"}}:</span> {{item.system.inhabitants}}
                 </label>
             </div>
             <div class="item-controls">
@@ -44,20 +44,20 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
-    {{#each data.labs as |item id|}}
+    {{#each system.labs as |item id|}}
         <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
             <div class=" flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
-                <label><span class="bold">{{localize "arm5e.sheet.owner"}}: </label>{{item.data.owner}} </span>
-                <label><span class="bold">{{localize "arm5e.sheet.quality"}}: </label>({{item.data.quality}}) </span>
-                <label><span class="bold">{{localize "arm5e.lab.upkeep"}}: </label>({{item.data.points}}
+                <label><span class="bold">{{localize "arm5e.sheet.owner"}}: </label>{{item.system.owner}} </span>
+                <label><span class="bold">{{localize "arm5e.sheet.quality"}}: </label>({{item.system.quality}}) </span>
+                <label><span class="bold">{{localize "arm5e.lab.upkeep"}}: </label>({{item.system.points}}
                 {{localize "arm5e.sheet.points"}}) </span>
             </div>
             <div class="item-controls">
-                {{#if (eq item.data.linked true)}}
-                    <a class="item-control actor-link" title="Linked to sanctum" data-actorid="{{item.data.actorId}}"><i
-                            class=" fas fa-link fa-sm"></i></a>
+                {{#if (eq item.system.linked true)}}
+                    <a class="item-control actor-link" title="Linked to sanctum"
+                        data-actorid="{{item.system.actorId}}"><i class=" fas fa-link fa-sm"></i></a>
                 {{else}}
                     <a title="Not linked to sanctum"><i class="fas fa-unlink fa-sm"></i></a>
                 {{/if}}
@@ -83,14 +83,14 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
-    {{#each data.magicItems as |item id|}}
+    {{#each system.magicItems as |item id|}}
         <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
-                <span class="flexrow bold">{{localize "arm5e.sheet.creator"}}: {{item.data.creator}} </span>
-                <span class="flexrow bold">{{localize "arm5e.sheet.year"}}: {{item.data.year}} </span>
+                <span class="flexrow bold">{{localize "arm5e.sheet.creator"}}: {{item.system.creator}} </span>
+                <span class="flexrow bold">{{localize "arm5e.sheet.year"}}: {{item.system.year}} </span>
             </div>
             <div class="item-controls">
                 <a class="item-control item-edit" title="Edit magicItem"><i class="icon-Icon_Edit"></i></a>
@@ -115,16 +115,16 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
-    {{#each data.visSources as |item id|}}
+    {{#each system.visSources as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
                 <span class="flexrow bold">{{localize "arm5e.sheet.art"}}:
-                    {{#with (lookup @root.config.magic.arts item.data.art.value)~}}{{label~}}
+                    {{#with (lookup @root.config.magic.arts item.system.art)~}}{{label~}}
                     {{/with}}</span>
-                <span class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
+                <span class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.system.pawns}} </span>
             </div>
             <div class="item-controls">
                 <a class="item-control item-edit" title="Edit visSourcesCovenant"><i class="icon-Icon_Edit"></i></a>
@@ -149,16 +149,16 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
-    {{#each data.visStock as |item id|}}
+    {{#each system.visStock as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
                 <span class="flexrow bold">{{localize "arm5e.sheet.art"}}:
-                    {{#with (lookup @root.config.magic.arts item.data.art.value)~}}{{label~}}
+                    {{#with (lookup @root.config.magic.arts item.system.art)~}}{{label~}}
                     {{/with}} </span>
-                <span class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.data.pawns}} </span>
+                <span class="flexrow bold">{{localize "arm5e.sheet.pawns"}}: {{item.system.pawns}} </span>
             </div>
             <div class="item-controls">
                 <a class="item-control item-edit" title="Edit visStockCovenant"><i class="icon-Icon_Edit"></i></a>
@@ -182,13 +182,13 @@
             <a class="item-control item-create" title="Add item" data-type="item"><i class="fas fa-plus"></i></a>
         </div>
     </li>
-    {{#each data.items as |item id|}}
+    {{#each system.items as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span></span>
-                <span class="flexrow item-title">{{localize "arm5e.sheet.quantity"}}: {{item.data.quantity}} </span>
+                <span class="flexrow item-title">{{localize "arm5e.sheet.quantity"}}: {{item.system.quantity}} </span>
             </div>
             <div class="item-controls">
                 <a class="item-control item-edit" title="Edit item"><i class="icon-Icon_Edit"></i></a>

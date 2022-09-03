@@ -6,7 +6,7 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
   if (!actorsTargeted) {
     return false;
   }
-  if (actorCaster.data.data.roll.type != "power") {
+  if (actorCaster.system.roll.type != "power") {
     actorsTargeted.forEach(async actorTarget => {
       const successOfMagic = calculateSuccessOfMagic({
         actorTarget,
@@ -39,9 +39,9 @@ function calculatePenetration({ actorCaster, roll, spell }) {
     specialityIncluded = penetration.speciality;
   }
   // if (
-  //   CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
+  //   CONFIG.ARM5E.magic.arts[spell.system.form.value].label.toUpperCase() ===
   //     penetration.speciality.toUpperCase() ||
-  //   CONFIG.ARM5E.magic.arts[spell.data.data.form.value].label.toUpperCase() ===
+  //   CONFIG.ARM5E.magic.arts[spell.system.form.value].label.toUpperCase() ===
   //     penetration.speciality.toUpperCase()
   // ) {
   //   penetration += 1;
@@ -59,9 +59,9 @@ function calculatePenetration({ actorCaster, roll, spell }) {
 
 function calculateResistance(actor, form) {
   let magicResistance =
-    Number(actor.data.data.laboratory?.magicResistance?.value) ||
-    Number(actor.data.data?.might?.value) ||
-    0;
+    Number(actor.system.laboratory?.magicResistance?.value) ||
+    Number(actor.system?.might?.value) ||
+    0; //  no magicResistance != magicResistance of 0
   let specialityIncluded = "";
   const parma = actor.getAbilityStats("parma");
   if (parma.speciality && parma.speciality.toUpperCase() === form.toUpperCase()) {
@@ -69,7 +69,7 @@ function calculateResistance(actor, form) {
     magicResistance += 5;
   }
 
-  const arts = actor.data.data?.arts;
+  const arts = actor.system?.arts;
   let auraMod = 0;
   // TODO, do a better job for player aligned to a realm
   if (actor._hasMight()) {
@@ -86,7 +86,7 @@ function calculateResistance(actor, form) {
   }
 
   return {
-    might: actor.data.data?.might?.value,
+    might: actor.system?.might?.value,
     specialityIncluded,
     total: magicResistance + formScore,
     formScore,

@@ -1,8 +1,5 @@
-<form
-  class="{{cssClass}} mainItem"
-  autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')"
->
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
@@ -10,13 +7,8 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
       <div class="grid grid-col">
         <div class="resource">
-          <label
-            >{{localize "arm5e.sheet.points"}}<input
-              type="text"
-              name="data.points"
-              value="{{data.points}}"
-              data-dtype="Number"
-          /></label>
+          <label>{{localize "arm5e.sheet.points"}}<input type="text" name="system.points" value="{{system.points}}"
+              data-dtype="Number" /></label>
         </div>
       </div>
     </div>
@@ -35,7 +27,7 @@
   <section class="sheet-body">
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
     </div>
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}

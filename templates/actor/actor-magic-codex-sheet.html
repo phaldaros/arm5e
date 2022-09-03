@@ -10,41 +10,40 @@
     <div class="header-fields">
       <div class="resources flexrow flex-between">
         <span class="codexname flexrow" style="padding-top: 4px">
-          <label for="data.techniqueFilter" class="header-label" style="padding-left: 24px"
-            >{{localize "arm5e.sheet.technique"}}</label
-          >
-          <select name="data.techniqueFilter" data-type="String" style="flex: 0 0 100px">
-            {{#select data.techniqueFilter}}
-            <option value=""></option>
-            {{#each config.magic.techniques as |technique key|}}
-            <option value="{{key}}">{{technique.label}}</option>
-            {{/each}} {{/select}}
-          </select>
-        </span>
-        <span class="codexname flexrow" style="padding-top: 4px">
-          <label for="data.formFilter" class="header-label" style="padding-left: 24px"
-            >{{localize "arm5e.sheet.form"}}</label
-          >
-          <select name="data.formFilter" data-type="String" style="flex: 0 0">
-            {{#select data.formFilter}}
-            <option value=""></option>
-            {{#each config.magic.forms as |form key|}}
-            <option value="{{key}}">{{form.label}}</option>
-            {{/each}} {{/select}}
-          </select>
-        </span>
-        <span class="codexname flexrow" style="padding-top: 4px">
-          <label for="data.levelFilter" class="header-label" style="padding-left: 24px"
-            >{{localize "arm5e.sheet.level"}}</label
-          >
-          <select name="data.levelOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua">
-            {{#select data.levelOperator}}
-            <option value="0">=</option>
-            <option value="-1">&leq;</option>
-            <option value="1">&geq;</option>
+          <label for="system.techniqueFilter" class="header-label"
+            style="padding-left: 24px">{{localize "arm5e.sheet.technique"}}</label>
+          <select name="system.techniqueFilter" data-type="String" style="flex: 0 0 100px">
+            {{#select system.techniqueFilter}}
+              <option value=""></option>
+              {{#each config.magic.techniques as |technique key|}}
+                <option value="{{key}}">{{technique.label}}</option>
+              {{/each}}
             {{/select}}
           </select>
-          <input type="number" name="data.levelFilter" value="{{data.levelFilter}}" data-dtype="Number" />
+        </span>
+        <span class="codexname flexrow" style="padding-top: 4px">
+          <label for="system.formFilter" class="header-label"
+            style="padding-left: 24px">{{localize "arm5e.sheet.form"}}</label>
+          <select name="system.formFilter" data-type="String" style="flex: 0 0">
+            {{#select system.formFilter}}
+              <option value=""></option>
+              {{#each config.magic.forms as |form key|}}
+                <option value="{{key}}">{{form.label}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </span>
+        <span class="codexname flexrow" style="padding-top: 4px">
+          <label for="system.levelFilter" class="header-label"
+            style="padding-left: 24px">{{localize "arm5e.sheet.level"}}</label>
+          <select name="system.levelOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua">
+            {{#select system.levelOperator}}
+              <option value="0">=</option>
+              <option value="-1">&leq;</option>
+              <option value="1">&geq;</option>
+            {{/select}}
+          </select>
+          <input type="number" name="system.levelFilter" value="{{system.levelFilter}}" data-dtype="Number" />
         </span>
       </div>
     </div>

@@ -1,20 +1,20 @@
 <div class="characteristics grid grid-2col backSection margintop18">
   <div class="flexrow flex-group-left">
     <label class="item-title width1">{{localize "arm5e.sheet.magic.voice"}}</label>
-    <select name="data.arts.voiceAndGestures.voice" class="voice-and-gestures" effect="voice">
-      {{#select data.arts.voiceAndGestures.voice}} {{#each config.constants.VOICE_AND_GESTURES_VALUES.voice as
+    <select name="system.arts.voiceAndGestures.voice" class="voice-and-gestures" effect="voice">
+      {{#select system.arts.voiceAndGestures.voice}} {{#each config.constants.VOICE_AND_GESTURES_VALUES.voice as
       |voiceType key| }}
-      <option value="{{key}}" data-dtype="String">{{localize voiceType.mnemonic}}</option>
-      {{/each}} {{/select}}
+          <option value="{{key}}" data-dtype="String">{{localize voiceType.mnemonic}}</option>
+        {{/each}} {{/select}}
     </select>
   </div>
   <div class="flexrow flex-group-left">
     <label class="item-title width1">{{localize "arm5e.sheet.magic.gestures"}}</label>
-    <select name="data.arts.voiceAndGestures.gestures" class="voice-and-gestures" effect="gestures">
-      {{#select data.arts.voiceAndGestures.gestures}} {{#each config.constants.VOICE_AND_GESTURES_VALUES.gestures as
+    <select name="system.arts.voiceAndGestures.gestures" class="voice-and-gestures" effect="gestures">
+      {{#select system.arts.voiceAndGestures.gestures}} {{#each config.constants.VOICE_AND_GESTURES_VALUES.gestures as
       |gestureType key| }} {{!--log "key" key--}}
-      <option value="{{key}}" data-dtype="String">{{localize gestureType.mnemonic}}</option>
-      {{/each}} {{/select}}
+          <option value="{{key}}" data-dtype="String">{{localize gestureType.mnemonic}}</option>
+        {{/each}} {{/select}}
     </select>
   </div>
 </div>

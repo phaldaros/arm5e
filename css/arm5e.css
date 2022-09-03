@@ -184,6 +184,11 @@ span.player-name {
   background-color: rgb(236 222 187 / 50%);
 }
 
+.arm5e .art-score input[type="number"] {
+  font-size: 14pt;
+  text-align: center;
+}
+
 .window-app .window-content {
   flex-direction: column;
   flex-wrap: nowrap;
@@ -1030,6 +1035,13 @@ input[type="time"] {
   position: relative;
 }
 
+input[type="number"].art-score {
+  font-size: 13pt;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.15);
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
+}
+
 .navItem-right-ball {
   position: absolute;
   border: 0px;
@@ -1039,6 +1051,13 @@ input[type="time"] {
 }
 
 .navItem-right-ball img {
+  padding-top: 15px;
+  border: 0px;
+  width: 14px;
+}
+
+.arm5eSubTabs .navItem-right-ball img {
+  padding-top: 0px;
   border: 0px;
   width: 14px;
 }
@@ -1052,6 +1071,13 @@ input[type="time"] {
 }
 
 .navItem-left-ball img {
+  padding-top: 15px;
+  border: 0px;
+  width: 14px;
+}
+
+.arm5eSubTabs .navItem-left-ball img {
+  padding-top: 0px;
   border: 0px;
   width: 14px;
 }

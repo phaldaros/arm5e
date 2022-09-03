@@ -10,8 +10,6 @@ import {
   getLastMessageByHeader,
   calculateWound,
   getDataset,
-  compareSpellsData,
-  compareMagicalEffectsData,
   hermeticFilter,
   putInFoldableLink
 } from "../tools.js";
@@ -59,11 +57,11 @@ export class ArM5eActorSheet extends ActorSheet {
 
   /* -------------------------------------------- */
 
-  isItemDropAllowed(itemData) {
+  isItemDropAllowed(item) {
     return false;
 
     // template for future sheet:
-    // switch (itemData.type) {
+    // switch (item.type) {
     //     case "weapon":
     //     case "armor":
     //     case "spell":
@@ -125,34 +123,30 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   /** @override */
-  getData() {
-    // Retrieve the data structure from the base sheet. You can inspect or log
-    // the context variable to see the structure, but some key properties fore
-    // sheets are the actor object, the data object, whether or not it's
-    // editable, the items array, and the effects array.
-    const context = super.getData();
+  async getData() {
+    const context = await super.getData();
 
     // Use a safe clone of the actor data for further operations.
-    const actorData = context.actor.data;
+    const actorData = context.actor;
 
-    // Add the actor's data to context.data for easier access, as well as flags.
-    context.data = actorData.data;
+    // Add the actor's data to context.system for easier access, as well as flags.
+    context.system = actorData.system;
     context.flags = actorData.flags;
 
     context.config = CONFIG.ARM5E;
     context.config.constants = { VOICE_AND_GESTURES_VALUES: VOICE_AND_GESTURES_VALUES };
 
-    context.data.dtypes = ["String", "Number", "Boolean"];
+    // context.system.dtypes = ["String", "Number", "Boolean"];
 
     // Xzotl : not sure what this was used for
-    // for (let attr of Object.values(context.data.attributes)) {
+    // for (let attr of Object.values(context.system.attributes)) {
     //   attr.isCheckbox = attr.dtype === "Boolean";
     // }
 
     // Allow effect creation
-    actorData.data.effectCreation = true;
+    actorData.system.effectCreation = true;
 
-    if (actorData.type == "player" || actorData.type == "npc") {
+    if (actorData.type === "player" || actorData.type === "npc") {
       let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
       if (usercache[this.actor.id]) {
         context.userData = usercache[this.actor.id];
@@ -173,29 +167,31 @@ export class ArM5eActorSheet extends ActorSheet {
         sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
       }
 
-      context.data.world = {};
+      context.system.world = {};
 
       // check whether the character is linked to an existing covenant
-      context.data.world.covenants = game.actors
+      context.system.world.covenants = game.actors
         .filter(a => a.type == "covenant")
         .map(({ name, id }) => ({
           name,
           id
         }));
-      if (context.data.covenant) {
-        let cov = context.data.world.covenants.filter(c => c.name == context.data.covenant.value);
+      if (context.system.covenant) {
+        let cov = context.system.world.covenants.filter(
+          c => c.name == context.system.covenant.value
+        );
         if (cov.length > 0) {
-          context.data.covenant.linked = true;
-          context.data.covenant.actorId = cov[0].id;
+          context.system.covenant.linked = true;
+          context.system.covenant.actorId = cov[0].id;
         } else {
-          context.data.covenant.linked = false;
+          context.system.covenant.linked = false;
         }
       }
 
-      if (context.data.charType.value == "magusNPC" || context.data.charType.value == "magus") {
+      if (context.system.charType.value == "magusNPC" || context.system.charType.value == "magus") {
         // Arts icons style
         context.artsIcons = game.settings.get("arm5e", "artsIcons");
-        context.data.world.labs = game.actors
+        context.system.world.labs = game.actors
           .filter(a => a.type == "laboratory")
           .map(({ name, id }) => ({
             name,
@@ -203,73 +199,73 @@ export class ArM5eActorSheet extends ActorSheet {
           }));
 
         // check whether the character is linked to an existing lab
-        if (context.data.sanctum) {
-          let lab = context.data.world.labs.filter(c => c.name == context.data.sanctum.value);
+        if (context.system.sanctum) {
+          let lab = context.system.world.labs.filter(c => c.name == context.system.sanctum.value);
           if (lab.length > 0) {
-            context.data.sanctum.linked = true;
-            context.data.sanctum.actorId = lab[0].id;
+            context.system.sanctum.linked = true;
+            context.system.sanctum.actorId = lab[0].id;
           } else {
-            context.data.sanctum.linked = false;
+            context.system.sanctum.linked = false;
           }
         }
         // casting total modifiers
 
-        if (context.data.castingtotal === undefined) {
-          context.data.castingtotal = {};
+        if (context.system.castingtotal === undefined) {
+          context.system.castingtotal = {};
         }
-        if (context.data.castingtotal.modifier === undefined) {
-          context.data.castingtotal.modifier = 0;
-        }
-
-        if (context.data.castingtotal.aura === undefined) {
-          context.data.castingtotal.aura = 0;
-        }
-        if (context.data.castingtotal.applyFocus == undefined) {
-          context.data.castingtotal.applyFocus = false;
+        if (context.system.castingtotal.modifier === undefined) {
+          context.system.castingtotal.modifier = 0;
         }
 
-        if (context.data.castingtotal.divider == undefined) {
-          context.data.castingtotal.divider = 1;
+        if (context.system.castingtotal.aura === undefined) {
+          context.system.castingtotal.aura = 0;
+        }
+        if (context.system.castingtotal.applyFocus == undefined) {
+          context.system.castingtotal.applyFocus = false;
+        }
+
+        if (context.system.castingtotal.divider == undefined) {
+          context.system.castingtotal.divider = 1;
         }
 
         // lab total modifiers
-        if (context.data.labtotal === undefined) {
-          context.data.labtotal = {};
+        if (context.system.labtotal === undefined) {
+          context.system.labtotal = {};
         }
         if (
-          context.data.labtotal.modifier === undefined ||
-          context.data.labtotal.modifier == null
+          context.system.labtotal.modifier === undefined ||
+          context.system.labtotal.modifier == null
         ) {
-          context.data.labtotal.modifier = 0;
+          context.system.labtotal.modifier = 0;
         }
-        if (context.data.sanctum.linked) {
-          let lab = game.actors.get(context.data.sanctum.actorId);
+        if (context.system.sanctum.linked) {
+          let lab = game.actors.get(context.system.sanctum.actorId);
           if (lab) {
-            context.data.labtotal.quality = parseInt(lab.data.data.generalQuality.total);
+            context.system.labtotal.quality = parseInt(lab.system.generalQuality.total);
           }
         } else {
-          if (context.data.labtotal.quality === undefined) {
-            context.data.labtotal.quality = 0;
+          if (context.system.labtotal.quality === undefined) {
+            context.system.labtotal.quality = 0;
           }
         }
 
-        if (context.data.covenant.linked) {
-          let cov = game.actors.get(context.data.covenant.actorId);
+        if (context.system.covenant.linked) {
+          let cov = game.actors.get(context.system.covenant.actorId);
           if (cov) {
-            if (cov.data.data.levelAura == "") {
-              context.data.labtotal.aura = 0;
+            if (cov.system.levelAura == "") {
+              context.system.labtotal.aura = 0;
             } else {
-              context.data.labtotal.aura = cov.data.data.levelAura;
+              context.system.labtotal.aura = cov.system.levelAura;
             }
           }
         } else {
-          if (context.data.labtotal.aura === undefined) {
-            context.data.labtotal.aura = 0;
+          if (context.system.labtotal.aura === undefined) {
+            context.system.labtotal.aura = 0;
           }
         }
 
-        if (context.data.labtotal.applyFocus == undefined) {
-          context.data.labtotal.applyFocus = false;
+        if (context.system.labtotal.applyFocus == undefined) {
+          context.system.labtotal.applyFocus = false;
         }
 
         // hermetic filters
@@ -277,7 +273,7 @@ export class ArM5eActorSheet extends ActorSheet {
         // Spells
         let spellsFilters = context.userData.filters.hermetic.spells;
         context.ui = {};
-        context.data.spells = hermeticFilter(spellsFilters, context.data.spells);
+        context.system.spells = hermeticFilter(spellsFilters, context.system.spells);
         if (spellsFilters.expanded) {
           context.ui.spellsFilterVisibility = "";
         } else {
@@ -293,9 +289,9 @@ export class ArM5eActorSheet extends ActorSheet {
 
         // magical effects
         let magicEffectFilters = context.userData.filters.hermetic.magicalEffects;
-        context.data.magicalEffects = hermeticFilter(
+        context.system.magicalEffects = hermeticFilter(
           magicEffectFilters,
-          context.data.magicalEffects
+          context.system.magicalEffects
         );
         if (magicEffectFilters.expanded) {
           context.ui.magicEffectFilterVisibility = "";
@@ -310,11 +306,11 @@ export class ArM5eActorSheet extends ActorSheet {
           context.ui.magicEffectFilter = 'style="text-shadow: 0 0 5px maroon"';
         }
         // 2. Sort (not needed since done in prepareData?)
-        // context.data.spells = context.data.spells.sort(compareSpellsData);
-        // context.data.magicalEffects = context.data.magicalEffects.sort(compareMagicalEffectsData);
+        // context.system.spells = context.system.spells.sort(compareSpells);
+        // context.system.magicalEffects = context.system.magicalEffects.sort(compareMagicalEffects);
 
         // magic arts
-        for (let [key, technique] of Object.entries(context.data.arts.techniques)) {
+        for (let [key, technique] of Object.entries(context.system.arts.techniques)) {
           if (!technique.bonus && technique.xpCoeff == 1.0) {
             technique.ui = { style: 'style="border: 0px; height: 40px;"' };
           } else if (!technique.bonus && technique.xpCoeff != 1.0) {
@@ -336,10 +332,10 @@ export class ArM5eActorSheet extends ActorSheet {
         }
 
         // castingTotals
-        context.data.castingTotals = {};
+        context.system.castingTotals = {};
         // labTotals
-        context.data.labTotals = {};
-        for (let [key, form] of Object.entries(context.data.arts.forms)) {
+        context.system.labTotals = {};
+        for (let [key, form] of Object.entries(context.system.arts.forms)) {
           if (!form.bonus && form.xpCoeff == 1.0) {
             form.ui = { style: 'style="border: 0px; height: 40px;"' };
           } else if (!form.bonus && form.xpCoeff != 1.0) {
@@ -360,69 +356,69 @@ export class ArM5eActorSheet extends ActorSheet {
           }
 
           // compute casting totals:
-          context.data.castingTotals[key] = {};
+          context.system.castingTotals[key] = {};
           // compute lab totals:
-          context.data.labTotals[key] = {};
-          for (let [k2, technique] of Object.entries(context.data.arts.techniques)) {
+          context.system.labTotals[key] = {};
+          for (let [k2, technique] of Object.entries(context.system.arts.techniques)) {
             let techScoreLab = technique.finalScore;
             let formScoreLab = form.finalScore;
-            if (context.data.labtotal.applyFocus) {
+            if (context.system.labtotal.applyFocus) {
               if (techScoreLab > formScoreLab) {
                 formScoreLab *= 2;
               } else {
                 techScoreLab *= 2;
               }
             }
-            context.data.labTotals[key][k2] =
+            context.system.labTotals[key][k2] =
               formScoreLab +
               techScoreLab +
-              context.data.laboratory.basicLabTotal.value +
-              parseInt(context.data.labtotal.quality) +
-              parseInt(context.data.labtotal.aura) +
-              parseInt(context.data.labtotal.modifier) +
-              context.data.bonuses.arts.laboratory;
+              context.system.laboratory.basicLabTotal.value +
+              parseInt(context.system.labtotal.quality) +
+              parseInt(context.system.labtotal.aura) +
+              parseInt(context.system.labtotal.modifier) +
+              context.system.bonuses.arts.laboratory;
 
             let techScoreCast = technique.finalScore;
             let formScoreCast = form.finalScore;
-            if (context.data.castingtotal.applyFocus) {
+            if (context.system.castingtotal.applyFocus) {
               if (techScoreCast > formScoreCast) {
                 formScoreCast *= 2;
               } else {
                 techScoreCast *= 2;
               }
             }
-            context.data.castingTotals[key][k2] =
+            context.system.castingTotals[key][k2] =
               (formScoreCast +
                 techScoreCast +
-                context.data.characteristics.sta.value +
-                context.data.castingtotal.aura +
-                context.data.castingtotal.modifier) /
-              Number(context.data.castingtotal.divider);
+                context.system.characteristics.sta.value +
+                context.system.castingtotal.aura +
+                context.system.castingtotal.modifier) /
+              Number(context.system.castingtotal.divider);
           }
         }
       }
 
-      for (let [key, ab] of Object.entries(context.data.abilities)) {
-        if (ab.data.derivedScore == ab.data.finalScore && ab.data.xpCoeff == 1.0) {
+      for (let [key, ab] of Object.entries(context.system.abilities)) {
+        if (ab.system.derivedScore == ab.system.finalScore && ab.system.xpCoeff == 1.0) {
           ab.ui = { style: "" };
-        } else if (ab.data.derivedScore == ab.data.finalScore && ab.data.xpCoeff != 1.0) {
+        } else if (ab.system.derivedScore == ab.system.finalScore && ab.system.xpCoeff != 1.0) {
           ab.ui = { style: 'style="box-shadow: 0 0 10px maroon"', title: "Affinity, " };
-        } else if (ab.data.derivedScore != ab.data.finalScore && ab.data.xpCoeff == 1.0) {
+        } else if (ab.system.derivedScore != ab.system.finalScore && ab.system.xpCoeff == 1.0) {
           ab.ui = { style: 'style="box-shadow: 0 0 10px blue"', title: "" };
         } else {
           ab.ui = { style: 'style="box-shadow: 0 0 10px purple"', title: "Affinity, " };
         }
       }
 
-      for (let [key, entry] of Object.entries(context.data.diaryEntries)) {
-        if (entry.data.applied || entry.data.activity == "none") {
+      for (let [key, entry] of Object.entries(context.system.diaryEntries)) {
+        if (entry.system.applied || entry.system.activity == "none") {
           entry.ui = { diary: 'style="font-style: normal;"' };
         } else {
           entry.ui = { diary: 'style="font-style: italic;"' };
         }
       }
 
-      for (let [key, charac] of Object.entries(context.data.characteristics)) {
+      for (let [key, charac] of Object.entries(context.system.characteristics)) {
         let shadowWidth = 2 * charac.aging;
         charac.ui = {
           style: 'style="box-shadow: 0 0 ' + shadowWidth + 'px black"',
@@ -439,8 +435,8 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Prepare active effects
     context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.actor.effects);
-    if (context.data?.arts?.voiceAndGestures) {
-      context.data.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
+    if (context.system?.arts?.voiceAndGestures) {
+      context.system.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
     }
     this._prepareCharacterItems(context);
 
@@ -461,26 +457,26 @@ export class ArM5eActorSheet extends ActorSheet {
       actorData.actor.type == "laboratory" ||
       actorData.actor.type == "covenant"
     ) {
-      for (let virtue of actorData.data.virtues) {
+      for (let virtue of actorData.system.virtues) {
         if (virtue.effects.size > 0) {
-          virtue.data.ui = { style: 'style="font-style:italic"' };
+          virtue.system.ui = { style: 'style="font-style:italic"' };
         }
       }
 
-      for (let flaw of actorData.data.flaws) {
+      for (let flaw of actorData.system.flaws) {
         if (flaw.effects.size > 0) {
-          flaw.data.ui = { style: 'style="font-style:italic"' };
+          flaw.system.ui = { style: 'style="font-style:italic"' };
         }
       }
     }
 
     if (actorData.actor.type == "player" || actorData.actor.type == "npc") {
-      for (let spell of actorData.data.spells) {
+      for (let spell of actorData.system.spells) {
         spell.TechReq = spellTechniqueLabel(spell);
         spell.FormReq = spellFormLabel(spell);
       }
 
-      for (let effect of actorData.data.magicalEffects) {
+      for (let effect of actorData.system.magicalEffects) {
         effect.TechReq = spellTechniqueLabel(effect);
         effect.FormReq = spellFormLabel(effect);
       }
@@ -595,15 +591,14 @@ export class ArM5eActorSheet extends ActorSheet {
       if ($(event.currentTarget).attr("data-dtype") === "Number") {
         value = Number(event.target.value);
       } else if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
-        // let oldValue = getProperty(item, "data.data." + field);;
-        let oldValue = item.data.data[[field]];
+        let oldValue = item.system[[field]];
         value = !oldValue;
       }
 
       this.actor.updateEmbeddedDocuments("Item", [
         {
           _id: itemId,
-          data: {
+          system: {
             [field]: value
           }
         }
@@ -664,11 +659,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
 
     html.find(".rest").click(ev => {
-      if (
-        this.actor.data.type === "player" ||
-        this.actor.data.type === "npc" ||
-        this.actor.type == "beast"
-      ) {
+      if (this.actor.type === "player" || this.actor.type === "npc" || this.actor.type == "beast") {
         this.actor.rest();
       }
     });
@@ -704,14 +695,14 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   async _increaseArt(type, art) {
-    let oldXp = this.actor.data.data.arts[type][art].xp;
+    let oldXp = this.actor.system.arts[type][art].xp;
     let newXp = Math.round(
-      ((this.actor.data.data.arts[type][art].derivedScore + 1) *
-        (this.actor.data.data.arts[type][art].derivedScore + 2)) /
-        (2 * this.actor.data.data.arts[type][art].xpCoeff)
+      ((this.actor.system.arts[type][art].derivedScore + 1) *
+        (this.actor.system.arts[type][art].derivedScore + 2)) /
+        (2 * this.actor.system.arts[type][art].xpCoeff)
     );
     let updateData = {};
-    updateData[`data.arts.${type}.${art}.xp`] = newXp;
+    updateData[`system.arts.${type}.${art}.xp`] = newXp;
     await this.actor.update(updateData, {});
 
     let delta = newXp - oldXp;
@@ -719,15 +710,15 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   async _deccreaseArt(type, art) {
-    if (this.actor.data.data.arts[type][art].derivedScore != 0) {
-      let oldXp = this.actor.data.data.arts[type][art].xp;
+    if (this.actor.system.arts[type][art].derivedScore != 0) {
+      let oldXp = this.actor.system.arts[type][art].xp;
       let newXp = Math.round(
-        ((this.actor.data.data.arts[type][art].derivedScore - 1) *
-          this.actor.data.data.arts[type][art].derivedScore) /
-          (2 * this.actor.data.data.arts[type][art].xpCoeff)
+        ((this.actor.system.arts[type][art].derivedScore - 1) *
+          this.actor.system.arts[type][art].derivedScore) /
+          (2 * this.actor.system.arts[type][art].xpCoeff)
       );
       let updateData = {};
-      updateData[`data.arts.${type}.${art}.xp`] = newXp;
+      updateData[`system.arts.${type}.${art}.xp`] = newXp;
 
       await this.actor.update(updateData, {});
       let delta = newXp - oldXp;
@@ -760,11 +751,11 @@ export class ArM5eActorSheet extends ActorSheet {
       {
         name: name,
         type: type,
-        data: foundry.utils.deepClone(header.dataset)
+        system: duplicate(header.dataset)
       }
     ];
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData[0].data["type"];
+    delete itemData[0].system["type"];
 
     // Finally, create the item!
     // console.log("Add item");
@@ -911,7 +902,7 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   async _onGenerateAbilities(event) {
-    let charType = this.actor.data.data.charType.value;
+    let charType = this.actor.system.charType.value;
     let updateData = {};
     if (charType === "magus" || charType === "magusNPC") {
       let abilities = this.actor.items.filter(i => i.type == "ability");
@@ -934,23 +925,23 @@ export class ArM5eActorSheet extends ActorSheet {
           if (abs.length == 0) {
             // Then, check if the Abilities compendium exists
             let abPack = game.packs.filter(
-              p => p.metadata.package === "arm5e" && p.metadata.name === "abilities"
+              p => p.metadata.packageName === "arm5e" && p.metadata.name === "abilities"
             );
             const documents = await abPack[0].getDocuments();
             for (let doc of documents) {
               if (doc.name === localizedA || doc.name === localizedA + "*") {
-                itemData.data = foundry.utils.deepClone(doc.data.data);
+                itemData.system = foundry.utils.deepClone(doc.system);
                 break;
               }
             }
           } else {
-            itemData.data = foundry.utils.deepClone(abs[0].data.data);
+            itemData.system = foundry.utils.deepClone(abs[0].system);
           }
 
           newAbilities.push(itemData);
         } else {
           // found the ability, assign its Id
-          updateData[`data.laboratory.abilitiesSelected.${key}.abilityID`] = abs[0].id;
+          updateData[`system.laboratory.abilitiesSelected.${key}.abilityID`] = abs[0].id;
         }
       }
       this.actor.update(updateData, {});
@@ -966,7 +957,7 @@ export class ArM5eActorSheet extends ActorSheet {
   async _onRoll(event) {
     const dataset = getDataset(event);
 
-    if (this.actor.data.data.wounds.dead.number > 0) {
+    if (this.actor.system.wounds.dead.number > 0) {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
         permanent: true
       });
@@ -974,14 +965,14 @@ export class ArM5eActorSheet extends ActorSheet {
     }
     if ((getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.UNCONSCIOUS) == 0) {
       // if (dataset.roll != "char" && dataset.roll != "aging" && dataset.roll != "crisis") {
-      if (this.actor.data.data.pendingCrisis) {
+      if (this.actor.system.pendingCrisis) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.pendingCrisis"), {
           permanent: true
         });
         return;
       }
 
-      if (this.actor.data.data.fatigueCurrent == this.actor.data.data.fatigueMaxLevel) {
+      if (this.actor.system.fatigueCurrent == this.actor.system.fatigueMaxLevel) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.unconscious"), {
           permanent: true
         });
@@ -992,7 +983,7 @@ export class ArM5eActorSheet extends ActorSheet {
     prepareRollVariables(dataset, this.actor);
 
     // var actor = this.actor;
-    this.actor.data.data.charmetadata = ARM5E.character.characteristics;
+    this.actor.system.charmetadata = ARM5E.character.characteristics;
     updateCharacteristicDependingOnRoll(dataset, this.actor);
 
     const template = chooseTemplate(dataset);
@@ -1032,16 +1023,7 @@ export class ArM5eActorSheet extends ActorSheet {
     if (!super._onDropActor(event, data)) {
       return false;
     }
-    let droppedActor;
-    // if coming from a compendium, reject
-    if (data.pack) {
-      return false;
-    } else if (data.id != undefined) {
-      droppedActor = game.actors.get(data.id);
-    } else {
-      console.warn("No Id for actor dropped");
-      return false;
-    }
+    let droppedActor = await fromUuid(data.uuid);
     // link both ways
     let res = await this._bindActor(droppedActor);
     let res2 = await droppedActor.sheet._bindActor(this.actor);
@@ -1057,7 +1039,7 @@ export async function setCovenant(selector, actor) {
   let actorUpdate = {};
   let found = selector.find(".SelectedItem");
   if (found.length > 0) {
-    actorUpdate["data.covenant.value"] = found[0].value;
+    actorUpdate["system.covenant.value"] = found[0].value;
   }
 
   await actor.update(actorUpdate);
@@ -1070,7 +1052,7 @@ export async function setWounds(selector, actor) {
   const bonus = parseInt(selector.find('label[name$="soak"]').attr("value") || 0);
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
   const damageToApply = damage - modifier - prot - stamina - bonus;
-  const size = actor?.data?.data?.vitals?.siz?.value || 0;
+  const size = actor?.system?.vitals?.siz?.value || 0;
   const typeOfWound = calculateWound(damageToApply, size);
   if (typeOfWound === false) {
     ui.notifications.info(game.i18n.localize("arm5e.notification.notPossibleToCalculateWound"), {
@@ -1110,11 +1092,11 @@ export async function setWounds(selector, actor) {
 
   if (typeOfWound) {
     let actorUpdate = {
-      data: {
+      system: {
         wounds: {
           [typeOfWound]: {
             number: {
-              value: actor.data.data.wounds[typeOfWound].number.value + 1
+              value: actor.system.wounds[typeOfWound].number.value + 1
             }
           }
         }

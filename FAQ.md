@@ -70,3 +70,29 @@ As mentioned above, to trigger a migration:
 - Go to the system settings
 - Change the "System Migration Version" setting to the previous stable release you installed
 - Save and hit F5
+
+## Gameplay
+
+### General
+
+### I have got this warning when I create a new world: "You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working, you can import the one in the Magi compendium".
+
+Nothing to worry about, this is normal. You just have to follow instructions and import it from the Magi Compendium or create it from scratch. It will disappear on next reload.
+
+### Diary
+
+### I cannot select the ability I want to progress into.
+
+A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0.
+
+### Rolls
+
+### How do I use confidence points?
+
+There is a little button in the chat message which will allow that if the character has enough confidence point left.
+
+### Combat
+
+## How do I apply damage to a character?
+
+Click on the "Soak" link in the combat tab and set a value. If a combat is on going, it will automatically compute the correct amount to soak. The size is taken into account.

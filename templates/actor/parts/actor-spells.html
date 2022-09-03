@@ -1,4 +1,4 @@
-<ol class="spell-list backSection margintop18">
+<ol class="spell-list backSection margintop18" style="min-height: 350px;">
   <li class="item flexrow item-header">
     <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
     <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
@@ -6,20 +6,20 @@
     <div class="item-image"></div>
     <div>
       <span class="item-name">{{localize "arm5e.sheet.spells"}} </span>
-      <span>( {{ data.spellsCount }} )</span>
+      <span>( {{ system.spellsCount }} )</span>
     </div>
   </li>
-  {{#each data.spells as |spell id|}}
-    <li class="item spell-value flexrow" data-name="{{spell.data.name}}" data-item-id="{{spell.id}}"
-      data-item-type="{{spell.data.type}}">
+  {{#each system.spells as |spell id|}}
+    <li class="item spell-value flexrow" data-name="{{spell.name}}" data-item-id="{{spell.id}}"
+      data-item-type="{{spell.type}}">
       <div class="flexrow flex-center">
-        <span class="flexrow spell-title design" data-name="{{spell.data.name}}">
-          <!-- data-level="{{spell.data.data.baseLevel}}" data-technique="{{spell.data.data.technique.value}}" data-form="{{spell.data.data.form.value}}"-->
+        <span class="flexrow spell-title design" data-name="{{spell.name}}">
+          <!-- data-level="{{spell.system.baseLevel}}" data-technique="{{spell.system.technique.value}}" data-form="{{spell.system.form.value}}"-->
           <!--div class="item-image">
                             <a class="rollable" data-roll-type="item"><img src="{{spell.img}}" title="{{item.name}}" width="24" height="24" /></a>
                         </div-->
-          {{spell.data.name}} {{#if (eq spell.data.data.ritual true )}} , {{localize "arm5e.sheet.ritual"}} - {{/if}}
-          {{spell.data.localizedDesc}}
+          {{spell.name}} {{#if (eq spell.system.ritual true )}} , {{localize "arm5e.sheet.ritual"}} - {{/if}}
+          {{spell.system.localizedDesc}}
         </span>
       </div>
       <div class="item-controls">

@@ -1,42 +1,42 @@
 <div class="grid grid-2col">
   <div class="resource">
     <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.base" }}</label>
-    <select name="data.materialBase" data-dtype="Number">
-      {{#select data.materialBase}} {{#each config.lab.enchantment.materialBase as |mat key|}}
-      <option value="{{mat.value}}">{{localize mat.eg}}</option>
-      {{/each}} {{/select}}
+    <select name="system.materialBase" data-dtype="Number">
+      {{#select system.materialBase}} {{#each config.lab.enchantment.materialBase as |mat key|}}
+          <option value="{{mat.value}}">{{localize mat.eg}}</option>
+        {{/each}} {{/select}}
     </select>
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.lab.enchantment.item.size.label" }}</label>
-    <select name="data.sizeMultiplier" data-dtype="Number">
-      {{#select data.sizeMultiplier}} {{#each config.lab.enchantment.sizeMultiplier as |size key|}}
-      <option value="{{size.value}}">{{localize size.eg}}</option>
-      {{/each}} {{/select}}
+    <select name="system.sizeMultiplier" data-dtype="Number">
+      {{#select system.sizeMultiplier}} {{#each config.lab.enchantment.sizeMultiplier as |size key|}}
+          <option value="{{size.value}}">{{localize size.eg}}</option>
+        {{/each}} {{/select}}
     </select>
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.label" }}</label>
-    <input type="text" name="data.material" value="{{data.material}}" data-dtype="String" />
+    <input type="text" name="system.material" value="{{system.material}}" data-dtype="String" />
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.lab.enchantment.item.material.bonus"}}</label>
-    <input type="text" name="data.materialBonus" value="{{data.materialBonus}}" data-dtype="Number" />
+    <input type="text" name="system.materialBonus" value="{{system.materialBonus}}" data-dtype="Number" />
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.label"}}</label>
-    <input type="text" name="data.shape" value="{{data.shape}}" data-dtype="String" />
+    <input type="text" name="system.shape" value="{{system.shape}}" data-dtype="String" />
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.lab.enchantment.item.shape.bonus"}}</label>
-    <input type="text" name="data.shapeBonus" value="{{data.shapeBonus}}" data-dtype="Number" />
+    <input type="text" name="system.shapeBonus" value="{{system.shapeBonus}}" data-dtype="Number" />
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.lab.enchantment.item.expiry.label"}}</label>
-    <select name="data.expiry" data-dtype="Number">
-      {{#select data.expiry}} {{#each config.lab.enchantment.expiry as |exp key|}}
-      <option value="{{key}}">{{localize exp}}</option>
-      {{/each}} {{/select}}
+    <select name="system.expiry" data-dtype="Number">
+      {{#select system.expiry}} {{#each config.lab.enchantment.expiry as |exp key|}}
+          <option value="{{key}}">{{localize exp}}</option>
+        {{/each}} {{/select}}
     </select>
   </div>
 </div>

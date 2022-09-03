@@ -38,22 +38,22 @@ export async function getDocumentFromCompendium(pack, id) {
 }
 
 export function compareBaseEffects(e1, e2) {
-  if (e1.data.data.form.value < e2.data.data.form.value) {
+  if (e1.system.form.value < e2.system.form.value) {
     return -1;
-  } else if (e1.data.data.form.value > e2.data.data.form.value) {
+  } else if (e1.system.form.value > e2.system.form.value) {
     return 1;
   } else {
-    if (e1.data.data.technique.value < e2.data.data.technique.value) {
+    if (e1.system.technique.value < e2.system.technique.value) {
       return -1;
-    } else if (e1.data.data.technique.value > e2.data.data.technique.value) {
+    } else if (e1.system.technique.value > e2.system.technique.value) {
       return 1;
     } else {
-      if (e1.data.data.baseLevel < e2.data.data.baseLevel) {
+      if (e1.system.baseLevel < e2.system.baseLevel) {
         return -1;
-      } else if (e1.data.data.baseLevel > e2.data.data.baseLevel) {
+      } else if (e1.system.baseLevel > e2.system.baseLevel) {
         return 1;
       } else {
-        return e1.data.name.localeCompare(e2.data.name);
+        return e1.name.localeCompare(e2.name);
       }
     }
   }
@@ -62,14 +62,14 @@ export function compareBaseEffects(e1, e2) {
 const seasonOrder = { spring: 0, summer: 1, autumn: 2, winter: 3 };
 
 export function compareDiaryEntries(e1, e2) {
-  if (e1.data.year < e2.data.year) {
+  if (e1.system.year < e2.system.year) {
     return 1;
-  } else if (e1.data.year > e2.data.year) {
+  } else if (e1.system.year > e2.system.year) {
     return -1;
   } else {
-    if (seasonOrder[e1.data.season] < seasonOrder[e2.data.season]) {
+    if (seasonOrder[e1.system.season] < seasonOrder[e2.system.season]) {
       return 1;
-    } else if (seasonOrder[e1.data.season] > seasonOrder[e2.data.season]) {
+    } else if (seasonOrder[e1.system.season] > seasonOrder[e2.system.season]) {
       return -1;
     } else {
       return e1.name.localeCompare(e2.name);
@@ -78,23 +78,19 @@ export function compareDiaryEntries(e1, e2) {
 }
 
 export function compareMagicalEffects(e1, e2) {
-  return compareMagicalEffectsData(e1.data, e2.data);
-}
-
-export function compareMagicalEffectsData(e1, e2) {
-  if (e1.data.form.value < e2.data.form.value) {
+  if (e1.system.form.value < e2.system.form.value) {
     return -1;
-  } else if (e1.data.form.value > e2.data.form.value) {
+  } else if (e1.system.form.value > e2.system.form.value) {
     return 1;
   } else {
-    if (e1.data.technique.value < e2.data.technique.value) {
+    if (e1.system.technique.value < e2.system.technique.value) {
       return -1;
-    } else if (e1.data.technique.value > e2.data.technique.value) {
+    } else if (e1.system.technique.value > e2.system.technique.value) {
       return 1;
     } else {
-      if (e1.data.level < e2.data.level) {
+      if (e1.system.level < e2.system.level) {
         return -1;
-      } else if (e1.data.level > e2.data.level) {
+      } else if (e1.system.level > e2.system.level) {
         return 1;
       } else {
         return e1.name.localeCompare(e2.name);
@@ -104,22 +100,19 @@ export function compareMagicalEffectsData(e1, e2) {
 }
 
 export function compareSpells(e1, e2) {
-  return compareSpellsData(e1.data, e2.data);
-}
-export function compareSpellsData(e1, e2) {
-  if (e1.data.form.value < e2.data.form.value) {
+  if (e1.system.form.value < e2.system.form.value) {
     return -1;
-  } else if (e1.data.form.value > e2.data.form.value) {
+  } else if (e1.system.form.value > e2.system.form.value) {
     return 1;
   } else {
-    if (e1.data.technique.value < e2.data.technique.value) {
+    if (e1.system.technique.value < e2.system.technique.value) {
       return -1;
-    } else if (e1.data.technique.value > e2.data.technique.value) {
+    } else if (e1.system.technique.value > e2.system.technique.value) {
       return 1;
     } else {
-      if (e1.data.level < e2.data.level) {
+      if (e1.system.level < e2.system.level) {
         return -1;
-      } else if (e1.data.level > e2.data.level) {
+      } else if (e1.system.level > e2.system.level) {
         return 1;
       } else {
         return e1.name.localeCompare(e2.name);
@@ -128,16 +121,12 @@ export function compareSpellsData(e1, e2) {
   }
 }
 
-export function compareLabTexts(e1, e2) {
-  return compareLabTextsData(e1.data, e2.data);
-}
-
 export function hermeticFilter(filters, inputArray) {
   if (filters.formFilter != "") {
-    inputArray = inputArray.filter(e => e.data.form.value === filters.formFilter);
+    inputArray = inputArray.filter(e => e.system.form.value === filters.formFilter);
   }
   if (filters.techniqueFilter != "") {
-    inputArray = inputArray.filter(e => e.data.technique.value === filters.techniqueFilter);
+    inputArray = inputArray.filter(e => e.system.technique.value === filters.techniqueFilter);
   }
   if (
     filters.levelFilter != 0 &&
@@ -146,23 +135,23 @@ export function hermeticFilter(filters, inputArray) {
     filters.levelFilter != "0"
   ) {
     if (filters.levelOperator == 0) {
-      inputArray = inputArray.filter(e => e.data.level === parseInt(filters.levelFilter));
+      inputArray = inputArray.filter(e => e.system.level === parseInt(filters.levelFilter));
     } else if (filters.levelOperator == -1) {
-      inputArray = inputArray.filter(e => e.data.level <= parseInt(filters.levelFilter));
+      inputArray = inputArray.filter(e => e.system.level <= parseInt(filters.levelFilter));
     } else {
-      inputArray = inputArray.filter(e => e.data.level >= parseInt(filters.levelFilter));
+      inputArray = inputArray.filter(e => e.system.level >= parseInt(filters.levelFilter));
     }
   }
   return inputArray;
 }
 
-export function compareLabTextsData(e1, e2) {
-  if (e1.data.type < e2.data.type) {
+export function compareLabTexts(e1, e2) {
+  if (e1.system.type < e2.system.type) {
     return -1;
-  } else if (e1.data.type > e2.data.type) {
+  } else if (e1.system.type > e2.system.type) {
     return 1;
   } else {
-    return compareMagicalEffectsData(e1, e2);
+    return compareMagicalEffects(e1, e2);
   }
 }
 
@@ -191,7 +180,7 @@ export function getLabUpkeepCost(upkeep) {
 export function getLastMessageByHeader(game, key) {
   const searchString = game.i18n.localize(key).toLowerCase() + " </h2>";
   const messages = game.messages.filter(msg => {
-    const flavor = (msg?.data?.flavor || "").toLowerCase();
+    const flavor = (msg?.flavor || "").toLowerCase();
     return flavor.indexOf(searchString) > -1;
   });
   if (messages.length) return messages.pop();
@@ -331,11 +320,11 @@ export function generateActiveEffectFromAbilities() {
     let computedKey;
     let afinityComputedKey;
     if (ability.option) {
-      computedKey = `data.bonuses.skills.${aKey}_#OPTION#.bonus`;
-      afinityComputedKey = `data.bonuses.skills.${aKey}_#OPTION#.xpCoeff`;
+      computedKey = `system.bonuses.skills.${aKey}_#OPTION#.bonus`;
+      afinityComputedKey = `system.bonuses.skills.${aKey}_#OPTION#.xpCoeff`;
     } else {
-      computedKey = `data.bonuses.skills.${aKey}.bonus`;
-      afinityComputedKey = `data.bonuses.skills.${aKey}.xpCoeff`;
+      computedKey = `system.bonuses.skills.${aKey}.bonus`;
+      afinityComputedKey = `system.bonuses.skills.${aKey}.xpCoeff`;
     }
     switch (ability.category) {
       case "general": {
@@ -436,7 +425,7 @@ export function generateActiveEffectFromAbilities() {
 
 export function getSystemCompendium(compendiumName) {
   let pack = game.packs.filter(
-    p => p.metadata.package === "arm5e" && p.metadata.name === compendiumName
+    p => p.metadata.packageName === "arm5e" && p.metadata.name === compendiumName
   );
   if (pack.length) return pack[0];
   return undefined;

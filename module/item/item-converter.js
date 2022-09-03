@@ -27,15 +27,15 @@ export function effectToLabText(spellData) {
   log(false, spellData.name);
   spellData.img = CONFIG.ARM5E_DEFAULT_ICONS["laboratoryText"];
   if (spellData.type == "spell") {
-    spellData.data.type = "spell";
-    delete spellData.data.mastery;
-    delete spellData.data.exp;
-    delete spellData.data.bonus;
-    delete spellData.data.applyFocus;
+    spellData.system.type = "spell";
+    delete spellData.system.mastery;
+    delete spellData.system.exp;
+    delete spellData.system.bonus;
+    delete spellData.system.applyFocus;
   } else if (spellData.type == "magicalEffect") {
-    spellData.data.type = "spell";
+    spellData.system.type = "spell";
   } else if (spellData.type == "enchantment") {
-    spellData.data.type = "enchantment";
+    spellData.system.type = "enchantment";
   }
   spellData.type = "laboratoryText";
   return spellData;
@@ -52,28 +52,28 @@ export function labTextToEffect(labTextData) {
   }
   log(false, "labTextToEffect");
   log(false, labTextData.name);
-  if (labTextData.data.type === "spell") {
+  if (labTextData.system.type === "spell") {
     labTextData.img = CONFIG.ARM5E_DEFAULT_ICONS["spell"];
     labTextData.type = "spell";
-    delete labTextData.data.type;
-    delete labTextData.data.effectfrequency;
-    delete labTextData.data.penetration;
-    delete labTextData.data.maintainConc;
-    delete labTextData.data.environmentalTrigger;
-    delete labTextData.data.restrictedUse;
-    delete labTextData.data.linkedTrigger;
-    delete labTextData.data.author;
-    delete labTextData.data.year;
-    delete labTextData.data.season;
-    delete labTextData.data.language;
-  } else if (labTextData.data.type === "enchantment") {
+    delete labTextData.system.type;
+    delete labTextData.system.effectfrequency;
+    delete labTextData.system.penetration;
+    delete labTextData.system.maintainConc;
+    delete labTextData.system.environmentalTrigger;
+    delete labTextData.system.restrictedUse;
+    delete labTextData.system.linkedTrigger;
+    delete labTextData.system.author;
+    delete labTextData.system.year;
+    delete labTextData.system.season;
+    delete labTextData.system.language;
+  } else if (labTextData.system.type === "enchantment") {
     labTextData.img = CONFIG.ARM5E_DEFAULT_ICONS["enchantment"];
     labTextData.type = "enchantment";
-    delete labTextData.data.type;
-    delete labTextData.data.author;
-    delete labTextData.data.year;
-    delete labTextData.data.season;
-    delete labTextData.data.language;
+    delete labTextData.system.type;
+    delete labTextData.system.author;
+    delete labTextData.system.year;
+    delete labTextData.system.season;
+    delete labTextData.system.language;
   } else {
     // unknown labText type
     return null;
@@ -84,19 +84,19 @@ export function labTextToEffect(labTextData) {
 export function resetOwnerFields(itemData) {
   switch (itemData.type) {
     case "spell":
-      delete itemData.data.mastery;
-      delete itemData.data.masteryAbilities;
-      delete itemData.data.exp;
-      delete itemData.data.bonus;
-      delete itemData.data.xp;
+      delete itemData.system.mastery;
+      delete itemData.system.masteryAbilities;
+      delete itemData.system.exp;
+      delete itemData.system.bonus;
+      delete itemData.system.xp;
     case "magicalEffect":
-      delete itemData.data.applyFocus;
+      delete itemData.system.applyFocus;
       return itemData;
     case "ability":
-      delete itemData.data.xp;
-      delete itemData.data.experience;
-      delete itemData.data.experienceNextLevel;
-      delete itemData.data.score;
+      delete itemData.system.xp;
+      delete itemData.system.experience;
+      delete itemData.system.experienceNextLevel;
+      delete itemData.system.score;
       return itemData;
     default:
       return itemData;

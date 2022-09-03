@@ -9,28 +9,28 @@
 
   <div class="characteristics grid grid-4col">
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.familiar.nameFam" class="bold">{{localize "arm5e.sheet.name"}}</label>
-      <input type="text" name="data.familiar.nameFam" value="{{data.familiar.nameFam }}" data-dtype="String" />
+      <label for="system.familiar.nameFam" class="bold">{{localize "arm5e.sheet.name"}}</label>
+      <input type="text" name="system.familiar.nameFam" value="{{system.familiar.nameFam }}" data-dtype="String" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.familiar.specieFam" class="bold">{{localize "arm5e.sheet.specie"}}</label>
-      <input type="text" name="data.familiar.specieFam" value="{{data.familiar.specieFam }}" data-dtype="String" />
+      <label for="system.familiar.specieFam" class="bold">{{localize "arm5e.sheet.specie"}}</label>
+      <input type="text" name="system.familiar.specieFam" value="{{system.familiar.specieFam }}" data-dtype="String" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.familiar.techniqueFam.value" class="bold">{{localize "arm5e.sheet.technique"}}</label>
-      <select name="data.familiar.techniqueFam.value" data-type="String">
-        {{#select data.familiar.techniqueFam.value}} {{#each data.arts.techniques as |techniques key|}}
+      <label for="system.familiar.techniqueFam.value" class="bold">{{localize "arm5e.sheet.technique"}}</label>
+      <select name="system.familiar.techniqueFam.value" data-type="String">
+        {{#select system.familiar.techniqueFam.value}} {{#each system.arts.techniques as |techniques key|}}
             <option value="{{key}}">{{techniques.label}}</option>
           {{/each}} {{/select}}
       </select>
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.familiar.formFam.value" class="bold">{{localize "arm5e.sheet.form"}}</label>
-      <select name="data.familiar.formFam.value" data-type="String">
-        {{#select data.familiar.formFam.value}} {{#each data.arts.forms as |techniques key|}}
+      <label for="system.familiar.formFam.value" class="bold">{{localize "arm5e.sheet.form"}}</label>
+      <select name="system.familiar.formFam.value" data-type="String">
+        {{#select system.familiar.formFam.value}} {{#each system.arts.forms as |techniques key|}}
             <option value="{{key}}">{{techniques.label}}</option>
           {{/each}} {{/select}}
       </select>
@@ -43,20 +43,20 @@
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.familiar.cordFam.bronze" class="bold">{{localize "arm5e.sheet.bronze"}}</label>
-      <input type="text" name="data.familiar.cordFam.bronze" value="{{data.familiar.cordFam.bronze }}"
+      <label for="system.familiar.cordFam.bronze" class="bold">{{localize "arm5e.sheet.bronze"}}</label>
+      <input type="text" name="system.familiar.cordFam.bronze" value="{{system.familiar.cordFam.bronze }}"
         data-dtype="Number" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.familiar.cordFam.silver" class="bold">{{localize "arm5e.sheet.silver"}}</label>
-      <input type="text" name="data.familiar.cordFam.silver" value="{{data.familiar.cordFam.silver }}"
+      <label for="system.familiar.cordFam.silver" class="bold">{{localize "arm5e.sheet.silver"}}</label>
+      <input type="text" name="system.familiar.cordFam.silver" value="{{system.familiar.cordFam.silver }}"
         data-dtype="Number" />
     </div>
 
     <div class="flexrow flex-group-center" style="border: 0px">
-      <label for="data.familiar.cordFam.gold" class="bold">{{localize "arm5e.sheet.gold"}}</label>
-      <input type="text" name="data.familiar.cordFam.gold" value="{{data.familiar.cordFam.gold }}"
+      <label for="system.familiar.cordFam.gold" class="bold">{{localize "arm5e.sheet.gold"}}</label>
+      <input type="text" name="system.familiar.cordFam.gold" value="{{system.familiar.cordFam.gold }}"
         data-dtype="Number" />
     </div>
   </div>
@@ -64,14 +64,14 @@
   <div class="characteristics grid grid-4col">
     <div class="flexrow flex-group-center" style="border: 0px">
       <ol style="width: 100%">
-        {{#each data.familiar.characteristicsFam as |data key|}} {{#with (lookup @root.config.character.characteristics
+        {{#each system.familiar.characteristicsFam as |charac key|}} {{#with (lookup @root.config.character.characteristics
         key)}}
             <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
-              <label for="data.familiar.characteristicsFam.{{key}}.value" class="bold rollable"
+              <label for="system.familiar.characteristicsFam.{{key}}.value" class="bold rollable"
                 data-roll="1d10+@characteristics.{{key}}.value">{{localize short}}</label>
           {{/with}}
-          <input type="text" name="data.familiar.characteristicsFam.{{key}}.value"
-            value="{{numberFormat data.value decimals=0 sign=true}}" data-dtype="Number" />
+          <input type="text" name="system.familiar.characteristicsFam.{{key}}.value"
+            value="{{numberFormat charac.value decimals=0 sign=true}}" data-dtype="Number" />
           </li>
         {{/each}}
       </ol>
@@ -79,14 +79,14 @@
 
     <div class="flexrow flex-group-center" style="border: 0px">
       <ol style="width: 100%">
-        {{#each data.familiar.vitalsFam as |data key|}}
+        {{#each system.familiar.vitalsFam as |vital key|}}
           <li class="flexrow flex-group-left" style="border: 0px" data-attribute="{{key}}">
             {{#with (lookup @root.config.familiar.labels key)}}
-              <label for="data.familiar.vitalsFam.{{key}}.value" class="bold rollable"
+              <label for="system.familiar.vitalsFam.{{key}}.value" class="bold rollable"
                 data-roll="1d10+@vitalsFam.{{key}}.value">{{localize label}}</label>
             {{/with}}
-            <input type="text" name="data.familiar.vitalsFam.{{key}}.value"
-              value="{{numberFormat data.value decimals=0 sign=true}}" data-dtype="Number" />
+            <input type="text" name="system.familiar.vitalsFam.{{key}}.value"
+              value="{{numberFormat vital.value decimals=0 sign=true}}" data-dtype="Number" />
           </li>
         {{/each}}
       </ol>
@@ -104,10 +104,10 @@
                 class="fas fa-plus"></i></a>
           </div>
         </li>
-        {{#each data.familiar.abilitiesFam as |ability key|}}
+        {{#each system.familiar.abilitiesFam as |ability key|}}
           <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{ability._id}}">
             <div class="flexrow flex-center">
-              <span class="flexrow item-title rollable" data-roll="1d10+{{item.data.score}}"
+              <span class="flexrow item-title rollable" data-roll="1d10+{{item.system.score}}"
                 name="item.name">{{ability.name}}
               </span>
             </div>
@@ -133,10 +133,10 @@
                 class="fas fa-plus"></i></a>
           </div>
         </li>
-        {{#each data.familiar.powersFam as |data key|}}
-          <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{data._id}}">
+        {{#each system.familiar.powersFam as |power key|}}
+          <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{power._id}}">
             <div class="flexrow flex-center">
-              <span class="flexrow item-title" name="item.name">{{data.name}} </span>
+              <span class="flexrow item-title" name="item.name">{{power.name}} </span>
             </div>
             <div class="item-controls">
               <a class="item-control item-edit" title="Edit Power"><i class="icon-Icon_Edit"></i></a>

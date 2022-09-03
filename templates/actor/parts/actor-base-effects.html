@@ -1,4 +1,4 @@
-<ol class="spell-list backSection margintop18">
+<ol class="spell-list backSection margintop18" style="min-height: 350px;">
   <li class="item flexrow item-header">
     <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
     <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
@@ -6,21 +6,22 @@
     <div class="item-image"></div>
     <div>
       <span class="item-name">{{localize "arm5e.sheet.base-effects"}} </span>
-      <span>( {{ data.baseEffectCount }} )</span>
+      <span>( {{ system.baseEffectCount }} )</span>
     </div>
     <div class="item-controls">
-      <a class="item-control base-effect-create" title="Add Base effect" data-technique="{{data.techniqueFilter}}"
-        data-form="{{data.formFilter}}"><i class="fas fa-plus"></i></a>
+      <a class="item-control base-effect-create" title="Add Base effect" data-technique="{{system.techniqueFilter}}"
+        data-form="{{system.formFilter}}"><i class="fas fa-plus"></i></a>
     </div>
   </li>
-  {{#each data.baseEffects as |effect id|}}
-    <li class="item spell-value flexrow flex-center" data-name="{{effect.data.name}}" data-item-id="{{effect.id}}"
-      data-item-type="{{effect.data.type}}">
+  {{#each system.baseEffects as |effect id|}}
+    <li class="item spell-value flexrow flex-center" data-name="{{effect.system.name}}" data-item-id="{{effect.id}}"
+      data-item-type="{{effect.type}}">
       <div class="flexrow flex-center">
-        <span class="flexrow spell-title design" data-name="{{effect.data.name}}">
-          {{effect.data.name}} ( {{#with (lookup @root.config.magic.arts effect.data.data.technique.value)~}}{{short~}}
-          {{/with}} {{#with (lookup @root.config.magic.arts effect.data.data.form.value)~}}{{short~}} {{/with}}
-          {{effect.data.data.baseLevel}} )
+        <span class="flexrow spell-title design" data-name="{{effect.name}}">
+          <!--TODOV10 clean that mole below-->
+          {{effect.name}} ( {{#with (lookup @root.config.magic.arts effect.system.technique.value)~}}{{short~}}
+          {{/with}} {{#with (lookup @root.config.magic.arts effect.system.form.value)~}}{{short~}} {{/with}}
+          {{effect.system.baseLevel}} )
         </span>
       </div>
       <div class="item-controls">

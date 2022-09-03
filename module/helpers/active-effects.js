@@ -17,9 +17,9 @@ export default class ArM5eActiveEffect extends ActiveEffect {
 
   prepareDerivedData() {
     // if the effect is from an Item (virtue, etc) and is owned, prevent edition
-    this.data.noEdit =
+    this.noEdit =
       (this.parent.documentName === "Item" && this.parent.isOwned == true) ||
-      (this.parent.documentName === "Actor" && this.data.origin?.includes("Item")) ||
+      (this.parent.documentName === "Actor" && this.origin?.includes("Item")) ||
       this.getFlag("arm5e", "noEdit");
   }
 
@@ -70,7 +70,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
       case "delete":
         return await effect.delete();
       case "toggle":
-        return await effect.update({ disabled: !effect.data.disabled });
+        return await effect.update({ disabled: !effect.disabled });
     }
   }
 
@@ -103,14 +103,14 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
 
-      e.data.descr = e.buildActiveEffectDescription();
+      e.descr = e.buildActiveEffectDescription();
       // let effectTypes = e.getFlag("arm5e", "type");
       // let effectSubtypes = e.getFlag("arm5e", "subtype");
       // let effectOption = e.getFlag("arm5e", "option");
       // log(true, `DBG:Effect types: [${effectTypes}]`);
       // log(true, `DBG:Effect subtypes: [${effectSubtypes}]`);
       // log(true, `DBG:Effect options: [${effectOption}]`);
-      if (e.data.disabled) categories.inactive.effects.push(e);
+      if (e.disabled) categories.inactive.effects.push(e);
       else if (e.isTemporary) categories.temporary.effects.push(e);
       else categories.passive.effects.push(e);
     }
@@ -121,7 +121,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     const activeEffects = [];
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
-      if (!e.data.disabled && e?.getFlag("arm5e", "type")?.includes(type)) {
+      if (!e.disabled && e?.getFlag("arm5e", "type")?.includes(type)) {
         activeEffects.push(e);
       }
     }
@@ -132,7 +132,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     let res = [];
     for (let e of effects) {
       e._getSourceName(); // Trigger a lookup for the source name
-      if (!e.data.disabled && e?.getFlag("arm5e", "subtype")?.includes(subtype)) {
+      if (!e.disabled && e?.getFlag("arm5e", "subtype")?.includes(subtype)) {
         res.push(e);
       }
     }
@@ -152,7 +152,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
       let effectTypes = this.getFlag("arm5e", "type");
       let effectSubtypes = this.getFlag("arm5e", "subtype");
       let effectOption = this.getFlag("arm5e", "option");
-      for (let c of Object.values(this.data.changes)) {
+      for (let c of Object.values(this.changes)) {
         descr += game.i18n.localize(ACTIVE_EFFECTS_TYPES[effectTypes[idx]].label) + ": ";
         let subtype = game.i18n.localize(
           ACTIVE_EFFECTS_TYPES[effectTypes[idx]].subtypes[effectSubtypes[idx]].label
