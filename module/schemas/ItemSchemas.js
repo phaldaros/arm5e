@@ -1,5 +1,4 @@
 // import DataModel from "common/abstract/data.mjs";
-// import * as fields from "common/data/fields.mjs";
 import { ARM5E } from "../config.js";
 import { authorship, itemBase, SeasonField, XpField } from "./commonSchemas.js";
 const fields = foundry.data.fields;

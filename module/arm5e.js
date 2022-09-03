@@ -508,7 +508,7 @@ Hooks.on("renderPause", function() {
   const speed = "20s linear 0s infinite normal none running rotation";
   const opacity = 0.6;
   $("#pause.paused img").attr("src", path);
-  $("#pause.paused img").css({ opacity: opacity, "-webkit-animation": speed });
+  $("#pause.paused img").css({ opacity: opacity, "--fa-animation-duration": "20s" });
 });
 
 function setSystemDatamodels() {

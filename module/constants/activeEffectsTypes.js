@@ -109,12 +109,6 @@ export default {
         key: "system.bonuses.activities.reading",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
-      },
-      adventuring: {
-        label: "arm5e.activity.adventuring",
-        key: "system.bonuses.activities.adventuring",
-        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-        default: 3
       }
     }
   },
@@ -1386,11 +1380,4 @@ export default {
       }
     }
   }
-
-  // strength: {
-  //   category: "traits",
-  //   type: "strength",
-  //   label: "arm5e.sheet.strength",
-  //   key: "system.characteristics.str.value"
-  // }
 };

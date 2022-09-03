@@ -53,6 +53,7 @@ export const authorship = () => {
       required: false,
       nullable: false,
       integer: true,
+      // positive: true, // for testing
       initial: 1200,
       step: 1
     }),

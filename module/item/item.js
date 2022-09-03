@@ -258,7 +258,10 @@ export class ArM5eItem extends Item {
               systemData.baseQuality = activityConfig.source.default;
               break;
             }
-            case "adventuring":
+            case "adventuring": {
+              systemData.baseQuality = systemData.sourceQuality;
+              break;
+            }
             case "hermeticApp":
             case "childhood":
             case "laterLife":

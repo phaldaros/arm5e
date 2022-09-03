@@ -1,15 +1,6 @@
 # Release Notes
 
-## 2.0.0-alpha2
-
-### V10 migration (on going)
-
-- Html templates update
-- Use of system instead of data.data in all javascript modules
-- Replaced deprecated methods
-- Migrated packs
-- Data models activated
-  - Abilities
+## 2.0.0.0
 
 ### Features
 
@@ -29,6 +20,15 @@
 - Entities with might no longer raise an error while computing penetration.
 - Fixed source quality of teaching activity (+3 instead of +6)
 - lots of small fixes
+
+### V10 migration (on going)
+
+- Html templates update
+- Use of system instead of data.data in all javascript modules
+- Replaced deprecated methods
+- Migrated packs
+- Data models activated
+  - Abilities
 
 ## 1.4.5
 
