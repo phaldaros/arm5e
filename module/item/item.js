@@ -461,7 +461,7 @@ export class ArM5eItem extends Item {
     }
   }
 
-  _computeCastingTotal(actorData, itemData) {
+  _computeCastingTotal(owner, itemData) {
     if (owner.type != "player" && owner.type != "npc") {
       return 0;
     }

@@ -228,7 +228,7 @@ export function validChildhood(context, actor, item) {
 
   let abilitiesArr = Object.values(item.system.progress.abilities);
   checkForDuplicates("abilities", context, abilitiesArr);
-  context.data.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 5);
+  context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
   const filteredArray = actor.system.abilities.filter(e => {
     return abilitiesArr.some(filter => {
       return filter.id === e._id && e.system.key == "livingLanguage" && filter.xp == 75;
@@ -260,11 +260,11 @@ export function validTotalXp(context, actor, item) {
   checkForDuplicates("abilities", context, abilitiesArr);
   context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
 
-  context.data.totalXp.arts += checkArtProgressItems(context, itemData, 5);
+  context.system.totalXp.arts += checkArtProgressItems(context, item, 1000);
 
   let spellsArr = Object.values(item.system.progress.spells);
   checkForDuplicates("spells", context, spellsArr);
-  context.data.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 5);
+  context.system.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 1000);
 
   if (
     context.system.totalXp.abilities +

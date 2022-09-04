@@ -17,77 +17,77 @@
       "label": "Magi #CHANGEME#",
       "system": "arm5e",
       "path": "packs/magi.db",
-      "entity": "Actor"
+      "type": "Actor"
     },
     {
       "name": "companions",
       "label": "Companions #CHANGEME#",
       "system": "arm5e",
       "path": "packs/companions.db",
-      "entity": "Actor"
+      "type": "Actor"
     },
     {
       "name": "grogs",
       "label": "Grogs #CHANGEME#",
       "system": "arm5e",
       "path": "packs/grogs.db",
-      "entity": "Actor"
+      "type": "Actor"
     },
     {
       "name": "spells",
       "label": "Spells",
       "system": "arm5e",
       "path": "packs/spells.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "items",
       "label": "Equipment #CHANGEME#",
       "system": "arm5e",
       "path": "packs/items.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "enchantments",
       "label": "Enchantments #CHANGEME#",
       "system": "arm5e",
       "path": "packs/enchantments.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "virtues",
       "label": "Virtues #CHANGEME#",
       "system": "arm5e",
       "path": "packs/virtues.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "flaws",
       "label": "Flaws #CHANGEME#",
       "system": "arm5e",
       "path": "packs/flaws.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "abilities",
       "label": "Abilities #CHANGEME#",
       "system": "arm5e",
       "path": "packs/abilities.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "scenes",
       "label": "Scenes #CHANGEME#",
       "system": "arm5e",
       "path": "packs/scenes.db",
-      "entity": "Scene"
+      "type": "Scene"
     },
     {
       "name": "macros",
       "label": "Macros #CHANGEME#",
       "system": "arm5e",
       "path": "packs/macros.db",
-      "entity": "Macro"
+      "type": "Macro"
     }
   ],
   "dependencies": [
