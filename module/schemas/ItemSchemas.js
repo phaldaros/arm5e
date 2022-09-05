@@ -1,6 +1,12 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
-import { authorship, itemBase, SeasonField, XpField } from "./commonSchemas.js";
+import {
+  authorship,
+  characteristicField,
+  itemBase,
+  SeasonField,
+  XpField
+} from "./commonSchemas.js";
 const fields = foundry.data.fields;
 export class AbilitySchema extends foundry.abstract.DataModel {
   static defineSchema() {
@@ -32,7 +38,7 @@ export class HermeticArtBookSchema extends foundry.abstract.DataModel {
       }),
       level: new fields.NumberField({
         required: false,
-        nullable: false,
+        nullable: true,
         integer: true,
         min: 0,
         initial: 0,
@@ -107,10 +113,6 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
 
 export class DiaryEntrySchema extends foundry.abstract.DataModel {
   static defineSchema() {
-    const progressItemField = () => {
-      return n;
-    };
-
     return {
       ...itemBase(),
       ...SeasonField(),
@@ -140,7 +142,25 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           nullable: true,
           initial: null
         }),
-        name: new fields.StringField({ required: true, blank: false })
+        name: new fields.StringField({ required: true, blank: false }),
+        com: characteristicField(),
+        teaching: new fields.NumberField({
+          required: false,
+          nullable: false,
+          integer: true,
+          positive: true,
+          initial: 1,
+          step: 1
+        }),
+        applySpec: new fields.BooleanField({ required: false, initial: false }),
+        score: new fields.NumberField({
+          required: false,
+          nullable: false,
+          integer: true,
+          min: 0,
+          initial: 2,
+          step: 1
+        })
       }),
       progress: new fields.SchemaField({
         abilities: new fields.ArrayField(
@@ -165,5 +185,55 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         )
       })
     };
+  }
+}
+
+export class ItemSchema extends foundry.abstract.DataModel {
+  static defineSchema() {
+    return {
+      ...itemBase(),
+      quantity: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        min: 0, // allow quantity of 0 to keep an eye on what is missing
+        initial: 1,
+        step: 1
+      }),
+      weight: new fields.NumberField({
+        required: false,
+        nullable: false,
+        min: 0,
+        initial: 0
+      })
+    };
+  }
+}
+
+export class VisSchema extends foundry.abstract.DataModel {
+  static defineSchema() {
+    return {
+      ...itemBase(),
+      art: new fields.StringField({
+        required: false,
+        blank: false,
+        initial: "cr",
+        choices: Object.keys(ARM5E.magic.arts)
+      }),
+      pawns: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        min: 0, // allow quantity of 0 to keep an eye on what is missing
+        initial: 1,
+        step: 1
+      })
+    };
+  }
+}
+
+export class MySchema extends foundry.abstract.DataModel {
+  static defineSchema() {
+    return { ...itemBase() };
   }
 }

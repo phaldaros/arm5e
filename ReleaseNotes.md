@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.0.0
+## 2.0.1.1
 
 ### Features
 
@@ -29,7 +29,15 @@
 - Migrated packs
 - Data models activated
   - Abilities
-  
+- Data models implemented
+  - Books
+  - Mundane books
+  - Virtues
+  - Flaws
+  - Diary entries
+  - Mundane Items
+  - Vis
+
 ## 1.4.7
 
 ### Features

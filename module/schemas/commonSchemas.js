@@ -16,6 +16,8 @@ export const itemBase = () => {
   };
 };
 
+// Choices:
+
 export const SeasonField = () =>
   new fields.StringField({
     required: false,
@@ -38,6 +40,18 @@ export const characteristicField = () => {
   new fields.NumberField({
     required: false,
     nullable: false,
+    integer: true,
+    min: -10,
+    max: 10,
+    initial: 0,
+    step: 1
+  });
+};
+
+export const hermeticArtField = () => {
+  new fields.NumberField({
+    required: true,
+    nullable: true,
     integer: true,
     min: -10,
     max: 10,
