@@ -10,7 +10,7 @@ import { ArM5eMagicCodexSheet } from "./actor/actor-magic-codex-sheet.js";
 import { ArM5eActorsDirectory } from "./ui/ars-actors-directory.js";
 import { ArM5eCrucibleSheet } from "./actor/actor-crucible-sheet.js";
 import { ArM5eItem } from "./item/item.js";
-import { ArM5eItemSheet } from "./item/item-sheet.js";
+import { ArM5eItemSheet, ArM5eItemSheetNoDesc } from "./item/item-sheet.js";
 import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 import { ArM5eItemDiarySheet } from "./item/item-diary-sheet.js";
 import ArM5eActiveEffect from "./helpers/active-effects.js";
@@ -236,7 +236,6 @@ Hooks.once("init", async function() {
     types: [
       "weapon",
       "armor",
-      "vis",
       "item",
       "book",
       "virtue",
@@ -268,6 +267,8 @@ Hooks.once("init", async function() {
     ],
     makeDefault: true
   });
+
+  Items.registerSheet("arm5e", ArM5eItemSheetNoDesc, { types: ["vis"] });
 
   // [DEV] comment line bellow to get access to the original sheet
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);

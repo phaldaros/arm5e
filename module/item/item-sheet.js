@@ -9,7 +9,7 @@ export class ArM5eItemSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
-      width: 654,
+      width: 650,
       height: 750,
       // dragDrop: [{dragSelector: ".item-list .item", dropSelector: null}],
       tabs: [
@@ -22,6 +22,10 @@ export class ArM5eItemSheet extends ItemSheet {
     });
   }
 
+  constructor(data, options) {
+    super(data, options);
+  }
+
   /** @override */
   get template() {
     const path = "systems/arm5e/templates/item";
@@ -30,6 +34,15 @@ export class ArM5eItemSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
+
+    switch (this.item.type) {
+      case "vis":
+        this.options.tabs = [];
+        break;
+      default:
+        break;
+    }
+
     return `${path}/item-${this.item.type}-sheet.html`;
   }
 
@@ -358,6 +371,16 @@ export class ArM5eItemSheet extends ItemSheet {
   // async _onDrop(event) {
   //   return {};
   // }
+}
+
+export class ArM5eItemSheetNoDesc extends ArM5eItemSheet {
+  /** @override */
+  static get defaultOptions() {
+    // No tabs
+    return mergeObject(super.defaultOptions, {
+      tabs: []
+    });
+  }
 }
 
 export async function createMagicItem(html, item, codex) {
