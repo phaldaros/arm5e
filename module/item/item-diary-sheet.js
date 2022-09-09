@@ -13,7 +13,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       classes: ["arm5e", "sheet", "item"],
       width: 654,
       height: 850,
-      dragDrop: [{ dragSelector: null, dropSelector: ".progress-teacher" }],
+      dragDrop: [
+        { dragSelector: null, dropSelector: ".progress-teacher" },
+        { dragSelector: null, dropSelector: ".progress-abilities" }
+      ],
       tabs: [
         {
           navSelector: ".sheet-tabs",
@@ -29,16 +32,25 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     });
   }
 
-  // TODOV10
   async _onDrop(event) {
     const data = TextEditor.getDragEventData(event);
     if (data.type == "Actor") {
-      if (data.id == this.actor.id) {
-        ui.notifications.info(game.i18n.localize("arm5e.activity.msg.selfTeaching"));
-        return;
+      if (this.item.system.type === "teaching" || this.item.system.type === "training") {
+        if (data.id == this.actor.id) {
+          ui.notifications.info(game.i18n.localize("arm5e.activity.msg.selfTeaching"));
+          return;
+        }
+        const actor = await Actor.implementation.fromDropData(data);
+        if (actor._isCharacter()) await this._setTeacher(actor);
       }
-      const actor = await Actor.implementation.fromDropData(data);
-      if (actor._isCharacter()) await this._setTeacher(actor);
+    } else if (data.type == "Item") {
+      const item = await Item.implementation.fromDropData(data);
+      if (item.type === "ability") {
+        if (this.item.system.type === "teaching" || this.item.system.type === "training") return;
+
+        log(false, `Ability ${item.name} added`);
+        this._addAbility(item);
+      }
     }
   }
   /* -------------------------------------------- */
@@ -764,6 +776,51 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
     let description = this.item.system.description + "<h4>Rollbacked<h4>";
     await this.item.update({ system: { applied: false, description: description } });
+  }
+
+  async _addAbility(ability) {
+    let currentData = Object.values(this.item.system.progress["abilities"]) ?? [];
+    let updateData = {};
+
+    if (ability.isOwned && ability.actor._id == this.item.actor._id) {
+      // check if it is owned by the character
+      log(false, "Owned by the character");
+    } else {
+      // check if the character already has that skill and use it instead
+      let actorAbility = this.item.actor.system.abilities.find(
+        e => e.system.key == ability.system.key && e.system.option == ability.system.option
+      );
+      if (actorAbility) {
+        ability = actorAbility;
+      } else {
+        // remove any original actor related stuff
+        ability.updateSource({ system: { xp: 0, speciality: "" } });
+
+        // we have to create it first.
+        const itemData = [
+          {
+            name: ability.name,
+            type: "ability",
+            system: duplicate(ability.system)
+          }
+        ];
+        ability = await this.actor.createEmbeddedDocuments("Item", itemData, {});
+        ability = ability[0];
+      }
+    }
+
+    const data = {
+      id: ability._id,
+      category: CONFIG.ARM5E.ALL_ABILITIES[ability.system.key]?.category ?? "general",
+      name: ability.name,
+      currentXp: ability.system.xp,
+      xpNextLevel: ability.system.xpNextLevel,
+      teacherScore: this.item.system.teacherScore,
+      xp: 0
+    };
+    currentData.push(data);
+    updateData[`system.progress.abilities`] = currentData;
+    await this.item.update(updateData, {});
   }
 
   async _onProgressControl(event) {

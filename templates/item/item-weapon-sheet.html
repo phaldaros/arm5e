@@ -9,8 +9,8 @@
       <div class="resource flexcol flexrow">
         <label for="system.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
         <select name="system.ability" data-type="String">
-          {{#select system.ability}} {{#each system.abilities as |abil key|}}
-              <option value="{{abil.id}}">{{abil.name}}</option>
+          {{#select system.ability}} {{#each system.abilities }}
+              <option value="{{id}}">{{name}}</option>
             {{/each}} {{/select}}
         </select>
       </div>

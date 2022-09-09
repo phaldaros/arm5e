@@ -61,27 +61,15 @@ export class ArM5eItemSheet extends ItemSheet {
 
     context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon") {
-      let abilitiesSelect = {};
-      const temp = {
+      context.system.abilities = this.actor.system.abilities
+        .filter(a => a.system.category === "martial")
+        .map(v => {
+          return { id: v._id, name: v.name };
+        });
+      context.system.abilities.unshift({
         id: "",
         name: "N/A"
-      };
-      abilitiesSelect["a0"] = temp;
-      if (this.actor != null) {
-        // find the actor habilities and create the select
-        for (let [key, i] of this.actor.system.items.entries()) {
-          if (i.type === "ability") {
-            const temp = {
-              id: i.id,
-              name: i.name
-            };
-            //abilitiesSelect.push(temp);
-            abilitiesSelect["a" + key] = temp;
-          }
-        }
-      }
-
-      context.system.abilities = abilitiesSelect;
+      });
 
       //console.log("item-sheet get data weapon")
       //console.log(data)

@@ -1,5 +1,34 @@
 # Release Notes
 
+## 2.0.2.0
+
+### Features
+
+- Number of Xp assigned in an activity is now displayed
+- It is possible to drag and drop abilities in the Activities tab of a diary entry:
+  - From the character, another character, the sidebar or a compendium
+  - If the character already has the ability, it will use it instead. Otherwise the dropped ability will be added to the character at a score of 0.
+- Only martial abilities are displayed for weapons use
+- Some items sheets don't have tabs anymore:
+  - Vis sheet
+
+### Bug fixes
+
+- The list of abilities to use a weapon is back
+
+### V10 migration (on going)
+
+- Data models activated
+  - Abilities
+- Data models implemented
+  - Books
+  - Mundane books
+  - Virtues
+  - Flaws
+  - Diary entries
+  - Mundane Items
+  - Vis
+
 ## 2.0.1.1
 
 ### Features
