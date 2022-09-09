@@ -17,37 +17,25 @@
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.sheet.pawns"}}</label>
-        <input type="text" name="system.pawns" value="{{system.pawns}}" data-dtype="Number" />
+        <input type="text" name="system.pawns" value="{{system.pawns}}" data-dtype="Number" style="max-width: 100px;" />
       </div>
     </div>
   </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-    <a class="item posRelative" data-tab="description">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.description"}}
-    </a>
-    <a class="item posRelative" data-tab="attributes">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.attributes"}}
-    </a>
-  </nav>
+
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
-      <label for="system.form" class="header-label">{{localize "arm5e.sheet.physicalForm"}}</label>
-      {{editor system.form target="system.form" button=true owner=owner editable=editable}}
-    </div>
-
-    {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
+    <label for="system.description" class="header-label">{{localize "arm5e.sheet.physicalForm"}}</label>
+    <div class="tab" style="height: 100%;">
       {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+      {{#if (eq metagame true)}}
+        {{> "systems/arm5e/templates/generic/source.html" }}
+      {{/if}}
     </div>
   </section>
-  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+  <div style="margin-top: 40px;">
+    {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+  </div>
 </form>

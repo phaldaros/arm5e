@@ -904,6 +904,18 @@ export const migrateItemData = function(itemData) {
     if (itemData.system.art.value !== undefined) {
       updateData["system.art"] = itemData.system.art.value;
     }
+
+    // get ride of form of vis field
+    if (itemData.type == "vis") {
+      if (
+        itemData.system.form != undefined &&
+        itemData.system.form !== "Physical form of the raw vis." &&
+        itemData.system.form !== ""
+      ) {
+        updateData["system.description"] = itemData.system.description + itemData.system.form;
+        updateData["system.-=form"] = null;
+      }
+    }
   } else if (itemData.type == "book") {
     // V10 datamodel cleanup (2.0.0)
     if (itemData.system.art.value !== undefined) {

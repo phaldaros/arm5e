@@ -1258,8 +1258,7 @@
     "vis": {
       "templates": ["base"],
       "art": "cr",
-      "pawns": 1,
-      "form": "Physical form of the raw vis."
+      "pawns": 1
     },
     "book": {
       "templates": ["base", "authorship"],

@@ -218,8 +218,13 @@ export function validAdventuring(context, actor, item) {
     context.system.sourceQuality
   ) {
     context.system.applyPossible = "disabled";
-    if (context.system.applyError === "")
+    if (context.system.applyError === "") {
+      context.system.errorParam =
+        context.system.totalXp.abilities +
+        context.system.totalXp.arts +
+        context.system.totalXp.spells;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
+    }
   }
 }
 
@@ -248,8 +253,13 @@ export function validChildhood(context, actor, item) {
     context.system.sourceQuality
   ) {
     context.system.applyPossible = "disabled";
-    if (context.system.applyError === "")
+    if (context.system.applyError === "") {
+      context.system.errorParam =
+        context.system.totalXp.abilities +
+        context.system.totalXp.arts +
+        context.system.totalXp.spells;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
+    }
   }
 }
 
@@ -273,8 +283,13 @@ export function validTotalXp(context, actor, item) {
     context.system.sourceQuality
   ) {
     context.system.applyPossible = "disabled";
-    if (context.system.applyError === "")
+    if (context.system.applyError === "") {
+      context.system.errorParam =
+        context.system.totalXp.abilities +
+        context.system.totalXp.arts +
+        context.system.totalXp.spells;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
+    }
   }
 }
 
@@ -306,8 +321,13 @@ export function validExposure(context, actor, item) {
     context.system.sourceQuality
   ) {
     context.system.applyPossible = "disabled";
-    if (context.system.applyError === "")
+    if (context.system.applyError === "") {
+      context.system.errorParam =
+        context.system.totalXp.abilities +
+        context.system.totalXp.arts +
+        context.system.totalXp.spells;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
+    }
   }
 }
 
@@ -381,8 +401,13 @@ export function validPractice(context, actor, item) {
     context.system.sourceQuality
   ) {
     context.system.applyPossible = "disabled";
-    if (context.system.applyError === "")
+    if (context.system.applyError === "") {
+      context.system.errorParam =
+        context.system.totalXp.abilities +
+        context.system.totalXp.arts +
+        context.system.totalXp.spells;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
+    }
   }
 }
 

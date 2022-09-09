@@ -9,7 +9,7 @@ export class ArM5eItemSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
-      width: 654,
+      width: 650,
       height: 750,
       // dragDrop: [{dragSelector: ".item-list .item", dropSelector: null}],
       tabs: [
@@ -22,6 +22,10 @@ export class ArM5eItemSheet extends ItemSheet {
     });
   }
 
+  constructor(data, options) {
+    super(data, options);
+  }
+
   /** @override */
   get template() {
     const path = "systems/arm5e/templates/item";
@@ -30,6 +34,15 @@ export class ArM5eItemSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
+
+    switch (this.item.type) {
+      case "vis":
+        this.options.tabs = [];
+        break;
+      default:
+        break;
+    }
+
     return `${path}/item-${this.item.type}-sheet.html`;
   }
 
@@ -48,27 +61,15 @@ export class ArM5eItemSheet extends ItemSheet {
 
     context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon") {
-      let abilitiesSelect = {};
-      const temp = {
+      context.system.abilities = this.actor.system.abilities
+        .filter(a => a.system.category === "martial")
+        .map(v => {
+          return { id: v._id, name: v.name };
+        });
+      context.system.abilities.unshift({
         id: "",
         name: "N/A"
-      };
-      abilitiesSelect["a0"] = temp;
-      if (this.actor != null) {
-        // find the actor habilities and create the select
-        for (let [key, i] of this.actor.system.items.entries()) {
-          if (i.type === "ability") {
-            const temp = {
-              id: i.id,
-              name: i.name
-            };
-            //abilitiesSelect.push(temp);
-            abilitiesSelect["a" + key] = temp;
-          }
-        }
-      }
-
-      context.system.abilities = abilitiesSelect;
+      });
 
       //console.log("item-sheet get data weapon")
       //console.log(data)
@@ -358,6 +359,16 @@ export class ArM5eItemSheet extends ItemSheet {
   // async _onDrop(event) {
   //   return {};
   // }
+}
+
+export class ArM5eItemSheetNoDesc extends ArM5eItemSheet {
+  /** @override */
+  static get defaultOptions() {
+    // No tabs
+    return mergeObject(super.defaultOptions, {
+      tabs: []
+    });
+  }
 }
 
 export async function createMagicItem(html, item, codex) {
