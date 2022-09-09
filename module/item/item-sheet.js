@@ -61,11 +61,9 @@ export class ArM5eItemSheet extends ItemSheet {
 
     context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon") {
-      context.system.abilities = this.actor.system.abilities
-        .filter(a => a.system.category === "martial")
-        .map(v => {
-          return { id: v._id, name: v.name };
-        });
+      context.system.abilities = this.actor.system.abilities.map(v => {
+        return { id: v._id, name: `${v.name} (${v.system.speciality}) - ${v.system.finalScore}` };
+      });
       context.system.abilities.unshift({
         id: "",
         name: "N/A"
