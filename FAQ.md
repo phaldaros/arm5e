@@ -44,6 +44,7 @@ There could be 2 reasons for that:
    When n° 2 is found, the mnemonic is added but some may have escaped me.
    In your data folder: systems\arm5e\lang there are files for each language, if you compare the English one (en.json) with the other ones, some lines may be missing. It is case number 1, if you are fluent in that language, you can complete it and send me the final file and I will integrate it in the next version. (For the courageous, you can create a whole new language support for the system).
    For the tech savvy people, a pull request on the git repo will do the trick too
+3. Some translated messages have parameters in braces (eg: "{name}"), you can move them around but you must not translate them or they will appear as undefined in the GUI.
 
 ## Migration
 
@@ -83,9 +84,13 @@ Nothing to worry about, this is normal. You just have to follow instructions and
 
 ### I cannot select the ability I want to progress into.
 
-A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0.
+A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0 or drag and drop them on the diary sheet's abilities tab (the latter doesn't work with training and teaching)
 
 ### Rolls
+
+### How do I know where the roll total comes from?
+
+There is a unfoldable section if you click "details" in the chat message
 
 ### How do I use confidence points?
 
