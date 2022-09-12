@@ -81,7 +81,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "virtue":
       case "flaw":
-        switch (itemData.system.type.value) {
+        switch (itemData.system.type) {
           case "laboratoryOutfitting":
           case "laboratoryStructure":
           case "laboratorySupernatural":
@@ -151,7 +151,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       }
     }
     const res = await super._onDropItem(event, data);
-    if (res.length == 1) {
+    if (res && res.length == 1) {
       res[0].sheet.render(true);
     }
     return res;

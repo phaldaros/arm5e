@@ -148,7 +148,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "virtue":
       case "flaw":
-        switch (itemData.system.type.value) {
+        switch (itemData.system.type) {
           case "covenantSite":
           case "covenantResources":
           case "covenantResidents":
