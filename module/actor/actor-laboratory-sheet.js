@@ -90,7 +90,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "virtue":
       case "flaw":
-        switch (itemData.system.type.value) {
+        switch (itemData.system.type) {
           case "laboratoryOutfitting":
           case "laboratoryStructure":
           case "laboratorySupernatural":
