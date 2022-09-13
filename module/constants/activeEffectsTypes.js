@@ -1324,7 +1324,103 @@ export default {
       }
     }
   },
-
+  labSpecialty: {
+    category: "laboratory",
+    type: "laboratory",
+    label: "arm5e.sheet.activeEffect.types.laboratorySpec",
+    subtypes: {
+      cr: {
+        label: "Creo",
+        key: "system.specialty.cr.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      in: {
+        label: "Intellego",
+        key: "system.specialty.in.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      mu: {
+        label: "Muto",
+        key: "system.specialty.mu.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      pe: {
+        label: "Perdo",
+        key: "system.specialty.pe.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      re: {
+        label: "Rego",
+        key: "system.specialty.re.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      an: {
+        label: "Animal",
+        key: "system.specialty.an.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      aq: {
+        label: "Aquam",
+        key: "system.specialty.aq.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      au: {
+        label: "Auram",
+        key: "system.specialty.au.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      co: {
+        label: "Corpus",
+        key: "system.specialty.co.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      he: {
+        label: "Herbam",
+        key: "system.specialty.he.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      ig: {
+        label: "Ignem",
+        key: "system.specialty.ig.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      im: {
+        label: "Imaginem",
+        key: "system.specialty.im.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      me: {
+        label: "Mentem",
+        key: "system.specialty.me.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      te: {
+        label: "Terram",
+        key: "system.specialty.te.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      vi: {
+        label: "Vim",
+        key: "system.specialty.vi.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      }
+    }
+  },
   laboratory: {
     category: "laboratory",
     type: "laboratory",

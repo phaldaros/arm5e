@@ -189,6 +189,15 @@ span.player-name {
   text-align: center;
 }
 
+.arm5e .drop-box {
+  text-align: center;
+  padding: 25px;
+  margin: 5px;
+  border: 3px;
+  border-style: dashed;
+  border-radius: 14px;
+  border-color: rgb(161, 154, 154);
+}
 .window-app .window-content {
   flex-direction: column;
   flex-wrap: nowrap;
@@ -329,7 +338,7 @@ h4.window-title {
   border: 1px solid var(--color-border-light-tertiary);
   font-weight: bold;
 }
-
+.lab-total,
 .arts-total {
   height: 28px;
   background: rgba(0, 0, 0, 0.05);
@@ -904,6 +913,14 @@ input[type="time"] {
   font-family: "bookAntiqua";
   font-size: 12pt;
   text-align: center;
+}
+
+.arm5e option:disabled {
+  font-size: medium;
+  color: black;
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: overline;
 }
 
 .arm5e .progresses-list {
