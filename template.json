@@ -147,7 +147,6 @@
         "armor": [],
         "vis": [],
         "items": [],
-        "books": [],
         "spells": [],
         "magicalEffects": [],
         "decrepitude": {
@@ -1264,8 +1263,15 @@
       "templates": ["base", "authorship"],
       "art": "cr",
       "type": "Summa",
-      "quality": 0,
-      "level": 0
+      "topic": {
+        "category": "art",
+        "key": null,
+        "option": null,
+        "art": "cr",
+        "spellName": null
+      },
+      "quality": 1,
+      "level": 1
     },
     "item": {
       "templates": ["base"],
@@ -1299,10 +1305,8 @@
       "year": "",
       "season": "",
       "date": "",
-      "experience": 0,
       "sourceQuality": 0,
       "activity": "none",
-      "confidence": 0,
       "progress": { "abilities": [], "spells": [], "arts": [] },
       "teacher": {
         "id": null,
@@ -1312,6 +1316,22 @@
         "speciality": "",
         "applySpec": false,
         "score": 0
+      },
+      "book": {
+        "id": null,
+        "title": "",
+        "language": "Latin",
+        "author": "Unknown",
+        "type": "Summa",
+        "quality": 1,
+        "level": 1,
+        "topic": {
+          "category": "art",
+          "key": null,
+          "option": null,
+          "art": "cr",
+          "spellName": null
+        }
       },
       "optionKey": "standard",
       "applied": false
@@ -1403,11 +1423,15 @@
     "mundaneBook": {
       "templates": ["base", "authorship"],
       "type": "Summa",
-      "ability": "",
-      "key": "",
-      "option": "",
-      "level": 0,
-      "quality": 0
+      "topic": {
+        "category": "art",
+        "key": null,
+        "option": null,
+        "art": "cr",
+        "spellName": null
+      },
+      "level": 1,
+      "quality": 1
     }
   }
 }

@@ -178,7 +178,6 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       case "calendarCovenant":
       case "incomingSource":
       case "laboratoryText":
-      case "mundaneBook":
       case "enchantment":
         return true;
       default:

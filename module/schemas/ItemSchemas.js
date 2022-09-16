@@ -22,12 +22,12 @@ export class AbilitySchema extends foundry.abstract.DataModel {
   }
 }
 
-export class HermeticArtBookSchema extends foundry.abstract.DataModel {
+export class BookSchema extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       ...itemBase(),
       ...authorship(),
-      art: new fields.StringField({ required: false, blank: false, initial: "cr" }),
+
       quality: new fields.NumberField({
         required: false,
         nullable: false,
@@ -49,42 +49,39 @@ export class HermeticArtBookSchema extends foundry.abstract.DataModel {
         blank: false,
         initial: "Summa",
         choices: ARM5E.books.types
+      }),
+      topic: new fields.SchemaField({
+        category: new fields.StringField({
+          required: true,
+          nullable: false,
+          initial: "art",
+          choices: ["art", "ability", "spell"]
+        }),
+        art: new fields.StringField({ required: false, nullable: true, initial: "cr" }),
+        key: new fields.StringField({ required: false, nullable: true, initial: null }),
+        option: new fields.StringField({ required: false, nullable: true, initial: null }),
+        spellName: new fields.StringField({ required: false, nullable: true, initial: null })
       })
     };
   }
-}
 
-export class MundaneBookSchema extends foundry.abstract.DataModel {
-  static defineSchema() {
-    return {
-      ...itemBase(),
-      ...authorship(),
-      ability: new fields.StringField({ required: false, blank: false, initial: "My ability" }),
-      key: new fields.StringField({ required: false, blank: true, initial: "" }),
-      option: new fields.StringField({ required: false, blank: true, initial: "" }),
-      quality: new fields.NumberField({
-        required: false,
-        nullable: false,
-        integer: true,
-        min: 0,
-        initial: 0,
-        step: 1
-      }),
-      level: new fields.NumberField({
-        required: false,
-        nullable: false,
-        integer: true,
-        min: 0,
-        initial: 0,
-        step: 1
-      }),
-      type: new fields.StringField({
-        required: false,
-        blank: false,
-        initial: "Summa",
-        choices: ARM5E.books.types
-      })
-    };
+  // @override
+  _validate(data) {
+    // first call the standard validate model
+    super._validate(data);
+    let error = false;
+    if (data.system.topic.art !== null) {
+      topicCount++;
+    }
+    if (data.system.topic.spellName !== null) {
+      topicCount++;
+    }
+    if (data.system.topic.key !== null) {
+      topicCount++;
+    }
+    if (topicCount != 1) {
+      throw new Error("A book cannot cover more than one topic");
+    }
   }
 }
 
@@ -95,17 +92,17 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
       type: new fields.StringField({
         required: false,
         blank: false,
-        initial: "general"
-        // choices: Object.keys(ARM5E.virtueFlawTypes.character)
-        //   .concat(ARM5E.virtueFlawTypes.laboratory)
-        //   .concat(ARM5E.virtueFlawTypes.covenant)
-        //   .concat("other")
+        initial: "general",
+        choices: Object.keys(ARM5E.virtueFlawTypes.character)
+          .concat(ARM5E.virtueFlawTypes.laboratory)
+          .concat(ARM5E.virtueFlawTypes.covenant)
+          .concat("other")
       }),
       impact: new fields.StringField({
         required: false,
         blank: false,
-        initial: "free"
-        // choices: Object.keys(ARM5E.impacts)
+        initial: "free",
+        choices: Object.keys(ARM5E.impacts)
       })
     };
   }
@@ -115,12 +112,32 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       ...itemBase(),
-      ...SeasonField(),
+      season: SeasonField(),
       year: new fields.NumberField({
         required: false,
         nullable: false,
         integer: true,
         initial: 1200,
+        step: 1
+      }),
+      duration: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        positive: true,
+        initial: 1
+      }),
+      endSeason: new fields.StringField({
+        required: false,
+        nullable: true,
+        initial: null,
+        choices: Object.keys(ARM5E.seasons)
+      }),
+      endYear: new fields.NumberField({
+        required: false,
+        nullable: true,
+        integer: true,
+        initial: null,
         step: 1
       }),
       sourceQuality: new fields.NumberField({

@@ -56,7 +56,7 @@
           {{#select system.key}}
             <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
             {{#each abilityKeysList as |item key|}}
-              <option value="{{key}}">{{localize item.mnemonic}}</option>
+              <option value="{{key}}" {{item.selection}}>{{item.name}}</option>
             {{/each}}
           {{/select}}
         </select>

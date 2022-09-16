@@ -6,7 +6,8 @@ import {
   compareLabTexts,
   compareDiaryEntries,
   log,
-  error
+  error,
+  compareBooks
 } from "../tools.js";
 
 import { migrateActorData } from "../migration.js";
@@ -50,6 +51,13 @@ export class ArM5ePCActor extends Actor {
       this.system.upkeep.bonus = 0;
       this.system.warping.bonus = 0;
       this.system.aesthetics.bonus = 0;
+
+      // create data keys for lab specialty
+      this.system.specialty = {};
+      for (let key of Object.keys(CONFIG.ARM5E.magic.arts)) {
+        this.system.specialty[key] = { bonus: 0 };
+      }
+
       return;
     }
     let datetime = game.settings.get("arm5e", "currentDate");
@@ -133,45 +141,46 @@ export class ArM5ePCActor extends Actor {
     };
   }
 
-  /** @override */
-  prepareEmbeddedDocuments() {
-    if (this.type == "laboratory") {
-      this._prepareLaboratoryEmbeddedDocuments();
-    }
+  // DEV: to be deleted, the code below is done in the preCreate hook
+  // /** @override */
+  // prepareEmbeddedDocuments() {
+  //   // if (this.type == "laboratory") {
+  //   //   this._prepareLaboratoryEmbeddedDocuments();
+  //   // }
 
-    super.prepareEmbeddedDocuments();
-  }
+  //   super.prepareEmbeddedDocuments();
+  // }
 
-  _prepareLaboratoryEmbeddedDocuments() {
-    var baseSafetyEffect = this.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
-    if (!baseSafetyEffect) {
-      this.createEmbeddedDocuments("ActiveEffect", [
-        {
-          label: game.i18n.localize("arm5e.sheet.baseSafety"),
-          icon: "icons/svg/aura.svg",
-          origin: this.uuid,
-          tint: "#000000",
-          changes: [
-            {
-              label: "arm5e.sheet.safety",
-              key: "system.safety.bonus",
-              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-              value: 0
-            }
-          ],
-          flags: {
-            arm5e: {
-              baseSafetyEffect: true,
-              noEdit: true,
-              type: ["laboratory"],
-              subtype: ["safety"],
-              option: [null]
-            }
-          }
-        }
-      ]);
-    }
-  }
+  // _prepareLaboratoryEmbeddedDocuments() {
+  //   var baseSafetyEffect = this.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+  //   if (!baseSafetyEffect) {
+  //     this.createEmbeddedDocuments("ActiveEffect", [
+  //       {
+  //         label: game.i18n.localize("arm5e.sheet.baseSafety"),
+  //         icon: "icons/svg/aura.svg",
+  //         origin: this.uuid,
+  //         tint: "#000000",
+  //         changes: [
+  //           {
+  //             label: "arm5e.sheet.safety",
+  //             key: "system.safety.bonus",
+  //             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+  //             value: 0
+  //           }
+  //         ],
+  //         flags: {
+  //           arm5e: {
+  //             baseSafetyEffect: true,
+  //             noEdit: true,
+  //             type: ["laboratory"],
+  //             subtype: ["safety"],
+  //             option: [null]
+  //           }
+  //         }
+  //       }
+  //     ]);
+  //   }
+  // }
 
   /** @override */
   prepareDerivedData() {
@@ -203,7 +212,8 @@ export class ArM5ePCActor extends Actor {
     let vis = [];
     let items = [];
     let magicItems = [];
-    let books = [];
+    let magicBooks = [];
+    let mundaneBooks = [];
     let virtues = [];
     let flaws = [];
     let abilities = [];
@@ -573,7 +583,11 @@ export class ArM5ePCActor extends Actor {
       } else if (item.type === "item" || item.type == "enchantedItem") {
         items.push(item);
       } else if (item.type === "book") {
-        books.push(item);
+        if (item.system.topic.category === "art") {
+          magicBooks.push(item);
+        } else {
+          mundaneBooks.push(item);
+        }
       } else if (item.type === "virtue") {
         virtues.push(item);
         if (ARM5E.impacts[item.system.impact.value]) {
@@ -687,9 +701,10 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
-    if (system.books) {
-      system.books = books;
-    }
+
+    system.magicBooks = magicBooks.sort(compareBooks);
+    system.mundaneBooks = mundaneBooks.sort(compareBooks);
+
     if (system.virtues) {
       system.virtues = virtues;
     }
@@ -798,7 +813,8 @@ export class ArM5ePCActor extends Actor {
     let personalities = [];
     let vis = [];
     let items = [];
-    let books = [];
+    let magicBooks = [];
+    let mundaneBooks = [];
     let diaryEntries = [];
     let totalVirtues = 0;
     let totalFlaws = 0;
@@ -815,7 +831,11 @@ export class ArM5ePCActor extends Actor {
       } else if (item.type === "personality") {
         personalities.push(item);
       } else if (item.type === "book") {
-        books.push(item);
+        if (item.system.topic.category === "art") {
+          magicBooks.push(item);
+        } else {
+          mundaneBooks.push(item);
+        }
       } else if (item.type === "vis") {
         vis.push(item);
       } else if (item.type === "item") {
@@ -854,9 +874,8 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
-    if (system.books) {
-      system.books = books;
-    }
+    system.magicBooks = magicBooks.sort(compareBooks);
+    system.mundaneBooks = mundaneBooks.sort(compareBooks);
 
     if (system.rawVis) {
       system.rawVis = vis;
@@ -973,10 +992,12 @@ export class ArM5ePCActor extends Actor {
         incomingSources.push(item);
       } else if (item.type === "laboratoryText") {
         laboratoryTexts.push(item);
-      } else if (item.type === "mundaneBook") {
-        mundaneBooks.push(item);
       } else if (item.type === "book") {
-        books.push(item);
+        if (item.system.topic.category === "art") {
+          books.push(item);
+        } else {
+          mundaneBooks.push(item);
+        }
       } else if (item.type === "magicItem") {
         magicItems.push(item);
       } else if (item.type === "reputation") {
@@ -1011,13 +1032,9 @@ export class ArM5ePCActor extends Actor {
     if (system.incomingSources) {
       system.incomingSources = incomingSources;
     }
-    if (system.magicBooks) {
-      system.magicBooks = books;
-    }
+    system.magicBooks = books.sort(compareBooks);
+    system.mundaneBooks = mundaneBooks.sort(compareBooks);
 
-    if (system.mundaneBooks) {
-      system.mundaneBooks = mundaneBooks;
-    }
     if (system.magicItems) {
       system.magicItems = magicItems;
     }
@@ -1069,6 +1086,9 @@ export class ArM5ePCActor extends Actor {
   _getAbilityXpCoeff(abilityKey = "", option = "") {
     if (abilityKey === "" || CONFIG.ARM5E.ALL_ABILITIES[abilityKey] == undefined) {
       return 1.0;
+    }
+    if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey].selection === "disabled") {
+      return 1.0; // raise exception instead?
     }
     if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey].option || false) {
       abilityKey += "_" + option;
@@ -1238,13 +1258,46 @@ export class ArM5ePCActor extends Actor {
   // set the proper default icon just before creation
   async _preCreate(data, options, userId) {
     await super._preCreate(data, options, userId);
-    if (this._id === null) {
-      if (this.type in CONFIG.ARM5E_DEFAULT_ICONS) {
-        const img = CONFIG.ARM5E_DEFAULT_ICONS[this.type];
+    log(false, `_preCreate: _id = ${this._id}`);
+    if (data.img === undefined) {
+      if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
+        const img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
         if (img)
           await this.updateSource({
             img
           });
+      }
+    }
+    if (this.type == "laboratory") {
+      let effectsData = this.effects.contents;
+      var baseSafetyEffect = this.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+      if (!baseSafetyEffect) {
+        // TODO put that data structure elsewhere (during lab activities implementation)
+        effectsData.push({
+          label: game.i18n.localize("arm5e.sheet.baseSafety"),
+          icon: "icons/svg/aura.svg",
+          origin: this.uuid,
+          tint: "#000000",
+          changes: [
+            {
+              label: "arm5e.sheet.safety",
+              key: "system.safety.bonus",
+              mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+              value: 0
+            }
+          ],
+          flags: {
+            arm5e: {
+              baseSafetyEffect: true,
+              noEdit: true,
+              type: ["laboratory"],
+              subtype: ["safety"],
+              option: [null]
+            }
+          }
+        });
+        const res = await this.effects.update(effectsData);
+        log(false, res);
       }
     }
   }

@@ -918,9 +918,26 @@ export const migrateItemData = function(itemData) {
     }
   } else if (itemData.type == "book") {
     // V10 datamodel cleanup (2.0.0)
-    if (itemData.system.art.value !== undefined) {
-      updateData["system.art"] = itemData.system.art.value;
+    if (itemData.system.topic === undefined) {
+      let topic = {};
+      if (itemData.system.art.value) {
+        topic.art = itemData.system.art.value;
+        topic.key = null;
+        topic.option = null;
+        topic.spellName = null;
+        topic.category = "art";
+      } else {
+        // missing data, reset to default
+        topic.art = "cr";
+        topic.key = null;
+        topic.option = null;
+        topic.spellName = null;
+        topic.category = "art";
+      }
+
+      updateData["system.topic"] = topic;
     }
+
     // V10 datamodel cleanup (2.0.0)
     if (itemData.system.type.value !== undefined) {
       updateData["system.type"] = itemData.system.type.value.capitalize();
@@ -940,6 +957,27 @@ export const migrateItemData = function(itemData) {
     }
     updateData["system.-=types"] = null;
   } else if (itemData.type == "mundaneBook") {
+    updateData["type"] = "book";
+
+    if (itemData.system.topic === undefined) {
+      let topic = {};
+      if (itemData.system.key) {
+        topic.art = null;
+        topic.key = itemData.system.key;
+        topic.option = itemData.system.option;
+        topic.spellName = null;
+        topic.category = "ability";
+      } else {
+        // missing data, reset to default
+        topic.art = "cr";
+        topic.key = null;
+        topic.option = null;
+        topic.spellName = null;
+        topic.category = "art";
+      }
+
+      updateData["system.topic"] = topic;
+    }
     // V10 datamodel cleanup (2.0.0)
     if (itemData.system.type.value !== undefined) {
       updateData["system.type"] = itemData.system.type.value.capitalize();

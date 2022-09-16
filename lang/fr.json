@@ -282,7 +282,7 @@
   "arm5e.skill.general.brawl": "Bagarre",
   "arm5e.skill.general.carouse": "Ripaille",
   "arm5e.skill.general.charm": "Charme",
-  "arm5e.skill.general.chirugy": "Chirurgie",
+  "arm5e.skill.general.chirurgy": "Chirurgie",
   "arm5e.skill.general.concentration": "Concentration",
   "arm5e.skill.general.craft": "Artisanat ({option})",
   "arm5e.skill.general.etiquette": "Étiquette",
@@ -465,7 +465,7 @@
   "arm5e.sheet.loyaltyModifiers.money": "Monnaie",
   "arm5e.sheet.loyaltyModifiers.specialists": "Spécialistes",
 
-  "arm5e.sheet.realm.label": "Dimension",  
+  "arm5e.sheet.realm.label": "Dimension",
   "arm5e.sheet.realm.magical": "Magique",
   "arm5e.sheet.realm.faeric": "Féérique",
   "arm5e.sheet.realm.divine": "Divin",

@@ -67,6 +67,7 @@
   "arm5e.sheet.weapons": "Weapons",
   "arm5e.sheet.armor": "Armor",
   "arm5e.sheet.items": "Items",
+  "arm5e.sheet.book": "Book",
   "arm5e.sheet.books": "Books",
   "arm5e.sheet.rawVis": "Raw Vis",
   "arm5e.sheet.penalty": "Penalty",
@@ -291,7 +292,7 @@
   "arm5e.skill.general.brawl": "Brawl",
   "arm5e.skill.general.carouse": "Carouse",
   "arm5e.skill.general.charm": "Charm",
-  "arm5e.skill.general.chirugy": "Chirurgy",
+  "arm5e.skill.general.chirurgy": "Chirurgy",
   "arm5e.skill.general.concentration": "Concentration",
   "arm5e.skill.general.craft": "Craft ({option})",
   "arm5e.skill.general.etiquette": "Etiquette",
@@ -351,6 +352,14 @@
   "arm5e.skill.mystery.heartbeast": "Heartbeast",
   "arm5e.skill.mystery.verditiusMagic": "Verditius Magic",
   "arm5e.skill.mystery.cult": "Mystery Cult ({option}) Lore",
+
+  "arm5e.skill.options.area": "Area's name",
+  "arm5e.skill.options.craft": "Craft's name",
+  "arm5e.skill.options.profession": "Profession's name",
+  "arm5e.skill.options.language": "Language's name",
+  "arm5e.skill.options.organization": "Organization's name",
+  "arm5e.skill.options.supernatural": "Power's name",
+  "arm5e.skill.options.mysteryCult": "Cult's name",
 
   "arm5e.sheet.ageModifier": "Age modifier",
   "arm5e.sheet.longevityRitual": "Longevity Ritual",
@@ -462,6 +471,7 @@
   "arm5e.sheet.magicBooks": "Magical Books",
   "arm5e.sheet.mundaneBooks": "Mundane Books",
   "arm5e.sheet.ability": "Ability",
+  "arm5e.sheet.bookTopic": "Topic",
   "arm5e.sheet.visSources": "Vis Sources",
   "arm5e.sheet.visStock": "Vis Stock",
 
@@ -835,6 +845,7 @@
   "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity": "Affinity Mysteries abilities (xp)",
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities (xp)",
   "arm5e.sheet.activeEffect.types.laboratory": "Laboratory",
+  "arm5e.sheet.activeEffect.types.laboratorySpec": "Laboratory's specialty",
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",
   "arm5e.sheet.activeEffect.types.optional": "Optional bonus",
 
@@ -946,6 +957,7 @@
   "arm5e.activity.teacher.label": "Teacher",
   "arm5e.activity.teacher.name": "Teacher's name",
   "arm5e.activity.teacher.score": "Teacher's score",
+  "arm5e.activity.book.title": "Title",
 
   "arm5e.astrolab.setWorldDate": "Set world date",
   "arm5e.astrolab.updateActors": "Update actors",

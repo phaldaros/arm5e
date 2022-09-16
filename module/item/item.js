@@ -256,6 +256,10 @@ export class ArM5eItem extends Item {
               systemData.baseQuality = systemData.sourceQuality;
               break;
             }
+            case "reading": {
+              systemData.baseQuality = systemData.book.quality;
+              break;
+            }
             case "hermeticApp":
             case "childhood":
             case "laterLife":
@@ -504,9 +508,11 @@ export class ArM5eItem extends Item {
   }
   async _preCreate(data, options, userId) {
     await super._preCreate(data, options, userId);
-    if (this._id === null) {
-      if (this.type in CONFIG.ARM5E_DEFAULT_ICONS) {
-        const img = CONFIG.ARM5E_DEFAULT_ICONS[this.type];
+    // weird it did work in 284
+    // if (data.img === undefined) {
+    if (data.img === undefined || data.img === "icons/svg/item-bag.svg") {
+      if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
+        const img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
         if (img)
           await this.updateSource({
             img

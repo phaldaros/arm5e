@@ -1,39 +1,42 @@
-<nav class="arm5eTabs diary-tabs tabs" data-group="diary-secondary">
-  {{#if ui.showTeacher}}
-    <a class="posRelative diary-tabs" data-tab="teacher" data-group="diary-secondary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.activity.teacher.label"}} ({{system.teacher.name}})
-    </a>
-  {{/if}}
-  {{#if ui.showAbilities}}
-    <a class="posRelative diary-tabs" data-tab="abilities" data-group="diary-secondary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.abilities"}} ({{system.totalXp.abilities}})
-    </a>
-  {{/if}}
-  {{#if ui.showMagicProgress}}
-    {{#if ui.showArts}}
-      <a class="posRelative diary-tabs" data-tab="arts" data-group="diary-secondary">
+{{#unless (eq system.activity "reading")}}
+  <nav class="arm5eTabs diary-tabs tabs" data-group="diary-secondary">
+    {{#if ui.showTeacher}}
+      <a class="posRelative diary-tabs" data-tab="teacher" data-group="diary-secondary">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-        {{localize "arm5e.sheet.arts"}} ({{system.totalXp.arts}})
+        {{localize "arm5e.activity.teacher.label"}} ({{system.teacher.name}})
       </a>
     {{/if}}
-    {{#if ui.showSpells}}
-      <a class="posRelative diary-tabs" data-tab="spells" data-group="diary-secondary">
+    {{#if ui.showAbilities}}
+      <a class="posRelative diary-tabs" data-tab="abilities" data-group="diary-secondary">
         <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-        {{localize "arm5e.activity.progress.masteries"}} ({{system.totalXp.spells}})
+        {{localize "arm5e.sheet.abilities"}} ({{system.totalXp.abilities}})
       </a>
     {{/if}}
-  {{/if}}
 
-</nav>
+    {{#if ui.showMagicProgress}}
+      {{#if ui.showArts}}
+        <a class="posRelative diary-tabs" data-tab="arts" data-group="diary-secondary">
+          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.arts"}} ({{system.totalXp.arts}})
+        </a>
+      {{/if}}
+      {{#if ui.showSpells}}
+        <a class="posRelative diary-tabs" data-tab="spells" data-group="diary-secondary">
+          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.activity.progress.masteries"}} ({{system.totalXp.spells}})
+        </a>
+      {{/if}}
+    {{/if}}
+  </nav>
+{{/unless}}
 <section class="diary-body">
   <div class="tab" data-tab="teacher" data-group="diary-secondary">
-    <section class="progress-teacher flexrow flex-group-left backSection" style="height: 200px; margin: 5px;">
+    <section class="progress-teacher flexrow flex-group-left backSection" data-tab="teacher"
+      style="height: 200px; margin: 5px;">
       <div class="flexcol">
         <label class="header-label">{{localize "arm5e.activity.teacher.name"}}</label>
         <input type="text" name="system.teacher.name" value="{{system.teacher.name}}" data-dtype="String"
@@ -57,7 +60,7 @@
       <div class="flexcol" style="text-align: center;">
         <label style="padding: 15px;">Drop an actor here to act as a teacher/trainer.</label>
         {{#unless (eq system.teacher.id null)}}
-          <a class="break-link" title="Break link to teacher" data-applied="{{system.applied}}"><i class="fas fa-unlink"
+          <a class="break-link" title="Break link to teacher" data-applied="{{system.applied}}"><i class="fas fa-link"
               style="font-size: 18pt;"></i></a>
         {{/unless}}
       </div>
@@ -245,4 +248,69 @@
       </ol>
     </div>
   </div>
+  {{#if (eq system.activity "reading")}}
+    <section class="progress-book flexrow flex-group-left backSection" data-tab="book"
+      style="height: 235px; margin: 5px;">
+      <div class="flexcol">
+        <label class="header-label">{{localize "arm5e.activity.book.title"}}</label>
+        <input type="text" name="system.book.title" value="{{system.book.title}}" data-dtype="String"
+          style="max-width: 220px;" {{system.canEditBook}}>
+        <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
+        <input type="text" name="system.book.language" value="{{system.book.language}}" data-dtype="String"
+          style="max-width: 220px;" {{system.canEditBook}}>
+        <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
+        <input type="text" name="system.book.author" value="{{system.book.author}}" data-dtype="String"
+          style="max-width: 220px;" {{system.canEditBook}}>
+        <div class="resource flexcol flexrow">
+          <label for="system.book.type" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
+          <select name="system.book.type" data-type="String" {{system.disabledBook}} style="max-width: 220px;">
+            {{#select system.book.type}} {{#each @root.config.books.types }}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+        <div class="grid-2col">
+          {{#if (eq system.book.type "Summa")}}
+            <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
+            <input type="number" name="system.book.level" value="{{system.book.level}}" data-dtype="Number"
+              style="max-width: 50px;" {{system.canEditBook}}>
+          {{/if}}
+          <label class="header-label">{{localize "arm5e.sheet.quality"}} ({{system.book.quality}})</label>
+          <input type="number" name="system.book.quality" value="{{system.book.quality}}" data-dtype="Number"
+            style="max-width: 50px;" {{system.canEditBook}}>
+        </div>
+      </div>
+      <div class="flexcol">
+        <div class="resource" style="width: 220px; padding-top: 5px;">
+          <label for="system.book.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
+          <select name="system.book.key" data-dtype="String" class="ability-key">
+            {{#select system.book.key}}
+              <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
+              {{#each abilityKeysList as |item key|}}
+                <option value="{{key}}" {{item.selection}}>{{item.name}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        <div class="resource" style="width: 220px; padding-top: 5px;padding-bottom: 15px;">
+          {{#if (lookup (lookup abilityKeysList system.book.key) "option")}}
+            <label for="system.book.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+            <input type="text" class="ability-option" name="system.book.option" value="{{system.book.option}}" />
+          {{else}}
+            <label for="system.book.option" class="header-label"
+              style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+            <input type="text" name="system.book.option" data-dtype="String" value="" readonly />
+          {{/if}}
+        </div>
+        <div class="resource drop-box drop-book">
+          <label>Drop a book here to fill the blanks</label>
+          {{#unless (eq system.book.id null)}}
+            <a class="break-link" title="Break link to book" data-applied="{{system.applied}}"><i class="fas fa-link"
+                style="font-size: 18pt;"></i></a>
+          {{/unless}}
+        </div>
+      </div>
+
+    </section>
+  {{/if}}
 </section>

@@ -95,7 +95,6 @@ export class ArM5eActorSheet extends ActorSheet {
     //     case "calendarCovenant":
     //     case "incomingSource":
     //     case "laboratoryText":
-    //     case "mundaneBook":
     //         return true;
     //     default:
     //         return false;
@@ -242,6 +241,8 @@ export class ArM5eActorSheet extends ActorSheet {
           let lab = game.actors.get(context.system.sanctum.actorId);
           if (lab) {
             context.system.labtotal.quality = parseInt(lab.system.generalQuality.total);
+            // store the specialties if the character is linked to a lab
+            context.system.labtotals = { specialty: lab.system.specialty };
           }
         } else {
           if (context.system.labtotal.quality === undefined) {
@@ -369,7 +370,32 @@ export class ArM5eActorSheet extends ActorSheet {
                 techScoreLab *= 2;
               }
             }
-            context.system.labTotals[key][k2] =
+            context.system.labTotals[key][k2] = { ui: "" };
+
+            if (context.system.sanctum.linked) {
+              // set a ui effect if the value is modified
+              let specialtyMod =
+                context.system.labtotals.specialty[key].bonus +
+                context.system.labtotals.specialty[k2].bonus;
+              if (specialtyMod > 0) {
+                context.system.labTotals[key][
+                  k2
+                ].ui = `style="box-shadow: 0 0 5px blue" title="${game.i18n.localize(
+                  "arm5e.sheet.activeEffect.types.laboratorySpec"
+                )}: ${specialtyMod}"`;
+              } else if (specialtyMod < 0) {
+                context.system.labTotals[key][
+                  k2
+                ].ui = `style="box-shadow: 0 0 5px red" title="${game.i18n.localize(
+                  "arm5e.sheet.activeEffect.types.laboratorySpec"
+                )}: ${specialtyMod}"`;
+              }
+
+              // add technique and form specialty bonuses
+              techScoreLab += context.system.labtotals.specialty[key].bonus;
+              formScoreLab += context.system.labtotals.specialty[k2].bonus;
+            }
+            context.system.labTotals[key][k2].total =
               formScoreLab +
               techScoreLab +
               context.system.laboratory.basicLabTotal.value +
@@ -1042,7 +1068,7 @@ export async function setCovenant(selector, actor) {
     actorUpdate["system.covenant.value"] = found[0].value;
   }
 
-  await actor.update(actorUpdate);
+  await this.actor.update(actorUpdate);
 }
 
 export async function setWounds(selector, actor) {

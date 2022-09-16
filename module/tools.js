@@ -58,6 +58,53 @@ export function compareBaseEffects(e1, e2) {
     }
   }
 }
+const topicOrder = { art: 0, ability: 1, spell: 2 };
+export function compareBooks(b1, b2) {
+  // Topic
+  if (topicOrder[b1.system.topic.category] < topicOrder[b2.system.topic.category]) {
+    return -1;
+  } else if (topicOrder[b1.system.topic.category] > topicOrder[b2.system.topic.category]) {
+    return 1;
+  }
+  // book type
+  if (b1.system.type < b2.system.type) {
+    return -1;
+  } else if (b1.system.type > b2.system.type) {
+    return 1;
+  }
+  if (b1.system.topic.category === "art") {
+    if (b1.system.topic.art < b2.system.topic.art) {
+      return -1;
+    } else if (b1.system.topic.art > b2.system.topic.art) {
+      return 1;
+    }
+  } else if (b1.system.topic.category === "ability") {
+    if (b1.system.topic.key < b2.system.topic.key) {
+      return -1;
+    } else if (b1.system.topic.key > b2.system.topic.key) {
+      return 1;
+    }
+    if (b1.system.topic.option < b2.system.topic.option) {
+      return -1;
+    } else if (b1.system.topic.option > b2.system.topic.option) {
+      return 1;
+    }
+  }
+  // level
+  if (b1.system.type === "Summa") {
+    if (b1.system.level < b2.system.level) {
+      return 1;
+    } else if (b1.system.level > b2.system.level) {
+      return -1;
+    }
+  }
+  if (b1.system.quality < b2.system.quality) {
+    return 1;
+  } else if (b1.system.quality > b2.system.quality) {
+    return -1;
+  }
+  return b1.name.localeCompare(b2.name);
+}
 
 const seasonOrder = { spring: 0, summer: 1, autumn: 2, winter: 3 };
 
@@ -313,10 +360,10 @@ export function generateActiveEffectFromAbilities() {
       subtypes: {}
     }
   };
-  let tmp = Object.entries(CONFIG.ARM5E.ALL_ABILITIES);
   // debugger;
   for (const [aKey, ability] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
     // console.log(ability);
+    if (ability.selection === "disabled") continue;
     let computedKey;
     let afinityComputedKey;
     if (ability.option) {

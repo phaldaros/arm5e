@@ -9,7 +9,7 @@
         {{#if system.applied}}
           <label class="header-label"><b>{{system.baseQuality}}</b></label>
         {{else}}
-          {{#if ui.showTeacher}}
+          {{#if ui.showBaseQuality}}
             <label class="header-label"> {{localize "arm5e.generic.base"}} ({{system.baseQuality}})</label>
           {{else}}
             <label class="header-label"> : {{localize "arm5e.generic.default"}} ({{system.sourceDefault}}) </label>
