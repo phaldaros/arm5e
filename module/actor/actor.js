@@ -6,7 +6,8 @@ import {
   compareLabTexts,
   compareDiaryEntries,
   log,
-  error
+  error,
+  compareBooks
 } from "../tools.js";
 
 import { migrateActorData } from "../migration.js";
@@ -211,7 +212,8 @@ export class ArM5ePCActor extends Actor {
     let vis = [];
     let items = [];
     let magicItems = [];
-    let books = [];
+    let magicBooks = [];
+    let mundaneBooks = [];
     let virtues = [];
     let flaws = [];
     let abilities = [];
@@ -581,7 +583,11 @@ export class ArM5ePCActor extends Actor {
       } else if (item.type === "item" || item.type == "enchantedItem") {
         items.push(item);
       } else if (item.type === "book") {
-        books.push(item);
+        if (item.system.topic.category === "art") {
+          magicBooks.push(item);
+        } else {
+          mundaneBooks.push(item);
+        }
       } else if (item.type === "virtue") {
         virtues.push(item);
         if (ARM5E.impacts[item.system.impact.value]) {
@@ -695,9 +701,10 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
-    if (system.books) {
-      system.books = books;
-    }
+
+    system.magicBooks = magicBooks.sort(compareBooks);
+    system.mundaneBooks = mundaneBooks.sort(compareBooks);
+
     if (system.virtues) {
       system.virtues = virtues;
     }
@@ -806,7 +813,8 @@ export class ArM5ePCActor extends Actor {
     let personalities = [];
     let vis = [];
     let items = [];
-    let books = [];
+    let magicBooks = [];
+    let mundaneBooks = [];
     let diaryEntries = [];
     let totalVirtues = 0;
     let totalFlaws = 0;
@@ -823,7 +831,11 @@ export class ArM5ePCActor extends Actor {
       } else if (item.type === "personality") {
         personalities.push(item);
       } else if (item.type === "book") {
-        books.push(item);
+        if (item.system.topic.category === "art") {
+          magicBooks.push(item);
+        } else {
+          mundaneBooks.push(item);
+        }
       } else if (item.type === "vis") {
         vis.push(item);
       } else if (item.type === "item") {
@@ -862,9 +874,8 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
-    if (system.books) {
-      system.books = books;
-    }
+    system.magicBooks = magicBooks.sort(compareBooks);
+    system.mundaneBooks = mundaneBooks.sort(compareBooks);
 
     if (system.rawVis) {
       system.rawVis = vis;
@@ -981,10 +992,12 @@ export class ArM5ePCActor extends Actor {
         incomingSources.push(item);
       } else if (item.type === "laboratoryText") {
         laboratoryTexts.push(item);
-      } else if (item.type === "mundaneBook") {
-        mundaneBooks.push(item);
       } else if (item.type === "book") {
-        books.push(item);
+        if (item.system.topic.category === "art") {
+          books.push(item);
+        } else {
+          mundaneBooks.push(item);
+        }
       } else if (item.type === "magicItem") {
         magicItems.push(item);
       } else if (item.type === "reputation") {
@@ -1019,13 +1032,9 @@ export class ArM5ePCActor extends Actor {
     if (system.incomingSources) {
       system.incomingSources = incomingSources;
     }
-    if (system.magicBooks) {
-      system.magicBooks = books;
-    }
+    system.magicBooks = books.sort(compareBooks);
+    system.mundaneBooks = mundaneBooks.sort(compareBooks);
 
-    if (system.mundaneBooks) {
-      system.mundaneBooks = mundaneBooks;
-    }
     if (system.magicItems) {
       system.magicItems = magicItems;
     }

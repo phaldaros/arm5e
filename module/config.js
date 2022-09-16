@@ -5,7 +5,8 @@ import {
   validTraining,
   validTeaching,
   validChildhood,
-  validTotalXp
+  validTotalXp,
+  validReading
 } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
@@ -52,7 +53,6 @@ ARM5E_DEFAULT_ICONS.MONO = {
   calendarCovenant: "icons/svg/clockwork.svg",
   incomingSource: "icons/svg/regen.svg",
   laboratoryText: "systems/arm5e/assets/icons/journal-book.svg",
-  mundaneBook: "icons/svg/book.svg",
   magicCodex: "icons/commodities/materials/parchment-secrets.webp",
   covenant: "icons/svg/castle.svg",
   crucible: "icons/tools/laboratory/bowl-liquid-orange.webp",
@@ -68,7 +68,6 @@ ARM5E_DEFAULT_ICONS.COLOR = {
   vis: "icons/magic/light/orbs-firefly-hand-yellow.webp",
   item: "icons/sundries/survival/rope-coiled-tan.webp",
   book: "icons/sundries/books/book-tooled-eye-gold-red.webp",
-  mundaneBook: "icons/sundries/books/book-tooled-eye-gold-red.webp",
   virtue: "icons/magic/light/explosion-star-glow-silhouette.webp",
   flaw: "icons/magic/control/silhouette-hold-change-blue.webp",
   //"flaw": "icons/magic/unholy/silhouette-evil-horned-giant.webp",
@@ -407,7 +406,7 @@ ARM5E.ABILITIES_CATEGORIES = {
   martial: "arm5e.skill.category.martial",
   academic: "arm5e.skill.category.academic",
   arcane: "arm5e.skill.category.arcane",
-  supernatural: "arm5e.skill.category.supernatural",
+  supernaturalCat: "arm5e.skill.category.supernatural",
   mystery: "arm5e.skill.category.mystery"
 };
 ARM5E.GENERAL_ABILITIES = {
@@ -416,163 +415,485 @@ ARM5E.GENERAL_ABILITIES = {
     option: false,
     category: "general"
   },
-  areaLore: { mnemonic: "arm5e.skill.general.areaLore", option: true, category: "general" },
-  athletics: { mnemonic: "arm5e.skill.general.athletics", option: false, category: "general" },
-  awareness: { mnemonic: "arm5e.skill.general.awareness", option: false, category: "general" },
-  bargain: { mnemonic: "arm5e.skill.general.bargain", option: false, category: "general" },
-  brawl: { mnemonic: "arm5e.skill.general.brawl", option: false, category: "general" },
-  carouse: { mnemonic: "arm5e.skill.general.carouse", option: false, category: "general" },
-  charm: { mnemonic: "arm5e.skill.general.charm", option: false, category: "general" },
-  chirugy: { mnemonic: "arm5e.skill.general.chirugy", option: false },
+  areaLore: {
+    mnemonic: "arm5e.skill.general.areaLore",
+    option: true,
+    category: "general",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.area"
+  },
+  athletics: {
+    mnemonic: "arm5e.skill.general.athletics",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  awareness: {
+    mnemonic: "arm5e.skill.general.awareness",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  bargain: {
+    mnemonic: "arm5e.skill.general.bargain",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  brawl: {
+    mnemonic: "arm5e.skill.general.brawl",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  carouse: {
+    mnemonic: "arm5e.skill.general.carouse",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  charm: {
+    mnemonic: "arm5e.skill.general.charm",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  chirurgy: {
+    mnemonic: "arm5e.skill.general.chirurgy",
+    option: false,
+    category: "general",
+    selection: ""
+  },
   concentration: {
     mnemonic: "arm5e.skill.general.concentration",
     option: false,
     category: "general"
   },
-  craft: { mnemonic: "arm5e.skill.general.craft", option: true, category: "general" },
-  etiquette: { mnemonic: "arm5e.skill.general.etiquette", option: false, category: "general" },
-  folkKen: { mnemonic: "arm5e.skill.general.folkKen", option: false, category: "general" },
-  guile: { mnemonic: "arm5e.skill.general.guile", option: false, category: "general" },
-  hunt: { mnemonic: "arm5e.skill.general.hunt", option: false, category: "general" },
-  intrigue: { mnemonic: "arm5e.skill.general.intrigue", option: false, category: "general" },
-  leadership: { mnemonic: "arm5e.skill.general.leadership", option: false, category: "general" },
-  legerdemain: { mnemonic: "arm5e.skill.general.legerdemain", option: false, category: "general" },
+  craft: {
+    mnemonic: "arm5e.skill.general.craft",
+    option: true,
+    category: "general",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.craft"
+  },
+  etiquette: {
+    mnemonic: "arm5e.skill.general.etiquette",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  folkKen: {
+    mnemonic: "arm5e.skill.general.folkKen",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  guile: {
+    mnemonic: "arm5e.skill.general.guile",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  hunt: { mnemonic: "arm5e.skill.general.hunt", option: false, category: "general", selection: "" },
+  intrigue: {
+    mnemonic: "arm5e.skill.general.intrigue",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  leadership: {
+    mnemonic: "arm5e.skill.general.leadership",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  legerdemain: {
+    mnemonic: "arm5e.skill.general.legerdemain",
+    option: false,
+    category: "general",
+    selection: ""
+  },
   livingLanguage: {
     mnemonic: "arm5e.skill.general.livingLanguage",
     option: true,
-    category: "general"
+    category: "general",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.language"
   },
   music: { mnemonic: "arm5e.skill.general.music", option: false, category: "general" },
   organizationLore: {
     mnemonic: "arm5e.skill.general.organizationLore",
     option: true,
-    category: "general"
+    category: "general",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.organization"
   },
-  profession: { mnemonic: "arm5e.skill.general.profession", option: true, category: "general" },
-  ride: { mnemonic: "arm5e.skill.general.ride", option: false, category: "general" },
-  stealth: { mnemonic: "arm5e.skill.general.stealth", option: false, category: "general" },
-  survival: { mnemonic: "arm5e.skill.general.survival", option: false, category: "general" },
-  swim: { mnemonic: "arm5e.skill.general.swim", option: false, category: "general" },
-  teaching: { mnemonic: "arm5e.skill.general.teaching", option: false, category: "general" }
+  profession: {
+    mnemonic: "arm5e.skill.general.profession",
+    option: true,
+    category: "general",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.profession"
+  },
+  ride: { mnemonic: "arm5e.skill.general.ride", option: false, category: "general", selection: "" },
+  stealth: {
+    mnemonic: "arm5e.skill.general.stealth",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  survival: {
+    mnemonic: "arm5e.skill.general.survival",
+    option: false,
+    category: "general",
+    selection: ""
+  },
+  swim: { mnemonic: "arm5e.skill.general.swim", option: false, category: "general", selection: "" },
+  teaching: {
+    mnemonic: "arm5e.skill.general.teaching",
+    option: false,
+    category: "general",
+    selection: ""
+  }
 };
 
 ARM5E.ACADEMIC_ABILITIES = {
-  artesLib: { mnemonic: "arm5e.skill.academic.artesLib", option: false, category: "academic" },
+  artesLib: {
+    mnemonic: "arm5e.skill.academic.artesLib",
+    option: false,
+    category: "academic",
+    selection: ""
+  },
   civilCanonLaw: {
     mnemonic: "arm5e.skill.academic.civilCanonLaw",
     option: false,
-    category: "academic"
+    category: "academic",
+    selection: ""
   },
-  commonLaw: { mnemonic: "arm5e.skill.academic.commonLaw", option: false, category: "academic" },
+  commonLaw: {
+    mnemonic: "arm5e.skill.academic.commonLaw",
+    option: false,
+    category: "academic",
+    selection: ""
+  },
   deadLanguage: {
     mnemonic: "arm5e.skill.academic.deadLanguage",
     option: true,
-    category: "academic"
+    category: "academic",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.language"
   },
-  medicine: { mnemonic: "arm5e.skill.academic.medicine", option: false, category: "academic" },
-  philosophy: { mnemonic: "arm5e.skill.academic.philosophy", option: false, category: "academic" },
-  theology: { mnemonic: "arm5e.skill.academic.theology", option: false, category: "academic" }
+  medicine: {
+    mnemonic: "arm5e.skill.academic.medicine",
+    option: false,
+    category: "academic",
+    selection: ""
+  },
+  philosophy: {
+    mnemonic: "arm5e.skill.academic.philosophy",
+    option: false,
+    category: "academic",
+    selection: ""
+  },
+  theology: {
+    mnemonic: "arm5e.skill.academic.theology",
+    option: false,
+    category: "academic",
+    selection: ""
+  }
 };
 
 ARM5E.ARCANE_ABILITIES = {
-  hermeticCode: { mnemonic: "arm5e.skill.arcane.hermeticCode", option: false, category: "arcane" },
-  dominionLore: { mnemonic: "arm5e.skill.arcane.dominionLore", option: false, category: "arcane" },
-  faerieLore: { mnemonic: "arm5e.skill.arcane.faerieLore", option: false, category: "arcane" },
-  finesse: { mnemonic: "arm5e.skill.arcane.finesse", option: false, category: "arcane" },
-  infernalLore: { mnemonic: "arm5e.skill.arcane.infernalLore", option: false, category: "arcane" },
-  magicLore: { mnemonic: "arm5e.skill.arcane.magicLore", option: false, category: "arcane" },
-  magicTheory: { mnemonic: "arm5e.skill.arcane.magicTheory", option: false, category: "arcane" },
-  parma: { mnemonic: "arm5e.skill.arcane.parma", option: false, category: "arcane" },
-  penetration: { mnemonic: "arm5e.skill.arcane.penetration", option: false, category: "arcane" }
+  hermeticCode: {
+    mnemonic: "arm5e.skill.arcane.hermeticCode",
+    option: false,
+    category: "arcane",
+    selection: ""
+  },
+  dominionLore: {
+    mnemonic: "arm5e.skill.arcane.dominionLore",
+    option: false,
+    category: "arcane",
+    selection: ""
+  },
+  faerieLore: {
+    mnemonic: "arm5e.skill.arcane.faerieLore",
+    option: false,
+    category: "arcane",
+    selection: ""
+  },
+  finesse: {
+    mnemonic: "arm5e.skill.arcane.finesse",
+    option: false,
+    category: "arcane",
+    selection: ""
+  },
+  infernalLore: {
+    mnemonic: "arm5e.skill.arcane.infernalLore",
+    option: false,
+    category: "arcane",
+    selection: ""
+  },
+  magicLore: {
+    mnemonic: "arm5e.skill.arcane.magicLore",
+    option: false,
+    category: "arcane",
+    selection: ""
+  },
+  magicTheory: {
+    mnemonic: "arm5e.skill.arcane.magicTheory",
+    option: false,
+    category: "arcane",
+    selection: ""
+  },
+  parma: { mnemonic: "arm5e.skill.arcane.parma", option: false, category: "arcane", selection: "" },
+  penetration: {
+    mnemonic: "arm5e.skill.arcane.penetration",
+    option: false,
+    category: "arcane",
+    selection: ""
+  }
 };
 
 ARM5E.MARTIAL_ABILITIES = {
-  bows: { mnemonic: "arm5e.skill.martial.bows", option: false, category: "martial" },
+  bows: { mnemonic: "arm5e.skill.martial.bows", option: false, category: "martial", selection: "" },
   singleWeapon: {
     mnemonic: "arm5e.skill.martial.singleWeapon",
     option: false,
-    category: "martial"
+    category: "martial",
+    selection: ""
   },
-  greatWeapon: { mnemonic: "arm5e.skill.martial.greatWeapon", option: false, category: "martial" },
-  trownWeapon: { mnemonic: "arm5e.skill.martial.trownWeapon", option: false, category: "martial" }
+  greatWeapon: {
+    mnemonic: "arm5e.skill.martial.greatWeapon",
+    option: false,
+    category: "martial",
+    selection: ""
+  },
+  trownWeapon: {
+    mnemonic: "arm5e.skill.martial.trownWeapon",
+    option: false,
+    category: "martial",
+    selection: ""
+  }
 };
 
 ARM5E.SUPERNATURAL_ABILITIES = {
   animalKen: {
     mnemonic: "arm5e.skill.supernatural.animalKen",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   dowsing: {
     mnemonic: "arm5e.skill.supernatural.dowsing",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   enchantingMusic: {
     mnemonic: "arm5e.skill.supernatural.enchantingMusic",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   entrancement: {
     mnemonic: "arm5e.skill.supernatural.entrancement",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   magicSensitivity: {
     mnemonic: "arm5e.skill.supernatural.magicSensitivity",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   premonitions: {
     mnemonic: "arm5e.skill.supernatural.premonitions",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   secondSight: {
     mnemonic: "arm5e.skill.supernatural.secondSight",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   senseHolyAndUnholy: {
     mnemonic: "arm5e.skill.supernatural.senseHolyAndUnholy",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   shapeshifter: {
     mnemonic: "arm5e.skill.supernatural.shapeshifter",
     option: false,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: ""
   },
   supernatural: {
     mnemonic: "arm5e.skill.supernatural.generic",
     option: true,
-    category: "supernatural"
+    category: "supernaturalCat",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.supernatural"
   },
   wildernessSense: {
     mnemonic: "arm5e.skill.supernatural.wildernessSense",
     option: false,
-    category: "supernatural"
+    category: "supernatural",
+    selection: ""
   }
 };
 ARM5E.MYSTERY_ABILITIES = {
-  enigma: { mnemonic: "arm5e.skill.mystery.enigma", option: false, category: "mystery" },
-  faerieMagic: { mnemonic: "arm5e.skill.mystery.faerieMagic", option: false, category: "mystery" },
-  heartbeast: { mnemonic: "arm5e.skill.mystery.heartbeast", option: false, category: "mystery" },
+  enigma: {
+    mnemonic: "arm5e.skill.mystery.enigma",
+    option: false,
+    category: "mystery",
+    selection: ""
+  },
+  faerieMagic: {
+    mnemonic: "arm5e.skill.mystery.faerieMagic",
+    option: false,
+    category: "mystery",
+    selection: ""
+  },
+  heartbeast: {
+    mnemonic: "arm5e.skill.mystery.heartbeast",
+    option: false,
+    category: "mystery",
+    selection: ""
+  },
   verditiusMagic: {
     mnemonic: "arm5e.skill.mystery.verditiusMagic",
     option: false,
-    category: "mystery"
+    category: "mystery",
+    selection: ""
   },
-  cult: { mnemonic: "arm5e.skill.mystery.cult", option: true, category: "mystery" }
+  cult: {
+    mnemonic: "arm5e.skill.mystery.cult",
+    option: true,
+    category: "mystery",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.mysteryCult"
+  }
 };
+
 ARM5E.ALL_ABILITIES = {
+  general: {
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.general,
+    option: false,
+    selection: "disabled"
+  },
   ...ARM5E.GENERAL_ABILITIES,
+  academic: {
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.academic,
+    option: false,
+    selection: "disabled"
+  },
   ...ARM5E.ACADEMIC_ABILITIES,
+  arcane: {
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.arcane,
+    option: false,
+    selection: "disabled"
+  },
   ...ARM5E.ARCANE_ABILITIES,
+  martial: {
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.martial,
+    option: false,
+    selection: "disabled"
+  },
   ...ARM5E.MARTIAL_ABILITIES,
+  supernaturalCat: {
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.supernaturalCat,
+    option: false,
+    selection: "disabled"
+  },
   ...ARM5E.SUPERNATURAL_ABILITIES,
+  mystery: {
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.mystery,
+    option: false,
+    selection: "disabled"
+  },
   ...ARM5E.MYSTERY_ABILITIES
 };
+
+export function localizeAbilities() {
+  const res = {
+    general: {
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.general),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.general,
+      option: false,
+      selection: "disabled"
+    },
+    ...translateAndSort(ARM5E.GENERAL_ABILITIES),
+    academic: {
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.academic),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.academic,
+      option: false,
+      selection: "disabled"
+    },
+    ...translateAndSort(ARM5E.ACADEMIC_ABILITIES),
+    arcane: {
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.arcane),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.arcane,
+      option: false,
+      selection: "disabled"
+    },
+    ...translateAndSort(ARM5E.ARCANE_ABILITIES),
+    martial: {
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.martial),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.martial,
+      option: false,
+      selection: "disabled"
+    },
+    ...translateAndSort(ARM5E.MARTIAL_ABILITIES),
+    supernaturalCat: {
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.supernaturalCat),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.supernaturalCat,
+      option: false,
+      selection: "disabled"
+    },
+    ...translateAndSort(ARM5E.SUPERNATURAL_ABILITIES),
+    mystery: {
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.mystery),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.mystery,
+      option: false,
+      selection: "disabled"
+    },
+    ...translateAndSort(ARM5E.MYSTERY_ABILITIES)
+  };
+  return res;
+  let generalAb = translateAndSort(ARM5E.GENERAL_ABILITIES);
+}
+
+function translateAndSort(abilityList) {
+  for (let [key, value] of Object.entries(abilityList)) {
+    let translation;
+    if (value.option)
+      translation = game.i18n.format(value.mnemonic, {
+        option: game.i18n.localize(value.optionPlaceholder)
+      });
+    else translation = game.i18n.localize(value.mnemonic);
+    abilityList[key].name = translation;
+  }
+  let tmp = Object.entries(abilityList).sort((a, b) => {
+    return a[1].name.localeCompare(b[1].name);
+  });
+  return Object.fromEntries(tmp);
+  // let tmp = abilityList.map(a => {
+  //   let translation;
+  //   if (a.option)
+  //     translation = game.i18n.format(a[1].mnemonic, {
+  //       option: game.i18n.localize(a[1].optionPlaceholder)
+  //     });
+  //   else translation = game.i18n.localize(a[1].mnemonic);
+  //   return { [a[0]]: { name: translation, ...a[1] } };
+  // });
+  // let tmp2 = Object.values(tmp);
+  // return tmp2.sort((a, b) => a.name.localeCompare(b.name));
+}
 
 ARM5E.character.combat = {};
 
@@ -1408,7 +1729,7 @@ ARM5E.activities = {};
 ARM5E.activities.generic = {
   none: {
     label: "arm5e.activity.diary",
-    display: { legacyXp: true, tab: false, progress: false },
+    display: { tab: false, progress: false },
     source: { default: 0, readonly: true },
     maxXp: 0,
     bonusOptions: null,
@@ -1418,7 +1739,6 @@ ARM5E.activities.generic = {
   adventuring: {
     label: "arm5e.activity.adventuring",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1434,7 +1754,6 @@ ARM5E.activities.generic = {
   exposure: {
     label: "arm5e.activity.exposure",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1450,7 +1769,6 @@ ARM5E.activities.generic = {
   practice: {
     label: "arm5e.activity.practice",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1472,7 +1790,6 @@ ARM5E.activities.generic = {
   training: {
     label: "arm5e.activity.training",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1488,7 +1805,6 @@ ARM5E.activities.generic = {
   teaching: {
     label: "arm5e.activity.teaching",
     display: {
-      legacyXp: false,
       tab: false,
       progress: true,
       abilities: true,
@@ -1505,10 +1821,24 @@ ARM5E.activities.generic = {
     validation: validTeaching,
     secondaryFilter: null
   },
+  // reading: {
+  //   label: "arm5e.activity.reading",
+  //   display: {
+  //     tab: true,
+  //     progress: true,
+  //     abilities: false,
+  //     arts: false,
+  //     spells: false
+  //   },
+  //   source: { default: null, readonly: true },
+  //   maxXp: 0,
+  //   bonusOptions: null,
+  //   validation: validReading,
+  //   secondaryFilter: null
+  // },
   hermeticApp: {
     label: "arm5e.activity.apprenticeship",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1524,7 +1854,6 @@ ARM5E.activities.generic = {
   childhood: {
     label: "arm5e.activity.childhood",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1540,7 +1869,6 @@ ARM5E.activities.generic = {
   laterLife: {
     label: "arm5e.activity.laterLife",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1556,7 +1884,6 @@ ARM5E.activities.generic = {
   laterLifeMagi: {
     label: "arm5e.activity.laterLifeMagi",
     display: {
-      legacyXp: false,
       tab: true,
       progress: true,
       abilities: true,
@@ -1572,7 +1899,6 @@ ARM5E.activities.generic = {
   aging: {
     label: "arm5e.activity.aging",
     display: {
-      legacyXp: false,
       tab: false,
       progress: false,
       abilities: true,
@@ -1589,6 +1915,11 @@ ARM5E.activities.generic = {
 
 ARM5E.books = {};
 ARM5E.books.types = ["Summa", "Tractatus"];
+ARM5E.books.topics = {
+  art: "arm5e.sheet.art",
+  ability: "arm5e.sheet.ability",
+  spell: "arm5e.activity.options.mastery"
+};
 
 ARM5E.activities.lab = {
   art: "arm5e.lab.art",

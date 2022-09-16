@@ -566,6 +566,11 @@ export function validTeaching(context, actor, item) {
   }
 }
 
+export function validReading(context, actor, item) {
+  context.system.totalXp = { reading: 0 };
+  context.system.baseQuality = context.item.system.book.quality;
+}
+
 // get a new title for a diary entry if it is still the default : "New DiaryEntry"
 export function getNewTitleForActivity(actor, item) {
   const DEFAULT_TITLE = "New DiaryEntry";

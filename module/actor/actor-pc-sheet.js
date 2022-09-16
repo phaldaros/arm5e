@@ -112,7 +112,6 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       case "reputation":
       case "magicalEffect":
       case "laboratoryText":
-      case "mundaneBook":
         return true;
       default:
         return false;

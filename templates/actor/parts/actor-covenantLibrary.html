@@ -13,15 +13,18 @@
   {{#each system.magicBooks as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
       <div class="flexrow flex-center">
         <span class="flexrow item-title width15">{{item.name}}</span>
-
-        <span class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{#with (lookup @root.config.books.types
-        item.system.type)~}}{{label~}} {{/with}}</span>
-        <span class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.system.level}} </span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.type"}}:{{item.system.type~}} </span>
+        {{#if (eq item.system.type "Summa")}}
+          <span class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.system.level}} </span>
+        {{else}}
+          <span class="flexrow bold"></span>
+        {{/if}}
         <span class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.system.quality}} </span>
         <span class="flexrow bold">{{localize "arm5e.sheet.art"}}: {{#with (lookup @root.config.magic.arts
-        item.system.art)~}}{{label~}} {{/with}}</span>
+        item.system.topic.art)~}}{{label~}} {{/with}}</span>
       </div>
       <div class="item-controls">
         <a class="item-control item-edit" title="Edit book"><i class="icon-Icon_Edit"></i></a>
@@ -79,21 +82,35 @@
 
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.mundaneBooks"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Add mundaneBook" data-type="mundaneBook"><i
-          class="fas fa-plus"></i></a>
-    </div>
+    <!-- <div class="item-controls">
+      <a class="item-control item-create" title="Add mundaneBook" data-type="book"><i class="fas fa-plus"></i></a>
+    </div> -->
   </li>
   {{#each system.mundaneBooks as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
       <div class="flexrow flex-center">
         <span class="flexrow item-title width15">{{item.name}}</span>
-        <span class="flexrow bold">{{localize "arm5e.sheet.ability"}}: {{item.system.ability}} </span>
-        <span class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{#with (lookup @root.config.books.types
-        item.system.type)~}}{{label~}} {{/with}}</span>
-        <span class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.system.level}} </span>
-        <span class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.system.quality}} </span>
+
+        {{#if (eq item.system.topic.category "ability")}}
+          <span class="flexrow bold">{{localize "arm5e.sheet.ability"}}:
+            {{localize (lookup (lookup @root.config.ALL_ABILITIES item.system.topic.key) "mnemonic") option=item.system.topic.option}}
+          </span>
+        {{else}}
+          <span class="flexrow bold">{{localize "arm5e.sheet.spell"}}:
+            {{item.system.topic.spellName}}
+          </span>
+        {{/if}}
+        <div class="flexrow">
+          <span class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.system.type~}} </span>
+          {{#if (eq item.system.type "Summa")}}
+            <span class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.system.level}} </span>
+          {{else}}
+            <span class="flexrow bold"></span>
+          {{/if}}
+          <span class="flexrow bold">{{localize "arm5e.sheet.quality"}}: {{item.system.quality}} </span>
+        </div>
       </div>
       <div class="item-controls">
         <a class="item-control item-edit" title="Edit mundaneBook"><i class="icon-Icon_Edit"></i></a>

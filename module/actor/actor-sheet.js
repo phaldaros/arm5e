@@ -95,7 +95,6 @@ export class ArM5eActorSheet extends ActorSheet {
     //     case "calendarCovenant":
     //     case "incomingSource":
     //     case "laboratoryText":
-    //     case "mundaneBook":
     //         return true;
     //     default:
     //         return false;
@@ -375,12 +374,23 @@ export class ArM5eActorSheet extends ActorSheet {
 
             if (context.system.sanctum.linked) {
               // set a ui effect if the value is modified
-              if (
-                context.system.labtotals.specialty[key].bonus != 0 ||
-                context.system.labtotals.specialty[k2].bonus !== 0
-              ) {
-                context.system.labTotals[key][k2].ui = 'style="box-shadow: 0 0 5px blue"';
+              let specialtyMod =
+                context.system.labtotals.specialty[key].bonus +
+                context.system.labtotals.specialty[k2].bonus;
+              if (specialtyMod > 0) {
+                context.system.labTotals[key][
+                  k2
+                ].ui = `style="box-shadow: 0 0 5px blue" title="${game.i18n.localize(
+                  "arm5e.sheet.activeEffect.types.laboratorySpec"
+                )}: ${specialtyMod}"`;
+              } else if (specialtyMod < 0) {
+                context.system.labTotals[key][
+                  k2
+                ].ui = `style="box-shadow: 0 0 5px red" title="${game.i18n.localize(
+                  "arm5e.sheet.activeEffect.types.laboratorySpec"
+                )}: ${specialtyMod}"`;
               }
+
               // add technique and form specialty bonuses
               techScoreLab += context.system.labtotals.specialty[key].bonus;
               formScoreLab += context.system.labtotals.specialty[k2].bonus;
@@ -1058,7 +1068,7 @@ export async function setCovenant(selector, actor) {
     actorUpdate["system.covenant.value"] = found[0].value;
   }
 
-  await actor.update(actorUpdate);
+  await this.actor.update(actorUpdate);
 }
 
 export async function setWounds(selector, actor) {

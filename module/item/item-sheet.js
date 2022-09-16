@@ -71,8 +71,12 @@ export class ArM5eItemSheet extends ItemSheet {
 
       //console.log("item-sheet get data weapon")
       //console.log(data)
-    } else if (itemData.type == "ability" || itemData.type == "diaryEntry") {
-      context.abilityKeysList = CONFIG.ARM5E.ALL_ABILITIES;
+    } else if (
+      itemData.type == "ability" ||
+      itemData.type == "diaryEntry" ||
+      itemData.type == "book"
+    ) {
+      context.abilityKeysList = CONFIG.ARM5E.LOCALIZED_ABILITIES;
     }
 
     context.ui = { flavor: "Neutral" };
@@ -182,13 +186,15 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".item-enchant").click(event => this._enchantItemQuestion(this.item));
     html.find(".ability-option").change(event => this._cleanUpOption(this.item, event));
 
+    html.find(".book-topic").change(event => this._changeBookTopic(this.item, event));
+
     // Active Effect management
     html.find(".effect-control").click(ev => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
   }
 
   async _onSelectDefaultCharacteristic(item, event) {
     event.preventDefault();
-    await item.update(
+    await this.item.update(
       {
         system: {
           defaultChaAb: $(".default-characteristic")
@@ -208,7 +214,7 @@ export class ArM5eItemSheet extends ItemSheet {
     let oldXp = item.system.xp;
     let newXp = Math.round(((item.system.mastery + 1) * (item.system.mastery + 2) * 5) / 2);
 
-    await item.update(
+    await this.item.update(
       {
         system: {
           xp: newXp
@@ -226,7 +232,7 @@ export class ArM5eItemSheet extends ItemSheet {
     if (item.system.mastery != 0) {
       let oldXp = item.system.xp;
       let newXp = Math.round(((item.system.mastery - 1) * item.system.mastery * 5) / 2);
-      await item.update(
+      await this.item.update(
         {
           system: {
             xp: newXp
@@ -246,7 +252,7 @@ export class ArM5eItemSheet extends ItemSheet {
         (2 * item.system.xpCoeff)
     );
 
-    await item.update(
+    await this.item.update(
       {
         system: {
           xp: newXp
@@ -263,7 +269,7 @@ export class ArM5eItemSheet extends ItemSheet {
       let newXp = Math.round(
         ((item.system.derivedScore - 1) * item.system.derivedScore * 5) / (2 * item.system.xpCoeff)
       );
-      await item.update(
+      await this.item.update(
         {
           system: {
             xp: newXp
@@ -284,7 +290,7 @@ export class ArM5eItemSheet extends ItemSheet {
       // remove any non alphanumeric character
       event.currentTarget.value = event.currentTarget.value.replace(/[^a-zA-Z0-9]/gi, "");
     }
-    await item.update(
+    await this.item.update(
       {
         system: {
           option: event.currentTarget.value
@@ -353,10 +359,43 @@ export class ArM5eItemSheet extends ItemSheet {
     });
   }
 
-  // /** @inheritdoc */
-  // async _onDrop(event) {
-  //   return {};
-  // }
+  async _changeBookTopic(item, event) {
+    event.preventDefault();
+
+    let chosenTopic = $(".book-topic")
+      .find("option:selected")
+      .val();
+    let topic = {};
+    if (chosenTopic === "ability") {
+      topic.art = null;
+      topic.key = "awareness";
+      topic.option = "";
+      topic.spellName = null;
+      topic.category = "ability";
+    } else if (chosenTopic === "art") {
+      // missing data, reset to default
+      topic.art = "cr";
+      topic.key = null;
+      topic.option = null;
+      topic.spellName = null;
+      topic.category = "art";
+    } else {
+      topic.art = null;
+      topic.key = null;
+      topic.option = null;
+      topic.spellName = "Mastered spell";
+      topic.category = "spell";
+    }
+    await this.item.update(
+      {
+        system: {
+          topic: topic
+        }
+      },
+      {}
+    );
+    // log(false, `Book topic: ${item.system.topic}`);
+  }
 }
 
 export class ArM5eItemSheetNoDesc extends ArM5eItemSheet {
