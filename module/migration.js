@@ -249,7 +249,7 @@ export const migrateSceneData = function(scene, migrationData) {
       //   actor.system = { charType: { value: token.actor?.system?.charType?.value } };
       // }
 
-      const update = migrateActorData(actorData, migrationData);
+      const update = migrateActorData(t.actorData);
       ["items", "effects"].forEach(embeddedName => {
         if (!update[embeddedName]?.length) return;
         const updates = new Map(update[embeddedName].map(u => [u._id, u]));
@@ -936,11 +936,19 @@ export const migrateItemData = function(itemData) {
       }
 
       updateData["system.topic"] = topic;
+    } else {
+      if (itemData.system.art) {
+        updateData["system.topic.art"] = itemData.system.art.value;
+      }
     }
 
     // V10 datamodel cleanup (2.0.0)
     if (itemData.system.type.value !== undefined) {
-      updateData["system.type"] = itemData.system.type.value.capitalize();
+      if (itemData.system.type.value == "summa") {
+        updateData["system.type"] = "Summa";
+      } else if (itemData.system.type.value == "tract") {
+        updateData["system.type"] = "Tractatus";
+      }
     } else {
       if (itemData.system.type == "summa") {
         updateData["system.type"] = "Summa";
@@ -977,10 +985,17 @@ export const migrateItemData = function(itemData) {
       }
 
       updateData["system.topic"] = topic;
+    } else {
+      let topic = { art: null, key: "awareness", option: "", spellName: null, category: "ability" };
+      updateData["system.topic"] = topic;
     }
     // V10 datamodel cleanup (2.0.0)
     if (itemData.system.type.value !== undefined) {
-      updateData["system.type"] = itemData.system.type.value.capitalize();
+      if (itemData.system.type.value == "summa") {
+        updateData["system.type"] = "Summa";
+      } else if (itemData.system.type.value == "tract") {
+        updateData["system.type"] = "Tractatus";
+      }
     } else {
       if (itemData.system.type == "summa") {
         updateData["system.type"] = "Summa";
@@ -994,6 +1009,14 @@ export const migrateItemData = function(itemData) {
       } else {
         updateData["system.season"] = "spring";
       }
+    }
+    if (itemData.system.ability != undefined) {
+      // the field ability is no longer used,
+      // appending the value to the description.
+      updateData["system.description"] =
+        itemData.system.description +
+        `<p>MIGRATION: value of ability field: ${itemData.system.ability}</p>`;
+      updateData["system.-=ability"] = null;
     }
     updateData["system.-=types"] = null;
   } else if (itemData.type == "might") {
