@@ -4,6 +4,7 @@
 
 ### Features
 
+- Removed migration support for 0.7 (mostly work but waranty)
 - Improved dropbox for picking ability keys
 - Abilities keys are now sorted in the system language
 - Total rework of the book item type
