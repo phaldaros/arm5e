@@ -157,7 +157,9 @@ export class Scriptorium extends FormApplication {
           if (filteredAbilities.length > 0) {
             context.ui.warning = "arm5e.scriptorium.msg.whichItem";
             context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
-            context.reading.reader.ability = filteredAbilities[0];
+            if (!context.reading.reader.ability) {
+              context.reading.reader.ability = filteredAbilities[0];
+            }
             context.reading.reader.abilities = filteredAbilities;
           } else {
             context.ui.editItem = "disabled";

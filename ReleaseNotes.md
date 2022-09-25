@@ -4,6 +4,7 @@
 
 ### Features
 
+- Improved the look of casting and lab total tabs
 - New scriptorium dialog (beta)
 - New compendium with all lab virtues and flaws by Orneen
 - Updated French version by Orneen
