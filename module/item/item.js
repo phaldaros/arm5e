@@ -257,7 +257,7 @@ export class ArM5eItem extends Item {
               break;
             }
             case "reading": {
-              systemData.baseQuality = systemData.book.quality;
+              systemData.baseQuality = systemData.sourceQuality;
               break;
             }
             case "hermeticApp":

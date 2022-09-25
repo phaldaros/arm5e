@@ -567,8 +567,18 @@ export function validTeaching(context, actor, item) {
 }
 
 export function validReading(context, actor, item) {
-  context.system.totalXp = { reading: 0 };
-  context.system.baseQuality = context.item.system.book.quality;
+  context.system.totalXp = { abilities: 0, arts: 0, spells: 0 };
+  let abilitiesArr = Object.values(item.system.progress.abilities);
+  context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
+
+  context.system.totalXp.arts += checkArtProgressItems(context, item, 1000);
+
+  let spellsArr = Object.values(item.system.progress.spells);
+  context.system.totalXp.spells = checkMaxXpPerItem(context, spellsArr, 1000);
+}
+
+export function computeTotals(context) {
+  context.system.totalXp = { abilities: 0, arts: 0, spells: 0 };
 }
 
 // get a new title for a diary entry if it is still the default : "New DiaryEntry"

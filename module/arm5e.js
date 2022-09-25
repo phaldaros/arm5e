@@ -317,7 +317,7 @@ Hooks.once("ready", async function() {
     // this below assumes that we stay on single digit version numbers...
     const currentVersion = game.settings.get("arm5e", "systemMigrationVersion");
     const SYSTEM_VERSION_NEEDED = game.system.version;
-    const COMPATIBLE_MIGRATION_VERSION = "1.0";
+    const COMPATIBLE_MIGRATION_VERSION = "1.1";
     const totalDocuments = game.actors.size + game.scenes.size + game.items.size;
 
     if (!currentVersion && totalDocuments === 0) {

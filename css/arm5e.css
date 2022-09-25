@@ -209,6 +209,21 @@ span.player-name {
   overflow-x: hidden;
 }
 
+.scriptorium.resource {
+  width: 220px;
+  padding-top: 5px;
+}
+
+.scriptorium .drop-box {
+  text-align: center;
+  padding: 5px;
+  margin: 5px;
+  border: 3px;
+  border-style: dashed;
+  border-radius: 14px;
+  border-color: rgb(161, 154, 154);
+}
+
 .arm5e .window-app .window-content {
   display: flex;
 }
@@ -497,6 +512,11 @@ h4.window-title {
   height: 50px;
 }
 
+.marginsides32 {
+  margin-left: 32px;
+  margin-right: 36px;
+}
+
 .arm5eChooser .header-background img,
 .arm5eChooser .footer-background img,
 .arm5eEffect .header-background img {
@@ -506,13 +526,28 @@ h4.window-title {
   padding-right: 0px;
   background-size: cover;
 }
-
 .arm5eChooser {
   font-size: 10pt;
   background-image: url("../assets/dialog/Dialog_Background.png");
   background-repeat: repeat-y;
   background-size: cover;
   font-family: "bookAntiquaBold";
+}
+
+.scriptorium.scriptorium-sheet {
+  background-image: url("../assets/scriptorium/Scriptorium_background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+.tab-header {
+  border: 0px !important;
+  background-image: url("../assets/bSilver.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  min-height: 32px;
+  margin-bottom: 12px !important;
+  position: relative;
 }
 
 .arm5e .astrolab.astrolab-sheet {
@@ -539,6 +574,14 @@ h4.window-title {
   width: 600px;
   margin: 0px;
   background-image: none;
+}
+.arm5e .scriptorium-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 32pt;
+  height: 45px;
+  border: none;
+  color: #30512d;
 }
 
 .arm5e .astrolab-title {
@@ -569,6 +612,13 @@ h4.window-title {
 
 .arm5eRequisite .footer-background {
   height: 45px;
+}
+
+.read-book {
+  padding-right: 16px;
+  padding-left: 16px;
+  margin-right: 40px;
+  margin-left: 32px;
 }
 
 .arm5ActiveEffect {
@@ -678,6 +728,15 @@ input[type="time"] {
   background-image: none;
 }
 
+.arm5e .scriptorium input[type="text"],
+.arm5e .scriptorium input[type="number"] {
+  font-family: "bookAntiqua";
+  font-weight: normal;
+  height: 13pt;
+  background-image: none;
+  max-width: 220px;
+}
+
 .arm5e select {
   height: 20px;
   background: rgba(0, 0, 0, 0.05);
@@ -687,7 +746,10 @@ input[type="time"] {
   padding: 0 3px;
   text-overflow: ellipsis;
 }
-
+.arm5e .scriptorium select {
+  font-family: "bookAntiqua";
+  max-width: 220px;
+}
 .arm5e .astrolab select {
   font-weight: bold;
   background: rgba(0, 0, 0, 0.15);
@@ -975,7 +1037,7 @@ input[type="time"] {
   background-repeat: repeat-x;
   background-position-y: bottom;
   */
-  min-height: 40px;
+  min-height: 36px;
   margin-bottom: 12px !important;
 }
 
@@ -1365,7 +1427,7 @@ input[type="number"].art-score {
 .arm5e .smallTitle {
   /*font-family: "vinque";*/
   font-family: "blackmoor";
-  margin-bottom: 6px;
+  margin-bottom: 0px;
   font-size: 12pt;
   /*font-weight: bold;*/
 }

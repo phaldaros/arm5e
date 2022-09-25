@@ -3,7 +3,7 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "2.0.2.2",
+  "version": "2.0.2.3",
   "minimumCoreVersion": "10",
   "compatibility": {
     "minimum": "10",
@@ -71,6 +71,18 @@
       "name": "flaws",
       "label": "Flaws",
       "path": "packs/flaws.db",
+      "type": "Item"
+    },
+    {
+      "name": "lab-virtues",
+      "label": "Laboratory Virtues",
+      "path": "packs/lab-virtues.db",
+      "type": "Item"
+    },
+    {
+      "name": "lab-flaws",
+      "label": "Laboratory Flaws",
+      "path": "packs/lab-flaws.db",
       "type": "Item"
     },
     {

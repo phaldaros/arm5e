@@ -600,11 +600,7 @@ export class ArM5ePCActor extends Actor {
           totalFlaws =
             parseInt(totalFlaws) + parseInt(ARM5E.impacts[item.system.impact.value].cost);
         }
-      }
-
-      // ugly fix, but I don't know how to do better since prepare data is called before migration
-      // to be removed when we break backward compatibility with 0.7
-      else if (item.type === "diaryEntry" || item.type === "dairyEntry") {
+      } else if (item.type === "diaryEntry") {
         if (!item.system.applied) {
           pendingXps += item.system.sourceQuality;
         }
@@ -852,7 +848,7 @@ export class ArM5ePCActor extends Actor {
           totalFlaws =
             parseInt(totalFlaws) + parseInt(ARM5E.impacts[item.system.impact.value].cost);
         }
-      } else if (item.type === "diaryEntry" || item.type === "dairyEntry") {
+      } else if (item.type === "diaryEntry") {
         diaryEntries.push(item);
       }
     }
@@ -964,7 +960,7 @@ export class ArM5ePCActor extends Actor {
           totalFlaws =
             parseInt(totalFlaws) + parseInt(ARM5E.impacts[item.system.impact.value].cost);
         }
-      } else if (item.type === "diaryEntry" || item.type === "dairyEntry") {
+      } else if (item.type === "diaryEntry") {
         diaryEntries.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);

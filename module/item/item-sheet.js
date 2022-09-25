@@ -58,7 +58,7 @@ export class ArM5eItemSheet extends ItemSheet {
     // Add the item's data to context.system for easier access, as well as flags.
     context.system = itemData.system;
     context.flags = itemData.flags;
-
+    context.ui = { flavor: "Neutral" };
     context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon") {
       context.system.abilities = this.actor.system.abilities.map(v => {
@@ -77,9 +77,12 @@ export class ArM5eItemSheet extends ItemSheet {
       itemData.type == "book"
     ) {
       context.abilityKeysList = CONFIG.ARM5E.LOCALIZED_ABILITIES;
+
+      if (itemData.type == "book" && itemData.system.topic.category == "spell") {
+        context.ui.bookTypeEdit = "disabled";
+      }
     }
 
-    context.ui = { flavor: "Neutral" };
     if (this.item.isOwned) {
       switch (this.actor.type) {
         case "player":
@@ -365,6 +368,7 @@ export class ArM5eItemSheet extends ItemSheet {
     let chosenTopic = $(".book-topic")
       .find("option:selected")
       .val();
+    let bookType = this.item.system.type;
     let topic = {};
     if (chosenTopic === "ability") {
       topic.art = null;
@@ -380,6 +384,7 @@ export class ArM5eItemSheet extends ItemSheet {
       topic.spellName = null;
       topic.category = "art";
     } else {
+      bookType = "Tractatus";
       topic.art = null;
       topic.key = null;
       topic.option = null;
@@ -389,6 +394,7 @@ export class ArM5eItemSheet extends ItemSheet {
     await this.item.update(
       {
         system: {
+          type: bookType,
           topic: topic
         }
       },

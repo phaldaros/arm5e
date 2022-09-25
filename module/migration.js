@@ -280,7 +280,7 @@ export const migrateSceneData = function(scene, migrationData) {
 export const migrateActorData = function(actor) {
   const updateData = {};
   // updateData["flags.arm5e.-=filters"] = null;
-  if (!actor?.flags.arm5e) {
+  if (!actor?.flags?.arm5e) {
     updateData["flags.arm5e"] = {};
   } else if (actor?.flags.arm5e.filters) {
     updateData["flags.arm5e.-=filters"] = null;
@@ -323,19 +323,6 @@ export const migrateActorData = function(actor) {
   // token with barely anything to migrate
   if (actor.system == undefined) {
     return updateData;
-  }
-  // convert after fixing typo dairy => diary
-  if (actor.system.dairyEntries) {
-    updateData["system.diaryEntries"] = actor.system.dairyEntries;
-    updateData["system.-=dairyEntries"] = null;
-  }
-
-  // convert after fixing typo labarotary => laboratory
-  if (actor.system.version == "0.1") {
-    if (actor.system.labarotary) {
-      updateData["system.laboratory"] = actor.system.labarotary;
-      updateData["system.-=labarotary"] = null;
-    }
   }
 
   if (actor.system.mightsFam) {
@@ -760,7 +747,10 @@ export const migrateItemData = function(itemData) {
 
   if (_isMagicalItem(itemData)) {
     if (itemData.type != "baseEffect") {
-      if (itemData.system.duration.value === undefined) {
+      if (
+        itemData.system.duration.value === undefined ||
+        CONFIG.ARM5E.magic.durations[itemData.system.duration.value] === undefined
+      ) {
         // console.log(`Guessing duration: ${itemData.system.duration}`);
         updateData["system.duration.value"] = _guessDuration(
           itemData.name,
@@ -777,11 +767,17 @@ export const migrateItemData = function(itemData) {
           }
         }
       }
-      if (itemData.system.range.value === undefined) {
+      if (
+        itemData.system.range.value === undefined ||
+        CONFIG.ARM5E.magic.ranges[itemData.system.range.value] === undefined
+      ) {
         // console.log(`Guessing range: ${itemData.system.range}`);
         updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range);
       }
-      if (itemData.system.target.value === undefined) {
+      if (
+        itemData.system.target.value === undefined ||
+        CONFIG.ARM5E.magic.targets[itemData.system.target.value] === undefined
+      ) {
         // console.log(`Guessing target: ${itemData.system.target}`);
         updateData["system.target.value"] = _guessTarget(itemData.name, itemData.system.target);
       }
@@ -858,13 +854,7 @@ export const migrateItemData = function(itemData) {
     }
   }
   // Fix type of Item
-  if (itemData.type == "dairyEntry") {
-    updateData["type"] = "diaryEntry";
-
-    if (itemData.system.progress == undefined || isEmpty(itemData.system.progress)) {
-      updateData["system.progress"] = { abilities: [], spells: [], arts: [] };
-    }
-  } else if (itemData.type == "diaryEntry") {
+  if (itemData.type == "diaryEntry") {
     if (itemData.system.progress == undefined || isEmpty(itemData.system.progress)) {
       updateData["system.progress"] = { abilities: [], spells: [], arts: [] };
     }
@@ -1099,172 +1089,181 @@ function cleanItemData(item) {
 
 // Unfortunaltly, since the range was a free input field, it has to be guessed
 function _guessRange(name, value) {
-  switch (value.toLowerCase()) {
-    case "personal":
-    case "pers":
-    case "per":
-    case game.i18n.localize("arm5e.spell.ranges.personal"):
-      return "personal";
-    case "touch":
-    case game.i18n.localize("arm5e.spell.ranges.touch"):
-      return "touch";
-    case "eye":
-    case game.i18n.localize("arm5e.spell.ranges.eye"):
-      return "eye";
-    case "voice":
-    case game.i18n.localize("arm5e.spell.ranges.voice"):
-      return "voice";
-    case "road":
-    case game.i18n.localize("arm5e.spell.ranges.road"):
-      return "road";
-    case "sight":
-    case game.i18n.localize("arm5e.spell.ranges.sight"):
-      return "sight";
-    case "arc":
-    case "arcane connection":
-    case game.i18n.localize("arm5e.spell.ranges.arc"):
-      return "arc";
-    case "special":
-    case "spe":
-    case "spec":
-    case game.i18n.localize("arm5e.config.special"):
-      return "special";
-    default:
-      ui.notifications.warn(
-        `Warning: Unable to guess range \"${value}\" of ${name}, you will have to set it manually`,
-        {
-          permanent: false
-        }
-      );
-      console.warn(`Range \"${value}\" of spell ${name} could not be guessed`);
-      return "other";
+  if (value && value !== "") {
+    switch (value.toLowerCase()) {
+      case "personnal":
+      case "pers":
+      case "per":
+      case game.i18n.localize("arm5e.spell.ranges.personal"):
+        return "personal";
+      case "touch":
+      case game.i18n.localize("arm5e.spell.ranges.touch"):
+        return "touch";
+      case "eye":
+      case game.i18n.localize("arm5e.spell.ranges.eye"):
+        return "eye";
+      case "voice":
+      case game.i18n.localize("arm5e.spell.ranges.voice"):
+        return "voice";
+      case "road":
+      case game.i18n.localize("arm5e.spell.ranges.road"):
+        return "road";
+      case "sight":
+      case game.i18n.localize("arm5e.spell.ranges.sight"):
+        return "sight";
+      case "arc":
+      case "arcane connection":
+      case game.i18n.localize("arm5e.spell.ranges.arc"):
+        return "arc";
+      case "special":
+      case "spe":
+      case "spec":
+      case game.i18n.localize("arm5e.config.special"):
+        return "special";
+      default:
+        break;
+    }
   }
+  ChatMessage.create({
+    content:
+      "<b>MIGRATION NOTIFICATION</b><br/>" +
+      `Warning: Unable to guess range \"${value}\" of ${name}, you will have to set it back manually. ` +
+      `It has been reset to ${game.i18n.localize("arm5e.spell.ranges.personal")}</b>`
+  });
+  console.warn(`Range \"${value}\" of spell ${name} could not be guessed`);
+  return "personal";
 }
 
 // Unfortunaltly, since the target was a free input field, it has to be guessed
 function _guessTarget(name, value) {
-  switch (value.toLowerCase().trim()) {
-    case "individual":
-    case "ind":
-    case "indiv":
-    case game.i18n.localize("arm5e.spell.ranges.ind"):
-      return "ind";
-    case "circle":
-    case "cir":
-    case game.i18n.localize("arm5e.spell.ranges.circle"):
-      return "circle";
-    case "part":
-    case "par":
-    case game.i18n.localize("arm5e.spell.ranges.part"):
-      return "part";
-    case "group":
-    case "gro":
-    case "grp":
-    case game.i18n.localize("arm5e.spell.ranges.group"):
-      return "group";
-    case "room":
-    case game.i18n.localize("arm5e.spell.ranges.room"):
-      return "room";
-    case "struct":
-    case "str":
-    case game.i18n.localize("arm5e.spell.ranges.struct"):
-      return "struct";
-    case "boundary":
-    case "bound":
-    case "bou":
-    case game.i18n.localize("arm5e.spell.ranges.bound"):
-      return "bound";
-    case "taste":
-    case "tas":
-    case game.i18n.localize("arm5e.spell.ranges.taste"):
-      return "taste";
-    case "hearing":
-    case "hea":
-    case game.i18n.localize("arm5e.spell.ranges.hearing"):
-      return "hearing";
-    case "touch":
-    case "tou":
-    case game.i18n.localize("arm5e.spell.ranges.touch"):
-      return "touch";
-    case "smell":
-    case "sme":
-    case game.i18n.localize("arm5e.spell.ranges.smell"):
-      return "smell";
-    case "sight":
-    case "sig":
-    case game.i18n.localize("arm5e.spell.ranges.sight"):
-      return "sight";
-    case "special":
-    case "spe":
-    case "spec":
-    case game.i18n.localize("arm5e.config.special"):
-      return "special";
-    default:
-      ui.notifications.warn(
-        `Warning: Unable to guess target \"${value}\" of ${name}, you will have to set it manually`,
-        {
-          permanent: false
-        }
-      );
-      console.warn(`Target \"${value}\" of spell ${name} could not be guessed`);
-      return "other";
+  if (value && value !== "") {
+    switch (value.toLowerCase().trim()) {
+      case "individual":
+      case "ind":
+      case "indiv":
+      case game.i18n.localize("arm5e.spell.targets.ind"):
+        return "ind";
+      case "circle":
+      case "cir":
+      case game.i18n.localize("arm5e.spell.targets.circle"):
+        return "circle";
+      case "part":
+      case "par":
+      case game.i18n.localize("arm5e.spell.targets.part"):
+        return "part";
+      case "group":
+      case "gro":
+      case "grp":
+      case game.i18n.localize("arm5e.spell.targets.group"):
+        return "group";
+      case "room":
+      case game.i18n.localize("arm5e.spell.targets.room"):
+        return "room";
+      case "struct":
+      case "str":
+      case game.i18n.localize("arm5e.spell.targets.struct"):
+        return "struct";
+      case "boundary":
+      case "bound":
+      case "bou":
+      case game.i18n.localize("arm5e.spell.targets.bound"):
+        return "bound";
+      case "taste":
+      case "tas":
+      case game.i18n.localize("arm5e.spell.targets.taste"):
+        return "taste";
+      case "hearing":
+      case "hea":
+      case game.i18n.localize("arm5e.spell.targets.hearing"):
+        return "hearing";
+      case "touch":
+      case "tou":
+      case game.i18n.localize("arm5e.spell.targets.touch"):
+        return "touch";
+      case "smell":
+      case "sme":
+      case game.i18n.localize("arm5e.spell.targets.smell"):
+        return "smell";
+      case "sight":
+      case "sig":
+      case game.i18n.localize("arm5e.spell.targets.sight"):
+        return "sight";
+      case "special":
+      case "spe":
+      case "spec":
+      case game.i18n.localize("arm5e.config.special"):
+        return "special";
+      default:
+        break;
+    }
   }
+  ChatMessage.create({
+    content:
+      "<b>MIGRATION NOTIFICATION</b><br/>" +
+      `Warning: Unable to guess target \"${value}\" of ${name}, you will have to set it back manually. ` +
+      `It has been reset to ${game.i18n.localize("arm5e.spell.targets.ind")}</b>`
+  });
+  console.warn(`Target \"${value}\" of spell ${name} could not be guessed`);
+  return "ind";
 }
 
 // Unfortunaltely, since the duration was a free input field, it has to be guessed
 function _guessDuration(name, value) {
-  switch (value.toLowerCase().trim()) {
-    case "moment":
-    case "momentary":
-    case "mom":
-    case game.i18n.localize("arm5e.spell.ranges.moment"):
-      return "moment";
-    case "diameter":
-    case "dia":
-    case "diam":
-      return "diam";
-    case "concentration":
-    case game.i18n.localize("arm5e.spell.ranges.conc"):
-      return "conc";
-    case "sun":
-    case game.i18n.localize("arm5e.spell.ranges.sun"):
-      return "sun";
-    case "ring":
-    case game.i18n.localize("arm5e.spell.ranges.ring"):
-      return "ring";
-    case "moon":
-    case game.i18n.localize("arm5e.spell.ranges.moon"):
-      return "moon";
-    case "fire":
-    case game.i18n.localize("arm5e.spell.ranges.fire"):
-      return "fire";
-    case "bargain":
-    case "barg":
-    case game.i18n.localize("arm5e.spell.ranges.barg"):
-      return "bargain";
-    case "year":
-    case game.i18n.localize("arm5e.spell.ranges.year"):
-      return "year";
-    case "condition":
-    case "cond":
-    case game.i18n.localize("arm5e.spell.ranges.condition"):
-      return "condition";
-    case "year+1":
-    case game.i18n.localize("arm5e.spell.ranges.year+1"):
-      return "year+1";
-    case "special":
-    case "spe":
-    case "spec":
-    case game.i18n.localize("arm5e.config.special"):
-      return "special";
-    default:
-      ui.notifications.warn(
-        `Warning: Unable to guess duration \"${value}\" of ${name}, you will have to set it manually`,
-        {
-          permanent: false
-        }
-      );
-      console.warn(`Duration \"${value}\" of spell ${name} could not be guessed`);
-      return "other";
+  if (value && value !== "") {
+    switch (value.toLowerCase().trim()) {
+      case "moment":
+      case "momentary":
+      case "mom":
+      case game.i18n.localize("arm5e.spell.durations.moment"):
+        return "moment";
+      case "diameter":
+      case "dia":
+      case "diam":
+        return "diam";
+      case "concentration":
+      case game.i18n.localize("arm5e.spell.durations.conc"):
+        return "conc";
+      case "sun":
+      case game.i18n.localize("arm5e.spell.durations.sun"):
+        return "sun";
+      case "ring":
+      case game.i18n.localize("arm5e.spell.durations.ring"):
+        return "ring";
+      case "moon":
+      case game.i18n.localize("arm5e.spell.durations.moon"):
+        return "moon";
+      case "fire":
+      case game.i18n.localize("arm5e.spell.durations.fire"):
+        return "fire";
+      case "bargain":
+      case "barg":
+      case game.i18n.localize("arm5e.spell.durations.barg"):
+        return "bargain";
+      case "year":
+      case game.i18n.localize("arm5e.spell.durations.year"):
+        return "year";
+      case "condition":
+      case "cond":
+      case game.i18n.localize("arm5e.spell.durations.condition"):
+        return "condition";
+      case "year+1":
+      case game.i18n.localize("arm5e.spell.durations.year+1"):
+        return "year+1";
+      case "special":
+      case "spe":
+      case "spec":
+      case game.i18n.localize("arm5e.config.special"):
+        return "special";
+      default:
+        break;
+    }
   }
+  ChatMessage.create({
+    content:
+      "<b>MIGRATION NOTIFICATION</b><br/>" +
+      `Warning: Unable to guess duration \"${value}\" of ${name}, you will have to set it back manually. ` +
+      `It has been reset to ${game.i18n.localize("arm5e.spell.durations.moment")}</b>`
+  });
+  console.warn(`Duration \"${value}\" of spell ${name} could not be guessed`);
+  return "moment";
 }
