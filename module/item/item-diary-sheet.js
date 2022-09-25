@@ -92,7 +92,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.ui.showSpells = activityConfig.display.spells;
 
     context.ui.showTeacher = hasTeacher;
-    context.ui.showBaseQuality = hasTeacher || actType === "reading";
+    context.ui.showBaseQuality = hasTeacher;
     context.ui.editSource = true;
     context.ui.bonusOptions = false;
 
@@ -138,17 +138,23 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     context.system.canEditTeacher = "";
     context.system.disabledTeacher = "";
-    context.system.canEditBook = "";
-    context.system.disabledBook = "";
+    // context.system.canEditBook = "";
+    // context.system.disabledBook = "";
 
     if (itemData.system.applied) {
       context.system.canEdit = "readonly";
       context.system.canEditTeacher = "readonly";
       context.system.disabledTeacher = "disabled";
-      context.system.canEditBook = "readonly";
-      context.system.disabledBook = "disabled";
+      // context.system.canEditBook = "readonly";
+      // context.system.disabledBook = "disabled";
       context.system.disabled = "disabled";
     }
+    if (actType === "reading") {
+      context.system.disabled = "disabled";
+      context.system.canEdit = "readonly";
+      context.ui.showBaseQuality = true;
+    }
+
     context.system.cappedGain = false;
     if (
       context.system.theoriticalSource !== undefined &&
@@ -568,12 +574,11 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         break;
       case "training":
       case "teaching":
+      case "reading":
         this._tabs[0].activate("advanced");
         // this.render();
         // this._tabs[1].activate("teacher");
         break;
-      case "reading":
-        this._tabs[0].activate("advanced");
       default:
         this.render();
         this._tabs[1].activate("abilities");
@@ -588,89 +593,89 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     let updateData = [];
     let sourceQuality = 0;
 
-    if (this.item.system.type === "reading") {
-      sourceQuality = this.item.system.sourceQuality;
-      if (this.item.system.book.art === null) {
-        let ability = this.actor.items.get(ab.id);
+    // TODO
+    // if (this.item.system.type === "reading") {
+    //   sourceQuality = this.item.system.sourceQuality;
+    //   if (this.item.system.book.art === null) {
+    //     let ability = this.actor.items.get(ab.id);
+    //   }
+    // } else {
+    for (const ab of Object.values(this.item.system.progress.abilities)) {
+      // ignore 0 xp gain
+      if (ab.xp == 0) {
+        continue;
       }
-    } else {
-      for (const ab of Object.values(this.item.system.progress.abilities)) {
-        // ignore 0 xp gain
-        if (ab.xp == 0) {
-          continue;
-        }
-        // check that ability still exists
-        let ability = this.actor.items.get(ab.id);
-        if (ability == undefined) {
-          ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
-            permanent: false
-          });
-          return;
-        }
-        let data = {
-          _id: ab.id,
-          system: {
-            xp: ability.system.xp + ab.xp
-          }
-        };
-        description += `<li>${game.i18n.format("arm5e.activity.descItem", {
-          item: ability.name,
-          xp: ab.xp
-        })}</li>`;
-        log(false, `Added ${ab.xp} to ${ability.name}`);
-        sourceQuality += ab.xp;
-        updateData.push(data);
+      // check that ability still exists
+      let ability = this.actor.items.get(ab.id);
+      if (ability == undefined) {
+        ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
+          permanent: false
+        });
+        return;
       }
-      for (const s of Object.values(this.item.system.progress.spells)) {
-        // ignore 0 xp gain
-        if (s.xp == 0) {
-          continue;
+      let data = {
+        _id: ab.id,
+        system: {
+          xp: ability.system.xp + ab.xp
         }
-        // check that spell still exists
-        let spell = this.actor.items.get(s.id);
-        if (spell == undefined) {
-          ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
-            permanent: false
-          });
-          return;
-        }
-        let data = {
-          _id: s.id,
-          system: {
-            xp: spell.system.xp + s.xp
-          }
-        };
-        description += `<li>${game.i18n.format("arm5e.activity.descItem", {
-          item: spell.name,
-          xp: s.xp
-        })}</li>`;
-        log(false, `Added ${s.xp} to ${spell.name}`);
-        sourceQuality += s.xp;
-        updateData.push(data);
-      }
-
-      let actorUpdate = { system: { arts: { forms: {}, techniques: {} } } };
-      for (const a of Object.values(this.item.system.progress.arts)) {
-        // ignore 0 xp gain
-        if (a.xp == 0) {
-          continue;
-        }
-        let artType = "techniques";
-        if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
-          artType = "forms";
-        }
-        actorUpdate.system.arts[artType][a.key] = {};
-        actorUpdate.system.arts[artType][a.key].xp =
-          this.actor.system.arts[artType][a.key].xp + a.xp;
-        description += `<li>${game.i18n.format("arm5e.activity.descItem", {
-          item: game.i18n.localize(CONFIG.ARM5E.magic.arts[a.key].label),
-          xp: a.xp
-        })}</li>`;
-        log(false, `Added ${a.xp} to ${a.key}`);
-        sourceQuality += a.xp;
-      }
-      description += "</ol>";
+      };
+      description += `<li>${game.i18n.format("arm5e.activity.descItem", {
+        item: ability.name,
+        xp: ab.xp
+      })}</li>`;
+      log(false, `Added ${ab.xp} to ${ability.name}`);
+      sourceQuality += ab.xp;
+      updateData.push(data);
     }
+    for (const s of Object.values(this.item.system.progress.spells)) {
+      // ignore 0 xp gain
+      if (s.xp == 0) {
+        continue;
+      }
+      // check that spell still exists
+      let spell = this.actor.items.get(s.id);
+      if (spell == undefined) {
+        ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
+          permanent: false
+        });
+        return;
+      }
+      let data = {
+        _id: s.id,
+        system: {
+          xp: spell.system.xp + s.xp
+        }
+      };
+      description += `<li>${game.i18n.format("arm5e.activity.descItem", {
+        item: spell.name,
+        xp: s.xp
+      })}</li>`;
+      log(false, `Added ${s.xp} to ${spell.name}`);
+      sourceQuality += s.xp;
+      updateData.push(data);
+    }
+
+    let actorUpdate = { system: { arts: { forms: {}, techniques: {} } } };
+    for (const a of Object.values(this.item.system.progress.arts)) {
+      // ignore 0 xp gain
+      if (a.xp == 0) {
+        continue;
+      }
+      let artType = "techniques";
+      if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
+        artType = "forms";
+      }
+      actorUpdate.system.arts[artType][a.key] = {};
+      actorUpdate.system.arts[artType][a.key].xp = this.actor.system.arts[artType][a.key].xp + a.xp;
+      description += `<li>${game.i18n.format("arm5e.activity.descItem", {
+        item: game.i18n.localize(CONFIG.ARM5E.magic.arts[a.key].label),
+        xp: a.xp
+      })}</li>`;
+      log(false, `Added ${a.xp} to ${a.key}`);
+      sourceQuality += a.xp;
+    }
+    description += "</ol>";
+    // }
     let newTitle = getNewTitleForActivity(this.actor, this.item);
 
     await this.item.update(
@@ -701,6 +706,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "practice":
       case "training":
       case "teaching":
+      case "reading":
       case "hermeticApp":
       case "childhood":
       case "laterLife":
@@ -866,7 +872,11 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     event.preventDefault();
     const button = event.currentTarget;
     // no edit possible if applied
-    if (button.dataset.applied == "true" || button.dataset.applied === true) {
+    if (
+      button.dataset.applied == "true" ||
+      button.dataset.applied === true ||
+      this.item.system.activity === "reading"
+    ) {
       return;
     }
     let currentData = Object.values(this.item.system.progress[button.dataset.type]) ?? [];

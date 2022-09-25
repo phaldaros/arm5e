@@ -2,6 +2,7 @@ import { log } from "../tools.js";
 import { clearAuraFromActor } from "../helpers/aura.js";
 import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
+import { Scriptorium } from "../tools/scriptorium.js";
 
 export class ArsLayer extends InteractionLayer {
   async draw() {
@@ -58,6 +59,36 @@ export class ArsLayer extends InteractionLayer {
     const astrolab = new Astrolab(formData, {}); // data, options
     const res = await astrolab.render(true);
   }
+  static async openScriptorium() {
+    let formData = {
+      seasons: CONFIG.ARM5E.seasons,
+      abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
+      arts: CONFIG.ARM5E.magic.arts,
+      bookTopics: CONFIG.ARM5E.books.topics,
+      bookTypes: CONFIG.ARM5E.books.types,
+      ...game.settings.get("arm5e", "currentDate"),
+      reading: {
+        reader: { id: null },
+        book: {
+          id: null,
+          title: game.i18n.localize("arm5e.activity.book.title"),
+          language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+          topic: "ability",
+          type: "Summa",
+          author: game.i18n.localize("arm5e.generic.unknown"),
+          quality: 1,
+          level: 1,
+          key: "",
+          option: "",
+          spell: "",
+          art: ""
+        }
+      }
+    };
+    // // const html = await renderTemplate("systems/arm5e/templates/generic/astrolab.html", dialogData);
+    const scriptorium = new Scriptorium(formData, {}); // data, options
+    const res = await scriptorium.render(true);
+  }
 
   static async clearAura() {
     game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed._id);
@@ -75,13 +106,13 @@ export function addArsButtons(buttons) {
     title: "ArsMagica",
     layer: "arsmagica",
     icon: "icon-Tool_Ars",
-    visible: game.user.isGM,
+    visible: true,
     tools: [
       {
         name: "aura",
         title: "Configure Aura",
         icon: "icon-Tool_Auras",
-        visible: true,
+        visible: game.user.isGM,
         button: true,
         onClick: () => ArsLayer.selectAura()
       },
@@ -89,7 +120,7 @@ export function addArsButtons(buttons) {
         name: "clearAura",
         title: "Clear aura",
         icon: "icon-Tool_Delete_Perdo2",
-        visible: true,
+        visible: game.user.isGM,
         button: true,
         onClick: () => ArsLayer.clearAura()
       },
@@ -97,9 +128,17 @@ export function addArsButtons(buttons) {
         name: "astrolab",
         title: "Astrolab",
         icon: "icon-Tool_Astrolab",
-        visible: true,
+        visible: game.user.isGM,
         button: true,
         onClick: () => ArsLayer.openAstrolab()
+      },
+      {
+        name: "scriptorium",
+        title: "Scriptorium",
+        icon: "icon-Tool_Scriptorium",
+        visible: true,
+        button: true,
+        onClick: () => ArsLayer.openScriptorium()
       }
     ],
     activeTool: "aura"

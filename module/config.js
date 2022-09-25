@@ -1821,21 +1821,21 @@ ARM5E.activities.generic = {
     validation: validTeaching,
     secondaryFilter: null
   },
-  // reading: {
-  //   label: "arm5e.activity.reading",
-  //   display: {
-  //     tab: true,
-  //     progress: true,
-  //     abilities: false,
-  //     arts: false,
-  //     spells: false
-  //   },
-  //   source: { default: null, readonly: true },
-  //   maxXp: 0,
-  //   bonusOptions: null,
-  //   validation: validReading,
-  //   secondaryFilter: null
-  // },
+  reading: {
+    label: "arm5e.activity.reading",
+    display: {
+      tab: true,
+      progress: true,
+      abilities: true,
+      arts: true,
+      spells: true
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: validReading,
+    secondaryFilter: null
+  },
   hermeticApp: {
     label: "arm5e.activity.apprenticeship",
     display: {

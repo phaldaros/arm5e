@@ -355,9 +355,9 @@
 
   "arm5e.skill.options.area": "Area's name",
   "arm5e.skill.options.craft": "Craft's name",
-  "arm5e.skill.options.profession": "Profession's name",
+  "arm5e.skill.options.profession": "Prof's name",
   "arm5e.skill.options.language": "Language's name",
-  "arm5e.skill.options.organization": "Organization's name",
+  "arm5e.skill.options.organization": "Org's name",
   "arm5e.skill.options.supernatural": "Power's name",
   "arm5e.skill.options.mysteryCult": "Cult's name",
 
@@ -962,6 +962,24 @@
   "arm5e.astrolab.setWorldDate": "Set world date",
   "arm5e.astrolab.updateActors": "Update actors",
 
+  "arm5e.scriptorium.index": "Index",
+  "arm5e.scriptorium.reader.title": "Reader",
+  "arm5e.scriptorium.reader.name": "Reader's name",
+  "arm5e.scriptorium.reader.languages": "Known languages",
+  "arm5e.scriptorium.button": "Create activity",
+  "arm5e.scriptorium.msg.dropCharacter": "Drop a character here.",
+  "arm5e.scriptorium.msg.dropBook": "Drop a book here to fill the blanks.",
+  "arm5e.scriptorium.msg.noLanguage": "The reader doesn't know any language at a sufficient level",
+  "arm5e.scriptorium.msg.whichItem": "Couldn't match any {item} known by the reader. Pick one if applicable.",
+  "arm5e.scriptorium.msg.tooSkilled": "The reader is too skilled for that book.",
+  "arm5e.scriptorium.msg.missingItem": "The reader is missing this {item}",
+  "arm5e.scriptorium.msg.tractAlreadyRead": "The reader has already read a tractatus of the same title.",
+  "arm5e.scriptorium.msg.illiterate": "The reader doesn't know how to read.",
+  "arm5e.scriptorium.msg.invalidLevel": "Invalid level.",
+  "arm5e.scriptorium.msg.invalidQuality": "Invalid quality.",
+  "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
+  "arm5e.scriptorium.reading.activity": "Reading {title}",
+
   "arm5e.sheet.label.details": "Details",
   "arm5e.generic.yes": "Yes",
   "arm5e.generic.no": "No",
@@ -976,5 +994,7 @@
   "arm5e.generic.summary": "Summary",
   "arm5e.generic.details": "Details",
   "arm5e.generic.base": "Base",
-  "arm5e.generic.multipliers": "Multipliers"
+  "arm5e.generic.multipliers": "Multipliers",
+  "arm5e.generic.other": "Other",
+  "arm5e.generic.unknown": "Unknown"
 }

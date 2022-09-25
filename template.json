@@ -1,9 +1,9 @@
 {
   "Actor": {
-    "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast"],
+    "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast", "scriptorium"],
     "templates": {
       "base": {
-        "version": "1.4.5",
+        "version": "2.0.2",
         "virtues": [],
         "flaws": [],
         "diaryEntries": []
@@ -611,7 +611,12 @@
         "roll": {}
       }
     },
-
+    "scriptorium": {
+      "reading": {},
+      "writing": {},
+      "copying": {},
+      "logs": {}
+    },
     "player": {
       "templates": [
         "base",
@@ -1315,22 +1320,6 @@
         "speciality": "",
         "applySpec": false,
         "score": 0
-      },
-      "book": {
-        "id": null,
-        "title": "",
-        "language": "Latin",
-        "author": "Unknown",
-        "type": "Summa",
-        "quality": 1,
-        "level": 1,
-        "topic": {
-          "category": "art",
-          "key": null,
-          "option": null,
-          "art": "cr",
-          "spellName": null
-        }
       },
       "optionKey": "standard",
       "applied": false

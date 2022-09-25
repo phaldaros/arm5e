@@ -4,7 +4,10 @@
 
 ### Features
 
-- Removed migration support for 0.7 (mostly work but waranty)
+- New scriptorium dialog (beta)
+- New compendium with all lab virtues and flaws by Orneen
+- Updated French version by Orneen
+- Removed migration support for 0.7 (mostly work but no waranty)
 - Improved dropbox for picking ability keys
 - Abilities keys are now sorted in the system language
 - Total rework of the book item type
@@ -31,6 +34,7 @@
 - There is no longer an (non-blocking) error at lab creation
 - The icon of a document is no longer resetting to the default one when you make a copy.
 - Chirurgy found back its missing r
+- Books on spell mastery can no longer be summa
 
 ### V10 migration (on going)
 
