@@ -1,5 +1,6 @@
 import { log } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
+import { Scriptorium } from "../tools/scriptorium.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -189,7 +190,9 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".item-enchant").click(event => this._enchantItemQuestion(this.item));
     html.find(".ability-option").change(event => this._cleanUpOption(this.item, event));
 
+    // books
     html.find(".book-topic").change(event => this._changeBookTopic(this.item, event));
+    html.find(".plan-reading").click(event => this._readBook(this.item, event));
 
     // Active Effect management
     html.find(".effect-control").click(ev => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
@@ -360,6 +363,41 @@ export class ArM5eItemSheet extends ItemSheet {
         }
       ).render(true);
     });
+  }
+
+  async _readBook(item, event) {
+    let formData = {
+      seasons: CONFIG.ARM5E.seasons,
+      abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
+      arts: CONFIG.ARM5E.magic.arts,
+      bookTopics: CONFIG.ARM5E.books.topics,
+      bookTypes: CONFIG.ARM5E.books.types,
+      ...game.settings.get("arm5e", "currentDate"),
+      reading: {
+        reader: { id: null },
+        book: {
+          id: item.id,
+          title: item.name,
+          language: item.system.language,
+          topic: item.system.topic.category,
+          type: item.system.type,
+          author: item.system.author,
+          quality: item.system.quality,
+          level: item.system.level,
+          key: item.system.topic.key == null ? "" : item.system.topic.key,
+          option: item.system.topic.option == null ? "" : item.system.topic.option,
+          spell: item.system.topic.spellName == null ? "" : item.system.topic.spellName,
+          art: item.system.topic.art == null ? "" : item.system.topic.art
+        }
+      }
+    };
+
+    if (item.isOwned && item.actor._isCharacter()) {
+      formData.reading.reader.id = item.actor.id;
+    }
+
+    const scriptorium = new Scriptorium(formData, {}); // data, options
+    const res = await scriptorium.render(true);
   }
 
   async _changeBookTopic(item, event) {

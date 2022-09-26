@@ -58,6 +58,24 @@ export function compareBaseEffects(e1, e2) {
     }
   }
 }
+
+// export function compareAbilities(a1, a2) {
+//   const keys = Object.keys(CONFIG.ARM5E.LOCALIZED_ABILITIES);
+//   if (keys.indexOf(a1.system.category) < keys.indexOf(a2.system.category)) {
+//     return -1;
+//   } else if (keys.indexOf(a1.system.category) > keys.indexOf(a2.system.category)) {
+//     return 1;
+//   } else {
+//     if (keys.indexOf(a1.system.key) > keys.indexOf(a2.system.key)) {
+//       return -1;
+//     } else if (keys.indexOf(a1.system.key) < keys.indexOf(a2.system.key)) {
+//       return -1;
+//     } else {
+//       return a1.name.localeCompare(a2.name);
+//     }
+//   }
+// }
+
 const topicOrder = { art: 0, ability: 1, spell: 2 };
 export function compareBooks(b1, b2) {
   // Topic

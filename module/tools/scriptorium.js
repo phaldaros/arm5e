@@ -98,7 +98,7 @@ export class Scriptorium extends FormApplication {
     context.ui.canEditReader = "readonly";
     context.ui.disabledReader = "disabled";
     let reader = game.actors.get(context.reading.reader.id);
-
+    context.reading.reader.name = reader.name;
     // get known languages
     context.reading.reader.languages = reader.system.abilities
       .filter(e => {
@@ -244,21 +244,21 @@ export class Scriptorium extends FormApplication {
         }
       }
     ];
-
+    let quality = book.quality + reader.system.bonuses.activities.reading;
     switch (book.topic) {
       case "ability":
         entryData[0].system.progress.abilities.push({
           id: dataset.abilityId,
           category: CONFIG.ARM5E.LOCALIZED_ABILITIES[book.key]?.category ?? "general",
           name: CONFIG.ARM5E.LOCALIZED_ABILITIES[book.key]?.name ?? book.title,
-          xp: book.quality
+          xp: quality
         });
         log(false, entryData[0].system.progress.abilities[0]);
         break;
       case "art":
         entryData[0].system.progress.arts.push({
           key: book.art,
-          xp: book.quality
+          xp: quality
         });
         break;
       case "spell":
@@ -267,7 +267,7 @@ export class Scriptorium extends FormApplication {
           id: dataset.spellId,
           name: readerSpell.name,
           form: readerSpell.system.form.value,
-          xp: book.quality
+          xp: quality
         });
     }
     let entry = await reader.createEmbeddedDocuments("Item", entryData, {});
