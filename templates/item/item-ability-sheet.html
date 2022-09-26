@@ -12,7 +12,6 @@
       </div>
       {{#if item.isOwned }}
         <div class="grid grid-3col">
-          {{log "final score: " system.finalScore}}
           <label>{{localize "arm5e.sheet.score"}}<input type="number" name="system.finalScore"
               value="{{system.finalScore}}" data-dtype="Number" readonly /></label>
           <div class="ressource" style="padding-top: 18px">

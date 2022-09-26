@@ -423,8 +423,11 @@ export class ArM5eActorSheet extends ActorSheet {
           }
         }
       }
-
+      // context.sortedAbilities =  CONFIG.ARM5E.LOCALIZED_ABILITIES;
       for (let [key, ab] of Object.entries(context.system.abilities)) {
+        // if (!sortedAbilities[ab.system.key])
+
+        // ui related stuff
         if (ab.system.derivedScore == ab.system.finalScore && ab.system.xpCoeff == 1.0) {
           ab.ui = { style: "" };
         } else if (ab.system.derivedScore == ab.system.finalScore && ab.system.xpCoeff != 1.0) {

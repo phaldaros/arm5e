@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast", "scriptorium"],
+    "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast"],
     "templates": {
       "base": {
         "version": "2.0.2",
@@ -610,12 +610,6 @@
       "roll": {
         "roll": {}
       }
-    },
-    "scriptorium": {
-      "reading": {},
-      "writing": {},
-      "copying": {},
-      "logs": {}
     },
     "player": {
       "templates": [

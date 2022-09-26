@@ -206,7 +206,6 @@
     <div class="resource">
       <ol class="progresses-list">
         {{#each system.progress.spells as |spell idx|}}
-          {{log "spell" spell}}
           <li class="item diary-progress flexrow">
             <select name="system.progress.spells.{{idx}}.form" data-dtype="String" data-index="{{idx}}"
               data-type="spells" {{@root.system.disabled}} class="progress-category  flex02" style="min-width: 135px;">
@@ -219,7 +218,6 @@
             <select name="system.progress.spells.{{idx}}.id" data-dtype="String" data-index="{{idx}}" data-type="spells"
               {{@root.system.disabled}} class="progress-spell flex02" style="min-width: 200px;">
               {{#select spell.id}}
-                {{log "owned spell:" ../system.ownedSpells}}
                 {{#each (lookup ../system.ownedSpells spell.form) as |spell i|}}
                   <option value="{{spell.id}}">{{spell.name}} ({{spell.score}})</option>
                 {{/each}}

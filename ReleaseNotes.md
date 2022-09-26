@@ -1,11 +1,11 @@
 # Release Notes
 
-## 2.0.2.2
+## 2.0.2.4
 
 ### Features
 
+- New scriptorium dialog (beta+)
 - Improved the look of casting and lab total tabs
-- New scriptorium dialog (beta)
 - New compendium with all lab virtues and flaws by Orneen
 - Updated French version by Orneen
 - Removed migration support for 0.7 (mostly work but no waranty)
@@ -36,6 +36,7 @@
 - The icon of a document is no longer resetting to the default one when you make a copy.
 - Chirurgy found back its missing r
 - Books on spell mastery can no longer be summa
+- removed a bunch of debug log in handlebar templates
 
 ### V10 migration (on going)
 
