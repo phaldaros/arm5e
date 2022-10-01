@@ -977,7 +977,7 @@ input[type="time"] {
   text-align: center;
 }
 
-.arm5e option:disabled {
+.arm5e .ability-key option:disabled {
   font-size: medium;
   color: black;
   font-style: italic;
@@ -1013,7 +1013,7 @@ input[type="time"] {
 }
 
 .arm5e .diary-body {
-  height: 250px;
+  height: 200px;
   overflow-y: auto;
 }
 

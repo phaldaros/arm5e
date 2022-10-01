@@ -106,3 +106,13 @@
 .icon-Icon_Dice:before {
   content: "\0056";
 }
+.icon-Icon_Read:before {
+  font-size: 22pt;
+  content: "\0058";
+}
+.icon-Icon_Copy:before {
+  content: "\0059";
+}
+.icon-Icon_Crafting:before {
+  content: "\005a";
+}

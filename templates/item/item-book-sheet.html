@@ -5,17 +5,20 @@
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields flexcol">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
-      <div class="resource" style="width: 220px; padding-top: 5px;">
-        <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
-        <select class="book-topic" name="system.topic.category" data-dtype="String">
-          {{#select system.topic.category}}
-            {{#each config.books.topics as |book key|}} -->
-              <option value="{{key}}">{{localize book}}</option>
-            {{/each}}
-          {{/select}}
-        </select>
-        <a class="plan-reading" title="Read book" style="font-size: 13pt;padding-left: 5px;"><i
-            class="fa-solid fa-eye"></i></a>
+      <div class="resource flexrow" style="width: 220px; padding-top: 5px;">
+        <div>
+          <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
+          <select class="book-topic" name="system.topic.category" data-dtype="String">
+            {{#select system.topic.category}}
+              {{#each config.books.topics as |book key|}} -->
+                <option value="{{key}}">{{localize book}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        <div>
+          <a class="plan-reading" title="Read book" style="padding-left: 5px;"><i class="icon-Icon_Read"></i></a>
+        </div>
       </div>
       {{#if (eq system.topic.category "art")}}
         <div class="resource" style="width: 220px; padding-top: 5px;">

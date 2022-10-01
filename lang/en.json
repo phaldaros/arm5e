@@ -977,6 +977,10 @@
   "arm5e.scriptorium.msg.illiterate": "The reader doesn't know how to read.",
   "arm5e.scriptorium.msg.invalidLevel": "Invalid level.",
   "arm5e.scriptorium.msg.invalidQuality": "Invalid quality.",
+  "arm5e.scriptorium.msg.cappedQuality": "This book has become an easy read. The quality is reduced to {item}",
+  "arm5e.scriptorium.msg.diaryDesc": "{name} spent the season reading \"{title}\" by {author},<br/> a {type} in {language} about {topic}",
+  "arm5e.scriptorium.msg.diaryTopic.art": "the {art} Hermetic Art",
+  "arm5e.scriptorium.msg.diaryTopic.spell": "the mastery of the \"{spell}\" spell",
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
 

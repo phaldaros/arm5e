@@ -265,7 +265,7 @@ export class ArM5eItem extends Item {
             case "laterLife":
             case "laterLifeMagi":
               {
-                systemData.baseQuality = systemData.sourceQuality;
+                systemData.baseQuality = activityConfig.source.default; //systemData.sourceQuality;
               }
               break;
             default:

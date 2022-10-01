@@ -28,7 +28,8 @@
           <select class="progress-activity" name="system.activity" data-type="String" style="width: 100%"
             {{@root.system.disabled}}>
             {{#select system.activity}} {{#each config.activities.generic as |activity key|}}
-                <option value="{{key}}">{{localize activity.label}}</option>
+
+                <option value="{{key}}" {{activity.display.choosable}}>{{localize activity.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
