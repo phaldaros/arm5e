@@ -1,5 +1,21 @@
 # Release Notes
 
+## 2.0.2.8
+
+### Features
+
+- Better diary description for reading activities
+- New eye icon for book sheet (by Sylph)
+
+### Bug fixes
+
+- Diary entry sheets are again fully visible at low res
+- Level of arts summa was not taken into account for art progression
+- Affinities were not taken into account in diary entry with cap level
+- Default xp is again set if you hadn't the advanced tab open
+- Scriptorium level of book doesn't reset if you unlink the book
+- It is no longer possible to select a reading or aging activity in a diary sheet
+
 ## 2.0.2.4
 
 ### Features

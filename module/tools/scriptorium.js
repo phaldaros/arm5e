@@ -1,3 +1,4 @@
+import { ArM5ePCActor } from "../actor/actor.js";
 import { debug, log } from "../tools.js";
 
 export class ScriptoriumObject {
@@ -229,6 +230,7 @@ export class Scriptorium extends FormApplication {
         name: activityName,
         type: "diaryEntry",
         system: {
+          cappedGain: false,
           season: objectData.season,
           year: objectData.year,
           sourceQuality: book.quality,
@@ -240,13 +242,31 @@ export class Scriptorium extends FormApplication {
           },
           optionKey: "standard",
           applied: false,
-          description: activityName
+          description: game.i18n.format("arm5e.scriptorium.msg.diaryDesc", {
+            name: reader.name,
+            title: book.title,
+            author: book.author,
+            type: book.type,
+            language: book.language,
+            topic: this._getBookTopic(book)
+          })
         }
       }
     ];
     let quality = book.quality + reader.system.bonuses.activities.reading;
     switch (book.topic) {
       case "ability":
+        if (book.type == "Summa") {
+          let ab = reader.system.abilities.find(a => {
+            return a._id === dataset.abilityId;
+          });
+          objectData.ui = {};
+          entryData[0].system.cappedGain = this.checkAbilityOverload(objectData, ab);
+          if (entryData[0].system.cappedGain) {
+            quality = book.quality;
+          }
+          entryData[0].system.sourceQuality = quality;
+        }
         entryData[0].system.progress.abilities.push({
           id: dataset.abilityId,
           category: CONFIG.ARM5E.LOCALIZED_ABILITIES[book.key]?.category ?? "general",
@@ -256,6 +276,15 @@ export class Scriptorium extends FormApplication {
         log(false, entryData[0].system.progress.abilities[0]);
         break;
       case "art":
+        if (book.type == "Summa") {
+          let art = reader.getArtStats(book.art);
+          objectData.ui = {};
+          entryData[0].system.cappedGain = this.checkArtOverload(objectData, art);
+          if (entryData[0].system.cappedGain) {
+            quality = book.quality;
+          }
+          entryData[0].system.sourceQuality = book.quality;
+        }
         entryData[0].system.progress.arts.push({
           key: book.art,
           xp: quality
@@ -274,6 +303,33 @@ export class Scriptorium extends FormApplication {
     entry[0].sheet.render(true);
   }
 
+  _getBookTopic(book) {
+    let topic;
+    switch (book.topic) {
+      case "ability":
+        const ab = CONFIG.ARM5E.ALL_ABILITIES[book.key];
+        if (ab) {
+          topic = `"${game.i18n.format(ab.mnemonic, { option: book.option })}"`;
+        } else {
+          topic = `"${game.i18nlocalize("arm5e.generic.unknown")} ${game.i18nlocalize(
+            "arm5e.sheet.bookTopic"
+          )}"`;
+        }
+        break;
+      case "art":
+        topic = game.i18n.format("arm5e.scriptorium.msg.diaryTopic.art", {
+          art: CONFIG.ARM5E.magic.arts[book.art].label
+        });
+        break;
+      case "spell":
+        topic = game.i18n.format("arm5e.scriptorium.msg.diaryTopic.spell", {
+          spell: book.spellName
+        });
+    }
+
+    return topic;
+  }
+
   async _resetReader(event) {
     let updatedData = {
       "reading.reader.id": null,
@@ -289,10 +345,11 @@ export class Scriptorium extends FormApplication {
   }
 
   async _resetReadBook(event) {
+    const objectData = foundry.utils.expandObject(this.object);
     let updatedData = {
       "reading.book.id": null,
       "reading.book.level":
-        this.object.reading.book.type === "Tractatus" ? 0 : this.object.reading.book.level
+        objectData.reading.book.type === "Tractatus" ? 0 : objectData.reading.book.level
     };
     await this.submit({
       preventClose: true,
@@ -330,6 +387,11 @@ export class Scriptorium extends FormApplication {
       art: book.system.topic.art,
       spellName: book.system.topic.spellName
     };
+    // book.apps[this.appId] = this;
+
+    if (this.object.reading.reader.id) {
+      log(false, "reader present");
+    }
     // const readingData = { book: bookInfo };
     await this.submit({
       preventClose: true,
@@ -459,16 +521,69 @@ export class Scriptorium extends FormApplication {
             context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
             context.ui.warningParam = "";
             context.error = true;
+          } else if (ab) {
+            this.checkAbilityOverload(context, ab);
           }
         }
         break;
       }
-      default:
+      case "art": {
         if (!reader._isMagus()) {
           context.ui.warning = "arm5e.scriptorium.msg.notMagus";
           context.ui.warningParam = "";
           context.error = true;
         }
+        if (bookData.type === "Summa") {
+          let art = reader.getArtStats(bookData.art);
+          if (art.finalscore >= bookData.level) {
+            context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
+            context.ui.warningParam = "";
+            context.error = true;
+          } else {
+            this.checkArtOverload(context, art);
+          }
+        }
+        break;
+      }
+      case "spell":
+        if (!reader._isMagus()) {
+          context.ui.warning = "arm5e.scriptorium.msg.notMagus";
+          context.ui.warningParam = "";
+          context.error = true;
+        }
+        let spell = reader.break;
     }
+  }
+
+  checkArtOverload(context, artStat) {
+    // let artStat = reader.getArtStats();
+    const coeff = artStat.xpCoeff;
+    let newXp = (context.reading.book.quality + artStat.xp) * coeff;
+    let maxXp = ArM5ePCActor.getArtXp(context.reading.book.level);
+    if (newXp > maxXp) {
+      let newSource = maxXp - artStat.xp;
+      context.reading.book.theoriticalQuality = context.reading.book.quality;
+      context.reading.book.quality = newSource > 0 ? newSource : 0;
+      context.ui.warningParam = context.reading.book.quality;
+      context.ui.warning = "arm5e.scriptorium.msg.cappedQuality";
+      return true;
+    }
+    return false;
+  }
+
+  checkAbilityOverload(context, ability) {
+    // let artStat = reader.getArtStats();
+    const coeff = ability.system.xpCoeff;
+    let newXp = (context.reading.book.quality + ability.system.xp) * coeff;
+    let maxXp = ArM5ePCActor.getAbilityXp(context.reading.book.level);
+    if (newXp > maxXp) {
+      let newSource = maxXp - ability.system.xp;
+      context.reading.book.theoriticalQuality = context.reading.book.quality;
+      context.reading.book.quality = newSource > 0 ? newSource : 0;
+      context.ui.warningParam = context.reading.book.quality;
+      context.ui.warning = "arm5e.scriptorium.msg.cappedQuality";
+      return true;
+    }
+    return false;
   }
 }

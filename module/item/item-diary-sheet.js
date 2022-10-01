@@ -12,7 +12,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
       width: 654,
-      height: 850,
+      height: 800,
       dragDrop: [
         { dragSelector: null, dropSelector: ".progress-teacher" },
         { dragSelector: null, dropSelector: ".progress-abilities" }
@@ -155,7 +155,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.ui.showBaseQuality = true;
     }
 
-    context.system.cappedGain = false;
+    if (!context.system.cappedGain) {
+      context.system.cappedGain = false;
+    }
     if (
       context.system.theoriticalSource !== undefined &&
       context.system.theoriticalSource !== context.system.sourceQuality
@@ -214,7 +216,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       }
     }
 
-    if (!context.system.applied) {
+    if (!context.system.applied && !context.system.cappedGain) {
       context.system.sourceQuality += Number(context.system.aeBonus);
     }
     if (activityConfig.validation != null) {
@@ -567,21 +569,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       updateData["system.progress.spells"] = [];
     }
     updateData["system.sourceQuality"] = CONFIG.ARM5E.activities.generic[actType].source.default;
-    // core bug?
     switch (actType) {
       case "none":
         this._tabs[0].activate("description");
         break;
-      case "training":
-      case "teaching":
-      case "reading":
-        this._tabs[0].activate("advanced");
-        // this.render();
-        // this._tabs[1].activate("teacher");
-        break;
       default:
-        this.render();
-        this._tabs[1].activate("abilities");
+        this._tabs[0].activate("advanced");
+        break;
     }
     this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
   }
@@ -764,6 +758,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         await this.actor.update(actorUpdate, { render: true });
         if (this.item.system.activity === "reading") {
           await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
+          return;
         } else {
           await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
         }

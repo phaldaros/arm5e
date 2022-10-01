@@ -1162,6 +1162,16 @@ export class ArM5ePCActor extends Actor {
     }
     return 0;
   }
+  getArtScore(artKey) {
+    if (!this._isCharacter()) {
+      return null;
+    }
+    let artType = "techniques";
+    if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(artKey) == -1) {
+      artType = "forms";
+    }
+    return this.system.arts[artType][artKey];
+  }
 
   // Vitals management
 
@@ -1454,13 +1464,25 @@ export class ArM5ePCActor extends Actor {
     return { score: 0, speciality: "" };
   }
 
+  getSpellMasteryStats(spellId) {
+    const spell = this.system.spell.find(e => e.id == spellId);
+    if (spell) {
+      return {
+        score: spell.system.mastery,
+        xp: spell.system.xp,
+        xpCoeff: spell.system.xpCoeff
+      };
+    }
+    return { score: 0, xp: 0, xpCoeff };
+  }
+
   getArtStats(key) {
     let artType = "techniques";
     if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(key) == -1) {
       artType = "forms";
     }
 
-    const art = this.system.arts[artType][key];
+    return this.system.arts[artType][key];
   }
 
   hasMagicResistance() {

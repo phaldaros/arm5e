@@ -323,6 +323,21 @@ Hooks.once("ready", async function() {
     if (!currentVersion && totalDocuments === 0) {
       game.settings.set("arm5e", "systemMigrationVersion", SYSTEM_VERSION_NEEDED);
     } else {
+      // TODO remove after a while
+      const UPDATE_BUG_VERSION = "2.0.2.8";
+      if (foundry.utils.isNewerVersion(UPDATE_BUG_VERSION, currentVersion)) {
+        ChatMessage.create({
+          content:
+            "<b>IMPORTANT NOTIFICATION</b><br/>" +
+            "You receive this notification because you upgraded from a version lower than 2.0.2.8." +
+            `On the change to V10 there was a bug introduced in the automatic update mechanism.<br/>` +
+            `<br/><b>The only way to fix it is to uninstall the system and reinstall it again on your side </b>` +
+            `(not the world, just the system, <b>your data is safe</b>).<br/>` +
+            `<br/>If you don't do it, when you update, you will receive the latest changes from the dev branch with features under construction, unfinished and sometime buggy...` +
+            `<br/>Sorry for the inconvenience`
+        });
+      }
+      // END TODO
       const needsMigration =
         !currentVersion || foundry.utils.isNewerVersion(SYSTEM_VERSION_NEEDED, currentVersion);
       if (needsMigration) {

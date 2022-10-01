@@ -865,7 +865,6 @@ export function localizeAbilities() {
     ...translateAndSort(ARM5E.MYSTERY_ABILITIES)
   };
   return res;
-  let generalAb = translateAndSort(ARM5E.GENERAL_ABILITIES);
 }
 
 function translateAndSort(abilityList) {
@@ -1821,21 +1820,7 @@ ARM5E.activities.generic = {
     validation: validTeaching,
     secondaryFilter: null
   },
-  reading: {
-    label: "arm5e.activity.reading",
-    display: {
-      tab: true,
-      progress: true,
-      abilities: true,
-      arts: true,
-      spells: true
-    },
-    source: { default: 0, readonly: true },
-    maxXp: 0,
-    bonusOptions: null,
-    validation: validReading,
-    secondaryFilter: null
-  },
+
   hermeticApp: {
     label: "arm5e.activity.apprenticeship",
     display: {
@@ -1896,6 +1881,22 @@ ARM5E.activities.generic = {
     validation: validTotalXp,
     secondaryFilter: null
   },
+  reading: {
+    label: "arm5e.activity.reading",
+    display: {
+      tab: true,
+      progress: true,
+      abilities: true,
+      arts: true,
+      spells: true,
+      choosable: "disabled"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: validReading,
+    secondaryFilter: null
+  },
   aging: {
     label: "arm5e.activity.aging",
     display: {
@@ -1903,7 +1904,8 @@ ARM5E.activities.generic = {
       progress: false,
       abilities: true,
       arts: false,
-      spells: false
+      spells: false,
+      choosable: "disabled"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
