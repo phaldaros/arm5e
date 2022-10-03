@@ -962,6 +962,28 @@
   "arm5e.astrolab.setWorldDate": "Définir la date du monde",
   "arm5e.astrolab.updateActors": "Mise à jours des acteurs",
 
+  "arm5e.scriptorium.index": "Index",
+  "arm5e.scriptorium.reader.title": "Lecteur",
+  "arm5e.scriptorium.reader.name": "Nom du lecteur",
+  "arm5e.scriptorium.reader.languages": "Langues connues",
+  "arm5e.scriptorium.button": "Créer l'activité",
+  "arm5e.scriptorium.msg.dropCharacter": "Faire glisser un personnage ici.",
+  "arm5e.scriptorium.msg.dropBook": "Déposez un livre ici pour remplir les blancs.",
+  "arm5e.scriptorium.msg.noLanguage": "Le lecteur ne connait aucun langage avec un niveau suffisant",
+  "arm5e.scriptorium.msg.whichItem": "Ne correspond à aucune {item} connu du lecteur. Choisissez-en un, le cas échéant.",
+  "arm5e.scriptorium.msg.tooSkilled": "Le lecteur est trop compétent pour lire ce livre",
+  "arm5e.scriptorium.msg.missingItem": "{item} inconnu du lecteur",
+  "arm5e.scriptorium.msg.tractAlreadyRead": "Le lecteur a déjà lu un tractatus avec le même titre.",
+  "arm5e.scriptorium.msg.illiterate": "Le lecteur ne sait pas lire.",
+  "arm5e.scriptorium.msg.invalidLevel": "Niveau invalide.",
+  "arm5e.scriptorium.msg.invalidQuality": "Qualité invalide",
+  "arm5e.scriptorium.msg.cappedQuality": "Ce livre est devenu facile à lire. La qualité est réduite à {item}",
+  "arm5e.scriptorium.msg.diaryDesc": "{name} a passé la saison à lire \"{title}\" de {author},<br/> un {type} en {language} à propos de {topic}",
+  "arm5e.scriptorium.msg.diaryTopic.art": "l'art hermétique {art}",
+  "arm5e.scriptorium.msg.diaryTopic.spell": "la maîtrise du sort \"{sort}\"",
+  "arm5e.scriptorium.msg.notMagus": "Le lecteur n'est pas un mage.",
+  "arm5e.scriptorium.reading.activity": "Lecture {title}",
+
   "arm5e.sheet.label.details": "Détails",
   "arm5e.generic.yes": "Oui",
   "arm5e.generic.no": "Non",
@@ -976,5 +998,7 @@
   "arm5e.generic.summary": "Résumé",
   "arm5e.generic.details": "Détails",
   "arm5e.generic.base": "Base",
-  "arm5e.generic.multipliers": "Multiplicateurs"
+  "arm5e.generic.multipliers": "Multiplicateurs",
+  "arm5e.generic.other": "Autre",
+  "arm5e.generic.unknown": "Inconnu"
 }
