@@ -45,13 +45,13 @@ export class Scriptorium extends FormApplication {
       ],
       tabs: [
         {
-          navSelector: ".scriptorium-tabs",
-          contentSelector: ".scriptorium-body",
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
           initial: "reading"
         }
       ],
       width: "600",
-      height: "800",
+      height: "auto",
       submitOnChange: true,
       closeOnSubmit: false
     });

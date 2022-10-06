@@ -2,15 +2,13 @@
 {{!-- magicBooks --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.magicBooks"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create book" data-type="book"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.magicBooks as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
@@ -36,15 +34,13 @@
 {{!-- mundaneBooks --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.mundaneBooks"}}</div>
     <!-- <div class="item-controls">
       <a class="item-control item-create" title="Add mundaneBook" data-type="book"><i class="fas fa-plus"></i></a>
     </div> -->
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.mundaneBooks as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">
@@ -81,15 +77,13 @@
 
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.rawVis"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create vis" data-type="vis"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.rawVis as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
@@ -110,15 +104,13 @@
 
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.magicItems"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create item" data-type="magicItem"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.magicItems as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
@@ -136,15 +128,13 @@
 
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.items"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.items as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>

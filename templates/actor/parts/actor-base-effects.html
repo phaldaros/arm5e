@@ -1,8 +1,5 @@
 <ol class="spell-list backSection margintop18" style="min-height: 350px;">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div>
       <span class="item-name">{{localize "arm5e.sheet.base-effects"}} </span>
@@ -13,6 +10,7 @@
         data-form="{{system.formFilter}}"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.baseEffects as |effect id|}}
     <li class="item spell-value flexrow flex-center" data-name="{{effect.system.name}}" data-item-id="{{effect.id}}"
       data-item-type="{{effect.type}}">

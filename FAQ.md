@@ -68,7 +68,7 @@ Sometimes, due to added features, the datamodel of the system needs to change. T
 
 A migration is automatically triggered when you load a world for the first time with a new version. However, there are a few cases when you need to trigger it manually:
 
-- if you retrieve my commits from the master branch, the version has probably changed already, so the migration won't trigger. It is usually mentioned that a migration is needed. Update: Since V10, it won't be needed anymore
+- if you retrieve my commits from the master branch, the version has probably changed already, so the migration won't trigger. It is usually mentioned that a migration is needed. Update: Since V10, it won't be needed anymore.
 - when importing compendiums which are neither in the system or your world and have been generated with an older version. For example, spells created in version 1.2.3 stored only one requisite per technique and form, they have to be migrated to store multiple requisites but also keeping the existing one if configured.
 
 Running the migration again and again should never be a problem (If there is one, it's a bug).

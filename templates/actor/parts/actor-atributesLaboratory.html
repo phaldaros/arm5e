@@ -1,9 +1,6 @@
 <div class="flexrow backSection">
   <ol class="items-list">
     <li class="item flexrow item-header">
-      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.specialities"}}</div>
       <div class="item-controls">
@@ -11,6 +8,7 @@
             class="fas fa-plus"></i></a>
       </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.specialities as |item id|}}
       <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
@@ -29,9 +27,6 @@
 <div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
-      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.personality"}}</div>
       <div class="item-controls">
@@ -39,6 +34,7 @@
             class="fas fa-plus"></i></a>
       </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.personalities as |item id|}}
       <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
@@ -60,9 +56,6 @@
 <div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
-      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.distinctive"}}</div>
       <div class="item-controls">
@@ -70,6 +63,7 @@
             class="fas fa-plus"></i></a>
       </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.distinctive as |item id|}}
       <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">
@@ -91,15 +85,13 @@
 <div class="flexrow backSection margintop18">
   <ol class="items-list">
     <li class="item flexrow item-header">
-      <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-      <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
       <div class="item-image"></div>
       <div class="item-name">{{localize "arm5e.sheet.rooms"}}</div>
       <div class="item-controls">
         <a class="item-control item-create" title="Create rooms" data-type="sanctumRoom"><i class="fas fa-plus"></i></a>
       </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.rooms as |item id|}}
       <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}" data-attribute="{{id}}">
         <div class="flexrow flex-center">

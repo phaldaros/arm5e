@@ -1,14 +1,12 @@
 <ol class="spell-list backSection margintop18" style="min-height: 350px;">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div>
       <span class="item-name">{{localize "arm5e.sheet.enchantments"}} </span>
       <span>( {{ system.enchantmentsCount }} )</span>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.enchantments as |enchantment id|}}
     <li class="item spell-value flexrow flex-center" data-name="{{enchantment.name}}" data-item-id="{{enchantment.id}}"
       data-item-type="{{enchantment.type}}">
