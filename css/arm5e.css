@@ -209,8 +209,45 @@ span.player-name {
   overflow-x: hidden;
 }
 
+/*journal stuff */
+
+.sheet.journal-entry .journal-entry-content {
+  flex: 1;
+  height: 100%;
+  background: url(/systems/arm5e/assets/compendium/parchment.png) repeat;
+  border: 2px solid #000;
+  border-radius: 6px 0 0 0;
+}
+
+.journal-sheet .journal-header .title {
+  margin: 0;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: var(--font-size-32);
+  font-family: Blackmoor;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 4px;
+}
+
+.journal-entry-page h1 {
+  font-family: bookAntiqua;
+}
+
+.journal-entry-page h2 {
+  font-family: bookAntiqua;
+}
+
+.journal-entry-page h3 {
+  font-family: bookAntiqua;
+  font-size: 16px;
+}
+
+.journal-entry-page p {
+  font-family: bookAntiqua;
+}
+
 .scriptorium.resource {
-  width: 220px;
+  /* width: 220px; */
   padding-top: 5px;
 }
 
@@ -542,7 +579,7 @@ h4.window-title {
 
 .tab-header {
   border: 0px !important;
-  background-image: url("../assets/bSilver.png");
+  /* background-image: url("../assets/bSilver.png"); */
   background-repeat: repeat-x;
   background-position-y: bottom;
   min-height: 32px;
@@ -617,8 +654,8 @@ h4.window-title {
 .read-book {
   padding-right: 16px;
   padding-left: 16px;
-  margin-right: 40px;
-  margin-left: 32px;
+  margin-right: 25px;
+  margin-left: 25px;
 }
 
 .arm5ActiveEffect {
@@ -813,35 +850,32 @@ input[type="time"] {
   font-family: "bookAntiquaBold";
   padding-left: 34px;
   padding-right: 34px;
-  overflow-y: hidden;
   font-size: 9pt;
+  max-width: 800px;
 }
-
+/* 
 .arm5e .mainItem .sheet-body {
   height: auto;
-}
+} */
 
 .arm5e .mainItem .header-background {
   margin-left: -34px;
-  /*margin-top: -32px;*/
-  width: calc(100% + 68px);
+  text-align: center;
+  margin-top: 0px;
 }
 .arm5e .header-background {
   margin-left: -32px;
-  /*margin-top: -32px;*/
   width: calc(100% + 64px);
 }
 .arm5e .mainItem .footer-background {
+  text-align: center;
   margin-left: -34px;
   margin-top: 0px;
-  width: calc(100% + 68px);
-  height: 75px;
 }
 .arm5e .footer-background {
   margin-left: -32px;
   margin-top: 16px;
   width: calc(100% + 64px);
-  height: 103px;
 }
 
 .arm5e .header-background img {
@@ -854,7 +888,25 @@ input[type="time"] {
   border: 0px;
   height: inherit;
 }
-
+.arm5e .header.scriptorium-header {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 120px;
+  flex: 0 0 120px;
+  /*overflow: hidden;*/
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
 .arm5e .sheet-header {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 240px;
@@ -874,6 +926,10 @@ input[type="time"] {
   justify-content: flex-start;
   margin-bottom: 10px;
 }
+
+/* .arm5e .mainItem .sheet-header {
+  margin-top: 100px;
+} */
 
 .arm5e .sheet-header-lab {
   -ms-flex: 0 0 315px;
@@ -985,6 +1041,10 @@ input[type="time"] {
   text-decoration: overline;
 }
 
+.arm5e .resource {
+  padding: 4px;
+}
+
 .arm5e .progresses-list {
   list-style: none;
   overflow-x: hidden;
@@ -1010,6 +1070,8 @@ input[type="time"] {
 .arm5e .sheet-body .tab,
 .arm5e .sheet-body .tab .editor {
   height: 90%;
+  /* min-height: 150px;
+  height: auto; */
 }
 
 .arm5e .diary-body {
@@ -1039,6 +1101,11 @@ input[type="time"] {
   */
   min-height: 36px;
   margin-bottom: 12px !important;
+}
+
+.mainItem .arm5eTabs {
+  min-height: 36px;
+  margin-bottom: 0px !important;
 }
 
 .arm5eSubTabs {
@@ -1096,7 +1163,7 @@ input[type="time"] {
 }
 
 .arm5e .tabs {
-  height: 40px;
+  height: 32px;
   border-top: 1px solid #aaa;
   border-bottom: 1px solid #aaa;
 }
@@ -1195,24 +1262,45 @@ img.art-icon {
   font-weight: bold;
 } */
 
+.metalic-bar {
+  position: relative;
+  margin-bottom: 12px;
+}
+
 .item-header {
   border: 0px !important;
-  background-image: url("../assets/bSilver.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
-  min-height: 40px;
-  margin-bottom: 12px !important;
+  /* min-height: 40px; */
+  /* margin-bottom: 12px !important; */
   position: relative;
 }
 
 .item-right-ball {
   position: absolute;
   border: 0px;
-  top: 33px;
+  top: -4px;
+  left: calc(100% - 10px);
+  text-decoration: none;
+}
+
+.right-ball {
+  position: absolute;
+  border: 0px;
+  top: 21px;
   left: -1px;
   text-decoration: none;
 }
 
+.left-ball {
+  /* position: absolute; */
+  border: 0px;
+  top: 21px;
+  left: 10px;
+  text-decoration: none;
+}
+
+.right-ball img,
 .item-right-ball img {
   border: 0px;
   width: 10px;
@@ -1220,12 +1308,13 @@ img.art-icon {
 
 .item-left-ball {
   position: absolute;
+  /* left: 10px; */
   border: 0px;
-  top: 33px;
-  left: calc(100% - 10px);
+  top: -4px;
   text-decoration: none;
 }
 
+.left-ball img,
 .item-left-ball img {
   border: 0px;
   width: 10px;

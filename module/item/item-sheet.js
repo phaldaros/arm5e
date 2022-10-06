@@ -61,7 +61,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.flags = itemData.flags;
     context.ui = { flavor: "Neutral" };
     context.config = CONFIG.ARM5E;
-    if (itemData.type == "weapon") {
+    if (itemData.type == "weapon" && this.item.isOwned) {
       context.system.abilities = this.actor.system.abilities.map(v => {
         return { id: v._id, name: `${v.name} (${v.system.speciality}) - ${v.system.finalScore}` };
       });

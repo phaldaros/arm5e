@@ -1,8 +1,5 @@
 <ol class="items-list backSection">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div>
       <span class="item-name">
@@ -17,6 +14,7 @@
       <a class="item-control item-create" title="Add ability" data-type="ability"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.abilities as |item id|}}
     <li class="item item-value flexrow flex-center macro-ready" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">

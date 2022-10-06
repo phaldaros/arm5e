@@ -95,15 +95,13 @@
     <div class="flexrow flex-group-center" style="border: 0px; align-content: flex-start">
       <ol class="items-list" style="width: 100%">
         <li class="item flexrow item-header">
-          <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-          <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
           <div class="item-name">{{localize "arm5e.sheet.abilities"}}</div>
           <div class="item-controls">
             <a class="item-control item-create" title="Add abilityFamiliar" data-type="abilityFamiliar"><i
                 class="fas fa-plus"></i></a>
           </div>
         </li>
+        {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
         {{#each system.familiar.abilitiesFam as |ability key|}}
           <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{ability._id}}">
             <div class="flexrow flex-center">
@@ -124,15 +122,13 @@
     <div class="flexrow flex-group-center" style="border: 0px; align-content: flex-start">
       <ol class="items-list" style="width: 100%">
         <li class="item flexrow item-header">
-          <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-          <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
           <div class="item-name">{{localize "arm5e.sheet.powers"}}</div>
           <div class="item-controls">
             <a class="item-control item-create" title="Add power" data-type="powerFamiliar"><i
                 class="fas fa-plus"></i></a>
           </div>
         </li>
+        {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
         {{#each system.familiar.powersFam as |power key|}}
           <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{power._id}}">
             <div class="flexrow flex-center">

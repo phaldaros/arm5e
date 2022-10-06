@@ -1,8 +1,5 @@
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">
       <a class="link" href="/systems/arm5e/pdf/weapons.pdf" target="_blank"> {{localize "arm5e.sheet.weapons"}} </a>
@@ -11,6 +8,7 @@
       <a class="item-control item-create" title="Create weapon" data-type="weapon"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.weapons as |item id|}}
     <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
@@ -36,15 +34,13 @@
 
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.armor"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create armor" data-type="armor"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.armor as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
@@ -68,15 +64,13 @@
 
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.items"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.items as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
@@ -92,15 +86,13 @@
 {{!-- magicBooks --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.magicBooks"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create book" data-type="book"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.magicBooks as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
@@ -126,15 +118,13 @@
 {{!-- mundaneBooks --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.mundaneBooks"}}</div>
     <!-- <div class="item-controls">
       <a class="item-control item-create" title="Add mundaneBook" data-type="book"><i class="fas fa-plus"></i></a>
     </div> -->
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.mundaneBooks as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">
@@ -170,15 +160,13 @@
 
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.rawVis"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create vis" data-type="vis"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.vis as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
       <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>

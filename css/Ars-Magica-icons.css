@@ -108,6 +108,7 @@
 }
 .icon-Icon_Read:before {
   font-size: 22pt;
+  padding-top: 0px;
   content: "\0058";
 }
 .icon-Icon_Copy:before {

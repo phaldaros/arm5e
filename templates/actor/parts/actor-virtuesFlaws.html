@@ -2,9 +2,6 @@
   <div>
     <ol class="items-list backSection">
       <li class="item flexrow item-header">
-        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
         <div class="item-image"></div>
         <div>
           <span class="item-name">
@@ -18,6 +15,7 @@
           <a class="item-control item-create" title="Add virtue" data-type="virtue"><i class="fas fa-plus"></i></a>
         </div>
       </li>
+      {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
 
       {{#each system.virtues as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
@@ -36,8 +34,6 @@
   <div>
     <ol class="items-list backSection">
       <li class="item flexrow item-header">
-        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
         <div class="item-image"></div>
         <div>
@@ -50,6 +46,7 @@
           <a class="item-control item-create" title="Add flaw" data-type="flaw"><i class="fas fa-plus"></i></a>
         </div>
       </li>
+      {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
 
       {{#each system.flaws as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">

@@ -1,4 +1,4 @@
-<form class="{{cssClass}} mainItem" autocomplete="off"
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
   style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
@@ -37,12 +37,14 @@
       {{localize "arm5e.sheet.effects"}}
     </a>
   </nav>
-
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner editable=editable}} {{#if (eq
+      <div style="height: 235px">
+        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+      </div> {{#if (eq
       metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
     </div>
     {{!-- Effects Tab --}}

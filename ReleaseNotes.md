@@ -1,11 +1,23 @@
 # Release Notes
 
+## 2.0.3.0
+
+### Features
+
+- Weapons list added in the combat tab
+- Overhaul of the item sheets to be easier to resize (wip)
+
+### Bug fixes
+
+- Opening a weapon not owned by anyone won't raise an error anymore.
+
 ## 2.0.2.8
 
 ### Features
 
 - Better diary description for reading activities
 - New eye icon for book sheet (by Sylph)
+- updated French version by Orneen
 
 ### Bug fixes
 

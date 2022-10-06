@@ -1,9 +1,9 @@
-<form class="{{cssClass}} scriptorium scriptorium-sheet" autocomplete="off">
-  <div class="scriptorium header-background" style="width:591px; margin: 0px;">
-    <img src="/systems/arm5e/assets/scriptorium/Scriptorium_Header.png" />
+<form class="{{cssClass}} scriptorium scriptorium-sheet flexcol" autocomplete="off">
+  <div class="scriptorium flex0">
+    <img src="/systems/arm5e/assets/scriptorium/Scriptorium_Header.png" style="border: 0px;" />
   </div>
   <h1 class="scriptorium-title width: 100%;" text-align="center">Scriptorium</h1>
-  <header class="sheet-header">
+  <header class="scriptorium-header flex0">
     <div class="flexrow" style="margin-left: 32px; margin-right: 57px;">
       <div class="resource-content flexrow flex-center flex-between margintop6">
         <label for="season" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
@@ -19,64 +19,51 @@
       </div>
     </div>
   </header>
-  <nav class="arm5eTabs scriptorium-tabs tabs tab-header marginsides32" data-group="primary">
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
     <a class="item posRelative" data-tab="reading" data-group="primary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 0px;" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 0px;" /></div>
+      <div class="navItem-right-ball" style="padding-top: 4px;"><img src="/systems/arm5e/assets/bLeft.png"
+          style="padding-top: 12px;" /></div>
+      <div class="navItem-left-ball" style="padding-top: 4px;"><img src="/systems/arm5e/assets/bRight.png"
+          style="padding-top: 12px;" /></div>
       {{localize "arm5e.activity.reading"}}
     </a>
-    <a class="item posRelative" data-tab="writing" data-group="primary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 0px;" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 0px;" /></div>
+    <!-- <a class="item posRelative" data-tab="writing" data-group="primary">
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 4px;" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 4px;" /></div>
       {{localize "arm5e.activity.writing"}}
     </a>
     <a class="item posRelative" data-tab="other" data-group="primary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 0px;" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 0px;" /></div>
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 4px;" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 4px;" /></div>
       {{localize "arm5e.generic.other"}}
     </a>
     <a class="item posRelative" data-tab="index" data-group="primary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 0px;" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 0px;" /></div>
+      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 4px;" /></div>
+      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 4px;" /></div>
       {{localize "arm5e.scriptorium.index"}}
-    </a>
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" style="padding-bottom: 4px;" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" style="padding-bottom: 4px;" /></div>
+    </a> -->
 
   </nav>
-  <section class="scriptorium-body">
-    <section class="tab read-book flex-group-left backSection" data-group="primary" data-tab="reading"
-      style="height: 430px;">
-      <div class="flexrow">
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <div class="tab" data-group="primary" data-tab="reading">
+      <div class="flexrow marginsides32">
+        <div class="scriptorium backSection padding10 resource flexcol">
+          {{#if (eq reading.book.id null)}}
+            <div class="resource drop-box drop-book" data-drop="book">
+              <label>{{localize "arm5e.scriptorium.msg.dropBook"}}</label>
+            </div>
+          {{else}}
+            <div class="scriptorium item-header resource flexrow" style="width: 100%;">
+              <div class="item-image"></div>
+              <label>{{localize "arm5e.sheet.book"}}</label>
+              <a class="unlink-read-book" title="Break link to book"><i class="fas fa-link"
+                  style="font-size: 12pt;"></i></a>
+            </div>
+            {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
+          {{/if}}
 
-        {{#if (eq reading.book.id null)}}
-          <div class="resource drop-box drop-book" data-drop="book">
-            <label>{{localize "arm5e.scriptorium.msg.dropBook"}}</label>
-          </div>
-        {{else}}
-          <div class="scriptorium resource flexrow">
-            <label>{{localize "arm5e.sheet.book"}}</label>
-            <a class="unlink-read-book" title="Break link to book"><i class="fas fa-link"
-                style="font-size: 12pt;"></i></a>
-          </div>
-        {{/if}}
-
-
-        {{#if (eq reading.reader.id null)}}
-          <div class="resource drop-box drop-reader" data-drop="reader">
-            <label>{{localize "arm5e.scriptorium.msg.dropCharacter"}}</label>
-          </div>
-        {{else}}
-          <div class="scriptorium resource flexrow">
-            <label>{{localize "arm5e.scriptorium.reader.title"}}</label>
-            <a class="unlink-reader" title="Break link to reader"><i class="fas fa-link"
-                style="font-size: 12pt;"></i></a>
-          </div>
-        {{/if}}
-
-      </div>
-      <div class="flexrow">
-        <div class="scriptorium resource flexcol">
           <label class="header-label">{{localize "arm5e.activity.book.title"}}</label>
           <input type="text" name="reading.book.title" value="{{reading.book.title}}" data-dtype="String"
             {{ui.canEditBook}}>
@@ -152,7 +139,20 @@
               style="max-width: 50px;" {{ui.canEditBook}}>
           </div>
         </div>
-        <div class="scriptorium resource flexcol">
+        <div class="scriptorium backSection padding10 resource flexcol" style="margin-left: 5px;">
+          {{#if (eq reading.reader.id null)}}
+            <div class="resource drop-box drop-reader" data-drop="reader">
+              <label>{{localize "arm5e.scriptorium.msg.dropCharacter"}}</label>
+            </div>
+          {{else}}
+            <div class="scriptorium item-header resource flexrow" style="width: 100%; max-height: 32px;">
+              <div class="item-image"></div>
+              <label>{{localize "arm5e.scriptorium.reader.title"}}</label>
+              <a class="unlink-reader" title="Break link to reader"><i class="fas fa-link"
+                  style="font-size: 12pt;"></i></a>
+            </div>
+            {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px"}}
+          {{/if}}
           {{#unless (eq reading.reader.id null)}}
             <div class="scriptorium resource">
               <label class="header-label">{{localize "arm5e.scriptorium.reader.name"}}</label>
@@ -184,6 +184,9 @@
                 </select>
               </div>
             {{/if}}
+            {{#if (eq reading.book.topic "ability")}}
+              <div class="scriptorium resource"></div>
+            {{/if}}
             {{#if (eq reading.book.topic "spell")}}
               <div class="scriptorium resource">
                 <label for="reading.reader.spell" class="header-label">{{localize "arm5e.sheet.spells"}}</label>
@@ -197,7 +200,7 @@
               </div>
             {{/if}}
             <div class="scriptorium resource"><label class="header-label"
-                style="color:red; padding: 10px;">{{localize ui.warning item=ui.warningParam}}</label>
+                style="color:red; padding: 10px; text-align: center;">{{localize ui.warning item=ui.warningParam}}</label>
             </div>
             <div class="scriptorium resource">
               <button class="arm5e flex02 create-activity" style="font-family: bookAntika"
@@ -208,17 +211,17 @@
 
         </div>
       </div>
+    </div>
+    <!-- <div class="tab marginsides32" data-group="primary" data-tab="writing">
+      <div class="flexrow"><label>Work in progress</label>
       </div>
-    </section>
-    <div class="tab marginsides32" data-group="primary" data-tab="writing">
-      <label>Work in progress</label>
     </div>
     <div class="tab marginsides32" data-group="primary" data-tab="other">
       <label>WIP</label>
-    </div>
+    </div> -->
   </section>
 
-  <div class="astrolab footer-background" style="width:591px; margin: 0px; height: 75px;">
-    <img src="/systems/arm5e/assets/scriptorium/Scriptorium_Footer.png" style="height: 78px;" />
+  <div class="footer-background flex0">
+    <img src="/systems/arm5e/assets/scriptorium/Scriptorium_Footer.png" />
   </div>
 </form>

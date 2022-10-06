@@ -1,15 +1,13 @@
 {{!-- magicBooks --}}
 <ol class="items-list backSection">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.magicBooks"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Add book" data-type="book"><i class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.magicBooks as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">
@@ -37,9 +35,6 @@
 {{!-- laboratoryTexts --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.laboratoryTexts"}}</div>
     <div class="item-controls">
@@ -51,6 +46,7 @@
           class="fas fa-plus"></i></a>
     </div>
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="laboratoryTexts" visibility=ui.labtTextFilterVisibility }}
   {{#each
   system.laboratoryTexts as |item id|}}
@@ -77,15 +73,13 @@
 {{!-- mundaneBooks --}}
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.mundaneBooks"}}</div>
     <!-- <div class="item-controls">
       <a class="item-control item-create" title="Add mundaneBook" data-type="book"><i class="fas fa-plus"></i></a>
     </div> -->
   </li>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.mundaneBooks as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
       data-item-id="{{item._id}}">

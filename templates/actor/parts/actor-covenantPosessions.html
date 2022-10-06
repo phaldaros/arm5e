@@ -1,9 +1,6 @@
 {{!-- properties --}}
 <ol class="items-list backSection">
     <li class="item flexrow item-header">
-        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.properties"}}</div>
         <div class="item-controls">
@@ -11,6 +8,7 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.possessions as |item id|}}
         <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
@@ -34,9 +32,6 @@
 
 <ol class="items-list backSection margintop18">
     <li class="item flexrow item-header">
-        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
         <div class="item-image"></div>
         <div class="item-name">Sanctums</div>
         <div class="item-controls">
@@ -44,6 +39,7 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.labs as |item id|}}
         <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
@@ -72,9 +68,6 @@
 
 {{!-- magicItems --}}
 <ol class="items-list backSection margintop18">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <li class="item flexrow item-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.magicItems"}}</div>
@@ -83,6 +76,7 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.magicItems as |item id|}}
         <li class="item flexrow item-value flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
@@ -104,9 +98,6 @@
 
 {{!-- vis sources --}}
 <ol class="items-list backSection margintop18">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <li class="item flexrow item-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.visSources"}}</div>
@@ -115,6 +106,7 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.visSources as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
@@ -138,9 +130,6 @@
 
 {{!-- visStock --}}
 <ol class="items-list backSection margintop18">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <li class="item flexrow item-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.visStock"}}</div>
@@ -149,6 +138,7 @@
                     class="fas fa-plus"></i></a>
         </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.visStock as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
@@ -172,9 +162,6 @@
 
 {{!-- items --}}
 <ol class="items-list backSection margintop18">
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
     <li class="item flexrow item-header">
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.items"}}</div>
@@ -182,6 +169,7 @@
             <a class="item-control item-create" title="Add item" data-type="item"><i class="fas fa-plus"></i></a>
         </div>
     </li>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.items as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">

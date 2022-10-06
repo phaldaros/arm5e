@@ -1,12 +1,12 @@
-<form class="{{cssClass}} mainItem" autocomplete="off"
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
   style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields flexcol">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
-      <div class="resource flexrow" style="width: 220px; padding-top: 5px;">
-        <div>
+      <div class="resource flexrow" style="width: 320px; ">
+        <div style="padding-top: 5px;">
           <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
           <select class="book-topic" name="system.topic.category" data-dtype="String">
             {{#select system.topic.category}}
@@ -74,10 +74,8 @@
       <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.authorship.label"}}
     </a>
-    <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" style="padding-bottom: 4px;" /></div>
-    <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" style="padding-bottom: 4px;" /></div>
-
   </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Description Tab --}}
@@ -102,12 +100,16 @@
           <input type="text" name="system.quality" value="{{system.quality}}" data-dtype="Number" />
         </div>
       </div>
-      <div style="height: 85%;">
-        {{editor system.description target="system.description" button=true owner=owner editable=editable}} {{#if (eq
-      metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
+      <div style="height: 200px">
+        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
       </div>
+      {{#if (eq metagame true)}}
+        {{> "systems/arm5e/templates/generic/source.html" }}
+      {{/if}}
     </div>
     {{!-- Authorship Tab --}} {{> "systems/arm5e/templates/item/parts/authorship.html" }}
+
+
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>
