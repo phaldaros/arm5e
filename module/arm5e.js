@@ -33,6 +33,7 @@ import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
 import { AbilitySchema, BookSchema, VirtueFlawSchema } from "./schemas/ItemSchemas.js";
+import { registerSettings } from "./settings.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -44,6 +45,11 @@ Hooks.once("init", async function() {
     resetTokenAuraToSceneAura
   };
 
+  // Add system metadata
+  CONFIG.ARM5E = ARM5E;
+
+  registerSettings();
+
   /**
    * Set an initiative formula for the system
    * @type {String}
@@ -53,116 +59,12 @@ Hooks.once("init", async function() {
     decimals: 2
   };
 
-  /**
-   * Track the system version upon which point a migration was last applied
-   */
-  game.settings.register("arm5e", "systemMigrationVersion", {
-    name: "System Migration Version",
-    scope: "world",
-    config: true,
-    type: String,
-    default: ""
-  });
-
-  /**
-   * 2 Different sets of default icons for new documents
-   */
-  game.settings.register("arm5e", "defaultIconStyle", {
-    name: "Default icons style",
-    scope: "world",
-    config: true,
-    type: String,
-    choices: {
-      MONO: "Monochrome",
-      COLOR: "Color"
-    },
-    default: "MONO",
-    onChange: value => {
-      CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[value];
-    }
-  });
-
-  /**
-   * 2 Different sets of default icons for new documents
-   */
-  game.settings.register("arm5e", "artsIcons", {
-    name: "Icons style for art",
-    scope: "client",
-    config: true,
-    type: String,
-    choices: {
-      symbol: "Hermetic symbols",
-      hand: "Hand gestures"
-    },
-    default: "symbol"
-  });
-
-  /**
-   * Show source of document
-   */
-  game.settings.register("arm5e", "metagame", {
-    name: "Show metagame information (sourcebook, page)",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: true
-  });
-
-  /**
-   * Show NPC magic details (cast, penetration and defense)
-   */
-  game.settings.register("arm5e", "showNPCMagicDetails", {
-    name: "Show NPC magic details (cast, penetration and defense)",
-    scope: "world",
-    config: true,
-    choices: {
-      SHOW_ALL: "Give me all details!",
-      ONLY_RESULTS: "Show me only the result"
-    },
-    default: "ONLY_RESULTS"
-  });
-
-  /**
-   * Fun rolls
-   */
-
-  game.settings.register("arm5e", "funRolls", {
-    name: "Show a dialog when rolling a 1 on stress die",
-    scope: "world",
-    config: true,
-    choices: {
-      NOBODY: "Nobody",
-      PLAYERS_ONLY: "Players only",
-      EVERYONE: "Everyone"
-    },
-    default: "PLAYERS_ONLY"
-  });
-
-  game.settings.register("arm5e", "confirmDelete", {
-    name: "Ask for confirmation when deleting an owned item",
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: true
-  });
-
-  game.settings.register("arm5e", "currentDate", {
-    name: "Current date of the system",
-    scope: "world",
-    config: false,
-    type: Object,
-    default: { year: 1225, season: "spring" }
-  });
-
   CONFIG.Canvas.layers["arsmagica"] = {
     layerClass: ArsLayer,
     group: "primary"
   };
 
   CONFIG.ui.actors = ArM5eActorsDirectory;
-
-  // Add system metadata
-  CONFIG.ARM5E = ARM5E;
 
   // const astrolab = game.settings.get("arm5e", "currentDate");
   // CONFIG.ARM5E.ASTROLAB = astrolab;
@@ -384,7 +286,7 @@ Hooks.once("ready", async function() {
 Hooks.once("setup", function() {});
 
 Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
-  registerPackageDebugFlag(ARM5E.MODULE_ID);
+  registerPackageDebugFlag(ARM5E.SYSTEM_ID);
 });
 
 /* -------------------------------------------- */

@@ -4,10 +4,10 @@ import { DEFAULT_WOUND, SIZES_AND_WOUNDS } from "./constants/wounds.js";
 
 export function log(force, ...args) {
   try {
-    const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
+    const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.SYSTEM_ID);
 
     if (force || isDebugging) {
-      console.log(ARM5E.MODULE_ID, "|", ...args);
+      console.log(ARM5E.SYSTEM_ID, "|", ...args);
     }
   } catch (e) {
     console.log(e);
@@ -20,10 +20,10 @@ export function debug(str) {
 
 export function error(force, ...args) {
   try {
-    const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
+    const isDebugging = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.SYSTEM_ID);
 
     if (force || isDebugging) {
-      console.error(ARM5E.MODULE_ID, "|", ...args);
+      console.error(ARM5E.SYSTEM_ID, "|", ...args);
     }
   } catch (e) {
     console.error(e);

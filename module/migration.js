@@ -1118,7 +1118,7 @@ function _guessRange(name, value) {
       case "special":
       case "spe":
       case "spec":
-      case game.i18n.localize("arm5e.config.special"):
+      case game.i18n.localize("arm5e.spell.special"):
         return "special";
       default:
         break;
@@ -1191,7 +1191,7 @@ function _guessTarget(name, value) {
       case "special":
       case "spe":
       case "spec":
-      case game.i18n.localize("arm5e.config.special"):
+      case game.i18n.localize("arm5e.spell.special"):
         return "special";
       default:
         break;
@@ -1252,7 +1252,7 @@ function _guessDuration(name, value) {
       case "special":
       case "spe":
       case "spec":
-      case game.i18n.localize("arm5e.config.special"):
+      case game.i18n.localize("arm5e.spell.special"):
         return "special";
       default:
         break;

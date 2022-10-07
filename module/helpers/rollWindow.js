@@ -163,7 +163,7 @@ function updateCharacteristicDependingOnRoll(dataset, actor) {
 }
 
 function getDebugButtonsIfNeeded(actor, callback) {
-  if (!game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID)) return {};
+  if (!game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.SYSTEM_ID)) return {};
   return {
     explode: {
       label: "DEV Roll 1",

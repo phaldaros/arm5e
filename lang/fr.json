@@ -360,7 +360,7 @@
   "arm5e.skill.options.organization": "Nom",
   "arm5e.skill.options.supernatural": "(Type)",
   "arm5e.skill.options.mysteryCult": "Nom",
-  
+
   "arm5e.sheet.ageModifier": "Modificateur d'Âge",
   "arm5e.sheet.longevityRitual": "Rituel de longévité",
   "arm5e.sheet.labTotal": "Total de Laboratoire",
@@ -602,7 +602,7 @@
   "arm5e.spell.targets.spectacle": "Spectacle (Sensorielle)",
   "arm5e.spell.targets.community": "Communauté (Justice des Sages)",
   "arm5e.spell.targets.dominion": "Dimension (Féerique)",
-  "arm5e.config.special": "Spécial",
+  "arm5e.spell.special": "Spécial",
   "arm5e.spell.targets.targetSize": "Taille de la Cible",
   "arm5e.spell.targets.complexity": "Complexité",
   "arm5e.spell.targets.enhancingReq": "Complément de lancer",

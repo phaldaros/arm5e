@@ -458,7 +458,7 @@ export class ArM5eActorSheet extends ActorSheet {
     }
     context.isGM = game.user.isGM;
 
-    context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.MODULE_ID);
+    context.devMode = game.modules.get("_dev-mode")?.api?.getPackageDebugValue(ARM5E.SYSTEM_ID);
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
 

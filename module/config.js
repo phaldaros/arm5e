@@ -16,7 +16,7 @@ export const ARM5E_DEFAULT_ICONS = {};
  * probably not change
  * @type {Object}
  */
-ARM5E.MODULE_ID = "arm5e";
+ARM5E.SYSTEM_ID = "arm5e";
 
 // default icons
 
@@ -1203,36 +1203,43 @@ ARM5E.magic.durations = {
   moment: {
     label: "arm5e.spell.durations.moment",
     dtype: "String",
+    source: "ArM5",
     impact: 0
   },
   conc: {
     label: "arm5e.spell.durations.conc",
     dtype: "String",
+    source: "ArM5",
     impact: 1
   },
   diam: {
     label: "arm5e.spell.durations.diam",
     dtype: "String",
+    source: "ArM5",
     impact: 1
   },
   sun: {
     label: "arm5e.spell.durations.sun",
     dtype: "String",
+    source: "ArM5",
     impact: 2
   },
   ring: {
     label: "arm5e.spell.durations.ring",
     dtype: "String",
+    source: "ArM5",
     impact: 2
   },
   moon: {
     label: "arm5e.spell.durations.moon",
     dtype: "String",
+    source: "ArM5",
     impact: 3
   },
   year: {
     label: "arm5e.spell.durations.year",
     dtype: "String",
+    source: "ArM5",
     impact: 4
   },
   held: {
@@ -1431,31 +1438,37 @@ ARM5E.magic.ranges = {
   personal: {
     label: "arm5e.spell.ranges.personal",
     dtype: "String",
+    source: "ArM5",
     impact: 0
   },
   touch: {
     label: "arm5e.spell.ranges.touch",
     dtype: "String",
+    source: "ArM5",
     impact: 1
   },
   eye: {
     label: "arm5e.spell.ranges.eye",
     dtype: "String",
+    source: "ArM5",
     impact: 1
   },
   voice: {
     label: "arm5e.spell.ranges.voice",
     dtype: "String",
+    source: "ArM5",
     impact: 2
   },
   sight: {
     label: "arm5e.spell.ranges.sight",
     dtype: "String",
+    source: "ArM5",
     impact: 3
   },
   arc: {
     label: "arm5e.spell.ranges.arc",
     dtype: "String",
+    source: "ArM5",
     impact: 4
   },
   prop: {
@@ -1529,61 +1542,73 @@ ARM5E.magic.targets = {
   ind: {
     label: "arm5e.spell.targets.ind",
     dtype: "String",
+    source: "ArM5",
     impact: 0
   },
   circle: {
     label: "arm5e.spell.targets.circle",
     dtype: "String",
+    source: "ArM5",
     impact: 0
   },
   taste: {
     label: "arm5e.spell.targets.taste",
     dtype: "String",
+    source: "ArM5",
     impact: 0
   },
   part: {
     label: "arm5e.spell.targets.part",
     dtype: "String",
+    source: "ArM5",
     impact: 1
   },
   touch: {
     label: "arm5e.spell.targets.touch",
     dtype: "String",
+    source: "ArM5",
     impact: 1
   },
   group: {
     label: "arm5e.spell.targets.group",
     dtype: "String",
+    source: "ArM5",
     impact: 2
   },
   room: {
     label: "arm5e.spell.targets.room",
     dtype: "String",
+    source: "ArM5",
     impact: 2
   },
   smell: {
     label: "arm5e.spell.targets.smell",
     dtype: "String",
+    source: "ArM5",
     impact: 2
   },
   struct: {
     label: "arm5e.spell.targets.struct",
     dtype: "String",
+    source: "ArM5",
     impact: 3
   },
   hearing: {
     label: "arm5e.spell.targets.hearing",
     dtype: "String",
+    source: "ArM5",
     impact: 3
   },
   bound: {
     label: "arm5e.spell.targets.bound",
     dtype: "String",
+    source: "ArM5",
     impact: 4
   },
   sight: {
     label: "arm5e.spell.targets.sight",
     dtype: "String",
+    source: "ArM5",
     impact: 4
   },
   flavor: {
@@ -2078,10 +2103,23 @@ ARM5E.lab.enchantment.status = {
 ARM5E.generic = {};
 ARM5E.generic.sourcesTypes = {
   custom: {
-    label: "arm5e.sheet.source.custom"
+    label: "arm5e.sheet.source.custom",
+    value: true,
+    edit: "disabled"
   },
   ArM5: {
-    label: "arm5e.sheet.source.ArM5"
+    label: "arm5e.sheet.source.ArM5",
+    value: true,
+    edit: "disabled"
+  },
+  "HoH:MC": {
+    label: "arm5e.sheet.source.HoH:MC"
+  },
+  "HoH:S": {
+    label: "arm5e.sheet.source.HoH:S"
+  },
+  "HoH:TL": {
+    label: "arm5e.sheet.source.HoH:TL"
   },
   "RoP:D": {
     label: "arm5e.sheet.source.RoP:D"
@@ -2106,15 +2144,6 @@ ARM5E.generic.sourcesTypes = {
   },
   HMRE: {
     label: "arm5e.sheet.source.HMRE"
-  },
-  "HoH:MC": {
-    label: "arm5e.sheet.source.HoH:MC"
-  },
-  "HoH:S": {
-    label: "arm5e.sheet.source.HoH:S"
-  },
-  "HoH:TL": {
-    label: "arm5e.sheet.source.HoH:TL"
   },
   "A&A": {
     label: "arm5e.sheet.source.A&A"
