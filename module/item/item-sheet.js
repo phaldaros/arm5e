@@ -148,7 +148,7 @@ export class ArM5eItemSheet extends ItemSheet {
 
     context.devMode = game.modules
       .get("_dev-mode")
-      ?.api?.getPackageDebugValue(CONFIG.ARM5E.MODULE_ID);
+      ?.api?.getPackageDebugValue(CONFIG.ARM5E.SYSTEM_ID);
 
     // Prepare active effects
     context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.item.effects);

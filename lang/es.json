@@ -504,7 +504,7 @@
   "arm5e.spell.targets.hearing": "Oído (In)",
   "arm5e.spell.targets.sight": "Vista (In)",
   "arm5e.spell.targets.spectacle": "Espectáculo (Sensorial)",
-  "arm5e.config.special": "Especial",
+  "arm5e.spell.special": "Especial",
   "arm5e.spell.targets.targetSize": "Tamaño del objetivo",
   "arm5e.spell.targets.complexity": "Complejidad",
   "arm5e.spell.targets.enhancingReq": "Requisito de mejora",

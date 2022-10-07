@@ -359,7 +359,7 @@
   "arm5e.spell.targets.smell": "Olfatto (In)",
   "arm5e.spell.targets.hearing": "Udito (In)",
   "arm5e.spell.targets.sight": "Vista (In)",
-  "arm5e.config.special": "Speciale",
+  "arm5e.spell.special": "Speciale",
   "arm5e.spell.targets.targetSize": "Taglia Bersaglio",
   "arm5e.spell.targets.complexity": "Complessità",
   "arm5e.spell.targets.enhancingReq": "Requisito Potenziante",

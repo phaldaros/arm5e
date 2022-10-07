@@ -602,7 +602,7 @@
   "arm5e.spell.targets.spectacle": "Spectacle (Sensory)",
   "arm5e.spell.targets.community": "Community (RotW)",
   "arm5e.spell.targets.dominion": "Dominion (Faerie)",
-  "arm5e.config.special": "Special",
+  "arm5e.spell.special": "Special",
   "arm5e.spell.targets.targetSize": "Target size",
   "arm5e.spell.targets.complexity": "Complexity",
   "arm5e.spell.targets.enhancingReq": "Enhancing requisite",
@@ -985,6 +985,9 @@
   "arm5e.scriptorium.reading.activity": "Reading {title}",
 
   "arm5e.sheet.label.details": "Details",
+
+  "arm5e.config.sourcebookFilter": "Sourcebooks filter",
+
   "arm5e.generic.yes": "Yes",
   "arm5e.generic.no": "No",
   "arm5e.generic.always": "Always",
