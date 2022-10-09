@@ -1033,8 +1033,9 @@ input[type="time"] {
   text-align: center;
 }
 
+.arm5e .spell-attribute option:disabled,
 .arm5e .ability-key option:disabled {
-  font-size: medium;
+  font-size: 11pt;
   color: black;
   font-style: italic;
   font-weight: bold;

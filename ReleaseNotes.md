@@ -6,10 +6,13 @@
 
 - Weapons list added in the combat tab
 - Overhaul of the item sheets to be easier to resize (wip)
+- New sourcebooks filtering setting
+- New filtering of spell attributes based on sourcebooks setting.
 
 ### Bug fixes
 
 - Opening a weapon not owned by anyone won't raise an error anymore.
+- Fix stress rolls for Foundry VTT version 10.287
 
 ## 2.0.2.8
 

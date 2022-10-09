@@ -1,5 +1,6 @@
 import { ArM5eItemSheet } from "./item-sheet.js";
 import { log } from "../tools.js";
+import { ARM5E } from "../config.js";
 /**
  * Extend the basic ArM5eItemSheet with some very simple modifications
  * @extends {ArM5eItemSheet}
@@ -42,6 +43,47 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     // editable, the items array, and the effects array.
     const context = await super.getData();
     context.system.localizedDesc = this.item._getEffectAttributesLabel();
+    const filterBooks = Object.fromEntries(
+      Object.entries(await game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter")).filter(
+        ([key, f]) => f.value === true
+      )
+    );
+
+    context.ranges = Object.fromEntries(
+      Object.entries(CONFIG.ARM5E.magic.ranges).filter(([key, val]) => {
+        return val.source in filterBooks;
+      })
+    );
+
+    context.targets = Object.fromEntries(
+      Object.entries(CONFIG.ARM5E.magic.targets).filter(([key, val]) => {
+        return val.source in filterBooks;
+      })
+    );
+
+    context.durations = Object.fromEntries(
+      Object.entries(CONFIG.ARM5E.magic.durations).filter(([key, val]) => {
+        return val.source in filterBooks;
+      })
+    );
+
+    switch (this.item.type) {
+      case "spell":
+      case "enchantment":
+      case "magicItem":
+      case "laboratoryText":
+      case "magicalEffect":
+        context.ranges[context.system.range.value] =
+          CONFIG.ARM5E.magic.ranges[context.system.range.value];
+        context.targets[context.system.target.value] =
+          CONFIG.ARM5E.magic.targets[context.system.target.value];
+        context.durations[context.system.duration.value] =
+          CONFIG.ARM5E.magic.durations[context.system.duration.value];
+
+        break;
+      default:
+        break;
+    }
 
     return context;
   }

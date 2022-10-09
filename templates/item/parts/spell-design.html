@@ -17,9 +17,12 @@
   <div class="grid grid-3col">
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-      <select name="system.range.value" data-type="String">
-        {{#select system.range.value}} {{#each config.magic.ranges as |range key|}}
-            <option value="{{key}}">{{localize range.label}} ({{range.impact}})</option>
+      <select name="system.range.value" data-type="String" class="spell-attribute">
+        {{#select system.range.value}} {{#each ranges as |range key|}}
+            <option value="{{key}}" {{disabled range.disabled}}>
+              {{localize range.label}}{{#if (eq range.disabled undefined)}}
+                ({{range.impact}}){{/if}}
+            </option>
           {{/each}} {{/select}}
         <option></option>
       </select>
@@ -27,18 +30,23 @@
     </div>
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
-      <select name="system.duration.value" data-type="String">
-        {{#select system.duration.value}} {{#each config.magic.durations as |duration key|}}
-            <option value="{{key}}">{{localize duration.label}} ({{duration.impact}})</option>
+      <select name="system.duration.value" data-type="String" class="spell-attribute">
+        {{#select system.duration.value}} {{#each durations as |duration key|}}
+            <option value="{{key}}" {{disabled duration.disabled}}>
+              {{localize duration.label}}{{#if (eq duration.disabled undefined)}} ({{duration.impact}}){{/if}}
+            </option>
           {{/each}} {{/select}}
       </select>
       <!-- <input type="text" name="system.duration" value="{{system.duration}}" data-dtype="String"/> -->
     </div>
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
-      <select name="system.target.value" data-type="String">
-        {{#select system.target.value}} {{#each config.magic.targets as |target key|}}
-            <option value="{{key}}">{{localize target.label}} ({{target.impact}})</option>
+      <select name="system.target.value" data-type="String" class="spell-attribute">
+        {{#select system.target.value}} {{#each targets as |target key|}}
+            <option value="{{key}}" {{disabled target.disabled}}>{{localize target.label}}
+              {{#if (eq target.disabled undefined)}}
+                ({{target.impact}}){{/if}}
+            </option>
           {{/each}} {{/select}}
       </select>
       <!-- <input type="text" name="system.target" value="{{system.target}}" data-dtype="String"/> -->

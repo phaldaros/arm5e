@@ -24,7 +24,7 @@
               data-dtype="String" /></label>
         </div>
         <div class="resource">
-          <label class="header-label">Activity</label>
+          <label class="header-label">{{localize "arm5e.activity.activity"}}</label>
           <select class="progress-activity" name="system.activity" data-type="String" style="width: 100%"
             {{@root.system.disabled}}>
             {{#select system.activity}} {{#each config.activities.generic as |activity key|}}
