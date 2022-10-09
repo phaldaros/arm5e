@@ -4,7 +4,7 @@
     <header class="table-header flexrow">
         <label class="index">{{ localize "Sourcebooks" }}</label>
     </header>
-
+    <!-- <section class="sheet-body" style="height: 800px"> -->
     <ul class="permissions-list">
         {{#each sourcebooks as |book key|}}
             {{log book}}
@@ -14,6 +14,7 @@
             </li>
         {{/each}}
     </ul>
+    <!-- </section> -->
 
     <div class="form-group">
         <button type="submit">

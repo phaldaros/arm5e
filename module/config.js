@@ -1200,6 +1200,11 @@ ARM5E.magic.shorts = {
   range: "arm5e.spell.range.short"
 };
 ARM5E.magic.durations = {
+  ArM5: {
+    label: "arm5e.sheet.source.ArM5",
+    source: "ArM5",
+    disabled: true
+  },
   moment: {
     label: "arm5e.spell.durations.moment",
     dtype: "String",
@@ -1242,54 +1247,21 @@ ARM5E.magic.durations = {
     source: "ArM5",
     impact: 4
   },
-  held: {
-    label: "arm5e.spell.durations.held",
-    dtype: "String",
-    impact: 1
-  },
-  while: {
-    label: "arm5e.spell.durations.while",
-    dtype: "String",
-    impact: 1
-  },
-  focus: {
-    label: "arm5e.spell.durations.focus",
-    dtype: "String",
-    impact: 1
-  },
-  geas: {
-    label: "arm5e.spell.durations.geas",
-    dtype: "String",
-    impact: 2
-  },
-  "hour+1": {
-    label: "arm5e.spell.durations.hour+1",
-    dtype: "String",
-    impact: 2
-  },
-  mm: {
-    label: "arm5e.spell.durations.mm",
-    dtype: "String",
-    impact: 2
-  },
-  not: {
-    label: "arm5e.spell.durations.not",
-    dtype: "String",
-    impact: 2
-  },
-  season: {
-    label: "arm5e.spell.durations.season",
-    dtype: "String",
-    impact: 2
+  faeMagic: {
+    label: "arm5e.skill.mystery.faerieMagic",
+    source: "ArM5",
+    disabled: true
   },
   fire: {
     label: "arm5e.spell.durations.fire",
     dtype: "String",
+    source: "ArM5",
     impact: 3
   },
   bargain: {
     label: "arm5e.spell.durations.bargain",
     dtype: "String",
+    source: "ArM5",
     impact: 3
   },
   condition: {
@@ -1300,141 +1272,296 @@ ARM5E.magic.durations = {
   "year+1": {
     label: "arm5e.spell.durations.year+1",
     dtype: "String",
+    source: "ArM5",
     impact: 4
   },
-  faerie: {
-    label: "arm5e.spell.durations.faerie",
+  "HoH:MC": {
+    label: "arm5e.sheet.source.HoH:MC",
+    source: "HoH:MC",
+    disabled: true
+  },
+  held: {
+    label: "arm5e.spell.durations.held",
     dtype: "String",
+    source: "HoH:MC",
+    impact: 1
+  },
+  while: {
+    label: "arm5e.spell.durations.while",
+    dtype: "String",
+    source: "HoH:MC",
+    impact: 1
+  },
+  mm: {
+    label: "arm5e.spell.durations.mm",
+    dtype: "String",
+    source: "HoH:MC",
+    impact: 2
+  },
+  not: {
+    label: "arm5e.spell.durations.not",
+    dtype: "String",
+    source: "HoH:MC",
+    impact: 2
+  },
+  symbol: {
+    label: "arm5e.spell.durations.symbol",
+    dtype: "String",
+    source: "HoH:MC",
     impact: 4
   },
   hidden: {
     label: "arm5e.spell.durations.hidden",
     dtype: "String",
+    source: "HoH:MC",
     impact: 4
   },
   aura: {
     label: "arm5e.spell.durations.aura",
     dtype: "String",
+    source: "HoH:MC",
     impact: 4
   },
-  symbol: {
-    label: "arm5e.spell.durations.symbol",
-    dtype: "String",
-    impact: 4
-  },
-  if: {
-    label: "arm5e.spell.durations.if",
-    dtype: "String",
-    impact: 0
-  },
-  perf: {
-    label: "arm5e.spell.durations.perf",
-    dtype: "String",
-    impact: 1
-  },
-  dream: {
-    label: "arm5e.spell.durations.dream",
-    dtype: "String",
-    impact: 1
+  "RoP:D": {
+    label: "arm5e.sheet.source.RoP:D",
+    source: "RoP:D",
+    disabled: true
   },
   recitation: {
     label: "arm5e.spell.durations.recitation",
     dtype: "String",
+    source: "RoP:D",
     impact: 1
   },
   office: {
     label: "arm5e.spell.durations.office",
     dtype: "String",
+    source: "RoP:D",
     impact: 1
   },
   devotion: {
     label: "arm5e.spell.durations.devotion",
     dtype: "String",
+    source: "RoP:D",
     impact: 2
   },
   sabbath: {
     label: "arm5e.spell.durations.sabbath",
     dtype: "String",
+    source: "RoP:D",
     impact: 2
   },
   holy40: {
     label: "arm5e.spell.durations.40",
     dtype: "String",
+    source: "RoP:D",
     impact: 3
   },
   fast: {
     label: "arm5e.spell.durations.fast",
     dtype: "String",
+    source: "RoP:D",
     impact: 3
   },
   grace: {
     label: "arm5e.spell.durations.grace",
     dtype: "String",
+    source: "RoP:D",
     impact: 4
   },
-  storm: {
-    label: "arm5e.spell.durations.storm",
+  "RoP:F": {
+    label: "arm5e.sheet.source.RoP:F",
+    source: "RoP:F",
+    disabled: true
+  },
+  if: {
+    label: "arm5e.spell.durations.if",
     dtype: "String",
+    source: "RoP:F",
+    impact: 0
+  },
+
+  focus: {
+    label: "arm5e.spell.durations.focus",
+    dtype: "String",
+    source: "RoP:F",
     impact: 1
   },
-  minutes: {
-    label: "arm5e.spell.durations.minutes",
+  geas: {
+    label: "arm5e.spell.durations.geas",
     dtype: "String",
-    impact: 1
-  },
-  hours: {
-    label: "arm5e.spell.durations.hours",
-    dtype: "String",
+    source: "RoP:F",
     impact: 2
   },
-  days: {
-    label: "arm5e.spell.durations.days",
+  "hour+1": {
+    label: "arm5e.spell.durations.hour+1",
     dtype: "String",
-    impact: 3
+    source: "RoP:F",
+    impact: 2
   },
-  sign: {
-    label: "arm5e.spell.durations.sign",
+
+  mm: {
+    label: "arm5e.spell.durations.mm",
     dtype: "String",
+    source: "RoP:F",
+    impact: 2
+  },
+
+  not: {
+    label: "arm5e.spell.durations.not",
+    dtype: "String",
+    source: "RoP:F",
+    impact: 2
+  },
+
+  faerie: {
+    label: "arm5e.spell.durations.faerie",
+    dtype: "String",
+    source: "RoP:F",
     impact: 4
+  },
+  hidden: {
+    label: "arm5e.spell.durations.hidden",
+    dtype: "String",
+    source: "RoP:F",
+    impact: 4
+  },
+
+  aura: {
+    label: "arm5e.spell.durations.aura",
+    dtype: "String",
+    source: "RoP:F",
+    impact: 4
+  },
+  symbol: {
+    label: "arm5e.spell.durations.symbol",
+    dtype: "String",
+    source: "RoP:F",
+    impact: 4
+  },
+  "RoP:I": {
+    label: "arm5e.sheet.source.RoP:I",
+    source: "RoP:I",
+    disabled: true
   },
   cursed: {
     label: "arm5e.spell.durations.cursed",
     dtype: "String",
+    source: "RoP:I",
     impact: 2
   },
   forsaken: {
     label: "arm5e.spell.durations.forsaken",
     dtype: "String",
+    source: "RoP:I",
     impact: 4
+  },
+  "RoP:M": {
+    label: "arm5e.sheet.source.RoP:M",
+    source: "RoP:M",
+    disabled: true
+  },
+  storm: {
+    label: "arm5e.spell.durations.storm",
+    dtype: "String",
+    source: "RoP:M",
+    impact: 1
+  },
+
+  TMRE: {
+    label: "arm5e.sheet.source.TMRE",
+    source: "TMRE",
+    disabled: true
+  },
+  perf: {
+    label: "arm5e.spell.durations.perf",
+    dtype: "String",
+    source: "TMRE",
+    impact: 1
+  },
+  dream: {
+    label: "arm5e.spell.durations.dream",
+    dtype: "String",
+    source: "TMRE",
+    impact: 1
+  },
+  minutes: {
+    label: "arm5e.spell.durations.minutes",
+    dtype: "String",
+    source: "TMRE",
+    impact: 1
+  },
+  hours: {
+    label: "arm5e.spell.durations.hours",
+    dtype: "String",
+    source: "TMRE",
+    impact: 2
   },
   arcr: {
     label: "arm5e.spell.durations.arcr",
     dtype: "String",
+    source: "TMRE",
     impact: 3
+  },
+  days: {
+    label: "arm5e.spell.durations.days",
+    dtype: "String",
+    source: "TMRE",
+    impact: 3
+  },
+  sign: {
+    label: "arm5e.spell.durations.sign",
+    dtype: "String",
+    source: "TMRE",
+    impact: 4
+  },
+  AM: {
+    label: "arm5e.sheet.source.AM",
+    source: "AM",
+    disabled: true
+  },
+  event: {
+    label: "arm5e.spell.durations.event",
+    dtype: "String",
+    source: "AM",
+    impact: 0
   },
   rune: {
     label: "arm5e.spell.durations.rune",
     dtype: "String",
+    source: "AM",
     impact: 3
   },
   "19year": {
     label: "arm5e.spell.durations.19year",
     dtype: "String",
+    source: "AM",
     impact: 5
   },
-  event: {
-    label: "arm5e.spell.durations.event",
-    dtype: "String",
-    impact: 0
+
+  custom: {
+    label: "arm5e.sheet.source.custom",
+    value: true,
+    edit: "disabled"
   },
   other: {
     label: "arm5e.sheet.other",
     dtype: "String",
     impact: 0
+  },
+  season: {
+    label: "arm5e.spell.durations.season",
+    dtype: "String",
+    impact: 2
   }
 };
 
 ARM5E.magic.ranges = {
+  ArM5: {
+    label: "arm5e.sheet.source.ArM5",
+    source: "ArM5",
+    disabled: true
+  },
   personal: {
     label: "arm5e.spell.ranges.personal",
     dtype: "String",
@@ -1471,74 +1598,141 @@ ARM5E.magic.ranges = {
     source: "ArM5",
     impact: 4
   },
-  prop: {
-    label: "arm5e.spell.ranges.prop",
-    dtype: "String",
-    impact: 1
+  faeMagic: {
+    label: "arm5e.skill.mystery.faerieMagic",
+    source: "ArM5",
+    disabled: true
   },
   road: {
     label: "arm5e.spell.ranges.road",
     dtype: "String",
+    source: "ArM5",
     impact: 2
   },
-  cross: {
-    label: "arm5e.spell.ranges.cross",
+  "HoH:MC": {
+    label: "arm5e.sheet.source.HoH:MC",
+    source: "HoH:MC",
+    disabled: true
+  },
+  symbol: {
+    label: "arm5e.spell.ranges.symbol",
     dtype: "String",
-    impact: 2
+    source: "HoH:MC",
+    impact: 4
+  },
+  "RoP:D": {
+    label: "arm5e.sheet.source.RoP:D",
+    source: "RoP:D",
+    disabled: true
   },
   presence: {
     label: "arm5e.spell.ranges.presence",
     dtype: "String",
+    source: "RoP:D",
+    impact: 2
+  },
+  communion: {
+    label: "arm5e.spell.ranges.communion",
+    dtype: "String",
+    source: "RoP:D",
+    impact: 4
+  },
+
+  prop: {
+    label: "arm5e.spell.ranges.prop",
+    dtype: "String",
+    source: "RoP:F",
+    impact: 1
+  },
+  cross: {
+    label: "arm5e.spell.ranges.cross",
+    dtype: "String",
+    source: "RoP:F",
     impact: 2
   },
   symbol: {
     label: "arm5e.spell.ranges.symbol",
     dtype: "String",
+    source: "RoP:F",
     impact: 4
   },
-  network: {
-    label: "arm5e.spell.ranges.network",
-    dtype: "String",
-    impact: 4
+  "RoP:I": {
+    label: "arm5e.sheet.source.RoP:I",
+    source: "RoP:I",
+    disabled: true
   },
-  communion: {
-    label: "arm5e.spell.ranges.communion",
+  cross: {
+    label: "arm5e.spell.ranges.cross",
     dtype: "String",
-    impact: 4
+    source: "RoP:I",
+    impact: 2
   },
-  ground: {
-    label: "arm5e.spell.ranges.ground",
+
+  ww: {
+    label: "arm5e.spell.ranges.ww",
     dtype: "String",
-    impact: 4
-  },
-  veil: {
-    label: "arm5e.spell.ranges.veil",
-    dtype: "String",
+    source: "RoP:M",
     impact: 3
+  },
+  TMRE: {
+    label: "arm5e.sheet.source.TMRE",
+    source: "TMRE",
+    disabled: true
   },
   line: {
     label: "arm5e.spell.ranges.line",
     dtype: "String",
+    source: "TMRE",
     impact: 3
   },
-  ww: {
-    label: "arm5e.spell.ranges.ww",
+  network: {
+    label: "arm5e.spell.ranges.network",
     dtype: "String",
+    source: "TMRE",
+    impact: 4
+  },
+  AM: {
+    label: "arm5e.sheet.source.AM",
+    source: "AM",
+    disabled: true
+  },
+  veil: {
+    label: "arm5e.spell.ranges.veil",
+    dtype: "String",
+    source: "AM",
     impact: 3
   },
   unlimited: {
     label: "arm5e.spell.ranges.unlimited",
     dtype: "String",
+    source: "AM",
     impact: 6
+  },
+  custom: {
+    label: "arm5e.sheet.source.custom",
+    value: true,
+    edit: "disabled"
+  },
+  ground: {
+    label: "arm5e.spell.ranges.ground",
+    dtype: "String",
+    source: "custom",
+    impact: 4
   },
   other: {
     label: "arm5e.sheet.other",
     dtype: "String",
+    source: "custom",
     impact: 0
   }
 };
 
 ARM5E.magic.targets = {
+  ArM5: {
+    label: "arm5e.sheet.source.ArM5",
+    source: "ArM5",
+    disabled: true
+  },
   ind: {
     label: "arm5e.spell.targets.ind",
     dtype: "String",
@@ -1551,24 +1745,13 @@ ARM5E.magic.targets = {
     source: "ArM5",
     impact: 0
   },
-  taste: {
-    label: "arm5e.spell.targets.taste",
-    dtype: "String",
-    source: "ArM5",
-    impact: 0
-  },
   part: {
     label: "arm5e.spell.targets.part",
     dtype: "String",
     source: "ArM5",
     impact: 1
   },
-  touch: {
-    label: "arm5e.spell.targets.touch",
-    dtype: "String",
-    source: "ArM5",
-    impact: 1
-  },
+
   group: {
     label: "arm5e.spell.targets.group",
     dtype: "String",
@@ -1581,20 +1764,8 @@ ARM5E.magic.targets = {
     source: "ArM5",
     impact: 2
   },
-  smell: {
-    label: "arm5e.spell.targets.smell",
-    dtype: "String",
-    source: "ArM5",
-    impact: 2
-  },
   struct: {
     label: "arm5e.spell.targets.struct",
-    dtype: "String",
-    source: "ArM5",
-    impact: 3
-  },
-  hearing: {
-    label: "arm5e.spell.targets.hearing",
     dtype: "String",
     source: "ArM5",
     impact: 3
@@ -1605,115 +1776,223 @@ ARM5E.magic.targets = {
     source: "ArM5",
     impact: 4
   },
+  intMagic: {
+    label: "arm5e.spell.targets.subcats.intMagic",
+    source: "ArM5",
+    disabled: true
+  },
+  taste: {
+    label: "arm5e.spell.targets.taste",
+    dtype: "String",
+    source: "ArM5",
+    impact: 0
+  },
+  touch: {
+    label: "arm5e.spell.targets.touch",
+    dtype: "String",
+    source: "ArM5",
+    impact: 1
+  },
+  smell: {
+    label: "arm5e.spell.targets.smell",
+    dtype: "String",
+    source: "ArM5",
+    impact: 2
+  },
+  hearing: {
+    label: "arm5e.spell.targets.hearing",
+    dtype: "String",
+    source: "ArM5",
+    impact: 3
+  },
   sight: {
     label: "arm5e.spell.targets.sight",
     dtype: "String",
     source: "ArM5",
     impact: 4
   },
+  faeMagic: {
+    label: "arm5e.skill.mystery.faerieMagic",
+    source: "ArM5",
+    disabled: true
+  },
+  bloodline: {
+    label: "arm5e.spell.targets.bloodline",
+    dtype: "String",
+    source: "ArM5",
+    impact: 3
+  },
+  "HoH:MC": {
+    label: "arm5e.sheet.source.HoH:MC",
+    source: "HoH:MC",
+    disabled: true
+  },
   flavor: {
     label: "arm5e.spell.targets.flavor",
     dtype: "String",
+    source: "HoH:MC",
     impact: 0
   },
   texture: {
     label: "arm5e.spell.targets.texture",
     dtype: "String",
+    source: "HoH:MC",
     impact: 1
   },
   scent: {
     label: "arm5e.spell.targets.scent",
     dtype: "String",
+    source: "HoH:MC",
     impact: 2
   },
   sound: {
     label: "arm5e.spell.targets.sound",
     dtype: "String",
+    source: "HoH:MC",
     impact: 3
   },
   spectacle: {
     label: "arm5e.spell.targets.spectacle",
     dtype: "String",
+    source: "HoH:MC",
     impact: 4
-  },
-  medium: {
-    label: "arm5e.spell.targets.medium",
-    dtype: "String",
-    impact: 1
-  },
-  passion: {
-    label: "arm5e.spell.targets.passion",
-    dtype: "String",
-    impact: 2
-  },
-  bloodline: {
-    label: "arm5e.spell.targets.bloodline",
-    dtype: "String",
-    impact: 3
   },
   symbol: {
     label: "arm5e.spell.targets.symbol",
     dtype: "String",
+    source: "HoH:MC",
     impact: 4
+  },
+  "RoP:D": {
+    label: "arm5e.sheet.source.RoP:D",
+    source: "RoP:D",
+    disabled: true
   },
   sin: {
     label: "arm5e.spell.targets.sin",
     dtype: "String",
+    source: "RoP:D",
     impact: 0
   },
   faith: {
     label: "arm5e.spell.targets.faith",
     dtype: "String",
+    source: "RoP:D",
     impact: 2
   },
   dominion: {
     label: "arm5e.spell.targets.dominion",
     dtype: "String",
+    source: "RoP:D",
     impact: 4
   },
   community: {
     label: "arm5e.spell.targets.community",
     dtype: "String",
+    source: "??",
     impact: 4
   },
-  road: {
-    label: "arm5e.spell.targets.road",
+  "RoP:F": {
+    label: "arm5e.sheet.source.RoP:F",
+    source: "RoP:F",
+    disabled: true
+  },
+  medium: {
+    label: "arm5e.spell.targets.medium",
     dtype: "String",
+    source: "RoP:F",
+    impact: 1
+  },
+  passion: {
+    label: "arm5e.spell.targets.passion",
+    dtype: "String",
+    source: "RoP:F",
     impact: 2
   },
-  network: {
-    label: "arm5e.spell.targets.network",
+  symbol: {
+    label: "arm5e.spell.targets.symbol",
     dtype: "String",
+    source: "RoP:F",
     impact: 4
   },
-  unborn: {
-    label: "arm5e.spell.targets.unborn",
+  "RoP:I": {
+    label: "arm5e.sheet.source.RoP:I",
+    source: "RoP:I",
+    disabled: true
+  },
+  passion: {
+    label: "arm5e.spell.targets.passion",
     dtype: "String",
-    impact: 0
+    source: "RoP:I",
+    impact: 2
+  },
+  "RoP:M": {
+    label: "arm5e.sheet.source.RoP:M",
+    source: "RoP:M",
+    disabled: true
+  },
+  bw: {
+    label: "arm5e.spell.targets.bw",
+    dtype: "String",
+    source: "RoP:M",
+    impact: 3
+  },
+  TMRE: {
+    label: "arm5e.sheet.source.TMRE",
+    source: "TMRE",
+    disabled: true
   },
   dream: {
     label: "arm5e.spell.targets.dream",
     dtype: "String",
-    impact: 0
-  },
-  inscription: {
-    label: "arm5e.spell.targets.inscription",
-    dtype: "String",
+    source: "TMRE",
     impact: 0
   },
   carc: {
     label: "arm5e.spell.targets.carc",
     dtype: "String",
+    source: "TMRE",
     impact: 1
   },
-  bw: {
-    label: "arm5e.spell.targets.bw",
+  road: {
+    label: "arm5e.spell.targets.road",
     dtype: "String",
-    impact: 3
+    source: "TMRE",
+    impact: 2
+  },
+  network: {
+    label: "arm5e.spell.targets.network",
+    dtype: "String",
+    source: "TMRE",
+    impact: 4
+  },
+  AM: {
+    label: "arm5e.sheet.source.AM",
+    source: "AM",
+    disabled: true
+  },
+  unborn: {
+    label: "arm5e.spell.targets.unborn",
+    dtype: "String",
+    source: "AM",
+    impact: 0
+  },
+
+  inscription: {
+    label: "arm5e.spell.targets.inscription",
+    dtype: "String",
+    source: "AM",
+    impact: 0
+  },
+  custom: {
+    label: "arm5e.sheet.source.custom",
+    value: true,
+    edit: "disabled"
   },
   other: {
     label: "arm5e.sheet.other",
     dtype: "String",
+    source: "custom",
     impact: 0
   }
 };
@@ -2112,6 +2391,9 @@ ARM5E.generic.sourcesTypes = {
     value: true,
     edit: "disabled"
   },
+  Cov: {
+    label: "arm5e.sheet.source.Cov"
+  },
   "HoH:MC": {
     label: "arm5e.sheet.source.HoH:MC"
   },
@@ -2133,41 +2415,51 @@ ARM5E.generic.sourcesTypes = {
   "RoP:F": {
     label: "arm5e.sheet.source.RoP:F"
   },
-  GotF: {
-    label: "arm5e.sheet.source.GotF"
-  },
-  TMRE: {
-    label: "arm5e.sheet.source.TMRE"
-  },
   AnM: {
     label: "arm5e.sheet.source.AnM"
   },
-  HMRE: {
-    label: "arm5e.sheet.source.HMRE"
-  },
-  "A&A": {
-    label: "arm5e.sheet.source.A&A"
-  },
-  "L&L": {
-    label: "arm5e.sheet.source.L&L"
-  },
-  "C&G": {
-    label: "arm5e.sheet.source.C&G"
-  },
-  ToME: {
-    label: "arm5e.sheet.source.ToME"
-  },
-  BCoC: {
-    label: "arm5e.sheet.source.BCoC"
+  Ant: {
+    label: "arm5e.sheet.source.Ant"
   },
   App: {
     label: "arm5e.sheet.source.App"
   },
-  LH: {
-    label: "arm5e.sheet.source.LH"
+  "A&A": {
+    label: "arm5e.sheet.source.A&A"
+  },
+  AtD: {
+    label: "arm5e.sheet.source.AtD"
+  },
+  BCoC: {
+    label: "arm5e.sheet.source.BCoC"
+  },
+  Ch: {
+    label: "arm5e.sheet.source.Ch"
+  },
+
+  "C&G": {
+    label: "arm5e.sheet.source.C&G"
+  },
+  "C&C": {
+    label: "arm5e.sheet.source.C&C"
+  },
+  GotF: {
+    label: "arm5e.sheet.source.GotF"
+  },
+  HMRE: {
+    label: "arm5e.sheet.source.HMRE"
   },
   HP: {
     label: "arm5e.sheet.source.HP"
+  },
+  LoM: {
+    label: "arm5e.sheet.source.LoM"
+  },
+  LH: {
+    label: "arm5e.sheet.source.LH"
+  },
+  "L&L": {
+    label: "arm5e.sheet.source.L&L"
   },
   MoH: {
     label: "arm5e.sheet.source.MoH"
@@ -2175,32 +2467,20 @@ ARM5E.generic.sourcesTypes = {
   RM: {
     label: "arm5e.sheet.source.RM"
   },
-  Ant: {
-    label: "arm5e.sheet.source.Ant"
+  ToME: {
+    label: "arm5e.sheet.source.ToME"
   },
-  LoM: {
-    label: "arm5e.sheet.source.LoM"
-  },
-  Ch: {
-    label: "arm5e.sheet.source.Ch"
+  TMRE: {
+    label: "arm5e.sheet.source.TMRE"
   },
   TSE: {
     label: "arm5e.sheet.source.TSE"
-  },
-  AtD: {
-    label: "arm5e.sheet.source.AtD"
-  },
-  "C&C": {
-    label: "arm5e.sheet.source.C&C"
   },
   Gr: {
     label: "arm5e.sheet.source.Gr"
   },
   ToP: {
     label: "arm5e.sheet.source.ToP"
-  },
-  Cov: {
-    label: "arm5e.sheet.source.Cov"
   },
   TME: {
     label: "arm5e.sheet.source.TME"

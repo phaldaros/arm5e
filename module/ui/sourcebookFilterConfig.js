@@ -25,7 +25,7 @@ export class SourcebookFilterConfig extends FormApplication {
         return [
           e[0],
           {
-            value: e[1].value ? true : false,
+            value: e[1].value === undefined ? true : e[1].value, // true by default
             label: e[1].label,
             edit: e[1].edit ? "disabled" : ""
           }
@@ -43,6 +43,14 @@ export class SourcebookFilterConfig extends FormApplication {
 
   activateListeners(html) {
     super.activateListeners(html);
+    html.find("button[name='reset']").click(this._onResetDefaults.bind(this));
+  }
+
+  async _onResetDefaults(event) {
+    event.preventDefault();
+    await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter", {});
+    ui.notifications.info("Reset filters", { localize: true });
+    return this.render();
   }
 
   async _updateObject(ev, formData) {
@@ -53,6 +61,10 @@ export class SourcebookFilterConfig extends FormApplication {
         value: v
       };
     }
+
+    // Homebrew and Corebook always true
+    filters["custom"] = { value: true };
+    filters["ArM5"] = { value: true };
 
     await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter", filters);
     ui.notifications.info("Settings.updated", { localize: true });
