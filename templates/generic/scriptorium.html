@@ -114,7 +114,8 @@
               {{#if (lookup (lookup abilityKeysList reading.book.key) "option")}}
                 <label for="reading.book.option"
                   class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-                <input type="text" class="ability-option" name="reading.book.option" value="{{reading.book.option}}" />
+                <input type="text" class="ability-option" name="reading.book.option" value="{{reading.book.option}}"
+                  {{ui.canEditBook}} />
               {{else}}
                 <label for="reading.book.option" class="header-label"
                   style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>

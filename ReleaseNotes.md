@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.3.3
+## 2.0.3.4
 
 ### Features
 
@@ -10,13 +10,15 @@
 - New filtering of spell attributes based on sourcebooks setting.
 - New look for the journal entries
 - Added skeleton of the user guide
--
+- Updated French version
 
 ### Bug fixes
 
 - Opening a weapon not owned by anyone won't raise an error anymore.
 - Fix stress rolls for Foundry VTT version 10.287
 - Size and encumbrance are now read only (use active effect to change size)
+- Option field is no longer editable if a book is linked in the Scriptorium
+- Option field is again editable for generic abilities in the book sheet.
 
 ## 2.0.2.8
 

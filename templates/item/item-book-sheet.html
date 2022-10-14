@@ -43,7 +43,7 @@
           </select>
         </div>
         <div class="resource" style="width: 220px; padding-top: 5px;">
-          {{#if (lookup (lookup abilityKeysList system.key) "option")}}
+          {{#if (lookup (lookup abilityKeysList system.topic.key) "option")}}
             <label for="system.topic.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
             <input type="text" class="ability-option" name="system.topic.option" value="{{system.topic.option}}" />
           {{else}}
