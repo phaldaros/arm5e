@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.3.2
+## 2.0.3.3
 
 ### Features
 
@@ -8,11 +8,15 @@
 - Overhaul of the item sheets to be easier to resize (wip)
 - New sourcebooks filtering setting
 - New filtering of spell attributes based on sourcebooks setting.
+- New look for the journal entries
+- Added skeleton of the user guide
+-
 
 ### Bug fixes
 
 - Opening a weapon not owned by anyone won't raise an error anymore.
 - Fix stress rolls for Foundry VTT version 10.287
+- Size and encumbrance are now read only (use active effect to change size)
 
 ## 2.0.2.8
 

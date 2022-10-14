@@ -912,8 +912,8 @@
   "arm5e.activity.diary": "Journal",
   "arm5e.activity.adventuring": "Aventure",
   "arm5e.activity.exposure": "Exposition",
-  "arm5e.activity.practice": "S'exercer",
-  "arm5e.activity.training": "Entraînement",
+  "arm5e.activity.practice": "Pratique",
+  "arm5e.activity.training": "Apprentissage",
   "arm5e.activity.teaching": "Enseignement",
   "arm5e.activity.writing": "Ecriture",
   "arm5e.activity.reading": "Lecture",
@@ -985,6 +985,9 @@
   "arm5e.scriptorium.reading.activity": "Lecture {title}",
 
   "arm5e.sheet.label.details": "Détails",
+
+  "arm5e.config.sourcebookFilter": "Filtre livre source",
+  
   "arm5e.generic.yes": "Oui",
   "arm5e.generic.no": "Non",
   "arm5e.generic.always": "Toujours",
