@@ -1259,7 +1259,6 @@
     },
     "book": {
       "templates": ["base", "authorship"],
-      "art": "cr",
       "type": "Summa",
       "topic": {
         "category": "art",
