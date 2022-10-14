@@ -3,7 +3,7 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "2.0.3.2",
+  "version": "2.0.3.3",
   "minimumCoreVersion": "10",
   "compatibility": {
     "minimum": "10",
@@ -103,6 +103,12 @@
       "label": "Macros",
       "path": "packs/macros.db",
       "type": "Macro"
+    },
+    {
+      "name": "journals",
+      "label": "Journals",
+      "path": "packs/journals.db",
+      "type": "JournalEntry"
     },
     {
       "name": "rolltables",

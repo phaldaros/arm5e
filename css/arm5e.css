@@ -246,6 +246,14 @@ span.player-name {
   font-family: bookAntiqua;
 }
 
+.journal-entry-page a.content-link {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1px 4px;
+  border: 1px solid var(--color-border-dark-tertiary);
+  border-radius: 2px;
+  white-space: nowrap;
+  word-break: break-all;
+}
 .scriptorium.resource {
   /* width: 220px; */
   padding-top: 5px;

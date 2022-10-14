@@ -115,13 +115,8 @@
               <label for="system.vitals.{{key}}.label" class="bold">{{localize label}}</label>
             {{/with}}
             <span>
-              {{#if (eq key "soa")}}
-                <input type="text" name="system.vitals.{{key}}.value"
-                  value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" readonly />
-              {{else}}
-                <input type="text" name="system.vitals.{{key}}.value"
-                  value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" />
-              {{/if}}
+              <input type="text" name="system.vitals.{{key}}.value"
+                value="{{numberFormat vitals.value decimals=0 sign=true}}" data-dtype="Number" readonly />
             </span>
           </div>
         {{/each}}
