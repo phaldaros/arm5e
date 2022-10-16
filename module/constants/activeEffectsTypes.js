@@ -308,6 +308,119 @@ export default {
     }
   },
 
+  deficiency: {
+    category: "magic",
+    type: "artDeficiency",
+    label: "arm5e.sheet.activeEffect.types.arts.deficiency",
+    subtypes: {
+      cr: {
+        label: "Creo",
+        key: "system.arts.techniques.cr.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      in: {
+        label: "Intellego",
+        key: "system.arts.techniques.in.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      mu: {
+        label: "Muto",
+        key: "system.arts.techniques.mu.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      pe: {
+        label: "Perdo",
+        key: "system.arts.techniques.pe.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      re: {
+        label: "Rego",
+        key: "system.arts.techniques.re.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      an: {
+        label: "Animal",
+        key: "system.arts.forms.an.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      aq: {
+        label: "Aquam",
+        key: "system.arts.forms.aq.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      au: {
+        label: "Auram",
+        key: "system.arts.forms.au.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      co: {
+        label: "Corpus",
+        key: "system.arts.forms.co.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      he: {
+        label: "Herbam",
+        key: "system.arts.forms.he.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      ig: {
+        label: "Ignem",
+        key: "system.arts.forms.ig.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      im: {
+        label: "Imaginem",
+        key: "system.arts.forms.im.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      me: {
+        label: "Mentem",
+        key: "system.arts.forms.me.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      te: {
+        label: "Terram",
+        key: "system.arts.forms.te.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      },
+      vi: {
+        label: "Vim",
+        key: "system.arts.forms.vi.deficient",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
+        readonly: true
+      }
+    }
+  },
+
   vitals: {
     category: "traits",
     type: "vitals",

@@ -376,14 +376,18 @@ export class ArM5eItem extends Item {
   }
 
   _getTechniqueData(actorSystemData) {
-    if (!this._isMagicalEffect()) return ["", 0];
+    if (!this._isMagicalEffect()) return ["", 0, false];
 
     let label = CONFIG.ARM5E.magic.techniques[this.system.technique.value].label;
     let tech = 1000;
     let techReq = Object.entries(this.system["technique-req"]).filter(r => r[1] === true);
+    let techDeficient = false;
     if (techReq.length > 0) {
       label += " (";
       techReq.forEach(key => {
+        if (actorSystemData.arts.techniques[key[0]].deficient) {
+          techDeficient = true;
+        }
         tech = Math.min(tech, actorSystemData.arts.techniques[key[0]].finalScore);
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
@@ -397,18 +401,23 @@ export class ArM5eItem extends Item {
     } else {
       tech = actorSystemData.arts.techniques[this.system.technique.value].finalScore;
     }
-
-    return [label, tech];
+    techDeficient =
+      techDeficient || actorSystemData.arts.techniques[this.system.technique.value].deficient;
+    return [label, tech, techDeficient];
   }
   _getFormData(actorSystemData) {
-    if (!this._isMagicalEffect()) return ["", 0];
+    if (!this._isMagicalEffect()) return ["", 0, false];
 
     let label = CONFIG.ARM5E.magic.forms[this.system.form.value].label;
     let form = 1000;
+    let formDeficient = false;
     let formReq = Object.entries(this.system["form-req"]).filter(r => r[1] === true);
     if (formReq.length > 0) {
       label += " (";
       formReq.forEach(key => {
+        if (actorSystemData.arts.forms[key[0]].deficient) {
+          formDeficient = true;
+        }
         form = Math.min(form, actorSystemData.arts.forms[key[0]].finalScore);
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
@@ -419,8 +428,8 @@ export class ArM5eItem extends Item {
     } else {
       form = actorSystemData.arts.forms[this.system.form.value].finalScore;
     }
-
-    return [label, form];
+    formDeficient = formDeficient || actorSystemData.arts.forms[this.system.form.value].deficient;
+    return [label, form, formDeficient];
   }
 
   _addSpellMagnitude(base, num) {
@@ -473,12 +482,22 @@ export class ArM5eItem extends Item {
     let tech = 1000;
     let form = 1000;
     let focusBonus = 0;
-
+    let deficiencyDivider = 1;
+    let deficientTech = false;
+    let deficientForm = false;
     let techReq = Object.entries(itemData["technique-req"]).filter(r => r[1] === true);
     let formReq = Object.entries(itemData["form-req"]).filter(r => r[1] === true);
-
+    if (owner.system.arts.techniques[this.system.technique.value].deficient) {
+      deficientTech = true;
+    }
+    if (owner.system.arts.forms[this.system.form.value].deficient) {
+      deficientForm = true;
+    }
     if (techReq.length > 0) {
       techReq.forEach(key => {
+        if (owner.system.arts.techniques[key[0]].deficient) {
+          deficientTech = true;
+        }
         tech = Math.min(tech, owner.system.arts.techniques[key[0]].finalScore);
       });
 
@@ -488,6 +507,9 @@ export class ArM5eItem extends Item {
     }
     if (formReq.length > 0) {
       formReq.forEach(key => {
+        if (owner.system.arts.forms[key[0]].deficient) {
+          deficientForm = true;
+        }
         form = Math.min(tech, owner.system.arts.forms[key[0]].finalScore);
       });
       form = Math.min(owner.system.arts.forms[this.system.form.value].finalScore, form);
@@ -502,9 +524,14 @@ export class ArM5eItem extends Item {
     if (this.system.mastery) {
       res += this.system.mastery;
     }
+    if (deficientTech && deficientForm) {
+      deficiencyDivider = 4;
+    } else if (deficientTech || deficientForm) {
+      deficiencyDivider = 2;
+    }
 
     // log(false, `Casting total: ${res}`)
-    return res;
+    return Math.round(res / deficiencyDivider);
   }
   async _preCreate(data, options, userId) {
     await super._preCreate(data, options, userId);

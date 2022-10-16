@@ -751,6 +751,9 @@
   "arm5e.notification.setDate": "The current date has been set to {season} {year}",
   "arm5e.notification.synchActors": "All actors have been synchronized to {season} {year}",
 
+  "arm5e.canvas.buttons.setAura": "Configure Aura",
+  "arm5e.canvas.buttons.clearAura": "Clear Aura",
+
   "arm5e.packs.abilities.name": "Abilities",
 
   "arm5e.sheet.source.ArM5": "Core Book",
@@ -829,6 +832,7 @@
 
   "arm5e.sheet.activeEffect.info.noedit": "Note: Active effect creation is not possible if the Item is owned by an Actor, edit the original or make a copy in your world to edit.",
   "arm5e.sheet.activeEffect.types.arts.affinity": "Art affinity",
+  "arm5e.sheet.activeEffect.types.arts.deficiency": "Art deficiency",
   "arm5e.sheet.activeEffect.types.vitals": "Vitals",
   "arm5e.sheet.activeEffect.types.nullEffect": "Null effect",
   "arm5e.sheet.activeEffect.types.characteristics": "Characteristics",

@@ -113,9 +113,13 @@
                       {{/each}} {{/select}}
                   </select>
                 {{else}}
-
-                  <input class="effect-value" type="number" name="changes.{{i}}.value" value="{{change.value}}"
-                    data-dtype="Number" data-index="{{i}}" />
+                  {{#if (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "bool")}}
+                    <input class="effect-value" type="checkbox" name="changes.{{i}}.value" {{checked change.value}}
+                      data-dtype="Boolean" data-index="{{i}}" />
+                  {{else}}
+                    <input class="effect-value" type="number" name="changes.{{i}}.value" value="{{change.value}}"
+                      data-dtype="Number" data-index="{{i}}" />
+                  {{/if }}
                 {{/if }}
               </div>
 
@@ -130,6 +134,7 @@
             <div style="position: absolute; right: -2300px">
               {{log "change mode: " change.mode}}
               <input type="hidden" name="changes.{{i}}.mode" value="{{change.mode}}" data-dtype="Number" />
+
             </div>
           </li>
         {{/each}}

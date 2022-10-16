@@ -69,8 +69,12 @@ export function addChatListeners(message, html, data) {
 
   let rollResult = html.find(".dice-total");
   if (data.message.flags.arm5e.secondaryScore) {
-    let newValue = data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total);
-    rollResult.text(rollResult.text() + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `);
+    let newValue = Math.round(
+      data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total)
+    );
+    rollResult.text(
+      Math.round(Number(rollResult.text())) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
+    );
   }
 
   // confidence has been used already => no button
@@ -115,8 +119,8 @@ async function useConfidence(ev) {
     if (await actor.useConfidencePoint()) {
       // add +3 * useConf to roll
       let bonus = 3;
-      if (parseInt(ev.currentTarget.dataset.divide) === 2) {
-        bonus /= 2;
+      if (parseInt(ev.currentTarget.dataset.divide) > 1) {
+        bonus /= parseInt(ev.currentTarget.dataset.divide);
       }
 
       // horrible code, TODO find a cleaner way.

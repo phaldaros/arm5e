@@ -1,8 +1,8 @@
 # Release Notes
 
-## 2.0.3.4
+## 2.0.3.5
 
-### Features
+### Features & changes
 
 - Weapons list added in the combat tab
 - Overhaul of the item sheets to be easier to resize (wip)
@@ -10,7 +10,11 @@
 - New filtering of spell attributes based on sourcebooks setting.
 - New look for the journal entries
 - Added skeleton of the user guide
+- The Astrolab has been renamed Astrolabium (latin) to avoid a translation
+- Support for boolean Active effects (ie: no value, it is there or not)
 - Updated French version
+- New active effect for Art deficiency.
+- Cosmetic changes left and right
 
 ### Bug fixes
 
@@ -19,6 +23,10 @@
 - Size and encumbrance are now read only (use active effect to change size)
 - Option field is no longer editable if a book is linked in the Scriptorium
 - Option field is again editable for generic abilities in the book sheet.
+- Remaining xp is now consistent between abilities and Arts
+- The year is properly filled for aging rolls with the one from the character sheet.
+- Added a few mnemonics for translation
+- Roll results are now rounded to the closest integer.
 
 ## 2.0.2.8
 

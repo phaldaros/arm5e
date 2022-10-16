@@ -312,12 +312,17 @@ export class ArM5eActorSheet extends ActorSheet {
 
         // magic arts
         for (let [key, technique] of Object.entries(context.system.arts.techniques)) {
-          if (!technique.bonus && technique.xpCoeff == 1.0) {
+          if (technique.deficient) {
+            technique.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px darkslateblue"',
+              title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.deficiency")
+            };
+          } else if (!technique.bonus && technique.xpCoeff == 1.0) {
             technique.ui = { style: 'style="border: 0px; height: 40px;"' };
           } else if (!technique.bonus && technique.xpCoeff != 1.0) {
             technique.ui = {
               style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"',
-              title: "Affinity, "
+              title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           } else if (technique.bonus && technique.xpCoeff == 1.0) {
             technique.ui = {
@@ -327,7 +332,7 @@ export class ArM5eActorSheet extends ActorSheet {
           } else {
             technique.ui = {
               style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
-              title: "Affinity, "
+              title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           }
         }
@@ -337,12 +342,17 @@ export class ArM5eActorSheet extends ActorSheet {
         // labTotals
         context.system.labTotals = {};
         for (let [key, form] of Object.entries(context.system.arts.forms)) {
-          if (!form.bonus && form.xpCoeff == 1.0) {
+          if (form.deficient) {
+            form.ui = {
+              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px darkslateblue"',
+              title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.deficiency")
+            };
+          } else if (!form.bonus && form.xpCoeff == 1.0) {
             form.ui = { style: 'style="border: 0px; height: 40px;"' };
           } else if (!form.bonus && form.xpCoeff != 1.0) {
             form.ui = {
               style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"',
-              title: "Affinity, "
+              title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           } else if (form.bonus && form.xpCoeff == 1.0) {
             form.ui = {
@@ -352,7 +362,7 @@ export class ArM5eActorSheet extends ActorSheet {
           } else {
             form.ui = {
               style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
-              title: "Affinity, "
+              title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           }
 
@@ -370,6 +380,14 @@ export class ArM5eActorSheet extends ActorSheet {
                 techScoreLab *= 2;
               }
             }
+
+            let deficiencyDivider = 1;
+            if (technique.deficient && form.deficient) {
+              deficiencyDivider = 4;
+            } else if (technique.deficient || form.deficient) {
+              deficiencyDivider = 2;
+            }
+
             context.system.labTotals[key][k2] = { ui: "" };
 
             if (context.system.sanctum.linked) {
@@ -395,14 +413,16 @@ export class ArM5eActorSheet extends ActorSheet {
               techScoreLab += context.system.labtotals.specialty[key].bonus;
               formScoreLab += context.system.labtotals.specialty[k2].bonus;
             }
-            context.system.labTotals[key][k2].total =
-              formScoreLab +
-              techScoreLab +
-              context.system.laboratory.basicLabTotal.value +
-              parseInt(context.system.labtotal.quality) +
-              parseInt(context.system.labtotal.aura) +
-              parseInt(context.system.labtotal.modifier) +
-              context.system.bonuses.arts.laboratory;
+            context.system.labTotals[key][k2].total = Math.round(
+              (formScoreLab +
+                techScoreLab +
+                context.system.laboratory.basicLabTotal.value +
+                parseInt(context.system.labtotal.quality) +
+                parseInt(context.system.labtotal.aura) +
+                parseInt(context.system.labtotal.modifier) +
+                context.system.bonuses.arts.laboratory) /
+                deficiencyDivider
+            );
 
             let techScoreCast = technique.finalScore;
             let formScoreCast = form.finalScore;
@@ -413,13 +433,15 @@ export class ArM5eActorSheet extends ActorSheet {
                 techScoreCast *= 2;
               }
             }
-            context.system.castingTotals[key][k2] =
+            context.system.castingTotals[key][k2] = Math.round(
               (formScoreCast +
                 techScoreCast +
                 context.system.characteristics.sta.value +
                 context.system.castingtotal.aura +
                 context.system.castingtotal.modifier) /
-              Number(context.system.castingtotal.divider);
+                Number(context.system.castingtotal.divider) /
+                deficiencyDivider
+            );
           }
         }
       }
