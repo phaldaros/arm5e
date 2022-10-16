@@ -34,6 +34,7 @@ import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
 import { AbilitySchema, BookSchema, VirtueFlawSchema } from "./schemas/ItemSchemas.js";
 import { registerSettings } from "./settings.js";
+import { registerTestSuites } from "./tests/tests.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -79,102 +80,9 @@ Hooks.once("init", async function() {
 
   // Define datamodel schemas
   setSystemDatamodels();
+
   // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
-
-  // ["player","npc","laboratoy","covenant"],
-  Actors.registerSheet("arm5ePC", ArM5ePCActorSheet, {
-    types: ["player"],
-    makeDefault: true,
-    label: "arm5e.sheet.player"
-  });
-  Actors.registerSheet("arm5eNPC", ArM5eNPCActorSheet, {
-    types: ["npc"],
-    makeDefault: true,
-    label: "arm5e.sheet.npc"
-  });
-  Actors.registerSheet("arm5eBeast", ArM5eBeastActorSheet, {
-    types: ["beast"],
-    makeDefault: true,
-    label: "arm5e.sheet.beast"
-  });
-
-  Actors.registerSheet("arm5eLaboratory", ArM5eLaboratoryActorSheet, {
-    types: ["laboratory"],
-    makeDefault: true,
-    label: "arm5e.sheet.laboratory"
-  });
-  Actors.registerSheet("arm5eCovenant", ArM5eCovenantActorSheet, {
-    types: ["covenant"],
-    makeDefault: true,
-    label: "arm5e.sheet.covenant"
-  });
-
-  Actors.registerSheet("arm5eMagicCodex", ArM5eMagicCodexSheet, {
-    types: ["magicCodex"],
-    makeDefault: true,
-    label: "arm5e.sheet.magic-codex"
-  });
-
-  // Actors.registerSheet("arm5eCrucible", ArM5eCrucibleSheet, {
-  //     types: ["crucible"],
-  //     makeDefault: true,
-  //     label: "arm5e.sheet.crucible"
-  // });
-
-  // let astrolabData = game.
-  Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
-    types: ["magicalEffect", "enchantment", "spell", "baseEffect", "laboratoryText", "magicItem"],
-    makeDefault: true
-  });
-
-  Items.registerSheet("arm5e", ArM5eItemDiarySheet, {
-    types: ["diaryEntry"],
-    makeDefault: true
-  });
-
-  Items.registerSheet("arm5e", ArM5eItemSheet, {
-    types: [
-      "weapon",
-      "armor",
-      "item",
-      "book",
-      "virtue",
-      "flaw",
-      "ability",
-      "abilityFamiliar",
-      "power",
-      "might",
-      "powerFamiliar",
-      "mightFamiliar",
-      "speciality",
-      "distinctive",
-      "sanctumRoom",
-      "personality",
-      "reputation",
-      "habitantMagi",
-      "habitantCompanion",
-      "habitantSpecialists",
-      "habitantHabitants",
-      "habitantHorses",
-      "habitantLivestock",
-      "possessionsCovenant",
-      "visSourcesCovenant",
-      "visStockCovenant",
-      "calendarCovenant",
-      "incomingSource",
-      "mundaneBook",
-      "labCovenant"
-    ],
-    makeDefault: true
-  });
-
-  Items.registerSheet("arm5e", ArM5eItemSheetNoDesc, { types: ["vis"] });
-
-  // [DEV] comment line bellow to get access to the original sheet
-  DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
-  DocumentSheetConfig.registerSheet(ActiveEffect, "arm5e", ArM5eActiveEffectConfig);
+  registerSheets();
 
   // Preload handlebars templates
   ArM5ePreloadHandlebarsTemplates();
@@ -287,6 +195,10 @@ Hooks.once("setup", function() {});
 
 Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(ARM5E.SYSTEM_ID);
+});
+
+Hooks.on("quenchReady", quench => {
+  registerTestSuites(quench);
 });
 
 /* -------------------------------------------- */
@@ -437,4 +349,102 @@ function setSystemDatamodels() {
   // CONFIG.Item.systemDataModels["book"] = BookSchema;
   // CONFIG.Item.systemDataModels["virtue"] = VirtueFlawSchema;
   // CONFIG.Item.systemDataModels["flaw"] = VirtueFlawSchema;
+}
+
+function registerSheets() {
+  Actors.unregisterSheet("core", ActorSheet);
+
+  // ["player","npc","laboratoy","covenant"],
+  Actors.registerSheet("arm5ePC", ArM5ePCActorSheet, {
+    types: ["player"],
+    makeDefault: true,
+    label: "arm5e.sheet.player"
+  });
+  Actors.registerSheet("arm5eNPC", ArM5eNPCActorSheet, {
+    types: ["npc"],
+    makeDefault: true,
+    label: "arm5e.sheet.npc"
+  });
+  Actors.registerSheet("arm5eBeast", ArM5eBeastActorSheet, {
+    types: ["beast"],
+    makeDefault: true,
+    label: "arm5e.sheet.beast"
+  });
+
+  Actors.registerSheet("arm5eLaboratory", ArM5eLaboratoryActorSheet, {
+    types: ["laboratory"],
+    makeDefault: true,
+    label: "arm5e.sheet.laboratory"
+  });
+  Actors.registerSheet("arm5eCovenant", ArM5eCovenantActorSheet, {
+    types: ["covenant"],
+    makeDefault: true,
+    label: "arm5e.sheet.covenant"
+  });
+
+  Actors.registerSheet("arm5eMagicCodex", ArM5eMagicCodexSheet, {
+    types: ["magicCodex"],
+    makeDefault: true,
+    label: "arm5e.sheet.magic-codex"
+  });
+
+  // Actors.registerSheet("arm5eCrucible", ArM5eCrucibleSheet, {
+  //     types: ["crucible"],
+  //     makeDefault: true,
+  //     label: "arm5e.sheet.crucible"
+  // });
+
+  // let astrolabData = game.
+  Items.unregisterSheet("core", ItemSheet);
+  Items.registerSheet("arm5e", ArM5eItemMagicSheet, {
+    types: ["magicalEffect", "enchantment", "spell", "baseEffect", "laboratoryText", "magicItem"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("arm5e", ArM5eItemDiarySheet, {
+    types: ["diaryEntry"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("arm5e", ArM5eItemSheet, {
+    types: [
+      "weapon",
+      "armor",
+      "item",
+      "book",
+      "virtue",
+      "flaw",
+      "ability",
+      "abilityFamiliar",
+      "power",
+      "might",
+      "powerFamiliar",
+      "mightFamiliar",
+      "speciality",
+      "distinctive",
+      "sanctumRoom",
+      "personality",
+      "reputation",
+      "habitantMagi",
+      "habitantCompanion",
+      "habitantSpecialists",
+      "habitantHabitants",
+      "habitantHorses",
+      "habitantLivestock",
+      "possessionsCovenant",
+      "visSourcesCovenant",
+      "visStockCovenant",
+      "calendarCovenant",
+      "incomingSource",
+      "mundaneBook",
+      "labCovenant"
+    ],
+    makeDefault: true
+  });
+
+  Items.registerSheet("arm5e", ArM5eItemSheetNoDesc, { types: ["vis"] });
+
+  // [DEV] comment line bellow to get access to the original sheet
+  DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
+  DocumentSheetConfig.registerSheet(ActiveEffect, "arm5e", ArM5eActiveEffectConfig);
 }

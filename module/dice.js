@@ -99,7 +99,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     }
     botchCheck = 1;
   }
-  lastRoll = multiplyRoll(mult, dieRoll, formula, rollData.magic.divide);
+  lastRoll = await multiplyRoll(mult, dieRoll, formula, rollData.magic.divide);
 
   let rollOptions = {};
 
@@ -131,6 +131,26 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     },
     { rollMode: rollMode }
   );
+  // ChatMessage.create(
+  //   {
+  //     flavor: chatTitle + details,
+  //     speaker: ChatMessage.getSpeaker({
+  //       actor: actor
+  //     }),
+  //     whisper: ChatMessage.getWhisperRecipients("gm"),
+  //     flags: {
+  //       arm5e: {
+  //         roll: { type: type, img: rollData.img, name: rollData.name },
+  //         type: "confidence",
+  //         divide: rollData.magic.divide,
+  //         confScore: confAllowed,
+  //         botchCheck: botchCheck,
+  //         secondaryScore: rollData.secondaryScore
+  //       }
+  //     }
+  //   },
+  //   { rollMode: rollMode }
+  // );
   if (callBack) {
     await callBack(html, actor, lastRoll, message);
   }
@@ -547,6 +567,8 @@ async function explodingRoll(actorData, modes = 0) {
   await dieRoll.roll({
     async: true
   });
+
+  // game.dice3d.showForRoll(dieRoll); //, user, synchronize, whisper, blind, chatMessageID, speaker)
   // explode mode
   if (dieRoll.total === 1) {
     mult *= 2;
@@ -634,7 +656,7 @@ async function explodingRoll(actorData, modes = 0) {
   return dieRoll;
 }
 
-function multiplyRoll(mult, roll, rollFormula, divide) {
+async function multiplyRoll(mult, roll, rollFormula, divide) {
   if (!roll._evaluated) return;
   let rollInit = `${roll._formula} + ${rollFormula}`;
   if (Number.parseInt(mult) > 1) {
@@ -645,14 +667,15 @@ function multiplyRoll(mult, roll, rollFormula, divide) {
   }
   let output_roll = new Roll(rollInit);
   output_roll.data = {};
+  await output_roll.evaluate({ async: true });
   // output_roll._total = [ mult, `*`, ...roll.result];
   //output_roll.terms = [mult, `*`, ...roll.terms];
   //console.log(roll._total);
   //if(parseInt(divide) > 1){
   //    output_roll.terms.push("/"+ divide);
   //}
-  output_roll._evaluated = true;
-  output_roll._total = (mult * roll._total + parseInt(rollFormula)) / parseInt(divide);
+  // output_roll._evaluated = true;
+  // output_roll._total = (mult * roll._total + parseInt(rollFormula)) / parseInt(divide);
 
   return output_roll;
 }
