@@ -25,7 +25,7 @@ export class SourcebookFilterConfig extends FormApplication {
         return [
           e[0],
           {
-            value: e[1].value === undefined ? true : e[1].value, // true by default
+            value: e[1].value === undefined ? false : e[1].value, // true by default
             label: e[1].label,
             edit: e[1].edit ? "disabled" : ""
           }

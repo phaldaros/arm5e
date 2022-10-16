@@ -27,7 +27,7 @@ export class ArsLayer extends InteractionLayer {
         buttons: {
           yes: {
             icon: "<i class='fas fa-check'></i>",
-            label: `Apply Changes`
+            label: "arm5e.sheet.action.apply"
           }
         },
         default: "yes",
@@ -110,7 +110,7 @@ export function addArsButtons(buttons) {
     tools: [
       {
         name: "aura",
-        title: "Configure Aura",
+        title: game.i18n.localize("arm5e.canvas.buttons.setAura"),
         icon: "icon-Tool_Auras",
         visible: game.user.isGM,
         button: true,
@@ -118,7 +118,7 @@ export function addArsButtons(buttons) {
       },
       {
         name: "clearAura",
-        title: "Clear aura",
+        title: game.i18n.localize("arm5e.canvas.buttons.clearAura"),
         icon: "icon-Tool_Delete_Perdo2",
         visible: game.user.isGM,
         button: true,
@@ -126,7 +126,7 @@ export function addArsButtons(buttons) {
       },
       {
         name: "astrolab",
-        title: "Astrolab",
+        title: "Astrolabium",
         icon: "icon-Tool_Astrolab",
         visible: game.user.isGM,
         button: true,

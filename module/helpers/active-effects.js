@@ -180,6 +180,9 @@ export default class ArM5eActiveEffect extends ActiveEffect {
               " to " +
               subtype;
             break;
+          case CONST.ACTIVE_EFFECT_MODES.OVERRIDE:
+            descr += ` = ${c.value}`;
+            break;
           default:
             descr += "Unsupported effect mode";
         }

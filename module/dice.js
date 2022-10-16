@@ -164,6 +164,12 @@ function getFormData(html, actor) {
     actor.rollData.magic.techniqueScore = parseInt(
       actor.system.arts.techniques[find[0].value].finalScore
     );
+
+    if (actor.system.arts.techniques[find[0].value].deficient) {
+      actor.rollData.magic.techDeficiency = true;
+    } else {
+      actor.rollData.magic.techDeficiency = false;
+    }
   }
 
   find = html.find(".SelectedForm");
@@ -171,6 +177,11 @@ function getFormData(html, actor) {
     actor.rollData.magic.form = find[0].value;
     actor.rollData.magic.formLabel = ARM5E.magic.forms[find[0].value].label;
     actor.rollData.magic.formScore = parseInt(actor.system.arts.forms[find[0].value].finalScore);
+    if (actor.system.arts.forms[find[0].value].deficient) {
+      actor.rollData.magic.formDeficiency = true;
+    } else {
+      actor.rollData.magic.formDeficiency = false;
+    }
   }
 
   find = html.find(".SelectedAura");
@@ -196,6 +207,14 @@ function getFormData(html, actor) {
   find = html.find(".SelectedYear");
   if (find.length > 0) {
     actor.rollData.environment.year = find[0].value;
+  }
+
+  if (actor.rollData.magic.techDeficiency) {
+    actor.rollData.magic.divide *= 2;
+  }
+
+  if (actor.rollData.magic.formDeficiency) {
+    actor.rollData.magic.divide *= 2;
   }
 
   if (
@@ -430,6 +449,9 @@ function getRollFormula(actor) {
   if (rollData.magic.divide > 1) {
     msg += "<br/>";
     msg += game.i18n.localize("arm5e.messages.die.divideBy") + rollData.magic.divide;
+    if (rollData.magic.techDeficiency || rollData.magic.formDeficiency) {
+      msg += ` (${game.i18n.localize("arm5e.sheet.activeEffect.types.arts.deficiency")})`;
+    }
   }
 
   ///

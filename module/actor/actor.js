@@ -95,11 +95,13 @@ export class ArM5ePCActor extends Actor {
       for (let key of Object.keys(this.system.arts.techniques)) {
         this.system.arts.techniques[key].bonus = 0;
         this.system.arts.techniques[key].xpCoeff = 1.0;
+        this.system.arts.techniques[key].deficient = false;
       }
 
       for (let key of Object.keys(this.system.arts.forms)) {
         this.system.arts.forms[key].bonus = 0;
         this.system.arts.forms[key].xpCoeff = 1.0;
+        this.system.arts.forms[key].deficient = false;
       }
     }
 
@@ -462,9 +464,9 @@ export class ArM5ePCActor extends Actor {
         );
         technique.finalScore = technique.derivedScore + technique.bonus;
         // start from scratch to avoid rounding errors
-        technique.xpNextLevel =
-          Math.round(ArM5ePCActor.getArtXp(technique.derivedScore + 1) / technique.xpCoeff) -
-          technique.xp;
+        technique.xpNextLevel = Math.round(
+          ArM5ePCActor.getArtXp(technique.derivedScore + 1) / technique.xpCoeff
+        );
 
         // TODO remove once confirmed there is no bug
         // if (technique.score != technique.derivedScore && technique.xp != 0) {
@@ -502,8 +504,7 @@ export class ArM5ePCActor extends Actor {
         form.derivedScore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
         form.finalScore = form.derivedScore + form.bonus;
 
-        form.xpNextLevel =
-          Math.round(ArM5ePCActor.getArtXp(form.derivedScore + 1) / form.xpCoeff) - form.xp;
+        form.xpNextLevel = Math.round(ArM5ePCActor.getArtXp(form.derivedScore + 1) / form.xpCoeff);
         // TODO remove once confirmed there is no bug
         // if (form.score != form.derivedScore && form.xp != 0) {
         //   error(

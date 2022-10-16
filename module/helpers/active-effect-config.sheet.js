@@ -58,6 +58,16 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
           tmp = tmp.replace("#OPTION#", context.options[idx]);
         }
       }
+      if (
+        typeof ACTIVE_EFFECTS_TYPES[context.selectedTypes[idx]].subtypes[
+          context.selectedSubtypes[idx]
+        ].default == "boolean"
+      ) {
+        tmpSubTypes[context.selectedSubtypes[idx]].bool = true;
+      } else {
+        tmpSubTypes[context.selectedSubtypes[idx]].bool = false;
+      }
+
       let withChoice =
         ACTIVE_EFFECTS_TYPES[context.selectedTypes[idx]].subtypes[context.selectedSubtypes[idx]]
           .choice;

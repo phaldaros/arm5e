@@ -71,9 +71,11 @@ export class ArM5eRollData {
           this.magic.technique = dataset.technique;
           this.magic.techniqueLabel = techData[0];
           this.magic.techniqueScore = techData[1];
+          this.magic.techDeficiency = techData[2];
           let formData = spell._getFormData(actor.system);
           this.magic.formLabel = formData[0];
           this.magic.formScore = formData[1];
+          this.magic.formDeficiency = formData[2];
           this.magic.form = dataset.form;
           this.magic.bonus = spell.system.bonus == undefined ? 0 : spell.system.bonus;
           this.magic.bonusDesc = spell.system.bonusDesc;
@@ -251,7 +253,9 @@ export class ArM5eRollData {
       focus: false,
       mastery: 0,
       divide: 1,
-      level: 0
+      level: 0,
+      techDeficiency: false,
+      formDeficiency: false
     };
 
     this.power = {
