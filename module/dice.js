@@ -5,6 +5,7 @@ import { ARM5E } from "./config.js";
 let mult = 1;
 
 async function simpleDie(html, actor, type = "DEFAULT", callBack) {
+  mult = 1;
   actor = getFormData(html, actor);
   actor = getRollFormula(actor);
   const rollData = actor.rollData;
@@ -77,7 +78,6 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   let chatTitle = `<h2 class="ars-chat-title">${rollData.label} </h2>`;
   let dieRoll = await explodingRoll(actor, modes);
 
-  let lastRoll;
   let confAllowed = actor.system.con.score;
 
   if ((getRollTypeProperties(type).MODE & ROLL_MODES.NO_CONF) != 0) {
@@ -99,7 +99,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     }
     botchCheck = 1;
   }
-  lastRoll = await multiplyRoll(mult, dieRoll, formula, rollData.magic.divide);
+  // lastRoll = await multiplyRoll(mult, dieRoll, formula, rollData.magic.divide);
 
   let rollOptions = {};
 
@@ -111,7 +111,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
 
-  const message = await lastRoll.toMessage(
+  const message = await dieRoll.toMessage(
     {
       flavor: chatTitle + details,
       speaker: ChatMessage.getSpeaker({
@@ -131,28 +131,9 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     },
     { rollMode: rollMode }
   );
-  // ChatMessage.create(
-  //   {
-  //     flavor: chatTitle + details,
-  //     speaker: ChatMessage.getSpeaker({
-  //       actor: actor
-  //     }),
-  //     whisper: ChatMessage.getWhisperRecipients("gm"),
-  //     flags: {
-  //       arm5e: {
-  //         roll: { type: type, img: rollData.img, name: rollData.name },
-  //         type: "confidence",
-  //         divide: rollData.magic.divide,
-  //         confScore: confAllowed,
-  //         botchCheck: botchCheck,
-  //         secondaryScore: rollData.secondaryScore
-  //       }
-  //     }
-  //   },
-  //   { rollMode: rollMode }
-  // );
+
   if (callBack) {
-    await callBack(html, actor, lastRoll, message);
+    await callBack(html, actor, dieRoll, message);
   }
   actor.rollData.reset();
 }
@@ -555,23 +536,30 @@ async function CheckBotch(html, actorData) {
 async function explodingRoll(actorData, modes = 0) {
   let dieRoll;
   if (modes === 0 || modes === 4) {
-    dieRoll = new Roll(`1d10`);
-  } else if (modes === 1) {
-    dieRoll = new Roll("1");
-    ui.notifications.info(`${actorData.name} used DEV mode to roll a 1`);
+    dieRoll = await createRoll(actorData.rollData.formula, mult, actorData.rollData.magic.divide);
   } else {
-    dieRoll = new Roll("10");
-    ui.notifications.info(`${actorData.name} used DEV mode to roll a 0`);
+    if (modes === 1) {
+      dieRoll = new Roll("1");
+      ui.notifications.info(`${actorData.name} used DEV mode to roll a 1`);
+    } else {
+      dieRoll = new Roll("10");
+      ui.notifications.info(`${actorData.name} used DEV mode to roll a 0`);
+    }
+    await dieRoll.roll({
+      async: true
+    });
   }
 
-  await dieRoll.roll({
-    async: true
-  });
-
-  // game.dice3d.showForRoll(dieRoll); //, user, synchronize, whisper, blind, chatMessageID, speaker)
+  //
   // explode mode
-  if (dieRoll.total === 1) {
+  const diceResult = dieRoll.dice[0].results[0].result;
+  log(false, `Dice result: ${diceResult}`);
+  if (diceResult === 1) {
+    if (game.modules.get("dice-so-nice")?.active) {
+      game.dice3d.showForRoll(dieRoll); //, user, synchronize, whisper, blind, chatMessageID, speaker)
+    }
     mult *= 2;
+
     let funRolls = game.settings.get("arm5e", "funRolls");
     let withDialog =
       funRolls == "EVERYONE" || (funRolls == "PLAYERS_ONLY" && actorData.hasPlayerOwner);
@@ -609,10 +597,12 @@ async function explodingRoll(actorData, modes = 0) {
       dieRoll = await explodingRoll(actorData);
     }
   } else {
-    if (modes != 4 && mult === 1 && dieRoll.total === 10) {
+    if (modes != 4 && mult === 1 && diceResult === 10) {
       mult *= 0;
+      if (game.modules.get("dice-so-nice")?.active) {
+        game.dice3d.showForRoll(dieRoll); //, user, synchronize, whisper, blind, chatMessageID, speaker)
+      }
       const html = await renderTemplate("systems/arm5e/templates/roll/roll-botch.html");
-
       // show dialog
 
       await new Promise(resolve => {
@@ -656,9 +646,8 @@ async function explodingRoll(actorData, modes = 0) {
   return dieRoll;
 }
 
-async function multiplyRoll(mult, roll, rollFormula, divide) {
-  if (!roll._evaluated) return;
-  let rollInit = `${roll._formula} + ${rollFormula}`;
+async function createRoll(rollFormula, mult, divide) {
+  let rollInit = `1d10 + ${rollFormula}`;
   if (Number.parseInt(mult) > 1) {
     rollInit = `${mult} * ${rollInit}`;
   }
@@ -668,14 +657,6 @@ async function multiplyRoll(mult, roll, rollFormula, divide) {
   let output_roll = new Roll(rollInit);
   output_roll.data = {};
   await output_roll.evaluate({ async: true });
-  // output_roll._total = [ mult, `*`, ...roll.result];
-  //output_roll.terms = [mult, `*`, ...roll.terms];
-  //console.log(roll._total);
-  //if(parseInt(divide) > 1){
-  //    output_roll.terms.push("/"+ divide);
-  //}
-  // output_roll._evaluated = true;
-  // output_roll._total = (mult * roll._total + parseInt(rollFormula)) / parseInt(divide);
 
   return output_roll;
 }

@@ -27,6 +27,7 @@
 - The year is properly filled for aging rolls with the one from the character sheet.
 - Added a few mnemonics for translation
 - Roll results are now rounded to the closest integer.
+- Fixed stress dice to roll only the proper amount of times.
 
 ## 2.0.2.8
 
