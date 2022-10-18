@@ -35,6 +35,7 @@ import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } fro
 import { AbilitySchema, BookSchema, VirtueFlawSchema } from "./schemas/ItemSchemas.js";
 import { registerSettings } from "./settings.js";
 import { registerTestSuites } from "./tests/tests.js";
+import { StressDie } from "./helpers/stressdie.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -67,8 +68,9 @@ Hooks.once("init", async function() {
 
   CONFIG.ui.actors = ArM5eActorsDirectory;
 
-  // const astrolab = game.settings.get("arm5e", "currentDate");
-  // CONFIG.ARM5E.ASTROLAB = astrolab;
+  // For later
+  // CONFIG.Dice.types.push(StressDie);
+  // CONFIG.Dice.terms.sd = StressDie;
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
