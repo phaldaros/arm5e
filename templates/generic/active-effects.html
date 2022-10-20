@@ -24,9 +24,11 @@
           <div class="effect-source">{{effect.sourceName}}</div>
           <div class="effect-duration">{{effect.duration.label}}</div>
           <div class="item-controls effect-controls flexrow">
-            <a class="effect-control" data-action="toggle" title="{{localize 'arm5e.sheet.effectsToggle'}}">
-              <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
-            </a>
+            {{#if isGM}}
+              <a class="effect-control" data-action="toggle" title="{{localize 'arm5e.sheet.effectsToggle'}}">
+                <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+              </a>
+            {{/if}}
             {{#unless effect.noEdit}}
               <!-- trigger an error if the effect is on an item while belonging to an actor -->
               <a class="effect-control" data-action="edit" title="{{localize 'arm5e.sheet.effectsEdit'}}">

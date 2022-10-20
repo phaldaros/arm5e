@@ -87,6 +87,15 @@ export function registerSettings() {
     default: "PLAYERS_ONLY"
   });
 
+  game.settings.register(ARM5E.SYSTEM_ID, "dramaticPause", {
+    name: "Dramatic pause after rolling a one",
+    scope: "world",
+    config: true,
+    type: Number,
+    range: { min: 0, max: 5000, step: 500 },
+    default: 2000
+  });
+
   game.settings.register(ARM5E.SYSTEM_ID, "confirmDelete", {
     name: "Ask for confirmation when deleting an owned item",
     scope: "client",
