@@ -18,6 +18,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   prepareDerivedData() {
     // if the effect is from an Item (virtue, etc) and is owned, prevent edition
     this.noEdit =
+      !game.user.isGM ||
       (this.parent.documentName === "Item" && this.parent.isOwned == true) ||
       (this.parent.documentName === "Actor" && this.origin?.includes("Item")) ||
       this.getFlag("arm5e", "noEdit");

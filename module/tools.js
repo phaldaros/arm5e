@@ -30,6 +30,10 @@ export function error(force, ...args) {
   }
 }
 
+export async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export async function getDocumentFromCompendium(pack, id) {
   let compendium = game.packs.get(pack);
   // const documents = await compendium.getDocuments();

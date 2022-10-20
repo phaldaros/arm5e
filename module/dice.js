@@ -1,6 +1,6 @@
 import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
 import { checkTargetAndCalculateResistance } from "./helpers/magic.js";
-import { log, putInFoldableLink } from "./tools.js";
+import { log, putInFoldableLink, sleep } from "./tools.js";
 import { ARM5E } from "./config.js";
 let mult = 1;
 
@@ -556,11 +556,11 @@ async function explodingRoll(actorData, modes = 0) {
   log(false, `Dice result: ${diceResult}`);
   if (diceResult === 1) {
     if (game.modules.get("dice-so-nice")?.active) {
-      game.dice3d.showForRoll(dieRoll); //, user, synchronize, whisper, blind, chatMessageID, speaker)
+      game.dice3d.showForRoll(dieRoll, game.user, true); //, whisper, blind, chatMessageID, speaker)
     }
     mult *= 2;
 
-    let funRolls = game.settings.get("arm5e", "funRolls");
+    let funRolls = game.settings.get(ARM5E.SYSTEM_ID, "funRolls");
     let withDialog =
       funRolls == "EVERYONE" || (funRolls == "PLAYERS_ONLY" && actorData.hasPlayerOwner);
     if (withDialog) {
@@ -594,6 +594,10 @@ async function explodingRoll(actorData, modes = 0) {
         ).render(true);
       });
     } else {
+      if (game.modules.get("dice-so-nice")?.active) {
+        log(false, `Dramatic pause of ${game.settings.get(ARM5E.SYSTEM_ID, "dramaticPause")}`);
+        await sleep(game.settings.get(ARM5E.SYSTEM_ID, "dramaticPause"));
+      }
       dieRoll = await explodingRoll(actorData);
     }
   } else {

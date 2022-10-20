@@ -48,8 +48,7 @@ export class ArM5eItem extends Item {
       if (this.type == "spell") {
         this.system.mastery = ArM5ePCActor.getAbilityScoreFromXp(this.system.xp);
         this.system.experienceNextLevel =
-          ((parseInt(this.system.mastery) + 1) * (parseInt(this.system.mastery) + 2) * 5) / 2 -
-          this.system.xp;
+          ((parseInt(this.system.mastery) + 1) * (parseInt(this.system.mastery) + 2) * 5) / 2;
       }
     }
 

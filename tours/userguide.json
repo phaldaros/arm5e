@@ -1,0 +1,30 @@
+{
+  "title": "USERGUIDE.title",
+  "description": "USERGUIDE.description",
+  "canBeResumed": true,
+  "display": true,
+  "steps": [
+    {
+      "id": "sidebar",
+      "selector": "#sidebar-tabs",
+      "title": "USERGUIDE.SidebarTitle",
+      "content": "USERGUIDE.SidebarContent"
+    },
+    {
+      "id": "compendiumPacks",
+      "selector": ".tabs>a[data-tab='compendium']",
+      "title": "USERGUIDE.CompendiumPacksTitle",
+      "content": "USERGUIDE.CompendiumPacksContent",
+      "sidebarTab": "compendium"
+    }
+  ],
+  "suggestedNextTours": ["arm5e.codex"],
+  "localization": {
+    "USERGUIDE.title": "Finding the userguide",
+    "USERGUIDE.description": "System compendia and finding the userguide",
+    "USERGUIDE.SidebarTitle": "Sidebar Tabs",
+    "USERGUIDE.SidebarContent": "The right-hand Sidebar contains a lot of useful tools and is where you'll store Documents like Actors, Items, Scenes, Journal Entries, and a lot more. <p>It is organized into a set of tabs you can switch between. You can right click a tab to pop it out into a floating window.</p>",
+    "USERGUIDE.CompendiumPacksTitle": "Compendium Packs",
+    "USERGUIDE.CompendiumPacksContent": "The Ars Magica system has some compendium packs of interest and one of them contains the user guide. <p>Let's explore what is available.</p>"
+  }
+}

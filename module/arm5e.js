@@ -36,6 +36,7 @@ import { AbilitySchema, BookSchema, VirtueFlawSchema } from "./schemas/ItemSchem
 import { registerSettings } from "./settings.js";
 import { registerTestSuites } from "./tests/tests.js";
 import { StressDie } from "./helpers/stressdie.js";
+import { UserguideTour } from "./tours/userguide-tour.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -51,6 +52,12 @@ Hooks.once("init", async function() {
   CONFIG.ARM5E = ARM5E;
 
   registerSettings();
+
+  // game.tours.register(
+  //   ARM5E.SYSTEM_ID,
+  //   "userguide",
+  //   await UserguideTour.fromJSON("/systems/arm5e/tours/userguide.json")
+  // );
 
   /**
    * Set an initiative formula for the system

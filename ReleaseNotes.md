@@ -15,6 +15,7 @@
 - Updated French version
 - New active effect for Art deficiency.
 - Cosmetic changes left and right
+- The effects tab is now available to the player in read only mode.
 
 ### Bug fixes
 
@@ -23,7 +24,7 @@
 - Size and encumbrance are now read only (use active effect to change size)
 - Option field is no longer editable if a book is linked in the Scriptorium
 - Option field is again editable for generic abilities in the book sheet.
-- Remaining xp is now consistent between abilities and Arts
+- Remaining xp is now consistent between abilities, spells masteries and Arts
 - The year is properly filled for aging rolls with the one from the character sheet.
 - Added a few mnemonics for translation
 - Roll results are now rounded to the closest integer.
