@@ -1063,7 +1063,9 @@
       "laboratoryText",
       "mundaneBook",
       "enchantment",
-      "labCovenant"
+      "labCovenant",
+      "reputationChar",
+      "personalityTrait"
     ],
     "templates": {
       "base": {
@@ -1127,7 +1129,8 @@
         "enhancingRequisite": 0,
         "baseLevel": 0,
         "baseEffectDescription": "",
-        "general": false
+        "general": false,
+        "levelOffset": 0
       },
       "enchantmentAttributes": {
         "effectfrequency": 0,
@@ -1413,6 +1416,15 @@
       },
       "level": 1,
       "quality": 1
+    },
+    "personalityTrait": {
+      "score": 0,
+      "xp": 0
+    },
+    "reputationChar": {
+      "score": 0,
+      "type": "",
+      "xp": 0
     }
   }
 }

@@ -1247,6 +1247,12 @@ ARM5E.magic.durations = {
     source: "ArM5",
     impact: 4
   },
+  special: {
+    label: "arm5e.spell.special",
+    dtype: "String",
+    source: "ArM5",
+    impact: 0
+  },
   faeMagic: {
     label: "arm5e.skill.mystery.faerieMagic",
     source: "ArM5",
@@ -1598,6 +1604,12 @@ ARM5E.magic.ranges = {
     source: "ArM5",
     impact: 4
   },
+  special: {
+    label: "arm5e.spell.special",
+    dtype: "String",
+    source: "ArM5",
+    impact: 0
+  },
   faeMagic: {
     label: "arm5e.skill.mystery.faerieMagic",
     source: "ArM5",
@@ -1775,6 +1787,12 @@ ARM5E.magic.targets = {
     dtype: "String",
     source: "ArM5",
     impact: 4
+  },
+  special: {
+    label: "arm5e.spell.special",
+    dtype: "String",
+    source: "ArM5",
+    impact: 0
   },
   intMagic: {
     label: "arm5e.spell.targets.subcats.intMagic",
@@ -2118,8 +2136,8 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: {
       standard: { label: "arm5e.generic.standard", modifier: 0 },
-      singleStudent: { label: "Single student", modifier: 6 },
-      twoStudents: { label: "Two students", modifier: 3 }
+      singleStudent: { label: "arm5e.activity.options.singleStudent", modifier: 6 },
+      twoStudents: { label: "arm5e.activity.options.twoStudents", modifier: 3 }
     },
     validation: validTeaching,
     secondaryFilter: null

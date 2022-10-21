@@ -756,11 +756,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         }
 
         await this.actor.update(actorUpdate, { render: true });
+        await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
         if (this.item.system.activity === "reading") {
           await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
           return;
-        } else {
-          await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
         }
         break;
       }

@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.3.5
+## 2.0.3.6
 
 ### Features & changes
 
@@ -12,10 +12,12 @@
 - Added skeleton of the user guide
 - The Astrolab has been renamed Astrolabium (latin) to avoid a translation
 - Support for boolean Active effects (ie: no value, it is there or not)
-- Updated French version
+- Updated French and Spanish versions (respecively Orneen and Teotimus)
 - New active effect for Art deficiency.
 - Cosmetic changes left and right
 - The effects tab is now available to the player in read only mode.
+- General spells can now have their final level adjusted.
+- "Special" value added to all spell attributes.
 
 ### Bug fixes
 
@@ -29,6 +31,8 @@
 - Added a few mnemonics for translation
 - Roll results are now rounded to the closest integer.
 - Fixed stress dice to roll only the proper amount of times.
+- Minimum xp spent in early childhood activity has been lowered to 50 in order to take affinity into account.
+- Fixed mnemonics in scriptorium and diary sheet.
 
 ## 2.0.2.8
 
