@@ -7,10 +7,15 @@
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.general"}}</label>
       <input type="checkbox" name="system.general" size="4" {{checked system.general}} />
+      {{#if system.general}}
+        <label class="header-label">{{localize "arm5e.spell.effect.levelOffset"}}</label>
+        <input type="number" name="system.levelOffset" value="{{system.levelOffset}}" data-dtype="Number"
+          style="max-width: 40px;" />
+      {{/if}}
     </div>
   </div>
   <div class="resource">
-    <label class="header-label">Effect Description</label>
+    <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
     <input type="text" name="system.baseEffectDescription" value="{{system.baseEffectDescription}}"
       data-dtype="String" />
   </div>

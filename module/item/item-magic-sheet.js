@@ -79,7 +79,6 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
           CONFIG.ARM5E.magic.targets[context.system.target.value];
         context.durations[context.system.duration.value] =
           CONFIG.ARM5E.magic.durations[context.system.duration.value];
-
         break;
       default:
         break;

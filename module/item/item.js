@@ -180,6 +180,9 @@ export class ArM5eItem extends Item {
           }
           this.system.ritual = shouldBeRitual;
         }
+        if (this.system.general) {
+          effectLevel += this.system.levelOffset ?? 0;
+        }
         this.system.level = effectLevel;
       }
       system.castingTotal = 0;

@@ -621,6 +621,8 @@
   "arm5e.spell.targets.baseSize.te": "10 m3 de matière pour le sable, la terre, la boue, l'argile etc. ; 1 m3 pour la pierre ; 30 cm3 pour les métaux ordinaires ; 3 cm3 pour les métaux précieux et les pierres précieuses",
   "arm5e.spell.targets.baseSize.vi": "Un sortilège, un objet ou une personne",
 
+  "arm5e.spell.targets.subcats.intMagic": "Magie Intellego",
+
   "arm5e.spell.masteries.penetration": "Maîtrises de Pénétration",
 
   "arm5e.magic.arcaneConnection.days": "Dernières heures ou jours",
@@ -749,6 +751,9 @@
   "arm5e.notification.setDate": "La date actuelle a été fixée à {season} {year}",
   "arm5e.notification.synchActors": "Tous les acteurs ont été synchronisés avec {season} {year}",
 
+  "arm5e.canvas.buttons.setAura": "Configure l'Aura",
+  "arm5e.canvas.buttons.clearAura": "Réinitialisé l'Aura",
+
   "arm5e.packs.abilities.name": "Compétences",
 
   "arm5e.sheet.source.ArM5": "Livre de Base",
@@ -827,6 +832,7 @@
 
   "arm5e.sheet.activeEffect.info.noedit": "Remarque : la création d'un effet actif n'est pas possible si l'élément appartient à un acteur, modifiez l'original ou faites une copie dans votre monde pour le modifier.",
   "arm5e.sheet.activeEffect.types.arts.affinity": "Affinité pour un Art",
+  "arm5e.sheet.activeEffect.types.arts.deficiency": "Art déficient",
   "arm5e.sheet.activeEffect.types.vitals": "Vitaux",
   "arm5e.sheet.activeEffect.types.nullEffect": "Aucun Effet",
   "arm5e.sheet.activeEffect.types.characteristics": "Caractéristiques",
@@ -908,6 +914,7 @@
   "arm5e.aging.rollback.title": "Inverser l'effet du jet de vieillissant",
   "arm5e.aging.rollback.confirm": "Cette action annulera l'effet du vieillissement et supprimera l'entrée du journal. Êtes-vous sûr ?",
 
+  "arm5e.activity.activity": "Activité",
   "arm5e.activity.label": "Activités saisonnières",
   "arm5e.activity.diary": "Journal",
   "arm5e.activity.adventuring": "Aventure",
@@ -987,7 +994,7 @@
   "arm5e.sheet.label.details": "Détails",
 
   "arm5e.config.sourcebookFilter": "Filtre livre source",
-  
+
   "arm5e.generic.yes": "Oui",
   "arm5e.generic.no": "Non",
   "arm5e.generic.always": "Toujours",

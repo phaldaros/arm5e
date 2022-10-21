@@ -174,7 +174,7 @@ function checkArtProgressItems(context, item, max) {
   for (const a of artsArr) {
     if (a.xp < 0 || a.xp > max) {
       context.system.applyPossible = "disabled";
-      context.system.applyError = "arm5e.activitymsg.wrongSingleItemXp";
+      context.system.applyError = "arm5e.activity.msg.wrongSingleItemXp";
       context.system.errorParam = max;
       return 0;
     }
@@ -236,7 +236,7 @@ export function validChildhood(context, actor, item) {
   context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
   const filteredArray = actor.system.abilities.filter(e => {
     return abilitiesArr.some(filter => {
-      return filter.id === e._id && e.system.key == "livingLanguage" && filter.xp == 75;
+      return filter.id === e._id && e.system.key == "livingLanguage" && filter.xp >= 50;
     });
   });
 
