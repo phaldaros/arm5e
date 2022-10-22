@@ -91,9 +91,11 @@
             <select name="system.progress.abilities.{{idx}}.category" data-dtype="String" data-index="{{idx}}"
               data-type="abilities" {{@root.system.disabled}} class="progress-category ability-key flex02"
               style="min-width: 135px;">
+              {{log "Categories" @root.config.LOCALIZED_ABILITIESCAT }}
               {{#select ability.category}}
                 {{#each ../system.ownedAbilities as | ab key|   }}
-                  <option value="{{key}}">{{localize (lookup ../../config.ABILITIES_CATEGORIES key)}}</option>
+                  <option value="{{key}}">{{lookup (lookup @root.config.LOCALIZED_ABILITIESCAT key) "label"}}
+                  </option>
                 {{/each}}
               {{/select}}
             </select>

@@ -1050,6 +1050,28 @@ input[type="time"] {
   text-decoration: overline;
 }
 
+.arm5e .ability-category {
+  font-size: 14pt;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
+  margin-left: 10px;
+  border-bottom: 2px solid #4a4a48;
+}
+
+.collapse {
+  max-height: 1180px;
+  transition-property: all;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+.collapse.hide {
+  max-height: 0px;
+  opacity: 0;
+  overflow: hidden;
+}
+
 .arm5e .resource {
   padding: 4px;
 }

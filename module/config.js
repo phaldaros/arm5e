@@ -402,12 +402,12 @@ ARM5E.character.magicAbilities = {
 };
 
 ARM5E.ABILITIES_CATEGORIES = {
-  general: "arm5e.skill.category.general",
-  martial: "arm5e.skill.category.martial",
-  academic: "arm5e.skill.category.academic",
-  arcane: "arm5e.skill.category.arcane",
-  supernaturalCat: "arm5e.skill.category.supernatural",
-  mystery: "arm5e.skill.category.mystery"
+  general: { mnemonic: "arm5e.skill.category.general" },
+  academic: { mnemonic: "arm5e.skill.category.academic" },
+  arcane: { mnemonic: "arm5e.skill.category.arcane" },
+  martial: { mnemonic: "arm5e.skill.category.martial" },
+  mystery: { mnemonic: "arm5e.skill.category.mystery" },
+  supernaturalCat: { mnemonic: "arm5e.skill.category.supernatural" }
 };
 ARM5E.GENERAL_ABILITIES = {
   animalHandling: {
@@ -782,37 +782,37 @@ ARM5E.MYSTERY_ABILITIES = {
 
 ARM5E.ALL_ABILITIES = {
   general: {
-    mnemonic: ARM5E.ABILITIES_CATEGORIES.general,
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.general.mnemonic,
     option: false,
     selection: "disabled"
   },
   ...ARM5E.GENERAL_ABILITIES,
   academic: {
-    mnemonic: ARM5E.ABILITIES_CATEGORIES.academic,
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.academic.mnemonic,
     option: false,
     selection: "disabled"
   },
   ...ARM5E.ACADEMIC_ABILITIES,
   arcane: {
-    mnemonic: ARM5E.ABILITIES_CATEGORIES.arcane,
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.arcane.mnemonic,
     option: false,
     selection: "disabled"
   },
   ...ARM5E.ARCANE_ABILITIES,
   martial: {
-    mnemonic: ARM5E.ABILITIES_CATEGORIES.martial,
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.martial.mnemonic,
     option: false,
     selection: "disabled"
   },
   ...ARM5E.MARTIAL_ABILITIES,
   supernaturalCat: {
-    mnemonic: ARM5E.ABILITIES_CATEGORIES.supernaturalCat,
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.supernaturalCat.mnemonic,
     option: false,
     selection: "disabled"
   },
   ...ARM5E.SUPERNATURAL_ABILITIES,
   mystery: {
-    mnemonic: ARM5E.ABILITIES_CATEGORIES.mystery,
+    mnemonic: ARM5E.ABILITIES_CATEGORIES.mystery.mnemonic,
     option: false,
     selection: "disabled"
   },
@@ -822,43 +822,43 @@ ARM5E.ALL_ABILITIES = {
 export function localizeAbilities() {
   const res = {
     general: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.general),
-      mnemonic: ARM5E.ABILITIES_CATEGORIES.general,
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.general.mnemonic),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.general.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.GENERAL_ABILITIES),
     academic: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.academic),
-      mnemonic: ARM5E.ABILITIES_CATEGORIES.academic,
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.academic.mnemonic),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.academic.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.ACADEMIC_ABILITIES),
     arcane: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.arcane),
-      mnemonic: ARM5E.ABILITIES_CATEGORIES.arcane,
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.arcane.mnemonic),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.arcane.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.ARCANE_ABILITIES),
     martial: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.martial),
-      mnemonic: ARM5E.ABILITIES_CATEGORIES.martial,
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.martial.mnemonic),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.martial.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.MARTIAL_ABILITIES),
     supernaturalCat: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.supernaturalCat),
-      mnemonic: ARM5E.ABILITIES_CATEGORIES.supernaturalCat,
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.supernaturalCat.mnemonic),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.supernaturalCat.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.SUPERNATURAL_ABILITIES),
     mystery: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.mystery),
-      mnemonic: ARM5E.ABILITIES_CATEGORIES.mystery,
+      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.mystery.mnemonic),
+      mnemonic: ARM5E.ABILITIES_CATEGORIES.mystery.mnemonic,
       option: false,
       selection: "disabled"
     },
@@ -893,7 +893,13 @@ function translateAndSort(abilityList) {
   // let tmp2 = Object.values(tmp);
   // return tmp2.sort((a, b) => a.name.localeCompare(b.name));
 }
-
+export function localizeCategories() {
+  let result = {};
+  for (let [key, value] of Object.entries(ARM5E.ABILITIES_CATEGORIES)) {
+    result[key] = { mnemonic: value.mnemonic, label: game.i18n.localize(value.mnemonic) };
+  }
+  return result;
+}
 ARM5E.character.combat = {};
 
 ARM5E.npc = {};

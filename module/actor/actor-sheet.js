@@ -445,12 +445,16 @@ export class ArM5eActorSheet extends ActorSheet {
           }
         }
       }
-      // context.sortedAbilities =  CONFIG.ARM5E.LOCALIZED_ABILITIES;
-      for (let [key, ab] of Object.entries(context.system.abilities)) {
-        // if (!sortedAbilities[ab.system.key])
+      context.sortedAbilities = foundry.utils.deepClone(CONFIG.ARM5E.LOCALIZED_ABILITIESCAT);
 
-        // ui related stuff
+      for (let [key, ab] of Object.entries(context.system.abilities)) {
+        if (!context.sortedAbilities[ab.system.category].abilities) {
+          context.sortedAbilities[ab.system.category].abilities = [];
+        }
+        context.sortedAbilities[ab.system.category].abilities.push(ab);
+
         if (ab.system.derivedScore == ab.system.finalScore && ab.system.xpCoeff == 1.0) {
+          // ui related stuff
           ab.ui = { style: "" };
         } else if (ab.system.derivedScore == ab.system.finalScore && ab.system.xpCoeff != 1.0) {
           ab.ui = { style: 'style="box-shadow: 0 0 10px maroon"', title: "Affinity, " };
@@ -460,6 +464,12 @@ export class ArM5eActorSheet extends ActorSheet {
           ab.ui = { style: 'style="box-shadow: 0 0 10px purple"', title: "Affinity, " };
         }
       }
+      // let flag = this.actor.getFlag("arm5e", "sorting", "abilities");
+      // if (flag && flag["abilities"] == true) {
+      //   context.sortedAbilities = Object.entries(context.sortedAbilities).sort((a, b) => {
+      //     return a[1].label.localeCompare(b[1].label);
+      //   });
+      // }
 
       for (let [key, entry] of Object.entries(context.system.diaryEntries)) {
         if (entry.system.applied || entry.system.activity == "none") {
@@ -539,6 +549,12 @@ export class ArM5eActorSheet extends ActorSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+
+    html.find(".ability-category").click(async ev => {
+      const category = $(ev.currentTarget).data("category");
+      document.getElementById(category).classList.toggle("hide");
+      // let tmp2 = tmp.toggle("hide");
+    });
 
     // filters
     html.find(".toggleHidden").click(async ev => {
