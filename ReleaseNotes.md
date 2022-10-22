@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.3.6
+## 2.0.3.7
 
 ### Features & changes
 
@@ -18,6 +18,7 @@
 - The effects tab is now available to the player in read only mode.
 - General spells can now have their final level adjusted.
 - "Special" value added to all spell attributes.
+- Categorized and foldable abilities in character sheets
 
 ### Bug fixes
 
@@ -31,8 +32,9 @@
 - Added a few mnemonics for translation
 - Roll results are now rounded to the closest integer.
 - Fixed stress dice to roll only the proper amount of times.
-- Minimum xp spent in early childhood activity has been lowered to 50 in order to take affinity into account.
+- Minimum xp spent in early childhood activity for main language has been lowered to 50 in order to take affinity into account.
 - Fixed mnemonics in scriptorium and diary sheet.
+- Rollback of reading activities is working again.
 
 ## 2.0.2.8
 

@@ -388,14 +388,9 @@ export class ArM5ePCActor extends Actor {
     }
 
     if (system.abilities) {
-      let flag = this.getFlag("arm5e", "sorting", "abilities");
-      if (flag && flag["abilities"] == true) {
-        system.abilities = abilities.sort(function(e1, e2) {
-          return e1.name.localeCompare(e2.name);
-        });
-      } else {
-        system.abilities = abilities;
-      }
+      system.abilities = abilities.sort(function(e1, e2) {
+        return e1.name.localeCompare(e2.name);
+      });
     }
 
     if (this._isMagus()) {
