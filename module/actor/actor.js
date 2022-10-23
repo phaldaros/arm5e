@@ -273,6 +273,23 @@ export class ArM5ePCActor extends Actor {
       system.fatigueMaxLevel = lvl;
     }
 
+    // Resources
+    system.resource = {};
+    // Fatigue as resource (test)
+
+    system.resource.fatigue = {
+      value: system.fatigueMaxLevel - system.fatigueCurrent,
+      max: system.fatigueMaxLevel
+    };
+
+    // Might as ressource
+    if (this._hasMight()) {
+      system.resource.might = {
+        value: system.might.value - system.might.points,
+        max: system.might.value
+      };
+    }
+
     if (system.wounds) {
       system.woundsTotal = 0;
       for (let [key, item] of Object.entries(system.wounds)) {
