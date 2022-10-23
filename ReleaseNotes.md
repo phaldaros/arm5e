@@ -19,6 +19,7 @@
 - General spells can now have their final level adjusted.
 - "Special" value added to all spell attributes.
 - Categorized and foldable abilities in character sheets
+- Resources for fatigue and might points
 
 ### Bug fixes
 
@@ -35,6 +36,7 @@
 - Minimum xp spent in early childhood activity for main language has been lowered to 50 in order to take affinity into account.
 - Fixed mnemonics in scriptorium and diary sheet.
 - Rollback of reading activities is working again.
+- Fixed a remaining V10 warning for players loading chat.
 
 ## 2.0.2.8
 

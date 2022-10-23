@@ -1127,6 +1127,7 @@ export async function setWounds(selector, actor) {
     });
     return false;
   }
+  // here toggle dead status if applicabel
 
   const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.soak") + "</h2>";
   const messageDamage = `${game.i18n.localize("arm5e.sheet.damage")} (${damage})`;
