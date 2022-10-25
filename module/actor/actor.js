@@ -285,7 +285,7 @@ export class ArM5ePCActor extends Actor {
     // Might as ressource
     if (this._hasMight()) {
       system.resource.might = {
-        value: system.might.value - system.might.points,
+        value: system.might.points,
         max: system.might.value
       };
     }
