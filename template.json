@@ -6,7 +6,8 @@
         "version": "2.0.2",
         "virtues": [],
         "flaws": [],
-        "diaryEntries": []
+        "diaryEntries": [],
+        "resource": { "fatigue": { "value": 0, "max": 5 } }
       },
       "npcbase": {
         "age": {
