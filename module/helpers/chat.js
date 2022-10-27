@@ -1,4 +1,4 @@
-import { log, putInFoldableLink } from "../tools.js";
+import { log, putInFoldableLink, putInFoldableLinkWithAnimation } from "../tools.js";
 
 export function addChatListeners(message, html, data) {
   let actor = game.actors.get(data.message.speaker.actor);
@@ -40,7 +40,9 @@ export function addChatListeners(message, html, data) {
 
   if (originatorOrGM) {
     html.find(".clickable").click(ev => {
-      html.find(`.details`).toggle();
+      $(ev.currentTarget)
+        .next()
+        .toggleClass("hide");
     });
   } else {
     html.find(".clickable").remove();
@@ -330,7 +332,7 @@ async function chatContestOfPower({
   const content = `<h4 class="dice-total">${flavorForPlayersResult}</h4>`;
   ChatMessage.create({
     content,
-    flavor: title + putInFoldableLink("arm5e.sheet.label.details", flavorForPlayers),
+    flavor: title + putInFoldableLinkWithAnimation("arm5e.sheet.label.details", flavorForPlayers),
     speaker: ChatMessage.getSpeaker({
       actorCaster
     })
@@ -449,7 +451,7 @@ async function chatContestOfMagic({
   const content = `<h4 class="dice-total">${flavorForPlayersResult}</h4>`;
   ChatMessage.create({
     content,
-    flavor: title + putInFoldableLink("arm5e.sheet.label.details", flavorForPlayers),
+    flavor: title + putInFoldableLinkWithAnimation("arm5e.sheet.label.details", flavorForPlayers),
     speaker: ChatMessage.getSpeaker({
       actorCaster
     })
@@ -465,7 +467,7 @@ async function privateMessage(content, actor, title, flavor) {
 
   let messageData = {
     content: content,
-    flavor: title + putInFoldableLink("arm5e.sheet.label.details", flavor),
+    flavor: title + putInFoldableLinkWithAnimation("arm5e.sheet.label.details", flavor),
     speaker: ChatMessage.getSpeaker({
       actor
     }),

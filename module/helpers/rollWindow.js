@@ -284,6 +284,10 @@ async function usePower(dataset, actor) {
   dialog.render(true);
 }
 function addListenersDialog(html) {
+  // html.find(".clickable").click(ev => {
+  //   let tmp = html.next(".penetration");
+  //   tmp.toggleClass("hide");
+  // });
   html.find(".toggleHidden").click(event => {
     log(false, "toggle Hidden");
     const hidden = $(event.target).data("hidden");

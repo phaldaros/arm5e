@@ -509,3 +509,13 @@ export function putInFoldableLink(label, content, startHidden = true) {
     label
   )}</p></div><div class="${hidden} details">${content}</div>`;
 }
+
+export function putInFoldableLinkWithAnimation(label, content, startHidden = true) {
+  let hidden = "";
+  if (startHidden) {
+    hidden = "hide";
+  }
+  return `<div class="arm5e clickable toggleCollapse"><p style="text-align:center">${game.i18n.localize(
+    label
+  )}</p></div><div class="${hidden} details">${content}</div>`;
+}

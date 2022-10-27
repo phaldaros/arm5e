@@ -248,6 +248,15 @@ export class ArM5ePCActor extends Actor {
       ability: 0
     };
 
+    system.characTotal = 0;
+    for (let c of Object.values(system.characteristics)) {
+      if (c.value > 0) {
+        system.characTotal += (c.value * (c.value + 1)) / 2;
+      } else {
+        system.characTotal -= (Math.abs(c.value) * (Math.abs(c.value) + 1)) / 2;
+      }
+    }
+
     // fatigue management
     if (system.fatigue) {
       system.fatigueTotal = 0;

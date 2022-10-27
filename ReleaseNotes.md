@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.3.7
+## 2.0.3.8
 
 ### Features & changes
 
@@ -9,7 +9,7 @@
 - New sourcebooks filtering setting
 - New filtering of spell attributes based on sourcebooks setting.
 - New look for the journal entries
-- Added skeleton of the user guide
+- The user guide, a perpetual draft
 - The Astrolab has been renamed Astrolabium (latin) to avoid a translation
 - Support for boolean Active effects (ie: no value, it is there or not)
 - Updated French and Spanish versions (respecively Orneen and Teotimus)
@@ -20,6 +20,7 @@
 - "Special" value added to all spell attributes.
 - Categorized and foldable abilities in character sheets
 - Resources for fatigue and might points
+- Characteristics "xps" counter
 
 ### Bug fixes
 
@@ -37,6 +38,7 @@
 - Fixed mnemonics in scriptorium and diary sheet.
 - Rollback of reading activities is working again.
 - Fixed a remaining V10 warning for players loading chat.
+- Improved Codex readability.
 
 ## 2.0.2.8
 

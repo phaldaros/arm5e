@@ -1,6 +1,6 @@
 import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
 import { checkTargetAndCalculateResistance } from "./helpers/magic.js";
-import { log, putInFoldableLink, sleep } from "./tools.js";
+import { log, putInFoldableLink, putInFoldableLinkWithAnimation, sleep } from "./tools.js";
 import { ARM5E } from "./config.js";
 let mult = 1;
 
@@ -13,7 +13,10 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
   //console.log('simple die');
   //console.log(actorData);
   let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.simpledie")}:</p>`;
-  let details = putInFoldableLink("arm5e.sheet.label.details", flavorTxt + rollData.details);
+  let details = putInFoldableLinkWithAnimation(
+    "arm5e.sheet.label.details",
+    flavorTxt + rollData.details
+  );
   let conf = actor.system.con.score;
 
   if ((getRollTypeProperties(type).MODE & ROLL_MODES.NO_CONF) != 0) {
@@ -74,7 +77,10 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   const rollData = actor.rollData;
   let formula = rollData.formula;
   let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.stressdie")}:</p>`;
-  let details = putInFoldableLink("arm5e.sheet.label.details", flavorTxt + rollData.details);
+  let details = putInFoldableLinkWithAnimation(
+    "arm5e.sheet.label.details",
+    flavorTxt + rollData.details
+  );
   let chatTitle = `<h2 class="ars-chat-title">${rollData.label} </h2>`;
   let dieRoll = await explodingRoll(actor, modes);
 
@@ -671,7 +677,7 @@ async function noRoll(html, actor, callBack) {
   const rollData = actor.rollData;
   //console.log('simple die');
   //console.log(actorData);
-  let details = putInFoldableLink("arm5e.sheet.label.details", rollData.details);
+  let details = putInFoldableLinkWithAnimation("arm5e.sheet.label.details", rollData.details);
 
   let chatTitle = '<h2 class="ars-chat-title">' + rollData.label + "</h2>";
 
