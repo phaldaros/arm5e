@@ -9,7 +9,7 @@ const TYPE_OF_ROLL = {
 
 //TODO
 function getDatasetForAbility(item) {
-  if (item?.data?.type !== TYPE_OF_ROLL.ABILITY) return {};
+  if (item?.system?.type !== TYPE_OF_ROLL.ABILITY) return {};
 
   return {
     roll: TYPE_OF_ROLL.ABILITY,
@@ -21,7 +21,7 @@ function getDatasetForAbility(item) {
 
 //TODO
 function getDatasetForWeapon(item) {
-  if (item?.data?.type !== TYPE_OF_ROLL.WEAPON) return {};
+  if (item?.system?.type !== TYPE_OF_ROLL.WEAPON) return {};
   if (!item.system.equiped) {
     ui.notifications.info(game.i18n.localize("arm5e.sheet.notEquipedWeapon"));
     return {};
@@ -40,7 +40,7 @@ function getDatasetForWeapon(item) {
 
 //TODO
 function getDatasetForSpell(item, noCheck) {
-  if (!noCheck && item?.data?.type !== TYPE_OF_ROLL.SPELL) return {};
+  if (!noCheck && item?.system?.type !== TYPE_OF_ROLL.SPELL) return {};
 
   return {
     roll: TYPE_OF_ROLL.SPELL,
@@ -56,7 +56,7 @@ function getDatasetForSpell(item, noCheck) {
 }
 
 function getDatasetForMagic(item) {
-  if (item?.data?.type !== "magicalEffect") return {};
+  if (item?.system?.type !== "magicalEffect") return {};
   return {
     roll: TYPE_OF_ROLL.MAGIC,
     id: item._id,
@@ -71,7 +71,7 @@ function getDatasetForMagic(item) {
 }
 
 function getDatasetForPower(item) {
-  if (item?.data?.type !== TYPE_OF_ROLL.POWER) return {};
+  if (item?.system?.type !== TYPE_OF_ROLL.POWER) return {};
   return {
     roll: TYPE_OF_ROLL.POWER,
     id: item._id,

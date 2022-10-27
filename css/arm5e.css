@@ -932,7 +932,7 @@ input[type="time"] {
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  margin-bottom: 10px;
+  /* margin-bottom: 5px; */
 }
 
 /* .arm5e .mainItem .sheet-header {
@@ -1066,6 +1066,22 @@ input[type="time"] {
   transition-timing-function: ease-in-out;
 }
 
+.penetration {
+  max-height: 480px;
+  transition-property: all;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+.details {
+  max-height: 480px;
+  transition-property: all;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+.penetration.hide,
+.details.hide,
 .collapse.hide {
   max-height: 0px;
   opacity: 0;
@@ -1357,6 +1373,14 @@ img.art-icon {
   margin-bottom: 6px;
   font-size: 11pt;
   /*font-weight: bold;*/
+}
+
+.arm5e .codex-name {
+  font-family: "blackmoor";
+  margin-bottom: 6px;
+  padding-top: 5px;
+  font-size: 13pt;
+  text-align: center;
 }
 
 .arm5e .items-list .item {

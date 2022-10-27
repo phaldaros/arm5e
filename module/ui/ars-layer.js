@@ -27,7 +27,7 @@ export class ArsLayer extends InteractionLayer {
         buttons: {
           yes: {
             icon: "<i class='fas fa-check'></i>",
-            label: "arm5e.sheet.action.apply"
+            label: game.i18n.localize("arm5e.sheet.action.apply")
           }
         },
         default: "yes",
