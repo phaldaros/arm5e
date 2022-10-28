@@ -36,13 +36,12 @@
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label clickable toggleHidden"
-        data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
+    <div class="flexrow flex-group-center clickable">
+      <label class="resource-label " data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
         ({{ system.roll.bonuses
         }})</label>
     </div>
-    <div class="hidden activeEffects">
+    <div class="activeEffects hide">
       {{#each system.roll.activeEffects as |item id|}}
         <div class="flexrow flex-group-center">
           <label class="resource-label">+</label>
@@ -73,7 +72,7 @@
       <label class="resource-label"><img src="/systems/arm5e/assets/icons/Icon_Details_option1.png" title="Penetration"
           width="24" height="24" style="border :0px" /></label>
     </div>
-    {{> "systems/arm5e/templates/roll/parts/penetration-options.html" data=data}}
+    {{> "systems/arm5e/templates/roll/parts/penetration-options.html" data=system}}
   </div>
   {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Confirmation"}}
 </form>

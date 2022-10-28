@@ -420,6 +420,8 @@ export class ArM5ePCActor extends Actor {
     }
 
     if (this._isMagus()) {
+      soak += this.system?.familiar?.cordFam?.bronze ?? 0;
+
       /*
             "fastCastingSpeed":{"value": 0, "calc": "Qik + Finesse + stress die" },
             "determiningEffect":{"value": 0, "calc": "Per + Awareness + die VS 15-magnitude" },

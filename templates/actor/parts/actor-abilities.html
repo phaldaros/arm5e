@@ -15,7 +15,6 @@
     </div>
   </li>
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-  {{log "sorted abilities " sortedAbilities}}
   {{#each sortedAbilities as |abilitySet id|}}
     {{#if abilitySet.abilities}}
       <li class="ability-category item flexrow item-header" data-category="{{id}}">

@@ -1152,7 +1152,7 @@ export async function setWounds(selector, actor) {
   const details = ` ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageBonus}${messageModifier}<b>${messageTotal}</b>`;
   ChatMessage.create({
     content: `<h4 class="dice-total">${messageWound}</h4>`,
-    flavor: title + putInFoldableLink("arm5e.sheet.label.details", details),
+    flavor: title + putInFoldableLinkWithAnimation("arm5e.sheet.label.details", details),
     speaker: ChatMessage.getSpeaker({
       actor
     })
@@ -1191,7 +1191,7 @@ export async function calculateDamage(selector, actor) {
   const messageDamage = `<h4 class="dice-total">${damage}</h4>`;
   ChatMessage.create({
     content: messageDamage,
-    flavor: title + putInFoldableLink("arm5e.sheet.label.details", details),
+    flavor: title + putInFoldableLinkWithAnimation("arm5e.sheet.label.details", details),
     speaker: ChatMessage.getSpeaker({
       actor
     })
