@@ -126,7 +126,12 @@ Hooks.once("ready", async function() {
   CONFIG.ARM5E.LOCALIZED_ABILITIES = localizeAbilities();
   CONFIG.ARM5E.LOCALIZED_ABILITIESCAT = localizeCategories();
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
-  Hooks.on("hotbarDrop", (bar, data, slot) => createArM5eMacro(data, slot));
+  Hooks.on("hotbarDrop", (bar, data, slot) => {
+    if (data.type === "Item") {
+      createArM5eMacro(data, slot);
+      return false;
+    }
+  });
 
   Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
   Hooks.on("dropCanvasData", (canvas, data) => onDropOnCanvas(canvas, data));
@@ -222,10 +227,11 @@ Hooks.on("quenchReady", quench => {
  * @returns {Promise}
  */
 async function createArM5eMacro(data, slot) {
-  if (data.type !== "Item") return;
   const item = await fromUuid(data.uuid);
-  if (!item.isOwned)
-    return ui.notifications.warn("You can only create macro buttons for owned Items");
+  if (!item.isOwned) {
+    ui.notifications.warn("You can only create macro buttons for owned Items");
+    return true;
+  }
 
   // Create the macro command
   const command = `game.arm5e.rollItemMacro('${item._id}', '${item.actor._id}');`;
@@ -241,7 +247,7 @@ async function createArM5eMacro(data, slot) {
       }
     });
   }
-  game.user.assignHotbarMacro(macro, slot);
+  await game.user.assignHotbarMacro(macro, slot);
   return false;
 }
 

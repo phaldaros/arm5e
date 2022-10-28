@@ -50,13 +50,12 @@
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
-    <div class="flexrow flex-group-center">
-      <label class="resource-label clickable toggleHidden"
-        data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
+    <div class="flexrow flex-group-center clickable">
+      <label class="resource-label" data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
         ({{ system.roll.bonuses
         }})</label>
     </div>
-    <div class="hidden activeEffects">
+    <div class="activeEffects hide">
       {{#unless (eq system.roll.magic.bonus 0) }}
         <div class="flexrow flex-group-center">
           <label class="resource-label">+</label>

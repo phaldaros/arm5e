@@ -1066,6 +1066,13 @@ input[type="time"] {
   transition-timing-function: ease-in-out;
 }
 
+.activeEffects {
+  max-height: 480px;
+  transition-property: all;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
 .penetration {
   max-height: 480px;
   transition-property: all;
@@ -1079,7 +1086,7 @@ input[type="time"] {
   transition-duration: 0.6s;
   transition-timing-function: ease-in-out;
 }
-
+.activeEffects.hide,
 .penetration.hide,
 .details.hide,
 .collapse.hide {

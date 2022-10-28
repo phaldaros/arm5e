@@ -21,6 +21,7 @@
 - Categorized and foldable abilities in character sheets
 - Resources for fatigue and might points
 - Characteristics "xps" counter
+- Familiar bronze cord is added to soak.
 
 ### Bug fixes
 
