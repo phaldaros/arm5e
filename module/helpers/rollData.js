@@ -27,6 +27,7 @@ export class ArM5eRollData {
     switch (this.type) {
       case "combat":
         this.img = actorSystemData.combat.img;
+        this.itemId = actorSystemData.combat.itemId;
         this.name = actorSystemData.combat.name;
         break;
       case "char":
@@ -39,6 +40,7 @@ export class ArM5eRollData {
 
         const ab = actor.items.get(dataset.ability);
         this.img = ab.img;
+        this.itemId = ab.id;
         this.name = ab.name;
         this.label = this.name;
         this.ability.id = dataset.ability;
@@ -50,11 +52,15 @@ export class ArM5eRollData {
         break;
 
       case "power":
-        this.label += ` (${ARM5E.magic.arts[dataset.form].short})`;
-        this.img = dataset.img;
-        this.power.cost = Number(dataset.cost);
-        this.power.penetrationPenalty = this.power.cost * 5;
-        this.power.form = dataset.form;
+        if (dataset.id) {
+          let power = actor.items.get(dataset.id);
+          this.label += ` (${ARM5E.magic.arts[power.system.form].short})`;
+          this.img = power.img;
+          this.itemId = power.id;
+          this.power.cost = Number(power.system.cost);
+          this.power.penetrationPenalty = this.power.cost * 5;
+          this.power.form = power.system.form;
+        }
         this.initPenetrationVariables(actor);
         break;
 
@@ -67,6 +73,7 @@ export class ArM5eRollData {
           let spell = actor.items.get(dataset.id);
           this.label += " (" + spell.system.level + ")";
           this.img = spell.img;
+          this.itemId = spell.id;
           let techData = spell._getTechniqueData(actor.system);
           this.magic.technique = dataset.technique;
           this.magic.techniqueLabel = techData[0];
@@ -302,6 +309,7 @@ export class ArM5eRollData {
     this.formula = "";
     // added to chat message as an icon for the roll
     this.img = "";
+    this.itemId = "";
     // roll window title
     this.name = "";
     // arbitrary bonus

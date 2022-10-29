@@ -1,7 +1,6 @@
 <form class="{{cssClass}} arm5ActiveEffect" autocomplete="off">
   {{> "systems/arm5e/templates/generic/largeDialog-header.html" header="Inputs" }}
   <!-- Effect Header -->
-  {{log "data " data}}
   <header class="sheet-header effect-options">
     <img class="effect-icon" src="{{ data.icon }}" data-edit="icon" />
     <h1 class="effect-title">{{ data.label }}</h1>
@@ -82,7 +81,6 @@
       </header>
       <ol class="changes-list" style="min-height: 48px;">
         {{#each data.changes as |change i|}}
-          {{log "change: " change}}
           <li class="effect-change">
             <div class="flexrow">
               <div class="type">
@@ -132,7 +130,6 @@
               </div>
             </div>
             <div style="position: absolute; right: -2300px">
-              {{log "change mode: " change.mode}}
               <input type="hidden" name="changes.{{i}}.mode" value="{{change.mode}}" data-dtype="Number" />
 
             </div>

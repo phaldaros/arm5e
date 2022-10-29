@@ -29,13 +29,20 @@ export function addChatListeners(message, html, data) {
   text = text.replace("Gamemaster", tokenName);
   msgTitle.text(text);
   const actorFace = $(
-    `<div class="item-image flex01"><img src="${actorImg}" title="${tokenName}" width="30" height="30">`
+    `<div class="moreInfo item-image flex01"><img src="${actorImg}" title="${tokenName}" data-id="${actor.id}" width="30" height="30">`
   );
+  actorFace.on("click", ev => {
+    const img = $(ev.currentTarget.children[0]);
+    const actorId = img.data("id");
+
+    game.actors.get(actorId).sheet.render(true);
+  });
 
   msgTitle.prepend(actorFace);
-  let actorId = data.message.speaker.actor;
-  const originatorOrGM =
-    game.users.get(game.userId).isGM || game.users.get(game.userId).character.id == actorId;
+
+  let tmp1 = game.users.get(game.userId).character.id;
+
+  const originatorOrGM = game.users.get(game.userId).isGM || tmp1 == actor.id || actor.isOwner;
   // Hide the details if you are not the GM
 
   if (originatorOrGM) {
@@ -61,7 +68,19 @@ export function addChatListeners(message, html, data) {
   let img = data.message.flags.arm5e?.roll?.img;
   if (img) {
     const chatTitle = html.find(".ars-chat-title");
-    const newTitle = $(`<div class="item-image"><img src="${img}" width="30" height="30"></div>`);
+    const newTitle = $(
+      `<div class="moreInfo item-image"><img src="${img}" data-id="${data.message.flags.arm5e?.roll?.id}"width="30" height="30"></div>`
+    );
+    if (originatorOrGM) {
+      newTitle.on("click", ev => {
+        const img = $(ev.currentTarget.children[0]);
+        const itemId = img.data("id");
+        if (itemId) {
+          actor.items.get(itemId).sheet.render(true);
+        }
+      });
+    }
+
     chatTitle.append(newTitle);
   }
 
@@ -75,7 +94,9 @@ export function addChatListeners(message, html, data) {
       data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total)
     );
     rollResult.text(
-      Math.round(Number(rollResult.text())) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
+      isNaN(rollResult.text())
+        ? rollResult.text()
+        : Math.round(Number(rollResult.text())) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
     );
   }
 
@@ -96,7 +117,7 @@ export function addChatListeners(message, html, data) {
   let title = game.i18n.localize("arm5e.messages.useConf");
   let divide = data.message.flags.arm5e.divide;
   const useConfButton = $(
-    `<button class="dice-confidence chat-button" data-divide="${divide}" data-msg-id="${data.message._id}" data-actor-id="${actorId}"><i class="fas fa-user-plus" title="${title}" ></i></button>`
+    `<button class="dice-confidence chat-button" data-divide="${divide}" data-msg-id="${data.message._id}" data-actor-id="${actor.id}"><i class="fas fa-user-plus" title="${title}" ></i></button>`
   );
 
   const btnContainer = $(
@@ -108,7 +129,7 @@ export function addChatListeners(message, html, data) {
   rollResult.append(btnContainer);
 
   // Handle button clicks
-  useConfButton.click(ev => useConfidence(ev));
+  useConfButton.on("click", ev => useConfidence(ev));
 }
 
 async function useConfidence(ev) {
