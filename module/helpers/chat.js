@@ -40,9 +40,7 @@ export function addChatListeners(message, html, data) {
 
   msgTitle.prepend(actorFace);
 
-  let tmp1 = game.users.get(game.userId).character.id;
-
-  const originatorOrGM = game.users.get(game.userId).isGM || tmp1 == actor.id || actor.isOwner;
+  const originatorOrGM = game.users.get(game.userId).isGM || actor.isOwner;
   // Hide the details if you are not the GM
 
   if (originatorOrGM) {
