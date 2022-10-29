@@ -72,7 +72,6 @@
   "arm5e.sheet.notes": "Notas",
   "arm5e.sheet.speciality": "Especialización",
   "arm5e.sheet.defaultCharacteristicForAbility": "Característica por defecto",
-  "arm5.sheet.bonus.activeEffects": "Bonos por efectos activos",
   "arm5e.sheet.date": "Fecha",
   "arm5e.sheet.equiped": "Equipado",
   "arm5e.sheet.weaponExpert": "Experto con el Arma",
@@ -906,9 +905,8 @@
   "arm5e.generic.none": "Ninguno",
   "arm5e.generic.default": "Por defecto",
   "arm5e.generic.summary": "Resumen",
-  "arm5e.sheet.label.details": "Detalles",
+  "arm5e.generic.details": "Detalles",
   "arm5e.generic.base": "Base",
-  "arm5e.generic.none": "Ninguno",
   "arm5e.generic.multipliers": "Multiplicadores",
   "arm5e.generic.other": "Otro",
   "arm5e.generic.unknown": "Desconocido"

@@ -564,6 +564,7 @@ export class ArM5ePCActor extends Actor {
           combat.dam = parseInt(combat.dam) + parseInt(item.system.dam);
           combat.img = item.img;
           combat.name = item.name;
+          combat.itemId = item.id;
 
           if (item.system.ability == "") {
             if (item.system.weaponExpert) {

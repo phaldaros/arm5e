@@ -1,5 +1,19 @@
 # Release Notes
 
+## 2.0.3.9
+
+### Features & changes
+
+- If you are GM or owner you can click on the chat icons to get a description of the character or item
+- If you have limited permissions, you can open the limited sheet by clicking the chat icon.
+
+### Bug fixes
+
+- Fixed duplicate keys in the spanish translation
+- Fixed ownership problem of character tokens rolls (roll details were not visible if rolled from the token)
+- Fixed display bug for private rolls
+- Removed some handlebars debug logs
+
 ## 2.0.3.8
 
 ### Features & changes

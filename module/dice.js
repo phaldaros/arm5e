@@ -39,7 +39,7 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
   }
   const flags = {
     arm5e: {
-      roll: { type: type, img: rollData.img, name: rollData.name },
+      roll: { type: type, img: rollData.img, name: rollData.name, id: rollData.itemId },
       type: "confidence",
       confScore: conf,
       secondaryScore: rollData.secondaryScore
@@ -126,7 +126,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
       whisper: ChatMessage.getWhisperRecipients("gm"),
       flags: {
         arm5e: {
-          roll: { type: type, img: rollData.img, name: rollData.name },
+          roll: { type: type, img: rollData.img, name: rollData.name, id: rollData.itemId },
           type: "confidence",
           divide: rollData.magic.divide,
           confScore: confAllowed,
@@ -683,7 +683,7 @@ async function noRoll(html, actor, callBack) {
 
   const flags = {
     arm5e: {
-      roll: { type: "power", img: rollData.img, name: rollData.name },
+      roll: { type: "power", img: rollData.img, name: rollData.name, id: rollData.itemId },
       secondaryScore: rollData.secondaryScore
     }
   };
