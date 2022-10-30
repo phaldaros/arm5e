@@ -1,11 +1,14 @@
 # Release Notes
 
-## 2.0.3.9
+## 2.0.3.9, Jerbiton the apprentice
 
 ### Features & changes
 
 - If you are GM or owner you can click on the chat icons to get a description of the character or item
 - If you have limited permissions, you can open the limited sheet by clicking the chat icon.
+- Added mnemonics for Actor and Item types
+- Changed the icon for Items in the sidebar from a suitcase to a bag.
+- Updated user guide.
 
 ### Bug fixes
 
@@ -13,8 +16,11 @@
 - Fixed ownership problem of character tokens rolls (roll details were not visible if rolled from the token)
 - Fixed display bug for private rolls
 - Removed some handlebars debug logs
+- Active effect from aura indicate its source with the name of the scene.
+- It is again possible to suspend active effects
+- Small improvements and fixes for Item sheets for better resizing
 
-## 2.0.3.8
+## 2.0.3.8, Jerbiton's youth
 
 ### Features & changes
 

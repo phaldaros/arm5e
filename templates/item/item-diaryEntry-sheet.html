@@ -1,4 +1,4 @@
-<form class="{{cssClass}} mainItem" autocomplete="off"
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
   style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
   {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
   <header class="sheet-header">
@@ -55,7 +55,9 @@
   <section class="sheet-body">
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+      <div style="height: 255px">
+        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+      </div>
     </div>
     {{!-- Advanced Tab --}}
     <div class="tab" data-group="primary" data-tab="advanced">
@@ -64,7 +66,5 @@
       {{/if}}
     </div>
   </section>
-  <div style=" margin-top: 25px;">
-    {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
-  </div>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

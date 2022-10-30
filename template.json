@@ -1344,7 +1344,7 @@
       "size": ""
     },
     "magicItem": {
-      "templates": ["base"],
+      "templates": ["base", "magicalEffectAttributes"],
       "effect": "",
       "uses": 0
     },

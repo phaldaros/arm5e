@@ -295,7 +295,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       // TODO: fill other fields?
       const itemData = [
         {
-          name: actor.data.name,
+          name: actor.name,
           type: "habitantCompanion",
           system: {
             job: actor.system.description.title.value,
