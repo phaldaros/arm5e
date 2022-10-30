@@ -56,7 +56,8 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
   if (!scene.active) {
     return;
   }
-  const activeEffectData = getAuraActiveEffect(value);
+  let activeEffectData = getAuraActiveEffect(value);
+  activeEffectData.origin = scene.uuid;
 
   const tokens = scene.tokens.filter(token => token.actor);
   for (const token of tokens) {
@@ -82,7 +83,7 @@ async function addActiveEffectAuraToActor(actor, value, type) {
   const modifier = computeAuraModifier(actor.system.realmAlignment, Number(value), type);
   // patch the active effect data
   auraEffect.changes[0].value = modifier;
-  addEffect(actor, auraEffect);
+  await addEffect(actor, auraEffect);
 }
 
 async function clearAuraFromActor(actor) {

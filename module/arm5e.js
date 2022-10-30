@@ -74,6 +74,7 @@ Hooks.once("init", async function() {
   };
 
   CONFIG.ui.actors = ArM5eActorsDirectory;
+  CONFIG.Item.sidebarIcon = "fas fa-sack-xmark";
 
   // For later
   // CONFIG.Dice.types.push(StressDie);
