@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.3.9, Jerbiton the apprentice
+## 2.0.3.10, Jerbiton the apprentice
 
 ### Features & changes
 
@@ -16,7 +16,7 @@
 - Fixed ownership problem of character tokens rolls (roll details were not visible if rolled from the token)
 - Fixed display bug for private rolls
 - Removed some handlebars debug logs
-- Active effect from aura indicate its source with the name of the scene.
+- Active effect from aura indicates its source with the name of the scene.
 - It is again possible to suspend active effects
 - Small improvements and fixes for Item sheets for better resizing
 

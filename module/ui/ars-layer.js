@@ -144,3 +144,21 @@ export function addArsButtons(buttons) {
     activeTool: "aura"
   });
 }
+
+export function onDropOnCanvas(canvas, data) {
+  if (!canvas.scene.active) {
+    return;
+  }
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
+  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
+  const actor = game.actors.get(data.id);
+  if (actor) {
+    if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
+      addActiveEffectAuraToActor(actor, Number(aura), Number(type));
+    } else {
+      // no aura
+      // => reset aura for actor, if it was in another scene.
+      clearAuraFromActor(actor);
+    }
+  }
+}
