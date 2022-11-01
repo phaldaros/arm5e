@@ -1,5 +1,5 @@
 import { log } from "../tools.js";
-import { clearAuraFromActor } from "../helpers/aura.js";
+import { setAuraValueForAllTokensInScene, clearAuraFromActor } from "../helpers/aura.js";
 import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
 import { Scriptorium } from "../tools/scriptorium.js";
@@ -37,7 +37,7 @@ export class ArsLayer extends InteractionLayer {
           if (val.val() !== "") {
             const aura = val.val();
             const type = html.find(".aura-type")[0].value;
-            await game.arm5e.setAuraValueForAllTokensInScene(aura, type);
+            await setAuraValueForAllTokensInScene(aura, type);
           }
         }
       },

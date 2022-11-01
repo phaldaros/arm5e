@@ -42,7 +42,7 @@ async function addEffect(actor, activeEffectData) {
       false,
       `AURA_MANAGEMENT Change aura for ${actor.name}, Aura impact: ${activeEffectData.changes[0].value}`
     );
-    activeEffectData._id = ae.data._id;
+    activeEffectData._id = ae._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }
   log(
