@@ -21,14 +21,10 @@ import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./helpers/chat.js";
 
-import {
-  addActiveEffectAuraToActor,
-  clearAuraFromActor,
-  modifyAuraActiveEffectForAllTokensInScene
-} from "./helpers/aura.js";
+import { clearAuraFromActor } from "./helpers/aura.js";
 
 // experiment
-import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
+import { ArsLayer, addArsButtons, onDropOnCanvas } from "./ui/ars-layer.js";
 
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
@@ -42,10 +38,7 @@ Hooks.once("init", async function() {
   game.arm5e = {
     ArM5ePCActor,
     ArM5eItem,
-    rollItemMacro,
-    setAuraValueForAllTokensInScene,
-    setAuraValueForToken,
-    resetTokenAuraToSceneAura
+    rollItemMacro
   };
 
   // Add system metadata
@@ -297,43 +290,6 @@ function rollItemMacro(itemId, actorId) {
     actor.sheet._onUsePower(dataset);
   } else {
     actor.sheet._onRoll(dataset);
-  }
-}
-
-async function setAuraValueForAllTokensInScene(value, type) {
-  // Store a flag with the current aura
-  game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
-  game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
-  modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
-}
-
-function setAuraValueForToken(value, type) {
-  addActiveEffectAuraToActor(this, Number(value), Number(type));
-}
-
-async function resetTokenAuraToSceneAura() {
-  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
-  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
-  if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
-    addActiveEffectAuraToActor(this, Number(aura), Number(type));
-  }
-}
-
-function onDropOnCanvas(canvas, data) {
-  if (!canvas.scene.active) {
-    return;
-  }
-  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
-  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
-  const actor = game.actors.get(data.id);
-  if (actor) {
-    if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
-      addActiveEffectAuraToActor(actor, Number(aura), Number(type));
-    } else {
-      // no aura
-      // => reset aura for actor, if it was in another scene.
-      clearAuraFromActor(actor);
-    }
   }
 }
 

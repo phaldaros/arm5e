@@ -42,7 +42,7 @@ async function addEffect(actor, activeEffectData) {
       false,
       `AURA_MANAGEMENT Change aura for ${actor.name}, Aura impact: ${activeEffectData.changes[0].value}`
     );
-    activeEffectData._id = ae.data._id;
+    activeEffectData._id = ae._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }
   log(
@@ -112,9 +112,31 @@ function computeAuraModifier(alignment, auraVal, type) {
   return auraVal * multiplier;
 }
 
+async function setAuraValueForAllTokensInScene(value, type) {
+  // Store a flag with the current aura
+  game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
+  game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
+  modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
+}
+
+function setAuraValueForToken(value, type) {
+  addActiveEffectAuraToActor(this, Number(value), Number(type));
+}
+
+async function resetTokenAuraToSceneAura() {
+  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
+  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
+  if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
+    addActiveEffectAuraToActor(this, Number(aura), Number(type));
+  }
+}
+
 export {
   computeAuraModifier,
   modifyAuraActiveEffectForAllTokensInScene,
   addActiveEffectAuraToActor,
-  clearAuraFromActor
+  clearAuraFromActor,
+  setAuraValueForAllTokensInScene,
+  setAuraValueForToken,
+  resetTokenAuraToSceneAura
 };
