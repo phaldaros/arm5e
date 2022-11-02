@@ -471,7 +471,7 @@ export function generateActiveEffectFromAbilities() {
         };
         break;
       }
-      case "supernatural": {
+      case "supernaturalCat": {
         activeEffects.bonusSupernaturalAbility.subtypes[aKey] = {
           label: ability.mnemonic,
           key: computedKey,

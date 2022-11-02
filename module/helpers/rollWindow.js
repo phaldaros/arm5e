@@ -167,11 +167,11 @@ function getDebugButtonsIfNeeded(actor, callback) {
   return {
     explode: {
       label: "DEV Roll 1",
-      callback: html => stressDie(html, actor, 1, callback, actor.rollData.type)
+      callback: async html => await stressDie(html, actor, 1, callback, actor.rollData.type)
     },
     zero: {
       label: "DEV Roll 0",
-      callback: html => stressDie(html, actor, 2, callback, actor.rollData.type)
+      callback: async html => await stressDie(html, actor, 2, callback, actor.rollData.type)
     }
   };
 }
@@ -188,7 +188,7 @@ function getDialogData(dataset, html, actor) {
     altBtn = {
       icon: "<i class='fas fa-check'></i>",
       label: game.i18n.localize(btnLabel),
-      callback: html => altAction(html, actor, mode, callback, dataset.roll)
+      callback: async html => await altAction(html, actor, mode, callback, dataset.roll)
     };
   }
 
@@ -200,7 +200,7 @@ function getDialogData(dataset, html, actor) {
     btns.yes = {
       icon: "<i class='fas fa-check'></i>",
       label: game.i18n.localize("arm5e.dialog.button.stressdie"),
-      callback: html => stressDie(html, actor, mode, callback, dataset.roll)
+      callback: async html => await stressDie(html, actor, mode, callback, dataset.roll)
     };
     if (altAction) {
       btns.alt = altBtn;

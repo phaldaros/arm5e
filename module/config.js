@@ -742,7 +742,7 @@ ARM5E.SUPERNATURAL_ABILITIES = {
   wildernessSense: {
     mnemonic: "arm5e.skill.supernatural.wildernessSense",
     option: false,
-    category: "supernatural",
+    category: "supernaturalCat",
     selection: ""
   }
 };
