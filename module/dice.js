@@ -601,7 +601,7 @@ async function explodingRoll(actorData, modes = 0) {
       });
     } else {
       if (game.modules.get("dice-so-nice")?.active) {
-        log(false, `Dramatic pause of ${game.settings.get(ARM5E.SYSTEM_ID, "dramaticPause")}`);
+        log(false, `Dramatic pause of ${game.settings.get(ARM5E.SYSTEM_ID, "dramaticPause")} ms`);
         await sleep(game.settings.get(ARM5E.SYSTEM_ID, "dramaticPause"));
       }
       dieRoll = await explodingRoll(actorData);

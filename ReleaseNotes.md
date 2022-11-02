@@ -1,5 +1,15 @@
 # Release Notes
 
+## 2.0.3.11,
+
+### Features & changes
+
+### Bug fixes
+
+- Fixed major bug with ability Wilderness sense preventing the display of the sheet.
+- Added some missing await for asynchronous call to some stress rolls cases
+- Fixed wrong image link in user guide
+
 ## 2.0.3.10, Jerbiton the apprentice
 
 ### Features & changes
