@@ -11,7 +11,7 @@ import {
   calculateWound,
   getDataset,
   hermeticFilter,
-  putInFoldableLink
+  putInFoldableLinkWithAnimation
 } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
@@ -869,7 +869,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
   async _onSoakDamage(html, actor) {
     const lastMessageDamage = getLastMessageByHeader(game, "arm5e.sheet.damage");
-    const damage = parseInt($(lastMessageDamage?.data?.content).text()) || 0;
+    const damage = parseInt($(lastMessageDamage?.content).text()) || 0;
     const extraData = {
       damage,
       modifier: 0
@@ -924,8 +924,8 @@ export class ArM5eActorSheet extends ActorSheet {
   async _onCalculateDamage(html, actor) {
     const lastAttackMessage = getLastMessageByHeader(game, "arm5e.sheet.attack");
     const lastDefenseMessage = getLastMessageByHeader(game, "arm5e.sheet.defense");
-    const attack = parseInt(lastAttackMessage?.data?.content || "0");
-    const defense = parseInt(lastDefenseMessage?.data?.content || "0");
+    const attack = parseInt(lastAttackMessage?.content || "0");
+    const defense = parseInt(lastDefenseMessage?.content || "0");
     const advantage = attack - defense;
 
     const extraData = {
