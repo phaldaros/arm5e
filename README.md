@@ -22,15 +22,17 @@ Thanks to various contributors at https://game-icons.net for some default icons
 
 ![Latest Release Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/latest/arm5e.zip)
 
-![Release 2.0.2.9 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.0.2.9/arm5e.zip)
+[![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2arm5e&colorB=4aa94a)](https://forge-vtt.com/bazaar#package=arm5e)
+
+![Release 2.0.3.11 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.0.3.11/arm5e.zip)
 
 ![Release 2.0.2.6 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.0.2.6/arm5e.zip)
 
 ![Release 1.4.8 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.8/arm5e.zip)
 
-![Release 1.4.7 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.7/arm5e.zip)
+![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/Xzotl42/arm5e/releases/latest/download/system.json)
 
-![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FXzotl42%2Farm5e%2Fmaster%2Fsystem.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-xzotl-00B9FE?logo=kofi)](https://ko-fi.com/xzotl)
 
 ## Versión Española
 
@@ -46,7 +48,7 @@ https://raw.githubusercontent.com/xzotl42/arm5e/master/system.json
 
 IMPORTANT: It is recommended to do a backup of your world before updating.
 
-ALSO IMPORTANT: The dev system and the official releases can not exist in parallel in the same Foundry data folder. To have both versions, you can follow this [tutorial video](https://youtu.be/B74ZAp3xx3o) by Encounter library: a very clear process on how to do it step by step. (Instead of installing the V10 as in the video, install the latest stable V9, then install the dev version as explained below)
+ALSO IMPORTANT: The dev system and the official releases can not exist in parallel in the same Foundry data folder. To have both versions, you can follow this [tutorial video](https://youtu.be/B74ZAp3xx3o) by Encounter library: a very clear process on how to do it step by step.
 
 ## Release Notes
 

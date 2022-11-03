@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.3.11,
+## 2.0.3.11, Jerbiton's Gauntlet
 
 ### Features & changes
 
