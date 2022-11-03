@@ -4,11 +4,15 @@
 
 ### Features & changes
 
+- French version update (by Orneen)
+
 ### Bug fixes
 
 - Fixed major bug with ability Wilderness sense preventing the display of the sheet.
 - Added some missing await for asynchronous call to some stress rolls cases
 - Fixed wrong image link in user guide
+- Fixed Soak and Damage chat messages error
+- Removed a few V10 warnings
 
 ## 2.0.3.10, Jerbiton the apprentice
 
