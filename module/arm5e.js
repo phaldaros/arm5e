@@ -57,21 +57,39 @@ Hooks.once("init", async function() {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: "1d10 + @characteristics.qik.value + @combat.init + @combat.overload",
+    formula: "ds + @characteristics.qik.value + @combat.init + @combat.overload",
     decimals: 2
   };
 
+  // Adding ars layer
   CONFIG.Canvas.layers["arsmagica"] = {
     layerClass: ArsLayer,
     group: "primary"
   };
 
+  // For later
+  CONFIG.Dice.types.push(StressDie);
+  CONFIG.Dice.terms[StressDie.DENOMINATION] = StressDie;
+  // instrumenting roll for testing
+  Roll.prototype.botched = false;
+  Roll.prototype.botchNum = 0;
+  Roll.prototype.bonus = function() {
+    if (!this.result) {
+      return 0;
+    }
+    if (this.botched) {
+      return 0;
+    }
+    // extract second term
+    const pattern = /\w+\s\+\s+(-?\s?\d+)/;
+    let res = pattern.exec(this.result);
+    // remove whitespaces in negative numbers
+    return Number(res[1].replace(/\s+/g, ""));
+  };
+
+  // UI customization
   CONFIG.ui.actors = ArM5eActorsDirectory;
   CONFIG.Item.sidebarIcon = "fas fa-sack-xmark";
-
-  // For later
-  // CONFIG.Dice.types.push(StressDie);
-  // CONFIG.Dice.terms.sd = StressDie;
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
 
@@ -389,9 +407,9 @@ function registerSheets() {
       "ability",
       "abilityFamiliar",
       "power",
-      "might",
+      // "might",
       "powerFamiliar",
-      "mightFamiliar",
+      // "mightFamiliar",
       "speciality",
       "distinctive",
       "sanctumRoom",
@@ -409,7 +427,9 @@ function registerSheets() {
       "calendarCovenant",
       "incomingSource",
       "mundaneBook",
-      "labCovenant"
+      "labCovenant",
+      "personalityTrait",
+      "reputationChar"
     ],
     makeDefault: true
   });

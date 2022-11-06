@@ -4,9 +4,9 @@ import { log, putInFoldableLink, putInFoldableLinkWithAnimation, sleep } from ".
 import { ARM5E } from "./config.js";
 let mult = 1;
 
-async function simpleDie(html, actor, type = "DEFAULT", callBack) {
+async function simpleDie(actor, type = "DEFAULT", callBack) {
   mult = 1;
-  actor = getFormData(html, actor);
+  // actor = getFormData(html, actor);
   actor = getRollFormula(actor);
   const rollData = actor.rollData;
 
@@ -60,9 +60,10 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
   );
 
   if (callBack) {
-    await callBack(html, actor, tmp, message);
+    await callBack(actor, tmp, message);
   }
   actor.rollData.reset();
+  return tmp;
 }
 
 // modes:
@@ -70,9 +71,8 @@ async function simpleDie(html, actor, type = "DEFAULT", callBack) {
 // 1 => force a one
 // 2 => force a zero
 // 4 => Aging roll
-async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
+async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefined, botchNum = 0) {
   mult = 1;
-  actor = getFormData(html, actor);
   actor = getRollFormula(actor);
   const rollData = actor.rollData;
   let formula = rollData.formula;
@@ -82,7 +82,7 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     flavorTxt + rollData.details
   );
   let chatTitle = `<h2 class="ars-chat-title">${rollData.label} </h2>`;
-  let dieRoll = await explodingRoll(actor, modes);
+  let dieRoll = await explodingRoll(actor, modes, botchNum);
 
   let confAllowed = actor.system.con.score;
 
@@ -105,7 +105,6 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
     }
     botchCheck = 1;
   }
-  // lastRoll = await multiplyRoll(mult, dieRoll, formula, rollData.magic.divide);
 
   let rollOptions = {};
 
@@ -139,12 +138,13 @@ async function stressDie(html, actor, modes = 0, callBack, type = "DEFAULT") {
   );
 
   if (callBack) {
-    await callBack(html, actor, dieRoll, message);
+    await callBack(actor, dieRoll, message);
   }
   actor.rollData.reset();
+  return dieRoll;
 }
 
-function getFormData(html, actor) {
+export function getFormData(html, actor) {
   let find = html.find(".SelectedCharacteristic");
   if (find.length > 0) {
     actor.rollData.characteristic = find[0].value;
@@ -522,15 +522,14 @@ function newLineSub(msg) {
   return msg;
 }
 
-async function CheckBotch(html, actorData) {
+async function CheckBotch(botchDice) {
   let resultMessage = "";
 
-  let botchDice = html.find("#botchDice").val();
   if (!botchDice) {
     return ui.notifications.info(game.i18n.localize("arm5e.notification.roll.botchNum"));
   }
   let rollCommand = botchDice;
-  rollCommand = rollCommand.concat("d10cf=10");
+  rollCommand = String(rollCommand).concat("d10cf=10");
   const botchRoll = new Roll(rollCommand);
   await botchRoll.roll({
     async: true
@@ -539,7 +538,7 @@ async function CheckBotch(html, actorData) {
   // return botchRoll.terms[0].total;
 }
 
-async function explodingRoll(actorData, modes = 0) {
+async function explodingRoll(actorData, modes = 0, botchNum = 0) {
   let dieRoll;
   if (modes === 0 || modes === 4) {
     dieRoll = await createRoll(actorData.rollData.formula, mult, actorData.rollData.magic.divide);
@@ -613,43 +612,48 @@ async function explodingRoll(actorData, modes = 0) {
         game.dice3d.showForRoll(dieRoll); //, user, synchronize, whisper, blind, chatMessageID, speaker)
       }
       const html = await renderTemplate("systems/arm5e/templates/roll/roll-botch.html");
-      // show dialog
-
-      await new Promise(resolve => {
-        new Dialog(
-          {
-            title: game.i18n.localize("arm5e.dialog.botch.title"),
-            content: html,
-            buttons: {
-              yes: {
-                icon: "<i class='fas fa-check'></i>",
-                label: game.i18n.localize("arm5e.dialog.button.rollbotch"),
-                callback: async html => {
-                  dieRoll = await CheckBotch(html, actorData);
-                  resolve();
-                }
-              },
-              no: {
-                icon: "<i class='fas fa-times'></i>",
-                label: `Cancel`,
-                callback: html => {
-                  ChatMessage.create({
-                    content: game.i18n.localize("arm5e.dialog.button.rollnobotch"),
-                    speaker: ChatMessage.getSpeaker({
-                      actor: actorData
-                    })
-                  });
-                  resolve();
+      if (botchNum === 0) {
+        // interactive mode show dialog
+        await new Promise(resolve => {
+          new Dialog(
+            {
+              title: game.i18n.localize("arm5e.dialog.botch.title"),
+              content: html,
+              buttons: {
+                yes: {
+                  icon: "<i class='fas fa-check'></i>",
+                  label: game.i18n.localize("arm5e.dialog.button.rollbotch"),
+                  callback: async html => {
+                    let botchDice = html.find("#botchDice").val();
+                    dieRoll = await CheckBotch(botchDice);
+                    resolve();
+                  }
+                },
+                no: {
+                  icon: "<i class='fas fa-times'></i>",
+                  label: `Cancel`,
+                  callback: html => {
+                    ChatMessage.create({
+                      content: game.i18n.localize("arm5e.dialog.button.rollnobotch"),
+                      speaker: ChatMessage.getSpeaker({
+                        actor: actorData
+                      })
+                    });
+                    resolve();
+                  }
                 }
               }
+            },
+            {
+              classes: ["arm5e-dialog", "dialog"],
+              height: "400px"
             }
-          },
-          {
-            classes: ["arm5e-dialog", "dialog"],
-            height: "400px"
-          }
-        ).render(true);
-      });
+          ).render(true);
+        });
+      } else {
+        dieRoll = await CheckBotch(botchNum);
+        dieRoll.botched = true;
+      }
     }
   }
 
@@ -671,8 +675,7 @@ async function createRoll(rollFormula, mult, divide) {
   return output_roll;
 }
 
-async function noRoll(html, actor, callBack) {
-  actor = getFormData(html, actor);
+async function noRoll(actor, callBack) {
   actor = getRollFormula(actor);
   const rollData = actor.rollData;
   //console.log('simple die');

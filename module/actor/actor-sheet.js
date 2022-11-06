@@ -808,9 +808,15 @@ export class ArM5eActorSheet extends ActorSheet {
    */
   async _onItemCreate(event) {
     event.preventDefault();
-    const header = event.currentTarget;
+    const dataset = getDataset(event);
+    let newItem = await this._itemCreate(dataset);
+    newItem[0].sheet.render(true);
+    return newItem;
+  }
+
+  async _itemCreate(dataset) {
     // Get the type of item to create.
-    const type = header.dataset.type;
+    const type = dataset.type;
     // Initialize a default name.
     const name = `New ${type.capitalize()}`;
     // Prepare the item object.
@@ -818,7 +824,7 @@ export class ArM5eActorSheet extends ActorSheet {
       {
         name: name,
         type: type,
-        system: duplicate(header.dataset)
+        system: duplicate(dataset)
       }
     ];
     // Remove the type from the dataset since it's in the itemData.type prop.
@@ -828,10 +834,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // console.log("Add item");
     // console.log(itemData);
 
-    let newItem = await this.actor.createEmbeddedDocuments("Item", itemData, {});
-
-    newItem[0].sheet.render(true);
-    return newItem;
+    return await this.actor.createEmbeddedDocuments("Item", itemData, {});
   }
 
   /* Handle covenant pick */
