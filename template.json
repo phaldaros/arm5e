@@ -689,7 +689,6 @@
       },
       "might": {
         "label": "Might",
-        "dtype": "Number",
         "form": "",
         "value": 0,
         "points": 0
@@ -1039,9 +1038,7 @@
       "abilityFamiliar",
       "diaryEntry",
       "power",
-      "might",
       "powerFamiliar",
-      "mightFamiliar",
       "speciality",
       "distinctive",
       "sanctumRoom",
@@ -1062,11 +1059,8 @@
       "calendarCovenant",
       "incomingSource",
       "laboratoryText",
-      "mundaneBook",
       "enchantment",
-      "labCovenant",
-      "reputationChar",
-      "personalityTrait"
+      "labCovenant"
     ],
     "templates": {
       "base": {
@@ -1326,7 +1320,7 @@
       "form": "an",
       "cost": 0
     },
-    "mightFamiliar": {
+    "powerFamiliar": {
       "templates": ["base"]
     },
     "speciality": {

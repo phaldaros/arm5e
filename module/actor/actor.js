@@ -36,7 +36,7 @@ export class ArM5ePCActor extends Actor {
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
-
+    // log(false, `${this.name}'s system ${JSON.stringify(this.system)}`);
     if (!this.flags.arm5e) {
       this.flags.arm5e = { filters: {} };
     }

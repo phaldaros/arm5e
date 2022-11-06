@@ -1,7 +1,7 @@
 import { log } from "../tools.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 
-export async function applyAgingEffects(html, actor, roll, message) {
+export async function applyAgingEffects(actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
   const agingTable = docs.filter(rt => rt.name === "Aging table")[0];
@@ -16,7 +16,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
     "systems/arm5e/templates/generic/aging-dialog.html",
     dialogData
   );
-  let resultAging;
+  let resultAging = {};
   await new Promise(resolve => {
     new Dialog(
       {
@@ -59,7 +59,7 @@ export async function applyAgingEffects(html, actor, roll, message) {
   createAgingDiaryEntry(actor, resultAging);
 }
 
-export async function agingCrisis(html, actor, roll, message) {
+export async function agingCrisis(actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
 

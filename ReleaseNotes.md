@@ -1,5 +1,20 @@
 # Release Notes
 
+## 2.0.3.12, Jerbiton the Magus
+
+### Features & changes
+
+- Experimental stress die roll (/r ds) without botches
+- [DEV] Some basic continuous integration tests using Quench module(WIP)
+- [DEV] Updated deprecated Github actions for release process
+- [DEV] It is possible to specify the number of botch dice in a stress roll (ie: no dialog)
+- [DEV] Factorization of embedded documents creation for unit testing
+
+### Bug fixes
+
+- Removed documents types without a sheet yet.
+- Retrieve the contents of the roll dialog earlier, in order to not pass html around for a roll.
+
 ## 2.0.3.11, Jerbiton's Gauntlet
 
 ### Features & changes
