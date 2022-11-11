@@ -1050,6 +1050,11 @@ input[type="time"] {
   text-decoration: overline;
 }
 
+.arm5eRoll .ability-key,
+.arm5e .ability-key {
+  max-width: 250px;
+}
+
 .arm5e .ability-category {
   font-size: 14pt;
   color: black;

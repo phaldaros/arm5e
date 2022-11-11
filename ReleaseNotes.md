@@ -4,7 +4,9 @@
 
 ### Features & changes
 
-- Experimental stress die roll (/r ds) without botches
+- Gameplay section of the userguide finished
+- Experimental stress die roll (/r Xds) without botches (thanks to Ieus)
+- Initiative rolls in the combat tacker is using the new stress die above.
 - [DEV] Some basic continuous integration tests using Quench module(WIP)
 - [DEV] Updated deprecated Github actions for release process
 - [DEV] It is possible to specify the number of botch dice in a stress roll (ie: no dialog)
@@ -14,6 +16,9 @@
 
 - Removed documents types without a sheet yet.
 - Retrieve the contents of the roll dialog earlier, in order to not pass html around for a roll.
+- Fixed dialog display problem with abilities with very long names
+- Fixed power cost being 0 when using it from the character sheet.
+- Fixed magic contest error with entities in a scene with Aura.
 
 ## 2.0.3.11, Jerbiton's Gauntlet
 
