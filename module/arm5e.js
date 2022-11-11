@@ -57,7 +57,7 @@ Hooks.once("init", async function() {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: "ds + @characteristics.qik.value + @combat.init + @combat.overload",
+    formula: "1ds + @characteristics.qik.value + @combat.init + @combat.overload",
     decimals: 2
   };
 
@@ -67,13 +67,16 @@ Hooks.once("init", async function() {
     group: "primary"
   };
 
-  // For later
+  // Combatant.prototype.getInitiativeRoll = function (formula) {
+
+  // }
+  // Experimental
   CONFIG.Dice.types.push(StressDie);
   CONFIG.Dice.terms[StressDie.DENOMINATION] = StressDie;
   // instrumenting roll for testing
   Roll.prototype.botched = false;
   Roll.prototype.botchNum = 0;
-  Roll.prototype.bonus = function() {
+  Roll.prototype.modifier = function() {
     if (!this.result) {
       return 0;
     }

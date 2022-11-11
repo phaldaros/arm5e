@@ -11,12 +11,7 @@ export function addChatListeners(message, html, data) {
   let tokenName;
   let actorImg = actor.img;
 
-  if (actor.token != null) {
-    tokenName = actor.token.name;
-    if (actor.token.img != undefined) {
-      actorImg = actor.system.token.img;
-    }
-  } else if (actor.prototypeToken !== null) {
+  if (actor.prototypeToken !== null) {
     tokenName = actor.prototypeToken.name;
     if (actor.prototypeToken.img) {
       actorImg = actor.prototypeToken.img;

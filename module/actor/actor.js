@@ -1466,7 +1466,7 @@ export class ArM5ePCActor extends Actor {
     const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(this.effects, subtype);
     if (ae.length) {
       log(false, ae);
-      return ae[0].system.changes[0].value;
+      return ae[0].changes[0].value;
     }
     return 0;
   }

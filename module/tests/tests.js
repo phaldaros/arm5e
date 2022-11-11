@@ -44,7 +44,8 @@ function registerRollTesting(quench) {
                 let roll = await stressDie(actor, "char", 0, null, 10);
                 log(false, roll);
                 assert.ok(roll);
-                assert.ok(roll.bonus() == actor.system.characteristics[c].value);
+                if (roll.botched) return;
+                assert.ok(roll.modifier() == actor.system.characteristics[c].value);
               } catch (err) {
                 console.error(`Error: ${err}`);
                 assert.ok(false);
@@ -61,7 +62,7 @@ function registerRollTesting(quench) {
                 let roll = await simpleDie(actor, "char", null);
                 log(false, roll);
                 assert.ok(roll);
-                assert.ok(roll.bonus() == actor.system.characteristics[c].value);
+                assert.ok(roll.modifier() == actor.system.characteristics[c].value);
               } catch (err) {
                 console.error(`Error: ${err}`);
                 assert.ok(false);
@@ -91,7 +92,8 @@ function registerRollTesting(quench) {
             let roll = await stressDie(actor, "char", 0, null, 10);
             // log(false, roll);
             assert.ok(roll);
-            assert.ok(roll.bonus() == 1);
+            if (roll.botched) return;
+            assert.ok(roll.modifier() == 1);
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
@@ -102,8 +104,7 @@ function registerRollTesting(quench) {
           try {
             let dataset = {
               roll: "option",
-              name: "all options",
-              label: "All options",
+              name: "All options",
               option1: 10,
               txtoption1: "score",
               option2: 10,
@@ -120,7 +121,7 @@ function registerRollTesting(quench) {
             log(false, roll);
             assert.ok(roll.total > 50);
 
-            assert.ok(roll.bonus() == 50);
+            assert.ok(roll.modifier() == 50);
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
@@ -132,8 +133,7 @@ function registerRollTesting(quench) {
           try {
             let dataset = {
               roll: type,
-              name: "all options",
-              label: "All options",
+              name: "Initiative",
               option1: actor.system.characteristics.qik.value,
               txtoption1: "quick",
               option2: actor.system.combat.init,
@@ -144,31 +144,59 @@ function registerRollTesting(quench) {
             actor.rollData.init(dataset, actor);
             let roll = await stressDie(actor, type, 0, null, 10);
             assert.ok(roll);
+            if (roll.botched) return;
             log(false, roll);
             let tot =
               actor.system.characteristics.qik.value +
               actor.system.combat.init +
               actor.system.combat.overload;
-            assert.ok(roll.bonus() == tot);
+            assert.ok(roll.modifier() == tot);
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
           }
         });
 
-        it("Init roll", async function() {
+        it("Combat roll", async function() {
           let type = "init";
           try {
             let dataset = {
               roll: type,
               name: "all options",
-              label: "All options",
-              option1: actor.system.characteristics.qik.value,
-              txtoption1: "quick",
-              option2: actor.system.combat.init,
-              txtoption2: "init",
-              option3: actor.system.combat.overload,
-              txtoption3: "score 3"
+              option1: actor.system.characteristics.dex.value,
+              txtoption1: "dex",
+              option2: actor.system.combat.ability,
+              txtoption2: "ability",
+              option3: actor.system.combat.atk,
+              txtoption3: "attack"
+            };
+            actor.rollData.init(dataset, actor);
+            let roll = await stressDie(actor, type, 0, null, 10);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botched) return;
+            let tot =
+              actor.system.characteristics.dex.value +
+              actor.system.combat.atk +
+              actor.system.combat.ability;
+            assert.ok(roll.modifier() == tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Combat roll", async function() {
+          let type = "init";
+          try {
+            let dataset = {
+              roll: type,
+              name: "all options",
+              option1: actor.system.characteristics.dex.value,
+              txtoption1: "dex",
+              option2: actor.system.combat.ability,
+              txtoption2: "ability",
+              option3: actor.system.combat.atk,
+              txtoption3: "attack"
             };
             actor.rollData.init(dataset, actor);
             let roll = await stressDie(actor, type, 0, null, 10);
