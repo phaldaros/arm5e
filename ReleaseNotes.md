@@ -10,6 +10,7 @@
 ### Bug fixes
 
 - [en] Fatal wounds are no longer "dead" but "deadly"
+- Powers are again editable once created.
 
 ## 2.0.3.12, Jerbiton the Magus
 
