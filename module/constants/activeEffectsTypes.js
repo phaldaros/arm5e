@@ -420,7 +420,73 @@ export default {
       }
     }
   },
-
+  formResistance: {
+    category: "traits",
+    type: "resistance",
+    label: "arm5e.sheet.activeEffect.types.formResistance",
+    subtypes: {
+      an: {
+        label: "Animal",
+        key: "system.bonuses.resistance.an",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      aq: {
+        label: "Aquam",
+        key: "system.bonuses.resistance.aq",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      au: {
+        label: "Auram",
+        key: "system.bonuses.resistance.au",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      co: {
+        label: "Corpus",
+        key: "system.bonuses.resistance.co",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      he: {
+        label: "Herbam",
+        key: "system.bonuses.resistance.he",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      ig: {
+        label: "Ignem",
+        key: "system.bonuses.resistance.ig",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      im: {
+        label: "Imaginem",
+        key: "system.bonuses.resistance.im",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      me: {
+        label: "Mentem",
+        key: "system.bonuses.resistance.me",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      te: {
+        label: "Terram",
+        key: "system.bonuses.resistance.te",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
+      vi: {
+        label: "Vim",
+        key: "system.bonuses.resistance.vi",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      }
+    }
+  },
   vitals: {
     category: "traits",
     type: "vitals",

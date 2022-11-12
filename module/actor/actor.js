@@ -141,6 +141,18 @@ export class ArM5ePCActor extends Actor {
       writing: 0,
       adventuring: 0
     };
+    this.system.bonuses.resistance = {
+      an: 0,
+      aq: 0,
+      au: 0,
+      co: 0,
+      he: 0,
+      ig: 0,
+      im: 0,
+      me: 0,
+      te: 0,
+      vi: 0
+    };
   }
 
   // DEV: to be deleted, the code below is done in the preCreate hook

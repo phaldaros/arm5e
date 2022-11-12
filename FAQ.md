@@ -32,6 +32,10 @@ For spells, we recommend you to download the Grand Grimoire of Hermetic spells (
 - If you want to contribute by adding and fixing errors in the system compendiums, Mana's compendium Importer can be useful to export an errata as json files and share them.(https://foundryvtt.com/packages/mkah-compendium-importer)
 - If you plan to contribute to the code, It is highly recommended to install the module "Developper Mode" (https://foundryvtt.com/packages/_dev-mode). Once enabled, it will give all kind of information and easy print out of documents in console. All debug traces are done with it, so they don't need to be removed immediately for release, it only logs when the dev mode is active.
 
+If you speak another language, specific translation modules may be available for translated compendia (French only so far):
+
+- French: https://raw.githubusercontent.com/orneen/ars-compendium-translation-fr/main/module.json
+
 ## Bugs reports
 
 ### I think I found a bug, what should I do?

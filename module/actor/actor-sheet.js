@@ -880,6 +880,28 @@ export class ArM5eActorSheet extends ActorSheet {
 
     var actor = this.actor;
 
+    extraData.natRes = {};
+    for (let [key, resist] of Object.entries(actor.system.bonuses.resistance)) {
+      if (resist !== 0) {
+        extraData.hasResistance = true;
+        extraData.natRes[key] = {
+          res: resist,
+          label: `${CONFIG.ARM5E.magic.arts[key].label} (${resist})`
+        };
+      }
+    }
+
+    if (actor._isMagus()) {
+      extraData.isMagus = true;
+      extraData.formRes = {};
+      for (let [key, form] of Object.entries(actor.system.arts.forms)) {
+        extraData.formRes[key] = {
+          res: Math.floor(form.finalScore / 5),
+          label: `${form.label} (${Math.floor(form.finalScore / 5)})`
+        };
+      }
+    }
+
     const data = {
       actor,
       extraData
@@ -1118,10 +1140,12 @@ export async function setCovenant(selector, actor) {
 export async function setWounds(selector, actor) {
   const damage = parseInt(selector.find('input[name$="damage"]').val());
   const modifier = parseInt(selector.find('input[name$="modifier"]').val());
+  const natRes = parseInt(selector.find('select[name$="natRes"]').val() || 0);
+  const formRes = parseInt(selector.find('select[name$="formRes"]').val() || 0);
   const prot = parseInt(selector.find('label[name$="prot"]').attr("value") || 0);
   const bonus = parseInt(selector.find('label[name$="soak"]').attr("value") || 0);
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
-  const damageToApply = damage - modifier - prot - stamina - bonus;
+  const damageToApply = damage - modifier - prot - natRes - formRes - stamina - bonus;
   const size = actor?.system?.vitals?.siz?.value || 0;
   const typeOfWound = calculateWound(damageToApply, size);
   if (typeOfWound === false) {
@@ -1142,9 +1166,14 @@ export async function setWounds(selector, actor) {
   const messageProt = `${game.i18n.localize("arm5e.sheet.protection")} (${prot})`;
   let messageModifier = "";
   if (modifier) {
-    messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
+    messageModifier += `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
   }
-
+  if (natRes) {
+    messageModifier += `${game.i18n.localize("arm5e.sheet.natRes")} (${natRes})<br/>`;
+  }
+  if (formRes) {
+    messageModifier += `${game.i18n.localize("arm5e.sheet.formRes")} (${formRes})<br/>`;
+  }
   const messageTotal = `${game.i18n.localize("arm5e.sheet.totalDamage")} = ${damageToApply}`;
   const messageWound = typeOfWound
     ? game.i18n.format("arm5e.messages.woundResult", {

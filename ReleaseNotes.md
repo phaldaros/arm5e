@@ -1,5 +1,16 @@
 # Release Notes
 
+## 2.0.4.0, Kentigem
+
+### Features & changes
+
+- New Natural resistance active effect
+- Natural resistances and Form resistances can be selected in the Soak dialog if applicable.
+
+### Bug fixes
+
+- [en] Fatal wounds are no longer "dead" but "deadly"
+
 ## 2.0.3.12, Jerbiton the Magus
 
 ### Features & changes
