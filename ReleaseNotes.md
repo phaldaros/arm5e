@@ -1,5 +1,13 @@
 # Release Notes
 
+## 2.0.3.13, Jerbiton the Founder
+
+### Features & changes
+
+### Bug fixes
+
+- Powers are again editable.
+
 ## 2.0.3.12, Jerbiton the Magus
 
 ### Features & changes
