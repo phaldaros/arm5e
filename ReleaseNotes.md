@@ -6,11 +6,24 @@
 
 - New Natural resistance active effect
 - Natural resistances and Form resistances can be selected in the Soak dialog if applicable.
+- Books with multiple topics
+- Spell mastery topics now have the technique and form of the mastered spell
+- Migration improvements:
+  - invalid documents can now be recovered
+  - Migration of V10 datamodel items (abilities, books) have been put in their respective model
+- New library sheet common to characters, covenants and labs
+  - List of topics instead of books
 
 ### Bug fixes
 
 - [en] Fatal wounds are no longer "dead" but "deadly"
 - Powers are again editable once created.
+
+### V10 migration (on going)
+
+- Data models activated
+  - Abilities
+  - Books
 
 ## 2.0.3.12, Jerbiton the Magus
 

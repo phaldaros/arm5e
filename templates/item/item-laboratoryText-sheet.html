@@ -149,7 +149,9 @@
       {{editor system.description target="system.description" button=true owner=owner editable=editable}} {{#if (eq
       metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
     </div>
-    {{!-- Authorship Tab --}} {{> "systems/arm5e/templates/item/parts/authorship.html" }}
+    <div class="tab" data-group="primary" data-tab="authorship">
+      {{!-- Authorship Tab --}} {{> "systems/arm5e/templates/item/parts/authorship.html" }}
+    </div>
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

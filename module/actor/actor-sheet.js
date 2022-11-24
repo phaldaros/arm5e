@@ -529,6 +529,12 @@ export class ArM5eActorSheet extends ActorSheet {
           flaw.system.ui = { style: 'style="font-style:italic"' };
         }
       }
+
+      for (let mastery of actorData.system.masteryTopics) {
+        mastery.spellLabel = `${mastery.spellName} (${
+          CONFIG.ARM5E.magic.arts[mastery.spellTech].short
+        }${CONFIG.ARM5E.magic.arts[mastery.spellForm].short})`;
+      }
     }
 
     if (actorData.actor.type == "player" || actorData.actor.type == "npc") {
@@ -554,6 +560,11 @@ export class ArM5eActorSheet extends ActorSheet {
       const category = $(ev.currentTarget).data("category");
       document.getElementById(category).classList.toggle("hide");
       // let tmp2 = tmp.toggle("hide");
+    });
+
+    html.find(".book-topic").click(async ev => {
+      const category = $(ev.currentTarget).data("topic");
+      document.getElementById(category).classList.toggle("hide");
     });
 
     // filters
@@ -628,6 +639,16 @@ export class ArM5eActorSheet extends ActorSheet {
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       // const item = this.actor.items.get(li.data("itemId"))
       item.sheet.render(true);
+    });
+
+    // Update Inventory Item
+    html.find(".book-edit").click(async ev => {
+      const li = $(ev.currentTarget).parents(".item");
+      const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
+      await item.setFlag("arm5e", "currentBookTopic", Number(li.data("index")));
+      // const item = this.actor.items.get(li.data("itemId"))
+      item.sheet.render(true);
+      // item.sheet._tabs[0].activate("topics");
     });
 
     html.find(".increase-tech").click(event => {

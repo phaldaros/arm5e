@@ -33,6 +33,7 @@ import { registerSettings } from "./settings.js";
 import { registerTestSuites } from "./tests/tests.js";
 import { StressDie } from "./helpers/stressdie.js";
 import { UserguideTour } from "./tours/userguide-tour.js";
+import { ArM5eBookSheet } from "./item/item-book-sheet.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -196,16 +197,17 @@ Hooks.once("ready", async function() {
   }
 
   // check and warning that magic codex is missing or more than one occurence.
-  const codex = game.actors.filter(a => a.type === "magicCodex");
-  if (codex.length > 1) {
-    ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.tooMany"), {
-      permanent: false
-    });
-  } else if (codex.length === 0) {
-    ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.none"), {
-      permanent: false
-    });
-  }
+  // TODO: re-enable it (and move it?) when Codex is used in lab activities
+  // const codex = game.actors.filter(a => a.type === "magicCodex");
+  // if (codex.length > 1) {
+  //   ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.tooMany"), {
+  //     permanent: false
+  //   });
+  // } else if (codex.length === 0) {
+  //   ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.none"), {
+  //     permanent: false
+  //   });
+  // }
 
   // setup session storage:
 
@@ -339,7 +341,7 @@ Hooks.on("renderPause", function() {
 
 function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["ability"] = AbilitySchema;
-  // CONFIG.Item.systemDataModels["book"] = BookSchema;
+  CONFIG.Item.systemDataModels["book"] = BookSchema;
   // CONFIG.Item.systemDataModels["virtue"] = VirtueFlawSchema;
   // CONFIG.Item.systemDataModels["flaw"] = VirtueFlawSchema;
 }
@@ -399,12 +401,16 @@ function registerSheets() {
     makeDefault: true
   });
 
+  Items.registerSheet("arm5e", ArM5eBookSheet, {
+    types: ["book"],
+    makeDefault: true
+  });
+
   Items.registerSheet("arm5e", ArM5eItemSheet, {
     types: [
       "weapon",
       "armor",
       "item",
-      "book",
       "virtue",
       "flaw",
       "ability",
@@ -429,7 +435,6 @@ function registerSheets() {
       "visStockCovenant",
       "calendarCovenant",
       "incomingSource",
-      "mundaneBook",
       "labCovenant",
       "personalityTrait",
       "reputationChar"

@@ -1,5 +1,6 @@
 import { getLabUpkeepCost, log } from "../tools.js";
 import { ArM5ePCActor } from "../actor/actor.js";
+import { migrateItemData } from "../migration.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -476,11 +477,12 @@ export class ArM5eItem extends Item {
     }
   }
 
-  _computeCastingTotal(owner, itemData) {
+  _computeCastingTotal(owner, options = {}) {
     if (owner.type != "player" && owner.type != "npc") {
       return 0;
     }
-    let res = owner.system.characteristics.sta.value;
+    let itemData = this.system;
+    let res = owner.system.characteristics[options.char].value;
     let tech = 1000;
     let form = 1000;
     let focusBonus = 0;
@@ -518,7 +520,7 @@ export class ArM5eItem extends Item {
     } else {
       form = owner.system.arts.forms[this.system.form.value].finalScore;
     }
-    if (this.system.applyFocus) {
+    if (this.system.applyFocus || options.focus) {
       res += tech + form + Math.min(tech, form);
     } else {
       res += tech + form;
@@ -547,6 +549,35 @@ export class ArM5eItem extends Item {
             img
           });
       }
+    }
+  }
+
+  isAnEffect() {
+    return (
+      this.type == "spell" ||
+      this.type == "magicalEffect" ||
+      this.type == "enchantment" ||
+      this.type == "labText"
+    );
+  }
+
+  // migrate this particular item
+  async migrate() {
+    try {
+      ui.notifications.info(`Migrating item ${this.name}.`, {
+        permanent: false
+      });
+      const updateData = migrateItemData(this);
+
+      if (!isEmpty(updateData)) {
+        console.log(`Migrating Item entity ${this.name}`);
+        await this.update(updateData, {
+          enforceTypes: false
+        });
+      }
+    } catch (err) {
+      err.message = `Failed system migration for Item ${this.name}: ${err.message}`;
+      console.error(err);
     }
   }
 

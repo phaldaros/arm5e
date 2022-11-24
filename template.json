@@ -1257,16 +1257,20 @@
     },
     "book": {
       "templates": ["base", "authorship"],
-      "type": "Summa",
-      "topic": {
-        "category": "art",
-        "key": null,
-        "option": null,
-        "art": "cr",
-        "spellName": null
-      },
-      "quality": 1,
-      "level": 1
+
+      "topics": [
+        {
+          "type": "Summa",
+          "category": "art",
+          "key": null,
+          "option": null,
+          "art": "cr",
+          "spellName": null,
+          "mastery": false,
+          "quality": 1,
+          "level": 1
+        }
+      ]
     },
     "item": {
       "templates": ["base"],

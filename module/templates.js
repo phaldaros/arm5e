@@ -36,7 +36,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/actor/parts/actor-covenantHabitants.html",
     "systems/arm5e/templates/actor/parts/actor-covenantPosessions.html",
     "systems/arm5e/templates/actor/parts/actor-covenantEconomics.html",
-    "systems/arm5e/templates/actor/parts/actor-covenantLibrary.html",
+    "systems/arm5e/templates/actor/parts/actor-library.html",
     "systems/arm5e/templates/actor/parts/actor-covenantCalendar.html",
     "systems/arm5e/templates/actor/parts/hermeticFilter.html",
 

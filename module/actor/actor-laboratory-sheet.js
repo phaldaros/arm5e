@@ -17,6 +17,11 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           navSelector: ".sheet-tabs",
           contentSelector: ".sheet-body",
           initial: "virtues"
+        },
+        {
+          navSelector: ".inventory-tabs",
+          contentSelector: ".inventory-body",
+          initial: "inventory"
         }
       ]
     });

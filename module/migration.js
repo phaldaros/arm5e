@@ -21,9 +21,7 @@ export async function migration(originalVersion) {
 
       if (!isEmpty(updateData)) {
         console.log(`Migrating Actor entity ${a.name}`);
-        await a.update(updateData, {
-          enforceTypes: false
-        });
+        await a.update(updateData);
       }
 
       // const cleanData = cleanActorData(a)
@@ -40,34 +38,27 @@ export async function migration(originalVersion) {
   // Migrate Invalid actors
 
   const invalidActorIds = Array.from(game.actors.invalidDocumentIds);
+  const invalidActorsUpdates = [];
   for (const invalidId of invalidActorIds) {
     try {
-      const invalidActor = game.actors.getInvalid(invalidId);
-      console.log(`Migrating invalid actor entity ${invalidActor.name}`);
-
-      const updateData = migrateActorData(a);
-
-      if (!isEmpty(updateData)) {
-        await invalidActor.update(updateData, {
-          enforceTypes: false
-        });
-      }
-
-      // const cleanData = cleanActorData(a)
-      // if (!isEmpty(cleanData)) {
-      //     console.log(`Cleaning up Actor entity ${a.name}`);
-      //     a.system = cleanData.system;
-      // }
+      // retrieve the raw source
+      const rawData = foundry.utils.deepClone(game.actors._source.find(a => a._id == invalidId));
+      console.log(`Migrating invalid actor document: ${rawData.name}`);
+      const updateData = await migrateActorData(rawData);
+      invalidActorsUpdates.push({ _id: invalidId, ...updateData });
     } catch (err) {
       err.message = `Failed system migration for invalid Actor ${invalidId}: ${err.message}`;
       console.error(err);
     }
   }
+  if (invalidActorsUpdates.length > 0) {
+    await Actor.updateDocuments(invalidActorsUpdates, { diff: false });
+  }
 
   // Migrate World Items
   for (let i of game.items) {
     try {
-      const updateData = migrateItemData(i.toObject());
+      const updateData = migrateItemData(i);
       if (!foundry.utils.isEmpty(updateData)) {
         console.log(`Migrating Item entity ${i.name}`);
         await i.update(updateData, {
@@ -90,27 +81,21 @@ export async function migration(originalVersion) {
   // Migrate Invalid items
 
   const invalidItemIds = Array.from(game.items.invalidDocumentIds);
+  const updates = [];
   for (const invalidId of invalidItemIds) {
     try {
-      const invalidItem = game.items.getInvalid(invalidId);
-      console.log(`Migrating invalid item entity ${invalidItem.name}`);
-      const updateData = migrateItemData(invalidItem.toObject());
-      if (!foundry.utils.isEmpty(updateData)) {
-        await invalidItem.update(updateData, {
-          enforceTypes: false
-        });
-      }
-      console.log(`Migrated Item entity ${invalidItem.name}`);
-
-      // const cleanData = cleanItemData(i)
-      // if (!isEmpty(cleanData)) {
-      //     console.log(`Cleaning up Item entity ${invalidItem.name}`);
-      //     invalidItem.system = cleanData.system;
-      // }
+      // retrieve the raw source
+      const rawData = foundry.utils.deepClone(game.items._source.find(d => d._id == invalidId));
+      console.log(`Migrating invalid item document: ${rawData.name}`);
+      const updateData = await migrateItemData(rawData);
+      updates.push({ _id: invalidId, ...updateData });
     } catch (err) {
       err.message = `Failed system migration for Item ${invalidId}: ${err.message}`;
       console.error(err);
     }
+  }
+  if (updates.length > 0) {
+    await Item.updateDocuments(updates, { diff: false });
   }
 
   // Migrate Actor Override Tokens
@@ -131,11 +116,11 @@ export async function migration(originalVersion) {
   }
 
   // [DEV] Uncomment below to migrate system compendiums
-  // for (let p of game.packs) {
-  //   if (p.metadata.packageName !== "arm5e") continue;
-  //   if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
-  //   await migrateCompendium(p);
-  // }
+  for (let p of game.packs) {
+    if (p.metadata.packageName !== "arm5e") continue;
+    if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
+    await migrateCompendium(p);
+  }
 
   // Migrate World Compendium Packs
   for (let p of game.packs) {
@@ -181,10 +166,10 @@ export const migrateCompendium = async function(pack) {
     try {
       switch (documentName) {
         case "Actor":
-          updateData = await migrateActorData(doc.toObject());
+          updateData = await migrateActorData(doc);
           break;
         case "Item":
-          updateData = await migrateItemData(doc.toObject());
+          updateData = await migrateItemData(doc);
           break;
         case "Scene":
           updateData = migrateSceneData(doc.toObject());
@@ -277,7 +262,16 @@ export const migrateSceneData = function(scene, migrationData) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
-export const migrateActorData = function(actor) {
+export const migrateActorData = function(actorDoc) {
+  let actor = {};
+  if (actorDoc instanceof CONFIG.Actor.documentClass) {
+    actor = actorDoc.toObject();
+  } else {
+    actor = actorDoc;
+  }
+  if (CONFIG.Actor.systemDataModels[actor.type]) {
+    return CONFIG.Actor.systemDataModels[actor.type].migrate(actor);
+  }
   const updateData = {};
   // updateData["flags.arm5e.-=filters"] = null;
   if (!actor?.flags?.arm5e) {
@@ -579,12 +573,11 @@ export const migrateActorData = function(actor) {
 
   const items = actor.items.reduce((arr, i) => {
     // Migrate the Owned Item
-    const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
-    let itemUpdate = migrateItemData(itemData);
 
+    let itemUpdate = migrateItemData(i);
     // Update the Owned Item
     if (!isEmpty(itemUpdate)) {
-      itemUpdate._id = itemData._id;
+      itemUpdate._id = i._id;
       arr.push(expandObject(itemUpdate));
     }
     return arr;
@@ -594,24 +587,19 @@ export const migrateActorData = function(actor) {
   // Actors from Compendiums don't have the invalidDocumentIds field
   if (actor.items.invalidDocumentIds !== undefined) {
     const invalidItemIds = Array.from(actor.items.invalidDocumentIds);
-    const fixedItems = invalidItemIds.reduce((arr, id) => {
+    const fixedItems = invalidItemIds.reduce(async (updates, id) => {
       try {
-        const invalidItem = actor.items.getInvalid(id);
-        console.log(`Migrating invalid owned Item:  ${invalidItem.name}`);
-        const itemData =
-          invalidItem instanceof CONFIG.Item.documentClass ? invalidItem.toObject() : invalidItem;
-        let itemUpdate = migrateItemData(itemData);
+        // retrieve the raw source
+        const rawData = foundry.utils.deepClone(actor.items._source.find(d => d._id == id));
+        console.log(`Migrating invalid owned item document: ${rawData.name}`);
+        const updateData = await migrateItemData(rawData);
+        updates.push({ _id: id, ...updateData });
 
-        // Update the Owned Item
-        if (!isEmpty(itemUpdate)) {
-          itemUpdate._id = itemData._id;
-          arr.push(expandObject(itemUpdate));
-        }
-        return arr;
+        return updates;
       } catch (err) {
         err.message = `Failed system migration for Item ${id}: ${err.message}`;
         console.error(err.message);
-        return arr;
+        return updates;
       }
     }, []);
 
@@ -673,78 +661,17 @@ export const migrateActiveEffectData = function(effectData) {
   return effectUpdate;
 };
 
-export const migrateItemData = function(itemData) {
-  const updateData = {};
-
-  //
-  // migrate abilities xp
-  //
-  if (itemData.type === "ability") {
-    if (itemData.system.experienceNextLevel != undefined) {
-      // if the experience is equal or bigger than the xp for this score, use it as total xp
-      let exp = ((itemData.system.score * (itemData.system.score + 1)) / 2) * 5;
-      if (itemData.system.experience >= exp) {
-        updateData["system.xp"] = itemData.system.experience;
-      } else if (itemData.system.experience >= (itemData.system.score + 1) * 5) {
-        // if the experience is bigger than the neeeded for next level, ignore it
-        updateData["system.xp"] = exp;
-      } else {
-        // compute normally
-        updateData["system.xp"] = exp + itemData.system.experience;
-      }
-      // TODO: to be uncommentedm when we are sure the new system works
-      // updateData["system.-=experience"] = null;
-      // updateData["system.-=score"] = null;
-      updateData["system.-=experienceNextLevel"] = null;
-    }
-    // clean-up TODO: remove
-    updateData["system.-=puissant"] = null;
-    updateData["system.-=affinity"] = null;
-
-    // no key assigned to the ability, try to find one
-    if (CONFIG.ARM5E.ALL_ABILITIES[itemData.system.key] == undefined || itemData.system.key == "") {
-      log(true, `Trying to find key for ability ${itemData.name}`);
-      let name = itemData.name.toLowerCase();
-      // handle those pesky '*' at the end of restricted abilities
-      if (name.endsWith("*")) {
-        name = name.substring(0, name.length - 1);
-      }
-
-      // Special common cases
-      if (game.i18n.localize("arm5e.skill.commonCases.native").toLowerCase() == name) {
-        updateData["system.key"] = "livingLanguage";
-        updateData["system.option"] = "nativeTongue";
-        log(false, `Found key livingLanguage for ability  ${itemData.name}`);
-      } else if (game.i18n.localize("arm5e.skill.commonCases.areaLore").toLowerCase() == name) {
-        updateData["system.key"] = "areaLore";
-        log(false, `Found key areaLore for ability  ${itemData.name}`);
-      } else if (game.i18n.localize("arm5e.skill.commonCases.latin").toLowerCase() == name) {
-        updateData["system.key"] = "deadLanguage";
-        updateData["system.option"] = "Latin";
-        log(false, `Found key latin for ability  ${itemData.name}`);
-      } else if (game.i18n.localize("arm5e.skill.commonCases.hermesLore").toLowerCase() == name) {
-        updateData["system.key"] = "organizationLore";
-        updateData["system.option"] = "OrderOfHermes";
-        log(false, `Found key hermesLore for ability  ${itemData.name}`);
-      } else {
-        for (const [key, value] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
-          if (game.i18n.localize(value.mnemonic).toLowerCase() == name) {
-            updateData["system.key"] = key;
-            log(false, `Found key ${key} for ability  ${itemData.name}`);
-            break;
-          }
-        }
-      }
-      if (updateData["system.key"] == undefined) {
-        log(true, `Unable to find a key for ability  ${itemData.name}`);
-      }
-    }
-    if (itemData.system.option != undefined) {
-      // keep only alphanum chars
-      updateData["system.option"] = itemData.system.option.replace(/[^a-zA-Z0-9]/gi, "");
-    }
+export const migrateItemData = async function(item) {
+  let itemData = {};
+  if (item instanceof CONFIG.Item.documentClass) {
+    itemData = item.toObject();
+  } else {
+    itemData = item;
   }
-
+  if (CONFIG.Item.systemDataModels[item.type]) {
+    return CONFIG.Item.systemDataModels[item.type].migrate(itemData);
+  }
+  const updateData = {};
   if (_isMagicalItem(itemData)) {
     if (itemData.type != "baseEffect") {
       if (
@@ -847,7 +774,7 @@ export const migrateItemData = function(itemData) {
           // compute normally
           updateData["system.xp"] = exp + itemData.system.exp;
         }
-        // TODO: to be uncommentedm when we are sure the new system works
+        // TODO: to be uncommented when we are sure the new system works
         // updateData["system.-=mastery"] = null;
         updateData["system.-=exp"] = null;
       }
@@ -906,54 +833,6 @@ export const migrateItemData = function(itemData) {
         updateData["system.-=form"] = null;
       }
     }
-  } else if (itemData.type == "book") {
-    // V10 datamodel cleanup (2.0.0)
-    if (itemData.system.topic === undefined) {
-      let topic = {};
-      if (itemData.system.art.value) {
-        topic.art = itemData.system.art.value;
-        topic.key = null;
-        topic.option = null;
-        topic.spellName = null;
-        topic.category = "art";
-      } else {
-        // missing data, reset to default
-        topic.art = "cr";
-        topic.key = null;
-        topic.option = null;
-        topic.spellName = null;
-        topic.category = "art";
-      }
-
-      updateData["system.topic"] = topic;
-    } else {
-      if (itemData.system.art) {
-        updateData["system.topic.art"] = itemData.system.art.value;
-      }
-    }
-
-    // V10 datamodel cleanup (2.0.0)
-    if (itemData.system.type.value !== undefined) {
-      if (itemData.system.type.value == "summa") {
-        updateData["system.type"] = "Summa";
-      } else if (itemData.system.type.value == "tract") {
-        updateData["system.type"] = "Tractatus";
-      }
-    } else {
-      if (itemData.system.type == "summa") {
-        updateData["system.type"] = "Summa";
-      } else if (itemData.system.type == "tract") {
-        updateData["system.type"] = "Tractatus";
-      }
-    }
-    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
-      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-        updateData["system.season"] = itemData.system.season.toLowerCase();
-      } else {
-        updateData["system.season"] = "spring";
-      }
-    }
-    updateData["system.-=types"] = null;
   } else if (itemData.type == "mundaneBook") {
     updateData["type"] = "book";
 

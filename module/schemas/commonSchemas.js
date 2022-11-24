@@ -36,7 +36,7 @@ export const XpField = () =>
     step: 1
   });
 
-export const characteristicField = () => {
+export const characteristicField = () =>
   new fields.NumberField({
     required: false,
     nullable: false,
@@ -46,19 +46,33 @@ export const characteristicField = () => {
     initial: 0,
     step: 1
   });
-};
 
-export const hermeticArtField = () => {
+export const hermeticArtScore = () =>
   new fields.NumberField({
     required: true,
     nullable: true,
     integer: true,
-    min: -10,
-    max: 10,
+    min: 0,
+    max: 40,
     initial: 0,
     step: 1
   });
-};
+
+export const hermeticForm = () =>
+  new fields.StringField({
+    required: true,
+    blank: false,
+    initial: "an",
+    choices: Object.keys(ARM5E.magic.forms)
+  });
+
+export const hermeticTechnique = () =>
+  new fields.StringField({
+    required: true,
+    blank: false,
+    initial: "cr",
+    choices: Object.keys(ARM5E.magic.techniques)
+  });
 
 export const authorship = () => {
   return {

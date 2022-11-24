@@ -80,7 +80,54 @@ export function compareBaseEffects(e1, e2) {
 //   }
 // }
 
-const topicOrder = { art: 0, ability: 1, spell: 2 };
+const topicOrder = { art: 0, ability: 1, mastery: 2, labText: 3 };
+
+export function compareTopics(b1, b2) {
+  // Topic
+  if (topicOrder[b1.category] < topicOrder[b2.category]) {
+    return -1;
+  } else if (topicOrder[b1.category] > topicOrder[b2.category]) {
+    return 1;
+  }
+  // book type
+  if (b1.type < b2.type) {
+    return -1;
+  } else if (b1.type > b2.type) {
+    return 1;
+  }
+  if (b1.category === "art") {
+    if (b1.art < b2.art) {
+      return -1;
+    } else if (b1.art > b2.art) {
+      return 1;
+    }
+  } else if (b1.category === "ability") {
+    if (b1.key < b2.key) {
+      return -1;
+    } else if (b1.key > b2.key) {
+      return 1;
+    }
+    if (b1.option < b2.option) {
+      return -1;
+    } else if (b1.option > b2.option) {
+      return 1;
+    }
+  }
+  // level
+  if (b1.type === "Summa") {
+    if (b1.level < b2.level) {
+      return 1;
+    } else if (b1.level > b2.level) {
+      return -1;
+    }
+  }
+  if (b1.quality < b2.quality) {
+    return 1;
+  } else if (b1.quality > b2.quality) {
+    return -1;
+  }
+  return b1.book.localeCompare(b2.book);
+}
 export function compareBooks(b1, b2) {
   // Topic
   if (topicOrder[b1.system.topic.category] < topicOrder[b2.system.topic.category]) {
