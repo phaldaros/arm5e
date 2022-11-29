@@ -43,6 +43,7 @@
   "ITEM.TypePowerfamiliar": "Familiar Power",
   "ITEM.TypeBook": "Book",
   "ITEM.TypeEnchantment": "Enchantment",
+  "ITEM.TypeMundanebook": "Mundane book (deprecated)",
 
   "arm5e.sheet.player": "Player",
   "arm5e.sheet.npc": "NPC",
@@ -1049,6 +1050,11 @@
   "arm5e.scriptorium.msg.diaryTopic.spell": "the mastery of the \"{spell}\" spell",
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
+
+  "arm5e.hints.create": "Create {item}",
+  "arm5e.hints.edit": "Edit {item}",
+  "arm5e.hints.delete": "Delete {item}",
+  "arm5e.hints.design": "Design {item}",
 
   "arm5e.sheet.label.details": "Details",
 

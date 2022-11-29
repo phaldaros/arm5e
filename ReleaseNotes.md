@@ -24,6 +24,20 @@
 - Data models activated
   - Abilities
   - Books
+  
+## 2.0.3.13, Jerbiton the Founder
+
+### Features & changes
+
+- improve migration of invalid documents following V10 290 fixes
+- new mnemonics for hints (WIP)
+- updated French version (by Orneen)
+
+### Bug fixes
+
+- Powers are again editable.
+- updated generic abilities option field in Compendium
+- added note about individual target size in Spell section
 
 ## 2.0.3.12, Jerbiton the Magus
 
@@ -31,7 +45,7 @@
 
 - Gameplay section of the userguide finished
 - Experimental stress die roll (/r Xds) without botches (thanks to Ieus)
-- Initiative rolls in the combat tacker is using the new stress die above.
+- Initiative rolls in the combat tracker is using the new stress die above.
 - [DEV] Some basic continuous integration tests using Quench module(WIP)
 - [DEV] Updated deprecated Github actions for release process
 - [DEV] It is possible to specify the number of botch dice in a stress roll (ie: no dialog)

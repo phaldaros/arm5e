@@ -17,11 +17,13 @@ export async function migration(originalVersion) {
         a.type = "player";
       }
 
-      const updateData = migrateActorData(a);
+      const updateData = await migrateActorData(a);
 
       if (!isEmpty(updateData)) {
-        console.log(`Migrating Actor entity ${a.name}`);
-        await a.update(updateData);
+        console.log(`Migrating Actor document ${a.name}`);
+        await a.update(updateData, {
+          enforceTypes: false
+        });
       }
 
       // const cleanData = cleanActorData(a)
@@ -41,10 +43,12 @@ export async function migration(originalVersion) {
   const invalidActorsUpdates = [];
   for (const invalidId of invalidActorIds) {
     try {
-      // retrieve the raw source
-      const rawData = foundry.utils.deepClone(game.actors._source.find(a => a._id == invalidId));
-      console.log(`Migrating invalid actor document: ${rawData.name}`);
-      const updateData = await migrateActorData(rawData);
+      const rawData = foundry.utils.deepClone(game.actors._source.find(d => d._id == invalidId));
+      console.log(`Migrating invalid Actor document: ${rawData.name}`);
+      let invalidActor = game.actors.getInvalid(invalidId);
+      const updateData = await migrateActorData(invalidActor);
+      // let update = await invalidActor.update(updateData, { diff: true });
+      console.log(`Migrated invalid Actor document: ${rawData.name}`);
       invalidActorsUpdates.push({ _id: invalidId, ...updateData });
     } catch (err) {
       err.message = `Failed system migration for invalid Actor ${invalidId}: ${err.message}`;
@@ -54,11 +58,10 @@ export async function migration(originalVersion) {
   if (invalidActorsUpdates.length > 0) {
     await Actor.updateDocuments(invalidActorsUpdates, { diff: false });
   }
-
   // Migrate World Items
   for (let i of game.items) {
     try {
-      const updateData = migrateItemData(i);
+      const updateData = await migrateItemData(i);
       if (!foundry.utils.isEmpty(updateData)) {
         console.log(`Migrating Item entity ${i.name}`);
         await i.update(updateData, {
@@ -81,27 +84,26 @@ export async function migration(originalVersion) {
   // Migrate Invalid items
 
   const invalidItemIds = Array.from(game.items.invalidDocumentIds);
-  const updates = [];
+  const invalidItemsUpdates = [];
   for (const invalidId of invalidItemIds) {
     try {
-      // retrieve the raw source
       const rawData = foundry.utils.deepClone(game.items._source.find(d => d._id == invalidId));
       console.log(`Migrating invalid item document: ${rawData.name}`);
       const updateData = await migrateItemData(rawData);
-      updates.push({ _id: invalidId, ...updateData });
+      invalidItemsUpdates.push({ _id: invalidId, ...updateData });
     } catch (err) {
-      err.message = `Failed system migration for Item ${invalidId}: ${err.message}`;
+      err.message = `Failed system migration for invalid item ${invalidId}: ${err.message}`;
       console.error(err);
     }
   }
-  if (updates.length > 0) {
-    await Item.updateDocuments(updates, { diff: false });
+  if (invalidItemsUpdates.length > 0) {
+    await Item.updateDocuments(invalidItemsUpdates, { diff: false });
   }
 
   // Migrate Actor Override Tokens
   for (let s of game.scenes) {
     try {
-      const updateData = migrateSceneData(s);
+      const updateData = await migrateSceneData(s);
       if (!foundry.utils.isEmpty(updateData)) {
         console.log(`Migrating Scene entity ${s.name}`);
         await s.update(updateData, { enforceTypes: false });
@@ -172,7 +174,7 @@ export const migrateCompendium = async function(pack) {
           updateData = await migrateItemData(doc);
           break;
         case "Scene":
-          updateData = migrateSceneData(doc.toObject());
+          updateData = await migrateSceneData(doc);
           break;
       }
 
@@ -201,7 +203,7 @@ export const migrateCompendium = async function(pack) {
  * @param {object} [migrationData]  Additional data to perform the migration
  * @returns {object}                The updateData to apply
  */
-export const migrateSceneData = function(scene, migrationData) {
+export const migrateSceneData = async function(scene, migrationData) {
   if (scene?.flags?.world) {
     let updateData = {};
     const aura = scene.flags.world[`aura_${scene._id}`];
@@ -214,7 +216,7 @@ export const migrateSceneData = function(scene, migrationData) {
     return updateData;
   }
 
-  const tokens = scene.tokens.map(token => {
+  const tokens = scene.tokens.map(async token => {
     const t = token.toObject();
     const update = {};
 
@@ -234,7 +236,7 @@ export const migrateSceneData = function(scene, migrationData) {
       //   actor.system = { charType: { value: token.actor?.system?.charType?.value } };
       // }
 
-      const update = migrateActorData(t.actorData);
+      const update = await migrateActorData(t.actorData);
       ["items", "effects"].forEach(embeddedName => {
         if (!update[embeddedName]?.length) return;
         const updates = new Map(update[embeddedName].map(u => [u._id, u]));
@@ -251,10 +253,6 @@ export const migrateSceneData = function(scene, migrationData) {
   });
   return { tokens };
 };
-
-/* -------------------------------------------- */
-/*  Entity Type Migration Helpers               */
-/* -------------------------------------------- */
 
 /**
  * Migrate a single Actor entity to incorporate latest data model changes
@@ -405,7 +403,9 @@ export const migrateActorData = function(actorDoc) {
       updateData["system.-=pendingXP"] = null;
     }
   } else {
-    updateData["system.-=roll"] = null;
+    if (actor.system.roll) {
+      updateData["system.-=roll"] = null;
+    }
   }
 
   if (actor.type == "player" || actor.type == "npc") {
@@ -570,47 +570,61 @@ export const migrateActorData = function(actorDoc) {
 
   // Migrate Owned Items
   if (!actor.items) return updateData;
-
-  const items = actor.items.reduce((arr, i) => {
+  let items = [];
+  for (let i of actorDoc.items) {
     // Migrate the Owned Item
-
-    let itemUpdate = migrateItemData(i);
+    let itemUpdate = await migrateItemData(i);
     // Update the Owned Item
     if (!isEmpty(itemUpdate)) {
       itemUpdate._id = i._id;
-      arr.push(expandObject(itemUpdate));
+      items.push(itemUpdate);
     }
-    return arr;
-  }, []);
-
-  // Fix invalid items
-  // Actors from Compendiums don't have the invalidDocumentIds field
-  if (actor.items.invalidDocumentIds !== undefined) {
-    const invalidItemIds = Array.from(actor.items.invalidDocumentIds);
-    const fixedItems = invalidItemIds.reduce(async (updates, id) => {
-      try {
-        // retrieve the raw source
-        const rawData = foundry.utils.deepClone(actor.items._source.find(d => d._id == id));
-        console.log(`Migrating invalid owned item document: ${rawData.name}`);
-        const updateData = await migrateItemData(rawData);
-        updates.push({ _id: id, ...updateData });
-
-        return updates;
-      } catch (err) {
-        err.message = `Failed system migration for Item ${id}: ${err.message}`;
-        console.error(err.message);
-        return updates;
-      }
-    }, []);
-
-    if (fixedItems.length > 0) items.concat(fixedItems);
   }
-  if (items.length > 0) updateData.items = items;
+
+  // Fix invalid owned items
+  // Actors from Compendiums don't have the invalidDocumentIds field
+  if (actorDoc.items.invalidDocumentIds !== undefined) {
+    const invalidItemIds = Array.from(actorDoc.items.invalidDocumentIds);
+    let invalidItemsUpdates = [];
+    for (let invalidItemId of invalidItemIds) {
+      try {
+        const rawData = foundry.utils.deepClone(
+          actorDoc.items._source.find(d => d._id == invalidItemId)
+        );
+        let invalidItem = actorDoc.items.getInvalid(invalidItemId);
+        if (game.documentTypes.Item.includes(rawData.type)) {
+          const itemUpdate = await migrateItemData(invalidItem);
+          if (!isEmpty(itemUpdate)) {
+            invalidItemsUpdates.push({ _id: invalidItemId, ...itemUpdate });
+          }
+        } else {
+          let deleted = await invalidItem.delete({ parent: actorDoc });
+          // await Item.deleteDocuments([invalidItemId], { parent: actorDoc });
+          console.log(`deleted invalid owned item document: ${rawData.name}`);
+        }
+
+        console.log(`Migrating invalid owned item document: ${rawData.name}`);
+
+        // if (rawData.type === "mundaneBook") {
+        // }
+      } catch (err) {
+        err.message = `Failed system migration for invalid item ${invalidItemId}: ${err.message}`;
+        console.error(err);
+      }
+    }
+    if (invalidItemsUpdates.length > 0) {
+      items = items.concat(invalidItemsUpdates);
+      // await Item.updateDocuments(invalidItemsUpdates, { diff: false, parent: actorDoc });
+    }
+  }
+  if (items.length > 0) {
+    updateData.items = items;
+  }
 
   return updateData;
 };
 
-export const migrateActiveEffectData = function(effectData) {
+export const migrateActiveEffectData = async function(effectData) {
   let effectUpdate = {};
   // update flags
 
@@ -835,6 +849,7 @@ export const migrateItemData = async function(item) {
     }
   } else if (itemData.type == "mundaneBook") {
     updateData["type"] = "book";
+    updateData["name"] = itemData.name;
 
     if (itemData.system.topic === undefined) {
       let topic = {};
@@ -846,11 +861,11 @@ export const migrateItemData = async function(item) {
         topic.category = "ability";
       } else {
         // missing data, reset to default
-        topic.art = "cr";
-        topic.key = null;
-        topic.option = null;
+        topic.art = null;
+        topic.key = "awareness";
+        topic.option = "";
         topic.spellName = null;
-        topic.category = "art";
+        topic.category = "ability";
       }
 
       updateData["system.topic"] = topic;
@@ -887,7 +902,9 @@ export const migrateItemData = async function(item) {
         `<p>MIGRATION: value of ability field: ${itemData.system.ability}</p>`;
       updateData["system.-=ability"] = null;
     }
-    updateData["system.-=types"] = null;
+    if (itemData.system.types) {
+      updateData["system.-=types"] = null;
+    }
   } else if (itemData.type == "might") {
     updateData["type"] = "power";
   } else if (itemData.type == "virtue" || itemData.type == "flaw") {

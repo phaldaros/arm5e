@@ -120,8 +120,8 @@
   "arm5e.sheet.speciality": "Spécialitée",
   "arm5e.sheet.defaultCharacteristicForAbility": "Charactéristique par défaut",
   "arm5e.sheet.date": "Date",
-  "arm5e.sheet.equiped": "Equippé",
-  "arm5e.sheet.weaponExpert": "Expert d'Armes",
+  "arm5e.sheet.equiped": "Equipé",
+  "arm5e.sheet.weaponExpert": "Armes de spécialité",
   "arm5e.sheet.combat": "Combat",
   "arm5e.sheet.attackAdvantage": "Avantage d'attaque",
   "arm5e.sheet.combatInstructions1": "Équipez des armes et armures pour voir le total",
@@ -907,13 +907,13 @@
 
   "arm5e.sheet.activeEffect.bonuses.penetration": "Bonus de Pénétration",
 
-  "arm5e.sheet.activeEffect.changeMode": "Changer de Mode",
+  "arm5e.sheet.activeEffect.changeMode": "Mode",
   "arm5e.sheet.activeEffect.mode_0": "Personnalisé",
   "arm5e.sheet.activeEffect.mode_1": "Multiplier",
   "arm5e.sheet.activeEffect.mode_2": "Ajouter",
   "arm5e.sheet.activeEffect.mode_3": "Rétrograder",
   "arm5e.sheet.activeEffect.mode_4": "Améliorer",
-  "arm5e.sheet.activeEffect.mode_5": "Écraser",
+  "arm5e.sheet.activeEffect.mode_5": "Remplacer",
   "arm5e.sheet.activeEffect.add": "Ajouter ",
   "arm5e.sheet.activeEffect.multiply": "Multiplier {type} par ",
 
