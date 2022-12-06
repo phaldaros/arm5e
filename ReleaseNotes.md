@@ -7,6 +7,8 @@
 - improve migration of invalid documents following V10 290 fixes
 - new mnemonics for hints (WIP)
 - updated French version (by Orneen)
+- updated Spanish version (by Teotimus)
+- Spanish user guide added to journal compendium (by Teotimus)
 
 ### Bug fixes
 
