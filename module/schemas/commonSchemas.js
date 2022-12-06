@@ -6,7 +6,7 @@ export const itemBase = () => {
     description: new fields.StringField({ required: false, blank: true, initial: "" }),
     source: new fields.StringField({ required: false, initial: "custom" }),
     page: new fields.NumberField({
-      required: true,
+      required: false,
       nullable: false,
       integer: true,
       initial: 0,
@@ -60,7 +60,7 @@ export const hermeticArtScore = () =>
 
 export const hermeticForm = () =>
   new fields.StringField({
-    required: true,
+    required: false,
     blank: false,
     initial: "an",
     choices: Object.keys(ARM5E.magic.forms)
@@ -68,7 +68,7 @@ export const hermeticForm = () =>
 
 export const hermeticTechnique = () =>
   new fields.StringField({
-    required: true,
+    required: false,
     blank: false,
     initial: "cr",
     choices: Object.keys(ARM5E.magic.techniques)

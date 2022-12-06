@@ -1,4 +1,11 @@
 {
+  "ACTOR.TypePlayer": "Personaje Jugador",
+  "ACTOR.TypeNpc": "PNJ",
+  "ACTOR.TypeLaboratory": "Laboratorio",
+  "ACTOR.TypeCovenant": "Alianza",
+  "ACTOR.TypeMagiccodex": "Codex mágico",
+  "ACTOR.TypeBeast": "Bestia",
+
   "arm5e.sheet.player": "Jugador",
   "arm5e.sheet.npc": "PNJ",
   "arm5e.sheet.laboratory": "Laboratorio",
@@ -479,7 +486,7 @@
   "arm5e.spell.ranges.eye": "Ocular",
   "arm5e.spell.ranges.voice": "Voz",
   "arm5e.spell.ranges.road": "Camino",
-  "arm5e.spell.ranges.sight": "Vista",
+  "arm5e.spell.ranges.sight": "Visual",
   "arm5e.spell.ranges.arc": "Conexión arcana",
 
   "arm5e.spell.durations.moment": "Momentáneo",

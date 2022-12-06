@@ -12,6 +12,9 @@ import {
 } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 export class AbilitySchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     const base = itemBase();
     return {
@@ -94,14 +97,18 @@ export class AbilitySchema extends foundry.abstract.DataModel {
 }
 
 export class BookSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
       ...authorship(),
+      topic: new fields.ObjectField({ required: false, nullable: true, initial: null }), // TODO: remove when a way is found
       topics: new fields.ArrayField(
         new fields.SchemaField({
           category: new fields.StringField({
-            required: true,
+            required: false,
             nullable: false,
             initial: "art",
             choices: ["art", "ability", "labText", "mastery"]
@@ -117,7 +124,7 @@ export class BookSchema extends foundry.abstract.DataModel {
             nullable: false,
             integer: true,
             min: 0,
-            initial: 0,
+            initial: 1,
             step: 1
           }),
           level: new fields.NumberField({
@@ -125,7 +132,7 @@ export class BookSchema extends foundry.abstract.DataModel {
             nullable: true,
             integer: true,
             min: 0,
-            initial: 0,
+            initial: 1,
             step: 1
           }),
           type: new fields.StringField({
@@ -135,113 +142,130 @@ export class BookSchema extends foundry.abstract.DataModel {
             choices: ARM5E.books.types
           })
         }),
-        { required: true, initial: [] }
+        {
+          required: false,
+          initial: [{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
+        }
       )
     };
   }
 
   static migrateData(data) {
-    log(false, "MigrateData book");
-    if (data.topic && !data.topics) {
-      log(false, "really MigrateData book");
-      data.topics = [];
-      let topic = data.topic;
-      topic.quality = data.quality;
-      topic.level = data.level;
-      topic.type = data.type;
-      data.topics.push(topic);
+    console.log(`MigrateData book: ${JSON.stringify(data)}`);
+    if (data.topic) {
+      if (data.quality > 0) {
+        data.topic.quality = data.quality;
+        data.quality = 0;
+      }
+      if (data.level > 0) {
+        data.topic.level = data.level;
+        data.level = 0;
+      }
+      if (data.type !== undefined && data.type != "") {
+        data.topic.type = data.type;
+        data.type != "";
+      }
+
+      if (data.ability != undefined && data.ability != "") {
+        data.topic.category = "ability";
+        data.ability = "";
+      }
+    } else if (data.topic === undefined) {
+      // V9 books
+
+      data.topic = {
+        quality: data.quality,
+        level: data.level,
+        // type: data.type,
+        art: data.art?.value ?? "an",
+        category: "art"
+      };
+
+      if (data.ability != undefined && data.ability != "") {
+        data.topic.category = "ability";
+      }
+
+      if (data.type?.value !== undefined) {
+        if (data.type.value == "summa") {
+          data.topic.type = "Summa";
+        } else if (data.type.value == "tract") {
+          data.topic.type = "Tractatus";
+        } else {
+          data.topic.type = data.type.value;
+        }
+      } else {
+        data.topic.type = data.type;
+      }
     }
+
     return super.migrateData(data);
   }
 
+  // static cleanData(source = {}, options = {}) {
+  //   if (source.topic) {
+  //     source.topic = undefined;
+  //   }
+  //   return super.cleanData(source, options);
+  // }
+
   static migrate(itemData) {
-    log(false, "Migrate book " + itemData.name);
+    console.log(`Migrate book: ${JSON.stringify(itemData)}`);
     const updateData = {};
-    // legacy cleanup
-    if (
-      itemData.system.topic === undefined &&
-      Array.isArray(itemData.system.topics) &&
-      itemData.system.topics.length == 0
-    ) {
+
+    if (itemData.system.topic !== null) {
+      console.log("really Migrate book:" + itemData.name);
       let topics = [];
-      let topic = {};
-      if (itemData.system.art.value) {
-        topic.art = itemData.system.art.value;
-        topic.key = null;
-        topic.option = null;
-        topic.spellName = null;
-        topic.category = "art";
-        topic.quality = itemData.system.quality;
-        topic.level = itemData.system.level;
-        topic.mastery = false;
+
+      const topic = itemData.system.topic;
+      // topic.quality = itemData.system.quality;
+      // topic.level = itemData.system.level;
+      if (itemData.system.topic.category === "spell") {
+        topic.category = "mastery";
       } else {
-        // missing data, reset to default
-        topic.art = "cr";
-        topic.key = null;
-        topic.option = null;
-        topic.spellName = null;
-        topic.category = "art";
-        topic.quality = 1;
-        topic.level = 1;
-        topic.mastery = false;
+        topic.category = itemData.system.topic.category;
       }
-      if (itemData.system.type.value !== undefined) {
-        if (itemData.system.type.value == "summa") {
-          topic.type = "Summa";
-        } else if (itemData.system.type.value == "tract") {
-          topic.type = "Tractatus";
-        }
+      // topic.key = t.key;
+      // topic.option = t.option;
+      // topic.spellName = t.spellName;
+      // topic.art = t.art;
+      // topic.spellTech = t.spellTech
+      // topic.spellForm = t.spellForm
+
+      if (itemData.system.type == "summa") {
+        topic.type = "Summa";
+      } else if (itemData.system.type == "tract") {
+        topic.type = "Tractatus";
       } else {
-        if (itemData.system.type == "summa") {
-          topic.type = "Summa";
-        } else if (itemData.system.type == "tract") {
-          topic.type = "Tractatus";
-        }
+        topic.type = itemData.system.type;
       }
 
       topics.push(topic);
+      if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+        if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+          itemData.system.season = itemData.system.season.toLowerCase();
+        } else {
+          itemData.system.season = "spring";
+        }
+      }
+
       updateData["system.topics"] = topics;
       updateData["system.-=quality"] = null;
       updateData["system.-=level"] = null;
       updateData["system.-=type"] = null;
+      updateData["system.-=category"] = null;
+      updateData["system.-=types"] = null;
+      updateData["system.topic"] = null;
+      updateData["system.-=ability"] = null;
     }
 
-    for (let topic of itemData.system.topics) {
-      if (topic.type == "summa") {
-        topic.type = "Summa";
-      } else if (topic.type == "tract") {
-        topic.type = "Tractatus";
-      }
-    }
-    updateData["system.topics"] = itemData.system.topics;
-    // V10 datamodel cleanup (2.0.0)
-    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
-      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-        updateData["system.season"] = itemData.system.season.toLowerCase();
-      } else {
-        updateData["system.season"] = "spring";
-      }
-    }
-    updateData["system.-=types"] = null;
-
-    // single to multi-topics
-    if (itemData.system.topic && itemData.system.topics == undefined) {
-      let topics = [];
-      let topic = foundry.utils.deepClone(itemData.system.topic);
-      topic.type = itemData.system.type;
-      topic.quality = itemData.system.quality;
-      topic.level = itemData.system.level;
-      topics.push(topic);
-      updateData["system.topics"] = topics;
-      updateData["system.-=topic"] = null;
-      updateData["system.-=quality"] = null;
-      updateData["system.-=level"] = null;
-    }
     return updateData;
   }
 }
 
 export class VirtueFlawSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -265,6 +289,9 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
 }
 
 export class DiaryEntrySchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -277,6 +304,13 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         step: 1
       }),
       duration: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        positive: true,
+        initial: 1
+      }),
+      done: new fields.NumberField({
         required: false,
         nullable: false,
         integer: true,
@@ -362,6 +396,9 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
 }
 
 export class ItemSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -384,6 +421,9 @@ export class ItemSchema extends foundry.abstract.DataModel {
 }
 
 export class VisSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -406,6 +446,9 @@ export class VisSchema extends foundry.abstract.DataModel {
 }
 
 export class MySchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return { ...itemBase() };
   }

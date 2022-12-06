@@ -11,19 +11,18 @@ export async function migration(originalVersion) {
   console.log("Starting migration...");
 
   // Migrate World Actors
+  const actorsUpdates = [];
   for (let a of game.actors.contents) {
     try {
       if (a.type == "magus") {
         a.type = "player";
       }
-
       const updateData = await migrateActorData(a);
 
       if (!isEmpty(updateData)) {
         console.log(`Migrating Actor document ${a.name}`);
-        await a.update(updateData, {
-          enforceTypes: false
-        });
+        updateData._id = a._id;
+        actorsUpdates.push(foundry.utils.expandObject(updateData));
       }
 
       // const cleanData = cleanActorData(a)
@@ -36,6 +35,9 @@ export async function migration(originalVersion) {
       console.error(err);
     }
   }
+  if (actorsUpdates.length > 0) {
+    await Actor.updateDocuments(actorsUpdates, { diff: false });
+  }
 
   // Migrate Invalid actors
 
@@ -45,34 +47,38 @@ export async function migration(originalVersion) {
     try {
       const rawData = foundry.utils.deepClone(game.actors._source.find(d => d._id == invalidId));
       console.log(`Migrating invalid Actor document: ${rawData.name}`);
-      let invalidActor = game.actors.getInvalid(invalidId);
-      const updateData = await migrateActorData(invalidActor);
+      // let invalidActor = game.actors.getInvalid(invalidId);
+      const updateData = await migrateActorData(rawData);
       // let update = await invalidActor.update(updateData, { diff: true });
       console.log(`Migrated invalid Actor document: ${rawData.name}`);
-      invalidActorsUpdates.push({ _id: invalidId, ...updateData });
+
+      updateData._id = invalidId;
+      invalidActorsUpdates.push(foundry.utils.expandObject(updateData));
     } catch (err) {
       err.message = `Failed system migration for invalid Actor ${invalidId}: ${err.message}`;
       console.error(err);
     }
   }
   if (invalidActorsUpdates.length > 0) {
+    console.log(`Migrating ${invalidActorsUpdates.length} invalid Actor document(s)`);
     await Actor.updateDocuments(invalidActorsUpdates, { diff: false });
   }
   // Migrate World Items
+  const itemsUpdates = [];
   for (let i of game.items) {
     try {
       const updateData = await migrateItemData(i);
       if (!foundry.utils.isEmpty(updateData)) {
-        console.log(`Migrating Item entity ${i.name}`);
-        await i.update(updateData, {
-          enforceTypes: false
-        });
+        console.log(`Migrating Item document ${i.name}`);
+
+        updateData._id = i._id;
+        itemsUpdates.push(foundry.utils.expandObject(updateData));
       }
-      console.log(`Migrated Item entity ${i.name}`);
+      console.log(`Migrated Item document ${i.name}`);
 
       // const cleanData = cleanItemData(i)
       // if (!isEmpty(cleanData)) {
-      //     console.log(`Cleaning up Item entity ${i.name}`);
+      //     console.log(`Cleaning up Item document ${i.name}`);
       //     i.system = cleanData.system;
       // }
     } catch (err) {
@@ -80,7 +86,9 @@ export async function migration(originalVersion) {
       console.error(err);
     }
   }
-
+  if (itemsUpdates.length > 0) {
+    await Item.updateDocuments(itemsUpdates, { diff: false });
+  }
   // Migrate Invalid items
 
   const invalidItemIds = Array.from(game.items.invalidDocumentIds);
@@ -90,7 +98,8 @@ export async function migration(originalVersion) {
       const rawData = foundry.utils.deepClone(game.items._source.find(d => d._id == invalidId));
       console.log(`Migrating invalid item document: ${rawData.name}`);
       const updateData = await migrateItemData(rawData);
-      invalidItemsUpdates.push({ _id: invalidId, ...updateData });
+      updateData._id = invalidId;
+      invalidItemsUpdates.push(foundry.utils.expandObject(updateData));
     } catch (err) {
       err.message = `Failed system migration for invalid item ${invalidId}: ${err.message}`;
       console.error(err);
@@ -260,10 +269,10 @@ export const migrateSceneData = async function(scene, migrationData) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
-export const migrateActorData = function(actorDoc) {
+export const migrateActorData = async function(actorDoc) {
   let actor = {};
   if (actorDoc instanceof CONFIG.Actor.documentClass) {
-    actor = actorDoc.toObject();
+    actor = actorDoc._source;
   } else {
     actor = actorDoc;
   }
@@ -569,18 +578,19 @@ export const migrateActorData = function(actorDoc) {
   }
 
   // Migrate Owned Items
-  if (!actor.items) return updateData;
+  if (!actorDoc.items) return updateData;
   let items = [];
-  for (let i of actorDoc.items) {
-    // Migrate the Owned Item
-    let itemUpdate = await migrateItemData(i);
-    // Update the Owned Item
-    if (!isEmpty(itemUpdate)) {
-      itemUpdate._id = i._id;
-      items.push(itemUpdate);
+  if (actorDoc.items.size !== 0) {
+    for (let i of actorDoc.items) {
+      // Migrate the Owned Item
+      let itemUpdate = await migrateItemData(i);
+      // Update the Owned Item
+      if (!isEmpty(itemUpdate)) {
+        itemUpdate._id = i._id;
+        items.push(itemUpdate);
+      }
     }
   }
-
   // Fix invalid owned items
   // Actors from Compendiums don't have the invalidDocumentIds field
   if (actorDoc.items.invalidDocumentIds !== undefined) {
@@ -592,21 +602,12 @@ export const migrateActorData = function(actorDoc) {
           actorDoc.items._source.find(d => d._id == invalidItemId)
         );
         let invalidItem = actorDoc.items.getInvalid(invalidItemId);
-        if (game.documentTypes.Item.includes(rawData.type)) {
-          const itemUpdate = await migrateItemData(invalidItem);
-          if (!isEmpty(itemUpdate)) {
-            invalidItemsUpdates.push({ _id: invalidItemId, ...itemUpdate });
-          }
-        } else {
-          let deleted = await invalidItem.delete({ parent: actorDoc });
-          // await Item.deleteDocuments([invalidItemId], { parent: actorDoc });
-          console.log(`deleted invalid owned item document: ${rawData.name}`);
+        const itemUpdate = await migrateItemData(invalidItem);
+        if (!isEmpty(itemUpdate)) {
+          invalidItemsUpdates.push({ _id: invalidItemId, ...itemUpdate });
         }
 
         console.log(`Migrating invalid owned item document: ${rawData.name}`);
-
-        // if (rawData.type === "mundaneBook") {
-        // }
       } catch (err) {
         err.message = `Failed system migration for invalid item ${invalidItemId}: ${err.message}`;
         console.error(err);
@@ -678,7 +679,7 @@ export const migrateActiveEffectData = async function(effectData) {
 export const migrateItemData = async function(item) {
   let itemData = {};
   if (item instanceof CONFIG.Item.documentClass) {
-    itemData = item.toObject();
+    itemData = item._source;
   } else {
     itemData = item;
   }
@@ -851,56 +852,67 @@ export const migrateItemData = async function(item) {
     updateData["type"] = "book";
     updateData["name"] = itemData.name;
 
-    if (itemData.system.topic === undefined) {
-      let topic = {};
-      if (itemData.system.key) {
-        topic.art = null;
-        topic.key = itemData.system.key;
-        topic.option = itemData.system.option;
-        topic.spellName = null;
-        topic.category = "ability";
-      } else {
-        // missing data, reset to default
-        topic.art = null;
-        topic.key = "awareness";
-        topic.option = "";
-        topic.spellName = null;
-        topic.category = "ability";
-      }
+    // if (itemData.system.topic === undefined) {
+    //   let topic = {};
+    //   if (itemData.system.key) {
+    //     topic.art = null;
+    //     topic.key = itemData.system.key;
+    //     topic.option = itemData.system.option;
+    //     topic.spellName = null;
+    //     topic.category = "ability";
+    //   } else {
+    //     // missing data, reset to default
+    //     topic.art = null;
+    //     topic.key = "awareness";
+    //     topic.option = "";
+    //     topic.spellName = null;
+    //     topic.category = "ability";
+    //   }
 
-      updateData["system.topic"] = topic;
-    } else {
-      let topic = { art: null, key: "awareness", option: "", spellName: null, category: "ability" };
-      updateData["system.topic"] = topic;
-    }
-    // V10 datamodel cleanup (2.0.0)
-    if (itemData.system.type.value !== undefined) {
-      if (itemData.system.type.value == "summa") {
-        updateData["system.type"] = "Summa";
-      } else if (itemData.system.type.value == "tract") {
-        updateData["system.type"] = "Tractatus";
-      }
-    } else {
-      if (itemData.system.type == "summa") {
-        updateData["system.type"] = "Summa";
-      } else if (itemData.system.type == "tract") {
-        updateData["system.type"] = "Tractatus";
-      }
-    }
-    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
-      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-        updateData["system.season"] = itemData.system.season.toLowerCase();
-      } else {
-        updateData["system.season"] = "spring";
-      }
-    }
+    //   if (itemData.system.type.value !== undefined) {
+    //     if (itemData.system.type.value == "summa") {
+    //       topic.type = "Summa";
+    //     } else if (itemData.system.type.value == "tract") {
+    //       topic.type = "Tractatus";
+    //     } else {
+    //       topic.type = itemData.system.type.value;
+    //     }
+    //   } else {
+    //     if (itemData.system.type == "summa") {
+    //       topic.type = "Summa";
+    //     } else if (itemData.system.type == "tract") {
+    //       topic.type = "Tractatus";
+    //     }
+    //   }
+
+    //   updateData["system.topic"] = topic;
+    // } else {
+    //   let topic = {
+    //     art: null,
+    //     key: "awareness",
+    //     option: "",
+    //     spellName: null,
+    //     category: "ability",
+    //     type: "Summa"
+    //   };
+    //   updateData["system.topic"] = topic;
+    // }
+    // // V10 datamodel cleanup (2.0.0)
+
+    // if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+    //   if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+    //     updateData["system.season"] = itemData.system.season.toLowerCase();
+    //   } else {
+    //     updateData["system.season"] = "spring";
+    //   }
+    // }
     if (itemData.system.ability != undefined) {
       // the field ability is no longer used,
       // appending the value to the description.
       updateData["system.description"] =
         itemData.system.description +
         `<p>MIGRATION: value of ability field: ${itemData.system.ability}</p>`;
-      updateData["system.-=ability"] = null;
+      // updateData["system.-=ability"] = null;
     }
     if (itemData.system.types) {
       updateData["system.-=types"] = null;

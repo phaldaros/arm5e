@@ -1256,23 +1256,6 @@
       "art": "cr",
       "pawns": 1
     },
-    "book": {
-      "templates": ["base", "authorship"],
-
-      "topics": [
-        {
-          "type": "Summa",
-          "category": "art",
-          "key": null,
-          "option": null,
-          "art": "cr",
-          "spellName": null,
-          "mastery": false,
-          "quality": 1,
-          "level": 1
-        }
-      ]
-    },
     "item": {
       "templates": ["base"],
       "quantity": 1,

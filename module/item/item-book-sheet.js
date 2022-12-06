@@ -244,11 +244,14 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
 
     const newTopics = this.object.system.topics;
     const index = Number(Object.keys(expanded.system.topics)[0]);
-    newTopics[index] = expanded.system.topics[index];
+
     // Since type is read only when mastery, it is not part of the form data
     if (expanded.system.topics[index].category == "mastery") {
       expanded.system.topics[index].type = "Tractatus";
     }
+
+    newTopics[index] = expanded.system.topics[index];
+
     const newFormData = { ...formData, ...flattenObject({ system: { topics: newTopics } }) };
     return this.object.update(newFormData);
   }

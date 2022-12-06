@@ -570,9 +570,9 @@ export class ArM5eItem extends Item {
       const updateData = migrateItemData(this);
 
       if (!isEmpty(updateData)) {
-        console.log(`Migrating Item entity ${this.name}`);
+        console.log(`Migrating Item document ${this.name}`);
         await this.update(updateData, {
-          enforceTypes: false
+          diff: false
         });
       }
     } catch (err) {
