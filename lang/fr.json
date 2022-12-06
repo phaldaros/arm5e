@@ -43,6 +43,7 @@
   "ITEM.TypePowerfamiliar": "Pouvoir de familier",
   "ITEM.TypeBook": "Livre",
   "ITEM.TypeEnchantment": "Enchantement",
+  "ITEM.TypeMundanebook": "Livre ordinaire (déprécié)",
   
   "arm5e.sheet.player": "Joueur",
   "arm5e.sheet.npc": "PNJ",
@@ -1040,6 +1041,11 @@
   "arm5e.scriptorium.msg.notMagus": "Le lecteur n'est pas un mage.",
   "arm5e.scriptorium.reading.activity": "Lecture {title}",
 
+  "arm5e.hints.create": "Créer {item}",
+  "arm5e.hints.edit": "Modifier {item}",
+  "arm5e.hints.delete": "Supprimer {item}",
+  "arm5e.hints.design": "Conception {item}",
+  
   "arm5e.sheet.label.details": "Détails",
 
   "arm5e.config.sourcebookFilter": "Filtre livre source",
