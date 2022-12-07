@@ -106,7 +106,7 @@
         <a class="item posRelative" data-tab="vandf" data-group="abilities-secondary">
           <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
           <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
-          {{localize "arm5e.sheet.virtues"}} & {{localize "arm5e.sheet.flaws"}}
+          {{localize "arm5e.sheet.qualities"}} & {{localize "arm5e.sheet.inferiorities"}}
         </a>
       </nav>
       <section class="abilities-body">
@@ -114,7 +114,7 @@
           {{> "systems/arm5e/templates/actor/parts/actor-abilities.html" }}
         </div>
         <div class="tab" data-group="abilities-secondary" data-tab="vandf">
-          {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
+          {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" bonuses="arm5e.sheet.qualities" penalties="arm5e.sheet.inferiorities"  }}
         </div>
       </section>
     </div>

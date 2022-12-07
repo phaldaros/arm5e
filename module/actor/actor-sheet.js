@@ -145,7 +145,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // Allow effect creation
     actorData.system.effectCreation = game.user.isGM;
 
-    if (actorData.type === "player" || actorData.type === "npc") {
+    if (actorData.type === "player" || actorData.type === "npc" || actorData.type == "beast") {
       let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
       if (usercache[this.actor.id]) {
         context.userData = usercache[this.actor.id];
@@ -187,7 +187,10 @@ export class ArM5eActorSheet extends ActorSheet {
         }
       }
 
-      if (context.system.charType.value == "magusNPC" || context.system.charType.value == "magus") {
+      if (
+        context.system?.charType?.value == "magusNPC" ||
+        context.system?.charType?.value == "magus"
+      ) {
         // Arts icons style
         context.artsIcons = game.settings.get("arm5e", "artsIcons");
         context.system.world.labs = game.actors

@@ -16,12 +16,14 @@
   - List of topics instead of books
 - French and Spanish version updated (by Orneen and Teotimus)
 - Spanish user guide (by Teotimus)
+- New Actor specific labels for "virtues" and "flaws"
 
 ### Bug fixes
 
 - [en] Fatal wounds are no longer "dead" but "deadly"
 - Powers are again editable once created.
 - Removal of deprecation warnings in ars-scene
+- Fix abilities for beast sheet
 
 ### V10 migration (on going)
 
