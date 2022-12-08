@@ -15,6 +15,7 @@
 - Powers are again editable.
 - updated generic abilities option field in Compendium
 - added note about individual target size in Spell section
+- Abilities are again displayed in beast sheets
 
 ## 2.0.3.12, Jerbiton the Magus
 
