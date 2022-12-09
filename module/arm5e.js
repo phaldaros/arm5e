@@ -28,12 +28,19 @@ import { ArsLayer, addArsButtons, onDropOnCanvas } from "./ui/ars-layer.js";
 
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
-import { AbilitySchema, BookSchema, VirtueFlawSchema } from "./schemas/ItemSchemas.js";
+import {
+  AbilitySchema,
+  BookSchema,
+  ItemSchema,
+  VirtueFlawSchema,
+  VisSchema
+} from "./schemas/ItemSchemas.js";
 import { registerSettings } from "./settings.js";
 import { registerTestSuites } from "./tests/tests.js";
 import { StressDie } from "./helpers/stressdie.js";
 import { UserguideTour } from "./tours/userguide-tour.js";
 import { ArM5eBookSheet } from "./item/item-book-sheet.js";
+import { BaseEffectSchema } from "./schemas/MagicSchemas.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -342,8 +349,11 @@ Hooks.on("renderPause", function() {
 function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["ability"] = AbilitySchema;
   CONFIG.Item.systemDataModels["book"] = BookSchema;
-  // CONFIG.Item.systemDataModels["virtue"] = VirtueFlawSchema;
-  // CONFIG.Item.systemDataModels["flaw"] = VirtueFlawSchema;
+  CONFIG.Item.systemDataModels["virtue"] = VirtueFlawSchema;
+  CONFIG.Item.systemDataModels["flaw"] = VirtueFlawSchema;
+  CONFIG.Item.systemDataModels["item"] = ItemSchema;
+  CONFIG.Item.systemDataModels["vis"] = VisSchema;
+  CONFIG.Item.systemDataModels["baseEffect"] = BaseEffectSchema;
 }
 
 function registerSheets() {

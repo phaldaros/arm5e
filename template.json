@@ -1265,16 +1265,14 @@
       "templates": ["base"],
       "type": "general",
       "impact": {
-        "label": "arm5e.sheet.impact",
-        "value": ""
+        "value": "free"
       }
     },
     "flaw": {
       "templates": ["base"],
       "type": "general",
       "impact": {
-        "label": "arm5e.sheet.impact",
-        "value": ""
+        "value": "free"
       }
     },
     "ability": {

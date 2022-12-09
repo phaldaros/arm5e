@@ -151,7 +151,7 @@ export class BookSchema extends foundry.abstract.DataModel {
   }
 
   static migrateData(data) {
-    console.log(`MigrateData book: ${JSON.stringify(data)}`);
+    // console.log(`MigrateData book: ${JSON.stringify(data)}`);
     if (data.topic) {
       if (data.quality > 0) {
         data.topic.quality = data.quality;
@@ -201,19 +201,12 @@ export class BookSchema extends foundry.abstract.DataModel {
     return super.migrateData(data);
   }
 
-  // static cleanData(source = {}, options = {}) {
-  //   if (source.topic) {
-  //     source.topic = undefined;
-  //   }
-  //   return super.cleanData(source, options);
-  // }
-
   static migrate(itemData) {
-    console.log(`Migrate book: ${JSON.stringify(itemData)}`);
+    // console.log(`Migrate book: ${JSON.stringify(itemData)}`);
     const updateData = {};
 
     if (itemData.system.topic !== null) {
-      console.log("really Migrate book:" + itemData.name);
+      // console.log("really Migrate book:" + itemData.name);
       let topics = [];
 
       const topic = itemData.system.topic;
@@ -257,6 +250,9 @@ export class BookSchema extends foundry.abstract.DataModel {
       updateData["system.topic"] = null;
       updateData["system.-=ability"] = null;
     }
+    if (itemData.system.year == null) {
+      updateData["system.year"] = "1220";
+    }
 
     return updateData;
   }
@@ -274,17 +270,43 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
         blank: false,
         initial: "general",
         choices: Object.keys(ARM5E.virtueFlawTypes.character)
-          .concat(ARM5E.virtueFlawTypes.laboratory)
-          .concat(ARM5E.virtueFlawTypes.covenant)
+          .concat(Object.keys(ARM5E.virtueFlawTypes.laboratory))
+          .concat(Object.keys(ARM5E.virtueFlawTypes.covenant))
+          .concat("Special")
           .concat("other")
       }),
-      impact: new fields.StringField({
-        required: false,
-        blank: false,
-        initial: "free",
-        choices: Object.keys(ARM5E.impacts)
-      })
+      impact: new fields.SchemaField(
+        {
+          value: new fields.StringField({
+            required: false,
+            blank: false,
+            initial: "free",
+            choices: Object.keys(ARM5E.impacts).concat("Special")
+          })
+        },
+        { required: true }
+      )
     };
+  }
+
+  static migrateData(data) {
+    // if (data.description == null) {
+    //   data.description = "";
+    // }
+    if (data.type.value) {
+      data.type = data.type.value;
+    }
+  }
+
+  static migrate(itemData) {
+    const updateData = {};
+    if (itemData.system.type.value !== undefined) {
+      updateData["system.type"] = itemData.system.type.value;
+    }
+    if (itemData.system.description == null) {
+      updateData["system.description"] = "";
+    }
+    return updateData;
   }
 }
 
@@ -418,6 +440,10 @@ export class ItemSchema extends foundry.abstract.DataModel {
       })
     };
   }
+
+  static migrate(itemData) {
+    return {};
+  }
 }
 
 export class VisSchema extends foundry.abstract.DataModel {
@@ -442,6 +468,35 @@ export class VisSchema extends foundry.abstract.DataModel {
         step: 1
       })
     };
+  }
+
+  static migrateData(data) {
+    // if (data.art == "") {
+    //   data.art = "cr";
+    // } else
+    if (data.art.value) {
+      data.art = data.art.value;
+    }
+  }
+
+  static migrate(itemData) {
+    const updateData = {};
+    if (itemData.system.art.value !== undefined) {
+      updateData["system.art"] = itemData.system.art.value;
+    } else if (itemData.system.art == "") {
+      updateData["system.art"] = "cr";
+    }
+    // get ride of form of vis field
+    if (
+      itemData.system.form != undefined &&
+      itemData.system.form !== "Physical form of the raw vis." &&
+      itemData.system.form !== ""
+    ) {
+      updateData["system.description"] = itemData.system.description + itemData.system.form;
+      updateData["system.-=form"] = null;
+    }
+
+    return updateData;
   }
 }
 

@@ -22,13 +22,9 @@ Thanks to various contributors at https://game-icons.net for some default icons
 
 ![Latest Release Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/latest/arm5e.zip)
 
-[![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2arm5e&colorB=4aa94a)](https://forge-vtt.com/bazaar#package=arm5e)
+![Release 2.0.3.12 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.0.3.12/arm5e.zip)
 
-![Release 2.0.3.11 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.0.3.11/arm5e.zip)
-
-![Release 2.0.2.6 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.0.2.6/arm5e.zip)
-
-![Release 1.4.8 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.8/arm5e.zip)
+![Release 1.4.8 Download Count (V9)](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.8/arm5e.zip)
 
 ![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/Xzotl42/arm5e/releases/latest/download/system.json)
 

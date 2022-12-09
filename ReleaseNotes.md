@@ -23,7 +23,6 @@
 - [en] Fatal wounds are no longer "dead" but "deadly"
 - Powers are again editable once created.
 - Removal of deprecation warnings in ars-scene
-- Fix abilities for beast sheet
 
 ### V10 migration (on going)
 
@@ -31,6 +30,9 @@
 
   - Abilities
   - Books
+  - Virtues & Flaws
+  - Mundane items
+  - Vis
 
 ## 2.0.3.13, Jerbiton the Founder
 
@@ -39,12 +41,15 @@
 - improve migration of invalid documents following V10 290 fixes
 - new mnemonics for hints (WIP)
 - updated French version (by Orneen)
+- updated Spanish version (by Teotimus)
+- Spanish user guide added to journal compendium (by Teotimus)
 
 ### Bug fixes
 
 - Powers are again editable.
 - updated generic abilities option field in Compendium
 - added note about individual target size in Spell section
+- Abilities are again displayed in beast sheets
 
 ## 2.0.3.12, Jerbiton the Magus
 

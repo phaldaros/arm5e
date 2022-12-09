@@ -36,7 +36,7 @@ export async function migration(originalVersion) {
     }
   }
   if (actorsUpdates.length > 0) {
-    await Actor.updateDocuments(actorsUpdates, { diff: false });
+    await Actor.updateDocuments(actorsUpdates, { diff: true });
   }
 
   // Migrate Invalid actors
@@ -87,7 +87,7 @@ export async function migration(originalVersion) {
     }
   }
   if (itemsUpdates.length > 0) {
-    await Item.updateDocuments(itemsUpdates, { diff: false });
+    await Item.updateDocuments(itemsUpdates, { diff: true });
   }
   // Migrate Invalid items
 
@@ -583,11 +583,16 @@ export const migrateActorData = async function(actorDoc) {
   if (actorDoc.items.size !== 0) {
     for (let i of actorDoc.items) {
       // Migrate the Owned Item
-      let itemUpdate = await migrateItemData(i);
-      // Update the Owned Item
-      if (!isEmpty(itemUpdate)) {
-        itemUpdate._id = i._id;
-        items.push(itemUpdate);
+      try {
+        let itemUpdate = await migrateItemData(i);
+        // Update the Owned Item
+        if (!isEmpty(itemUpdate)) {
+          itemUpdate._id = i._id;
+          items.push(itemUpdate);
+        }
+      } catch (err) {
+        err.message = `Failed system migration for owned item ${i._id}: ${err.message}`;
+        console.error(err);
       }
     }
   }
@@ -827,11 +832,7 @@ export const migrateItemData = async function(item) {
         updateData["system.year"] = Number(itemData.system.year);
       }
     }
-  } else if (
-    itemData.type == "vis" ||
-    itemData.type == "visSourcesCovenant" ||
-    itemData.type == "visStockCovenant"
-  ) {
+  } else if (itemData.type == "visSourcesCovenant" || itemData.type == "visStockCovenant") {
     // V10 datamodel cleanup (2.0.0)
     if (itemData.system.art.value !== undefined) {
       updateData["system.art"] = itemData.system.art.value;
@@ -919,11 +920,8 @@ export const migrateItemData = async function(item) {
     }
   } else if (itemData.type == "might") {
     updateData["type"] = "power";
-  } else if (itemData.type == "virtue" || itemData.type == "flaw") {
-    if (itemData.system.type.value !== undefined) {
-      updateData["system.type"] = itemData.system.type.value;
-    }
   }
+
   if (itemData.type == "mightFamiliar") {
     updateData["type"] = "powerFamiliar";
   }
