@@ -219,7 +219,7 @@
           {{> "systems/arm5e/templates/actor/parts/actor-abilities.html" }}
         </div>
         <div class="tab" data-group="abilities-secondary" data-tab="vandf">
-          {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
+          {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" bonuses="arm5e.sheet.virtues" penalties="arm5e.sheet.flaws"}}
         </div>
       </section>
     </div>
@@ -239,6 +239,7 @@
             {{localize "arm5e.sheet.castingTotals"}}
           </a>
         </nav>
+        {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
         <section class="arts-body">
           <div class="tab" data-group="arts-secondary" data-tab="arts-subtab">
             {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
@@ -274,9 +275,31 @@
           </div>
         </section>
       </div>
-    {{/if}} {{!-- Inventory Tab --}}
+    {{/if}}
+    {{!-- Inventory Tab --}}
     <div class="tab inventory" data-group="primary" data-tab="inventory">
-      {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}
+
+      <nav class="arm5eSubTabs inventory-tabs tabs" data-group="inventory-secondary">
+        <a class="item posRelative" data-tab="inventory" data-group="inventory-secondary">
+          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.inventory"}}
+        </a>
+        <a class="item posRelative" data-tab="library" data-group="inventory-secondary">
+          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.library"}}
+        </a>
+      </nav>
+      <section class="inventory-body">
+        <div class="tab" data-group="inventory-secondary" data-tab="inventory">
+          {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}
+        </div>
+        <div class="tab" data-group="inventory-secondary" data-tab="library">
+          {{> "systems/arm5e/templates/actor/parts/actor-library.html"}}
+        </div>
+      </section>
+
     </div>
 
     {{!-- Diary Tab --}}

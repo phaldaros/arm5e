@@ -2245,10 +2245,11 @@ ARM5E.activities.generic = {
 
 ARM5E.books = {};
 ARM5E.books.types = ["Summa", "Tractatus"];
-ARM5E.books.topics = {
+ARM5E.books.categories = {
   art: "arm5e.sheet.art",
   ability: "arm5e.sheet.ability",
-  spell: "arm5e.activity.options.mastery"
+  mastery: "arm5e.activity.options.mastery",
+  labText: "Lab text" // TODO mnemonic
 };
 
 ARM5E.activities.lab = {

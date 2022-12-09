@@ -1,14 +1,20 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
+import { log } from "../tools.js";
 import {
   authorship,
   characteristicField,
+  hermeticForm,
+  hermeticTechnique,
   itemBase,
   SeasonField,
   XpField
 } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 export class AbilitySchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     const base = itemBase();
     return {
@@ -20,72 +26,242 @@ export class AbilitySchema extends foundry.abstract.DataModel {
       option: new fields.StringField({ required: false, blank: true, initial: "" })
     };
   }
+
+  static migrate(itemData) {
+    log(false, "Migrate ability " + itemData.name);
+    const updateData = {};
+    if (itemData.system.experienceNextLevel != undefined) {
+      // if the experience is equal or bigger than the xp for this score, use it as total xp
+      let exp = ((itemData.system.score * (itemData.system.score + 1)) / 2) * 5;
+      if (itemData.system.experience >= exp) {
+        updateData["system.xp"] = itemData.system.experience;
+      } else if (itemData.system.experience >= (itemData.system.score + 1) * 5) {
+        // if the experience is bigger than the neeeded for next level, ignore it
+        updateData["system.xp"] = exp;
+      } else {
+        // compute normally
+        updateData["system.xp"] = exp + itemData.system.experience;
+      }
+      // TODO: to be uncommentedm when we are sure the new system works
+      // updateData["system.-=experience"] = null;
+      // updateData["system.-=score"] = null;
+      updateData["system.-=experienceNextLevel"] = null;
+    }
+    // clean-up TODO: remove
+    updateData["system.-=puissant"] = null;
+    updateData["system.-=affinity"] = null;
+
+    // no key assigned to the ability, try to find one
+    if (CONFIG.ARM5E.ALL_ABILITIES[itemData.system.key] == undefined || itemData.system.key == "") {
+      log(true, `Trying to find key for ability ${itemData.name}`);
+      let name = itemData.name.toLowerCase();
+      // handle those pesky '*' at the end of restricted abilities
+      if (name.endsWith("*")) {
+        name = name.substring(0, name.length - 1);
+      }
+
+      // Special common cases
+      if (game.i18n.localize("arm5e.skill.commonCases.native").toLowerCase() == name) {
+        updateData["system.key"] = "livingLanguage";
+        updateData["system.option"] = "nativeTongue";
+        log(false, `Found key livingLanguage for ability  ${itemData.name}`);
+      } else if (game.i18n.localize("arm5e.skill.commonCases.areaLore").toLowerCase() == name) {
+        updateData["system.key"] = "areaLore";
+        log(false, `Found key areaLore for ability  ${itemData.name}`);
+      } else if (game.i18n.localize("arm5e.skill.commonCases.latin").toLowerCase() == name) {
+        updateData["system.key"] = "deadLanguage";
+        updateData["system.option"] = "Latin";
+        log(false, `Found key latin for ability  ${itemData.name}`);
+      } else if (game.i18n.localize("arm5e.skill.commonCases.hermesLore").toLowerCase() == name) {
+        updateData["system.key"] = "organizationLore";
+        updateData["system.option"] = "OrderOfHermes";
+        log(false, `Found key hermesLore for ability  ${itemData.name}`);
+      } else {
+        for (const [key, value] of Object.entries(CONFIG.ARM5E.ALL_ABILITIES)) {
+          if (game.i18n.localize(value.mnemonic).toLowerCase() == name) {
+            updateData["system.key"] = key;
+            log(false, `Found key ${key} for ability  ${itemData.name}`);
+            break;
+          }
+        }
+      }
+      if (updateData["system.key"] == undefined) {
+        log(true, `Unable to find a key for ability  ${itemData.name}`);
+      }
+    }
+    if (itemData.system.option != undefined) {
+      // keep only alphanum chars
+      updateData["system.option"] = itemData.system.option.replace(/[^a-zA-Z0-9]/gi, "");
+    }
+  }
 }
 
 export class BookSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
       ...authorship(),
-
-      quality: new fields.NumberField({
-        required: false,
-        nullable: false,
-        integer: true,
-        min: 0,
-        initial: 0,
-        step: 1
-      }),
-      level: new fields.NumberField({
-        required: false,
-        nullable: true,
-        integer: true,
-        min: 0,
-        initial: 0,
-        step: 1
-      }),
-      type: new fields.StringField({
-        required: false,
-        blank: false,
-        initial: "Summa",
-        choices: ARM5E.books.types
-      }),
-      topic: new fields.SchemaField({
-        category: new fields.StringField({
-          required: true,
-          nullable: false,
-          initial: "art",
-          choices: ["art", "ability", "spell"]
+      topic: new fields.ObjectField({ required: false, nullable: true, initial: null }), // TODO: remove when a way is found
+      topics: new fields.ArrayField(
+        new fields.SchemaField({
+          category: new fields.StringField({
+            required: false,
+            nullable: false,
+            initial: "art",
+            choices: ["art", "ability", "labText", "mastery"]
+          }),
+          art: new fields.StringField({ required: false, nullable: true, initial: "cr" }),
+          key: new fields.StringField({ required: false, nullable: true, initial: null }),
+          option: new fields.StringField({ required: false, nullable: true, initial: null }),
+          spellName: new fields.StringField({ required: false, nullable: true, initial: null }),
+          spellTech: hermeticTechnique(),
+          spellForm: hermeticForm(),
+          quality: new fields.NumberField({
+            required: false,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 1,
+            step: 1
+          }),
+          level: new fields.NumberField({
+            required: false,
+            nullable: true,
+            integer: true,
+            min: 0,
+            initial: 1,
+            step: 1
+          }),
+          type: new fields.StringField({
+            required: false,
+            blank: false,
+            initial: "Summa",
+            choices: ARM5E.books.types
+          })
         }),
-        art: new fields.StringField({ required: false, nullable: true, initial: "cr" }),
-        key: new fields.StringField({ required: false, nullable: true, initial: null }),
-        option: new fields.StringField({ required: false, nullable: true, initial: null }),
-        spellName: new fields.StringField({ required: false, nullable: true, initial: null })
-      })
+        {
+          required: false,
+          initial: [{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
+        }
+      )
     };
   }
 
-  // @override
-  _validate(data) {
-    // first call the standard validate model
-    super._validate(data);
-    let error = false;
-    if (data.system.topic.art !== null) {
-      topicCount++;
+  static migrateData(data) {
+    // console.log(`MigrateData book: ${JSON.stringify(data)}`);
+    if (data.topic) {
+      if (data.quality > 0) {
+        data.topic.quality = data.quality;
+        data.quality = 0;
+      }
+      if (data.level > 0) {
+        data.topic.level = data.level;
+        data.level = 0;
+      }
+      if (data.type !== undefined && data.type != "") {
+        data.topic.type = data.type;
+        data.type != "";
+      }
+
+      if (data.ability != undefined && data.ability != "") {
+        data.topic.category = "ability";
+        data.ability = "";
+      }
+    } else if (data.topic === undefined) {
+      // V9 books
+
+      data.topic = {
+        quality: data.quality,
+        level: data.level,
+        // type: data.type,
+        art: data.art?.value ?? "an",
+        category: "art"
+      };
+
+      if (data.ability != undefined && data.ability != "") {
+        data.topic.category = "ability";
+      }
+
+      if (data.type?.value !== undefined) {
+        if (data.type.value == "summa") {
+          data.topic.type = "Summa";
+        } else if (data.type.value == "tract") {
+          data.topic.type = "Tractatus";
+        } else {
+          data.topic.type = data.type.value;
+        }
+      } else {
+        data.topic.type = data.type;
+      }
     }
-    if (data.system.topic.spellName !== null) {
-      topicCount++;
+
+    return super.migrateData(data);
+  }
+
+  static migrate(itemData) {
+    // console.log(`Migrate book: ${JSON.stringify(itemData)}`);
+    const updateData = {};
+
+    if (itemData.system.topic !== null) {
+      // console.log("really Migrate book:" + itemData.name);
+      let topics = [];
+
+      const topic = itemData.system.topic;
+      // topic.quality = itemData.system.quality;
+      // topic.level = itemData.system.level;
+      if (itemData.system.topic.category === "spell") {
+        topic.category = "mastery";
+      } else {
+        topic.category = itemData.system.topic.category;
+      }
+      // topic.key = t.key;
+      // topic.option = t.option;
+      // topic.spellName = t.spellName;
+      // topic.art = t.art;
+      // topic.spellTech = t.spellTech
+      // topic.spellForm = t.spellForm
+
+      if (itemData.system.type == "summa") {
+        topic.type = "Summa";
+      } else if (itemData.system.type == "tract") {
+        topic.type = "Tractatus";
+      } else {
+        topic.type = itemData.system.type;
+      }
+
+      topics.push(topic);
+      if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+        if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+          itemData.system.season = itemData.system.season.toLowerCase();
+        } else {
+          itemData.system.season = "spring";
+        }
+      }
+
+      updateData["system.topics"] = topics;
+      updateData["system.-=quality"] = null;
+      updateData["system.-=level"] = null;
+      updateData["system.-=type"] = null;
+      updateData["system.-=category"] = null;
+      updateData["system.-=types"] = null;
+      updateData["system.topic"] = null;
+      updateData["system.-=ability"] = null;
     }
-    if (data.system.topic.key !== null) {
-      topicCount++;
+    if (itemData.system.year == null) {
+      updateData["system.year"] = "1220";
     }
-    if (topicCount != 1) {
-      throw new Error("A book cannot cover more than one topic");
-    }
+
+    return updateData;
   }
 }
 
 export class VirtueFlawSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -94,21 +270,50 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
         blank: false,
         initial: "general",
         choices: Object.keys(ARM5E.virtueFlawTypes.character)
-          .concat(ARM5E.virtueFlawTypes.laboratory)
-          .concat(ARM5E.virtueFlawTypes.covenant)
+          .concat(Object.keys(ARM5E.virtueFlawTypes.laboratory))
+          .concat(Object.keys(ARM5E.virtueFlawTypes.covenant))
+          .concat("Special")
           .concat("other")
       }),
-      impact: new fields.StringField({
-        required: false,
-        blank: false,
-        initial: "free",
-        choices: Object.keys(ARM5E.impacts)
-      })
+      impact: new fields.SchemaField(
+        {
+          value: new fields.StringField({
+            required: false,
+            blank: false,
+            initial: "free",
+            choices: Object.keys(ARM5E.impacts).concat("Special")
+          })
+        },
+        { required: true }
+      )
     };
+  }
+
+  static migrateData(data) {
+    // if (data.description == null) {
+    //   data.description = "";
+    // }
+    if (data.type.value) {
+      data.type = data.type.value;
+    }
+  }
+
+  static migrate(itemData) {
+    const updateData = {};
+    if (itemData.system.type.value !== undefined) {
+      updateData["system.type"] = itemData.system.type.value;
+    }
+    if (itemData.system.description == null) {
+      updateData["system.description"] = "";
+    }
+    return updateData;
   }
 }
 
 export class DiaryEntrySchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -121,6 +326,13 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         step: 1
       }),
       duration: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        positive: true,
+        initial: 1
+      }),
+      done: new fields.NumberField({
         required: false,
         nullable: false,
         integer: true,
@@ -206,6 +418,9 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
 }
 
 export class ItemSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -225,9 +440,16 @@ export class ItemSchema extends foundry.abstract.DataModel {
       })
     };
   }
+
+  static migrate(itemData) {
+    return {};
+  }
 }
 
 export class VisSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return {
       ...itemBase(),
@@ -247,9 +469,41 @@ export class VisSchema extends foundry.abstract.DataModel {
       })
     };
   }
+
+  static migrateData(data) {
+    // if (data.art == "") {
+    //   data.art = "cr";
+    // } else
+    if (data.art.value) {
+      data.art = data.art.value;
+    }
+  }
+
+  static migrate(itemData) {
+    const updateData = {};
+    if (itemData.system.art.value !== undefined) {
+      updateData["system.art"] = itemData.system.art.value;
+    } else if (itemData.system.art == "") {
+      updateData["system.art"] = "cr";
+    }
+    // get ride of form of vis field
+    if (
+      itemData.system.form != undefined &&
+      itemData.system.form !== "Physical form of the raw vis." &&
+      itemData.system.form !== ""
+    ) {
+      updateData["system.description"] = itemData.system.description + itemData.system.form;
+      updateData["system.-=form"] = null;
+    }
+
+    return updateData;
+  }
 }
 
 export class MySchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
   static defineSchema() {
     return { ...itemBase() };
   }

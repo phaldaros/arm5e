@@ -64,7 +64,9 @@ export class ArsLayer extends InteractionLayer {
       seasons: CONFIG.ARM5E.seasons,
       abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
       arts: CONFIG.ARM5E.magic.arts,
-      bookTopics: CONFIG.ARM5E.books.topics,
+      techs: CONFIG.ARM5E.magic.techniques,
+      forms: CONFIG.ARM5E.magic.forms,
+      bookTopics: CONFIG.ARM5E.books.categories,
       bookTypes: CONFIG.ARM5E.books.types,
       ...game.settings.get("arm5e", "currentDate"),
       reading: {
@@ -73,15 +75,23 @@ export class ArsLayer extends InteractionLayer {
           id: null,
           title: game.i18n.localize("arm5e.activity.book.title"),
           language: game.i18n.localize("arm5e.skill.commonCases.latin"),
-          topic: "ability",
-          type: "Summa",
           author: game.i18n.localize("arm5e.generic.unknown"),
-          quality: 1,
-          level: 1,
-          key: "",
-          option: "",
-          spell: "",
-          art: ""
+          topics: [
+            {
+              category: "ability",
+              type: "Summa",
+              author: game.i18n.localize("arm5e.generic.unknown"),
+              quality: 1,
+              level: 1,
+              key: "",
+              option: "",
+              spellName: "",
+              art: "",
+              spellTech: "cr",
+              spellForm: "an"
+            }
+          ],
+          topicIndex: 0
         }
       }
     };

@@ -145,6 +145,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // Allow effect creation
     actorData.system.effectCreation = game.user.isGM;
 
+
     if (actorData.type === "player" || actorData.type === "npc" || actorData.type === "beast") {
       let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
       if (usercache[this.actor.id]) {
@@ -532,6 +533,12 @@ export class ArM5eActorSheet extends ActorSheet {
           flaw.system.ui = { style: 'style="font-style:italic"' };
         }
       }
+
+      for (let mastery of actorData.system.masteryTopics) {
+        mastery.spellLabel = `${mastery.spellName} (${
+          CONFIG.ARM5E.magic.arts[mastery.spellTech].short
+        }${CONFIG.ARM5E.magic.arts[mastery.spellForm].short})`;
+      }
     }
 
     if (actorData.actor.type == "player" || actorData.actor.type == "npc") {
@@ -557,6 +564,11 @@ export class ArM5eActorSheet extends ActorSheet {
       const category = $(ev.currentTarget).data("category");
       document.getElementById(category).classList.toggle("hide");
       // let tmp2 = tmp.toggle("hide");
+    });
+
+    html.find(".book-topic").click(async ev => {
+      const category = $(ev.currentTarget).data("topic");
+      document.getElementById(category).classList.toggle("hide");
     });
 
     // filters
@@ -631,6 +643,16 @@ export class ArM5eActorSheet extends ActorSheet {
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       // const item = this.actor.items.get(li.data("itemId"))
       item.sheet.render(true);
+    });
+
+    // Update Inventory Item
+    html.find(".book-edit").click(async ev => {
+      const li = $(ev.currentTarget).parents(".item");
+      const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
+      await item.setFlag("arm5e", "currentBookTopic", Number(li.data("index")));
+      // const item = this.actor.items.get(li.data("itemId"))
+      item.sheet.render(true);
+      // item.sheet._tabs[0].activate("topics");
     });
 
     html.find(".increase-tech").click(event => {
@@ -883,6 +905,28 @@ export class ArM5eActorSheet extends ActorSheet {
 
     var actor = this.actor;
 
+    extraData.natRes = {};
+    for (let [key, resist] of Object.entries(actor.system.bonuses.resistance)) {
+      if (resist !== 0) {
+        extraData.hasResistance = true;
+        extraData.natRes[key] = {
+          res: resist,
+          label: `${CONFIG.ARM5E.magic.arts[key].label} (${resist})`
+        };
+      }
+    }
+
+    if (actor._isMagus()) {
+      extraData.isMagus = true;
+      extraData.formRes = {};
+      for (let [key, form] of Object.entries(actor.system.arts.forms)) {
+        extraData.formRes[key] = {
+          res: Math.floor(form.finalScore / 5),
+          label: `${form.label} (${Math.floor(form.finalScore / 5)})`
+        };
+      }
+    }
+
     const data = {
       actor,
       extraData
@@ -1121,10 +1165,12 @@ export async function setCovenant(selector, actor) {
 export async function setWounds(selector, actor) {
   const damage = parseInt(selector.find('input[name$="damage"]').val());
   const modifier = parseInt(selector.find('input[name$="modifier"]').val());
+  const natRes = parseInt(selector.find('select[name$="natRes"]').val() || 0);
+  const formRes = parseInt(selector.find('select[name$="formRes"]').val() || 0);
   const prot = parseInt(selector.find('label[name$="prot"]').attr("value") || 0);
   const bonus = parseInt(selector.find('label[name$="soak"]').attr("value") || 0);
   const stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
-  const damageToApply = damage - modifier - prot - stamina - bonus;
+  const damageToApply = damage - modifier - prot - natRes - formRes - stamina - bonus;
   const size = actor?.system?.vitals?.siz?.value || 0;
   const typeOfWound = calculateWound(damageToApply, size);
   if (typeOfWound === false) {
@@ -1145,9 +1191,14 @@ export async function setWounds(selector, actor) {
   const messageProt = `${game.i18n.localize("arm5e.sheet.protection")} (${prot})`;
   let messageModifier = "";
   if (modifier) {
-    messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
+    messageModifier += `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})<br/>`;
   }
-
+  if (natRes) {
+    messageModifier += `${game.i18n.localize("arm5e.sheet.natRes")} (${natRes})<br/>`;
+  }
+  if (formRes) {
+    messageModifier += `${game.i18n.localize("arm5e.sheet.formRes")} (${formRes})<br/>`;
+  }
   const messageTotal = `${game.i18n.localize("arm5e.sheet.totalDamage")} = ${damageToApply}`;
   const messageWound = typeOfWound
     ? game.i18n.format("arm5e.messages.woundResult", {

@@ -1256,19 +1256,6 @@
       "art": "cr",
       "pawns": 1
     },
-    "book": {
-      "templates": ["base", "authorship"],
-      "type": "Summa",
-      "topic": {
-        "category": "art",
-        "key": null,
-        "option": null,
-        "art": "cr",
-        "spellName": null
-      },
-      "quality": 1,
-      "level": 1
-    },
     "item": {
       "templates": ["base"],
       "quantity": 1,
@@ -1278,16 +1265,14 @@
       "templates": ["base"],
       "type": "general",
       "impact": {
-        "label": "arm5e.sheet.impact",
-        "value": ""
+        "value": "free"
       }
     },
     "flaw": {
       "templates": ["base"],
       "type": "general",
       "impact": {
-        "label": "arm5e.sheet.impact",
-        "value": ""
+        "value": "free"
       }
     },
     "ability": {

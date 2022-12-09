@@ -7,7 +7,7 @@ import {
   compareDiaryEntries,
   log,
   error,
-  compareBooks
+  compareTopics
 } from "../tools.js";
 
 import { migrateActorData } from "../migration.js";
@@ -141,6 +141,18 @@ export class ArM5ePCActor extends Actor {
       writing: 0,
       adventuring: 0
     };
+    this.system.bonuses.resistance = {
+      an: 0,
+      aq: 0,
+      au: 0,
+      co: 0,
+      he: 0,
+      ig: 0,
+      im: 0,
+      me: 0,
+      te: 0,
+      vi: 0
+    };
   }
 
   // DEV: to be deleted, the code below is done in the preCreate hook
@@ -214,8 +226,10 @@ export class ArM5ePCActor extends Actor {
     let vis = [];
     let items = [];
     let magicItems = [];
-    let magicBooks = [];
-    let mundaneBooks = [];
+    let artsTopics = [];
+    let mundaneTopics = [];
+    let masteryTopics = [];
+    let labTexts = [];
     let virtues = [];
     let flaws = [];
     let abilities = [];
@@ -440,7 +454,7 @@ export class ArM5ePCActor extends Actor {
       if (system.laboratory === undefined) {
         system.laboratory = {};
       }
-      // calculate laboratory totals
+      // calculate magic totals
       system.laboratory.fastCastingSpeed.value =
         system.characteristics.qik.value + system.laboratory.abilitiesSelected.finesse.value;
       system.laboratory.determiningEffect.value =
@@ -597,21 +611,43 @@ export class ArM5ePCActor extends Actor {
         }
         armor.push(item);
       } else if (item.type === "spell") {
-        item.system.castingTotal = item._computeCastingTotal(this, item.system);
+        item.system.castingTotal = item._computeCastingTotal(this, { char: "sta" });
         spells.push(item);
         totalXPSpells = parseInt(totalXPSpells) + parseInt(item.system.level);
       } else if (item.type === "magicalEffect") {
-        item.system.castingTotal = item._computeCastingTotal(this, item.system);
+        item.system.castingTotal = item._computeCastingTotal(this, { char: "sta" });
         magicalEffects.push(item);
       } else if (item.type === "vis") {
         vis.push(item);
       } else if (item.type === "item" || item.type == "enchantedItem") {
         items.push(item);
       } else if (item.type === "book") {
-        if (item.system.topic.category === "art") {
-          magicBooks.push(item);
-        } else {
-          mundaneBooks.push(item);
+        let idx = 0;
+        for (let topic of item.system.topics) {
+          // let artsTopics = [];
+          // let mundaneTopics = [];
+          // let masteryTopics = [];
+          // let labTexts = [];
+          topic.id = item.id;
+          topic.img = item.img;
+          topic.index = idx++;
+          topic.book = item.name;
+          switch (topic.category) {
+            case "ability":
+              mundaneTopics.push(topic);
+              break;
+            case "art":
+              artsTopics.push(topic);
+              break;
+            case "mastery":
+              masteryTopics.push(topic);
+              break;
+            case "labText":
+              labTexts.push(topic);
+              break;
+            default:
+              error(false, "Unknown topic category" + topic.category);
+          }
         }
       } else if (item.type === "virtue") {
         virtues.push(item);
@@ -722,9 +758,14 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
-
-    system.magicBooks = magicBooks.sort(compareBooks);
-    system.mundaneBooks = mundaneBooks.sort(compareBooks);
+    // let artsTopics = [];
+    // let mundaneTopics = [];
+    // let masteryTopics = [];
+    // let labTexts = [];
+    system.artsTopics = artsTopics.sort(compareTopics);
+    system.mundaneTopics = mundaneTopics.sort(compareTopics);
+    system.masteryTopics = masteryTopics.sort(compareTopics);
+    system.labTexts = labTexts.sort(compareTopics);
 
     if (system.virtues) {
       system.virtues = virtues;
@@ -834,8 +875,10 @@ export class ArM5ePCActor extends Actor {
     let personalities = [];
     let vis = [];
     let items = [];
-    let magicBooks = [];
-    let mundaneBooks = [];
+    let artsTopics = [];
+    let mundaneTopics = [];
+    let masteryTopics = [];
+    let labTexts = [];
     let diaryEntries = [];
     let totalVirtues = 0;
     let totalFlaws = 0;
@@ -852,10 +895,28 @@ export class ArM5ePCActor extends Actor {
       } else if (item.type === "personality") {
         personalities.push(item);
       } else if (item.type === "book") {
-        if (item.system.topic.category === "art") {
-          magicBooks.push(item);
-        } else {
-          mundaneBooks.push(item);
+        let idx = 0;
+        for (let topic of item.system.topics) {
+          topic.id = item.id;
+          topic.img = item.img;
+          topic.index = idx++;
+          topic.book = item.name;
+          switch (topic.category) {
+            case "ability":
+              mundaneTopics.push(topic);
+              break;
+            case "art":
+              artsTopics.push(topic);
+              break;
+            case "mastery":
+              masteryTopics.push(topic);
+              break;
+            case "labText":
+              labTexts.push(topic);
+              break;
+            default:
+              error(false, "Unknown topic category" + topic.category);
+          }
         }
       } else if (item.type === "vis") {
         vis.push(item);
@@ -895,9 +956,10 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
-    system.magicBooks = magicBooks.sort(compareBooks);
-    system.mundaneBooks = mundaneBooks.sort(compareBooks);
-
+    system.artsTopics = artsTopics.sort(compareTopics);
+    system.mundaneTopics = mundaneTopics.sort(compareTopics);
+    system.masteryTopics = masteryTopics.sort(compareTopics);
+    system.labTexts = labTexts.sort(compareTopics);
     if (system.rawVis) {
       system.rawVis = vis;
     }
@@ -959,8 +1021,9 @@ export class ArM5ePCActor extends Actor {
     let calendar = [];
     let incomingSources = [];
     let laboratoryTexts = [];
-    let books = [];
-    let mundaneBooks = [];
+    let artsTopics = [];
+    let mundaneTopics = [];
+    let masteryTopics = [];
     let magicItems = [];
     let items = [];
     let boons = [];
@@ -1014,10 +1077,28 @@ export class ArM5ePCActor extends Actor {
       } else if (item.type === "laboratoryText") {
         laboratoryTexts.push(item);
       } else if (item.type === "book") {
-        if (item.system.topic.category === "art") {
-          books.push(item);
-        } else {
-          mundaneBooks.push(item);
+        let idx = 0;
+        for (let topic of item.system.topics) {
+          topic.img = item.img;
+          topic.id = item.id;
+          topic.index = idx++;
+          topic.book = item.name;
+          switch (topic.category) {
+            case "ability":
+              mundaneTopics.push(topic);
+              break;
+            case "art":
+              artsTopics.push(topic);
+              break;
+            case "mastery":
+              masteryTopics.push(topic);
+              break;
+            case "labText":
+              laboratoryTexts.push(topic);
+              break;
+            default:
+              error(false, "Unknown topic category" + topic.category);
+          }
         }
       } else if (item.type === "magicItem") {
         magicItems.push(item);
@@ -1053,9 +1134,10 @@ export class ArM5ePCActor extends Actor {
     if (system.incomingSources) {
       system.incomingSources = incomingSources;
     }
-    system.magicBooks = books.sort(compareBooks);
-    system.mundaneBooks = mundaneBooks.sort(compareBooks);
-
+    system.artsTopics = artsTopics.sort(compareTopics);
+    system.mundaneTopics = mundaneTopics.sort(compareTopics);
+    system.masteryTopics = masteryTopics.sort(compareTopics);
+    // system.laboratoryTexts = laboratoryTexts.sort(compareTopics);
     if (system.magicItems) {
       system.magicItems = magicItems;
     }
@@ -1449,7 +1531,7 @@ export class ArM5ePCActor extends Actor {
       });
       const updateData = migrateActorData(this);
 
-      if (!isObjectEmpty(updateData)) {
+      if (!isEmpty(updateData)) {
         console.log(`Migrating Actor entity ${this.name}`);
         await this.update(updateData, {
           enforceTypes: false
@@ -1512,5 +1594,14 @@ export class ArM5ePCActor extends Actor {
 
   hasMagicResistance() {
     return this._isMagus() || this._hasMight() || this.system.bonuses.magicResistance !== null;
+  }
+
+  getLabTotalForEffect(spell, options = {}) {
+    if (!spell.isAnEffect()) {
+      error(false, "The item is not an effect");
+      return;
+    }
+
+    let res = spell._computeCastingTotal(spell, { char: "int", focus: options.focus });
   }
 }

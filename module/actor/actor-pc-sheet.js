@@ -40,6 +40,11 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
           navSelector: ".lab-tabs",
           contentSelector: ".lab-body",
           initial: "lab"
+        },
+        {
+          navSelector: ".inventory-tabs",
+          contentSelector: ".inventory-body",
+          initial: "inventory"
         }
       ]
     });

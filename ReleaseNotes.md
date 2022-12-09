@@ -1,5 +1,39 @@
 # Release Notes
 
+## 2.0.4.0, Kentigem
+
+### Features & changes
+
+- New Natural resistance active effect
+- Natural resistances and Form resistances can be selected in the Soak dialog if applicable.
+- Books with multiple topics
+- Spell mastery topics now have the technique and form of the mastered spell
+- Migration improvements:
+  - invalid documents can now be recovered
+  - Migration of V10 datamodel items (abilities, books) have been put in their respective model
+  - workaround to retrieve data from removed/displaced fields
+- New library sheet common to characters, covenants and labs
+  - List of topics instead of books
+- French and Spanish version updated (by Orneen and Teotimus)
+- Spanish user guide (by Teotimus)
+- New Actor specific labels for "virtues" and "flaws"
+
+### Bug fixes
+
+- [en] Fatal wounds are no longer "dead" but "deadly"
+- Powers are again editable once created.
+- Removal of deprecation warnings in ars-scene
+
+### V10 migration (on going)
+
+- Data models activated
+
+  - Abilities
+  - Books
+  - Virtues & Flaws
+  - Mundane items
+  - Vis
+
 ## 2.0.3.13, Jerbiton the Founder
 
 ### Features & changes

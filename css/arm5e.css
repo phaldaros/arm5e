@@ -323,7 +323,7 @@ h4.window-title {
   text-shadow: 0 0 10px rgb(200, 0, 0);
   cursor: pointer;
 }
-
+.book-topic:hover,
 .design:hover,
 .design:focus {
   color: #000;
@@ -1064,6 +1064,17 @@ input[type="time"] {
   border-bottom: 2px solid #4a4a48;
 }
 
+.arm5e .img-container {
+  display: flex;
+  justify-content: center;
+}
+
+.arm5e .nav-arrow {
+  height: 20px;
+  width: 30px;
+  border: 0px;
+}
+
 .collapse {
   max-height: 1180px;
   transition-property: all;
@@ -1097,6 +1108,13 @@ input[type="time"] {
 .collapse.hide {
   max-height: 0px;
   opacity: 0;
+  overflow: hidden;
+}
+
+.topic.collapse.hide {
+  max-height: 0px;
+  min-height: 190px;
+  opacity: 0.3;
   overflow: hidden;
 }
 
