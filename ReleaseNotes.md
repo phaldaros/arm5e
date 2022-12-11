@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.4.0, Kentigem
+## 2.0.4.1, Kentigem
 
 ### Features & changes
 
@@ -23,6 +23,7 @@
 - [en] Fatal wounds are no longer "dead" but "deadly"
 - Powers are again editable once created.
 - Removal of deprecation warnings in ars-scene
+- Fix major bug, in scene migration, duplicating tokens
 
 ### V10 migration (on going)
 

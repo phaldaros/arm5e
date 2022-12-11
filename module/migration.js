@@ -183,7 +183,8 @@ export const migrateCompendium = async function(pack) {
           updateData = await migrateItemData(doc);
           break;
         case "Scene":
-          updateData = await migrateSceneData(doc);
+          // TODO enable after fix
+          // updateData = await migrateSceneData(doc);
           break;
       }
 
@@ -225,41 +226,40 @@ export const migrateSceneData = async function(scene, migrationData) {
     return updateData;
   }
 
-  const tokens = scene.tokens.map(async token => {
-    const t = token.toObject();
-    const update = {};
+  const tokens = await Promise.all(
+    scene.tokens.map(async token => {
+      const t = token.toObject();
+      const update = {};
 
-    if (!t.actorId || t.actorLink) {
-      t.actorData = {};
-    } else if (!game.actors.has(t.actorId)) {
-      t.actorId = null;
-      t.actorData = {};
-    } else if (!t.actorLink) {
-      const actor = duplicate(t.actorData);
-      actor.type = token.actor?.type;
+      if (!t.actorId || t.actorLink) {
+        t.actorData = {};
+      } else if (!game.actors.has(t.actorId)) {
+        t.actorId = null;
+        t.actorData = {};
+      } else if (!t.actorLink) {
+        const actor = duplicate(t.actorData);
+        actor.type = token.actor?.type;
 
-      if (actor.system) {
-        actor.system.charType = { value: token.actor?.system?.charType?.value };
-      }
-      // else {
-      //   actor.system = { charType: { value: token.actor?.system?.charType?.value } };
-      // }
+        if (actor.system) {
+          actor.system.charType = { value: token.actor?.system?.charType?.value };
+        }
 
-      const update = await migrateActorData(t.actorData);
-      ["items", "effects"].forEach(embeddedName => {
-        if (!update[embeddedName]?.length) return;
-        const updates = new Map(update[embeddedName].map(u => [u._id, u]));
-        t.actorData[embeddedName].forEach(original => {
-          const update = updates.get(original._id);
-          if (update) mergeObject(original, update);
+        const update = await migrateActorData(actor);
+        ["items", "effects"].forEach(embeddedName => {
+          if (!update[embeddedName]?.length) return;
+          const updates = new Map(update[embeddedName].map(u => [u._id, u]));
+          t.actorData[embeddedName].forEach(original => {
+            const update = updates.get(original._id);
+            if (update) foundry.utils.mergeObject(original, update);
+          });
+          delete update[embeddedName];
         });
-        delete update[embeddedName];
-      });
 
-      mergeObject(t.actorData, update);
-    }
-    return t;
-  });
+        foundry.utils.mergeObject(t.actorData, update);
+      }
+      return t;
+    })
+  );
   return { tokens };
 };
 
@@ -286,6 +286,12 @@ export const migrateActorData = async function(actorDoc) {
   } else if (actor?.flags.arm5e.filters) {
     updateData["flags.arm5e.-=filters"] = null;
   }
+
+  // token with barely anything to migrate
+  if (actor.system == undefined) {
+    return updateData;
+  }
+
   if (actor.type == "laboratory") {
     // fix recursive problem with laboratory owner
     if (!(actor.system.owner.value instanceof String)) {
@@ -319,11 +325,6 @@ export const migrateActorData = async function(actorDoc) {
       updateData["system.datetime.season"] = "spring";
       updateData["system.-=currentYear"] = null;
     }
-  }
-
-  // token with barely anything to migrate
-  if (actor.system == undefined) {
-    return updateData;
   }
 
   if (actor.system.mightsFam) {
@@ -992,6 +993,8 @@ function cleanItemData(item) {
   // Return the scrubbed data
   return item;
 }
+
+// TODO remove once all magic Items are switched to V10 datamodel
 
 // Unfortunaltly, since the range was a free input field, it has to be guessed
 function _guessRange(name, value) {

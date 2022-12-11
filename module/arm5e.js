@@ -40,7 +40,7 @@ import { registerTestSuites } from "./tests/tests.js";
 import { StressDie } from "./helpers/stressdie.js";
 import { UserguideTour } from "./tours/userguide-tour.js";
 import { ArM5eBookSheet } from "./item/item-book-sheet.js";
-import { BaseEffectSchema } from "./schemas/MagicSchemas.js";
+import { BaseEffectSchema, MagicalEffectSchema, SpellSchema } from "./schemas/MagicSchemas.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -354,6 +354,8 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["item"] = ItemSchema;
   CONFIG.Item.systemDataModels["vis"] = VisSchema;
   CONFIG.Item.systemDataModels["baseEffect"] = BaseEffectSchema;
+  CONFIG.Item.systemDataModels["magicalEffet"] = MagicalEffectSchema;
+  CONFIG.Item.systemDataModels["spell"] = SpellSchema;
 }
 
 function registerSheets() {
