@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.4.0, Kentigem
+## 2.0.4.1, Kentigern
 
 ### Features & changes
 
@@ -23,6 +23,12 @@
 - [en] Fatal wounds are no longer "dead" but "deadly"
 - Powers are again editable once created.
 - Removal of deprecation warnings in ars-scene
+- Fix major bug, in scene migration, duplicating tokens
+
+### Documentation
+
+- Take note of the existence of a French version of the system compendia, including the user guide:
+  https://raw.githubusercontent.com/orneen/ars-compendium-translation-fr/main/module.json
 
 ### V10 migration (on going)
 
