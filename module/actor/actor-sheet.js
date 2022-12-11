@@ -145,7 +145,8 @@ export class ArM5eActorSheet extends ActorSheet {
     // Allow effect creation
     actorData.system.effectCreation = game.user.isGM;
 
-    if (actorData.type === "player" || actorData.type === "npc" || actorData.type == "beast") {
+
+    if (actorData.type === "player" || actorData.type === "npc" || actorData.type === "beast") {
       let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
       if (usercache[this.actor.id]) {
         context.userData = usercache[this.actor.id];
