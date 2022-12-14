@@ -1,6 +1,6 @@
 # Release Notes
 
-## 2.0.4.1, Kentigern
+## 2.0.4.2, Kentigern
 
 ### Features & changes
 
@@ -17,6 +17,10 @@
 - French and Spanish version updated (by Orneen and Teotimus)
 - Spanish user guide (by Teotimus)
 - New Actor specific labels for "virtues" and "flaws"
+- Display of current aura in aura selection dialog
+- Limited Item sheet
+- Realm alignment for supernatural abilities (no effect yet)
+- More translated hints (WIP)
 
 ### Bug fixes
 
@@ -24,6 +28,8 @@
 - Powers are again editable once created.
 - Removal of deprecation warnings in ars-scene
 - Fix major bug, in scene migration, duplicating tokens
+- Fix overflow of abilities if there are too many in a category
+- rearranged some assets to be more consistent with naming
 
 ### Documentation
 
@@ -39,6 +45,7 @@
   - Virtues & Flaws
   - Mundane items
   - Vis
+  - Spells
 
 ## 2.0.3.13, Jerbiton the Founder
 

@@ -7,6 +7,7 @@ import {
   hermeticForm,
   hermeticTechnique,
   itemBase,
+  RealmField,
   SeasonField,
   XpField
 } from "./commonSchemas.js";
@@ -23,7 +24,8 @@ export class AbilitySchema extends foundry.abstract.DataModel {
       speciality: new fields.StringField({ required: false, blank: true, initial: "" }),
       xp: XpField(),
       key: new fields.StringField({ required: false, blank: true, initial: "" }),
-      option: new fields.StringField({ required: false, blank: true, initial: "" })
+      option: new fields.StringField({ required: false, blank: true, initial: "" }),
+      realm: RealmField()
     };
   }
 

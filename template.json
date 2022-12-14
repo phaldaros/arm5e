@@ -155,7 +155,6 @@
           "effects": "Decrepitude effects"
         },
         "warping": {
-          "score": 0,
           "points": 0,
           "effects": "Warping effects"
         }
@@ -1080,7 +1079,8 @@
         "speciality": "",
         "xp": 0,
         "key": "",
-        "option": ""
+        "option": "",
+        "realm": "magic"
       },
       "magicalEffectAttributes": {
         "technique": {

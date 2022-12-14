@@ -46,15 +46,15 @@
   <div class="flexcol grid grid-2col">
     <div class="flex-group-left padding12 backSection">
       <label class="smallTitle">
-        <a class="link" href="/systems/arm5e/pdf/warping.pdf" target="_blank"> {{localize "arm5e.sheet.warping"}} </a>
+        {{localize "arm5e.sheet.warping"}}
       </label>
       <div class="flexrow marginbot6 margintop6">
-        <label for="system.warping.score" class="bold">{{localize "arm5e.sheet.score"}}</label>
+        <label for="system.warping.finalScore" class="bold">{{localize "arm5e.sheet.score"}}</label>
         <span class="marginbot6" style="margin-right: 24px"><input type="number" name="system.warping.score"
-            value="{{system.warping.score}}" data-dtype="String" /></span>
+            value="{{system.warping.finalScore}}" data-dtype="String" /></span>
         <label for="system.warping.points" class="bold flex06">{{localize "arm5e.sheet.points"}}</label>
         <span class="marginbot6">
-          <input type="number" name="system.warping.points" value="{{system.warping.points}}" data-dtype="String"
+          <input type="number" name="system.warping.points" value="{{system.warping.points}}" data-dtype="Number"
             style="width: 50px" />&nbsp;/&nbsp;({{ system.warping.experienceNextLevel }})
         </span>
       </div>
