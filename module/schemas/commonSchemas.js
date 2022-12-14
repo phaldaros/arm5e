@@ -50,6 +50,15 @@ export const TechniquesForms = () => {
   };
 };
 
+export const RealmField = (initial = "mundane") => {
+  return new fields.StringField({
+    required: false,
+    blank: false,
+    initial: initial,
+    choices: Object.keys(ARM5E.realmsExt)
+  });
+};
+
 export const SpellAttributes = () => {
   return {
     range: new fields.SchemaField(

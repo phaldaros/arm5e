@@ -108,6 +108,7 @@
   "arm5e.sheet.spells": "Spells",
   "arm5e.sheet.spell": "Spell",
   "arm5e.sheet.spell-design": "Spell design",
+  "arm5e.sheet.magicalEffect": "Spontaneous magical effect",
   "arm5e.sheet.magicalEffects": "Spontaneous magical effects",
   "arm5e.sheet.spontaneousMagic": "Spontaneous magic",
   "arm5e.sheet.weapons": "Weapons",
@@ -254,6 +255,7 @@
   "arm5e.sheet.encumbrance": "Encumbrance",
   "arm5e.sheet.might": "Might",
   "arm5e.sheet.powers": "Powers",
+  "arm5e.sheet.power": "Power",
   "arm5e.sheet.modifier": "Modifier",
   "arm5e.sheet.divider": "Divider",
   "arm5e.sheet.advantage": "Advantage",
@@ -544,7 +546,7 @@
 
   "arm5e.sheet.realm.label": "Realm",
   "arm5e.sheet.realm.magical": "Magical",
-  "arm5e.sheet.realm.faeric": "Faery",
+  "arm5e.sheet.realm.faeric": "Faeric",
   "arm5e.sheet.realm.divine": "Divine",
   "arm5e.sheet.realm.infernal": "Infernal",
   "arm5e.sheet.realm.mundane": "Mundane",
@@ -1078,5 +1080,6 @@
   "arm5e.generic.base": "Base",
   "arm5e.generic.multipliers": "Multipliers",
   "arm5e.generic.other": "Other",
-  "arm5e.generic.unknown": "Unknown"
+  "arm5e.generic.unknown": "Unknown",
+  "arm5e.generic.current": "Current"
 }

@@ -44,7 +44,10 @@ export class ArM5eItemSheet extends ItemSheet {
         break;
     }
 
-    return `${path}/item-${this.item.type}-sheet.html`;
+    if (this.item.testUserPermission(game.user, CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER)) {
+      return `${path}/item-${this.item.type}-sheet.html`;
+    }
+    return `systems/arm5e/templates/item/item-limited-sheet.html`;
   }
 
   /* -------------------------------------------- */

@@ -713,7 +713,17 @@ export class ArM5ePCActor extends Actor {
     }
     //warping & decrepitude
     if ((this.type == "npc" && this.system.charType.value != "entity") || this.type == "player") {
-      system.warping.experienceNextLevel = (parseInt(system.warping?.score || 0) + 1) * 5;
+      if (system.warping == undefined) {
+        system.warping = {};
+      }
+      system.warping.finalScore = ArM5ePCActor.getAbilityScoreFromXp(system.warping.points);
+      system.warping.experienceNextLevel =
+        ((parseInt(system.warping.finalScore) + 1) *
+          (parseInt(system.warping.finalScore) + 2) *
+          5) /
+          2 -
+        system.warping.points;
+
       if (system.decrepitude == undefined) {
         system.decrepitude = {};
       }

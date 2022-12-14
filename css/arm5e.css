@@ -803,7 +803,7 @@ input[type="time"] {
 }
 
 .arm5e .mainPlayer {
-  background-image: url("../assets/player/background.png");
+  background-image: url("../assets/PC/background.png");
   background-repeat: repeat-y;
   background-size: contain;
   font-family: "bookAntiquaBold";
@@ -813,7 +813,7 @@ input[type="time"] {
 }
 
 .arm5e .mainNPC {
-  background-image: url("../assets/npc/background.png");
+  background-image: url("../assets/NPC/background.png");
   background-repeat: repeat-y;
   background-size: contain;
   font-family: "bookAntiquaBold";
@@ -823,7 +823,7 @@ input[type="time"] {
 }
 
 .arm5e .mainLaboratory {
-  background-image: url("../assets/laboratory/background.png");
+  background-image: url("../assets/Lab/background.png");
   background-repeat: repeat-y;
   background-size: contain;
   font-family: "bookAntiquaBold";
@@ -833,7 +833,7 @@ input[type="time"] {
 }
 
 .arm5e .mainCodex {
-  background-image: url("../assets/codex/background.png");
+  background-image: url("../assets/Codex/background.png");
   background-repeat: repeat-y;
   background-size: contain;
   font-family: "bookAntiquaBold";
@@ -843,7 +843,7 @@ input[type="time"] {
 }
 
 .arm5e .mainCovenant {
-  background-image: url("../assets/covenant/background.png");
+  background-image: url("../assets/Covenant/background.png");
   background-repeat: repeat-y;
   background-size: contain;
   font-family: "bookAntiquaBold";
@@ -1037,8 +1037,11 @@ input[type="time"] {
   -ms-flex: 0;
   flex: 0;
   font-family: "bookAntiqua";
-  font-size: 12pt;
+  font-size: 9pt;
   text-align: center;
+  /* background-image: url("../assets/player/bar.png"); */
+  background-repeat: repeat-x;
+  background-position-y: bottom;
 }
 
 .arm5e .spell-attribute option:disabled,
@@ -1076,7 +1079,7 @@ input[type="time"] {
 }
 
 .collapse {
-  max-height: 1180px;
+  max-height: 2180px;
   transition-property: all;
   transition-duration: 0.6s;
   transition-timing-function: ease-in-out;
@@ -1152,6 +1155,7 @@ input[type="time"] {
 }
 
 .arm5e .diary-body {
+  padding-top: 7px;
   height: 200px;
   overflow-y: auto;
 }
@@ -1210,31 +1214,31 @@ input[type="time"] {
   align-items: center;
 }
 .arm5eTabsPC {
-  background-image: url("../assets/player/bar.png");
+  background-image: url("../assets/PC/bar.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsNPC {
-  background-image: url("../assets/npc/bar.png");
+  background-image: url("../assets/NPC/bar.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsLAB {
-  background-image: url("../assets/laboratory/bar.png");
+  background-image: url("../assets/Lab/bar.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsCOV {
-  background-image: url("../assets/covenant/bar.png");
+  background-image: url("../assets/Covenant/bar.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsCOD {
-  background-image: url("../assets/codex/bar.png");
+  background-image: url("../assets/Codex/bar.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }

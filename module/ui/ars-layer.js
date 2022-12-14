@@ -13,10 +13,20 @@ export class ArsLayer extends InteractionLayer {
   async _draw() {}
 
   static async selectAura() {
+    const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
+    const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
+    let currentAura = game.i18n.localize("arm5e.generic.none");
+    if (aura !== undefined && !isNaN(aura) && type !== undefined && !isNaN(type)) {
+      currentAura = `${game.i18n.localize("arm5e.generic.current")} : +${Number(
+        aura
+      )} ${game.i18n.localize(CONFIG.ARM5E.realms[CONFIG.ARM5E.lookupRealm[type]].label)}`;
+    }
+
     let dialogData = {
       fieldName: "arm5e.sheet.aura",
       placeholder: "0",
       value: "",
+      current: currentAura,
       realms: CONFIG.ARM5E.realms
     };
     const html = await renderTemplate("systems/arm5e/templates/generic/auraInput.html", dialogData);
