@@ -280,7 +280,6 @@ export const migrateActorData = async function(actorDoc) {
     return CONFIG.Actor.systemDataModels[actor.type].migrate(actor);
   }
   const updateData = {};
-  // updateData["flags.arm5e.-=filters"] = null;
   if (!actor?.flags?.arm5e) {
     updateData["flags.arm5e"] = {};
   } else if (actor?.flags.arm5e.filters) {
@@ -315,8 +314,6 @@ export const migrateActorData = async function(actorDoc) {
       updateData["system.upkeep"] = actor.system.maintenance;
       updateData["system.-=maintenance"] = null;
     }
-
-    return updateData;
   }
 
   if (actor.type == "covenant") {
@@ -327,52 +324,32 @@ export const migrateActorData = async function(actorDoc) {
     }
   }
 
-  if (actor.system.mightsFam) {
-    updateData["system.powersFam"] = actor.system.mightsFam;
-    updateData["system.-=mightsFam"] = null;
-  }
-
-  if (actor.system.mights) {
-    updateData["system.powers"] = actor.system.mights;
-    updateData["system.-=mights"] = null;
-  }
-
-  if (actor.system.soak) {
-    updateData["system.vitals.soa.value"] = actor.system.soak.value;
-    updateData["system.-=soak"] = null;
-  }
-
-  if (actor.system.size) {
-    updateData["system.vitals.siz.value"] = actor.system.size.value;
-    updateData["system.-=size"] = null;
-  }
-
-  // remove redundant data
-  if (actor.system.houses != undefined) {
-    updateData["system.-=houses"] = null;
-  }
-
-  // useless?
-  // if (actor.system.weapons === undefined) {
-  //   updateData["system.weapons"] = [];
-  // }
-  // if (actor.system.armor === undefined) {
-  //   updateData["system.armor"] = [];
-  // }
-  // if (actor.system.vis === undefined) {
-  //   updateData["system.vis"] = [];
-  // }
-  // if (actor.system.items === undefined) {
-  //   updateData["system.items"] = [];
-  // }
-  // if (actor.system.books === undefined) {
-  //   updateData["system.books"] = [];
-  // }
-  // if (actor.system.spells === undefined) {
-  //   updateData["system.spells"] = [];
-  // }
-
   if (actor.type == "player" || actor.type == "npc" || actor.type == "beast") {
+    if (actor.system.mightsFam) {
+      updateData["system.powersFam"] = actor.system.mightsFam;
+      updateData["system.-=mightsFam"] = null;
+    }
+
+    if (actor.system.mights) {
+      updateData["system.powers"] = actor.system.mights;
+      updateData["system.-=mights"] = null;
+    }
+
+    if (actor.system.soak) {
+      updateData["system.vitals.soa.value"] = actor.system.soak.value;
+      updateData["system.-=soak"] = null;
+    }
+
+    if (actor.system.size) {
+      updateData["system.vitals.siz.value"] = actor.system.size.value;
+      updateData["system.-=size"] = null;
+    }
+
+    // remove redundant data
+    if (actor.system.houses != undefined) {
+      updateData["system.-=houses"] = null;
+    }
+
     if (actor.system.year?.value != undefined) {
       updateData["system.datetime.year"] = actor.system.year.value;
       updateData["system.-=year"] = null;
@@ -437,8 +414,9 @@ export const migrateActorData = async function(actorDoc) {
       }
 
       if (actor.system.warping.score != undefined) {
-        let exp = (actor.system.warping.score * (actor.system.warping.score + 1) * 5) / 2;
-        if (actor.system.warping.points >= 5 * (actor.system.warping.score + 1)) {
+        let exp =
+          (Number(actor.system.warping.score) * (Number(actor.system.warping.score) + 1) * 5) / 2;
+        if (actor.system.warping.points >= 5 * (Number(actor.system.warping.score) + 1)) {
           // if the experience is bigger than the needed for next level, ignore it
           updateData["system.warping.points"] = exp;
         } else {
@@ -463,7 +441,7 @@ export const migrateActorData = async function(actorDoc) {
     }
 
     // if (actor.system.realmAlignment && typeof actor.system.realmAlignment === "string") {
-    if (actor.system.realmAlignment && isNaN(actor.system.realmAlignment)) {
+    if (actor.system.realmAlignment && Number.isNaN(actor.system.realmAlignment)) {
       updateData["system.realmAlignment"] =
         CONFIG.ARM5E.realmsExt[actor.system.realmAlignment].value;
     }
@@ -527,9 +505,8 @@ export const migrateActorData = async function(actorDoc) {
               updateData["system.arts.techniques." + key + ".xp"] = exp + technique.experience;
             }
 
-            // TODO: to be uncommented when we are sure the new system works
-            // updateData["system.-=experience"] = null;
-            // updateData["system.-=score"] = null;
+            updateData["system.-=experience"] = null;
+            updateData["system.-=score"] = null;
             updateData["system.arts.techniques." + key + ".-=experienceNextLevel"] = null;
           }
         }
@@ -549,9 +526,8 @@ export const migrateActorData = async function(actorDoc) {
               updateData["system.arts.forms." + key + ".xp"] = exp + form.experience;
             }
 
-            // TODO: to be uncommented when we are sure the new system works
-            // updateData["system.forms." + key + ".-=experience"] = null;
-            // updateData["system.forms." + key + "-=score"] = null;
+            updateData["system.forms." + key + ".-=experience"] = null;
+            updateData["system.forms." + key + "-=score"] = null;
             updateData["system.arts.forms." + key + ".-=experienceNextLevel"] = null;
           }
         }
@@ -818,38 +794,7 @@ export const migrateItemData = async function(item) {
     }
   }
   // Fix type of Item
-  if (itemData.type == "diaryEntry") {
-    if (itemData.system.progress == undefined || isEmpty(itemData.system.progress)) {
-      updateData["system.progress"] = { abilities: [], spells: [], arts: [] };
-    }
-
-    if (itemData.system.sourceQuality == undefined || isNaN(itemData.system.sourceQuality)) {
-      updateData["system.sourceQuality"] = 0;
-    }
-    if (itemData.system.activity === "") {
-      updateData["system.activity"] = "none";
-    }
-
-    if (itemData.system.optionkey == undefined) {
-      itemData.system.optionkey = "standard";
-    }
-    if (itemData.system.teacher === undefined) {
-      updateData["system.teacher"] = {
-        id: null,
-        name: "",
-        com: 0,
-        teaching: 0,
-        speciality: "",
-        applySpec: false,
-        score: 0
-      };
-    }
-    if (itemData.system.year instanceof String) {
-      if (!isNaN(itemData.system.year)) {
-        updateData["system.year"] = Number(itemData.system.year);
-      }
-    }
-  } else if (itemData.type == "visSourcesCovenant" || itemData.type == "visStockCovenant") {
+  if (itemData.type == "visSourcesCovenant" || itemData.type == "visStockCovenant") {
     // V10 datamodel cleanup (2.0.0)
     if (itemData.system.art.value !== undefined) {
       updateData["system.art"] = itemData.system.art.value;
@@ -975,7 +920,7 @@ function _isMagicalItem(itemData) {
     case "baseEffect":
       return true;
     case "laboratoryText": {
-      return itemData.type === "spell";
+      return itemData.system.type === "spell";
     }
     default:
       return false;

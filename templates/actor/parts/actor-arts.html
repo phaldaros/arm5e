@@ -109,7 +109,8 @@
     <li class="item flexrow item-header">
       <div class="item-image"></div>
       <div>
-        <span class="item-name">{{localize "arm5e.sheet.spells"}}</span><span> ({{ system.totalXPSpells }} lvl)</span>
+        <span class="item-name spell-list">{{localize "arm5e.sheet.spells"}}</span><span> ({{ system.totalXPSpells }}
+          lvl)</span>
       </div>
       <div class="item-controls">
         <a class="item-control toggleHidden" title="Filter"><i class="fas fa-sort" data-list="spells"
@@ -121,7 +122,7 @@
     </li>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="spells" visibility=ui.spellsFilterVisibility}}
-    {{#each system.spells as |item id|}}
+    {{#each system.filteredSpells as |item id|}}
       <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
         data-attribute="{{id}}">
         <div class="flexrow flex-center">
@@ -171,7 +172,7 @@
     </li>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{> "systems/arm5e/templates/actor/parts/hermeticFilter.html" list="magicalEffects" visibility=ui.magicEffectFilterVisibility}}
-    {{#each system.magicalEffects as |item id|}}
+    {{#each system.filteredMagicalEffects as |item id|}}
       <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
         data-attribute="{{id}}">
         <div class="flexrow flex-center">

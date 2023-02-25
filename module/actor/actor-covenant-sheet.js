@@ -114,33 +114,6 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       }
     }
 
-    // hermetic filters
-    // 1. Filter
-    //
-    let labtTextFilters = context.userData.filters.hermetic.laboratoryTexts;
-    // if (!labtTextFilters) {
-    //   labtTextFilters = { formFilter: "", levelFilter: "", levelOperator: 0, techniqueFilter: "" };
-    // }
-    context.ui = {};
-    context.system.laboratoryTexts = hermeticFilter(
-      labtTextFilters,
-      context.system.laboratoryTexts
-    );
-    if (labtTextFilters.expanded) {
-      context.ui.labtTextFilterVisibility = "";
-    } else {
-      context.ui.labtTextFilterVisibility = "hidden";
-    }
-    if (
-      labtTextFilters.formFilter != "" ||
-      labtTextFilters.techniqueFilter != "" ||
-      (labtTextFilters.levelFilter != 0 && labtTextFilters.levelFilter != null)
-    ) {
-      context.ui.labTextFilter = 'style="text-shadow: 0 0 5px maroon"';
-    }
-    // 2. Sort
-    context.system.laboratoryTexts = context.system.laboratoryTexts.sort(compareLabTexts);
-
     return context;
   }
 
@@ -219,26 +192,13 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
    * @override
    */
   async _onDropItem(event, data) {
-    let itemData = {};
-    let type;
-    if (data.pack) {
-      // coming from a pack
-      const item = await Item.implementation.fromDropData(data);
-      itemData = item.toObject();
-      type = itemData.type;
-    } else if (data.actorId === undefined) {
-      const item = await Item.implementation.fromDropData(data);
-      itemData = item.toObject();
-      type = itemData.type;
-    } else {
-      type = data.data.type;
-      itemData = data.data;
-    }
+    const item = await fromUuid(data.uuid);
+    const type = item.type;
     // transform input into labText
     if (type == "spell" || type == "magicalEffect" || type == "enchantment") {
       log(false, "Valid drop");
       // create a labText data:
-      data.data = effectToLabText(foundry.utils.deepClone(itemData));
+      return await super._onDropItemCreate(effectToLabText(foundry.utils.deepClone(itemData)));
     }
     // }
     const res = await super._onDropItem(event, data);
