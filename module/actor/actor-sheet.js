@@ -146,6 +146,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // Allow effect creation
     actorData.system.effectCreation = game.user.isGM;
     let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache === null) usercache = {};
     if (usercache[this.actor.id]) {
       context.userData = usercache[this.actor.id];
     } else {
@@ -520,6 +521,23 @@ export class ArM5eActorSheet extends ActorSheet {
         };
         // log(false, `${key} has ${charac.aging} points`);
       }
+
+      context.combat = {
+        init:
+          context.system.combat.init -
+          context.system.combat.overload +
+          context.system.characteristics.qik.value,
+        attack:
+          context.system.combat.atk +
+          context.system.combat.ability +
+          context.system.characteristics.dex.value,
+        defense:
+          context.system.combat.dfn +
+          context.system.combat.ability +
+          context.system.characteristics.qik.value,
+        damage: context.system.combat.dam + context.system.characteristics.str.value,
+        soak: context.system.combat.prot + context.system.characteristics.sta.value
+      };
     }
 
     if (
