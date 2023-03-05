@@ -1,6 +1,4 @@
-
-## 2.0.4.7, Kentigern
-
+## 2.0.4.8, Kentigern
 
 ### Features & changes
 
