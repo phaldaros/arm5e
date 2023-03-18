@@ -761,7 +761,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "hermeticApp":
       case "childhood":
       case "laterLife":
-      case "laterLifeMagi": {
+      case "laterLifeMagi":
+      case "learnSpell": {
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // check that ability still exists
           let ability = this.actor.items.get(ab.id);

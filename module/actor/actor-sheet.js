@@ -56,6 +56,10 @@ export class ArM5eActorSheet extends ActorSheet {
     return this.isEditable;
   }
 
+  async _onDrop(event) {
+    return await super._onDrop(event);
+  }
+
   /* -------------------------------------------- */
 
   isItemDropAllowed(item) {
@@ -513,7 +517,6 @@ export class ArM5eActorSheet extends ActorSheet {
         };
         // log(false, `${key} has ${charac.aging} points`);
       }
-
     }
 
     if (context.system.diaryEntries) {
@@ -551,7 +554,6 @@ export class ArM5eActorSheet extends ActorSheet {
           seasons: value
         })
       );
-
     }
 
     if (
@@ -668,6 +670,22 @@ export class ArM5eActorSheet extends ActorSheet {
       document.getElementById(category).classList.toggle("hide");
     });
 
+    html.find(".planning-item").click(async ev => {
+      const category = $(ev.currentTarget).data("item");
+      const persist = $(ev.currentTarget).data("persist");
+      let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+      if (planning) {
+        if (planning.visibility[persist] === "hide") {
+          planning.visibility[persist] = "";
+          await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+        } else {
+          planning.visibility[persist] = "hide";
+          await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+        }
+      }
+      document.getElementById(category).classList.toggle("hide");
+    });
+
     // html.find(".spell-list").click(async ev => {
     //   const category = $(ev.currentTarget).data("topic");
     //   document.getElementById(category).classList.toggle("hide");
@@ -718,7 +736,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     html.find(".sortable").click(ev => {
       const listName = ev.currentTarget.dataset.list;
-      let val = this.actor.getFlag("arm5e", "sorting", listName);
+      let val = this.actor.getFlag("arm5e", "sorting");
       if (val === undefined) {
         this.actor.setFlag("arm5e", "sorting", {
           [listName]: true

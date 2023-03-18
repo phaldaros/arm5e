@@ -1,11 +1,20 @@
 import { getLabUpkeepCost, log } from "../tools.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { migrateItemData } from "../migration.js";
+import { computeLevel } from "../helpers/magic.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
 export class ArM5eItem extends Item {
+  static IsMagicalEffect(item) {
+    return (
+      item.type == "magicalEffect" ||
+      item.type == "enchantment" ||
+      item.type == "spell" ||
+      (item.type === "laboratoryText" && item.system.type === "spell")
+    );
+  }
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
@@ -57,82 +66,8 @@ export class ArM5eItem extends Item {
       if (this._isNotMigrated()) {
         return;
       }
+      this.system.level = computeLevel(this.system, this.type);
 
-      let effectLevel = this.system.baseLevel;
-
-      if (system.range.value) {
-        effectLevel = this._addSpellMagnitude(
-          effectLevel,
-          CONFIG.ARM5E.magic.ranges[system.range.value].impact
-        );
-      }
-      if (system.duration.value) {
-        effectLevel = this._addSpellMagnitude(
-          effectLevel,
-          CONFIG.ARM5E.magic.durations[system.duration.value].impact
-        );
-      }
-      if (system.target.value) {
-        effectLevel = this._addSpellMagnitude(
-          effectLevel,
-          CONFIG.ARM5E.magic.targets[system.target.value].impact
-        );
-      }
-      if (system.complexity) {
-        effectLevel = this._addSpellMagnitude(effectLevel, system.complexity);
-      }
-      if (system.targetSize) {
-        effectLevel = this._addSpellMagnitude(effectLevel, system.targetSize);
-      }
-      if (system.enhancingRequisite) {
-        effectLevel = this._addSpellMagnitude(effectLevel, system.enhancingRequisite);
-      }
-
-      if (
-        this.type == "enchantment" ||
-        (this.type == "laboratoryText" && this.system.type == "enchantment")
-      ) {
-        effectLevel += parseInt(system.effectfrequency);
-        if (system.penetration % 2 == 1) {
-          this.system.penetration += 1;
-        }
-        effectLevel += this.system.penetration / 2;
-
-        if (system.maintainConc) {
-          effectLevel += 5;
-        }
-
-        if (system.environmentalTrigger) {
-          effectLevel += 3;
-        }
-
-        if (system.restrictedUse) {
-          effectLevel += 3;
-        }
-
-        if (system.linkedTrigger) {
-          effectLevel += 3;
-        }
-      } else {
-        let shouldBeRitual = system.ritual;
-        // Duration above moon are rituals and rituals are minimum level 20
-        if (
-          CONFIG.ARM5E.magic.durations[system.duration.value].impact > 3 ||
-          system.target.value == "bound" ||
-          effectLevel > 50
-        ) {
-          shouldBeRitual = true;
-        }
-
-        if (shouldBeRitual && effectLevel < 20) {
-          effectLevel = 20;
-        }
-        this.system.ritual = shouldBeRitual;
-      }
-      if (this.system.general) {
-        effectLevel += this.system.levelOffset ?? 0;
-      }
-      this.system.level = effectLevel;
       system.castingTotal = 0;
     }
 
@@ -210,7 +145,9 @@ export class ArM5eItem extends Item {
               this.system.baseQuality = systemData.sourceQuality;
               break;
             }
-            case "reading": {
+            case "reading":
+            case "inventSpell":
+            case "learnSpell": {
               this.system.baseQuality = systemData.sourceQuality;
               break;
             }
@@ -242,15 +179,6 @@ export class ArM5eItem extends Item {
     );
   }
 
-  _isMagicalEffect() {
-    return (
-      this.type == "magicalEffect" ||
-      this.type == "enchantment" ||
-      this.type == "spell" ||
-      (this.type === "laboratoryText" && this.system.type === "spell")
-    );
-  }
-
   // to tell whether a spell needs to be migrated
   _isNotMigrated() {
     if (
@@ -279,26 +207,26 @@ export class ArM5eItem extends Item {
   }
 
   // return a localize string of a magic effect attributes
-  _getEffectAttributesLabel() {
-    if (!this._isMagicalEffect()) return "";
+  static GetEffectAttributesLabel(item) {
+    if (!ArM5eItem.IsMagicalEffect(item)) return "";
     let label =
-      ArM5eItem.getTechLabel(this.system) +
+      ArM5eItem.getTechLabel(item.system) +
       " " +
-      ArM5eItem.getFormLabel(this.system) +
+      ArM5eItem.getFormLabel(item.system) +
       " " +
-      this.system.level +
+      item.system.level +
       " - " +
       game.i18n.localize("arm5e.spell.range.short") +
       ": " +
-      game.i18n.localize(CONFIG.ARM5E.magic.ranges[this.system.range.value].label) +
+      game.i18n.localize(CONFIG.ARM5E.magic.ranges[item.system.range.value].label) +
       " " +
       game.i18n.localize("arm5e.spell.duration.short") +
       ": " +
-      game.i18n.localize(CONFIG.ARM5E.magic.durations[this.system.duration.value].label) +
+      game.i18n.localize(CONFIG.ARM5E.magic.durations[item.system.duration.value].label) +
       " " +
       game.i18n.localize("arm5e.spell.target.short") +
       ": " +
-      game.i18n.localize(CONFIG.ARM5E.magic.targets[this.system.target.value].label);
+      game.i18n.localize(CONFIG.ARM5E.magic.targets[item.system.target.value].label);
     return label;
   }
 
@@ -334,7 +262,7 @@ export class ArM5eItem extends Item {
   }
 
   _getTechniqueData(actorSystemData) {
-    if (!this._isMagicalEffect()) return ["", 0, false];
+    if (!ArM5eItem.IsMagicalEffect(this)) return ["", 0, false];
 
     let label = CONFIG.ARM5E.magic.techniques[this.system.technique.value].label;
     let tech = 1000;
@@ -364,7 +292,7 @@ export class ArM5eItem extends Item {
     return [label, tech, techDeficient];
   }
   _getFormData(actorSystemData) {
-    if (!this._isMagicalEffect()) return ["", 0, false];
+    if (!ArM5eItem.IsMagicalEffect(this)) return ["", 0, false];
 
     let label = CONFIG.ARM5E.magic.forms[this.system.form.value].label;
     let form = 1000;
@@ -390,48 +318,6 @@ export class ArM5eItem extends Item {
     return [label, form, formDeficient];
   }
 
-  _addSpellMagnitude(base, num) {
-    if (num == 0) {
-      return base;
-    }
-    // in case base is a string
-    base = parseInt(base);
-    if (num > 0) {
-      // log(false, `Adding ${num} magnitudes from ${base}`);
-      if (base + num <= 5) {
-        return base + num;
-      }
-      let loop = num;
-      let res = base;
-      while (loop > 0) {
-        if (res < 5) {
-          res++;
-        } else {
-          res = res + 5;
-        }
-        loop--;
-      }
-      return res;
-    } else {
-      log(false, `Adding ${num} magnitudes from ${base}`);
-      if (base + num <= 1) {
-        return base + num;
-      }
-      let loop = num;
-      let res = base;
-      while (loop < 0) {
-        if (res <= 5) {
-          res--;
-        } else {
-          res = res - 5;
-        }
-        loop++;
-      }
-      log(false, `returns ${res}`);
-      return res;
-    }
-  }
-
   _computeCastingTotal(owner, options = {}) {
     if (owner.type != "player" && owner.type != "npc") {
       return 0;
@@ -440,7 +326,6 @@ export class ArM5eItem extends Item {
     let res = owner.system.characteristics[options.char].value;
     let tech = 1000;
     let form = 1000;
-    let focusBonus = 0;
     let deficiencyDivider = 1;
     let deficientTech = false;
     let deficientForm = false;

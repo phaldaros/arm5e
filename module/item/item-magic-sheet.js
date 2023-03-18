@@ -1,6 +1,7 @@
 import { ArM5eItemSheet } from "./item-sheet.js";
 import { log } from "../tools.js";
 import { ARM5E } from "../config.js";
+import { ArM5eItem } from "./item.js";
 /**
  * Extend the basic ArM5eItemSheet with some very simple modifications
  * @extends {ArM5eItemSheet}
@@ -30,32 +31,11 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     // the context variable to see the structure, but some key properties for
     // sheets are the item object, the data object, whether or not it's
     // editable, the items array, and the effects array.
-    const context = await super.getData();
-    context.system.localizedDesc = this.item._getEffectAttributesLabel();
-    const filterBooks = Object.fromEntries(
-      Object.entries(await game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter")).filter(
-        ([key, f]) => f.value === true
-      )
-    );
+    let context = await super.getData();
+    context.system.localizedDesc = ArM5eItem.GetEffectAttributesLabel(this.item);
+    context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
 
-    context.ranges = Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.magic.ranges).filter(([key, val]) => {
-        return val.source in filterBooks;
-      })
-    );
-
-    context.targets = Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.magic.targets).filter(([key, val]) => {
-        return val.source in filterBooks;
-      })
-    );
-
-    context.durations = Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.magic.durations).filter(([key, val]) => {
-        return val.source in filterBooks;
-      })
-    );
-
+    // If settings were too restrictive, allow existing Items to keep their value.
     switch (this.item.type) {
       case "spell":
       case "enchantment":
@@ -74,6 +54,33 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     }
 
     return context;
+  }
+
+  static async GetFilteredMagicalAttributes(data) {
+    const filterBooks = Object.fromEntries(
+      Object.entries(await game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter")).filter(
+        ([key, f]) => f.value === true
+      )
+    );
+    // Filter to only the values configured in settings
+    data.ranges = Object.fromEntries(
+      Object.entries(CONFIG.ARM5E.magic.ranges).filter(([key, val]) => {
+        return val.source in filterBooks;
+      })
+    );
+
+    data.targets = Object.fromEntries(
+      Object.entries(CONFIG.ARM5E.magic.targets).filter(([key, val]) => {
+        return val.source in filterBooks;
+      })
+    );
+
+    data.durations = Object.fromEntries(
+      Object.entries(CONFIG.ARM5E.magic.durations).filter(([key, val]) => {
+        return val.source in filterBooks;
+      })
+    );
+    return data;
   }
 
   /* -------------------------------------------- */
@@ -95,22 +102,30 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
-    html.find(".advanced-req").click(this._pickRequisites.bind(this));
+    html.find(".advanced-req").click(async evt => {
+      let update = await ArM5eItemMagicSheet.PickRequisites(
+        this.item.system,
+        evt.currentTarget.dataset.flavor
+      );
+      if (update) await this.item.update(update);
+    });
   }
 
-  async _pickRequisites(event) {
-    event.preventDefault();
-    this.item.system.config = {
+  static async PickRequisites(spelldata, flavor, editable) {
+    spelldata.config = {
       magic: {
         techniques: CONFIG.ARM5E.magic.techniques,
         forms: CONFIG.ARM5E.magic.forms
       }
     };
-    this.item.system.ui = { flavor: event.currentTarget.dataset.flavor };
-    log("false", this.item.system);
-    var itemData = this.item;
+    spelldata.edition = editable;
+    spelldata.ui = { flavor: flavor };
+    log("false", spelldata);
+    // var itemData = this.item;
     let template = "systems/arm5e/templates/item/parts/requisites.html";
-    renderTemplate(template, this.item.system).then(function(html) {
+    let html = await renderTemplate(template, spelldata);
+
+    let itemUpdate = await new Promise(resolve => {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.sheet.Requisites"),
@@ -119,7 +134,9 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: game.i18n.localize("arm5e.dialog.button.save"),
-              callback: html => _setRequisites(html, itemData)
+              callback: async html => {
+                resolve(_setRequisites(html));
+              }
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -133,10 +150,11 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
         }
       ).render(true);
     });
+    return itemUpdate;
   }
 }
 
-export async function _setRequisites(selector, item) {
+export function _setRequisites(selector) {
   let itemUpdate = {};
   let found = selector.find(".SelectedCreo");
   if (found.length > 0) {
@@ -267,6 +285,5 @@ export async function _setRequisites(selector, item) {
       itemUpdate["system.form-req.vi"] = false;
     }
   }
-
-  await item.update(itemUpdate);
+  return itemUpdate;
 }

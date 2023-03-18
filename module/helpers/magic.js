@@ -1,6 +1,192 @@
 import { getActorsFromTargetedTokens } from "./tokens.js";
 import { chatContestOfMagic, chatContestOfPower } from "./chat.js";
 
+export function addSpellMagnitude(base, num) {
+  if (num == 0) {
+    return base;
+  }
+  // in case base is a string
+  base = parseInt(base);
+  if (num > 0) {
+    // log(false, `Adding ${num} magnitudes from ${base}`);
+    if (base + num <= 5) {
+      return base + num;
+    }
+    let loop = num;
+    let res = base;
+    while (loop > 0) {
+      if (res < 5) {
+        res++;
+      } else {
+        res = res + 5;
+      }
+      loop--;
+    }
+    return res;
+  } else {
+    // log(false, `Adding ${num} magnitudes from ${base}`);
+    if (base + num <= 1) {
+      return base + num;
+    }
+    let loop = num;
+    let res = base;
+    while (loop < 0) {
+      if (res <= 5) {
+        res--;
+      } else {
+        res = res - 5;
+      }
+      loop++;
+    }
+    // log(false, `returns ${res}`);
+    return res;
+  }
+}
+
+export function computeLevel(system, type) {
+  let effectLevel = system.baseLevel;
+
+  if (system.range.value) {
+    effectLevel = addSpellMagnitude(
+      effectLevel,
+      CONFIG.ARM5E.magic.ranges[system.range.value].impact
+    );
+  }
+  if (system.duration.value) {
+    effectLevel = addSpellMagnitude(
+      effectLevel,
+      CONFIG.ARM5E.magic.durations[system.duration.value].impact
+    );
+  }
+  if (system.target.value) {
+    effectLevel = addSpellMagnitude(
+      effectLevel,
+      CONFIG.ARM5E.magic.targets[system.target.value].impact
+    );
+  }
+  if (system.complexity) {
+    effectLevel = addSpellMagnitude(effectLevel, system.complexity);
+  }
+  if (system.targetSize) {
+    effectLevel = addSpellMagnitude(effectLevel, system.targetSize);
+  }
+  if (system.enhancingRequisite) {
+    effectLevel = addSpellMagnitude(effectLevel, system.enhancingRequisite);
+  }
+
+  if (type == "enchantment" || (type == "laboratoryText" && system.type == "enchantment")) {
+    effectLevel += parseInt(system.effectfrequency);
+    if (system.penetration % 2 == 1) {
+      system.penetration += 1;
+    }
+    effectLevel += system.penetration / 2;
+
+    if (system.maintainConc) {
+      effectLevel += 5;
+    }
+
+    if (system.environmentalTrigger) {
+      effectLevel += 3;
+    }
+
+    if (system.restrictedUse) {
+      effectLevel += 3;
+    }
+
+    if (system.linkedTrigger) {
+      effectLevel += 3;
+    }
+  } else {
+    let shouldBeRitual = system.ritual;
+    // Duration above moon are rituals and rituals are minimum level 20
+    if (
+      CONFIG.ARM5E.magic.durations[system.duration.value].impact > 3 ||
+      system.target.value == "bound" ||
+      effectLevel > 50
+    ) {
+      shouldBeRitual = true;
+    }
+
+    if (shouldBeRitual && effectLevel < 20) {
+      effectLevel = 20;
+    }
+    system.ritual = shouldBeRitual;
+  }
+  if (system.general) {
+    effectLevel += system.levelOffset ?? 0;
+  }
+  return effectLevel;
+}
+
+export function computeRawCastingTotal(effect, owner, options = {}) {
+  if (owner.type != "player" && owner.type != "npc") {
+    return 0;
+  }
+  let effectData = effect.system;
+  let res = 0;
+  let tech = 1000;
+  let form = 1000;
+  let deficientTech = false;
+  let deficientForm = false;
+  let techReq = Object.entries(effectData["technique-req"]).filter(r => r[1] === true);
+  let formReq = Object.entries(effectData["form-req"]).filter(r => r[1] === true);
+  if (owner.system.arts.techniques[effectData.technique.value].deficient) {
+    deficientTech = true;
+  }
+  if (owner.system.arts.forms[effectData.form.value].deficient) {
+    deficientForm = true;
+  }
+  if (techReq.length > 0) {
+    techReq.forEach(key => {
+      if (owner.system.arts.techniques[key[0]].deficient) {
+        deficientTech = true;
+      }
+      tech = Math.min(tech, owner.system.arts.techniques[key[0]].finalScore);
+    });
+
+    tech = Math.min(owner.system.arts.techniques[effectData.technique.value].finalScore, tech);
+  } else {
+    tech = owner.system.arts.techniques[effectData.technique.value].finalScore;
+  }
+  if (formReq.length > 0) {
+    formReq.forEach(key => {
+      if (owner.system.arts.forms[key[0]].deficient) {
+        deficientForm = true;
+      }
+      form = Math.min(tech, owner.system.arts.forms[key[0]].finalScore);
+    });
+    form = Math.min(owner.system.arts.forms[effectData.form.value].finalScore, form);
+  } else {
+    form = owner.system.arts.forms[effectData.form.value].finalScore;
+  }
+  if (effectData.applyFocus || options.focus) {
+    res += tech + form + Math.min(tech, form);
+  } else {
+    res += tech + form;
+  }
+
+  return { total: res, deficientTech: deficientTech, deficientForm: deficientForm };
+}
+
+export function computeLabTotal(effect, actor, magicTheory) {
+  let rawLabTotal = computeRawCastingTotal(effect, actor);
+
+  let total = rawLabTotal.total;
+
+  total += actor.system.characteristics.int.value;
+
+  total += magicTheory;
+
+  let deficiencyDivider = 1;
+  if (rawLabTotal.deficientTech && rawLabTotal.deficientForm) {
+    deficiencyDivider = 4;
+  } else if (rawLabTotal.deficientTech || rawLabTotal.deficientForm) {
+    deficiencyDivider = 2;
+  }
+
+  return Math.round(total / deficiencyDivider);
+}
+
 async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
   const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
   if (!actorsTargeted) {

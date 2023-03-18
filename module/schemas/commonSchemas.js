@@ -24,10 +24,10 @@ export const convertToNumber = function(value, fallback = 0) {
   if (value === undefined || value === "" || value === null) {
     return fallback;
   } else if (typeof value === "string") {
-    if (Number.isNaN(value)) {
-      return fallback;
-    } else {
+    if (Number.isNumeric(value)) {
       return Number(value);
+    } else {
+      return fallback;
     }
   } else {
     return value;
@@ -142,7 +142,6 @@ export const SpellAttributes = () => {
       required: false,
       nullable: false,
       integer: true,
-      min: 0,
       initial: 0,
       step: 1
     }),

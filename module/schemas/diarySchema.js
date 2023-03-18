@@ -153,8 +153,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
             name: new fields.StringField({ required: true, blank: false }),
             label: new fields.StringField({ required: true, blank: false }),
             id: new fields.StringField({
-              required: true,
-              blank: false,
+              required: false,
+              blank: true,
               nullable: true,
               initial: null
             }),
@@ -264,7 +264,6 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           applied: itemData.system.applied ?? false
         }
       ];
-
     }
     // if (itemData.system.applied !== undefined) {
     //   // if applied exists, the array should be of length 1

@@ -24,13 +24,11 @@ const actorLink = () => {
   });
 };
 
-
 export class LabSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
 
   static defineSchema() {
-
     return {
       description: new fields.StringField({ required: false, blank: true, initial: "" }),
       source: new fields.StringField({ required: false, initial: "custom" }),
@@ -89,6 +87,8 @@ export class LabSchema extends foundry.abstract.DataModel {
       );
     });
 
+    // updateData["system.page"] = convertToNumber(data.system.generalQuality.total, 0);
+
     let specialties = "";
     let personalities = "";
     let features = "";
@@ -129,5 +129,4 @@ export class LabSchema extends foundry.abstract.DataModel {
   }
 
   //   static migrateData(data) {}
-
 }

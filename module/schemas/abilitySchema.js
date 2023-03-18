@@ -20,7 +20,7 @@ export class AbilitySchema extends foundry.abstract.DataModel {
   }
 
   static migrate(itemData) {
-    log(false, "Migrate ability " + itemData.name);
+    // log(false, "Migrate ability " + itemData.name);
     const updateData = {};
     if (itemData.system.experienceNextLevel != undefined) {
       // if the experience is equal or bigger than the xp for this score, use it as total xp
@@ -34,11 +34,15 @@ export class AbilitySchema extends foundry.abstract.DataModel {
         // compute normally
         updateData["system.xp"] = exp + itemData.system.experience;
       }
-      // TODO: to be uncommentedm when we are sure the new system works
-      // updateData["system.-=experience"] = null;
-      // updateData["system.-=score"] = null;
+      updateData["system.-=experience"] = null;
+      updateData["system.-=score"] = null;
       updateData["system.-=experienceNextLevel"] = null;
     }
+
+    if (itemData.system.xp === null) {
+      updateData["system.xp"] = 0;
+    }
+
     // clean-up TODO: remove
     if (itemData.system.puissant) updateData["system.-=puissant"] = null;
     if (itemData.system.affinity) updateData["system.-=affinity"] = null;

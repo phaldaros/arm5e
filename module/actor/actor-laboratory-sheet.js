@@ -1,3 +1,7 @@
+import { ARM5E } from "../config.js";
+import { computeLabTotal, computeLevel } from "../helpers/magic.js";
+import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
+import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 /**
@@ -16,14 +20,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         {
           navSelector: ".sheet-tabs",
           contentSelector: ".sheet-body",
-          initial: "virtues"
+          initial: "planning"
         },
         {
           navSelector: ".inventory-tabs",
           contentSelector: ".inventory-body",
           initial: "inventory"
         }
-      ]
+      ],
+      dragDrop: [{ dragSelector: null, dropSelector: ".workbench" }]
     });
   }
 
@@ -31,10 +36,36 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
   /** @override */
   async getData() {
-    const context = await super.getData();
+    let context = await super.getData();
+
+    context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
 
     context.config = CONFIG.ARM5E;
+    context.namePrefix = "flags.arm5e.planning.data";
 
+    context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+    if (context.planning === undefined) {
+      let newSpell = await Item.create(
+        {
+          name: "New spell",
+          type: "spell"
+          // system:
+        },
+        { temporary: true }
+      );
+      context.planning = {
+        type: "inventSpell",
+        data: newSpell.toObject(),
+        visibility: { desc: "hide", attr: "hide", options: "hide" },
+        modifiers: { generic: 0 }
+      };
+      await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", context.planning);
+      log(false, `Reset planning`);
+    }
+
+    context.edition = context.config.activities.lab[context.planning.type].edition;
+
+    // Covenant
     context.system.world = {};
     context.system.world.covenants = game.actors
       .filter(a => a.type == "covenant")
@@ -47,11 +78,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       if (cov.length > 0) {
         context.system.covenant.linked = true;
         context.system.covenant.actorId = cov[0].id;
+        context.covenant = game.actors.get(cov[0].id);
+        context.edition.aura = "readonly";
       } else {
         context.system.covenant.linked = false;
       }
     }
-
+    // Owner
     context.system.world.magi = game.actors
       .filter(a => a._isMagus() === true)
       .map(({ name, id }) => ({
@@ -63,10 +96,63 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       if (per.length > 0) {
         context.system.owner.linked = true;
         context.system.owner.actorId = per[0].id;
+        context.owner = game.actors.get(per[0].id);
+        context.owner.magicTheory = context.owner.getAbilityStats("magicTheory");
       } else {
         context.system.owner.linked = false;
       }
     }
+
+    // tmp TODO remove
+    if (context.planning.modifiers == undefined) {
+      context.planning.modifiers = {};
+    }
+
+    context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
+    if (context.system.covenant.linked) {
+      context.planning.modifiers.aura = Number(context.covenant.system.levelAura);
+      // TODO fix covenant date
+    }
+    context.planning.date = game.settings.get("arm5e", "currentDate");
+
+    switch (context.planning.type) {
+      case "inventSpell": {
+      }
+      case "learnSpell":
+        {
+          let labTot = computeLabTotal(
+            context.planning.data,
+            context.owner,
+            context.owner.magicTheory.score
+          );
+          for (let mod of Object.values(context.planning.modifiers)) {
+            labTot += mod;
+          }
+
+          context.planning.data.system.level = computeLevel(
+            context.planning.data.system,
+            context.planning.type
+          );
+          context.planning.label = ArM5eItem.GetEffectAttributesLabel(context.planning.data);
+          context.planning.labTotal = labTot;
+        }
+        break;
+    }
+
+    let result = context.config.activities.lab[context.planning.type].validation(context.planning);
+
+    if (!result.valid) {
+      context.edition.schedule = "disabled";
+      if (result.duration == 0) {
+        context.planning.message = result.message;
+      } else {
+        context.planning.message = "Multi-seasons activities not supported yet";
+      }
+    } else {
+      context.edition.schedule = "";
+      context.planning.message = `Laboratory points unused: ${result.waste}.`;
+    }
+    context.planning.duration = result.duration;
 
     // Prepare items.
     this._prepareCharacterItems(context);
@@ -75,6 +161,108 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     log(false, context);
 
     return context;
+  }
+
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // Everything below here is only needed if the sheet is editable
+    if (!this.options.editable) return;
+    html.find(".advanced-req").click(async () => {
+      let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+      let update = await ArM5eItemMagicSheet.PickRequisites(
+        planning.data.system,
+        "Lab",
+        planning.type === "inventSpell" ? "" : "disabled"
+      );
+      if (update) {
+        let tmp = mergeObject(planning.data, update);
+        planning.data = tmp;
+        await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+      }
+    });
+
+    html.find(".reset-planning").click(async () => this._resetPlanning());
+    html.find(".refresh").click(this._refreshValues.bind(this));
+    html.find(".schedule").click(async () => this._schedule());
+  }
+
+  async _resetPlanning() {
+    await this.actor.unsetFlag(ARM5E.SYSTEM_ID, "planning");
+    this.render();
+  }
+
+  _refreshValues() {
+    this.render(true);
+  }
+
+  async _schedule() {
+    // TODO remove hardcoded values
+    let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+    let spellLevel = computeLevel(planning.data.system, planning.type);
+    const entryData = [
+      {
+        name: "Invent spell",
+        type: "diaryEntry",
+        system: {
+          cappedGain: false,
+          dates: [{ season: planning.date.season, year: planning.date.year, applied: false }],
+          sourceQuality: spellLevel,
+          activity: planning.type,
+          progress: {
+            abilities: [],
+            arts: [],
+            spells: [],
+            newSpells: [
+              {
+                name: planning.data.name,
+                label: `${planning.data.name}`,
+                level: spellLevel,
+                spellData: planning.data.system
+              }
+            ]
+          },
+          optionKey: "standard",
+          duration: 1,
+          description: "Invented a new spell!"
+        }
+      }
+    ];
+
+    switch (planning.type) {
+      case "inventSpell":
+        break;
+    }
+    let owner = game.actors.get(this.actor.system.owner.actorId);
+    let entry = await owner.createEmbeddedDocuments("Item", entryData, {});
+    entry[0].sheet.render(true);
+  }
+
+  async _onDrop(event) {
+    const dropData = TextEditor.getDragEventData(event);
+    if (dropData.type == "Item" && event.currentTarget.dataset.drop === "workbench") {
+      // if (this.item.system.activity === "teaching" || this.item.system.activity === "training") {
+      const item = await Item.implementation.fromDropData(dropData);
+      let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+      switch (item.type) {
+        case "labText": {
+          if (item.system.type !== "spell") {
+            break;
+          }
+        }
+        case "spell": {
+          let newSpell = await Item.create(item.toObject(), { temporary: true });
+          planning.type = "learnSpell";
+          planning.data = newSpell.toObject();
+          await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+          return true;
+        }
+        default:
+          return await super._onDrop(event);
+      }
+    }
+    return await super._onDrop(event);
   }
 
   /**
@@ -137,5 +325,11 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       updateData["system.owner.value"] = actor.name;
     }
     return await this.actor.update(updateData, {});
+  }
+
+  /** @inheritdoc */
+  async _updateObject(event, formData) {
+    return await super._updateObject(event, formData);
+    if (!this.object.id) return;
   }
 }

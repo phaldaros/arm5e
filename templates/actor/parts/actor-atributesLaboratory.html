@@ -1,5 +1,5 @@
 <div class="flexcol">
-  <div class="flexrow   " style="min-height: 260px;">
+  <div class="flexrow " style="min-height: 260px;">
     <div class="flexcol backSection" style="margin-right: 10px; margin-bottom: 5px;">
       <label class="smallTitle padding4 flex0" stype="height: 32px;">{{localize "arm5e.sheet.specialities"}}</label>
       {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
@@ -19,13 +19,16 @@
     <div class="flexcol backSection" style="margin-right: 10px; margin-bottom: 5px;">
       <label class="smallTitle padding4 flex0" stype="height: 32px;">{{localize "arm5e.sheet.features"}}</label>
       {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-      {{editor system.features target="system.features" button=true owner=owner editable=editable}}
+      <div class="flexrow padding4" style="border: 0px; height: 150px">
+        {{editor system.features target="system.features" button=true owner=owner editable=editable}}
+      </div>
     </div>
     <div class="flexcol backSection" style="margin-right: 10px; margin-bottom: 5px;">
-
       <label class="smallTitle padding4 flex0" stype="height: 32px;">{{localize "arm5e.sheet.rooms"}}</label>
       {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-      {{editor system.rooms target="system.rooms" button=true owner=owner editable=editable}}
+      <div class="flexrow padding4" style="border: 0px; height: 150px">
+        {{editor system.rooms target="system.rooms" button=true owner=owner editable=editable}}
+      </div>
     </div>
   </div>
 

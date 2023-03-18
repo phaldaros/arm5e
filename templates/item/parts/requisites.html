@@ -11,7 +11,7 @@
                 {{#with (lookup @root.config.magic.techniques key)~}}
                   <span class="flexrow fontSize10" name="technique.label"> {{label~}} </span>
                   <input type="checkbox" name="system.technique-req.{{key}}" class="Selected{{label}}" {{checked
-                    technique}} />
+                    technique}} {{@root.edition}} />
                 {{/with}}
               </div>
             </div>
@@ -28,11 +28,9 @@
               <div class="flexrow marginbot4">
                 {{#with (lookup @root.config.magic.forms key)~}}
                   <span class="flexrow fontSize10" name="form.label"> {{label~}} </span>
-                  {{#if (eq form true)}}
-                    <input type="checkbox" name="system.form-req.{{key}}" class="Selected{{label}}" checked />
-                  {{else}}
-                    <input type="checkbox" name="system.form-req.{{key}}" class="Selected{{label}}" />
-                  {{/if}} {{/with}}
+                  <input type="checkbox" name="system.form-req.{{key}}" class="Selected{{label}}" {{checked form}}
+                    {{@root.edition}} />
+                {{/with}}
               </div>
             </div>
           </li>
