@@ -17,7 +17,8 @@ export async function migration(originalVersion) {
       if (a.type == "magus") {
         a.type = "player";
       }
-      const updateData = await migrateActorData(a);
+      log(true, `Invalid items in actor: ${a.items.invalidDocumentIds.size}`);
+      const updateData = await migrateActorData(a, a.items);
 
       if (!isEmpty(updateData)) {
         console.log(`Migrating Actor document ${a.name}`);
@@ -48,12 +49,15 @@ export async function migration(originalVersion) {
       const rawData = foundry.utils.deepClone(game.actors._source.find(d => d._id == invalidId));
       console.log(`Migrating invalid Actor document: ${rawData.name}`);
       // let invalidActor = game.actors.getInvalid(invalidId);
-      const updateData = await migrateActorData(rawData);
-      // let update = await invalidActor.update(updateData, { diff: true });
+      // log(false, `Invalid items in actor: ${invalidActor.items.invalidDocumentIds.size}`);
+      // log(false, `Items in actor: ${invalidActor.items.size}`);
+      const updateData = await migrateActorData(rawData, rawData.items);
+      // let updateData = await invalidActor.update(updateData, { diff: true });
       console.log(`Migrated invalid Actor document: ${rawData.name}`);
-
-      updateData._id = invalidId;
-      invalidActorsUpdates.push(foundry.utils.expandObject(updateData));
+      if (!isEmpty(updateData)) {
+        updateData._id = invalidId;
+        invalidActorsUpdates.push(foundry.utils.expandObject(updateData));
+      }
     } catch (err) {
       err.message = `Failed system migration for invalid Actor ${invalidId}: ${err.message}`;
       console.error(err);
@@ -177,7 +181,7 @@ export const migrateCompendium = async function(pack) {
     try {
       switch (documentName) {
         case "Actor":
-          updateData = await migrateActorData(doc);
+          updateData = await migrateActorData(doc, doc.items);
           break;
         case "Item":
           updateData = await migrateItemData(doc);
@@ -231,7 +235,7 @@ export const migrateSceneData = async function(scene, migrationData) {
           actorData.system.charType = { value: token.actor?.system?.charType?.value };
         }
 
-        const update = await migrateActorData(actorData);
+        const update = await migrateActorData(actorData, actorData.items);
         ["items", "effects"].forEach(embeddedName => {
           if (!update[embeddedName]?.length) return;
           const updates = new Map(update[embeddedName].map(u => [u._id, u]));
@@ -266,7 +270,7 @@ export const migrateSceneData = async function(scene, migrationData) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
-export const migrateActorData = async function(actorDoc) {
+export const migrateActorData = async function(actorDoc, actorItems) {
   let actor = {};
   if (actorDoc instanceof CONFIG.Actor.documentClass) {
     actor = actorDoc._source;
@@ -412,7 +416,7 @@ export const migrateActorData = async function(actorDoc) {
         updateData["system.decrepitude.-=score"] = null;
       }
 
-      if (actor.system.warping.score != undefined) {
+      if (actor.system.warping?.score != undefined) {
         let exp =
           (Number(actor.system.warping.score) * (Number(actor.system.warping.score) + 1) * 5) / 2;
         if (actor.system.warping.points >= 5 * (Number(actor.system.warping.score) + 1)) {
@@ -548,17 +552,17 @@ export const migrateActorData = async function(actorDoc) {
   ) {
     if (actor.effects && actor.effects.length > 0) {
       log(false, `Migrating effects of ${actor.name}`);
-      const effects = actor.effects.reduce(async (arr, e) => {
-        // Migrate effects
+      // Migrate effects
+      let effects = [];
+      for (let e of actor.effects) {
         const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
         let effectUpdate = await migrateActiveEffectData(effectData);
         if (!isEmpty(effectUpdate)) {
           // Update the effect
           effectUpdate._id = effectData._id;
-          arr.push(expandObject(effectUpdate));
+          effects.push(expandObject(effectUpdate));
         }
-        return arr;
-      }, []);
+      }
       if (effects.length > 0) {
         log(false, effects);
         updateData.effects = effects;
@@ -585,7 +589,7 @@ export const migrateActorData = async function(actorDoc) {
   // Migrate Owned Items
   if (!actorDoc.items) return updateData;
   let items = [];
-  if (actorDoc.items.size !== 0) {
+  if (actorItems.length !== 0 || actorItems.size != 0) {
     for (let i of actorDoc.items) {
       // Migrate the Owned Item
       try {
@@ -603,7 +607,7 @@ export const migrateActorData = async function(actorDoc) {
   }
   // Fix invalid owned items
   // Actors from Compendiums don't have the invalidDocumentIds field
-  if (actorDoc.items.invalidDocumentIds !== undefined) {
+  if (actorItems.invalidDocumentIds !== undefined && actorItems.invalidDocumentIds.size > 0) {
     const invalidItemIds = Array.from(actorDoc.items.invalidDocumentIds);
     let invalidItemsUpdates = [];
     for (let invalidItemId of invalidItemIds) {
@@ -654,7 +658,7 @@ export const migrateActiveEffectData = async function(effectData) {
   }
 
   // Fix mess active effect V1
-  if (effectData.flags?.arm5e.type != undefined) {
+  if (effectData.flags?.arm5e?.type != undefined) {
     if (!(effectData.flags.arm5e.type instanceof Array)) {
       if (effectData.flags.arm5e.type === "spellCasting") {
         effectData.flags.arm5e.type = "spellcasting";
@@ -672,7 +676,7 @@ export const migrateActiveEffectData = async function(effectData) {
   }
 
   if (
-    effectData.flags?.arm5e.subtype != undefined &&
+    effectData.flags?.arm5e?.subtype != undefined &&
     !(effectData.flags.arm5e.subtype instanceof Array)
   ) {
     effectUpdate["flags.arm5e.subtype"] = [effectData.flags.arm5e.subtype];

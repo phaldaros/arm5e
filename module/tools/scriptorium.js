@@ -269,7 +269,6 @@ export class Scriptorium extends FormApplication {
             newSpells: []
           },
           optionKey: "standard",
-          done: 0,
           duration: 1,
           description: game.i18n.format("arm5e.scriptorium.msg.diaryDesc", {
             name: reader.name,

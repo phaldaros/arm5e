@@ -80,7 +80,11 @@ export class ItemSchema extends foundry.abstract.DataModel {
   }
 
   static migrate(itemData) {
-    return {};
+    const updateData = {};
+    if (itemData.system.quantity === null) {
+      updateData["system.quantity"] = 1;
+    }
+    return updateData;
   }
 }
 

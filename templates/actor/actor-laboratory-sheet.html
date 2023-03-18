@@ -192,14 +192,15 @@
       {{#if (ne system.owner.linked true)}}
         <label class="bold">{{localize "arm5e.lab.planning.msg.noOwner"}}</label>
       {{else}}
-        Lab planning1
+        {{> "systems/arm5e/templates/actor/parts/actor-lab-workbench.html"}}
       {{/if}}
     </div>
     {{!-- Virtues & Flaws Tab --}}
     <div class="tab virtues" data-group="primary" data-tab="virtues">
-      <div class="backSection margintop18" stype="height: 150px;">
+      <div class="backSection margintop18" stype="min-height: 150px;">
         <label class="smallTitle padding12" stype="height: 32px;">{{localize "arm5e.sheet.description"}}</label>
-        <div class="flexrow padding12" style="border: 0px; height: 150px">
+        {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+        <div class="flexrow padding12" style="border: 0px">
           {{editor system.description target="system.description" button=true owner=owner editable=editable}}
         </div>
       </div>

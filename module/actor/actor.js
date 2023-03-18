@@ -870,10 +870,13 @@ export class ArM5ePCActor extends Actor {
     let laboratoryTexts = [];
     let totalVirtues = 0;
     let totalFlaws = 0;
+    // TODO TMP
     system.specialities_old = [];
     system.personalities_old = [];
     system.distinctive = [];
     system.rooms_old = [];
+    // TODO END
+
     system.rawVis = [];
     system.items = [];
     system.virtues = [];
@@ -883,16 +886,18 @@ export class ArM5ePCActor extends Actor {
     system.laboratoryTexts = [];
 
     for (let [key, item] of this.items.entries()) {
+      // TODO TMP
       if (item.type === "speciality") {
         system.specialities_old.push(item);
       } else if (item.type === "distinctive") {
         system.distinctive.push(item);
       } else if (item.type === "sanctumRoom") {
         system.rooms_old.push(item);
-      } else if (item.type === "magicItem") {
-        system.magicItems.push(item);
       } else if (item.type === "personality") {
         system.personalities_old.push(item);
+        // TODO END
+      } else if (item.type === "magicItem") {
+        system.magicItems.push(item);
       } else if (item.type === "book") {
         let idx = 0;
         for (let topic of item.system.topics) {

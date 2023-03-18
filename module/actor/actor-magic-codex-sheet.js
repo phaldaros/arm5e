@@ -3,6 +3,7 @@ import { ArM5eActorSheet } from "./actor-sheet.js";
 import { log } from "../tools.js";
 
 import { labTextToEffect } from "../item/item-converter.js";
+import { ArM5eItem } from "../item/item.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -51,14 +52,14 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     //let actorData = sheetData.actor.data;
     // log(false, "_prepareCodexItems");
     for (const item of codexData.system.enchantments) {
-      item.system.localizedDesc = item._getEffectAttributesLabel();
+      item.system.localizedDesc = ArM5eItem.GetEffectAttributesLabel(item);
     }
     for (const item of codexData.system.spells) {
-      item.system.localizedDesc = item._getEffectAttributesLabel();
+      item.system.localizedDesc = ArM5eItem.GetEffectAttributesLabel(item);
     }
 
     for (const item of codexData.system.magicEffects) {
-      item.system.localizedDesc = item._getEffectAttributesLabel();
+      item.system.localizedDesc = ArM5eItem.GetEffectAttributesLabel(item);
     }
   }
 

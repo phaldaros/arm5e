@@ -410,7 +410,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
       expanded.system.topics[index].labtext = source.system.topics[index].labtext;
     }
 
-    return this.object.update(expanded);
+    return await this.object.update(expanded);
   }
 }
 export function getTopicDescription(topic) {

@@ -1,5 +1,4 @@
-## 2.0.4.11, Kentigern
-
+## 2.0.4.12, Kentigern
 
 ### Features & changes
 
@@ -29,6 +28,8 @@
 - Laboratory sheet reviewed and updated: (Personalities, Features, Rooms, Specialties are now text fields, the latter will be replaced by active effects)
 - [technical] Actors migrated to the new datamodel can now use their embedded items for migration.
 - Spell roll dialog improvements
+- New planning tab in the lab sheet.
+- New Spell learning activity in diary sheet (used for both lab text and invention)
 
 ### Bug fixes
 
@@ -53,9 +54,10 @@
 - Diary entries are again displayed in Covenants and lab actors
 - Spell mastery is now added to the casting total instead of just the penetration total
 - Stress rolls are no longer reduced to 0 if there is no botch, only the die is.
-
 - Setting for default Documents icons is not longer broken
-
+- Fixed capitalization on some assets references
+- Refactorization of spell management code to be used from outside the Item.
+- Improved migration
 
 ### Documentation
 

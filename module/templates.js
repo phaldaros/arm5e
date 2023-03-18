@@ -33,6 +33,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
 
     "systems/arm5e/templates/actor/parts/actor-atributesLaboratory.html",
     "systems/arm5e/templates/actor/parts/actor-inventoryLaboratory.html",
+    "systems/arm5e/templates/actor/parts/actor-lab-workbench.html",
 
     "systems/arm5e/templates/actor/parts/actor-covenantAtributes.html",
     "systems/arm5e/templates/actor/parts/actor-covenantHabitants.html",
@@ -46,6 +47,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/actor/parts/crucible-enchantment.html",
     // Item Sheet Partials
     "systems/arm5e/templates/item/parts/spell-design.html",
+    "systems/arm5e/templates/item/parts/spell-design-V2.html",
     "systems/arm5e/templates/item/parts/enchantment.html",
     // "systems/arm5e/templates/item/parts/item-enchantment.html",
     "systems/arm5e/templates/item/parts/magic-item.html",
@@ -70,6 +72,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/generic/largeDialog-header.html",
     "systems/arm5e/templates/generic/source.html",
     "systems/arm5e/templates/generic/aging-dialog.html",
-    "systems/arm5e/templates/generic/metalic-bar.html"
+    "systems/arm5e/templates/generic/metalic-bar.html",
+    "systems/arm5e/templates/generic/simpleFieldBacksection.html"
   ]);
 };

@@ -4,6 +4,7 @@ import {
   authorship,
   baseDescription,
   boolOption,
+  convertToNumber,
   EnchantmentAttributes,
   itemBase,
   ModifierField,
@@ -27,6 +28,25 @@ export const baseLevel = () =>
 
 const migrateMagicalItem = itemData => {
   const updateData = {};
+
+  if (!Number.isNumeric(itemData.system.baseLevel)) {
+    updateData["system.baseLevel"] = convertToNumber(itemData.system.baseLevel, 1);
+  } else if (itemData.system.baseLevel < 1) {
+    updateData["system.baseLevel"] = 1;
+    ChatMessage.create({
+      content:
+        "<b>Migration notice</b><br/>" +
+        `The Item of type: ${itemData.type} named ${itemData.name}` +
+        ` had a non-positive baseLevel of ${itemData.system.baseLevel}, ` +
+        `please review its new level (original: ${itemData.system.level}) and ` +
+        ` use rather the levelOffset or complexity field for thats<br/>`
+    });
+  }
+
+  if (itemData.system.baseEffectDescription == null) {
+    updateData["system.baseEffectDescription"] = "";
+  }
+
   if (itemData.type != "baseEffect") {
     if (
       itemData.system.duration.value === undefined ||
@@ -177,14 +197,8 @@ export class BaseEffectSchema extends foundry.abstract.DataModel {
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
 
-    if (itemData.system.baseLevel == null) {
-      updateData["system.baseLevel"] = 1;
-    }
-    if (itemData.system.baseEffectDescription == null) {
-      updateData["system.baseEffectDescription"] = "";
-    }
-    if (itemData.system.page == null) {
-      updateData["system.page"] = 0;
+    if (!Number.isNumeric(itemData.system.page)) {
+      updateData["system.page"] = convertToNumber(itemData.system.page, 0);
     }
     return updateData;
   }
@@ -207,18 +221,14 @@ export class MagicalEffectSchema extends foundry.abstract.DataModel {
 
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
-    if (itemData.system.baseLevel == null) {
-      updateData["system.baseLevel"] = 1;
+
+    if (!Number.isNumeric(itemData.system.page)) {
+      updateData["system.page"] = convertToNumber(itemData.system.page, 0);
     }
-    if (itemData.system.baseEffectDescription == null) {
-      updateData["system.baseEffectDescription"] = "";
+    if (!Number.isNumeric(itemData.system.complexity)) {
+      updateData["system.complexity"] = convertToNumber(itemData.system.complexity, 0);
     }
-    if (itemData.system.page == null) {
-      updateData["system.page"] = 0;
-    }
-    if (itemData.system.complexity == null) {
-      updateData["system.complexity"] = 0;
-    }
+
     return updateData;
   }
 }
@@ -264,39 +274,38 @@ export class SpellSchema extends foundry.abstract.DataModel {
 
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
-    if (itemData.system.baseLevel == null || !Number.isNumeric(itemData.system.baseLevel)) {
-      updateData["system.baseLevel"] = 1;
-    } else if (
-      typeof itemData.system.baseLevel == "string" &&
-      Number.parseInt(itemData.system.baseLevel) != NaN
-    ) {
-      updateData["system.baseLevel"] = Number.parseInt(itemData.system.baseLevel);
-    }
-    if (itemData.system.baseEffectDescription == null) {
-      updateData["system.baseEffectDescription"] = "";
-    }
-    if (itemData.system.page == null || !Number.isNumeric(itemData.system.page)) {
-      updateData["system.page"] = 0;
-    } else if (
-      typeof itemData.system.page == "string" &&
-      Number.parseInt(itemData.system.page) != NaN
-    ) {
-      updateData["system.page"] = Number.parseInt(itemData.system.page);
-    }
-    if (itemData.system.xp == null) {
-      updateData["system.xp"] = 0;
-    }
-    if (!Number.isNumeric(itemData.system.enhancingRequisite)) {
-      updateData["system.enhancingRequisite"] = 0;
-    } else if (
-      typeof itemData.system.enhancingRequisite == "string" &&
-      Number.parseInt(itemData.system.enhancingRequisite) != NaN
-    ) {
-      updateData["system.enhancingRequisite"] = Number.parseInt(itemData.system.enhancingRequisite);
+
+    if (!Number.isNumeric(itemData.system.page)) {
+      updateData["system.page"] = convertToNumber(itemData.system.page, 0);
     }
 
-    if (itemData.system.complexity == null || !Number.isNumeric(itemData.system.complexity)) {
-      updateData["system.complexity"] = 0;
+    if (!Number.isNumeric(itemData.system.xp)) {
+      updateData["system.xp"] = convertToNumber(itemData.system.xp, 0);
+    }
+
+    if (!Number.isNumeric(itemData.system.enhancingRequisite)) {
+      updateData["system.enhancingRequisite"] = convertToNumber(
+        itemData.system.enhancingRequisite,
+        0
+      );
+    }
+    if (!Number.isNumeric(itemData.system.complexity)) {
+      updateData["system.complexity"] = convertToNumber(itemData.system.complexity, 0);
+    }
+    // else if (itemData.system.complexity < 0) {
+    //   updateData["system.complexity"] = 0;
+    //   ChatMessage.create({
+    //     content:
+    //       "<b>Migration notice</b><br/>" +
+    //       `The Item of type: ${itemData.type} named ${itemData.name}` +
+    //       ` had a negative complexity of ${itemData.system.complexity}, ` +
+    //       `please review its new level (original: ${itemData.system.level}) and ` +
+    //       ` use rather the levelOffset field for general spells<br/>`
+    //   });
+    // }
+
+    if (!Number.isNumeric(itemData.system.bonus)) {
+      updateData["system.bonus"] = convertToNumber(itemData.system.bonus, 0);
     }
 
     return updateData;
@@ -360,10 +369,9 @@ export class LabTextSchema extends foundry.abstract.DataModel {
     if (itemData.system.year == null) {
       updateData["system.year"] = 1220;
     }
-    if (itemData.system.complexity == null) {
-      updateData["system.complexity"] = 0;
+    if (!Number.isNumeric(itemData.system.complexity)) {
+      updateData["system.complexity"] = convertToNumber(itemData.system.complexity, 0);
     }
-
     return updateData;
   }
 }

@@ -61,7 +61,10 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    {{!-- Spell Design Tab --}} {{> "systems/arm5e/templates/item/parts/spell-design.html" }} {{!-- Enchantment Tab --}}
+    {{!-- Spell Design Tab --}}
+    <div class="tab spell-design" data-group="primary" data-tab="spell-design">
+      {{> "systems/arm5e/templates/item/parts/spell-design.html" }}
+    </div> {{!-- Enchantment Tab --}}
     <div class="tab enchantment" data-group="primary" data-tab="enchantment">
       {{> "systems/arm5e/templates/item/parts/enchantment.html" }}
     </div>

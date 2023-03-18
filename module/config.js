@@ -6,7 +6,9 @@ import {
   validTeaching,
   validChildhood,
   validTotalXp,
-  validReading
+  validReading,
+  validateInvention,
+  validateLearning
 } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
@@ -2241,15 +2243,32 @@ ARM5E.activities.generic = {
       tab: true,
       progress: true,
       abilities: false,
-      arts: true,
-      masteries: true,
+      arts: false,
+      masteries: false,
       spells: true,
       choosable: "disabled"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
     bonusOptions: null,
-    validation: validReading,
+    validation: null,
+    secondaryFilter: null
+  },
+  inventSpell: {
+    label: "arm5e.activity.inventSpell",
+    display: {
+      tab: true,
+      progress: true,
+      abilities: false,
+      arts: false,
+      masteries: false,
+      spells: true,
+      choosable: "disabled"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: null,
     secondaryFilter: null
   },
   aging: {
@@ -2268,6 +2287,23 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: null,
     secondaryFilter: null
+    // },
+    // visStudy: {
+    //   label: "arm5e.lab.actitivity.visStudy",
+    //   display: {
+    //     tab: true,
+    //     progress: true,
+    //     abilities: false,
+    //     arts: true,
+    //     masteries: false,
+    //     spells: false,
+    //     choosable: "disabled"
+    //   },
+    //   source: { default: 0, readonly: true },
+    //   maxXp: 0,
+    //   bonusOptions: null,
+    //   validation: null,
+    //   secondaryFilter: null
   }
 };
 
@@ -2281,14 +2317,78 @@ ARM5E.books.categories = {
 };
 
 ARM5E.activities.lab = {
-  art: { label: "arm5e.lab.art", enabled: true },
-  magicTheory: { label: "arm5e.lab.magicTheory", enabled: true },
-  learnSpell: { label: "arm5e.activity.spellLearning", enabled: true },
-  inventSpell: { label: "arm5e.lab.InventSpell", enabled: true },
-  openEnchantment: { label: "arm5e.lab.openEnchantment", enabled: false },
-  longevityPotion: { label: "arm5e.lab.longevityPotion", enabled: false },
-  minorEnchantment: { label: "arm5e.lab.minorEnchantment", enabled: false },
-  majorEnchantment: { label: "arm5e.lab.majorEnchantment", enabled: false }
+  inventSpell: {
+    label: "arm5e.lab.activity.inventSpell",
+    enabled: "",
+    edition: {
+      aura: "",
+      spellField: "",
+      spellCombobox: "",
+      spellDesc: true
+    },
+    validation: validateInvention
+  },
+  learnSpell: {
+    label: "arm5e.lab.activity.spellLearning",
+    enabled: "",
+    edition: {
+      aura: "",
+      spellField: "readonly",
+      spellCombobox: "disabled",
+      spellDesc: false
+    },
+    validation: validateLearning
+  },
+  visExtraction: {
+    label: "arm5e.lab.activity.visExtraction",
+    enabled: "disabled",
+    edition: {
+      aura: "",
+      spellField: "readonly",
+      spellCombobox: "disabled",
+      spellDesc: false
+    }
+  },
+  openEnchantment: {
+    label: "arm5e.lab.activity.openEnchantment",
+    enabled: "disabled",
+    edition: {
+      aura: "",
+      spellField: "readonly",
+      spellCombobox: "disabled",
+      spellDesc: false
+    }
+  },
+  longevityPotion: {
+    label: "arm5e.lab.activity.longevityPotion",
+    enabled: "disabled",
+    edition: {
+      aura: "",
+      spellField: "readonly",
+      spellCombobox: "disabled",
+      spellDesc: false
+    }
+  },
+  minorEnchantment: {
+    label: "arm5e.lab.activity.minorEnchantment",
+    enabled: "disabled",
+    edition: {
+      aura: "",
+      spellField: "readonly",
+      spellCombobox: "disabled",
+      spellDesc: false
+    }
+  },
+  majorEnchantment: {
+    label: "arm5e.lab.activity.majorEnchantment",
+    enabled: "disabled",
+    edition: {
+      aura: "",
+      spellField: "readonly",
+      spellCombobox: "disabled",
+      spellDesc: false
+    }
+  }
 };
 
 ARM5E.activities.distractions = {
