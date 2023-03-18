@@ -100,6 +100,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         context.owner.magicTheory = context.owner.getAbilityStats("magicTheory");
       } else {
         context.system.owner.linked = false;
+        this._prepareCharacterItems(context);
+
+        log(false, "lab-sheet getData");
+        log(false, context);
+
+        return context;
       }
     }
 
