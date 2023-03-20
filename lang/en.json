@@ -99,9 +99,11 @@
   "arm5e.sheet.flaws": "Flaws",
   "arm5e.sheet.techniques": "Techniques",
   "arm5e.sheet.technique": "Technique",
+  "arm5e.sheet.tech": "Tech",
   "arm5e.sheet.techniqueRequisite": "Technique Requisite",
   "arm5e.sheet.forms": "Forms",
   "arm5e.sheet.form": "Form",
+  "arm5e.sheet.fo": "Fo",
   "arm5e.sheet.formRequisite": "Form Requisite",
   "arm5e.sheet.Requisites": "Requisites",
   "arm5e.sheet.labText.raw": "Raw",
@@ -713,6 +715,10 @@
   "arm5e.lab.planning.labQuality": "Lab quality",
   "arm5e.lab.planning.label": "Planning",
   "arm5e.lab.planning.msg.noOwner": "This lab has no owner. Planning is not possible.",
+  "arm5e.lab.planning.msg.waste": "Laboratory points unused: {points}.",
+  "arm5e.lab.planning.msg.unsupported": "Multi-seasons activities not supported yet.",
+  "arm5e.lab.planning.msg.artDeficiency": "Due to Art deficiency, divided by {divisor}",
+
   "arm5e.lab.usage.label": "Usage",
   "arm5e.lab.usage.light": "Light (1 season or less)",
   "arm5e.lab.usage.standard": "Standard (2 seasons)",
@@ -776,6 +782,10 @@
   "arm5e.lab.activity.longevityPotion": "Longevity potion",
   "arm5e.lab.activity.minorEnchantment": "Minor enchantment",
   "arm5e.lab.activity.majorEnchantment": "Major enchantment",
+  "arm5e.lab.bonus.generic": "Generic modifier",
+  "arm5e.lab.bonus.aura": "Aura",
+  "arm5e.lab.bonus.labQuality": "Lab quality",
+  "arm5e.lab.bonus.activity": "Activity bonus",
 
   "arm5.sheet.bonus.activeEffects": "Effects bonuses",
   "arm5e.sheet.action.rest": "Rest",
@@ -930,12 +940,15 @@
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities (xp)",
   "arm5e.sheet.activeEffect.types.laboratory": "Laboratory",
   "arm5e.sheet.activeEffect.types.laboratorySpec": "Laboratory's specialty",
+  "arm5e.sheet.activeEffect.types.labActivity": "Laboratory activity",
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",
   "arm5e.sheet.activeEffect.types.optional": "Optional bonus",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
   "arm5e.sheet.activeEffect.subtypes.fatigueTotal": "Fatigue total",
   "arm5e.sheet.activeEffect.subtypes.woundsTotal": "Wounds total",
+  "arm5e.sheet.activeEffect.subtypes.inventSpell": "Invent spell",
+  "arm5e.sheet.activeEffect.subtypes.learnSpell": "Learn spell",
 
   "arm5e.sheet.activeEffect.bonuses.penetration": "Penetration bonus",
 
@@ -1038,7 +1051,8 @@
   "arm5e.activity.title.laterLife": "Years after childhood",
   "arm5e.activity.title.laterLifeMagi": "Years after apprenticeship",
   "arm5e.activity.title.childhood": "Childhood",
-  "arm5e.activity.title.spellLearning": "Learn spell",
+  "arm5e.activity.title.spellLearning": "Learned a spell",
+  "arm5e.activity.title.inventSpell": "Invented a spell",
   "arm5e.activity.drop.teacher": "Drop an actor here to act as a teacher/trainer.",
 
   "arm5e.activity.newSpell": "New spell learned",
@@ -1111,10 +1125,12 @@
   "arm5e.generic.summary": "Summary",
   "arm5e.generic.details": "Details",
   "arm5e.generic.options": "Options",
+  "arm5e.generic.info": "Information",
   "arm5e.generic.base": "Base",
   "arm5e.generic.multipliers": "Multipliers",
   "arm5e.generic.other": "Other",
   "arm5e.generic.unknown": "Unknown",
   "arm5e.generic.current": "Current",
-  "arm5e.generic.nothing": "Nothing"
+  "arm5e.generic.nothing": "Nothing",
+  "arm5e.generic.custom": "Custom"
 }

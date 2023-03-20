@@ -102,6 +102,11 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".plan-reading").click(event => this._readBook(this.item, event));
+    html.find(".show-details").click(async event => this._showLabText(this.item, event));
+    html.find(".next-topic").click(async event => this._changeCurrentTopic(this.item, event, 1));
+    html
+      .find(".previous-topic")
+      .click(async event => this._changeCurrentTopic(this.item, event, -1));
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 
@@ -111,13 +116,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
 
     html.find(".new-topic").click(async event => this._addTopic(this.item, event));
 
-    html.find(".show-details").click(async event => this._showLabText(this.item, event));
-
     html.find(".delete-topic").click(async event => this._removeTopic(this.item, event));
-    html.find(".next-topic").click(async event => this._changeCurrentTopic(this.item, event, 1));
-    html
-      .find(".previous-topic")
-      .click(async event => this._changeCurrentTopic(this.item, event, -1));
   }
 
   async _readBook(item, event) {
@@ -126,9 +125,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     const dataset = getDataset(event);
     const topic = item.system.topics[dataset.index];
     if (topic.category == "labText") {
-      if (topic.labtext != null && topic.labtext.type != "spell") {
-        return;
-      }
+      return;
     }
 
     let formData = {

@@ -1503,6 +1503,25 @@ export default {
       }
     }
   },
+  labActivity: {
+    category: "laboratory",
+    type: "laboratory",
+    label: "arm5e.sheet.activeEffect.types.labActivity",
+    subtypes: {
+      learnSpell: {
+        label: "arm5e.lab.activity.spellLearning",
+        key: "system.bonuses.labActivities.learnSpell",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      inventSpell: {
+        label: "arm5e.lab.activity.inventSpell",
+        key: "system.bonuses.labActivities.inventSpell",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      }
+    }
+  },
   labSpecialty: {
     category: "laboratory",
     type: "laboratory",
@@ -1594,6 +1613,12 @@ export default {
       },
       vi: {
         label: "Vim",
+        key: "system.specialty.vi.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      gen: {
+        label: "arm5e.generic.custom",
         key: "system.specialty.vi.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1

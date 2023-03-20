@@ -648,7 +648,7 @@ export function getNewTitleForActivity(actor, item) {
 
 export function validateInvention(planning) {
   let lvl = planning.data.system.level;
-  let delta = planning.labTotal - lvl;
+  let delta = planning.labTotal.score - lvl;
   if (delta < 1) {
     return {
       valid: false,
@@ -661,12 +661,17 @@ export function validateInvention(planning) {
   } else {
     let dur = Math.ceil(lvl / delta);
     // TODO set valid true when multi-season supported
-    return { valid: false, waste: delta % lvl, duration: Math.ceil(lvl / delta), message: "" };
+    return {
+      valid: false,
+      waste: (delta * dur) % lvl,
+      duration: dur,
+      message: ""
+    };
   }
 }
 
 export function validateLearning(planning) {
-  let delta = planning.labTotal - planning.data.system.level;
+  let delta = planning.labTotal.score - planning.data.system.level;
   if (delta < 0) {
     return {
       valid: false,
