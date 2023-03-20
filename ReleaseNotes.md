@@ -1,4 +1,4 @@
-## 2.0.4.12, Kentigern
+## 2.0.4.13, Kentigern
 
 ### Features & changes
 
@@ -58,6 +58,7 @@
 - Fixed capitalization on some assets references
 - Refactorization of spell management code to be used from outside the Item.
 - Improved migration
+- Allow browsing options for players in book sheet
 
 ### Documentation
 

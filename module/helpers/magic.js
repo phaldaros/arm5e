@@ -126,6 +126,7 @@ export function computeRawCastingTotal(effect, owner, options = {}) {
   let res = 0;
   let tech = 1000;
   let form = 1000;
+  let label = "";
   let deficientTech = false;
   let deficientForm = false;
   let techReq = Object.entries(effectData["technique-req"]).filter(r => r[1] === true);
@@ -159,32 +160,26 @@ export function computeRawCastingTotal(effect, owner, options = {}) {
   } else {
     form = owner.system.arts.forms[effectData.form.value].finalScore;
   }
+  let techlabel = `${game.i18n.localize("arm5e.sheet.tech")}: ${tech}`;
+  let formlabel = `${game.i18n.localize("arm5e.sheet.fo")}: ${form}`;
+
   if (effectData.applyFocus || options.focus) {
     res += tech + form + Math.min(tech, form);
+    if (tech >= form) {
+      techlabel = `(${techlabel} x 2) : ${2 * tech}`;
+    } else {
+      formlabel += `(${formlabel} x 2) : ${2 * form}`;
+    }
   } else {
     res += tech + form;
   }
 
-  return { total: res, deficientTech: deficientTech, deficientForm: deficientForm };
-}
-
-export function computeLabTotal(effect, actor, magicTheory) {
-  let rawLabTotal = computeRawCastingTotal(effect, actor);
-
-  let total = rawLabTotal.total;
-
-  total += actor.system.characteristics.int.value;
-
-  total += magicTheory;
-
-  let deficiencyDivider = 1;
-  if (rawLabTotal.deficientTech && rawLabTotal.deficientForm) {
-    deficiencyDivider = 4;
-  } else if (rawLabTotal.deficientTech || rawLabTotal.deficientForm) {
-    deficiencyDivider = 2;
-  }
-
-  return Math.round(total / deficiencyDivider);
+  return {
+    total: res,
+    deficientTech: deficientTech,
+    deficientForm: deficientForm,
+    label: `${techlabel} + ${formlabel} &#10`
+  };
 }
 
 async function checkTargetAndCalculateResistance(actorCaster, roll, message) {

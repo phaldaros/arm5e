@@ -114,6 +114,11 @@ export class ArM5ePCActor extends Actor {
       magicResistance: null
     };
 
+    this.system.bonuses.labActivities = {
+      learnSpell: 0,
+      inventSpell: 0
+    };
+
     this.system.bonuses.skills = {};
     for (const [key, item] of this.items.entries()) {
       if (item.type == "ability") {
@@ -1527,7 +1532,7 @@ export class ArM5ePCActor extends Actor {
 
   // TODO improve: what should happen if more that one effect is returned?
   getActiveEffectValue(type, subtype) {
-    const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(this.effects, subtype);
+    const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.effects, subtype);
     if (ae.length) {
       log(false, ae);
       return ae[0].changes[0].value;

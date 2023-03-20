@@ -36,13 +36,13 @@ function getAuraActiveEffect(numericValue) {
 }
 
 async function addEffect(actor, activeEffectData) {
-  const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.effects, "aura")[0];
-  if (ae) {
+  const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(actor.effects, "aura");
+  if (ae.length) {
     log(
       false,
       `AURA_MANAGEMENT Change aura for ${actor.name}, Aura impact: ${activeEffectData.changes[0].value}`
     );
-    activeEffectData._id = ae._id;
+    activeEffectData._id = ae[0]._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }
   log(
@@ -87,7 +87,7 @@ async function addActiveEffectAuraToActor(actor, value, type) {
 }
 
 async function clearAuraFromActor(actor) {
-  const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(actor.effects, "aura");
+  const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(actor.effects, "aura");
   for (const e of effects) {
     log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);
     actor.deleteEmbeddedDocuments("ActiveEffect", [e.id]);

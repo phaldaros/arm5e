@@ -1,6 +1,7 @@
 <div class="workbench flexrow" data-drop="workbench">
-    <div class="flexcol flex02">
-        <img class="profile-img" src="{{owner.img}}" title="{{owner.name}}" height="75" width="75" />
+    <div class="flexcol flex02 ">
+        <img class="profile-img moreinfo" src="{{owner.img}}" data-id="{{owner._id}}" title="{{owner.name}}" height="75"
+            width="75" />
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.intelligence" 
         name="int" attributes="readonly" value=owner.system.characteristics.int.value type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.skill.arcane.magicTheory" 
@@ -32,24 +33,25 @@
 
         <div class="resource flex-group-center backSection" style="margin-right: 10px;
         margin-bottom: 5px; max-height: 160px;">
-            <label class="resource flex01 padd"><u>Information</u></label>
+            <label class="resource flex01 padd"><u>{{localize "arm5e.generic.info"}}</u></label>
             <div class="flexcol flex01">
                 <div class="flexrow flex01">
                     <div class="lab-total backSection flex-group-center ">
-                        <label class="smallTitle">{{localize "arm5e.sheet.labTotal"}}</label>
+                        <label class="smallTitle"
+                            title="{{{planning.labTotal.label}}}">{{localize "arm5e.sheet.labTotal"}}</label>
                         <div class="resource-content flexrow flex-center flex-between margintop6">
-                            <input type="number" name="labTotal" value={{planning.labTotal}} data-dtype="Number"
+                            <input type="number" name="labTotal" value={{planning.labTotal.score}} data-dtype="Number"
                                 readonly style="font-size: 14pt;" />
                         </div>
                     </div>
                     <div>
-                        <label class="resource">{{planning.message}}</label>
+                        <label class="resource">{{{planning.message}}}<br /></label>
                     </div>
                     <div class="flex-group-right flexcol flex0">
                         <button class="arm5e flex0 schedule" {{edition.schedule}}
-                            style="font-family: blackmoor">Schedule</button>
-                        <button class="arm5e flex0 refresh" style="font-family: blackmoor">Refresh</button>
-                        <button class="arm5e flex0 reset-planning" style="font-family: blackmoor">Reset</button>
+                            style="font-family: bookAntiquaBold">Schedule</button>
+                        <button class="arm5e flex0 refresh" style="font-family: bookAntiquaBold">Refresh</button>
+                        <button class="arm5e flex0 reset-planning" style="font-family: bookAntiquaBold">Reset</button>
                     </div>
                 </div>
             </div>

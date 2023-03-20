@@ -1,5 +1,7 @@
 import { ARM5E } from "../config.js";
-import { computeLabTotal, computeLevel } from "../helpers/magic.js";
+import ArM5eActiveEffect from "../helpers/active-effects.js";
+import { computeLevel, computeRawCastingTotal } from "../helpers/magic.js";
+import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
@@ -113,6 +115,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     if (context.planning.modifiers == undefined) {
       context.planning.modifiers = {};
     }
+    if (context.planning.modifiers.generic == undefined) {
+      context.planning.modifiers.generic = 0;
+    }
 
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
     if (context.system.covenant.linked) {
@@ -126,21 +131,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
       case "learnSpell":
         {
-          let labTot = computeLabTotal(
-            context.planning.data,
-            context.owner,
-            context.owner.magicTheory.score
-          );
-          for (let mod of Object.values(context.planning.modifiers)) {
-            labTot += mod;
-          }
+          let labTot = this._computeLabTotal(context);
 
           context.planning.data.system.level = computeLevel(
             context.planning.data.system,
             context.planning.type
           );
           context.planning.label = ArM5eItem.GetEffectAttributesLabel(context.planning.data);
-          context.planning.labTotal = labTot;
+          context.planning.labTotal = { score: labTot.score, label: labTot.label };
         }
         break;
     }
@@ -152,11 +150,18 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       if (result.duration == 0) {
         context.planning.message = result.message;
       } else {
-        context.planning.message = "Multi-seasons activities not supported yet";
+        context.planning.message =
+          game.i18n.localize("arm5e.lab.planning.msg.unsupported") +
+          "<br/>" +
+          game.i18n.format("arm5e.lab.planning.msg.waste", {
+            points: result.waste
+          });
       }
     } else {
       context.edition.schedule = "";
-      context.planning.message = `Laboratory points unused: ${result.waste}.`;
+      context.planning.message = game.i18n.format("arm5e.lab.planning.msg.waste", {
+        points: result.waste
+      });
     }
     context.planning.duration = result.duration;
 
@@ -167,6 +172,54 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     log(false, context);
 
     return context;
+  }
+
+  _computeLabTotal(context) {
+    let labTot = computeRawCastingTotal(context.planning.data, context.owner);
+
+    let total = labTot.total;
+    labTot.label += `+ ${game.i18n.localize("arm5e.sheet.int")} (${
+      context.owner.system.characteristics.int.value
+    }) &#10`;
+    total += context.owner.system.characteristics.int.value;
+
+    labTot.label += `+ ${game.i18n.localize("arm5e.skill.arcane.magicTheory")} (${
+      context.owner.magicTheory.score
+    }) &#10`;
+    total += context.owner.magicTheory.score;
+    for (let [key, mod] of Object.entries(context.planning.modifiers)) {
+      total += mod;
+      labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus." + key)} (${mod}) &#10`;
+    }
+
+    let effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(
+      context.owner.effects,
+      context.planning.type
+    );
+    let activityBonus = 0;
+    for (let e of effects) {
+      for (let ch of e.changes) {
+        activityBonus += Number(ch.value);
+      }
+    }
+    if (activityBonus > 0) {
+      total += activityBonus;
+      labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus.activity")} (${activityBonus})&#10`;
+    }
+
+    let deficiencyDivider = 1;
+    if (labTot.deficientTech && labTot.deficientForm) {
+      deficiencyDivider = 4;
+    } else if (labTot.deficientTech || labTot.deficientForm) {
+      deficiencyDivider = 2;
+    }
+    if (deficiencyDivider > 1) {
+      labTot.label += game.i18n.format("arm5e.lab.planning.msg.artDeficiency", {
+        divisor: deficiencyDivider
+      });
+    }
+
+    return { score: Math.round(total / deficiencyDivider), label: labTot.label };
   }
 
   /** @override */
@@ -192,6 +245,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     html.find(".reset-planning").click(async () => this._resetPlanning());
     html.find(".refresh").click(this._refreshValues.bind(this));
     html.find(".schedule").click(async () => this._schedule());
+    html.find(".moreinfo").click(async ev => {
+      const actorId = $(ev.currentTarget).data("id");
+      game.actors.get(actorId).sheet.render(true);
+    });
   }
 
   async _resetPlanning() {
@@ -207,9 +264,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     // TODO remove hardcoded values
     let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
     let spellLevel = computeLevel(planning.data.system, planning.type);
+    let name = "";
+    switch (planning.type) {
+      case "inventSpell":
+        break;
+    }
+
     const entryData = [
       {
-        name: "Invent spell",
+        name: game.i18n.localize(CONFIG.ARM5E.activities.generic[planning.type].label),
         type: "diaryEntry",
         system: {
           cappedGain: false,
@@ -223,7 +286,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             newSpells: [
               {
                 name: planning.data.name,
-                label: `${planning.data.name}`,
+                label: `${planning.data.name} : - ${spellTechniqueLabel(
+                  planning.data.system
+                )} ${spellFormLabel(planning.data.system)} ${spellLevel}`,
                 level: spellLevel,
                 spellData: planning.data.system
               }
@@ -231,15 +296,11 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           },
           optionKey: "standard",
           duration: 1,
-          description: "Invented a new spell!"
+          description: ""
         }
       }
     ];
 
-    switch (planning.type) {
-      case "inventSpell":
-        break;
-    }
     let owner = game.actors.get(this.actor.system.owner.actorId);
     let entry = await owner.createEmbeddedDocuments("Item", entryData, {});
     entry[0].sheet.render(true);

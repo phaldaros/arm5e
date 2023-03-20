@@ -674,8 +674,9 @@ export class ArM5eActorSheet extends ActorSheet {
       const category = $(ev.currentTarget).data("item");
       const persist = $(ev.currentTarget).data("persist");
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+      let classes = document.getElementById(category).classList;
       if (planning) {
-        if (planning.visibility[persist] === "hide") {
+        if (classes.contains("hide")) {
           planning.visibility[persist] = "";
           await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
         } else {
@@ -683,7 +684,7 @@ export class ArM5eActorSheet extends ActorSheet {
           await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
         }
       }
-      document.getElementById(category).classList.toggle("hide");
+      classes.toggle("hide");
     });
 
     // html.find(".spell-list").click(async ev => {

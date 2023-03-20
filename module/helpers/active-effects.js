@@ -140,6 +140,29 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     return res;
   }
 
+  static findAllActiveEffectsWithSubtypeFiltered(effects, subtype) {
+    let res = [];
+    let filtered = effects.filter(
+      e => !e.disabled && e.getFlag("arm5e", "subtype").includes(subtype)
+    );
+
+    for (let e of filtered) {
+      e._getSourceName(); // Trigger a lookup for the source name
+      let idx = 0;
+      let filteredChanges = [];
+      for (let ch of e.changes) {
+        if (e.flags.arm5e.subtype[idx] === subtype) {
+          log(false, ch);
+          filteredChanges.push(ch);
+        }
+      }
+      e.changes = filteredChanges;
+      res.push(e);
+    }
+
+    return res;
+  }
+
   //********************************* */
   // ACTIVE EFFECT NON STATIC METHODS
   //********************************* */
@@ -194,7 +217,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
       return descr;
     } catch (error) {
       console.error(error);
-      console.log(`Build effect description failed : ${JSON.stringify(this.data)}`);
+      console.log(`Build effect description failed : ${JSON.stringify(this.system)}`);
       return "Error: see console";
     }
   }

@@ -524,7 +524,7 @@ h4.window-title {
 .arm5eMain {
   background-image: url("../assets/background.png");
   background-repeat: repeat-y;
-  background-size: contain;
+  background-size: 100%;
   font-family: "bookAntiquaBold";
   padding: 32px;
 }
@@ -732,9 +732,10 @@ h4.window-title {
 .arm5eRoll {
   background-image: url("../assets/dialog/Dialog_Background.png");
   background-repeat: repeat-y;
-  background-size: auto;
+  background-size: 100%;
   font-family: "bookAntiquaBold";
   font-size: 12pt;
+  width: 420px;
 }
 
 .arm5eRoll .roll-options {
@@ -754,14 +755,15 @@ h4.window-title {
   padding-left: 0px;
   padding-right: 0px;
 }
-.arm5eRoll .footer-background {
+.arm5e-dialog .footer-background {
+  margin-top: -27px;
   width: 100%;
   height: 50px;
   border: 0px;
   padding-left: 0px;
   padding-right: 0px;
 }
-.arm5eRoll .footer-background img {
+.arm5e-dialog .footer-background img {
   width: 100%;
   border: 0px;
   padding-left: 0px;
@@ -886,7 +888,7 @@ input[type="time"] {
 
 .arm5e .mainItem {
   background-repeat: repeat-y;
-  background-size: contain;
+  background-size: 100%;
   font-family: "bookAntiquaBold";
   padding-left: 34px;
   padding-right: 34px;
