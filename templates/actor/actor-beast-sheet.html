@@ -34,6 +34,13 @@
               style="flex: 0.6" />)
           </div>
         </div>
+        <div class="resource flex-group-center backSection">
+          <label for="system.vitals.siz.value" class="smallTitle">{{localize "arm5e.sheet.size"}}</label>
+          <div class="resource-content flexrow flex-center flex-between margintop6">
+            <input type="number" name="system.vitals.siz.value" value="{{system.vitals.siz.value}}"
+              data-dtype="Number" />
+          </div>
+        </div>
       </div>
 
       {{> "systems/arm5e/templates/actor/parts/actor-characteristics.html" }}

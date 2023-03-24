@@ -305,6 +305,7 @@ function registerItemCreationTests(quench) {
             }
             it(`Render actor`, async function() {
               try {
+                // await actor.update({ name: "new Name" });
                 await actor.sheet.render(true);
                 await sleep(100);
                 await actor.sheet.close();

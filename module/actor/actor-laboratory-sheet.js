@@ -2,6 +2,7 @@ import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { computeLevel, computeRawCastingTotal } from "../helpers/magic.js";
 import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
+import { resetOwnerFields } from "../item/item-converter.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
@@ -30,7 +31,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           initial: "inventory"
         }
       ],
-      dragDrop: [{ dragSelector: null, dropSelector: ".workbench" }]
+      dragDrop: [
+        { dragSelector: null, dropSelector: ".workbench" },
+        { dragSelector: null, dropSelector: ".mainLaboratory" }
+      ]
     });
   }
 
@@ -59,10 +63,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         type: "inventSpell",
         data: newSpell.toObject(),
         visibility: { desc: "hide", attr: "hide", options: "hide" },
-        modifiers: { generic: 0 }
+        modifiers: { generic: 0 },
+        magicThSpecApply: false
       };
       await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", context.planning);
-      log(false, `Reset planning`);
     }
 
     context.edition = context.config.activities.lab[context.planning.type].edition;
@@ -100,6 +104,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         context.system.owner.actorId = per[0].id;
         context.owner = game.actors.get(per[0].id);
         context.owner.magicTheory = context.owner.getAbilityStats("magicTheory");
+        context.owner.apprentice =
+          (context.owner.system.apprentice?.int ?? 0) +
+          (context.owner.system.apprentice?.magicTheory ?? 0);
       } else {
         context.system.owner.linked = false;
         this._prepareCharacterItems(context);
@@ -118,7 +125,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     if (context.planning.modifiers.generic == undefined) {
       context.planning.modifiers.generic = 0;
     }
-
+    if (context.owner.system.apprentice?.magicTheory ?? 0 > 0) {
+      context.planning.modifiers.apprentice =
+        (context.owner.system.apprentice?.int ?? 0) + context.owner.system.apprentice?.magicTheory;
+    } else {
+      context.planning.modifiers.apprentice = 0;
+    }
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
     if (context.system.covenant.linked) {
       context.planning.modifiers.aura = Number(context.covenant.system.levelAura);
@@ -185,8 +197,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     labTot.label += `+ ${game.i18n.localize("arm5e.skill.arcane.magicTheory")} (${
       context.owner.magicTheory.score
-    }) &#10`;
+    }`;
     total += context.owner.magicTheory.score;
+    if (context.planning.magicThSpecApply) {
+      labTot.label += ` + 1`;
+      total++;
+    }
+    labTot.label += `)&#10`;
+
     for (let [key, mod] of Object.entries(context.planning.modifiers)) {
       total += mod;
       labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus." + key)} (${mod}) &#10`;
@@ -313,15 +331,17 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       const item = await Item.implementation.fromDropData(dropData);
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
       switch (item.type) {
-        case "labText": {
+        case "laboratoryText": {
           if (item.system.type !== "spell") {
             break;
           }
         }
+        case "magicalEffect":
         case "spell": {
           let newSpell = await Item.create(item.toObject(), { temporary: true });
           planning.type = "learnSpell";
-          planning.data = newSpell.toObject();
+          let data = newSpell.toObject();
+          planning.data = resetOwnerFields(data);
           await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
           return true;
         }

@@ -207,6 +207,10 @@ export class BookSchema extends foundry.abstract.DataModel {
             topics[idx].type = data.type.value;
           }
         }
+
+        if (t.category === "labText" && t.labtext.type === undefined) {
+          topics[idx].labtext.type = "spell";
+        }
         idx++;
       }
       if (topics.length > 0) {

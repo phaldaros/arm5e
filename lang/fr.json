@@ -99,9 +99,11 @@
   "arm5e.sheet.flaws": "Vices",
   "arm5e.sheet.techniques": "Techniques",
   "arm5e.sheet.technique": "Technique",
+  "arm5e.sheet.tech": "Tech",
   "arm5e.sheet.techniqueRequisite": "Complément Technique",
   "arm5e.sheet.forms": "Formes",
   "arm5e.sheet.form": "Forme",
+  "arm5e.sheet.fo": "Fo",
   "arm5e.sheet.formRequisite": "Complément Forme",
   "arm5e.sheet.Requisites": "Compléments",
   "arm5e.sheet.labText.raw": "Brute",
@@ -247,6 +249,7 @@
 
   "arm5e.sheet.spellOverMagicResistanceWithNoTotal": "Le Sort réussit sur $target$",
   "arm5e.sheet.magicResistanceOverSpellWithNoTotal": "Le Sort échoue sur $target$",
+  "arm5e.sheet.powerCost": "Puissance {might} - 5 fois le coût ({cost})",
 
   "arm5e.sheet.formRes": "Résistance de forme",
   "arm5e.sheet.natRes": "Résistance naturelle",
@@ -434,8 +437,8 @@
   "arm5e.sheet.maintenance": "Maintenance",
   "arm5e.sheet.aesthetics": "Esthétique",
   "arm5e.sheet.magicItems": "Objets Magiques",
-  "arm5e.sheet.specialities": "Spécialitées",
-  "arm5e.sheet.distinctive": "Distinctions",
+  "arm5e.sheet.specialities": "Spécialisations",
+  "arm5e.sheet.features": "Traits distinctifs",
   "arm5e.sheet.rooms": "Pièces",
   "arm5e.sheet.possessions": "Possessions",
   "arm5e.sheet.properties": "Propriétés et terres",
@@ -709,8 +712,13 @@
   "arm5e.sheet.crucible.receptacle": "Receptacle",
   "arm5e.sheet.crucible.invest": "Investir un pouvoir",
 
+  "arm5e.lab.planning.labQuality": "Qualitée laboratoire",
   "arm5e.lab.planning.label": "Planification",
   "arm5e.lab.planning.msg.noOwner": "Ce laboratoire n'a pas de propriétaire. La planification n'est pas possible.",
+  "arm5e.lab.planning.msg.waste": "Points de laboratoire non utilisés {points}.",
+   "arm5e.lab.planning.msg.unsupported": "Activité sur plusieurs saisons, non supportée pour le moment.",
+  "arm5e.lab.planning.msg.artDeficiency": "A cause de l'art déficient, divisé par {divisor}",
+  
   "arm5e.lab.usage.label": "Utilisation",
   "arm5e.lab.usage.light": "Légère (1 saison ou moins)",
   "arm5e.lab.usage.standard": "Normale (2 saisons)",
@@ -766,6 +774,19 @@
   "arm5e.lab.enchantment.item.size.large-eg": "bâton, bouclier, cape, squelette",
   "arm5e.lab.enchantment.item.size.huge-eg": "bateau, chariot, corps humain, petite salle",
 
+  "arm5e.lab.activity.magicTheory": "Etude sur Vis",
+  "arm5e.lab.activity.spellLearning": "Apprentissage de sort",
+  "arm5e.lab.activity.inventSpell": "Invention de sort",
+  "arm5e.lab.activity.visExtraction": "Extraction de vis",
+  "arm5e.lab.activity.openEnchantment": "Ouverture à l'enchantement",
+  "arm5e.lab.activity.longevityPotion": "Rituel de longévité",
+  "arm5e.lab.activity.minorEnchantment": "Enchantement mineur",
+  "arm5e.lab.activity.majorEnchantment": "Enchantement majeur",
+  "arm5e.lab.bonus.generic": "Modificateur générique",
+  "arm5e.lab.bonus.aura": "Aura",
+  "arm5e.lab.bonus.labQuality": "Qualitée de laboratoire",
+  "arm5e.lab.bonus.activity": "Bonus d'activité",
+  
   "arm5.sheet.bonus.activeEffects": "Bonus d'Effets Actifs",
   "arm5e.sheet.action.rest": "Repos",
   "arm5e.sheet.action.reset": "Remise à zéro",
@@ -919,12 +940,15 @@
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinité Compétences Surnaturelles (xp)",
   "arm5e.sheet.activeEffect.types.laboratory": "Laboratoire",
   "arm5e.sheet.activeEffect.types.laboratorySpec": "Spécialité de laboratoire",
+  "arm5e.sheet.activeEffect.types.labActivity": "Activité de laboratoire",
   "arm5e.sheet.activeEffect.types.realmAlignment": "Alignement avec la Dimension",
   "arm5e.sheet.activeEffect.types.optional": "Bonus Optionnel",
 
   "arm5e.sheet.activeEffect.subtypes.none": "Aucun",
   "arm5e.sheet.activeEffect.subtypes.fatigueTotal": "Total de Fatigue",
   "arm5e.sheet.activeEffect.subtypes.woundsTotal": "Total de Blessures",
+  "arm5e.sheet.activeEffect.subtypes.inventSpell": "Invention de sort",
+  "arm5e.sheet.activeEffect.subtypes.learnSpell": "Apprentissage de sort",
 
   "arm5e.sheet.activeEffect.bonuses.penetration": "Bonus de Pénétration",
 
@@ -993,11 +1017,14 @@
   "arm5e.activity.writing": "Ecriture",
   "arm5e.activity.reading": "Lecture",
   "arm5e.activity.spellLearning": "Apprentissage de sort",
+  "arm5e.activity.inventSpell": "Invention de sort",
   "arm5e.activity.apprenticeship": "Mage seulement : Apprentissage",
   "arm5e.activity.childhood": "Petite enfance",
   "arm5e.activity.laterLife": "Vie postérieure",
   "arm5e.activity.laterLifeMagi": "Mage seulement : après l'apprentissage",
   "arm5e.activity.aging": "Vieillissement",
+  "arm5e.activity.visStudy": "Etude sur vis",
+  
   "arm5e.activity.progress.masteries": "Maitrise",
   "arm5e.activity.msg.noAbility": "Aucune capacité restante",
   "arm5e.activity.msg.noArt": "Aucun Art restant",
@@ -1025,6 +1052,7 @@
   "arm5e.activity.title.laterLifeMagi": "Années après l'apprentissage",
   "arm5e.activity.title.childhood": "Enfance",
   "arm5e.activity.title.spellLearning": "Apprendre le sort",
+  "arm5e.activity.title.inventSpell": "Inventer un sort",
   "arm5e.activity.drop.teacher": "Déposez ici un personnage pour faire office de professeur/entraineur.",
 
   "arm5e.activity.newSpell": "Nouveau sort appris",
@@ -1096,10 +1124,13 @@
   "arm5e.generic.default": "Défaut",
   "arm5e.generic.summary": "Résumé",
   "arm5e.generic.details": "Détails",
+  "arm5e.generic.options": "Options",
+  "arm5e.generic.info": "Information",
   "arm5e.generic.base": "Base",
   "arm5e.generic.multipliers": "Multiplicateurs",
   "arm5e.generic.other": "Autre",
   "arm5e.generic.unknown": "Inconnu",
   "arm5e.generic.current": "Actuel",
-  "arm5e.generic.nothing": "Rien"
+  "arm5e.generic.nothing": "Rien",
+  "arm5e.generic.custom": "Personnalisé"
 }

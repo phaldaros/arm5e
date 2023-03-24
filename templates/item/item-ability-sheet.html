@@ -63,7 +63,6 @@
         <label for="system.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
         <select name="system.key" data-dtype="String" class="ability-key">
           {{#select system.key}}
-            <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
             {{#each abilityKeysList as |item key|}}
               <option value="{{key}}" {{item.selection}}>{{item.name}}</option>
             {{/each}}
