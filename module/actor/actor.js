@@ -130,6 +130,7 @@ export class ArM5ePCActor extends Actor {
           }
           this.system.bonuses.skills[abilityKey] = {};
           this.system.bonuses.skills[abilityKey].bonus = 0;
+          this.system.bonuses.skills[abilityKey].xpMod = 0;
           this.system.bonuses.skills[abilityKey].xpCoeff = 1.0;
         }
       }
@@ -653,6 +654,18 @@ export class ArM5ePCActor extends Actor {
               error(false, "Unknown topic category" + topic.category);
           }
         }
+      } else if (item.type === "laboratoryText") {
+        let topic = {
+          id: item.id,
+          img: item.img,
+          index: 0,
+          book: "",
+          category: "labText",
+          name: item.name,
+          system: item.system
+        };
+
+        laboratoryTexts.push(topic);
       } else if (item.type === "virtue") {
         virtues.push(item);
         if (ARM5E.impacts[item.system.impact.value]) {
@@ -931,6 +944,18 @@ export class ArM5ePCActor extends Actor {
               error(false, "Unknown topic category" + topic.category);
           }
         }
+      } else if (item.type === "laboratoryText") {
+        let topic = {
+          id: item.id,
+          img: item.img,
+          index: 0,
+          book: "",
+          category: "labText",
+          name: item.name,
+          system: item.system
+        };
+
+        laboratoryTexts.push(topic);
       } else if (item.type === "vis") {
         system.rawVis.push(item);
       } else if (item.type === "item") {
@@ -1053,7 +1078,17 @@ export class ArM5ePCActor extends Actor {
       } else if (item.type === "incomingSource") {
         incomingSources.push(item);
       } else if (item.type === "laboratoryText") {
-        laboratoryTexts.push(item);
+        let topic = {
+          id: item.id,
+          img: item.img,
+          index: 0,
+          book: "",
+          category: "labText",
+          name: item.name,
+          system: item.system
+        };
+
+        laboratoryTexts.push(topic);
       } else if (item.type === "book") {
         let idx = 0;
         for (let topic of item.system.topics) {

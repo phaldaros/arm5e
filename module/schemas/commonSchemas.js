@@ -34,6 +34,10 @@ export const convertToNumber = function(value, fallback = 0) {
   }
 };
 
+export const convertToInteger = function(value, fallback = 0) {
+  return Math.round(convertToNumber(value, fallback));
+};
+
 export const itemBase = () => {
   return {
     description: new fields.StringField({ required: false, blank: true, initial: "" }),

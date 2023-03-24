@@ -32,22 +32,27 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     if (dropData.type == "Item")
       if (getDataset(event).drop === "labtext") {
         const labtext = await Item.implementation.fromDropData(dropData);
-
-        const topics = this.item.system.topics;
-        let bookType = topics[index].type;
-        let topic = {};
-        topic.type = null;
-        topic.art = null;
-        topic.key = null;
-        topic.option = null;
-        topic.spellName = null;
-        topic.category = "labText";
-        topic.labtextTitle = labtext.name;
-        topic.labtext = labtext.system;
-        topics[index] = topic;
-        let updateData = {};
-        updateData[`system.topics`] = topics;
-        await this.item.update(updateData);
+        switch (item.type) {
+          case "spell":
+            labtext.system.type = "spell";
+          case "laboratoryText": {
+            const topics = this.item.system.topics;
+            let bookType = topics[index].type;
+            let topic = {};
+            topic.type = null;
+            topic.art = null;
+            topic.key = null;
+            topic.option = null;
+            topic.spellName = null;
+            topic.category = "labText";
+            topic.labtextTitle = labtext.name;
+            topic.labtext = labtext.system;
+            topics[index] = topic;
+            let updateData = {};
+            updateData[`system.topics`] = topics;
+            await this.item.update(updateData);
+          }
+        }
         // this.submit({ preventClose: true, updateData: updateData });
       }
     //  else if (event.currentTarget.dataset.drop === "labtext") {

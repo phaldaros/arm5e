@@ -786,6 +786,7 @@
   "arm5e.lab.bonus.aura": "Aura",
   "arm5e.lab.bonus.labQuality": "Lab quality",
   "arm5e.lab.bonus.activity": "Activity bonus",
+  "arm5e.lab.bonus.apprentice": "Apprentice",
 
   "arm5.sheet.bonus.activeEffects": "Effects bonuses",
   "arm5e.sheet.action.rest": "Rest",
@@ -915,7 +916,7 @@
   "arm5e.sheet.skill.puissant": "Puissant",
   "arm5e.sheet.skill.abilityKey": "Ability key",
   "arm5e.sheet.skill.abilityOption": "Ability option",
-  "arm5e.sheet.skill.abilityNoKey": "Custom ability",
+  "arm5e.sheet.skill.abilityNoKey": "Custom ability (legacy)",
 
   "arm5e.sheet.activeEffect.info.noedit": "Note: Active effect creation is not possible if the Item is owned by an Actor, edit the original or make a copy in your world to edit.",
   "arm5e.sheet.activeEffect.types.arts.affinity": "Art affinity",

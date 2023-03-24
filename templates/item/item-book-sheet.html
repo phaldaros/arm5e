@@ -86,7 +86,7 @@
           <select class="book-category" name="system.topics.{{topicIdx}}.category" data-index="{{topicIdx}}"
             data-dtype="String">
             {{#select currentTopic.category}}
-              {{#each config.books.categories as |cat key|}} -->
+              {{#each config.books.categories as |cat key|}}
                 <option value="{{key}}">{{localize cat}}</option>
               {{/each}}
             {{/select}}
@@ -98,7 +98,6 @@
       </div>
       {{#unless (eq currentTopic.category "labText") }}
         <div class="grid grid-3col">
-
           <div class="resource flexcol flexrow">
             <label for="system.topics.{{topicIdx}}.type"
               class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
@@ -140,7 +139,6 @@
             class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
           <select name="system.topics.{{topicIdx}}.key" data-dtype="String" class="ability-key">
             {{#select currentTopic.key}}
-              <option value="">{{localize "arm5e.sheet.skill.abilityNoKey"}}</option>
               {{#each abilityKeysList as |item key|}}
                 <option value="{{key}}" {{item.selection}}>{{item.name}}</option>
               {{/each}}

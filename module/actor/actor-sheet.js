@@ -139,6 +139,12 @@ export class ArM5eActorSheet extends ActorSheet {
 
     context.config = CONFIG.ARM5E;
     context.config.constants = { VOICE_AND_GESTURES_VALUES: VOICE_AND_GESTURES_VALUES };
+    context.abilityKeys = CONFIG.ARM5E.ALL_ABILITIES;
+    context.abilityKeys[""] = {
+      mnemonic: "arm5e.sheet.skill.abilityNoKey",
+      option: false,
+      selection: "disabled"
+    };
 
     // context.system.dtypes = ["String", "Number", "Boolean"];
 

@@ -24,13 +24,29 @@
             </select>
         </div>
         <h1 class="charname flexrow flex01" style="font-size: 12pt;">
-            <input name="{{namePrefix}}.name" type="text" value="{{planning.data.name}}" placeholder="Name" />
+            <input name="{{namePrefix}}.name" title="{{planning.data.name}}" type="text" value="{{planning.data.name}}"
+                placeholder="Name" />
         </h1>
         <label class="resource flex01 padd">{{planning.label}}</label>
         {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
         {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" prefix=namePrefix spelldata=planning.data }}
 
-
+        <div class="flexrow flex01">
+            <div class="flexcol flex02" style="margin-top: 10px;">
+                <label class="planning-item header-label clickable flex0 " data-item="planning-options"
+                    data-persist="options">{{localize "arm5e.generic.options"}}</label>
+                <div class="planning-options {{planning.visibility.options}}" id="planning-options">
+                    <div class="resource flexcol flex-center flex01">
+                        <label class="header-label ">{{localize "arm5e.skill.arcane.magicTheory"}}
+                            {{localize "arm5e.sheet.speciality"}}</label>
+                        <input class="flex01" name="mtSpec" title="{{owner.magicTheory.speciality}}" type="text"
+                            value="{{owner.magicTheory.speciality}}" readonly />
+                        <input type="checkbox" name="flags.arm5e.planning.magicThSpecApply" {{checked
+                            planning.magicThSpecApply }} />
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="resource flex-group-center backSection" style="margin-right: 10px;
         margin-bottom: 5px; max-height: 160px;">
             <label class="resource flex01 padd"><u>{{localize "arm5e.generic.info"}}</u></label>

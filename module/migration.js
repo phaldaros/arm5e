@@ -1,5 +1,7 @@
 import { log } from "./tools.js";
 
+const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
+
 export async function migration(originalVersion) {
   ui.notifications.info(
     `Applying ARM5E System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`,
@@ -69,8 +71,13 @@ export async function migration(originalVersion) {
   }
   // Migrate World Items
   const itemsUpdates = [];
+
   for (let i of game.items) {
     try {
+      if (DEPRECATED_ITEMS.includes(i.type)) {
+        game.items.delete(i._id);
+        continue;
+      }
       const updateData = await migrateItemData(i);
       if (!foundry.utils.isEmpty(updateData)) {
         console.log(`Migrating Item document ${i.name}`);
@@ -272,18 +279,19 @@ export const migrateSceneData = async function(scene, migrationData) {
  */
 export const migrateActorData = async function(actorDoc, actorItems) {
   let actor = {};
+  let updateData = {};
   if (actorDoc instanceof CONFIG.Actor.documentClass) {
     actor = actorDoc._source;
   } else {
     actor = actorDoc;
   }
   if (CONFIG.Actor.systemDataModels[actor.type]) {
-    return CONFIG.Actor.systemDataModels[actor.type].migrate(
+    updateData = CONFIG.Actor.systemDataModels[actor.type].migrate(
       actor,
       actorDoc.items ? actorDoc.items : []
     );
   }
-  const updateData = {};
+
   if (!actor?.flags?.arm5e) {
     updateData["flags.arm5e"] = {};
   } else if (actor?.flags.arm5e.filters) {
@@ -593,6 +601,10 @@ export const migrateActorData = async function(actorDoc, actorItems) {
     for (let i of actorDoc.items) {
       // Migrate the Owned Item
       try {
+        if (DEPRECATED_ITEMS.includes(i.type)) {
+          await actorDoc.items.delete(i._id);
+          continue;
+        }
         let itemUpdate = await migrateItemData(i);
         // Update the Owned Item
         if (!isEmpty(itemUpdate)) {

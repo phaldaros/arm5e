@@ -1,4 +1,4 @@
-## 2.0.4.13, Kentigern
+## 2.0.4.14, Kentigern
 
 ### Features & changes
 
@@ -30,6 +30,7 @@
 - Spell roll dialog improvements
 - New planning tab in the lab sheet.
 - New Spell learning activity in diary sheet (used for both lab text and invention)
+- [technical] Deprecated Item types will be removed at migration
 
 ### Bug fixes
 
@@ -59,6 +60,9 @@
 - Refactorization of spell management code to be used from outside the Item.
 - Improved migration
 - Allow browsing options for players in book sheet
+- Abilities without key will default to awareness
+- Actors in the new data model will migrate their Items again
+- Size is back on beast sheet
 
 ### Documentation
 

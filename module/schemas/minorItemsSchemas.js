@@ -1,7 +1,7 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
-import { itemBase } from "./commonSchemas.js";
+import { convertToInteger, itemBase } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 export class VirtueFlawSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
@@ -81,9 +81,13 @@ export class ItemSchema extends foundry.abstract.DataModel {
 
   static migrate(itemData) {
     const updateData = {};
-    if (itemData.system.quantity === null) {
-      updateData["system.quantity"] = 1;
+    if (itemData.system.quantity === null || !Number.isInteger(itemData.system.quantity)) {
+      updateData["system.quantity"] = convertToInteger(itemData.system.quantity, 1);
     }
+    if (itemData.system.weight === null) {
+      updateData["system.weight"] = 0;
+    }
+
     return updateData;
   }
 }

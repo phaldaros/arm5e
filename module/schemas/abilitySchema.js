@@ -13,7 +13,7 @@ export class AbilitySchema extends foundry.abstract.DataModel {
       defaultChaAb: new fields.StringField({ required: false, blank: false, initial: "int" }),
       speciality: new fields.StringField({ required: false, blank: true, initial: "" }),
       xp: XpField(),
-      key: new fields.StringField({ required: false, blank: true, initial: "" }),
+      key: new fields.StringField({ required: false, blank: false, initial: "awareness" }),
       option: new fields.StringField({ required: false, blank: true, initial: "" }),
       realm: RealmField()
     };
@@ -42,7 +42,9 @@ export class AbilitySchema extends foundry.abstract.DataModel {
     if (itemData.system.xp === null) {
       updateData["system.xp"] = 0;
     }
-
+    if (itemData.system.key === "") {
+      updateData["system.key"] = "awareness";
+    }
     // clean-up TODO: remove
     if (itemData.system.puissant) updateData["system.-=puissant"] = null;
     if (itemData.system.affinity) updateData["system.-=affinity"] = null;
