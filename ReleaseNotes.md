@@ -2,9 +2,10 @@
 
 ### Features & changes
 
+- New planning tab in the lab sheet for spell invention and spell learning
+- Books with multiple topics
 - New Natural resistance active effect
 - Natural resistances and Form resistances can be selected in the Soak dialog if applicable.
-- Books with multiple topics
 - Spell mastery topics now have the technique and form of the mastered spell
 - Migration improvements:
   - invalid documents can now be recovered
@@ -28,7 +29,6 @@
 - Laboratory sheet reviewed and updated: (Personalities, Features, Rooms, Specialties are now text fields, the latter will be replaced by active effects)
 - [technical] Actors migrated to the new datamodel can now use their embedded items for migration.
 - Spell roll dialog improvements
-- New planning tab in the lab sheet.
 - New Spell learning activity in diary sheet (used for both lab text and invention)
 - [technical] Deprecated Item types will be removed at migration
 
