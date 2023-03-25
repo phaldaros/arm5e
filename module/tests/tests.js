@@ -4,9 +4,9 @@ import { armorItem, combatSkill, companionData, weaponItem } from "./testData.js
 
 export function registerTestSuites(quench) {
   registerAbilityScoresTesting(quench);
-  // registerRollTesting(quench);
-  // registerSheetDisplayTests(quench);
-  // registerItemCreationTests(quench);
+  registerRollTesting(quench);
+  registerSheetDisplayTests(quench);
+  registerItemCreationTests(quench);
 }
 
 function registerRollTesting(quench) {

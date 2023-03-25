@@ -7,6 +7,7 @@ import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
+import { ArM5eItemDiarySheet } from "../item/item-diary-sheet.js";
 /**
  * Extend the basic ArM5eActorSheet with some very simple modifications
  * @extends {ArM5eActorSheet}
@@ -302,14 +303,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             arts: [],
             spells: [],
             newSpells: [
-              {
-                name: planning.data.name,
-                label: `${planning.data.name} : - ${spellTechniqueLabel(
-                  planning.data.system
-                )} ${spellFormLabel(planning.data.system)} ${spellLevel}`,
-                level: spellLevel,
-                spellData: planning.data.system
-              }
+              // {
+              //   name: planning.data.name,
+              //   label: `${planning.data.name} : - ${spellTechniqueLabel(
+              //     planning.data.system
+              //   )} ${spellFormLabel(planning.data.system)} ${spellLevel}`,
+              //   img: planning.data.img,
+              //   level: spellLevel,
+              //   spellData: planning.data
+              // }
             ]
           },
           optionKey: "standard",
@@ -321,6 +323,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     let owner = game.actors.get(this.actor.system.owner.actorId);
     let entry = await owner.createEmbeddedDocuments("Item", entryData, {});
+    await entry[0].sheet._addNewSpell(planning.data);
     entry[0].sheet.render(true);
   }
 
