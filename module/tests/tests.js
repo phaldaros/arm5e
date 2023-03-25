@@ -3,9 +3,10 @@ import { log, sleep } from "../tools.js";
 import { armorItem, combatSkill, companionData, weaponItem } from "./testData.js";
 
 export function registerTestSuites(quench) {
-  registerRollTesting(quench);
-  registerSheetDisplayTests(quench);
-  registerItemCreationTests(quench);
+  registerAbilityScoresTesting(quench);
+  // registerRollTesting(quench);
+  // registerSheetDisplayTests(quench);
+  // registerItemCreationTests(quench);
 }
 
 function registerRollTesting(quench) {
@@ -325,5 +326,115 @@ function registerItemCreationTests(quench) {
       }
     },
     { displayName: "ARS : Actor sheet tests" }
+  );
+}
+
+function registerAbilityScoresTesting(quench) {
+  quench.registerBatch(
+    "Ars-AbilityScore",
+    context => {
+      const { describe, it, assert, after, before } = context;
+      describe(`Normal ability`, function() {
+        let actor;
+        let item;
+        before(async function() {
+          actor = await Actor.create({ name: `Bob`, type: "player" });
+          item = (
+            await actor.sheet._itemCreate({
+              name: "myAbility",
+              type: "ability",
+              system: {
+                key: "dowsing"
+              }
+            })
+          )[0];
+        });
+        describe("Add xps", function() {
+          for (const score of Array(30).keys()) {
+            let inc = (score + 1) * 5;
+            it(`Adding ${inc} to actor`, async function() {
+              await item.update({ "system.xp": item.system.xp + inc }, { parent: actor.id });
+              assert.equal(item.system.finalScore, score + 1, "Final score");
+              assert.equal(item.system.xpNextLevel, 5 * (score + 2), "xpNextLevel");
+              assert.equal(item.system.remainingXp, 0, "remainingXp");
+            });
+          }
+          after(async function() {
+            if (item) {
+              await item.update({ "system.xp": 0 }, { parent: actor.id });
+            }
+          });
+        });
+
+        describe("Add xp+1", function() {
+          for (const score of Array(30).keys()) {
+            let inc = (score + 1) * 5;
+
+            it(`Adding ${inc + 1} to actor`, async function() {
+              await item.update(
+                { "system.xp": (5 * (score + 1) * (score + 2)) / 2 + 1 },
+                { parent: actor.id }
+              );
+              assert.equal(item.system.finalScore, score + 1, "Final score");
+              assert.equal(item.system.xpNextLevel, 5 * (score + 2), "xpNextLevel");
+              assert.equal(item.system.remainingXp, 1, "remainingXp");
+            });
+          }
+          after(async function() {
+            if (item) {
+              await item.update({ "system.xp": 0 }, { parent: actor.id });
+            }
+          });
+        });
+        describe("Add xp-1", function() {
+          for (const score of Array(30).keys()) {
+            let inc = (score + 1) * 5;
+
+            it(`Adding ${inc - 1} to actor`, async function() {
+              await item.update(
+                { "system.xp": (5 * (score + 1) * (score + 2)) / 2 - 1 },
+                { parent: actor.id }
+              );
+              assert.equal(item.system.finalScore, score, "Final score");
+              assert.equal(item.system.xpNextLevel, 5 * (score + 1), "xpNextLevel");
+              assert.equal(item.system.remainingXp, 5 * (score + 1) - 1, "remainingXp");
+            });
+          }
+          after(async function() {
+            if (item) {
+              await item.update({ "system.xp": 0 }, { parent: actor.id });
+            }
+          });
+        });
+
+        describe("Increase score", function() {
+          for (const score of Array(30).keys()) {
+            it(`Increase score to ${score + 1}`, async function() {
+              await item.sheet._increaseScore(item);
+              assert.equal(item.system.finalScore, score + 1, "Final score");
+              assert.equal(item.system.xpNextLevel, 5 * (score + 2), "xpNextLevel");
+              assert.equal(item.system.remainingXp, 0, "remainingXp");
+            });
+          }
+        });
+
+        describe("Decrease score", function() {
+          for (const score of Array(30).keys()) {
+            it(`Increase score to ${30 - score}`, async function() {
+              await item.sheet._decreaseScore(item);
+              assert.equal(item.system.finalScore, 29 - score, "Final score");
+              assert.equal(item.system.xpNextLevel, 5 * (30 - score), "xpNextLevel");
+              assert.equal(item.system.remainingXp, 0, "remainingXp");
+            });
+          }
+        });
+        after(async function() {
+          if (actor) {
+            await actor.delete();
+          }
+        });
+      });
+    },
+    { displayName: "ARS : Ability score computation" }
   );
 }

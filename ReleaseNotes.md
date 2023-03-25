@@ -1,4 +1,4 @@
-## 2.0.4.14, Kentigern
+## 2.0.4.15, Kentigern
 
 ### Features & changes
 
@@ -63,6 +63,7 @@
 - Abilities without key will default to awareness
 - Actors in the new data model will migrate their Items again
 - Size is back on beast sheet
+- Magical focus is correctly applied for raw spontaneous magic
 
 ### Documentation
 

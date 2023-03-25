@@ -939,6 +939,7 @@
   "arm5e.sheet.activeEffect.types.martialAbilitiesAffinity": "Affinity Martial abilities (xp)",
   "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity": "Affinity Mysteries abilities (xp)",
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities (xp)",
+  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesXPBonus": "Bonus to Supernatural abilities XP",
   "arm5e.sheet.activeEffect.types.laboratory": "Laboratory",
   "arm5e.sheet.activeEffect.types.laboratorySpec": "Laboratory's specialty",
   "arm5e.sheet.activeEffect.types.labActivity": "Laboratory activity",

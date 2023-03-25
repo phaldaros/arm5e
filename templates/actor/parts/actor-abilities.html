@@ -3,9 +3,7 @@
     <div class="item-image"></div>
     <div>
       <span class="item-name">
-        <a class="link" href="/systems/arm5e/pdf/abilities.pdf" target="_blank">
-          {{localize "arm5e.sheet.abilities"}}
-        </a>
+        {{localize "arm5e.sheet.abilities"}}
       </span>
       <span> ({{ system.totalXPAbilities }}xp)</span>
     </div>
@@ -22,7 +20,7 @@
       <li class="ability-category item flexrow item-header" data-category="{{id}}">
         <label style="font-size:12pt; border-bottom: 1px solid #4a4a48;">{{localize abilitySet.label }}</label>
       </li>
-      <div id="{{id}}" class="collapse">
+      <div id="{{id}}" class="toggle-collapse">
         {{#each abilitySet.abilities as |item id|}}
           <li class="item item-value flexrow flex-center macro-ready" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">

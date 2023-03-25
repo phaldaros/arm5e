@@ -343,15 +343,19 @@ export class ArM5ePCActor extends Actor {
           computedKey += "_" + item.system.option;
         }
         item.system.xpCoeff = this._getAbilityXpCoeff(item.system.key, item.system.option);
+        item.system.xpBonus = this._getAbilityXpBonus(item.system.key, item.system.option);
         item.system.derivedScore = ArM5ePCActor.getAbilityScoreFromXp(
-          Math.round(item.system.xp * item.system.xpCoeff)
+          Math.round((item.system.xp + item.system.xpBonus) * item.system.xpCoeff)
         );
         item.system.xpNextLevel = Math.round(
           5 * item.system.derivedScore + 5 / item.system.xpCoeff
         );
         item.system.remainingXp =
           item.system.xp -
-          Math.round(ArM5ePCActor.getAbilityXp(item.system.derivedScore) / item.system.xpCoeff);
+          Math.round(
+            ArM5ePCActor.getAbilityXp(item.system.derivedScore / item.system.xpCoeff) -
+              item.system.xpBonus
+          );
 
         // for DEBUG purposes
         // if (item.system.xpCoeff != 1.0) {
@@ -1208,6 +1212,24 @@ export class ArM5ePCActor extends Actor {
 
   // get the XP coefficient of a given ability if any
 
+  _getAbilityXpBonus(abilityKey = "", option = "") {
+    if (abilityKey === "" || CONFIG.ARM5E.ALL_ABILITIES[abilityKey] == undefined) {
+      return 0;
+    }
+    if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey].selection === "disabled") {
+      return 0; // raise exception instead?
+    }
+    if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey].option || false) {
+      abilityKey += "_" + option;
+    }
+    if (this.system.bonuses.skills[abilityKey] == undefined) {
+      // ability not yet added to bonuses
+      return 0;
+    }
+
+    return this.system.bonuses.skills[abilityKey].xpMod || 0;
+  }
+
   _getAbilityXpCoeff(abilityKey = "", option = "") {
     if (abilityKey === "" || CONFIG.ARM5E.ALL_ABILITIES[abilityKey] == undefined) {
       return 1.0;
@@ -1225,6 +1247,7 @@ export class ArM5ePCActor extends Actor {
 
     return this.system.bonuses.skills[abilityKey].xpCoeff || 1.0;
   }
+
   // get the Xps needed for an ability/decrepitude/warping score
   static getAbilityXp(score) {
     return ArM5ePCActor.getArtXp(score) * 5;

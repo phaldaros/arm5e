@@ -303,31 +303,6 @@ export const migrateActorData = async function(actorDoc, actorItems) {
     return updateData;
   }
 
-  if (actor.type == "laboratory") {
-    // fix recursive problem with laboratory owner
-    if (!(actor.system.owner.value instanceof String)) {
-      updateData["system.owner.value"] = "";
-    }
-
-    // Update data to official names
-    if (actor.system.salubrity) {
-      updateData["system.health"] = actor.system.salubrity;
-      updateData["system.-=salubrity"] = null;
-    }
-    if (actor.system.improvement) {
-      updateData["system.refinement"] = actor.system.improvement;
-      updateData["system.-=improvement"] = null;
-    }
-    if (actor.system.security) {
-      updateData["system.safety"] = actor.system.security;
-      updateData["system.-=security"] = null;
-    }
-    if (actor.system.maintenance) {
-      updateData["system.upkeep"] = actor.system.maintenance;
-      updateData["system.-=maintenance"] = null;
-    }
-  }
-
   if (actor.type == "covenant") {
     if (actor.system.currentYear != undefined) {
       updateData["system.datetime.year"] = actor.system.currentYear;

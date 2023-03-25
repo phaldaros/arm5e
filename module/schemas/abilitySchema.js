@@ -42,16 +42,13 @@ export class AbilitySchema extends foundry.abstract.DataModel {
     if (itemData.system.xp === null) {
       updateData["system.xp"] = 0;
     }
-    if (itemData.system.key === "") {
-      updateData["system.key"] = "awareness";
-    }
     // clean-up TODO: remove
     if (itemData.system.puissant) updateData["system.-=puissant"] = null;
     if (itemData.system.affinity) updateData["system.-=affinity"] = null;
 
     // no key assigned to the ability, try to find one
     if (CONFIG.ARM5E.ALL_ABILITIES[itemData.system.key] == undefined || itemData.system.key == "") {
-      log(true, `Trying to find key for ability ${itemData.name}`);
+      // log(true, `Trying to find key for ability ${itemData.name}`);
       let name = itemData.name.toLowerCase();
       // handle those pesky '*' at the end of restricted abilities
       if (name.endsWith("*")) {
@@ -87,7 +84,8 @@ export class AbilitySchema extends foundry.abstract.DataModel {
         }
       }
       if (updateData["system.key"] == undefined) {
-        log(true, `Unable to find a key for ability  ${itemData.name}`);
+        log(true, `Unable to find a key for ability  ${itemData.name} defaulting to awareness`);
+        updateData["system.key"] = "awareness";
       }
     }
     if (itemData.system.option != undefined && itemData.system.option != "") {
