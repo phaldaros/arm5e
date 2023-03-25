@@ -756,7 +756,7 @@ h4.window-title {
   padding-right: 0px;
 }
 .arm5e-dialog .footer-background {
-  margin-top: -27px;
+  /* margin-top: -27px; */
   width: 100%;
   height: 50px;
   border: 0px;
@@ -1130,7 +1130,7 @@ input[type="time"] {
   border: 0px;
 }
 
-.collapse {
+.toggle-collapse {
   max-height: 2180px;
   transition-property: all;
   transition-duration: 0.6s;
@@ -1165,7 +1165,7 @@ input[type="time"] {
 .planning-description,
 .details {
   max-height: 480px;
-  transition-property: all;
+  transition-property: height, opacity;
   transition-duration: 0.6s;
   transition-timing-function: ease-in-out;
 }
@@ -1175,7 +1175,7 @@ input[type="time"] {
 .activeEffects.hide,
 .penetration.hide,
 .details.hide,
-.collapse.hide {
+.toggle-collapse.hide {
   max-height: 0px;
   height: 0px;
   opacity: 0;
@@ -1188,7 +1188,7 @@ input[type="time"] {
   overflow: hidden;
 }
 
-.topic.collapse.hide {
+.topic.toggle-collapse.hide {
   max-height: 0px;
   min-height: 190px;
   opacity: 0.3;
@@ -1233,11 +1233,15 @@ input[type="time"] {
 }
 
 .arm5e .sheet-body,
-.arm5e .sheet-body .tab,
+.arm5e .sheet-body .tab {
+  /* height: 90%; */
+  height: auto;
+}
+
 .arm5e .sheet-body .tab .editor {
-  height: 90%;
-  /* min-height: 150px;
-  height: auto; */
+  height: 100%;
+  min-height: 150px;
+  /* height: auto; */
 }
 
 .arm5e .diary-body {
@@ -1490,8 +1494,8 @@ img.art-icon {
 .arm5e .item-name {
   /*font-family: "vinque";*/
   font-family: "blackmoor";
-  margin-bottom: 6px;
-  font-size: 11pt;
+  margin-bottom: 4px;
+  font-size: 12pt;
   /*font-weight: bold;*/
 }
 
@@ -1663,7 +1667,7 @@ img.art-icon {
   box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
   margin-right: 10px;
   margin-bottom: 5px;
-  max-height: 75px;
+  max-height: 54px;
 }
 
 .arm5e .padding12 {

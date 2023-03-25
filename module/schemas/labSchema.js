@@ -78,6 +78,10 @@ export class LabSchema extends foundry.abstract.DataModel {
       updateData["system.-=maintenance"] = null;
     }
 
+    if (data.system.owner && typeof data.system.owner?.value !== "string") {
+      updateData["system.owner.value"] = "";
+    }
+
     let labAttributes = items.filter(i => {
       return (
         i.type === "sanctumRoom" ||
