@@ -81,8 +81,8 @@ export class ArM5eItemSheet extends ItemSheet {
     ) {
       context.abilityKeysList = CONFIG.ARM5E.LOCALIZED_ABILITIES;
     }
-
-    if (this.item.isOwned) {
+    context.isOwned = this.item.isOwned;
+    if (context.isOwned) {
       switch (this.actor.type) {
         case "player":
           context.ui.flavor = "PC";
@@ -108,7 +108,7 @@ export class ArM5eItemSheet extends ItemSheet {
     }
 
     if (itemData.type == "virtue" || itemData.type == "flaw") {
-      if (this.item.isOwned) {
+      if (context.isOwned) {
         context.system.effectCreation = false;
         switch (context.item.parent.type) {
           case "laboratory":
@@ -190,6 +190,8 @@ export class ArM5eItemSheet extends ItemSheet {
 
     // Active Effect management
     html.find(".effect-control").click(ev => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
+
+    html.find(".study-labtext").click(event => this.item._studyLabText(this.item, event));
 
     html.find(".migrate").click(event => this.item.migrate());
   }

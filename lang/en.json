@@ -660,7 +660,7 @@
   "arm5e.spell.targets.bw": "Body-of-Water (Atlant)",
   "arm5e.spell.targets.sound": "Sound (Sensory)",
   "arm5e.spell.targets.bound": "Boundary",
-  "arm5e.spell.targets.sight": "Sight (In)",
+  "arm5e.spell.targets.sight": "Vision (In)",
   "arm5e.spell.targets.network": "Road Network (Mercu)",
   "arm5e.spell.targets.symbol": "Symbol (Faerie)",
   "arm5e.spell.targets.spectacle": "Spectacle (Sensory)",
@@ -838,6 +838,8 @@
   "arm5e.notification.setDate": "The current date has been set to {season} {year}",
   "arm5e.notification.synchActors": "All actors have been synchronized to {season} {year}",
   "arm5e.notification.missingSpell": "Spell \"{spellName}\" doesn't exist anymore or has moved. Aborting.",
+  "arm5e.notification.notMagus": "This character is not a magus/maga.",
+  "arm5e.notification.noLab": "This character doesn't own a lab.",
 
   "arm5e.canvas.buttons.setAura": "Configure Aura",
   "arm5e.canvas.buttons.clearAura": "Clear Aura",

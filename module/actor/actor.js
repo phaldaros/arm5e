@@ -810,6 +810,43 @@ export class ArM5ePCActor extends Actor {
 
     system.magicItems = magicItems;
 
+    // links with other actors
+
+    let covenants = game.actors
+      .filter(a => a.type == "covenant")
+      .map(({ name, id }) => ({
+        name,
+        id
+      }));
+    if (system.covenant) {
+      let cov = covenants.filter(c => c.name == system.covenant.value);
+      if (cov.length > 0) {
+        system.covenant.linked = true;
+        system.covenant.actorId = cov[0].id;
+      } else {
+        system.covenant.linked = false;
+      }
+    }
+
+    if (system?.charType?.value == "magusNPC" || system?.charType?.value == "magus") {
+      let labs = game.actors
+        .filter(a => a.type == "laboratory")
+        .map(({ name, id }) => ({
+          name,
+          id
+        }));
+
+      // check whether the character is linked to an existing lab
+      if (system.sanctum) {
+        let lab = labs.filter(c => c.name == system.sanctum.value);
+        if (lab.length > 0) {
+          system.sanctum.linked = true;
+          system.sanctum.actorId = lab[0].id;
+        } else {
+          system.sanctum.linked = false;
+        }
+      }
+    }
     log(false, "pc end of prepare actor data");
     log(false, system);
   }

@@ -1,7 +1,8 @@
-import { getLabUpkeepCost, log } from "../tools.js";
+import { getDataset, getLabUpkeepCost, log } from "../tools.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { migrateItemData } from "../migration.js";
 import { computeLevel } from "../helpers/magic.js";
+import { resetOwnerFields } from "./item-converter.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -423,6 +424,61 @@ export class ArM5eItem extends Item {
       err.message = `Failed system migration for Item ${this.name}: ${err.message}`;
       console.error(err);
     }
+  }
+
+  async _studyLabText(item, event) {
+    event.preventDefault();
+    const dataset = getDataset(event);
+    if (item.type !== "laboratoryText" && item.type !== "book") {
+      return;
+    }
+    if (item.type === "laboratoryText" && item.system.type !== "spell") {
+      return;
+    }
+
+    if (!item.actor) {
+      return;
+    }
+    if (
+      item.actor.system?.charType?.value !== "magusNPC" &&
+      item.actor.system?.charType?.value !== "magus"
+    ) {
+      ui.notifications.info(game.i18n.localize("arm5e.notification.notMagus"));
+      return;
+    }
+    if (!item.actor.system.sanctum.linked) {
+      ui.notifications.info(game.i18n.localize("arm5e.notification.noLab"));
+      return;
+    }
+
+    let spellEffectData;
+    if (item.type === "book") {
+      let topic = item.system.topics[dataset.index];
+      // empty topic
+      if (topic.category !== "labText" || topic.labtext === null) {
+        return;
+      }
+      spellEffectData = {
+        name: topic.labtextTitle,
+        type: "spell",
+        system: topic.labtext.toObject()
+      };
+    } else {
+      spellEffectData = {
+        name: item.name,
+        type: "spell",
+        system: item.system
+      };
+    }
+    let lab = game.actors.get(item.actor.system.sanctum.actorId);
+    let planning = lab.getFlag(CONFIG.ARM5E.SYSTEM_ID, "planning") || {};
+    let newSpell = await Item.create(spellEffectData, { temporary: true });
+    planning.type = "learnSpell";
+    let data = newSpell.toObject();
+    planning.data = resetOwnerFields(data);
+
+    await lab.setFlag(CONFIG.ARM5E.SYSTEM_ID, "planning", planning);
+    lab.sheet.render(true);
   }
 
   /**
