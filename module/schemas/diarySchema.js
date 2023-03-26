@@ -93,6 +93,10 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           step: 1
         })
       }),
+      externalIds: new fields.ArrayField(new fields.DocumentIdField(), {
+        required: false,
+        initial: []
+      }),
       progress: new fields.SchemaField({
         abilities: new fields.ArrayField(
           new fields.SchemaField({
@@ -112,7 +116,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
               step: 1
             }),
             xp: XpField()
-          })
+          }),
+          { required: false, initial: [] }
         ),
         arts: new fields.ArrayField(
           new fields.SchemaField({
@@ -126,7 +131,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
               step: 1
             }),
             xp: XpField()
-          })
+          }),
+          { required: false, initial: [] }
         ),
         spells: new fields.ArrayField(
           new fields.SchemaField({
@@ -146,7 +152,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
               step: 1
             }),
             xp: XpField()
-          })
+          }),
+          { required: false, initial: [] }
         ),
         newSpells: new fields.ArrayField(
           new fields.SchemaField({
@@ -165,7 +172,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
             }),
             level: baseLevel(),
             spellData: new fields.EmbeddedDataField(SpellSchema)
-          })
+          }),
+          { required: false, initial: [] }
         )
       })
     };
@@ -197,6 +205,10 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     }
     if (itemData.system.activity === "") {
       updateData["system.activity"] = "none";
+    }
+
+    if (itemData.system.externalIds === undefined) {
+      updateData["system.externalIds"] = [];
     }
 
     if (itemData.system.optionKey == undefined) {

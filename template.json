@@ -422,7 +422,9 @@
       },
       "laboratoryPC": {
         "sanctum": {
-          "value": ""
+          "value": "",
+          "linked": false,
+          "actorId": null
         },
         "laboratory": {
           "longevityRitual": {

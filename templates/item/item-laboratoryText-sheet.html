@@ -40,9 +40,10 @@
             <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
             <input type="checkbox" name="system.ritual" {{checked system.ritual}} />
           </div>
-          <a class="plan-reading" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
-            style="padding-left: 5px; padding-top: 5px;" data-index="{{topicIdx}}"><i
-              class="icon-Icon_Readspell"></i></a>
+          {{#if isOwned}}
+            <a class="study-labtext" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
+              style="padding-left: 5px; padding-top: 5px;"><i class="icon-Icon_Readspell"></i></a>
+          {{/if}}
         {{/if}}
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>

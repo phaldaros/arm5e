@@ -302,17 +302,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             abilities: [],
             arts: [],
             spells: [],
-            newSpells: [
-              // {
-              //   name: planning.data.name,
-              //   label: `${planning.data.name} : - ${spellTechniqueLabel(
-              //     planning.data.system
-              //   )} ${spellFormLabel(planning.data.system)} ${spellLevel}`,
-              //   img: planning.data.img,
-              //   level: spellLevel,
-              //   spellData: planning.data
-              // }
-            ]
+            newSpells: []
           },
           optionKey: "standard",
           duration: 1,

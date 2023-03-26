@@ -1,4 +1,16 @@
-## 2.0.4.16, Kentigern
+## 2.0.4.17, Kentigern, the apprentice
+
+### Features & changes
+
+- Possibility to study directly from spell lab texts or spell books if owned
+- Preparation for lab diary entries to track their use (owned diary entries may raise an error and need a reload). Every entry can have a list of document ids to remove at rollback.
+
+### Bug fixes
+
+- Link between Actors is now done at data preparation
+- Fixed error when dropping a lab text on a dedicated book topic
+
+## 2.0.4.16, Kentigern, the novice
 
 ### Features & changes
 
