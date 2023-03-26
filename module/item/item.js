@@ -439,18 +439,23 @@ export class ArM5eItem extends Item {
     if (!item.actor) {
       return;
     }
-    if (
-      item.actor.system?.charType?.value !== "magusNPC" &&
-      item.actor.system?.charType?.value !== "magus"
-    ) {
-      ui.notifications.info(game.i18n.localize("arm5e.notification.notMagus"));
+    if (item.actor.type === "laboratory" && !item.actor.system.owner.linked) {
+      ui.notifications.info(game.i18n.localize("arm5e.notification.noOwner"));
       return;
-    }
-    if (!item.actor.system.sanctum.linked) {
-      ui.notifications.info(game.i18n.localize("arm5e.notification.noLab"));
-      return;
-    }
+    } else if (["player", "npc"].includes(item.actor.type)) {
+      if (
+        item.actor.system?.charType?.value !== "magusNPC" &&
+        item.actor.system?.charType?.value !== "magus"
+      ) {
+        ui.notifications.info(game.i18n.localize("arm5e.notification.notMagus"));
+        return;
+      }
 
+      if (!item.actor.system.sanctum.linked) {
+        ui.notifications.info(game.i18n.localize("arm5e.notification.noLab"));
+        return;
+      }
+    }
     let spellEffectData;
     if (item.type === "book") {
       let topic = item.system.topics[dataset.index];
@@ -467,10 +472,16 @@ export class ArM5eItem extends Item {
       spellEffectData = {
         name: item.name,
         type: "spell",
-        system: item.system
+        system: item.system.toObject()
       };
     }
-    let lab = game.actors.get(item.actor.system.sanctum.actorId);
+
+    let lab;
+    if (item.actor.type === "laboratory") {
+      lab = item.actor;
+    } else {
+      lab = game.actors.get(item.actor.system.sanctum.actorId);
+    }
     let planning = lab.getFlag(CONFIG.ARM5E.SYSTEM_ID, "planning") || {};
     let newSpell = await Item.create(spellEffectData, { temporary: true });
     planning.type = "learnSpell";
@@ -478,7 +489,9 @@ export class ArM5eItem extends Item {
     planning.data = resetOwnerFields(data);
 
     await lab.setFlag(CONFIG.ARM5E.SYSTEM_ID, "planning", planning);
+    this.sheet.close();
     lab.sheet.render(true);
+    lab.sheet._tabs[0].activate("planning");
   }
 
   /**

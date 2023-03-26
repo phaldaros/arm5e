@@ -357,20 +357,6 @@ export class ArM5ePCActor extends Actor {
               item.system.xpBonus
           );
 
-        // for DEBUG purposes
-        // if (item.system.xpCoeff != 1.0) {
-        //   let coeff = item.system.xpCoeff;
-        //   log(false, `xpCoeff: ${coeff}`);
-        //   let newxp = item.system.xp * coeff;
-        //   log(false, `Xp: ${item.system.xp} and after afinity: ${newxp}`);
-        //   let score = ArM5ePCActor.getAbilityScoreFromXp(item.system.xp);
-        //   let affinityscore = ArM5ePCActor.getAbilityScoreFromXp(Math.round(item.system.xp * coeff));
-        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = ArM5ePCActor.getAbilityXp(affinityscore + 1) - item.system.xp;
-        //   let afterAffinity = nextLvl / coeff;
-        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-        // }
-
         if (
           system.bonuses.skills[computedKey] != undefined &&
           system.bonuses.skills[computedKey].bonus != 0
@@ -491,20 +477,6 @@ export class ArM5ePCActor extends Actor {
       }
 
       for (let [key, technique] of Object.entries(system.arts.techniques)) {
-        // TODO remove once confirmed there is no bug
-        // if (technique.xpCoeff != 1.0) {
-        //   log(false, `xpCoeff: ${technique.xpCoeff}`);
-        //   let newxp = technique.xp * technique.xpCoeff;
-        //   log(false, `Xp: ${technique.xp} and after afinity: ${newxp}`);
-        //   let score = ArM5ePCActor.getArtScore(technique.xp);
-        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(technique.xp * technique.xpCoeff));
-        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / technique.xpCoeff - technique.xp;
-        //   let afterAffinity = nextLvl / technique.xpCoeff;
-        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-        // }
-        // end TODO
-
         technique.derivedScore = ArM5ePCActor.getArtScore(
           Math.round(technique.xp * technique.xpCoeff)
         );
@@ -514,56 +486,16 @@ export class ArM5ePCActor extends Actor {
           ArM5ePCActor.getArtXp(technique.derivedScore + 1) / technique.xpCoeff
         );
 
-        // TODO remove once confirmed there is no bug
-        // if (technique.score != technique.derivedScore && technique.xp != 0) {
-        //   error(
-        //     false,
-        //     "Wrong computation of score: Original: " +
-        //       technique.score +
-        //       " vs Computed: " +
-        //       technique.derivedScore +
-        //       " XPs:" +
-        //       technique.xp
-        //   );
-        //   ArM5ePCActor.getArtScore(technique.xp);
-        // }
         // Calculate the next level experience needed
         totalXPArts = parseInt(totalXPArts) + technique.xp;
       }
 
       const parmaStats = this.getAbilityStats("parma");
       for (let [key, form] of Object.entries(system.arts.forms)) {
-        // TODO remove once confirmed there is no bug
-        // if (form.xpCoeff != 1.0) {
-        //   log(false, `xpCoeff: ${form.xpCoeff}`);
-        //   let newxp = form.xp * form.xpCoeff;
-        //   log(false, `Xp: ${form.xp} and after afinity: ${newxp}`);
-        //   let score = ArM5ePCActor.getArtScore(form.xp);
-        //   let affinityscore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
-        //   log(false, `score : ${score} and after afinity: ${affinityscore}`);
-        //   let nextLvl = ArM5ePCActor.getArtXp(affinityscore + 1) / form.xpCoeff - form.xp;
-        //   let afterAffinity = nextLvl / form.xpCoeff;
-        //   log(false, `xpNextLvl: ${nextLvl} and after afinity: ${afterAffinity}`);
-        // }
-        // // end TODO
-
         form.derivedScore = ArM5ePCActor.getArtScore(Math.round(form.xp * form.xpCoeff));
         form.finalScore = form.derivedScore + form.bonus;
 
         form.xpNextLevel = Math.round(ArM5ePCActor.getArtXp(form.derivedScore + 1) / form.xpCoeff);
-        // TODO remove once confirmed there is no bug
-        // if (form.score != form.derivedScore && form.xp != 0) {
-        //   error(
-        //     false,
-        //     "Wrong computation of score: Original: " +
-        //       form.score +
-        //       " vs Computed: " +
-        //       form.derivedScore +
-        //       " XPs:" +
-        //       form.xp
-        //   );
-        //   ArM5ePCActor.getArtScore(form.xp);
-        // }
 
         form.magicResistance = parmaStats.score * 5 + form.finalScore;
         if (parmaStats.speciality.toUpperCase() === form.label.toUpperCase()) {
@@ -812,32 +744,36 @@ export class ArM5ePCActor extends Actor {
 
     // links with other actors
 
-    let covenants = game.actors
-      .filter(a => a.type == "covenant")
-      .map(({ name, id }) => ({
-        name,
-        id
-      }));
-    if (system.covenant) {
-      let cov = covenants.filter(c => c.name == system.covenant.value);
-      if (cov.length > 0) {
-        system.covenant.linked = true;
-        system.covenant.actorId = cov[0].id;
+    if (system.type === "player" || system.type === "npc") {
+      if (system.covenant?.value) {
+        let covenants = game.actors
+          .filter(a => a.type == "covenant")
+          .map(({ name, id }) => ({
+            name,
+            id
+          }));
+        let cov = covenants.filter(c => c.name == system.covenant.value);
+        if (cov.length > 0) {
+          system.covenant.linked = true;
+          system.covenant.actorId = cov[0].id;
+        } else {
+          system.covenant.linked = false;
+        }
       } else {
         system.covenant.linked = false;
       }
     }
 
     if (system?.charType?.value == "magusNPC" || system?.charType?.value == "magus") {
-      let labs = game.actors
-        .filter(a => a.type == "laboratory")
-        .map(({ name, id }) => ({
-          name,
-          id
-        }));
-
       // check whether the character is linked to an existing lab
-      if (system.sanctum) {
+      if (system.sanctum?.value) {
+        let labs = game.actors
+          .filter(a => a.type == "laboratory")
+          .map(({ name, id }) => ({
+            name,
+            id
+          }));
+
         let lab = labs.filter(c => c.name == system.sanctum.value);
         if (lab.length > 0) {
           system.sanctum.linked = true;
@@ -845,6 +781,8 @@ export class ArM5ePCActor extends Actor {
         } else {
           system.sanctum.linked = false;
         }
+      } else {
+        system.sanctum.linked = false;
       }
     }
     log(false, "pc end of prepare actor data");
@@ -1047,6 +985,44 @@ export class ArM5ePCActor extends Actor {
       let changes = duplicate(baseSafetyEffect.changes);
       changes[0].value = String(baseSafety);
       baseSafetyEffect.update({ changes });
+    }
+
+    if (system.covenant?.value) {
+      let covenants = game.actors
+        .filter(a => a.type == "covenant")
+        .map(({ name, id }) => ({
+          name,
+          id
+        }));
+
+      let cov = covenants.filter(c => c.name == system.covenant.value);
+      if (cov.length > 0) {
+        system.covenant.linked = true;
+        system.covenant.actorId = cov[0].id;
+      } else {
+        system.covenant.linked = false;
+      }
+    } else {
+      system.covenant.linked = false;
+    }
+
+    // check whether the character is linked to an existing lab
+    if (system.owner?.value) {
+      let characters = game.actors
+        .filter(a => a.type == "player" || a.type == "npc")
+        .map(({ name, id }) => ({
+          name,
+          id
+        }));
+      let char = characters.filter(c => c.name == system.owner.value);
+      if (char.length > 0) {
+        system.owner.linked = true;
+        system.owner.actorId = char[0].id;
+      } else {
+        system.owner.linked = false;
+      }
+    } else {
+      system.owner.linked = false;
     }
   }
 

@@ -1,9 +1,10 @@
-## 2.0.4.17, Kentigern, the apprentice
+## 2.0.4.18, Kentigern, the apprentice
 
 ### Features & changes
 
-- Possibility to study directly from spell lab texts or spell books if owned
+- Possibility to study directly from spell lab texts or spell books if in the library of a character or an occupied lab.
 - Preparation for lab diary entries to track their use (owned diary entries may raise an error and need a reload). Every entry can have a list of document ids to remove at rollback.
+- Improved lab text layout
 
 ### Bug fixes
 

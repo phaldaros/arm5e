@@ -38,7 +38,7 @@
         <input type="number" name="{{prefix}}.system.level" value="{{spelldata.system.level}}" style="max-width: 60px"
           data-dtype="Number" {{edition.spellField}} />
       </div>
-      <div class="resource flexcol flex-center">
+      <div class="resource flexcol flex-center ">
         <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
         <input type="checkbox" name="{{prefix}}.system.ritual" {{checked spelldata.system.ritual}}
           {{edition.spellCombobox}} />
@@ -97,10 +97,11 @@
           value="{{spelldata.system.baseLevel}}" data-dtype="Number" {{edition.spellField}} />
       </div>
       <div class="resource">
-
-        <label class="header-label">{{localize "arm5e.spell.effect.levelOffset"}}</label>
-        <input type="number" name="{{prefix}}.system.levelOffset" value="{{spelldata.system.levelOffset}}"
-          data-dtype="Number" style="max-width: 40px;" {{edition.spellField}} />
+        {{#if spelldata.system.general}}
+          <label class="header-label">{{localize "arm5e.spell.effect.levelOffset"}}</label>
+          <input type="number" name="{{prefix}}.system.levelOffset" value="{{spelldata.system.levelOffset}}"
+            data-dtype="Number" style="max-width: 40px;" {{edition.spellField}} />
+        {{/if}}
       </div>
     </div>
     <div class="flexrow flex02">

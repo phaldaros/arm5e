@@ -840,6 +840,7 @@
   "arm5e.notification.missingSpell": "Spell \"{spellName}\" doesn't exist anymore or has moved. Aborting.",
   "arm5e.notification.notMagus": "This character is not a magus/maga.",
   "arm5e.notification.noLab": "This character doesn't own a lab.",
+  "arm5e.notification.noOwner": "This laboratory doesn't have an owner.",
 
   "arm5e.canvas.buttons.setAura": "Configure Aura",
   "arm5e.canvas.buttons.clearAura": "Clear Aura",
