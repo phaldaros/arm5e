@@ -114,6 +114,7 @@
   "arm5e.sheet.magicalEffects": "Spontaneous magical effects",
   "arm5e.sheet.spontaneousMagic": "Spontaneous magic",
   "arm5e.sheet.weapons": "Weapons",
+  "arm5e.sheet.naturalweapons": "Natural weapons",
   "arm5e.sheet.armor": "Armor",
   "arm5e.sheet.items": "Items",
   "arm5e.sheet.book": "Book",
@@ -774,7 +775,6 @@
   "arm5e.lab.enchantment.item.size.large-eg": "Large (staff, shield, cloak, skeleton)",
   "arm5e.lab.enchantment.item.size.huge-eg": "Huge (boat, wagon, human body, small room)",
 
-  "arm5e.lab.activity.magicTheory": "Vis study",
   "arm5e.lab.activity.spellLearning": "Spell learning",
   "arm5e.lab.activity.inventSpell": "Invent spell",
   "arm5e.lab.activity.visExtraction": "Vis extraction",
@@ -787,6 +787,15 @@
   "arm5e.lab.bonus.labQuality": "Lab quality",
   "arm5e.lab.bonus.activity": "Activity bonus",
   "arm5e.lab.bonus.apprentice": "Apprentice",
+  "arm5e.lab.bonus.specialties": "Specialties",
+
+  "arm5e.lab.specialty.experimentation": "Experimentation",
+  "arm5e.lab.specialty.familiar": "Familiar",
+  "arm5e.lab.specialty.items": "Items",
+  "arm5e.lab.specialty.longevityRituals": "Longevity rituals",
+  "arm5e.lab.specialty.spells": "Spells",
+  "arm5e.lab.specialty.texts": "Texts",
+  "arm5e.lab.specialty.visExtraction": "Vis extraction",
 
   "arm5.sheet.bonus.activeEffects": "Effects bonuses",
   "arm5e.sheet.action.rest": "Rest",
@@ -1059,6 +1068,7 @@
   "arm5e.activity.title.spellLearning": "Learned a spell",
   "arm5e.activity.title.inventSpell": "Invented a spell",
   "arm5e.activity.drop.teacher": "Drop an actor here to act as a teacher/trainer.",
+  "arm5e.activity.title.labinuse": "Laboratory in use ({activity}) by {user}.",
 
   "arm5e.activity.newSpell": "New spell learned",
   "arm5e.activity.descItem": "{item} : {xp} xp(s) increase",

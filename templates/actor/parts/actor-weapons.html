@@ -2,7 +2,11 @@
     <li class="item flexrow item-header">
         <div class="item-image"></div>
         <div class="item-name">
-            {{localize "arm5e.sheet.weapons"}}
+            {{#if (eq actor.type "beast")}}
+                {{localize "arm5e.sheet.naturalweapons"}}
+            {{else}}
+                {{localize "arm5e.sheet.weapons"}}
+            {{/if}}
         </div>
         <div class="item-controls">
             <a class="item-control item-create"

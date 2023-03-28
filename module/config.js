@@ -2238,7 +2238,7 @@ ARM5E.activities.generic = {
     secondaryFilter: null
   },
   learnSpell: {
-    label: "arm5e.activity.spellLearning",
+    label: "arm5e.lab.activity.spellLearning",
     display: {
       tab: true,
       progress: true,
@@ -2255,7 +2255,7 @@ ARM5E.activities.generic = {
     secondaryFilter: null
   },
   inventSpell: {
-    label: "arm5e.activity.inventSpell",
+    label: "arm5e.lab.activity.inventSpell",
     display: {
       tab: true,
       progress: true,

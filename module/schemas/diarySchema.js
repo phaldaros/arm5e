@@ -4,6 +4,7 @@ import {
   characteristicField,
   convertToNumber,
   hermeticForm,
+  NullableDocumentIdField,
   SeasonField,
   XpField
 } from "./commonSchemas.js";
@@ -93,10 +94,21 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           step: 1
         })
       }),
-      externalIds: new fields.ArrayField(new fields.DocumentIdField(), {
-        required: false,
-        initial: []
-      }),
+      externalIds: new fields.ArrayField(
+        new fields.SchemaField({
+          actorId: new NullableDocumentIdField(),
+          itemId: new NullableDocumentIdField(),
+          flags: new fields.NumberField({
+            required: false,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+            step: 1
+          })
+        }),
+        { required: false, initial: [] }
+      ),
       progress: new fields.SchemaField({
         abilities: new fields.ArrayField(
           new fields.SchemaField({
@@ -323,7 +335,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         updateNeeded = true;
       }
       for (let a of prog.arts) {
-        if (a.key === "") {
+        if (a.key === "" || a.key === undefined) {
           a.key = "cr";
           updateNeeded = true;
         }
