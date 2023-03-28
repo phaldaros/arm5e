@@ -58,6 +58,14 @@ export class ArM5ePCActor extends Actor {
         this.system.specialty[key] = { bonus: 0 };
       }
 
+      this.system.specialty["experimentation"] = { bonus: 0 };
+      this.system.specialty["familiar"] = { bonus: 0 };
+      this.system.specialty["items"] = { bonus: 0 };
+      this.system.specialty["longevityRituals"] = { bonus: 0 };
+      this.system.specialty["spells"] = { bonus: 0 };
+      this.system.specialty["texts"] = { bonus: 0 };
+      this.system.specialty["visExtraction"] = { bonus: 0 };
+
       return;
     }
     let datetime = game.settings.get("arm5e", "currentDate");

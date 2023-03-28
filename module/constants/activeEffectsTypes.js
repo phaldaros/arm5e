@@ -1605,9 +1605,51 @@ export default {
   },
   labSpecialty: {
     category: "laboratory",
-    type: "laboratory",
+    type: "laboratorySpec",
     label: "arm5e.sheet.activeEffect.types.laboratorySpec",
     subtypes: {
+      texts: {
+        label: "arm5e.lab.specialty.texts",
+        key: "system.specialty.texts.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      spells: {
+        label: "arm5e.lab.specialty.spells",
+        key: "system.specialty.spells.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      experimentation: {
+        label: "arm5e.lab.specialty.experimentation",
+        key: "system.specialty.experimentation.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      familiar: {
+        label: "arm5e.lab.specialty.familiar",
+        key: "system.specialty.familiar.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      items: {
+        label: "arm5e.lab.specialty.items",
+        key: "system.specialty.items.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      longevityRituals: {
+        label: "arm5e.lab.specialty.longevityRituals",
+        key: "system.specialty.longevityRituals.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
+      visExtraction: {
+        label: "arm5e.lab.specialty.visExtraction",
+        key: "system.specialty.visExtraction.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 1
+      },
       cr: {
         label: "Creo",
         key: "system.specialty.cr.bonus",
@@ -1694,12 +1736,6 @@ export default {
       },
       vi: {
         label: "Vim",
-        key: "system.specialty.vi.bonus",
-        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-        default: 1
-      },
-      gen: {
-        label: "arm5e.generic.custom",
         key: "system.specialty.vi.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1

@@ -752,6 +752,15 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const actor = this.actor;
     let updateData = [];
     switch (this.item.system.activity) {
+      case "learnSpell":
+      case "inventSpell":
+        let toDelete = this.item.system.externalIds[0];
+        if (game.actors.has(toDelete.actorId)) {
+          let lab = game.actors.get(toDelete.actorId);
+          if (lab.items.has(toDelete.itemId)) {
+            await lab.deleteEmbeddedDocuments("Item", [toDelete.itemId], {});
+          }
+        }
       case "adventuring":
       case "exposure":
       case "practice":
@@ -761,8 +770,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "hermeticApp":
       case "childhood":
       case "laterLife":
-      case "laterLifeMagi":
-      case "learnSpell": {
+      case "laterLifeMagi": {
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // check that ability still exists
           let ability = this.actor.items.get(ab.id);
@@ -820,7 +828,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
         await this.actor.update(actorUpdate, { render: true });
         await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
-        if (this.item.system.activity === "reading") {
+
+        if (["reading", "inventSpell", "learnSpell"].includes(this.item.system.activity)) {
+          // delete the diary entry
           await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
           return;
         }

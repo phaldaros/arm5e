@@ -17,6 +17,16 @@ Update your Foundry VTT version to at least 0.8.9.
 Unless you have edited the system, remove the old "arm5e" folder from the systems folder (Found in the Foundry Data folder)
 Unzip, rename folder to "arm5e" and copy to systems folder.
 
+## System update
+
+### I updated the system and got a bunch of errors when loading my world. Some actors are now missing!
+
+This is expected if your actors own some "invalid" items.
+A migration should have followed immediately fixing the problems. However, due to a v10 limitation, the actors won't reappear until a refresh.
+If you still have missing actors after the reload, go to bugs channel and we will solve that.
+The important thing to know: no data is lost. Your documents are just put in quarantine until fixed.
+Note: I put invalid in double quotes, because it may simply due to a planned change of the datamodel (eg: a spell could only have one requisite, now it can have any number of them). This is unfortunate but it cannot be helped until V11 (tbc)
+
 ## Compendium content
 
 ### Why are the description of the abilities, virtues, flaws and spells empty?

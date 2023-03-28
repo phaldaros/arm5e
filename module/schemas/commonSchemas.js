@@ -2,6 +2,8 @@ import { ARM5E } from "../config.js";
 
 const fields = foundry.data.fields;
 
+const validators = foundry.data.validators;
+
 export class NullableEmbeddedDataField extends fields.EmbeddedDataField {
   /**
    * @param {typeof DataModel} model          The class of DataModel which should be embedded in this field
@@ -16,6 +18,32 @@ export class NullableEmbeddedDataField extends fields.EmbeddedDataField {
       return super.toObject(value);
     }
     return null;
+  }
+}
+
+export class NullableDocumentIdField extends fields.DocumentIdField {
+  /** @inheritdoc */
+  static get _defaults() {
+    return mergeObject(super._defaults, {
+      required: false,
+      blank: false,
+      nullable: true,
+      initial: null,
+      readonly: true,
+      validationError: "is not a valid Document ID string"
+    });
+  }
+
+  /** @override */
+  _cast(value) {
+    if (value instanceof foundry.abstract.Document) return value._id;
+    else return String(value);
+  }
+
+  /** @override */
+  _validateType(value) {
+    if (!validators.isValidId(value) && value !== null)
+      throw new Error("must be a valid 16-character alphanumeric ID or null");
   }
 }
 

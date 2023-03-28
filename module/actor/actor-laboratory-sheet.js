@@ -208,13 +208,58 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     for (let [key, mod] of Object.entries(context.planning.modifiers)) {
       total += mod;
-      labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus." + key)} (${mod}) &#10`;
+      if (mod != 0) {
+        labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus." + key)} (${mod}) &#10`;
+      }
     }
 
     let effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(
       context.owner.effects,
       context.planning.type
     );
+
+    // lab specialties
+    let labSpec = this.actor.system.specialty[context.planning.data.system.technique.value].bonus;
+
+    if (labSpec != 0) {
+      total += labSpec;
+      labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${
+        CONFIG.ARM5E.magic.arts[context.planning.data.system.technique.value].short
+      } (${labSpec}) &#10`;
+    }
+    labSpec = this.actor.system.specialty[context.planning.data.system.form.value].bonus;
+
+    if (labSpec != 0) {
+      total += labSpec;
+      labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${
+        CONFIG.ARM5E.magic.arts[context.planning.data.system.form.value].short
+      } (${labSpec}) &#10`;
+    }
+
+    switch (context.planning.type) {
+      case "inventSpell":
+        labSpec = this.actor.system.specialty.spells.bonus;
+        if (labSpec != 0) {
+          total += labSpec;
+          labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
+            "arm5e.lab.specialty.spells"
+          )} (${labSpec}) &#10`;
+        }
+        break;
+      case "learnSpell":
+        labSpec = this.actor.system.specialty.texts.bonus;
+        if (labSpec != 0) {
+          total += labSpec;
+          labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
+            "arm5e.lab.specialty.texts"
+          )} (${labSpec}) &#10`;
+        }
+        break;
+        break;
+      default:
+        break;
+    }
+
     let activityBonus = 0;
     for (let e of effects) {
       for (let ch of e.changes) {
@@ -288,10 +333,27 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       case "inventSpell":
         break;
     }
+    let owner = game.actors.get(this.actor.system.owner.actorId);
+    const labLog = [
+      {
+        name: game.i18n.format("arm5e.activity.title.labinuse", {
+          activity: game.i18n.localize(CONFIG.ARM5E.activities.generic[planning.type].label),
+          user: owner.name
+        }),
+        type: "diaryEntry",
+        system: {
+          dates: [{ season: planning.date.season, year: planning.date.year, applied: false }],
+          activity: "none",
+          duration: 1,
+          description: ""
+        }
+      }
+    ];
 
+    let log = await this.actor.createEmbeddedDocuments("Item", labLog, {});
     const entryData = [
       {
-        name: game.i18n.localize(CONFIG.ARM5E.activities.generic[planning.type].label),
+        name: planning.data.name,
         type: "diaryEntry",
         system: {
           cappedGain: false,
@@ -306,12 +368,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           },
           optionKey: "standard",
           duration: 1,
-          description: ""
+          description: `${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
+            planning.labTotal.score
+          }</b> <br/> ${planning.labTotal.label}`,
+          externalIds: [{ actorId: this.actor._id, itemId: log[0]._id }]
         }
       }
     ];
 
-    let owner = game.actors.get(this.actor.system.owner.actorId);
     let entry = await owner.createEmbeddedDocuments("Item", entryData, {});
     await entry[0].sheet._addNewSpell(planning.data);
     entry[0].sheet.render(true);
