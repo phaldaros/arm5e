@@ -1,4 +1,4 @@
-## 2.0.4.21, Kentigern, the magus
+## 2.0.4.22, Kentigern, the magus
 
 ### Features & changes
 
@@ -6,7 +6,8 @@
   - Editable fields are in a darker shade
   - Additional version
 - New active effect to cap the aesthetics of a lab.
-- Updated user guide for books
+- Updated user guide for books and lab activities
+- Updated lab virtues and flaws (by Orneen)
 
 ### Bug fixes
 
