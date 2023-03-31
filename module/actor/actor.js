@@ -51,6 +51,7 @@ export class ArM5ePCActor extends Actor {
       this.system.upkeep.bonus = 0;
       this.system.warping.bonus = 0;
       this.system.aesthetics.bonus = 0;
+      this.system.aesthetics.max = 999;
 
       // create data keys for lab specialty
       this.system.specialty = {};
@@ -975,7 +976,10 @@ export class ArM5ePCActor extends Actor {
     system.refinement.total = system.refinement.value + system.refinement.bonus;
     system.upkeep.total = system.upkeep.value + system.upkeep.bonus;
     system.warping.total = system.warping.value + system.warping.bonus;
-    system.aesthetics.total = system.aesthetics.value + system.aesthetics.bonus;
+    system.aesthetics.total = Math.min(
+      system.aesthetics.value + system.aesthetics.bonus,
+      system.aesthetics.max
+    );
 
     let freeVirtues = system.size.total + system.refinement.total;
     let occupiedSize = Math.max(totalVirtues - totalFlaws, 0) - system.refinement.total;

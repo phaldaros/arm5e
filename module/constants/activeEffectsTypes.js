@@ -1745,7 +1745,7 @@ export default {
   laboratory: {
     category: "laboratory",
     type: "laboratory",
-    label: "arm5e.sheet.activeEffect.types.laboratory",
+    label: "arm5e.sheet.activeEffect.types.laboratoryAttr",
     subtypes: {
       size: {
         label: "arm5e.sheet.size",
@@ -1794,6 +1794,12 @@ export default {
         key: "system.aesthetics.bonus",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 1
+      },
+      aestheticsCap: {
+        label: "arm5e.sheet.aestheticsMax",
+        key: "system.aesthetics.max",
+        mode: CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,
+        default: -1
       }
     }
   }

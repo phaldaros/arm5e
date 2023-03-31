@@ -58,7 +58,11 @@ export const convertToNumber = function(value, fallback = 0) {
       return fallback;
     }
   } else {
-    return value;
+    if (Number.isInteger(value)) {
+      return value;
+    } else {
+      return fallback;
+    }
   }
 };
 

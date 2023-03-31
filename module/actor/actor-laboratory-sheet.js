@@ -88,6 +88,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         context.covenant = game.actors.get(cov[0].id);
         context.edition.aura = "readonly";
       } else {
+        context.classes = { aura: "editable" };
         context.system.covenant.linked = false;
       }
     }
@@ -133,11 +134,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       context.planning.modifiers.apprentice = 0;
     }
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
-    if (context.system.covenant.linked) {
+    if (context.system.covenant.linked && context.planning.modifiers.aura == undefined) {
       context.planning.modifiers.aura = Number(context.covenant.system.levelAura);
       // TODO fix covenant date
     }
-    context.planning.date = game.settings.get("arm5e", "currentDate");
+    if (context.planning.date == undefined)
+      context.planning.date = game.settings.get("arm5e", "currentDate");
 
     switch (context.planning.type) {
       case "inventSpell": {
@@ -213,14 +215,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     }
 
-    let effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(
-      context.owner.effects,
-      context.planning.type
-    );
-
     // lab specialties
     let labSpec = this.actor.system.specialty[context.planning.data.system.technique.value].bonus;
-
+    context.planning.labSpecTotal = labSpec;
     if (labSpec != 0) {
       total += labSpec;
       labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${
@@ -228,7 +225,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       } (${labSpec}) &#10`;
     }
     labSpec = this.actor.system.specialty[context.planning.data.system.form.value].bonus;
-
+    context.planning.labSpecTotal += labSpec;
     if (labSpec != 0) {
       total += labSpec;
       labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${
@@ -239,7 +236,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     switch (context.planning.type) {
       case "inventSpell":
         labSpec = this.actor.system.specialty.spells.bonus;
+
         if (labSpec != 0) {
+          context.planning.labSpecTotal += labSpec;
           total += labSpec;
           labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
             "arm5e.lab.specialty.spells"
@@ -249,6 +248,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       case "learnSpell":
         labSpec = this.actor.system.specialty.texts.bonus;
         if (labSpec != 0) {
+          context.planning.labSpecTotal += labSpec;
           total += labSpec;
           labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
             "arm5e.lab.specialty.texts"
@@ -260,15 +260,22 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         break;
     }
 
-    let activityBonus = 0;
+    let effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(
+      context.owner.effects,
+      context.planning.type
+    );
+
+    context.planning.activityBonus = 0;
     for (let e of effects) {
       for (let ch of e.changes) {
-        activityBonus += Number(ch.value);
+        context.planning.activityBonus += Number(ch.value);
       }
     }
-    if (activityBonus > 0) {
-      total += activityBonus;
-      labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus.activity")} (${activityBonus})&#10`;
+    if (context.planning.activityBonus > 0) {
+      total += context.planning.activityBonus;
+      labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus.activity")} (${
+        context.planning.activityBonus
+      })&#10`;
     }
 
     let deficiencyDivider = 1;

@@ -64,7 +64,7 @@ export class BookSchema extends foundry.abstract.DataModel {
         }),
         {
           required: false,
-          initial: [{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
+          initial: [] //{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
         }
       )
     };
@@ -76,13 +76,21 @@ export class BookSchema extends foundry.abstract.DataModel {
       itemData.system.season = currentDate.season;
       itemData.system.year = Number(currentDate.year);
     } else {
-      itemData.system = { season: currentDate.season, year: Number(currentDate.year) };
+      itemData.system = {
+        season: currentDate.season,
+        year: Number(currentDate.year),
+        topics: [{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
+      };
     }
   }
 
   static migrateData(data) {
     // console.log(`MigrateData book: ${JSON.stringify(data)}`);
+    if (data.topics && data.topics.length !== 0) {
+      return super.migrateData(data);
+    }
     if (data.topic) {
+      console.log(`DEBUG MigrateData monotopic book: ${JSON.stringify(data)}`);
       if (data.quality > 0) {
         data.topic.quality = data.quality;
         data.quality = 0;
@@ -103,14 +111,15 @@ export class BookSchema extends foundry.abstract.DataModel {
         data.topic.type = data.type;
         data.type = "";
       }
-
       if (data.ability != undefined && data.ability != "") {
         data.topic.category = "ability";
         data.ability = "";
       }
+      // data.topics = [];
+      // data.topics.push(data.topic);
     } else if (data.topic === undefined) {
+      console.log(`DEBUG MigrateData monotopic book V9: ${JSON.stringify(data)}`);
       // V9 books
-
       data.topic = {
         quality: data.quality,
         level: data.level,
@@ -118,11 +127,9 @@ export class BookSchema extends foundry.abstract.DataModel {
         art: data.art?.value ?? "an",
         category: "art"
       };
-
       if (data.ability != undefined && data.ability != "") {
         data.topic.category = "ability";
       }
-
       if (data.type?.value !== undefined) {
         if (data.type.value == "summa") {
           data.topic.type = "Summa";
@@ -143,7 +150,8 @@ export class BookSchema extends foundry.abstract.DataModel {
     // console.log(`Migrate book: ${JSON.stringify(itemData)}`);
     const updateData = {};
 
-    if (itemData.system.topic !== null) {
+    if (itemData.system.topic !== null && itemData.system.topics.length === 0) {
+      console.log(`DEBUG Migrate monotopic book 2: ${JSON.stringify(itemData)}`);
       const topic = itemData.system.topic;
       // topic.quality = itemData.system.quality;
       // topic.level = itemData.system.level;
@@ -159,17 +167,12 @@ export class BookSchema extends foundry.abstract.DataModel {
       // topic.spellTech = t.spellTech
       // topic.spellForm = t.spellForm
 
-      if (itemData.system.type == "summa") {
+      if (itemData.system.topic.type == "summa") {
         topic.type = "Summa";
-      } else if (itemData.system.type == "tract") {
+      } else if (itemData.system.topic.type == "tract") {
         topic.type = "Tractatus";
-      } else {
-        if (itemData.system.type === "") {
-          topic.type = "Summa";
-        } else {
-          topic.type = itemData.system.type;
-        }
       }
+
       const topics = [];
       topics.push(topic);
       if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
@@ -208,8 +211,12 @@ export class BookSchema extends foundry.abstract.DataModel {
           }
         }
 
-        if (t.category === "labText" && t.labtext.type === undefined) {
-          topics[idx].labtext.type = "spell";
+        if (t.category === "labText") {
+          if (t.labtext === undefined || t.labtext === null) {
+            topics[idx].labtext = { type: "spell" };
+          } else if (t.labtext.type === undefined) {
+            topics[idx].labtext.type = "spell";
+          }
         }
         idx++;
       }
@@ -221,7 +228,7 @@ export class BookSchema extends foundry.abstract.DataModel {
     if (itemData.system.year == null || itemData.system.year == undefined) {
       updateData["system.year"] = 1220;
     } else if (typeof itemData.system.year === "string") {
-      if (Number.isNaN(itemData.system.year)) {
+      if (!Number.isNumeric(itemData.system.year)) {
         updateData["system.year"] = 1220;
       } else {
         updateData["system.year"] = Number(itemData.system.year);
@@ -230,7 +237,7 @@ export class BookSchema extends foundry.abstract.DataModel {
     if (itemData.system.description == null) {
       updateData["system.description"] = "";
     }
-
+    updateData["system.topic"] = null;
     return updateData;
   }
 }

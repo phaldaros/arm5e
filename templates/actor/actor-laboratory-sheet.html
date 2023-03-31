@@ -57,7 +57,7 @@
           <label class="bold">{{localize "arm5e.sheet.size"}}</label>
           <input type="text" name="system.size.description" value="{{system.size.description}}" data-dtype="String" />
           <input class="flex04" type="text" name="system.size.value"
-            value="{{numberFormat system.size.value decimals=0 sign=true}}" data-dtype="Number" />
+            value="{{numberFormat system.size.total decimals=0 sign=true}}" data-dtype="Number" />
           <span
             class="flex06">{{numberFormat system.size.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
             system.size.total decimals=0}}</span>
@@ -127,8 +127,15 @@
             data-dtype="String" />
           <input class="flex04" type="text" name="system.aesthetics.value"
             value="{{numberFormat system.aesthetics.value decimals=0 sign=true}}" data-dtype="Number" />
-          <span class="flex06">{{numberFormat system.aesthetics.bonus decimals=0
+          <!-- UGLY, but temporary-->
+          {{#if (eq system.aesthetics.max 999)}}
+            <span class="flex06">{{numberFormat system.aesthetics.bonus decimals=0
             sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat system.aesthetics.total decimals=0}}</span>
+          {{else}}
+            <span
+              class="flex06">&NonBreakingSpace;max({{system.aesthetics.max}})&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
+              system.aesthetics.total decimals=0}}</span>
+          {{/if}}
         </div>
       </div>
       <div class="resources grid grid-3col backSection"

@@ -1,5 +1,17 @@
 name: Release Creation
+env:
+  # The URL used for the module's "Project URL" link on FoundryVTT's website.
+  project_url: "https://github.com/${{github.repository}}"
 
+  # A URL that will always point to the latest manifest.
+  # FoundryVTT uses this URL to check whether the current module version that
+  # is installed is the latest version. This URL should NOT change,
+  # otherwise FoundryVTT won't be able to perform this check.
+  latest_manifest_url: "https://github.com/${{github.repository}}/releases/latest/download/system.json"
+
+  # The URL to the module archive associated with the module release being
+  # processed by this workflow.
+  release_module_url: "https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/arm5e.zip"
 on:
   release:
     types: [published]
@@ -24,9 +36,9 @@ jobs:
           files: "system.json"
         env:
           version: ${{steps.get_version.outputs.version-without-v}}
-          url: https://github.com/${{github.repository}}
-          manifest: https://github.com/${{github.repository}}/releases/latest/download/system.json
-          download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/arm5e.zip
+          url: ${{ env.project_url }}
+          manifest: ${{ env.latest_manifest_url }}
+          download: ${{ env.release_module_url }}
 
       # Create a zip file with all files required by the module to add to the release
       - run: zip -r ./arm5e.zip system.json LICENSE.txt README.md ReleaseNotes.md FAQ.md css/ assets/ templates/ lang/ module/ packs/ tours/ template.json
