@@ -1659,6 +1659,9 @@ img.art-icon {
   box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
 }
 
+.arm5e .smallBackSection.editable {
+  background-color: rgb(208 182 130 / 50%);
+}
 .arm5e .smallBackSection {
   background-color: rgb(236 222 187 / 50%);
   /* rgb(226 199 130 / 50%); */

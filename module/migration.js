@@ -576,9 +576,11 @@ export const migrateActorData = async function(actorDoc, actorItems) {
     for (let i of actorDoc.items) {
       // Migrate the Owned Item
       try {
-        if (DEPRECATED_ITEMS.includes(i.type)) {
-          await actorDoc.items.delete(i._id);
-          continue;
+        if (i instanceof CONFIG.Item.documentClass) {
+          if (DEPRECATED_ITEMS.includes(i.type)) {
+            await actorDoc.items.delete(i._id);
+            continue;
+          }
         }
         let itemUpdate = await migrateItemData(i);
         // Update the Owned Item

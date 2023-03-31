@@ -437,6 +437,7 @@
   "arm5e.sheet.improvement": "Improvement",
   "arm5e.sheet.maintenance": "Maintenance",
   "arm5e.sheet.aesthetics": "Aesthetics",
+  "arm5e.sheet.aestheticsMax": "Aesthetics' maximum",
   "arm5e.sheet.magicItems": "Magic Items",
   "arm5e.sheet.specialities": "Specialties",
   "arm5e.sheet.features": "Features",
@@ -714,6 +715,7 @@
   "arm5e.sheet.crucible.invest": "Invest power",
 
   "arm5e.lab.planning.labQuality": "Lab quality",
+  "arm5e.lab.planning.labSpecTotal": "Lab spec.",
   "arm5e.lab.planning.label": "Planning",
   "arm5e.lab.planning.msg.noOwner": "This lab has no owner. Planning is not possible.",
   "arm5e.lab.planning.msg.waste": "Laboratory points unused: {points}.",
@@ -785,7 +787,7 @@
   "arm5e.lab.bonus.generic": "Generic modifier",
   "arm5e.lab.bonus.aura": "Aura",
   "arm5e.lab.bonus.labQuality": "Lab quality",
-  "arm5e.lab.bonus.activity": "Activity bonus",
+  "arm5e.lab.bonus.activity": "Activity mod.",
   "arm5e.lab.bonus.apprentice": "Apprentice",
   "arm5e.lab.bonus.specialties": "Specialties",
 
@@ -952,7 +954,7 @@
   "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity": "Affinity Mysteries abilities (xp)",
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities (xp)",
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesXPBonus": "Bonus to Supernatural abilities XP",
-  "arm5e.sheet.activeEffect.types.laboratory": "Laboratory",
+  "arm5e.sheet.activeEffect.types.laboratoryAttr": "Laboratory's attributes",
   "arm5e.sheet.activeEffect.types.laboratorySpec": "Laboratory's specialty",
   "arm5e.sheet.activeEffect.types.labActivity": "Laboratory activity",
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",

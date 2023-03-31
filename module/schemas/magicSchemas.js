@@ -29,7 +29,7 @@ export const baseLevel = () =>
 const migrateMagicalItem = itemData => {
   const updateData = {};
 
-  if (!Number.isNumeric(itemData.system.baseLevel)) {
+  if (typeof itemData.system.baseLevel != "number") {
     updateData["system.baseLevel"] = convertToNumber(itemData.system.baseLevel, 1);
   } else if (itemData.system.baseLevel < 1) {
     updateData["system.baseLevel"] = 1;
@@ -48,13 +48,6 @@ const migrateMagicalItem = itemData => {
   }
 
   if (itemData.type != "baseEffect") {
-    if (
-      itemData.system.duration.value === undefined ||
-      CONFIG.ARM5E.magic.durations[itemData.system.duration.value] === undefined
-    ) {
-      // console.log(`Guessing duration: ${itemData.system.duration}`);
-      updateData["system.duration.value"] = _guessDuration(itemData.name, itemData.system.duration);
-    }
     if (itemData.type == "laboratoryText") {
       // fixing season key
       if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
@@ -65,19 +58,29 @@ const migrateMagicalItem = itemData => {
         }
       }
     }
-    if (
-      itemData.system.range.value === undefined ||
-      CONFIG.ARM5E.magic.ranges[itemData.system.range.value] === undefined
-    ) {
-      // console.log(`Guessing range: ${itemData.system.range}`);
-      updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range);
+
+    if (itemData.system.duration.value === undefined) {
+      updateData["system.duration.value"] = _guessDuration(itemData.name, itemData.system.duration);
+    } else if (CONFIG.ARM5E.magic.durations[itemData.system.duration.value] === undefined) {
+      // console.log(`Guessing duration: ${itemData.system.duration}`);
+      updateData["system.duration.value"] = _guessDuration(
+        itemData.name,
+        itemData.system.duration.value
+      );
     }
-    if (
-      itemData.system.target.value === undefined ||
-      CONFIG.ARM5E.magic.targets[itemData.system.target.value] === undefined
-    ) {
-      // console.log(`Guessing target: ${itemData.system.target}`);
+
+    if (itemData.system.range.value === undefined) {
+      updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range);
+    } else if (CONFIG.ARM5E.magic.ranges[itemData.system.range.value] === undefined) {
+      // console.log(`Guessing range: ${itemData.system.range}`);
+      updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range.value);
+    }
+
+    if (itemData.system.target.value === undefined) {
       updateData["system.target.value"] = _guessTarget(itemData.name, itemData.system.target);
+    } else if (CONFIG.ARM5E.magic.targets[itemData.system.target.value] === undefined) {
+      // console.log(`Guessing target: ${itemData.system.target}`);
+      updateData["system.target.value"] = _guessTarget(itemData.name, itemData.system.target.value);
     }
 
     if (itemData.system.levelOffset === null) {
@@ -168,14 +171,40 @@ const migrateMagicalItem = itemData => {
         // compute normally
         updateData["system.xp"] = exp + itemData.system.exp;
       }
-      // TODO: to be uncommented when we are sure the new system works
-      // updateData["system.-=mastery"] = null;
+
+      updateData["system.-=mastery"] = null;
       updateData["system.-=exp"] = null;
     }
   }
   if (itemData.system.description == null) {
     updateData["system.description"] = "";
   }
+
+  if (typeof itemData.system.targetSize != "number") {
+    updateData["system.targetSize"] = convertToNumber(itemData.system.targetSize, 0);
+  }
+
+  if (typeof itemData.system.complexity != "number") {
+    updateData["system.complexity"] = convertToNumber(itemData.system.complexity, 0);
+  }
+
+  if (typeof itemData.system.enhancingRequisite != "number") {
+    updateData["system.enhancingRequisite"] = convertToNumber(
+      itemData.system.enhancingRequisite,
+      0
+    );
+  } else if (itemData.system.enhancingRequisite < 0) {
+    updateData["system.enhancingRequisite"] = 0;
+    ChatMessage.create({
+      content:
+        "<b>Migration notice</b><br/>" +
+        `The Item of type: ${itemData.type} named ${itemData.name}` +
+        ` had a negative enhancingRequisite of ${itemData.system.enhancingRequisite}, ` +
+        `please review its new level (original: ${itemData.system.level}) and ` +
+        ` use rather the levelOffset field for general spells<br/>`
+    });
+  }
+
   return updateData;
 };
 
@@ -197,7 +226,7 @@ export class BaseEffectSchema extends foundry.abstract.DataModel {
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
 
-    if (!Number.isNumeric(itemData.system.page)) {
+    if (typeof itemData.system.page != "number") {
       updateData["system.page"] = convertToNumber(itemData.system.page, 0);
     }
     return updateData;
@@ -222,10 +251,10 @@ export class MagicalEffectSchema extends foundry.abstract.DataModel {
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
 
-    if (!Number.isNumeric(itemData.system.page)) {
+    if (typeof itemData.system.page != "number") {
       updateData["system.page"] = convertToNumber(itemData.system.page, 0);
     }
-    if (!Number.isNumeric(itemData.system.complexity)) {
+    if (typeof itemData.system.complexity != "number") {
       updateData["system.complexity"] = convertToNumber(itemData.system.complexity, 0);
     }
 
@@ -274,22 +303,15 @@ export class SpellSchema extends foundry.abstract.DataModel {
 
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
-
-    if (!Number.isNumeric(itemData.system.page)) {
+    if (typeof itemData.system.page != "number") {
       updateData["system.page"] = convertToNumber(itemData.system.page, 0);
     }
 
-    if (!Number.isNumeric(itemData.system.xp)) {
+    if (typeof itemData.system.xp != "number") {
       updateData["system.xp"] = convertToNumber(itemData.system.xp, 0);
     }
 
-    if (!Number.isNumeric(itemData.system.enhancingRequisite)) {
-      updateData["system.enhancingRequisite"] = convertToNumber(
-        itemData.system.enhancingRequisite,
-        0
-      );
-    }
-    if (!Number.isNumeric(itemData.system.complexity)) {
+    if (typeof itemData.system.complexity != "number") {
       updateData["system.complexity"] = convertToNumber(itemData.system.complexity, 0);
     }
     // else if (itemData.system.complexity < 0) {
@@ -304,7 +326,7 @@ export class SpellSchema extends foundry.abstract.DataModel {
     //   });
     // }
 
-    if (!Number.isNumeric(itemData.system.bonus)) {
+    if (typeof itemData.system.bonus != "number") {
       updateData["system.bonus"] = convertToNumber(itemData.system.bonus, 0);
     }
 
@@ -369,7 +391,7 @@ export class LabTextSchema extends foundry.abstract.DataModel {
     if (itemData.system.year == null) {
       updateData["system.year"] = 1220;
     }
-    if (!Number.isNumeric(itemData.system.complexity)) {
+    if (typeof itemData.system.complexity != "number") {
       updateData["system.complexity"] = convertToNumber(itemData.system.complexity, 0);
     }
     return updateData;

@@ -1,7 +1,7 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
-import { convertToInteger, itemBase } from "./commonSchemas.js";
+import { convertToInteger, convertToNumber, itemBase } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 export class VirtueFlawSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
@@ -45,7 +45,12 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
 
   static migrate(itemData) {
     const updateData = {};
-    if (itemData.system.type.value !== undefined) {
+    if (typeof itemData.system.page !== "number") {
+      updateData["system.page"] = convertToNumber(itemData.system.page, 0);
+    }
+    if (itemData.system.type === "") {
+      updateData["system.type"] = "general";
+    } else if (itemData.system.type.value !== undefined) {
       updateData["system.type"] = itemData.system.type.value;
     }
     if (itemData.system.description == null) {

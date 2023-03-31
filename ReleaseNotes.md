@@ -1,3 +1,26 @@
+## 2.0.4.21, Kentigern, the magus
+
+### Features & changes
+
+- Improved planning tab in lab sheet
+  - Editable fields are in a darker shade
+  - Additional version
+- New active effect to cap the aesthetics of a lab.
+- Updated user guide for books
+
+### Bug fixes
+
+- Migration bugs (mostly from documents created in very old versions)
+  - Spells with attributes from very old version are now migrated properly
+  - Negative enhancingRequisite field is put back to 0 with a migration message for tracking
+  - Virtues and flaws without a category are now migrated properly (default to "General")
+  - Books with a lab text topic but no lab text are no longer raising an error.
+  - Improved conversion of string to number
+- Lab planning:
+  - Year and season are again editable
+  - Aura is editable if no covenant is linked
+- Fix to the migration of mono-topic books to multitopics books
+
 ## 2.0.4.19, Kentigern, the apprentice
 
 ### Features & changes

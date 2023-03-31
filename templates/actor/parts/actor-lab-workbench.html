@@ -6,10 +6,13 @@
         name="int" attributes="readonly" value=owner.system.characteristics.int.value type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.skill.arcane.magicTheory" 
         name="magicTheory" attributes="readonly" value=owner.magicTheory.score type="number" dtype="Number"}}
-        {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.planning.labQuality" 
-        name="quality" attributes="readonly" value=system.generalQuality.total type="number" dtype="Number"}}
+        {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.bonus.activity" 
+        name="activityBonus" attributes="readonly" value=planning.activityBonus type="number" dtype="Number"}}
+        {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.bonus.apprentice" 
+        name="apprentice" attributes="readonly" value=planning.modifiers.apprentice type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.modifier" 
-        name="flags.arm5e.planning.modifiers.generic" attributes="" value=planning.modifiers.generic type="number" dtype="Number"}}
+        name="flags.arm5e.planning.modifiers.generic" attributes="" classes="editable" value=planning.modifiers.generic type="number" dtype="Number"}}
+
     </div>
     <div class="flexcol">
         <div class="flexrow flex01" style="margin-bottom: 5px; ;">
@@ -74,8 +77,7 @@
         </div>
     </div>
     <div class="flexcol flex02">
-        <div class="resource flex-group-center backSection" style="margin-right: 10px;
-        margin-bottom: 5px; max-height: 60px;">
+        <div class="resource flex-group-center smallBackSection editable" style="max-height: 60px;">
             <label for="system.datetime.season" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
             <div class="resource-content flexrow flex-center flex-between margintop6">
                 <select name="flags.arm5e.planning.date.season" data-type="String" style="width: 100%">
@@ -86,9 +88,13 @@
             </div>
         </div>
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.year" 
-        name="flags.arm5e.planning.date.year" attributes="" value=planning.date.year type="number" dtype="Number"}}
+        name="flags.arm5e.planning.date.year" attributes="" classes="editable" value=planning.date.year type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.aura" 
-        name="flags.arm5e.planning.modifiers.aura" attributes=edition.aura value=planning.modifiers.aura type="number" dtype="Number"}}
+        name="flags.arm5e.planning.modifiers.aura" classes=classes.aura attributes=edition.aura value=planning.modifiers.aura type="number" dtype="Number"}}
+        {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.planning.labQuality" 
+        name="quality" attributes="readonly" value=system.generalQuality.total type="number" dtype="Number"}}
+        {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.bonus.specialties" 
+        name="specialty" attributes="readonly" value=planning.labSpecTotal type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.duration" 
         name="duration" attributes="readonly" value=planning.duration type="number" dtype="Number"}}
     </div>
