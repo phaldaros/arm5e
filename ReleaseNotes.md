@@ -1,3 +1,15 @@
+## 2.0.5.0, Lexora, the apprentice
+
+### Features & changes
+
+- New diary lab activity type (used in labs for tracking for now, but later for lab improvement activities)
+- New Vis extraction lab activity
+
+### Bug fixes
+
+- Limited the width of spell attributes field to prevent layout problem in translations
+- Added missing mnemonics for some hardcoded text in lab planning.
+
 ## 2.0.4.22, Kentigern, the magus
 
 ### Features & changes

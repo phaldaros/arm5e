@@ -5,7 +5,7 @@ import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 import { ArM5eItem } from "../item/item.js";
-import { log } from "../tools.js";
+import { getDataset, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { ArM5eItemDiarySheet } from "../item/item-diary-sheet.js";
 /**
@@ -52,22 +52,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
     if (context.planning === undefined) {
-      let newSpell = await Item.create(
-        {
-          name: "New spell",
-          type: "spell"
-          // system:
-        },
-        { temporary: true }
-      );
-      context.planning = {
-        type: "inventSpell",
-        data: newSpell.toObject(),
-        visibility: { desc: "hide", attr: "hide", options: "hide" },
-        modifiers: { generic: 0 },
-        magicThSpecApply: false
-      };
-      await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", context.planning);
+      await this._resetPlanning("inventSpell");
+      context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
     }
 
     context.edition = context.config.activities.lab[context.planning.type].edition;
@@ -120,13 +106,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     }
 
-    // tmp TODO remove
-    if (context.planning.modifiers == undefined) {
-      context.planning.modifiers = {};
-    }
-    if (context.planning.modifiers.generic == undefined) {
-      context.planning.modifiers.generic = 0;
-    }
+    // // tmp TODO remove
+    // if (context.planning.modifiers == undefined) {
+    //   context.planning.modifiers = {};
+    // }
+    // if (context.planning.modifiers.generic == undefined) {
+    //   context.planning.modifiers.generic = 0;
+    // }
     if (context.owner.system.apprentice?.magicTheory ?? 0 > 0) {
       context.planning.modifiers.apprentice =
         (context.owner.system.apprentice?.int ?? 0) + context.owner.system.apprentice?.magicTheory;
@@ -140,10 +126,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     }
     if (context.planning.date == undefined)
       context.planning.date = game.settings.get("arm5e", "currentDate");
+    else if (context.planning.date.year == null) {
+      context.planning.date.year = game.settings.get("arm5e", "currentDate").year;
+    }
+
+    context.planning.display = context.config.activities.lab[context.planning.type].display;
 
     switch (context.planning.type) {
-      case "inventSpell": {
-      }
+      case "inventSpell":
       case "learnSpell":
         {
           let labTot = this._computeLabTotal(context);
@@ -153,6 +143,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             context.planning.type
           );
           context.planning.label = ArM5eItem.GetEffectAttributesLabel(context.planning.data);
+          context.planning.labTotal = { score: labTot.score, label: labTot.label };
+        }
+        break;
+      case "visExtraction":
+        {
+          context.planning.data.system.technique.value = "cr";
+          context.planning.data.system.form.value = "vi";
+          let labTot = this._computeLabTotal(context);
           context.planning.labTotal = { score: labTot.score, label: labTot.label };
         }
         break;
@@ -174,9 +172,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     } else {
       context.edition.schedule = "";
-      context.planning.message = game.i18n.format("arm5e.lab.planning.msg.waste", {
-        points: result.waste
-      });
+      context.planning.message = `${result.message}&#10${game.i18n.format(
+        "arm5e.lab.planning.msg.waste",
+        {
+          points: result.waste
+        }
+      )}`;
     }
     context.planning.duration = result.duration;
 
@@ -255,6 +256,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           )} (${labSpec}) &#10`;
         }
         break;
+      case "visExtraction":
+        labSpec = this.actor.system.specialty.visExtraction.bonus;
+        if (labSpec != 0) {
+          context.planning.labSpecTotal += labSpec;
+          total += labSpec;
+          labTot.label += `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
+            "arm5e.lab.specialty.visExtraction"
+          )} (${labSpec}) &#10`;
+        }
         break;
       default:
         break;
@@ -313,7 +323,11 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     });
 
-    html.find(".reset-planning").click(async () => this._resetPlanning());
+    html.find(".lab-activity").change(async event => this._changeActivity(this.actor, event));
+    html.find(".reset-planning").click(async () => {
+      this._resetPlanning();
+      this.render();
+    });
     html.find(".refresh").click(this._refreshValues.bind(this));
     html.find(".schedule").click(async () => this._schedule());
     html.find(".moreinfo").click(async ev => {
@@ -321,10 +335,53 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       game.actors.get(actorId).sheet.render(true);
     });
   }
+  async _changeActivity(item, event) {
+    event.preventDefault();
+    const activity = getDataset(event).activity;
+    let chosenActivity = $(".lab-activity").find("option:selected")[0].value;
 
-  async _resetPlanning() {
-    await this.actor.unsetFlag(ARM5E.SYSTEM_ID, "planning");
-    this.render();
+    switch (activity) {
+      case "inventSpell":
+      case "learnSpell":
+        switch (chosenActivity) {
+          case "inventSpell":
+          case "learnSpell":
+            break;
+          default:
+            await this._resetPlanning(chosenActivity);
+            break;
+        }
+        break;
+      case "visExtraction":
+        switch (chosenActivity) {
+          case "inventSpell":
+          case "learnSpell":
+            await this._resetPlanning(chosenActivity);
+            break;
+          default:
+            break;
+        }
+        break;
+    }
+  }
+
+  async _resetPlanning(activity) {
+    let newSpell = await Item.create(
+      {
+        name: "New spell",
+        type: "spell"
+        // system:
+      },
+      { temporary: true }
+    );
+    let planning = {
+      type: activity,
+      data: newSpell.toObject(),
+      visibility: { desc: "hide", attr: "hide", options: "hide" },
+      modifiers: { generic: 0 },
+      magicThSpecApply: false
+    };
+    await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
   }
 
   _refreshValues() {
@@ -332,40 +389,61 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   }
 
   async _schedule() {
-    // TODO remove hardcoded values
     let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
-    let spellLevel = computeLevel(planning.data.system, planning.type);
-    let name = "";
-    switch (planning.type) {
-      case "inventSpell":
-        break;
-    }
+
     let owner = game.actors.get(this.actor.system.owner.actorId);
     const labLog = [
       {
         name: game.i18n.format("arm5e.activity.title.labinuse", {
-          activity: game.i18n.localize(CONFIG.ARM5E.activities.generic[planning.type].label),
+          activity: game.i18n.localize(CONFIG.ARM5E.activities.lab[planning.type].label),
           user: owner.name
         }),
         type: "diaryEntry",
         system: {
-          dates: [{ season: planning.date.season, year: planning.date.year, applied: false }],
-          activity: "none",
+          dates: [{ season: planning.date.season, year: planning.date.year, applied: true }],
+          activity: "lab",
           duration: 1,
           description: ""
         }
       }
     ];
-
     let log = await this.actor.createEmbeddedDocuments("Item", labLog, {});
+    let externalIds = [{ actorId: this.actor._id, itemId: log[0]._id }];
+    let sourceQuality = 0;
+    let applied = false;
+    switch (planning.type) {
+      case "inventSpell":
+      case "learnSpell":
+        sourceQuality = computeLevel(planning.data.system, planning.type);
+        break;
+      case "visExtraction":
+        applied = true;
+        const visEntry = [
+          {
+            name: "Vim vis",
+            type: "vis",
+            system: {
+              art: "vi",
+              pawns: Math.floor(planning.labTotal.score / 10),
+              description: game.i18n.format("arm5e.lab.planning.msg.visExtracted2", {
+                covenant: owner.system.covenant.value
+              })
+            }
+          }
+        ];
+        let vis = await owner.createEmbeddedDocuments("Item", visEntry, {});
+        externalIds.push({ actorId: owner._id, itemId: vis[0]._id });
+        break;
+    }
+
     const entryData = [
       {
-        name: planning.data.name,
+        name: game.i18n.localize(CONFIG.ARM5E.activities.lab[planning.type].label),
         type: "diaryEntry",
         system: {
           cappedGain: false,
-          dates: [{ season: planning.date.season, year: planning.date.year, applied: false }],
-          sourceQuality: spellLevel,
+          dates: [{ season: planning.date.season, year: planning.date.year, applied: applied }],
+          sourceQuality: sourceQuality,
           activity: planning.type,
           progress: {
             abilities: [],
@@ -378,13 +456,20 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           description: `${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
             planning.labTotal.score
           }</b> <br/> ${planning.labTotal.label}`,
-          externalIds: [{ actorId: this.actor._id, itemId: log[0]._id }]
+          externalIds: externalIds
         }
       }
     ];
 
     let entry = await owner.createEmbeddedDocuments("Item", entryData, {});
-    await entry[0].sheet._addNewSpell(planning.data);
+    switch (planning.type) {
+      case "inventSpell":
+      case "learnSpell":
+        await entry[0].sheet._addNewSpell(planning.data);
+        break;
+      default:
+        break;
+    }
     entry[0].sheet.render(true);
   }
 

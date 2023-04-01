@@ -7,7 +7,6 @@ export class AbilitySchema extends foundry.abstract.DataModel {
   static _enableV10Validation = true;
 
   static defineSchema() {
-    const base = itemBase();
     return {
       ...itemBase(),
       defaultChaAb: new fields.StringField({ required: false, blank: false, initial: "int" }),

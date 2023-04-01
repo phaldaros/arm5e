@@ -41,7 +41,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
 
   /** @override */
   get template() {
-    if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER)) {
+    if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
       return `systems/arm5e/templates/actor/actor-npc-sheet.html`;
     }
     return `systems/arm5e/templates/actor/actor-limited-sheet.html`;
