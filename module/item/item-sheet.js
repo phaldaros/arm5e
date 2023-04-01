@@ -43,7 +43,7 @@ export class ArM5eItemSheet extends ItemSheet {
         break;
     }
 
-    if (this.item.testUserPermission(game.user, CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER)) {
+    if (this.item.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
       return `${path}/item-${this.item.type}-sheet.html`;
     }
     return `${path}/item-limited-sheet.html`;

@@ -151,6 +151,7 @@
         "spells": [],
         "magicalEffects": [],
         "laboratoryTexts": [],
+        "reputations": [],
         "decrepitude": {
           "points": 0,
           "effects": "Decrepitude effects"

@@ -97,7 +97,7 @@ export class ArM5eItem extends Item {
       if (systemData.optionKey == undefined) {
         systemData.optionKey = "standard";
       }
-      if (this.actor !== null && this.actor._isCharacter()) {
+      if (this.actor !== null) {
         const activityConfig = CONFIG.ARM5E.activities.generic[systemData.activity];
 
         this.system.done = systemData.dates.filter(d => d.applied == true).length;

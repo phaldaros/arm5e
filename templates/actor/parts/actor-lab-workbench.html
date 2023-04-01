@@ -18,7 +18,8 @@
         <div class="flexrow flex01" style="margin-bottom: 5px; ;">
             <label class="header-label flex01"
                 style="padding-right: 5px;">{{localize "arm5e.activity.activity"}}</label>
-            <select class="lab-activity flex01" name="flags.arm5e.planning.type" data-type="String">
+            <select class="lab-activity flex01" name="flags.arm5e.planning.type" data-dtype="String"
+                data-activity="{{planning.type}}">
                 {{#select flags.arm5e.planning.type}}
                     {{#each config.activities.lab as |activity key|}}
                         <option value="{{key}}" {{activity.enabled}}>{{localize activity.label}}</option>
@@ -26,14 +27,16 @@
                 {{/select}}
             </select>
         </div>
-        <h1 class="charname flexrow flex01" style="font-size: 12pt;">
-            <input name="{{namePrefix}}.name" title="{{planning.data.name}}" type="text" value="{{planning.data.name}}"
-                placeholder="Name" />
-        </h1>
-        <label class="resource flex01 padd">{{planning.label}}</label>
-        {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-        {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" prefix=namePrefix spelldata=planning.data }}
+        {{#if planning.display.spellDesign}}
+            <h1 class="charname flexrow flex01" style="font-size: 12pt;">
+                <input name="{{namePrefix}}.name" title="{{planning.data.name}}" type="text"
+                    value="{{planning.data.name}}" placeholder="Name" />
+            </h1>
+            <label class="resource flex01 padd">{{planning.label}}</label>
+            {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
 
+            {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" prefix=namePrefix spelldata=planning.data }}
+        {{/if}}
         <div class="flexrow flex01">
             <div class="flexcol flex02" style="margin-top: 10px;">
                 <label class="planning-item header-label clickable flex0 " data-item="planning-options"
@@ -52,7 +55,7 @@
         </div>
         <div class="resource flex-group-center backSection" style="margin-right: 10px;
         margin-bottom: 5px; max-height: 160px;">
-            <label class="resource flex01 padd"><u>{{localize "arm5e.generic.info"}}</u></label>
+            <label class="resource flex01"><u>{{localize "arm5e.generic.info"}}</u></label>
             <div class="flexcol flex01">
                 <div class="flexrow flex01">
                     <div class="lab-total backSection flex-group-center ">
@@ -63,14 +66,16 @@
                                 readonly style="font-size: 14pt;" />
                         </div>
                     </div>
-                    <div>
+                    <div class="backSection" style="margin-top: 10px;">
                         <label class="resource">{{{planning.message}}}<br /></label>
                     </div>
                     <div class="flex-group-right flexcol flex0">
                         <button class="arm5e flex0 schedule" {{edition.schedule}}
-                            style="font-family: bookAntiquaBold">Schedule</button>
-                        <button class="arm5e flex0 refresh" style="font-family: bookAntiquaBold">Refresh</button>
-                        <button class="arm5e flex0 reset-planning" style="font-family: bookAntiquaBold">Reset</button>
+                            style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.schedule"}}</button>
+                        <button class="arm5e flex0 refresh"
+                            style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.refresh"}}</button>
+                        <button class="arm5e flex0 reset-planning"
+                            style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.reset"}}</button>
                     </div>
                 </div>
             </div>

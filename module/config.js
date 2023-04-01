@@ -1,4 +1,9 @@
 import {
+  validateExtraction,
+  validateInvention,
+  validateLearning
+} from "./helpers/lab-activities.js";
+import {
   validAdventuring,
   validExposure,
   validPractice,
@@ -6,9 +11,7 @@ import {
   validTeaching,
   validChildhood,
   validTotalXp,
-  validReading,
-  validateInvention,
-  validateLearning
+  validReading
 } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
@@ -401,6 +404,12 @@ ARM5E.character.magicAbilities = {
   parma: "arm5e.skill.arcane.parma",
   philosophy: "arm5e.skill.academic.philosophy",
   penetration: "arm5e.skill.arcane.penetration"
+};
+
+ARM5E.reputations = {
+  local: { label: "arm5e.sheet.reputationType.local" },
+  ecclesiastic: { label: "arm5e.sheet.reputationType.ecclesiastic" },
+  hermetic: { label: "arm5e.sheet.reputationType.hermetic" }
 };
 
 ARM5E.ABILITIES_CATEGORIES = {
@@ -2271,6 +2280,32 @@ ARM5E.activities.generic = {
     validation: null,
     secondaryFilter: null
   },
+  visExtraction: {
+    label: "arm5e.lab.activity.visExtraction",
+    display: {
+      tab: true,
+      progress: true,
+      abilities: false,
+      arts: false,
+      masteries: false,
+      spells: false,
+      choosable: "disabled"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null
+  },
+  lab: {
+    label: "arm5e.sheet.laboratory",
+    display: { tab: false, progress: false },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null
+  },
   aging: {
     label: "arm5e.activity.aging",
     display: {
@@ -2326,6 +2361,9 @@ ARM5E.activities.lab = {
       spellCombobox: "",
       spellDesc: true
     },
+    display: {
+      spellDesign: true
+    },
     validation: validateInvention
   },
   learnSpell: {
@@ -2337,17 +2375,24 @@ ARM5E.activities.lab = {
       spellCombobox: "disabled",
       spellDesc: false
     },
+    display: {
+      spellDesign: true
+    },
     validation: validateLearning
   },
   visExtraction: {
     label: "arm5e.lab.activity.visExtraction",
-    enabled: "disabled",
+    enabled: "",
     edition: {
       aura: "",
       spellField: "readonly",
       spellCombobox: "disabled",
       spellDesc: false
-    }
+    },
+    display: {
+      spellDesign: false
+    },
+    validation: validateExtraction
   },
   openEnchantment: {
     label: "arm5e.lab.activity.openEnchantment",

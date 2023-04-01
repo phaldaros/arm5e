@@ -1101,6 +1101,9 @@ input[type="time"] {
   text-decoration: overline;
 }
 
+.arm5e .spell-attribute {
+  max-width: 165px;
+}
 .arm5eRoll .ability-key,
 .arm5e .ability-key {
   max-width: 250px;

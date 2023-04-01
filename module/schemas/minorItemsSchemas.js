@@ -1,8 +1,11 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
-import { convertToInteger, convertToNumber, itemBase } from "./commonSchemas.js";
+import { boolOption, convertToInteger, convertToNumber, itemBase } from "./commonSchemas.js";
 const fields = foundry.data.fields;
+
+export const possibleReputationTypes = Object.keys(ARM5E.reputations);
+
 export class VirtueFlawSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
@@ -80,7 +83,8 @@ export class ItemSchema extends foundry.abstract.DataModel {
         nullable: false,
         min: 0,
         initial: 0
-      })
+      }),
+      carried: boolOption(false, true)
     };
   }
 
@@ -151,6 +155,45 @@ export class VisSchema extends foundry.abstract.DataModel {
   }
 }
 
+export class ReputationSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
+  static defineSchema() {
+    return {
+      ...itemBase(),
+      xp: XpField(),
+      type: new fields.StringField({
+        required: false,
+        blank: false,
+        initial: "local",
+        choices: possibleReputationTypes
+      })
+    };
+  }
+
+  static migrate(data) {
+    return {};
+  }
+}
+
+export class PersonalityTraitSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
+  static defineSchema() {
+    return {
+      ...itemBase(),
+      xp: XpField(),
+      negative: boolOption(false, false)
+    };
+  }
+
+  static migrate(data) {
+    return {};
+  }
+}
+
 export class MySchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
@@ -160,6 +203,6 @@ export class MySchema extends foundry.abstract.DataModel {
   }
 
   static migrate(data) {
-    return data;
+    return {};
   }
 }
