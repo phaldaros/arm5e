@@ -221,7 +221,9 @@ export class BaseEffectSchema extends foundry.abstract.DataModel {
     };
   }
 
-  static migrateData(data) {}
+  static migrateData(data) {
+    return data;
+  }
 
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
@@ -299,6 +301,7 @@ export class SpellSchema extends foundry.abstract.DataModel {
     // if (!Number.isNumeric(data.complexity)) {
     //   data.complexity = 0;
     // }
+    return data;
   }
 
   static migrate(itemData) {

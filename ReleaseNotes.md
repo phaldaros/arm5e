@@ -4,11 +4,32 @@
 
 - New diary lab activity type (used in labs for tracking for now, but later for lab improvement activities)
 - New Vis extraction lab activity
+- Reputations are now Items
+- Warping on botch with magic
 
 ### Bug fixes
 
 - Limited the width of spell attributes field to prevent layout problem in translations
 - Added missing mnemonics for some hardcoded text in lab planning.
+
+### V10 migration (on going)
+
+- Data models activated
+
+  - Abilities
+  - Books
+  - Virtues & Flaws
+  - Mundane items
+  - Vis
+  - Base effects
+  - Spontaneous effets
+  - Spells
+  - Laboratory Texts
+  - Magical effects
+  - Diary entry
+  - Laboratory
+  - Reputation
+  - Personality trait
 
 ## 2.0.4.22, Kentigern, the magus
 

@@ -242,9 +242,13 @@ async function chatFailedCasting(actorCaster, roll, message, fatigue) {
   if (fatigue > 0) {
     lostFatigue = `<br/>${game.i18n.format("arm5e.messages.fatigueLost", { num: fatigue })} `;
   }
+  let warping = "";
+  if (roll.botches > 0) {
+    warping = `<br/>${game.i18n.format("arm5e.messages.die.warpGain", { num: roll.botches })} `;
+  }
   const showDataOfNPC = game.settings.get("arm5e", "showNPCMagicDetails") === "SHOW_ALL";
   let flavorForPlayers = `${title}`;
-  let extendedMsg = ` ${messageTotalOfSpell} ${messageLevelOfSpell} ${castingTotal}${lostFatigue}`;
+  let extendedMsg = ` ${messageTotalOfSpell} ${messageLevelOfSpell} ${castingTotal}${lostFatigue}${warping}`;
   let flavorForGM = flavorForPlayers + extendedMsg;
   if (showDataOfNPC) {
     flavorForPlayers = flavorForGM;

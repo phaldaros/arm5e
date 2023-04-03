@@ -19,8 +19,9 @@
       data-item-id="{{item._id}}">
       <div class="flexrow flex-center">
         <span class="flexrow item-title width3">{{item.name}}</span>
-        <span></span>
-        <span class="flexrow bold">{{localize "arm5e.sheet.points"}}: {{item.system.points}} </span>
+        <span class="flexrow">{{localize "arm5e.sheet.type"}}:
+          {{localize (lookup (lookup ../config.reputations item.system.type) "label")}} </span>
+        <span class="flexrow bold">{{localize "arm5e.sheet.score"}}: {{item.system.score}} </span>
       </div>
       <div class="item-controls">
         <a class="item-control item-edit" title="Edit reputation"><i class="icon-Icon_Edit"></i></a>

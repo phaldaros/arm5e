@@ -1,3 +1,4 @@
+import { ArM5ePCActor } from "./actor/actor.js";
 import { log } from "./tools.js";
 
 const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
@@ -39,7 +40,7 @@ export async function migration(originalVersion) {
     }
   }
   if (actorsUpdates.length > 0) {
-    await Actor.updateDocuments(actorsUpdates, { diff: true });
+    await Actor.updateDocuments(actorsUpdates, { diff: false });
   }
 
   // Migrate Invalid actors
@@ -346,6 +347,8 @@ export const migrateActorData = async function(actorDoc, actorItems) {
       updateData["system.-=season"] = null;
     }
 
+    // if (actor.system.)
+
     // if (actor.system?.roll != undefined) {
     //   updateData["system.-=roll"] = null;
     // }
@@ -378,6 +381,28 @@ export const migrateActorData = async function(actorDoc, actorItems) {
           `This is a one time notification that <b>the character ${actor.name} had ${actor.system.pendingXP} xps pending.</b>`
       });
       updateData["system.-=pendingXP"] = null;
+    }
+
+    for (let rep of Object.values(actor.system.reputation)) {
+      if (rep.label === "") continue;
+
+      let reputationData = {
+        name: rep.label,
+        type: "reputation",
+        system: {
+          xp: ((rep.score * (rep.score + 1)) / 2) * 5,
+          type: "local",
+          description: `Migration: type = ${rep.type}`
+        }
+      };
+      if (actorDoc instanceof ArM5ePCActor) {
+        await actorDoc.createEmbeddedDocuments("Item", [reputationData]);
+      } else {
+        actorDoc.items.push(reputation);
+      }
+    }
+    if (actor.system.reputation) {
+      updateData["system.-=reputation"] = null;
     }
   } else {
     if (actor.system.roll) {

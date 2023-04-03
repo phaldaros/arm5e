@@ -61,6 +61,11 @@ export class ArM5eItem extends Item {
         this.system.experienceNextLevel =
           ((parseInt(this.system.mastery) + 1) * (parseInt(this.system.mastery) + 2) * 5) / 2;
       }
+
+      // compute reputation score
+      if (this.type == "reputation") {
+        this.system.score = ArM5ePCActor.getAbilityScoreFromXp(this.system.xp);
+      }
     }
 
     if (this._needLevelComputation()) {

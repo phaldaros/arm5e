@@ -168,20 +168,22 @@
     <div class="flexcol flex-group-left padding12 backSection margintop18">
       <label class="smallTitle" style="width: 100%">{{localize "arm5e.sheet.reputation"}}</label>
       <ol style="width: 100%">
-        {{#each system.reputation as |rep key|}}
+        {{log "reputations:" system.reputations}}
+        {{#each system.reputations as |rep key|}}
+          {{log "key:" key " -> val: " rep}}
           <li class="flexrow flex-group-left" data-attribute="{{key}}">
-            <span class="flex02 rollable" style="margin-right: 12px" data-name="{{ rep.label }}" data-roll="option"
-              data-physicalcondition="false" data-option1="{{ rep.score }}" data-txtoption1="{{ rep.label }}">
+            <span class="flex02 rollable" style="margin-right: 12px" data-name="{{ rep.name }}" data-roll="option"
+              data-physicalcondition="false" data-option1="{{ rep.score }}" data-txtoption1="{{ rep.name }}">
               <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px" />
             </span>
-            <span class="flexrow" name="system.reputation.{{key}}.label">
+            <span class="flexrow">
               <div class="flexrow">
-                <input type="text" name="system.reputation.{{key}}.label" value="{{rep.label}}" data-dtype="String" />
+                <input type="text" name="system.reputations.{{key}}.label" value="{{rep.name}}" data-dtype="String" />
               </div>
             </span>
             <div class="flexrow">
               <span></span>
-              <input type="text" name="system.reputation.{{key}}.type" value="{{rep.type}}" data-dtype="String" />
+              <input type="text" name="system.reputations.{{key}}.type" value="{{rep.type}}" data-dtype="String" />
             </div>
             <div class="flexrow">
               <span></span>

@@ -95,17 +95,21 @@ async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefine
     flavorTxt = `<h2 class="dice-msg">${game.i18n.localize(
       "arm5e.messages.die.exploding"
     )}</h3><br/>`;
-  } else if (mult === 0 && dieRoll.botched) {
-    if (dieRoll._total == 1) {
+  } else if (mult === 0) {
+    if (dieRoll.botches === 0) {
+      flavorTxt = `<h2 class="dice-msg">${game.i18n.localize(
+        "arm5e.messages.die.noBotch"
+      )}</h2><br/>`;
+    } else if (dieRoll._total == 1) {
       confAllowed = false;
       flavorTxt = `<h2 class="dice-msg">${game.i18n.localize(
         "arm5e.messages.die.botch"
-      )}</h2><br/>`;
+      )}</h2><br/>${game.i18n.format("arm5e.messages.die.warpGain", { num: dieRoll.botches })} `;
     } else if (dieRoll._total > 1) {
       confAllowed = false;
       flavorTxt = `<h2 class="dice-msg">${game.i18n.format("arm5e.messages.die.botches", {
         num: dieRoll._total
-      })}</h2><br/>`; // TODO: mention what is botched
+      })}</h2><br/>${game.i18n.format("arm5e.messages.die.warpGain", { num: dieRoll.botches })} `; // TODO: mention what is botched
     }
     dieRoll._total = 0;
     botchCheck = 1;
@@ -645,14 +649,15 @@ async function explodingRoll(actorData, modes = 0, botchNum = 0) {
       } else {
         botchRoll = await CheckBotch(botchNum);
       }
-      if (botchRoll.terms[0].total > 0) {
+      let botches = botchRoll.terms[0].total;
+      if (botches > 0) {
         dieRoll = botchRoll;
-        dieRoll.botched = true;
       } else {
         // with no botches, the die result is 0 instead of 10.
         dieRoll.dice[0].results[0].result = 0;
         dieRoll._total -= 10;
       }
+      dieRoll.botches = botches;
     }
   }
 

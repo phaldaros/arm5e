@@ -986,33 +986,6 @@
         "score": 0,
         "points": 0
       },
-      "reputation": {
-        "rep1": {
-          "label": "",
-          "type": "",
-          "score": "0"
-        },
-        "rep2": {
-          "label": "",
-          "type": "",
-          "score": "0"
-        },
-        "rep3": {
-          "label": "",
-          "type": "",
-          "score": "0"
-        },
-        "rep4": {
-          "label": "",
-          "type": "",
-          "score": "0"
-        },
-        "rep5": {
-          "label": "",
-          "type": "",
-          "score": "0"
-        }
-      },
       "abilities": [],
       "weapons": [],
       "powers": []
@@ -1329,8 +1302,7 @@
     },
     "reputation": {
       "templates": ["base"],
-      "points": "0",
-      "notes": ""
+      "xp": "0"
     },
     "habitantMagi": {
       "templates": ["base", "habitant"],
@@ -1393,12 +1365,8 @@
       "quality": 1
     },
     "personalityTrait": {
+      "templates": ["base"],
       "score": 0,
-      "xp": 0
-    },
-    "reputationChar": {
-      "score": 0,
-      "type": "",
       "xp": 0
     }
   }
