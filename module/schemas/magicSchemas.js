@@ -58,7 +58,17 @@ const migrateMagicalItem = itemData => {
         }
       }
     }
-
+    if (itemData.type !== "magicalEffect") {
+      if (itemData.system.ritual == undefined) {
+        updateData["system.ritual"] = false;
+      } else if (typeof itemData.system.ritual != "boolean") {
+        if (itemData.system.ritual === "true") {
+          updateData["system.ritual"] = true;
+        } else {
+          updateData["system.ritual"] = false;
+        }
+      }
+    }
     if (itemData.system.duration.value === undefined) {
       updateData["system.duration.value"] = _guessDuration(itemData.name, itemData.system.duration);
     } else if (CONFIG.ARM5E.magic.durations[itemData.system.duration.value] === undefined) {
