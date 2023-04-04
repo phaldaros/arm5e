@@ -410,7 +410,7 @@ function registerAbilityScoresTesting(quench) {
         describe("Increase score", function() {
           for (const score of Array(30).keys()) {
             it(`Increase score to ${score + 1}`, async function() {
-              await item.sheet._increaseScore(item);
+              await item.system._increaseScore();
               assert.equal(item.system.finalScore, score + 1, "Final score");
               assert.equal(item.system.xpNextLevel, 5 * (score + 2), "xpNextLevel");
               assert.equal(item.system.remainingXp, 0, "remainingXp");
@@ -421,7 +421,7 @@ function registerAbilityScoresTesting(quench) {
         describe("Decrease score", function() {
           for (const score of Array(30).keys()) {
             it(`Increase score to ${30 - score}`, async function() {
-              await item.sheet._decreaseScore(item);
+              await item.system._decreaseScore();
               assert.equal(item.system.finalScore, 29 - score, "Final score");
               assert.equal(item.system.xpNextLevel, 5 * (30 - score), "xpNextLevel");
               assert.equal(item.system.remainingXp, 0, "remainingXp");

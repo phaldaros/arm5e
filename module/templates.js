@@ -31,11 +31,11 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/actor/parts/actor-weapons.html",
     "systems/arm5e/templates/actor/parts/actor-armor.html",
 
-    "systems/arm5e/templates/actor/parts/actor-atributesLaboratory.html",
+    "systems/arm5e/templates/actor/parts/actor-attributesLaboratory.html",
     "systems/arm5e/templates/actor/parts/actor-inventoryLaboratory.html",
     "systems/arm5e/templates/actor/parts/actor-lab-workbench.html",
 
-    "systems/arm5e/templates/actor/parts/actor-covenantAtributes.html",
+    "systems/arm5e/templates/actor/parts/actor-covenantAttributes.html",
     "systems/arm5e/templates/actor/parts/actor-covenantHabitants.html",
     "systems/arm5e/templates/actor/parts/actor-covenantPosessions.html",
     "systems/arm5e/templates/actor/parts/actor-covenantEconomics.html",

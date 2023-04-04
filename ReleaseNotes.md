@@ -1,14 +1,51 @@
-## 2.0.5.0, Lexora, the apprentice
+## 2.0.5.1, Lexora, the apprentice
 
 ### Features & changes
 
 - New diary lab activity type (used in labs for tracking for now, but later for lab improvement activities)
 - New Vis extraction lab activity
+- Reputations are now Items with XPs
+- Warping on botch with magic
+- [technical] put increaseScore and decreaseScore methods in their respective schemas, cleaning up item.sheet
 
 ### Bug fixes
 
 - Limited the width of spell attributes field to prevent layout problem in translations
 - Added missing mnemonics for some hardcoded text in lab planning.
+- Extended even more the room for abilities
+
+### V10 migration (on going)
+
+- Data models activated
+
+  - Abilities
+  - Books
+  - Virtues & Flaws
+  - Mundane items
+  - Vis
+  - Base effects
+  - Spontaneous effets
+  - Spells
+  - Laboratory Texts
+  - Magical effects
+  - Diary entry
+  - Laboratory
+  - Reputation
+  - Personality trait
+
+## 2.0.4.23, Kentigern, the Quaesitor
+
+### Features & changes
+
+- Updated French version (by Orneen)
+
+### Bug fixes
+
+- Migration fixes
+  - DiaryEntry => teacher.score not null
+  - DiaryEntry => progress items teacherScore undefined
+  - Spells => Ritual flag not boolean
+  - Virtues and flaws types
 
 ## 2.0.4.22, Kentigern, the magus
 

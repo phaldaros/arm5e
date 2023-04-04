@@ -863,9 +863,9 @@ export class ArM5eActorSheet extends ActorSheet {
         {
           title: `${li[0].dataset.name}`,
           content: `<p>${question}</p>`,
-          yes: () => {
+          yes: async () => {
             itemId = itemId instanceof Array ? itemId : [itemId];
-            this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+            await this.actor.deleteEmbeddedDocuments("Item", itemId, {});
             li.slideUp(200, () => this.render(false));
           },
           no: () => null

@@ -58,7 +58,17 @@ const migrateMagicalItem = itemData => {
         }
       }
     }
-
+    if (itemData.type !== "magicalEffect") {
+      if (itemData.system.ritual == undefined) {
+        updateData["system.ritual"] = false;
+      } else if (typeof itemData.system.ritual != "boolean") {
+        if (itemData.system.ritual === "true") {
+          updateData["system.ritual"] = true;
+        } else {
+          updateData["system.ritual"] = false;
+        }
+      }
+    }
     if (itemData.system.duration.value === undefined) {
       updateData["system.duration.value"] = _guessDuration(itemData.name, itemData.system.duration);
     } else if (CONFIG.ARM5E.magic.durations[itemData.system.duration.value] === undefined) {
@@ -221,7 +231,9 @@ export class BaseEffectSchema extends foundry.abstract.DataModel {
     };
   }
 
-  static migrateData(data) {}
+  static migrateData(data) {
+    return data;
+  }
 
   static migrate(itemData) {
     const updateData = migrateMagicalItem(itemData);
@@ -284,21 +296,40 @@ export class SpellSchema extends foundry.abstract.DataModel {
     };
   }
 
+  async _increaseScore() {
+    let oldXp = this.xp;
+    let newXp = Math.round(((this.mastery + 1) * (this.mastery + 2) * 5) / 2);
+
+    await this.parent.update(
+      {
+        system: {
+          xp: newXp
+        }
+      },
+      {}
+    );
+    let delta = newXp - oldXp;
+    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
+  }
+  async _decreaseScore(item) {
+    if (this.mastery != 0) {
+      let oldXp = this.xp;
+      let newXp = Math.round(((this.mastery - 1) * this.mastery * 5) / 2);
+      await this.parent.update(
+        {
+          system: {
+            xp: newXp
+          }
+        },
+        {}
+      );
+      let delta = newXp - oldXp;
+      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+    }
+  }
+
   static migrateData(data) {
-    // log(false, `Err Page : ${data.page}`);
-    // if (data.xp == null) {
-    //   data.xp = 0;
-    // }
-    // if (!Number.isNumeric(data.page)) {
-    //   log(false, `Err Page : ${data.page}`);
-    //   data.page = 0;
-    // }
-    // if (!Number.isNumeric(data.baseLevel)) {
-    //   data.baseLevel = 0;
-    // }
-    // if (!Number.isNumeric(data.complexity)) {
-    //   data.complexity = 0;
-    // }
+    return data;
   }
 
   static migrate(itemData) {

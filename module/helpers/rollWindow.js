@@ -339,6 +339,12 @@ async function castSpell(actorCaster, roll, message) {
   // first check that the spell succeeds
   const levelOfSpell = actorCaster.rollData.magic.level;
   const totalOfSpell = roll._total;
+
+  if (roll.botches > 0) {
+    actorCaster.update({
+      "system.warping.points": actorCaster.system.warping.points + roll.botches
+    });
+  }
   if (actorCaster.rollData.type == "spell") {
     if (totalOfSpell < levelOfSpell) {
       let fatigue = 1;

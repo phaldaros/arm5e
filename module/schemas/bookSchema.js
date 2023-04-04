@@ -86,8 +86,9 @@ export class BookSchema extends foundry.abstract.DataModel {
 
   static migrateData(data) {
     // console.log(`MigrateData book: ${JSON.stringify(data)}`);
+
     if (data.topics && data.topics.length !== 0) {
-      return super.migrateData(data);
+      return data;
     }
     if (data.topic) {
       console.log(`DEBUG MigrateData monotopic book: ${JSON.stringify(data)}`);
@@ -143,7 +144,7 @@ export class BookSchema extends foundry.abstract.DataModel {
       }
     }
     // log(false, `TYPE: ${data.topics}`);
-    return super.migrateData(data);
+    return data;
   }
 
   static migrate(itemData) {

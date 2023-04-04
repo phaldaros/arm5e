@@ -166,27 +166,36 @@
     </div>
 
     <div class="flexcol flex-group-left padding12 backSection margintop18">
-      <label class="smallTitle" style="width: 100%">{{localize "arm5e.sheet.reputation"}}</label>
+
       <ol style="width: 100%">
-        {{#each system.reputation as |rep key|}}
-          <li class="flexrow flex-group-left" data-attribute="{{key}}">
-            <span class="flex02 rollable" style="margin-right: 12px" data-name="{{ rep.label }}" data-roll="option"
-              data-physicalcondition="false" data-option1="{{ rep.score }}" data-txtoption1="{{ rep.label }}">
+        <li class="item flexrow item-header"><label class="smallTitle"
+            style="width: 100%">{{localize "arm5e.sheet.reputation"}}</label>
+          <a class="item-control item-create"
+            title='{{localize "arm5e.hints.create" item=(localize "arm5e.sheet.reputation")}}' data-type="reputation"><i
+              class="fas fa-plus" style="margin-bottom: 12px; text-align: right;"></i></a>
+        </li>
+        {{#each system.reputations as |rep key|}}
+          <li class="flexrow item flex-group-left" data-attribute="{{key}}" data-item-id="{{rep._id}}">
+            <span class="flex02 rollable" style="min-width: 18px; margin-right: 12px" data-name="{{ rep.name }}"
+              data-roll="option" data-physicalcondition="false" data-option1="{{ rep.system.score }}"
+              data-txtoption1="{{ rep.name }}">
               <img src="/systems/arm5e/assets/dice.png" style="border: 0px; height: 18px" />
             </span>
-            <span class="flexrow" name="system.reputation.{{key}}.label">
-              <div class="flexrow">
-                <input type="text" name="system.reputation.{{key}}.label" value="{{rep.label}}" data-dtype="String" />
+            <span class="flexrow">
+              <div class="flexrow item-control item-edit">
+                <input type="text" name="system.reputations.{{key}}.name" value="{{rep.name}}" data-dtype="String"
+                  readonly class="clickable" style="width: fit-content;" />
               </div>
             </span>
             <div class="flexrow">
-              <span></span>
-              <input type="text" name="system.reputation.{{key}}.type" value="{{rep.type}}" data-dtype="String" />
+              <label class="padding4" style="text-align: center;">
+                {{localize (lookup (lookup @root.config.reputations rep.system.type) 'label')}}
+              </label>
             </div>
             <div class="flexrow">
-              <span></span>
-              <input type="text" name="system.reputation.{{key}}.score"
-                value="{{numberFormat rep.score decimals=0 sign=true}}" data-dtype="Number" />
+              <input type="text" name="system.reputation.{{key}}.system.score"
+                value="{{numberFormat rep.system.score decimals=0 sign=true}}" data-dtype="Number"
+                style="max-width: 65px;" readonly />
             </div>
           </li>
         {{/each}}

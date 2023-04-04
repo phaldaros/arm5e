@@ -1,11 +1,22 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
-import { boolOption, convertToInteger, convertToNumber, itemBase } from "./commonSchemas.js";
+import {
+  boolOption,
+  convertToInteger,
+  convertToNumber,
+  itemBase,
+  XpField
+} from "./commonSchemas.js";
 const fields = foundry.data.fields;
 
 export const possibleReputationTypes = Object.keys(ARM5E.reputations);
 
+const virtueFlawTypes = Object.keys(ARM5E.virtueFlawTypes.character)
+  .concat(Object.keys(ARM5E.virtueFlawTypes.laboratory))
+  .concat(Object.keys(ARM5E.virtueFlawTypes.covenant))
+  .concat("Special")
+  .concat("other");
 export class VirtueFlawSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
@@ -17,11 +28,7 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
         required: false,
         blank: false,
         initial: "general",
-        choices: Object.keys(ARM5E.virtueFlawTypes.character)
-          .concat(Object.keys(ARM5E.virtueFlawTypes.laboratory))
-          .concat(Object.keys(ARM5E.virtueFlawTypes.covenant))
-          .concat("Special")
-          .concat("other")
+        choices: virtueFlawTypes
       }),
       impact: new fields.SchemaField(
         {
@@ -44,6 +51,7 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
     if (data.type?.value) {
       data.type = data.type.value;
     }
+    return data;
   }
 
   static migrate(itemData) {
@@ -59,6 +67,14 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
     if (itemData.system.description == null) {
       updateData["system.description"] = "";
     }
+
+    // special cases
+    if (itemData.system.type === "Social Status") {
+      updateData["system.type"] = "social";
+    } else if (!virtueFlawTypes.includes(itemData.system.type)) {
+      updateData["system.type"] = "general";
+    }
+
     return updateData;
   }
 }
@@ -132,6 +148,8 @@ export class VisSchema extends foundry.abstract.DataModel {
     if (data.art?.value) {
       data.art = data.art.value;
     }
+
+    return data;
   }
 
   static migrate(itemData) {
@@ -172,8 +190,55 @@ export class ReputationSchema extends foundry.abstract.DataModel {
     };
   }
 
+  async _increaseScore() {
+    let oldXp = this.xp;
+    let newXp = Math.round(((this.score + 1) * (this.score + 2) * 5) / 2);
+
+    await this.parent.update(
+      {
+        system: {
+          xp: newXp
+        }
+      },
+      {}
+    );
+    let delta = newXp - oldXp;
+    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
+  }
+
+  async _decreaseScore() {
+    if (this.score != 0) {
+      let oldXp = this.xp;
+      let newXp = Math.round(((this.score - 1) * this.score * 5) / 2);
+      await this.parent.update(
+        {
+          system: {
+            xp: newXp
+          }
+        },
+        {}
+      );
+      let delta = newXp - oldXp;
+      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+    }
+  }
+
+  static migrateData(data) {
+    // console.log(`MigrateData Reputation: ${JSON.stringify(data)}`);
+    if (data.points != undefined) {
+      data.xp = (5 * (data.points * (data.points + 1))) / 2;
+      delete data.points;
+    }
+    return data;
+  }
+
   static migrate(data) {
-    return {};
+    // console.log(`Migrate Reputation: ${JSON.stringify(data)}`);
+    let update = {};
+    update["system.-=points"] = null;
+    update["system.-=notes"] = null;
+    update["system.xp"] = data.system.xp;
+    return update;
   }
 }
 
@@ -192,6 +257,11 @@ export class PersonalityTraitSchema extends foundry.abstract.DataModel {
   static migrate(data) {
     return {};
   }
+
+  static migrateData(data) {
+    console.log(`MigrateData Personality trait: ${JSON.stringify(data)}`);
+    return data;
+  }
 }
 
 export class MySchema extends foundry.abstract.DataModel {
@@ -200,6 +270,10 @@ export class MySchema extends foundry.abstract.DataModel {
 
   static defineSchema() {
     return { ...itemBase() };
+  }
+
+  static migrateData(data) {
+    return data;
   }
 
   static migrate(data) {

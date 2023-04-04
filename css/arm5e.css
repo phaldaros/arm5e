@@ -1134,9 +1134,9 @@ input[type="time"] {
 }
 
 .toggle-collapse {
-  max-height: 2180px;
+  max-height: 5180px;
   transition-property: all;
-  transition-duration: 0.6s;
+  transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
 }
 
