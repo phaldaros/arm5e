@@ -409,7 +409,8 @@ ARM5E.character.magicAbilities = {
 ARM5E.reputations = {
   local: { label: "arm5e.sheet.reputationType.local" },
   ecclesiastic: { label: "arm5e.sheet.reputationType.ecclesiastic" },
-  hermetic: { label: "arm5e.sheet.reputationType.hermetic" }
+  hermetic: { label: "arm5e.sheet.reputationType.hermetic" },
+  persona: { label: "arm5e.sheet.reputationType.persona" }
 };
 
 ARM5E.ABILITIES_CATEGORIES = {

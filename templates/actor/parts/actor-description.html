@@ -174,9 +174,7 @@
             title='{{localize "arm5e.hints.create" item=(localize "arm5e.sheet.reputation")}}' data-type="reputation"><i
               class="fas fa-plus" style="margin-bottom: 12px; text-align: right;"></i></a>
         </li>
-        {{log "reputations:" system.reputations}}
         {{#each system.reputations as |rep key|}}
-          {{log "key:" key " -> val: " rep}}
           <li class="flexrow item flex-group-left" data-attribute="{{key}}" data-item-id="{{rep._id}}">
             <span class="flex02 rollable" style="min-width: 18px; margin-right: 12px" data-name="{{ rep.name }}"
               data-roll="option" data-physicalcondition="false" data-option1="{{ rep.system.score }}"

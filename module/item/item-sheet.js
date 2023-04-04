@@ -178,10 +178,9 @@ export class ArM5eItemSheet extends ItemSheet {
     if (!this.options.editable) return;
 
     // data-id and data-attr needed
-    html.find(".increase-ability").click(event => this._increaseScore(this.item));
-    html.find(".decrease-ability").click(event => this._decreaseScore(this.item));
-    html.find(".increase-mastery").click(event => this._increaseMastery(this.item));
-    html.find(".decrease-mastery").click(event => this._decreaseMastery(this.item));
+    html.find(".increase-score").click(async () => await this.item.system._increaseScore());
+    html.find(".decrease-score").click(async () => await this.item.system._decreaseScore());
+
     html
       .find(".default-characteristic")
       .change(event => this._onSelectDefaultCharacteristic(this.item, event));
@@ -226,81 +225,6 @@ export class ArM5eItemSheet extends ItemSheet {
       {}
     );
     return false;
-  }
-
-  async _increaseMastery(item) {
-    if (item.type != "spell") {
-      return;
-    }
-    let oldXp = item.system.xp;
-    let newXp = Math.round(((item.system.mastery + 1) * (item.system.mastery + 2) * 5) / 2);
-
-    await this.item.update(
-      {
-        system: {
-          xp: newXp
-        }
-      },
-      {}
-    );
-    let delta = newXp - oldXp;
-    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
-  }
-  async _decreaseMastery(item) {
-    if (item.type != "spell") {
-      return;
-    }
-    if (item.system.mastery != 0) {
-      let oldXp = item.system.xp;
-      let newXp = Math.round(((item.system.mastery - 1) * item.system.mastery * 5) / 2);
-      await this.item.update(
-        {
-          system: {
-            xp: newXp
-          }
-        },
-        {}
-      );
-      let delta = newXp - oldXp;
-      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
-    }
-  }
-
-  async _increaseScore(item) {
-    let oldXp = item.system.xp;
-    let newXp = Math.round(
-      ((item.system.derivedScore + 1) * (item.system.derivedScore + 2) * 5) /
-        (2 * item.system.xpCoeff)
-    );
-
-    await this.item.update(
-      {
-        system: {
-          xp: newXp
-        }
-      },
-      {}
-    );
-    let delta = newXp - oldXp;
-    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
-  }
-  async _decreaseScore(item) {
-    if (item.system.derivedScore != 0) {
-      let oldXp = item.system.xp;
-      let newXp = Math.round(
-        ((item.system.derivedScore - 1) * item.system.derivedScore * 5) / (2 * item.system.xpCoeff)
-      );
-      await this.item.update(
-        {
-          system: {
-            xp: newXp
-          }
-        },
-        {}
-      );
-      let delta = newXp - oldXp;
-      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
-    }
   }
 
   async _cleanUpOption(item, event) {

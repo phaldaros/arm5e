@@ -12,7 +12,6 @@ const fields = foundry.data.fields;
 
 export const possibleReputationTypes = Object.keys(ARM5E.reputations);
 
-
 const virtueFlawTypes = Object.keys(ARM5E.virtueFlawTypes.character)
   .concat(Object.keys(ARM5E.virtueFlawTypes.laboratory))
   .concat(Object.keys(ARM5E.virtueFlawTypes.covenant))
@@ -189,6 +188,39 @@ export class ReputationSchema extends foundry.abstract.DataModel {
         choices: possibleReputationTypes
       })
     };
+  }
+
+  async _increaseScore() {
+    let oldXp = this.xp;
+    let newXp = Math.round(((this.score + 1) * (this.score + 2) * 5) / 2);
+
+    await this.parent.update(
+      {
+        system: {
+          xp: newXp
+        }
+      },
+      {}
+    );
+    let delta = newXp - oldXp;
+    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
+  }
+
+  async _decreaseScore() {
+    if (this.score != 0) {
+      let oldXp = this.xp;
+      let newXp = Math.round(((this.score - 1) * this.score * 5) / 2);
+      await this.parent.update(
+        {
+          system: {
+            xp: newXp
+          }
+        },
+        {}
+      );
+      let delta = newXp - oldXp;
+      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+    }
   }
 
   static migrateData(data) {

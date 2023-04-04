@@ -18,6 +18,43 @@ export class AbilitySchema extends foundry.abstract.DataModel {
     };
   }
 
+  async _increaseScore() {
+    let oldXp = this.xp;
+    let newXp = Math.round(
+      ((this.derivedScore + 1) * (this.derivedScore + 2) * 5) / (2 * this.xpCoeff)
+    );
+
+    await this.parent.update(
+      {
+        system: {
+          xp: newXp
+        }
+      },
+      {}
+    );
+    let delta = newXp - oldXp;
+    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
+  }
+
+  async _decreaseScore() {
+    if (this.derivedScore != 0) {
+      let oldXp = this.xp;
+      let newXp = Math.round(
+        ((this.derivedScore - 1) * this.derivedScore * 5) / (2 * this.xpCoeff)
+      );
+      await this.parent.update(
+        {
+          system: {
+            xp: newXp
+          }
+        },
+        {}
+      );
+      let delta = newXp - oldXp;
+      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+    }
+  }
+
   static migrate(itemData) {
     // log(false, "Migrate ability " + itemData.name);
     const updateData = {};

@@ -6,11 +6,13 @@
 - New Vis extraction lab activity
 - Reputations are now Items with XPs
 - Warping on botch with magic
+- [technical] put increaseScore and decreaseScore methods in their respective schemas, cleaning up item.sheet
 
 ### Bug fixes
 
 - Limited the width of spell attributes field to prevent layout problem in translations
 - Added missing mnemonics for some hardcoded text in lab planning.
+- Extended even more the room for abilities
 
 ### V10 migration (on going)
 
