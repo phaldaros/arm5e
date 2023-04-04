@@ -236,6 +236,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         applySpec: false,
         score: 0
       };
+    } else if (itemData.system.teacher.score == null) {
+      updateData["system.teacher.score"] = 0;
     }
 
     let currentDate = game.settings.get("arm5e", "currentDate");
@@ -321,7 +323,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           a.category = "general";
           updateNeeded = true;
         }
-        if (Number.isNaN(a.teacherScore) || a.teacherScore === "" || a.teacherScore === undefined) {
+        if (typeof a.teacherScore != "number") {
           a.teacherScore = convertToNumber(a.teacherScore, 2);
           updateNeeded = true;
         }
@@ -339,7 +341,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           a.key = "cr";
           updateNeeded = true;
         }
-        if (Number.isNaN(a.teacherScore) || a.teacherScore === "" || a.teacherScore === undefined) {
+        if (typeof a.teacherScore != "number") {
           a.teacherScore = convertToNumber(a.teacherScore, 5);
           updateNeeded = true;
         }

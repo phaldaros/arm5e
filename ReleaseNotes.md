@@ -1,3 +1,17 @@
+## 2.0.4.23, Kentigern, the Quaesitor
+
+### Features & changes
+
+- Updated French version (by Orneen)
+
+### Bug fixes
+
+- Migration fixes
+  - DiaryEntry => teacher.score not null
+  - DiaryEntry => progress items teacherScore undefined
+  - Spells => Ritual flag not boolean
+  - Virtues and flaws types
+
 ## 2.0.4.22, Kentigern, the magus
 
 ### Features & changes

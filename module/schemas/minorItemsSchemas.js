@@ -3,6 +3,12 @@ import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
 import { convertToInteger, convertToNumber, itemBase } from "./commonSchemas.js";
 const fields = foundry.data.fields;
+
+const virtueFlawTypes = Object.keys(ARM5E.virtueFlawTypes.character)
+  .concat(Object.keys(ARM5E.virtueFlawTypes.laboratory))
+  .concat(Object.keys(ARM5E.virtueFlawTypes.covenant))
+  .concat("Special")
+  .concat("other");
 export class VirtueFlawSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
@@ -14,11 +20,7 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
         required: false,
         blank: false,
         initial: "general",
-        choices: Object.keys(ARM5E.virtueFlawTypes.character)
-          .concat(Object.keys(ARM5E.virtueFlawTypes.laboratory))
-          .concat(Object.keys(ARM5E.virtueFlawTypes.covenant))
-          .concat("Special")
-          .concat("other")
+        choices: virtueFlawTypes
       }),
       impact: new fields.SchemaField(
         {
@@ -56,6 +58,14 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
     if (itemData.system.description == null) {
       updateData["system.description"] = "";
     }
+
+    // special cases
+    if (itemData.system.type === "Social Status") {
+      updateData["system.type"] = "social";
+    } else if (!virtueFlawTypes.includes(itemData.system.type)) {
+      updateData["system.type"] = "general";
+    }
+
     return updateData;
   }
 }
