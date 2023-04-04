@@ -382,26 +382,25 @@ export const migrateActorData = async function(actorDoc, actorItems) {
       });
       updateData["system.-=pendingXP"] = null;
     }
-
-    for (let rep of Object.values(actor.system.reputation)) {
-      if (rep.label === "") continue;
-
-      let reputationData = {
-        name: rep.label,
-        type: "reputation",
-        system: {
-          xp: ((rep.score * (rep.score + 1)) / 2) * 5,
-          type: "local",
-          description: `Migration: type = ${rep.type}`
-        }
-      };
-      if (actorDoc instanceof ArM5ePCActor) {
-        await actorDoc.createEmbeddedDocuments("Item", [reputationData]);
-      } else {
-        actorDoc.items.push(reputation);
-      }
-    }
     if (actor.system.reputation) {
+      for (let rep of Object.values(actor.system.reputation)) {
+        if (rep.label === "") continue;
+
+        let reputationData = {
+          name: rep.label,
+          type: "reputation",
+          system: {
+            xp: ((rep.score * (rep.score + 1)) / 2) * 5,
+            type: "local",
+            description: `Migration: type = ${rep.type}`
+          }
+        };
+        if (actorDoc instanceof ArM5ePCActor) {
+          await actorDoc.createEmbeddedDocuments("Item", [reputationData]);
+        } else {
+          actorDoc.items.push(reputation);
+        }
+      }
       updateData["system.-=reputation"] = null;
     }
   } else {

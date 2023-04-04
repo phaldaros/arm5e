@@ -105,33 +105,6 @@
             "value": ""
           }
         },
-        "reputation": {
-          "rep1": {
-            "label": "Reputation 1",
-            "type": "Type",
-            "score": "0"
-          },
-          "rep2": {
-            "label": "Reputation 2",
-            "type": "Type",
-            "score": "0"
-          },
-          "rep3": {
-            "label": "Reputation 3",
-            "type": "Type",
-            "score": "0"
-          },
-          "rep4": {
-            "label": "Reputation 4",
-            "type": "Type",
-            "score": "0"
-          },
-          "rep5": {
-            "label": "Reputation 5",
-            "type": "Type",
-            "score": "0"
-          }
-        },
         "vitals": {
           "siz": {
             "value": 0

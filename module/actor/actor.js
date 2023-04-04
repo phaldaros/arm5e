@@ -745,9 +745,7 @@ export class ArM5ePCActor extends Actor {
       system.powers = powers;
     }
 
-    if (system.reputations) {
-      system.reputations = reputations;
-    }
+    system.reputations = reputations;
 
     system.magicItems = magicItems;
 

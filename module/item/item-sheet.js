@@ -194,6 +194,23 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".study-labtext").click(event => this.item._studyLabText(this.item, event));
 
     html.find(".migrate").click(event => this.item.migrate());
+
+    html.find(".item-delete-confirm").click(async () => {
+      const question = game.i18n.localize("arm5e.dialog.delete-question");
+      let itemId = this.item._id;
+      await Dialog.confirm(
+        {
+          title: this.item.name,
+          content: `<p>${question}</p>`,
+          yes: async () => {
+            itemId = itemId instanceof Array ? itemId : [itemId];
+            await this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+          },
+          no: () => null
+        },
+        { rejectClose: true }
+      );
+    });
   }
 
   async _onSelectDefaultCharacteristic(item, event) {

@@ -1,10 +1,10 @@
-## 2.0.5.0, Lexora, the apprentice
+## 2.0.5.1, Lexora, the apprentice
 
 ### Features & changes
 
 - New diary lab activity type (used in labs for tracking for now, but later for lab improvement activities)
 - New Vis extraction lab activity
-- Reputations are now Items
+- Reputations are now Items with XPs
 - Warping on botch with magic
 
 ### Bug fixes
@@ -30,6 +30,20 @@
   - Laboratory
   - Reputation
   - Personality trait
+
+## 2.0.4.23, Kentigern, the Quaesitor
+
+### Features & changes
+
+- Updated French version (by Orneen)
+
+### Bug fixes
+
+- Migration fixes
+  - DiaryEntry => teacher.score not null
+  - DiaryEntry => progress items teacherScore undefined
+  - Spells => Ritual flag not boolean
+  - Virtues and flaws types
 
 ## 2.0.4.22, Kentigern, the magus
 
