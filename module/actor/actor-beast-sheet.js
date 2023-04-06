@@ -98,8 +98,8 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
       case "diaryEntry":
       case "powerFamiliar":
       case "magicItem":
-      // case "personality":
-      // case "reputation":
+      case "personalityTrait":
+      case "reputation":
       case "magicalEffect":
         return true;
       default:

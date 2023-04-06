@@ -249,17 +249,88 @@ export class PersonalityTraitSchema extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       ...itemBase(),
-      xp: XpField(),
-      negative: boolOption(false, false)
+      xp: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        initial: 0,
+        step: 1
+      })
     };
   }
 
+  async _increaseScore() {
+    let oldXp = this.xp;
+    let newXp = 5;
+    if (this.score > 0) {
+      newXp = Math.round(((this.score + 1) * (this.score + 2) * 5) / 2);
+    } else if (this.score < 0) {
+      newXp = -Math.round(((this.score + 1) * this.score * 5) / 2);
+    }
+    await this.parent.update(
+      {
+        system: {
+          xp: newXp
+        }
+      },
+      {}
+    );
+    let delta = newXp - oldXp;
+    console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
+  }
+
+  async _decreaseScore() {
+    let oldXp = this.xp;
+    let newXp = -5;
+    if (this.score > 0) {
+      newXp = Math.round(((this.score - 1) * this.score * 5) / 2);
+    } else if (this.score < 0) {
+      newXp = -Math.round(((this.score - 2) * (this.score - 1) * 5) / 2);
+    }
+    await this.parent.update(
+      {
+        system: {
+          xp: newXp
+        }
+      },
+      {}
+    );
+    let delta = newXp - oldXp;
+    console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+  }
+
+  static getScore(xp) {
+    let res = 0;
+    let xps;
+    if (xp >= 0) {
+      xps = Math.floor(xp / 5);
+      while (xps > res) {
+        res++;
+        xps = xps - res;
+      }
+      return res;
+    } else {
+      return -this.getScore(-xp);
+    }
+  }
+
   static migrate(data) {
+    let update = {};
+    update["system.-=points"] = null;
+    update["system.-=notes"] = null;
+    update["system.xp"] = data.system.xp;
     return {};
   }
 
   static migrateData(data) {
-    console.log(`MigrateData Personality trait: ${JSON.stringify(data)}`);
+    if (data.points != undefined) {
+      if (data.points < 0) {
+        data.xp = -(5 * (data.points * (data.points + 1))) / 2;
+      } else {
+        data.xp = (5 * (data.points * (data.points + 1))) / 2;
+      }
+      delete data.points;
+    }
     return data;
   }
 }

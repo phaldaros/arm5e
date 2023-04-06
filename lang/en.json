@@ -23,7 +23,7 @@
   "ITEM.TypeDistinctive": "Lab feature (deprecated)",
   "ITEM.TypeSanctumroom": "Sanctum room (deprecated)",
   "ITEM.TypeMagicitem": "Magic Item",
-  "ITEM.TypePersonality": "Personality trait",
+  "ITEM.TypePersonalitytrait": "Personality trait",
   "ITEM.TypeReputation": "Reputation",
   "ITEM.TypeHabitantmagi": "Habitant magi",
   "ITEM.TypeHabitantmompanion": "Habitant companion",

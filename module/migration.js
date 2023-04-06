@@ -403,6 +403,27 @@ export const migrateActorData = async function(actorDoc, actorItems) {
       }
       updateData["system.-=reputation"] = null;
     }
+
+    if (actor.system.personality) {
+      for (let pers of Object.values(actor.system.personality)) {
+        if (pers.label === "") continue;
+
+        let persData = {
+          name: pers.label,
+          type: "personalityTrait",
+          system: {
+            xp: ((pers.score * (pers.score + 1)) / 2) * 5,
+            description: ``
+          }
+        };
+        if (actorDoc instanceof ArM5ePCActor) {
+          await actorDoc.createEmbeddedDocuments("Item", [persData]);
+        } else {
+          actorDoc.items.push(persData);
+        }
+      }
+      updateData["system.-=personality"] = null;
+    }
   } else {
     if (actor.system.roll) {
       updateData["system.-=roll"] = null;

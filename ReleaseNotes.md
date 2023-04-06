@@ -1,4 +1,4 @@
-## 2.0.5.1, Lexora, the apprentice
+## 2.0.5.2, Lexora, the apprentice
 
 ### Features & changes
 
@@ -7,6 +7,7 @@
 - Reputations are now Items with XPs
 - Warping on botch with magic
 - [technical] put increaseScore and decreaseScore methods in their respective schemas, cleaning up item.sheet
+- Personality traits are now Items wit XPs
 
 ### Bug fixes
 

@@ -135,36 +135,6 @@
         }
       },
       "datetime": { "datetime": null },
-
-      "personality": {
-        "personality": {
-          "per1": {
-            "label": "Trait 1 (e.g., Brave)",
-            "score": "0",
-            "notes": ""
-          },
-          "per2": {
-            "label": "Trait 2 (e.g., Loyal)",
-            "score": "0",
-            "notes": ""
-          },
-          "per3": {
-            "label": "",
-            "score": "0",
-            "notes": ""
-          },
-          "per4": {
-            "label": "",
-            "score": "0",
-            "notes": ""
-          },
-          "per5": {
-            "label": "",
-            "score": "0",
-            "notes": ""
-          }
-        }
-      },
       "wounds": {
         "woundsTotal": 0,
         "wounds": {
@@ -593,7 +563,6 @@
         "base",
         "npcbase",
         "datetime",
-        "personality",
         "wounds",
         "fatigue",
         "arts",
@@ -640,7 +609,6 @@
         "base",
         "npcbase",
         "datetime",
-        "personality",
         "wounds",
         "familiar",
         "laboratoryPC",
@@ -916,7 +884,7 @@
       "enchantments": []
     },
     "beast": {
-      "templates": ["base", "wounds", "fatigue", "personality", "datetime"],
+      "templates": ["base", "wounds", "fatigue", "datetime"],
       "characteristics": {
         "cun": {
           "value": 0
@@ -984,7 +952,6 @@
       "distinctive",
       "sanctumRoom",
       "magicItem",
-      "personality",
       "reputation",
       "habitantMagi",
       "habitantCompanion",
@@ -1002,7 +969,9 @@
       "laboratoryText",
       "enchantment",
       "labCovenant",
-      "mundaneBook"
+      "mundaneBook",
+      "personality",
+      "personalityTrait"
     ],
     "templates": {
       "base": {
@@ -1268,15 +1237,6 @@
       "effect": "",
       "uses": 0
     },
-    "personality": {
-      "templates": ["base"],
-      "points": "0",
-      "notes": ""
-    },
-    "reputation": {
-      "templates": ["base"],
-      "xp": "0"
-    },
     "habitantMagi": {
       "templates": ["base", "habitant"],
       "giftType": ""
@@ -1323,24 +1283,6 @@
       "templates": ["base"],
       "type": "",
       "incoming": 0
-    },
-    "mundaneBook": {
-      "templates": ["base", "authorship"],
-      "type": "Summa",
-      "topic": {
-        "category": "art",
-        "key": null,
-        "option": null,
-        "art": "cr",
-        "spellName": null
-      },
-      "level": 1,
-      "quality": 1
-    },
-    "personalityTrait": {
-      "templates": ["base"],
-      "score": 0,
-      "xp": 0
     }
   }
 }
