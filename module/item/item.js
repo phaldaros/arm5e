@@ -3,6 +3,7 @@ import { ArM5ePCActor } from "../actor/actor.js";
 import { migrateItemData } from "../migration.js";
 import { computeLevel } from "../helpers/magic.js";
 import { resetOwnerFields } from "./item-converter.js";
+import { PersonalityTraitSchema } from "../schemas/minorItemsSchemas.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -61,13 +62,14 @@ export class ArM5eItem extends Item {
         this.system.experienceNextLevel =
           ((parseInt(this.system.mastery) + 1) * (parseInt(this.system.mastery) + 2) * 5) / 2;
       }
-
-      // compute reputation score
-      if (this.type == "reputation") {
-        this.system.score = ArM5ePCActor.getAbilityScoreFromXp(this.system.xp);
-      }
     }
-
+    // compute reputation score
+    if (this.type == "reputation") {
+      this.system.score = ArM5ePCActor.getAbilityScoreFromXp(this.system.xp);
+    }
+    if (this.type == "personalityTrait") {
+      this.system.score = PersonalityTraitSchema.getScore(this.system.xp);
+    }
     if (this._needLevelComputation()) {
       if (this._isNotMigrated()) {
         return;

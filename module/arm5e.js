@@ -369,7 +369,7 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["spell"] = SpellSchema;
   CONFIG.Item.systemDataModels["laboratoryText"] = LabTextSchema;
   CONFIG.Item.systemDataModels["diaryEntry"] = DiaryEntrySchema;
-  CONFIG.Item.systemDataModels["personality"] = PersonalityTraitSchema;
+  CONFIG.Item.systemDataModels["personalityTrait"] = PersonalityTraitSchema;
   CONFIG.Item.systemDataModels["reputation"] = ReputationSchema;
   //Actors
   CONFIG.Actor.systemDataModels["laboratory"] = LabSchema;
@@ -451,7 +451,6 @@ function registerSheets() {
       "speciality",
       "distinctive",
       "sanctumRoom",
-      "personality",
       "reputation",
       "habitantMagi",
       "habitantCompanion",
@@ -465,8 +464,7 @@ function registerSheets() {
       "calendarCovenant",
       "incomingSource",
       "labCovenant",
-      "personalityTrait",
-      "reputationChar"
+      "personalityTrait"
     ],
     makeDefault: true
   });

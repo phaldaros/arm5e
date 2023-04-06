@@ -258,6 +258,7 @@ export class ArM5ePCActor extends Actor {
     let powers = [];
 
     let reputations = [];
+    system.personalities = [];
 
     let totalXPAbilities = 0;
     let totalXPArts = 0;
@@ -636,8 +637,8 @@ export class ArM5ePCActor extends Actor {
         powers.push(item);
       } else if (item.type === "magicItem") {
         magicItems.push(item);
-      } else if (item.type === "personality") {
-        personalities.push(item);
+      } else if (item.type === "personalityTrait") {
+        system.personalities.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
       }
