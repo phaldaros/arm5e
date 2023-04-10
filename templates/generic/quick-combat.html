@@ -1,0 +1,98 @@
+<div class="backSection padding12 margintop18"
+  style="background-image: url(systems/arm5e/assets/chat/background.png);background-size: cover;">
+  <div class="flexrow flex-group-center">{{name}}</div>
+  <div class="flexcol" style="gap: 0px">
+    <div class="flexrow flex-group-left ">
+      <div class="flex01">
+        <button class="arm5e rollable dialog-buttons" style="min-width: 100px;" data-roll="init"
+          data-name='{{localize "arm5e.sheet.initiative"}}' data-option1="{{ system.characteristics.qik.value }}"
+          data-txtoption1='{{ localize "arm5e.sheet.quickness" }}' data-option2="{{ system.combat.init }}"
+          data-txtoption2='{{ localize "arm5e.sheet.initiative" }}' data-option3="{{ system.combat.overload }}"
+          data-txtoption3='{{ localize "arm5e.sheet.encumbrance" }}'><!--img src="/systems/arm5e/assets/dice.png"
+            class="flex0" style="border: 0px; height: 14px"-->
+          {{localize "arm5e.sheet.initiative"}}</button>
+      </div>
+      <!-- quick + init - weight + stres die -->
+      <div class="flexcol flex-group-center">
+        <input class="combat-total" type="text" name="combat.init" readonly
+          value="{{numberFormat combat.init decimals=0 sign=true}}" data-dtype="Number" disabled
+          style="max-width: 70px; font-size: 12pt;" />
+      </div>
+    </div>
+
+    <div class="flexrow flex-group-left">
+      <div class="flex01">
+        <button class="arm5e rollable dialog-buttons" style="min-width: 100px;" data-roll="combat"
+          data-name='{{localize "arm5e.sheet.attack"}}' data-option1="{{ system.characteristics.dex.value }}"
+          data-txtoption1='{{ localize "arm5e.sheet.dexterity" }}' data-option2="{{ system.combat.ability }}"
+          data-txtoption2='{{localize "arm5e.sheet.ability"}}' data-option3="{{ system.combat.atk }}"
+          data-txtoption3='{{localize "arm5e.sheet.attack"}}'><!--img src="/systems/arm5e/assets/dice.png" class="flex0"
+            style="border: 0px; height: 14px"-->
+          {{localize "arm5e.sheet.attack"}}</button>
+      </div>
+      <!-- dex + ability + weapon + stres die -->
+      <div class="flexcol flex-group-center">
+        <input class="combat-total" type="text" name="combat.attack" readonly
+          value="{{numberFormat combat.attack decimals=0 sign=true}}" data-dtype="Number" disabled
+          style="max-width: 70px; font-size: 12pt;" />
+      </div>
+    </div>
+
+    <div class="flexrow flex-group-left">
+      <div class="flex01">
+        <button class="arm5e rollable dialog-buttons" style="min-width: 100px;" data-roll="combat"
+          data-name='{{localize "arm5e.sheet.defense"}}' data-option1="{{ system.characteristics.qik.value }}"
+          data-txtoption1='{{ localize "arm5e.sheet.quickness" }}' data-option2="{{ system.combat.ability }}"
+          data-txtoption2='{{localize "arm5e.sheet.ability"}}' data-option3="{{ system.combat.dfn }}"
+          data-txtoption3='{{localize "arm5e.sheet.defense"}}'> <!--img src="/systems/arm5e/assets/dice.png"
+            style="border: 0px; height: 14px"-->
+          {{localize "arm5e.sheet.defense"}}</button>
+      </div>
+      <!-- quick + ability + weapon + stres die -->
+      <div class="flexcol flex-group-center">
+        <input class="combat-total" type="text" name="combat.defense" readonly
+          value="{{numberFormat combat.defense decimals=0 sign=true}}" data-dtype="Number" disabled
+          style="max-width: 70px; font-size: 12pt;" />
+      </div>
+    </div>
+
+    <div class="flexrow flex-group-left">
+      <div class="flex01">
+        <!-- <img src="/systems/arm5e/assets/icons/Icon_Hammer.png" class="flex0" style="border: 0px; height: 20px"> -->
+        <button class="arm5e clickable dialog-buttons damage" style="min-width: 100px; padding-left: 0px"><!--i class="icon-Icon_Soak"
+            style="font-size: 12pt;"></i-->{{localize "arm5e.sheet.damage"}}</button>
+      </div>
+      <!-- str + weapon + attack advantage -->
+      <div class="flexcol flex-group-center">
+        <input class="combat-total" type="text" name="combat.damage" readonly
+          value="{{numberFormat combat.damage decimals=0 sign=true}}" data-dtype="Number" disabled
+          style="max-width: 70px; font-size: 12pt;" />
+      </div>
+    </div>
+
+    <div class="flexrow flex-group-left">
+      <div class="flex01">
+        <button class="arm5e clickable soak-damage dialog-buttons" style="min-width: 100px;"
+          data-name='{{localize "arm5e.sheet.soak"}}' data-option1="{{ system.characteristics.sta.value }}"
+          data-txtoption1='{{ localize "arm5e.sheet.stamina" }}' data-option2="{{  system.combat.prot }}"
+          data-txtoption2='{{localize "arm5e.sheet.protection"}}' style="padding-left: 0px"><!--i class="icon-Icon_Soak"
+            style="font-size: 12pt;"></i-->
+          {{localize "arm5e.sheet.soak"}}</button>
+      </div>
+      <!-- sta + prot + damage -->
+      <div class="flexcol flex-group-center">
+        <input class="combat-total" type="text" name="combat.soak" readonly
+          value="{{numberFormat combat.soak decimals=0 sign=true}}" data-dtype="Number" disabled
+          style="max-width: 70px; font-size: 12pt;" />
+      </div>
+    </div>
+
+    <!-- <div class="flex0 flexrow flex-group-left" style="width:200px; flex:0.2">
+      <span>
+        {{localize "arm5e.sheet.combatInstructions1"}}<br />
+        {{localize "arm5e.sheet.combatInstructions2"}}<br />
+        {{localize "arm5e.sheet.combatInstructions3"}}
+      </span>
+    </div> -->
+  </div>
+</div>

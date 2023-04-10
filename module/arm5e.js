@@ -52,6 +52,7 @@ import {
   VisSchema
 } from "./schemas/minorItemsSchemas.js";
 import { LabSchema } from "./schemas/labSchema.js";
+import { ArmorSchema, WeaponSchema } from "./schemas/weaponArmorSchema.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -371,6 +372,8 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["diaryEntry"] = DiaryEntrySchema;
   CONFIG.Item.systemDataModels["personalityTrait"] = PersonalityTraitSchema;
   CONFIG.Item.systemDataModels["reputation"] = ReputationSchema;
+  CONFIG.Item.systemDataModels["armor"] = ArmorSchema;
+  CONFIG.Item.systemDataModels["weapon"] = WeaponSchema;
   //Actors
   CONFIG.Actor.systemDataModels["laboratory"] = LabSchema;
 }

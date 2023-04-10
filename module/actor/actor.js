@@ -134,7 +134,7 @@ export class ArM5ePCActor extends Actor {
         let abilityKey = item.system?.key || "";
         if (abilityKey != "") {
           // log(false, `Ability key: ${abilityKey}`);
-          if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey].option || false) {
+          if (CONFIG.ARM5E.ALL_ABILITIES[abilityKey]?.option || false) {
             abilityKey += "_" + item.system.option;
           }
           this.system.bonuses.skills[abilityKey] = {};
@@ -267,7 +267,7 @@ export class ArM5ePCActor extends Actor {
     let totalXPSpells = 0;
 
     let combat = {
-      weight: 0,
+      load: 0,
       overload: 0,
       init: 0,
       atk: 0,
@@ -522,7 +522,7 @@ export class ArM5ePCActor extends Actor {
 
       if (item.type === "weapon" || item.type === "enchantedWeapon") {
         if (item.system.equiped == true) {
-          combat.weight = parseInt(combat.weight) + parseInt(item.system.weight);
+          combat.load = parseInt(combat.load) + parseInt(item.system.load);
           combat.init = parseInt(combat.init) + parseInt(item.system.init);
           combat.atk = parseInt(combat.atk) + parseInt(item.system.atk);
           combat.dfn = parseInt(combat.dfn) + parseInt(item.system.dfn);
@@ -557,7 +557,7 @@ export class ArM5ePCActor extends Actor {
         weapons.push(item);
       } else if (item.type === "armor" || item.type === "enchantedArmor") {
         if (item.system.equiped == true) {
-          combat.weight = parseInt(combat.weight) + parseInt(item.system.weight);
+          combat.load = parseInt(combat.load) + parseInt(item.system.weight);
           combat.prot = parseInt(combat.prot) + parseInt(item.system.prot);
         }
         armor.push(item);
@@ -646,7 +646,7 @@ export class ArM5ePCActor extends Actor {
 
     // combat
 
-    combat.overload = ArM5ePCActor.getArtScore(combat.weight);
+    combat.overload = ArM5ePCActor.getArtScore(combat.load);
 
     if (combat.prot) {
       soak += combat.prot;
@@ -1351,11 +1351,11 @@ export class ArM5ePCActor extends Actor {
 
   // Vitals management
 
-  loseFatigueLevel(num) {
-    this._changeFatigueLevel(num);
+  loseFatigueLevel(num, wound = true) {
+    this._changeFatigueLevel(num, wound);
   }
 
-  async _changeFatigueLevel(num) {
+  async _changeFatigueLevel(num, wound = true) {
     if (!this._isCharacter() || (num < 0 && this.system.fatigueCurrent == 0)) {
       return;
     }
@@ -1372,28 +1372,47 @@ export class ArM5ePCActor extends Actor {
       updateData["system.fatigueCurrent"] = tmp;
     }
 
-    // fatigue overflow
-    switch (overflow) {
-      case 0:
-        break;
-      case 1:
-        updateData["system.wound.light.number.value"] = system.wound.light.number.value + 1;
-        break;
-      case 2:
-        updateData["system.wound.medium.number.value"] = system.wound.medium.number.value + 1;
-        break;
-      case 3:
-        updateData["system.wound.heavy.number.value"] = system.wound.heavy.number.value + 1;
-        break;
-      case 4:
-        updateData["system.wound.incap.number.value"] = system.wound.incap.number.value + 1;
-        break;
-      default:
-        updateData["system.wound.dead.number.value"] = system.wound.dead.number.value + 1;
-        break;
+    if (wound) {
+      // fatigue overflow
+      switch (overflow) {
+        case 0:
+          break;
+        case 1:
+          updateData["system.wound.light.number.value"] = system.wound.light.number.value + 1;
+          break;
+        case 2:
+          updateData["system.wound.medium.number.value"] = system.wound.medium.number.value + 1;
+          break;
+        case 3:
+          updateData["system.wound.heavy.number.value"] = system.wound.heavy.number.value + 1;
+          break;
+        case 4:
+          updateData["system.wound.incap.number.value"] = system.wound.incap.number.value + 1;
+          break;
+        default:
+          updateData["system.wound.dead.number.value"] = system.wound.dead.number.value + 1;
+          break;
+      }
     }
-
     await this.update(updateData, {});
+  }
+
+  async changeWound(amount, type) {
+    if (!this._isCharacter() || (amount < 0 && this.system.wounds[type].number.value == 0)) {
+      return;
+    }
+    let updateData = {
+      system: {
+        wounds: {
+          [type]: {
+            number: {
+              value: this.system.wounds[type].number.value + amount
+            }
+          }
+        }
+      }
+    };
+    await this.update(updateData);
   }
 
   async useConfidencePoint() {

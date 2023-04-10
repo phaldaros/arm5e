@@ -7,14 +7,13 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
       <div class="grid grid-2col">
         <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
-          <input type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" />
+          <label class="header-label">{{localize "arm5e.sheet.protection"}}</label>
+          <input type="number" name="system.prot" value="{{system.prot}}" data-dtype="Number" />
         </div>
         <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.weight"}}</label>
-          <input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />
+          <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
+          <input type="text" name="system.load" value="{{system.load}}" data-dtype="Number" />
         </div>
-
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.equiped"}}</label>
           <input type="checkbox" name="system.equiped" {{checked system.equiped}} />
@@ -43,9 +42,10 @@
     <div class="tab attributes" data-group="primary" data-tab="attributes">
       <div class="grid grid-3col">
         <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.protection"}}</label>
-          <input type="number" name="system.prot" value="{{system.prot}}" data-dtype="Number" />
+          <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
+          <input type="text" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" />
         </div>
+
         <div class="resource flexcol flex-center">
           <label class="header-label">{{localize "arm5e.sheet.fullSet"}}</label>
           <input type="checkbox" name="system.full" {{checked system.full}} />

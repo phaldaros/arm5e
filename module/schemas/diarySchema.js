@@ -69,31 +69,46 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         blank: false,
         initial: "standard"
       }),
-      teacher: new fields.SchemaField({
-        id: new fields.StringField({
+      teacher: new fields.SchemaField(
+        {
+          id: new fields.StringField({
+            required: false,
+            nullable: true,
+            initial: null
+          }),
+          name: new fields.StringField({ required: false, blank: true, initial: "Teacher's name" }),
+          com: characteristicField(),
+          teaching: new fields.NumberField({
+            required: false,
+            nullable: false,
+            integer: true,
+            initial: 1,
+            step: 1
+          }),
+          applySpec: new fields.BooleanField({ required: false, initial: false }),
+          score: new fields.NumberField({
+            required: false,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 2,
+            step: 1
+          })
+        },
+        {
           required: false,
-          nullable: true,
-          initial: null
-        }),
-        name: new fields.StringField({ required: false, blank: true, initial: "Teacher's name" }),
-        com: characteristicField(),
-        teaching: new fields.NumberField({
-          required: false,
-          nullable: false,
-          integer: true,
-          initial: 1,
-          step: 1
-        }),
-        applySpec: new fields.BooleanField({ required: false, initial: false }),
-        score: new fields.NumberField({
-          required: false,
-          nullable: false,
-          integer: true,
-          min: 0,
-          initial: 2,
-          step: 1
-        })
-      }),
+          blank: false,
+          initial: {
+            id: null,
+            name: "",
+            com: 0,
+            teaching: 0,
+            speciality: "",
+            applySpec: false,
+            score: 0
+          }
+        }
+      ),
       externalIds: new fields.ArrayField(
         new fields.SchemaField({
           actorId: new NullableDocumentIdField(),
@@ -109,85 +124,92 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         }),
         { required: false, initial: [] }
       ),
-      progress: new fields.SchemaField({
-        abilities: new fields.ArrayField(
-          new fields.SchemaField({
-            id: new fields.StringField({
-              required: true,
-              blank: false,
-              nullable: true,
-              initial: null
+      progress: new fields.SchemaField(
+        {
+          abilities: new fields.ArrayField(
+            new fields.SchemaField({
+              id: new fields.StringField({
+                required: true,
+                blank: false,
+                nullable: true,
+                initial: null
+              }),
+              category: new fields.StringField({ required: true, blank: false }),
+              teacherScore: new fields.NumberField({
+                required: false,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 2,
+                step: 1
+              }),
+              xp: XpField()
             }),
-            category: new fields.StringField({ required: true, blank: false }),
-            teacherScore: new fields.NumberField({
-              required: false,
-              nullable: false,
-              integer: true,
-              min: 0,
-              initial: 2,
-              step: 1
+            { required: false, initial: [] }
+          ),
+          arts: new fields.ArrayField(
+            new fields.SchemaField({
+              key: new fields.StringField({ required: true, blank: false, initial: "cr" }),
+              teacherScore: new fields.NumberField({
+                required: false,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 5,
+                step: 1
+              }),
+              xp: XpField()
             }),
-            xp: XpField()
-          }),
-          { required: false, initial: [] }
-        ),
-        arts: new fields.ArrayField(
-          new fields.SchemaField({
-            key: new fields.StringField({ required: true, blank: false, initial: "cr" }),
-            teacherScore: new fields.NumberField({
-              required: false,
-              nullable: false,
-              integer: true,
-              min: 0,
-              initial: 5,
-              step: 1
+            { required: false, initial: [] }
+          ),
+          spells: new fields.ArrayField(
+            new fields.SchemaField({
+              id: new fields.StringField({
+                required: true,
+                blank: false,
+                nullable: true,
+                initial: null
+              }),
+              form: hermeticForm(),
+              teacherScore: new fields.NumberField({
+                required: false,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 2,
+                step: 1
+              }),
+              xp: XpField()
             }),
-            xp: XpField()
-          }),
-          { required: false, initial: [] }
-        ),
-        spells: new fields.ArrayField(
-          new fields.SchemaField({
-            id: new fields.StringField({
-              required: true,
-              blank: false,
-              nullable: true,
-              initial: null
+            { required: false, initial: [] }
+          ),
+          newSpells: new fields.ArrayField(
+            new fields.SchemaField({
+              name: new fields.StringField({ required: true, blank: false }),
+              label: new fields.StringField({ required: true, blank: false }),
+              id: new fields.StringField({
+                required: false,
+                blank: true,
+                nullable: true,
+                initial: null
+              }),
+              img: new fields.StringField({
+                required: false,
+                blank: true,
+                initial: ""
+              }),
+              level: baseLevel(),
+              spellData: new fields.EmbeddedDataField(SpellSchema)
             }),
-            form: hermeticForm(),
-            teacherScore: new fields.NumberField({
-              required: false,
-              nullable: false,
-              integer: true,
-              min: 0,
-              initial: 2,
-              step: 1
-            }),
-            xp: XpField()
-          }),
-          { required: false, initial: [] }
-        ),
-        newSpells: new fields.ArrayField(
-          new fields.SchemaField({
-            name: new fields.StringField({ required: true, blank: false }),
-            label: new fields.StringField({ required: true, blank: false }),
-            id: new fields.StringField({
-              required: false,
-              blank: true,
-              nullable: true,
-              initial: null
-            }),
-            img: new fields.StringField({
-              required: false,
-              blank: true,
-              initial: ""
-            }),
-            level: baseLevel(),
-            spellData: new fields.EmbeddedDataField(SpellSchema)
-          }),
-          { required: false, initial: [] }
-        )
-      })
+            { required: false, initial: [] }
+          )
+        },
+        {
+          required: false,
+          blank: false,
+          initial: { abilities: [], spells: [], arts: [], newSpells: [] }
+        }
+      )
     };
   }
 

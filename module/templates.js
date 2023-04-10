@@ -73,6 +73,8 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/generic/source.html",
     "systems/arm5e/templates/generic/aging-dialog.html",
     "systems/arm5e/templates/generic/metalic-bar.html",
-    "systems/arm5e/templates/generic/simpleFieldBacksection.html"
+    "systems/arm5e/templates/generic/simpleFieldBacksection.html",
+    "systems/arm5e/templates/generic/quick-combat.html",
+    "systems/arm5e/templates/generic/quick-vitals.html"
   ]);
 };

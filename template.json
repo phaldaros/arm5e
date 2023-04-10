@@ -979,20 +979,6 @@
         "source": "custom",
         "page": 0
       },
-      "cost": {
-        "cost": {
-          "value": "",
-          "label": "Cost"
-        }
-      },
-      "ability": {
-        "defaultChaAb": "int",
-        "speciality": "",
-        "xp": 0,
-        "key": "awareness",
-        "option": "",
-        "realm": "magic"
-      },
       "magicalEffectAttributes": {
         "technique": {
           "value": "cr",
@@ -1077,76 +1063,6 @@
         "language": "Latin"
       }
     },
-    "weapon": {
-      "templates": ["base", "cost"],
-      "quantity": 1,
-      "weight": 0,
-      "ability": "",
-      "abilities": [],
-      "weaponExpert": false,
-      "horse": false,
-      "init": 0,
-      "atk": 0,
-      "dfn": 0,
-      "dam": 0,
-      "str": 0,
-      "range": 0,
-      "load": 0,
-      "equiped": false
-    },
-    "armor": {
-      "templates": ["base", "cost"],
-      "quantity": 1,
-      "weight": 0,
-      "prot": 0,
-      "full": false,
-      "equiped": false
-    },
-    "baseEffect": {
-      "technique": {
-        "value": "cr",
-        "label": "Technique"
-      },
-      "technique-req": {
-        "cr": false,
-        "in": false,
-        "mu": false,
-        "pe": false,
-        "re": false
-      },
-      "form": {
-        "value": "an",
-        "label": "Form"
-      },
-      "form-req": {
-        "an": false,
-        "aq": false,
-        "au": false,
-        "co": false,
-        "he": false,
-        "ig": false,
-        "im": false,
-        "me": false,
-        "te": false,
-        "vi": false
-      },
-      "baseEffectDescription": "",
-      "baseLevel": 1
-    },
-    "magicalEffect": {
-      "templates": ["base", "magicalEffectAttributes"],
-      "ritual": false,
-      "applyFocus": false
-    },
-    "spell": {
-      "templates": ["base", "magicalEffectAttributes"],
-      "ritual": false,
-      "bonus": 0,
-      "bonusDesc": "",
-      "xp": 0,
-      "masteryAbilities": "",
-      "applyFocus": false
-    },
     "enchantment": {
       "templates": ["base", "magicalEffectAttributes", "enchantmentAttributes"]
     },
@@ -1158,57 +1074,8 @@
       "usage": "standard",
       "quality": 0
     },
-    "laboratoryText": {
-      "templates": ["base", "authorship", "magicalEffectAttributes", "enchantmentAttributes"],
-      "type": "spell"
-    },
-    "vis": {
-      "templates": ["base"],
-      "art": "cr",
-      "pawns": 1
-    },
-    "item": {
-      "templates": ["base"],
-      "quantity": 1,
-      "weight": 0
-    },
-    "virtue": {
-      "templates": ["base"],
-      "type": "general",
-      "impact": {
-        "value": "free"
-      }
-    },
-    "flaw": {
-      "templates": ["base"],
-      "type": "general",
-      "impact": {
-        "value": "free"
-      }
-    },
-    "ability": {
-      "templates": ["base", "ability"]
-    },
     "abilityFamiliar": {
       "templates": ["base", "ability"]
-    },
-    "diaryEntry": {
-      "templates": ["base"],
-      "dates": [{ "year": 1220, "season": "spring", "applied": false }],
-      "sourceQuality": 0,
-      "activity": "none",
-      "progress": { "abilities": [], "spells": [], "arts": [], "newSpells": [] },
-      "teacher": {
-        "id": null,
-        "name": "",
-        "com": 0,
-        "teaching": 0,
-        "speciality": "",
-        "applySpec": false,
-        "score": 0
-      },
-      "optionKey": "standard",
-      "duration": 1
     },
     "power": {
       "templates": ["base"],

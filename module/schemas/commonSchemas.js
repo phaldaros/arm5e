@@ -97,28 +97,65 @@ export const baseDescription = () =>
   new fields.StringField({ required: false, blank: true, initial: "" });
 export const TechniquesForms = () => {
   return {
-    technique: new fields.SchemaField({ value: hermeticTechnique() }, { required: true }),
-    "technique-req": new fields.SchemaField({
-      cr: boolOption(),
-      in: boolOption(),
-      mu: boolOption(),
-      pe: boolOption(),
-      re: boolOption()
-    }),
+    technique: new fields.SchemaField(
+      { value: hermeticTechnique() },
+      { required: false, blank: false, initial: { value: "cr" } }
+    ),
+    "technique-req": new fields.SchemaField(
+      {
+        cr: boolOption(),
+        in: boolOption(),
+        mu: boolOption(),
+        pe: boolOption(),
+        re: boolOption()
+      },
+      {
+        required: false,
+        blank: false,
+        initial: {
+          cr: false,
+          in: false,
+          mu: false,
+          pe: false,
+          re: false
+        }
+      }
+    ),
 
-    form: new fields.SchemaField({ value: hermeticForm() }, { required: true }),
-    "form-req": new fields.SchemaField({
-      an: boolOption(),
-      aq: boolOption(),
-      au: boolOption(),
-      co: boolOption(),
-      he: boolOption(),
-      ig: boolOption(),
-      im: boolOption(),
-      me: boolOption(),
-      te: boolOption(),
-      vi: boolOption()
-    })
+    form: new fields.SchemaField(
+      { value: hermeticForm() },
+      { required: false, blank: false, initial: { value: "an" } }
+    ),
+    "form-req": new fields.SchemaField(
+      {
+        an: boolOption(),
+        aq: boolOption(),
+        au: boolOption(),
+        co: boolOption(),
+        he: boolOption(),
+        ig: boolOption(),
+        im: boolOption(),
+        me: boolOption(),
+        te: boolOption(),
+        vi: boolOption()
+      },
+      {
+        required: false,
+        blank: false,
+        initial: {
+          an: false,
+          aq: false,
+          au: false,
+          co: false,
+          he: false,
+          ig: false,
+          im: false,
+          me: false,
+          te: false,
+          vi: false
+        }
+      }
+    )
   };
 };
 
@@ -142,7 +179,7 @@ export const SpellAttributes = () => {
           choices: possibleRanges
         })
       },
-      { required: true }
+      { required: false, blank: false, initial: { value: "personal" } }
     ),
     duration: new fields.SchemaField(
       {
@@ -153,7 +190,7 @@ export const SpellAttributes = () => {
           choices: possibleDurations
         })
       },
-      { required: true }
+      { required: false, blank: false, initial: { value: "moment" } }
     ),
     target: new fields.SchemaField(
       {
@@ -164,7 +201,7 @@ export const SpellAttributes = () => {
           choices: possibleTargets
         })
       },
-      { required: true }
+      { required: false, blank: false, initial: { value: "ind" } }
     ),
     targetSize: new fields.NumberField({
       required: false,

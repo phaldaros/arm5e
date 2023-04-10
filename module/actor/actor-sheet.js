@@ -32,6 +32,7 @@ import {
 } from "../helpers/rollWindow.js";
 
 import { spellTechniqueLabel, spellFormLabel } from "../helpers/spells.js";
+import { computeCombatStats, quickCombat, quickVitals } from "../helpers/combat.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -498,22 +499,7 @@ export class ArM5eActorSheet extends ActorSheet {
         // log(false, `${key} has ${charac.aging} points`);
       }
 
-      context.combat = {
-        init:
-          context.system.combat.init -
-          context.system.combat.overload +
-          context.system.characteristics.qik.value,
-        attack:
-          context.system.combat.atk +
-          context.system.combat.ability +
-          context.system.characteristics.dex.value,
-        defense:
-          context.system.combat.dfn +
-          context.system.combat.ability +
-          context.system.characteristics.qik.value,
-        damage: context.system.combat.dam + context.system.characteristics.str.value,
-        soak: context.system.combat.prot + context.system.characteristics.sta.value
-      };
+      context.combat = computeCombatStats(this.actor);
 
       for (let [key, charac] of Object.entries(context.system.characteristics)) {
         let shadowWidth = 2 * charac.aging;
@@ -1304,6 +1290,14 @@ export class ArM5eActorSheet extends ActorSheet {
     renderRollTemplate(dataset, template, this.actor);
   }
 
+  async quickCombat(name) {
+    await quickCombat(name, this.actor);
+  }
+
+  async quickVitals(name) {
+    await quickVitals(name, this.actor);
+  }
+
   // Overloaded core functions (TODO: review at each Foundry update)
 
   /**
@@ -1413,19 +1407,7 @@ export async function setWounds(selector, actor) {
   });
 
   if (typeOfWound) {
-    let actorUpdate = {
-      system: {
-        wounds: {
-          [typeOfWound]: {
-            number: {
-              value: actor.system.wounds[typeOfWound].number.value + 1
-            }
-          }
-        }
-      }
-    };
-
-    await actor.update(actorUpdate);
+    await actor.changeWound(1, typeOfWound);
   }
 }
 

@@ -378,6 +378,7 @@
   "arm5e.skill.martial.trownWeapon": "Thrown Weapon",
 
   "arm5e.skill.academic.artesLib": "Artes Liberales",
+  "arm5e.skill.academic.law": "Law ({option})",
   "arm5e.skill.academic.civilCanonLaw": "Civil & Canon Law",
   "arm5e.skill.academic.commonLaw": "Common Law",
   "arm5e.skill.academic.deadLanguage": "Dead language ({option})",
@@ -421,6 +422,7 @@
   "arm5e.skill.options.organization": "Org's name",
   "arm5e.skill.options.supernatural": "Power's name",
   "arm5e.skill.options.mysteryCult": "Cult's name",
+  "arm5e.skill.options.law": "Legal forum",
 
   "arm5e.sheet.ageModifier": "Age modifier",
   "arm5e.sheet.longevityRitual": "Longevity Ritual",
@@ -444,6 +446,7 @@
   "arm5e.sheet.aestheticsMax": "Aesthetics' maximum",
   "arm5e.sheet.magicItems": "Magic Items",
   "arm5e.sheet.specialities": "Specialties",
+  "arm5e.sheet.rooms": "Rooms",
   "arm5e.sheet.features": "Features",
   "arm5e.sheet.possessions": "Possessions",
   "arm5e.sheet.properties": "Properties and land",
