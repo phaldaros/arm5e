@@ -1,4 +1,4 @@
-## 2.0.5.2, Lexora, the apprentice
+## 2.0.5.5, Lexora, the apprentice
 
 ### Features & changes
 
@@ -8,12 +8,15 @@
 - Warping on botch with magic
 - [technical] put increaseScore and decreaseScore methods in their respective schemas, cleaning up item.sheet
 - Personality traits are now Items wit XPs
+- Common law and Canon and Civic law have been merged into a new generic ability: Law
+- New macros for quick access to combat and vitals stats of selected token
 
 ### Bug fixes
 
 - Limited the width of spell attributes field to prevent layout problem in translations
 - Added missing mnemonics for some hardcoded text in lab planning.
 - Extended even more the room for abilities
+- [technical] Cleaned up template.json and adjusted initial values of schema fields
 
 ### V10 migration (on going)
 
@@ -33,6 +36,8 @@
   - Laboratory
   - Reputation
   - Personality trait
+  - Armor
+  - Weapon
 
 ## 2.0.4.23, Kentigern, the Quaesitor
 

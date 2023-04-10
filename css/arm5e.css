@@ -180,8 +180,9 @@ span.player-name {
   border: 2px solid #6f6c66;
 }
 
+.arm5e-dialog .dialog-buttons,
 .arm5e .dialog-buttons {
-  background-color: rgb(236 222 187 / 50%);
+  background-color: rgb(169 159 134 / 50%);
 }
 
 .arm5e .art-score input[type="number"] {
@@ -1358,6 +1359,7 @@ input[type="time"] {
   position: relative;
 }
 input[type="text"].combat-total,
+input[type="text"].wound-level,
 input[type="number"].art-score {
   font-size: 13pt;
   text-align: center;
@@ -1691,6 +1693,10 @@ img.art-icon {
   padding: 4px;
 }
 
+.arm5e .padding6 {
+  padding: 6px;
+}
+
 .arm5e .padding10 {
   padding: 10px;
 }
@@ -1732,6 +1738,16 @@ img.art-icon {
 
 .arm5e .marginRight8 {
   margin-right: 8px;
+}
+
+.arm5e .marginSide8 {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.arm5e .paddingSide18 {
+  padding-right: 18px;
+  padding-left: 18px;
 }
 
 .arm5e .fontSize10 {

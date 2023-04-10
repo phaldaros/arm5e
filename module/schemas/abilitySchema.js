@@ -91,8 +91,15 @@ export class AbilitySchema extends foundry.abstract.DataModel {
         name = name.substring(0, name.length - 1);
       }
 
+      if (itemData.system.key === "civilCanonLaw") {
+        updateData["system.key"] = "law";
+        updateData["system.option"] = "CivilAndCanon";
+      } else if (itemData.system.key == "commonLaw") {
+        updateData["system.key"] = "law";
+        updateData["system.option"] = "Common";
+      }
       // if there is not already a key, try to guess it
-      if (itemData.system.key === "" || itemData.system.key === undefined) {
+      else if (itemData.system.key === "" || itemData.system.key === undefined) {
         // Special common cases
         if (game.i18n.localize("arm5e.skill.commonCases.native").toLowerCase() == name) {
           updateData["system.key"] = "livingLanguage";

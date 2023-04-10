@@ -109,9 +109,12 @@ export async function migration(originalVersion) {
     try {
       const rawData = foundry.utils.deepClone(game.items._source.find(d => d._id == invalidId));
       console.log(`Migrating invalid item document: ${rawData.name}`);
-      const updateData = await migrateItemData(rawData);
+      let invalidItem = game.items.getInvalid(invalidId);
+      const updateData = await migrateItemData(invalidItem);
       updateData._id = invalidId;
-      invalidItemsUpdates.push(foundry.utils.expandObject(updateData));
+      if (!isEmpty(updateData)) {
+        invalidItemsUpdates.push({ _id: invalidId, ...updateData });
+      }
     } catch (err) {
       err.message = `Failed system migration for invalid item ${invalidId}: ${err.message}`;
       console.error(err);
@@ -384,7 +387,7 @@ export const migrateActorData = async function(actorDoc, actorItems) {
     }
     if (actor.system.reputation) {
       for (let rep of Object.values(actor.system.reputation)) {
-        if (rep.label === "") continue;
+        if (rep.label === "" || rep.label === null) continue;
 
         let reputationData = {
           name: rep.label,
@@ -398,7 +401,10 @@ export const migrateActorData = async function(actorDoc, actorItems) {
         if (actorDoc instanceof ArM5ePCActor) {
           await actorDoc.createEmbeddedDocuments("Item", [reputationData]);
         } else {
-          actorDoc.items.push(reputation);
+          let newRep = await Item.create(reputationData);
+          // reputationData._id = foundry.utils.randomID();
+          log(false, `Reputation: ${newRep.toObject()}`);
+          actorDoc.items.push(newRep.toObject());
         }
       }
       updateData["system.-=reputation"] = null;
@@ -406,7 +412,9 @@ export const migrateActorData = async function(actorDoc, actorItems) {
 
     if (actor.system.personality) {
       for (let pers of Object.values(actor.system.personality)) {
-        if (pers.label === "") continue;
+        if (pers.label === "" || pers.label === null) {
+          continue;
+        }
 
         let persData = {
           name: pers.label,
@@ -419,7 +427,10 @@ export const migrateActorData = async function(actorDoc, actorItems) {
         if (actorDoc instanceof ArM5ePCActor) {
           await actorDoc.createEmbeddedDocuments("Item", [persData]);
         } else {
-          actorDoc.items.push(persData);
+          let newPerso = await Item.create(persData);
+          // persData._id = foundry.utils.randomID();
+          log(false, `Perso. ${persData}`);
+          actorDoc.items.push(newPerso.toObject());
         }
       }
       updateData["system.-=personality"] = null;
@@ -719,6 +730,31 @@ export const migrateActiveEffectData = async function(effectData) {
   if (effectData.flags?.arm5e?.option == undefined) {
     let optionArray = Array(effectData.changes.length).fill(null);
     effectUpdate["flags.arm5e.option"] = optionArray;
+  } else {
+    let options = effectData.flags.arm5e.option;
+    let subtypes = effectData.flags.arm5e.subtype;
+    let changes = effectData.changes;
+    let idx = 0;
+    let needUpdate = false;
+    for (let ch of changes) {
+      if (ch.key === "system.bonuses.skills.civilCanonLaw.bonus") {
+        ch.key = "system.bonuses.skills.law_CivilAndCanon.bonus";
+        options[idx] = "CivilAndCanon";
+        subtypes[idx] = "law";
+        needUpdate = true;
+      } else if (ch.key === "system.bonuses.skills.commonLaw.bonus") {
+        ch.key = "system.bonuses.skills.law_Common.bonus";
+        options[idx] = "Common";
+        subtypes[idx] = "law";
+        needUpdate = true;
+      }
+      idx++;
+    }
+    if (needUpdate) {
+      effectUpdate["flags.arm5e.option"] = options;
+      effectUpdate["flags.arm5e.subtype"] = subtypes;
+      effectUpdate["changes"] = changes;
+    }
   }
 
   return effectUpdate;

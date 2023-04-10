@@ -576,17 +576,12 @@ ARM5E.ACADEMIC_ABILITIES = {
     category: "academic",
     selection: ""
   },
-  civilCanonLaw: {
-    mnemonic: "arm5e.skill.academic.civilCanonLaw",
-    option: false,
+  law: {
+    mnemonic: "arm5e.skill.academic.law",
+    option: true,
     category: "academic",
-    selection: ""
-  },
-  commonLaw: {
-    mnemonic: "arm5e.skill.academic.commonLaw",
-    option: false,
-    category: "academic",
-    selection: ""
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.law"
   },
   deadLanguage: {
     mnemonic: "arm5e.skill.academic.deadLanguage",

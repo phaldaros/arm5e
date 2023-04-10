@@ -905,17 +905,24 @@ export default {
         mode: 2,
         default: 2
       },
-      civilCanonLaw: {
-        label: "arm5e.skill.academic.civilCanonLaw",
-        key: "system.bonuses.skills.civilCanonLaw.bonus",
+      // civilCanonLaw: {
+      //   label: "arm5e.skill.academic.civilCanonLaw",
+      //   key: "system.bonuses.skills.civilCanonLaw.bonus",
+      //   mode: 2,
+      //   default: 2
+      // },
+      // commonLaw: {
+      //   label: "arm5e.skill.academic.commonLaw",
+      //   key: "system.bonuses.skills.commonLaw.bonus",
+      //   mode: 2,
+      //   default: 2
+      // },
+      law: {
+        abel: "arm5e.skill.academic.law",
+        key: "system.bonuses.skills.law_#OPTION#.bonus",
         mode: 2,
-        default: 2
-      },
-      commonLaw: {
-        label: "arm5e.skill.academic.commonLaw",
-        key: "system.bonuses.skills.commonLaw.bonus",
-        mode: 2,
-        default: 2
+        default: 2,
+        option: "legalForum"
       },
       deadLanguage: {
         label: "arm5e.skill.academic.deadLanguage",

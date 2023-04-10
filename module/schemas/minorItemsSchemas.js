@@ -39,7 +39,7 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
             choices: Object.keys(ARM5E.impacts).concat("Special")
           })
         },
-        { required: true }
+        { required: false, blank: false, initial: { value: "free" } }
       )
     };
   }

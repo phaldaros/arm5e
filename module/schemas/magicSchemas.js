@@ -395,7 +395,7 @@ export class LabTextSchema extends foundry.abstract.DataModel {
       ...itemBase(),
       ...authorship(),
       type: new fields.StringField({
-        required: true,
+        required: false,
         blank: false,
         initial: "spell",
         choices: Object.keys(ARM5E.lab.labTextType)

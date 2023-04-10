@@ -10,3 +10,125 @@ export async function exertSelf(actor, mode, callback, roll) {
 
   await actor.loseFatigueLevel(1);
 }
+
+export function computeCombatStats(actor) {
+  return {
+    init:
+      actor.system.combat.init -
+      actor.system.combat.overload +
+      actor.system.characteristics.qik.value,
+    attack:
+      actor.system.combat.atk +
+      actor.system.combat.ability +
+      actor.system.characteristics.dex.value,
+    defense:
+      actor.system.combat.dfn +
+      actor.system.combat.ability +
+      actor.system.characteristics.qik.value,
+    damage: actor.system.combat.dam + actor.system.characteristics.str.value,
+    soak: actor.system.combat.prot + actor.system.characteristics.sta.value
+  };
+}
+
+export async function quickCombat(tokenName, actor) {
+  const template = "systems/arm5e/templates/generic/quick-combat.html";
+
+  if (!actor._isCharacter()) return;
+  const renderedTemplate = await renderTemplate(template, {
+    name: tokenName,
+    system: actor.system,
+    combat: computeCombatStats(actor)
+  });
+  const dialogData = {
+    title: game.i18n.localize("arm5e.sheet.combat"),
+    content: renderedTemplate,
+    // render: addListeners(renderedTemplate, actor.sheet),
+    buttons: []
+  };
+  const dialog = new Dialog(
+    {
+      render: html => {
+        html.find(".rollable").click(async event => await actor.sheet._onRoll(event));
+        html.find(".soak-damage").click(async event => await actor.sheet._onSoakDamage(event));
+        html.find(".damage").click(async event => await actor.sheet._onCalculateDamage(event));
+      },
+      ...dialogData
+    },
+    {
+      classes: ["arm5e-dialog", "dialog"],
+      height: "auto",
+      width: "300px"
+    }
+  );
+  dialog.render(true);
+}
+
+export class QuickVitals extends FormApplication {
+  constructor(data, options) {
+    super(data, options);
+  }
+  /** @override */
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["arm5e-dialog", "dialog"],
+      title: game.i18n.localize("arm5e.sheet.vitals"),
+      template: "systems/arm5e/templates/generic/quick-vitals.html",
+      width: "200px",
+      height: "auto",
+      submitOnChange: true,
+      closeOnSubmit: false
+    });
+  }
+
+  async getData(options = {}) {
+    const context = {
+      name: this.object.name,
+      system: this.object.actor.system,
+      woundCfg: CONFIG.ARM5E.character.wounds,
+      conscious: this.object.actor.system.fatigueCurrent < this.object.actor.system.fatigueMaxLevel
+    };
+    log(false, `Vitals: ${context}, Fatigue: ${context.system.fatigueCurrent}`);
+    return context;
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+    html.find(".rest").click(async () => {
+      await this.object.actor.rest();
+      this.render();
+    });
+    html.find(".addFatigue").click(async () => {
+      await this.object.actor._changeFatigueLevel(1, false);
+      this.render();
+    });
+    html.find(".removeFatigue").click(async () => {
+      await this.object.actor._changeFatigueLevel(-1, false);
+      this.render();
+    });
+    html.find(".addWound").click(async event => {
+      event.preventDefault();
+      const dataset = event.currentTarget.dataset;
+      await this.object.actor.changeWound(1, dataset.type);
+      this.render();
+    });
+    html.find(".removeWound").click(async event => {
+      event.preventDefault();
+      const dataset = event.currentTarget.dataset;
+      await this.object.actor.changeWound(-1, dataset.type);
+      this.render();
+    });
+  }
+}
+
+export async function quickVitals(tokenName, actor) {
+  if (!actor._isCharacter()) return;
+
+  const vitals = new QuickVitals(
+    {
+      name: tokenName,
+      actor: actor
+    },
+    {}
+  ); // data, options
+  const res = await vitals.render(true);
+}
