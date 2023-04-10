@@ -2,167 +2,182 @@ import { ArM5ePCActor } from "./actor/actor.js";
 import { log } from "./tools.js";
 
 const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
-
+const DEPRECATED_ACTORS = ["scriptorium"];
 export async function migration(originalVersion) {
-  ui.notifications.info(
-    `Applying ARM5E System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`,
-    {
-      permanent: true
-    }
-  );
-
-  console.log("Starting migration...");
-
-  // Migrate World Actors
-  const actorsUpdates = [];
-  for (let a of game.actors.contents) {
-    try {
-      if (a.type == "magus") {
-        a.type = "player";
+  try {
+    ui.notifications.info(
+      `Applying ARM5E System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`,
+      {
+        permanent: true
       }
-      log(true, `Invalid items in actor: ${a.items.invalidDocumentIds.size}`);
-      const updateData = await migrateActorData(a, a.items);
+    );
 
-      if (!isEmpty(updateData)) {
-        console.log(`Migrating Actor document ${a.name}`);
-        updateData._id = a._id;
-        actorsUpdates.push(foundry.utils.expandObject(updateData));
+    console.log("Starting migration...");
+
+    // Migrate World Actors
+    const actorsUpdates = [];
+    for (let a of game.actors.contents) {
+      try {
+        if (a.type == "magus") {
+          a.type = "player";
+        }
+        if (DEPRECATED_ACTORS.includes(a.type)) {
+          game.actors.delete(a._id);
+          continue;
+        }
+
+        log(true, `Invalid items in actor: ${a.items.invalidDocumentIds.size}`);
+        const updateData = await migrateActorData(a, a.items);
+
+        if (!isEmpty(updateData)) {
+          console.log(`Migrating Actor document ${a.name}`);
+          updateData._id = a._id;
+          actorsUpdates.push(foundry.utils.expandObject(updateData));
+        }
+
+        // const cleanData = cleanActorData(a)
+        // if (!isEmpty(cleanData)) {
+        //     console.log(`Cleaning up Actor entity ${a.name}`);
+        //     a.system = cleanData.system;
+        // }
+      } catch (err) {
+        err.message = `Failed system migration for Actor ${a.name}: ${err.message}`;
+        console.error(err);
       }
-
-      // const cleanData = cleanActorData(a)
-      // if (!isEmpty(cleanData)) {
-      //     console.log(`Cleaning up Actor entity ${a.name}`);
-      //     a.system = cleanData.system;
-      // }
-    } catch (err) {
-      err.message = `Failed system migration for Actor ${a.name}: ${err.message}`;
-      console.error(err);
     }
-  }
-  if (actorsUpdates.length > 0) {
-    await Actor.updateDocuments(actorsUpdates, { diff: false });
-  }
+    if (actorsUpdates.length > 0) {
+      await Actor.updateDocuments(actorsUpdates, { diff: false });
+    }
 
-  // Migrate Invalid actors
+    // Migrate Invalid actors
 
-  const invalidActorIds = Array.from(game.actors.invalidDocumentIds);
-  const invalidActorsUpdates = [];
-  for (const invalidId of invalidActorIds) {
-    try {
-      const rawData = foundry.utils.deepClone(game.actors._source.find(d => d._id == invalidId));
-      console.log(`Migrating invalid Actor document: ${rawData.name}`);
-      // let invalidActor = game.actors.getInvalid(invalidId);
-      // log(false, `Invalid items in actor: ${invalidActor.items.invalidDocumentIds.size}`);
-      // log(false, `Items in actor: ${invalidActor.items.size}`);
-      const updateData = await migrateActorData(rawData, rawData.items);
-      // let updateData = await invalidActor.update(updateData, { diff: true });
-      console.log(`Migrated invalid Actor document: ${rawData.name}`);
-      if (!isEmpty(updateData)) {
+    const invalidActorIds = Array.from(game.actors.invalidDocumentIds);
+    const invalidActorsUpdates = [];
+    for (const invalidId of invalidActorIds) {
+      try {
+        const rawData = foundry.utils.deepClone(game.actors._source.find(d => d._id == invalidId));
+
+        console.log(`Migrating invalid Actor document: ${rawData.name}`);
+        if (DEPRECATED_ACTORS.includes(rawData.type)) {
+          game.actors.getInvalid(invalidId).delete();
+          continue;
+        }
+        // let invalidActor = game.actors.getInvalid(invalidId);
+        // log(false, `Invalid items in actor: ${invalidActor.items.invalidDocumentIds.size}`);
+        // log(false, `Items in actor: ${invalidActor.items.size}`);
+        const updateData = await migrateActorData(rawData, rawData.items);
+        // let updateData = await invalidActor.update(updateData, { diff: true });
+        console.log(`Migrated invalid Actor document: ${rawData.name}`);
+        if (!isEmpty(updateData)) {
+          updateData._id = invalidId;
+          invalidActorsUpdates.push(foundry.utils.expandObject(updateData));
+        }
+      } catch (err) {
+        err.message = `Failed system migration for invalid Actor ${invalidId}: ${err.message}`;
+        console.error(err);
+      }
+    }
+    if (invalidActorsUpdates.length > 0) {
+      console.log(`Migrating ${invalidActorsUpdates.length} invalid Actor document(s)`);
+      await Actor.updateDocuments(invalidActorsUpdates, { diff: false });
+    }
+    // Migrate World Items
+    const itemsUpdates = [];
+
+    for (let i of game.items) {
+      try {
+        if (DEPRECATED_ITEMS.includes(i.type)) {
+          game.items.delete(i._id);
+          continue;
+        }
+        const updateData = await migrateItemData(i);
+        if (!foundry.utils.isEmpty(updateData)) {
+          console.log(`Migrating Item document ${i.name}`);
+
+          updateData._id = i._id;
+          itemsUpdates.push(foundry.utils.expandObject(updateData));
+        }
+        console.log(`Migrated Item document ${i.name}`);
+
+        // const cleanData = cleanItemData(i)
+        // if (!isEmpty(cleanData)) {
+        //     console.log(`Cleaning up Item document ${i.name}`);
+        //     i.system = cleanData.system;
+        // }
+      } catch (err) {
+        err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
+        console.error(err);
+      }
+    }
+    if (itemsUpdates.length > 0) {
+      await Item.updateDocuments(itemsUpdates, { diff: true });
+    }
+    // Migrate Invalid items
+
+    const invalidItemIds = Array.from(game.items.invalidDocumentIds);
+    const invalidItemsUpdates = [];
+    for (const invalidId of invalidItemIds) {
+      try {
+        const rawData = foundry.utils.deepClone(game.items._source.find(d => d._id == invalidId));
+        console.log(`Migrating invalid item document: ${rawData.name}`);
+        let invalidItem = game.items.getInvalid(invalidId);
+        const updateData = await migrateItemData(invalidItem);
         updateData._id = invalidId;
-        invalidActorsUpdates.push(foundry.utils.expandObject(updateData));
+        if (!isEmpty(updateData)) {
+          invalidItemsUpdates.push({ _id: invalidId, ...updateData });
+        }
+      } catch (err) {
+        err.message = `Failed system migration for invalid item ${invalidId}: ${err.message}`;
+        console.error(err);
       }
-    } catch (err) {
-      err.message = `Failed system migration for invalid Actor ${invalidId}: ${err.message}`;
-      console.error(err);
     }
-  }
-  if (invalidActorsUpdates.length > 0) {
-    console.log(`Migrating ${invalidActorsUpdates.length} invalid Actor document(s)`);
-    await Actor.updateDocuments(invalidActorsUpdates, { diff: false });
-  }
-  // Migrate World Items
-  const itemsUpdates = [];
+    if (invalidItemsUpdates.length > 0) {
+      await Item.updateDocuments(invalidItemsUpdates, { diff: false });
+    }
 
-  for (let i of game.items) {
-    try {
-      if (DEPRECATED_ITEMS.includes(i.type)) {
-        game.items.delete(i._id);
-        continue;
+    // Migrate Actor Override Tokens
+    for (let s of game.scenes) {
+      try {
+        const updateData = await migrateSceneData(s);
+        if (!foundry.utils.isEmpty(updateData)) {
+          console.log(`Migrating Scene entity ${s.name}`);
+          await s.update(updateData, { enforceTypes: false });
+          // If we do not do this, then synthetic token actors remain in cache
+          // with the un-updated actor.
+          s.tokens.forEach(t => (t._actor = null));
+        }
+      } catch (err) {
+        err.message = `Failed system migration for Scene ${s.name}: ${err.message}`;
+        console.error(err);
       }
-      const updateData = await migrateItemData(i);
-      if (!foundry.utils.isEmpty(updateData)) {
-        console.log(`Migrating Item document ${i.name}`);
+    }
 
-        updateData._id = i._id;
-        itemsUpdates.push(foundry.utils.expandObject(updateData));
+    // [DEV] Uncomment below to migrate system compendiums
+    // for (let p of game.packs) {
+    //   if (p.metadata.packageName !== "arm5e") continue;
+    //   if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
+    //   await migrateCompendium(p);
+    // }
+
+    // Migrate World Compendium Packs
+    for (let p of game.packs) {
+      if (p.metadata.packageName !== "world") continue;
+      if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
+      await migrateCompendium(p);
+    }
+
+    // Set the migration as complete
+    await game.settings.set("arm5e", "systemMigrationVersion", game.system.version);
+    ui.notifications.info(
+      `Ars Magica 5e System Migration to version ${game.system.version} completed!`,
+      {
+        permanent: true
       }
-      console.log(`Migrated Item document ${i.name}`);
-
-      // const cleanData = cleanItemData(i)
-      // if (!isEmpty(cleanData)) {
-      //     console.log(`Cleaning up Item document ${i.name}`);
-      //     i.system = cleanData.system;
-      // }
-    } catch (err) {
-      err.message = `Failed system migration for Item ${i.name}: ${err.message}`;
-      console.error(err);
-    }
+    );
+  } catch (err) {
+    err.message = `Failed system migration: ${err.message}`;
+    console.error(err);
   }
-  if (itemsUpdates.length > 0) {
-    await Item.updateDocuments(itemsUpdates, { diff: true });
-  }
-  // Migrate Invalid items
-
-  const invalidItemIds = Array.from(game.items.invalidDocumentIds);
-  const invalidItemsUpdates = [];
-  for (const invalidId of invalidItemIds) {
-    try {
-      const rawData = foundry.utils.deepClone(game.items._source.find(d => d._id == invalidId));
-      console.log(`Migrating invalid item document: ${rawData.name}`);
-      let invalidItem = game.items.getInvalid(invalidId);
-      const updateData = await migrateItemData(invalidItem);
-      updateData._id = invalidId;
-      if (!isEmpty(updateData)) {
-        invalidItemsUpdates.push({ _id: invalidId, ...updateData });
-      }
-    } catch (err) {
-      err.message = `Failed system migration for invalid item ${invalidId}: ${err.message}`;
-      console.error(err);
-    }
-  }
-  if (invalidItemsUpdates.length > 0) {
-    await Item.updateDocuments(invalidItemsUpdates, { diff: false });
-  }
-
-  // Migrate Actor Override Tokens
-  for (let s of game.scenes) {
-    try {
-      const updateData = await migrateSceneData(s);
-      if (!foundry.utils.isEmpty(updateData)) {
-        console.log(`Migrating Scene entity ${s.name}`);
-        await s.update(updateData, { enforceTypes: false });
-        // If we do not do this, then synthetic token actors remain in cache
-        // with the un-updated actor.
-        s.tokens.forEach(t => (t._actor = null));
-      }
-    } catch (err) {
-      err.message = `Failed system migration for Scene ${s.name}: ${err.message}`;
-      console.error(err);
-    }
-  }
-
-  // [DEV] Uncomment below to migrate system compendiums
-  // for (let p of game.packs) {
-  //   if (p.metadata.packageName !== "arm5e") continue;
-  //   if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
-  //   await migrateCompendium(p);
-  // }
-
-  // Migrate World Compendium Packs
-  for (let p of game.packs) {
-    if (p.metadata.packageName !== "world") continue;
-    if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
-    await migrateCompendium(p);
-  }
-
-  // Set the migration as complete
-  await game.settings.set("arm5e", "systemMigrationVersion", game.system.version);
-  ui.notifications.info(
-    `Ars Magica 5e System Migration to version ${game.system.version} completed!`,
-    {
-      permanent: true
-    }
-  );
 }
 
 /**
@@ -232,7 +247,6 @@ export const migrateSceneData = async function(scene, migrationData) {
     scene.tokens.map(async token => {
       const t = token instanceof foundry.abstract.DataModel ? token.toObject() : token;
       const update = {};
-
       if (!t.actorId || t.actorLink) {
         t.actorData = {};
       } else if (!game.actors.has(t.actorId)) {
@@ -386,54 +400,58 @@ export const migrateActorData = async function(actorDoc, actorItems) {
       updateData["system.-=pendingXP"] = null;
     }
     if (actor.system.reputation) {
-      for (let rep of Object.values(actor.system.reputation)) {
-        if (rep.label === "" || rep.label === null) continue;
+      if (actorDoc instanceof ArM5ePCActor) {
+        for (let rep of Object.values(actor.system.reputation)) {
+          if (rep.label === "" || rep.label === null) continue;
 
-        let reputationData = {
-          name: rep.label,
-          type: "reputation",
-          system: {
-            xp: ((rep.score * (rep.score + 1)) / 2) * 5,
-            type: "local",
-            description: `Migration: type = ${rep.type}`
-          }
-        };
-        if (actorDoc instanceof ArM5ePCActor) {
+          let reputationData = {
+            name: rep.label,
+            type: "reputation",
+            system: {
+              xp: ((rep.score * (rep.score + 1)) / 2) * 5,
+              type: "local",
+              description: `Migration: type = ${rep.type}`
+            }
+          };
+
           await actorDoc.createEmbeddedDocuments("Item", [reputationData]);
-        } else {
-          let newRep = await Item.create(reputationData);
-          // reputationData._id = foundry.utils.randomID();
-          log(false, `Reputation: ${newRep.toObject()}`);
-          actorDoc.items.push(newRep.toObject());
         }
+        updateData["system.-=reputation"] = null;
+      } else {
+        ChatMessage.create({
+          content:
+            "<b>MIGRATION NOTIFICATION</b><br/>" +
+            `The character ${actor.name} was unable to migrate his/her reputations. Triggering a new migration will fix it (See FAQ)`
+        });
       }
-      updateData["system.-=reputation"] = null;
     }
 
     if (actor.system.personality) {
-      for (let pers of Object.values(actor.system.personality)) {
-        if (pers.label === "" || pers.label === null) {
-          continue;
-        }
-
-        let persData = {
-          name: pers.label,
-          type: "personalityTrait",
-          system: {
-            xp: ((pers.score * (pers.score + 1)) / 2) * 5,
-            description: ``
+      if (actorDoc instanceof ArM5ePCActor) {
+        for (let pers of Object.values(actor.system.personality)) {
+          if (pers.label === "" || pers.label === null) {
+            continue;
           }
-        };
-        if (actorDoc instanceof ArM5ePCActor) {
+
+          let persData = {
+            name: pers.label,
+            type: "personalityTrait",
+            system: {
+              xp: ((pers.score * (pers.score + 1)) / 2) * 5,
+              description: ``
+            }
+          };
+
           await actorDoc.createEmbeddedDocuments("Item", [persData]);
-        } else {
-          let newPerso = await Item.create(persData);
-          // persData._id = foundry.utils.randomID();
-          log(false, `Perso. ${persData}`);
-          actorDoc.items.push(newPerso.toObject());
         }
+        updateData["system.-=personality"] = null;
+      } else {
+        ChatMessage.create({
+          content:
+            "<b>MIGRATION NOTIFICATION</b><br/>" +
+            `The character ${actor.name} was unable to migrate his/her personality traits. Triggering a new migration will fix it (See FAQ)`
+        });
       }
-      updateData["system.-=personality"] = null;
     }
   } else {
     if (actor.system.roll) {

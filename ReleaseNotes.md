@@ -1,4 +1,4 @@
-## 2.0.5.5, Lexora, the apprentice
+## 2.0.5.6, Lexora, the apprentice
 
 ### Features & changes
 
@@ -17,6 +17,7 @@
 - Added missing mnemonics for some hardcoded text in lab planning.
 - Extended even more the room for abilities
 - [technical] Cleaned up template.json and adjusted initial values of schema fields
+- Fixed migration bug of reputations and personality traits for invalid actors
 
 ### V10 migration (on going)
 
