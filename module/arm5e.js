@@ -14,6 +14,7 @@ import { ArM5eItemSheet, ArM5eItemSheetNoDesc } from "./item/item-sheet.js";
 import { ArM5eItemMagicSheet } from "./item/item-magic-sheet.js";
 import { ArM5eBookSheet } from "./item/item-book-sheet.js";
 import { ArM5eItemDiarySheet } from "./item/item-diary-sheet.js";
+import { ArM5eItemVisSheet } from "./item/item-vis-sheet.js";
 import ArM5eActiveEffect from "./helpers/active-effects.js";
 
 import { ArM5eScene } from "./ui/ars-scene.js";
@@ -432,7 +433,10 @@ function registerSheets() {
     types: ["diaryEntry"],
     makeDefault: true
   });
-
+  Items.registerSheet("arm5e", ArM5eItemVisSheet, {
+    types: ["vis"],
+    makeDefault: true
+  });
   Items.registerSheet("arm5e", ArM5eBookSheet, {
     types: ["book"],
     makeDefault: true
@@ -472,7 +476,7 @@ function registerSheets() {
     makeDefault: true
   });
 
-  Items.registerSheet("arm5e", ArM5eItemSheetNoDesc, { types: ["vis"] });
+  // Items.registerSheet("arm5e", ArM5eItemSheetNoDesc, { types: ["vis"] });
 
   // [DEV] comment line bellow to get access to the original sheet
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);

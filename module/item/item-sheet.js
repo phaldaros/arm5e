@@ -313,6 +313,10 @@ export class ArM5eItemSheetNoDesc extends ArM5eItemSheet {
       tabs: []
     });
   }
+  /** @override */
+  async getData() {
+    return await super.getData();
+  }
 }
 
 export async function createMagicItem(html, item, codex) {
