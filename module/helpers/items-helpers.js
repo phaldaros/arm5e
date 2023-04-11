@@ -22,8 +22,8 @@ function getDatasetForAbility(item) {
 //TODO
 function getDatasetForWeapon(item) {
   if (item?.type !== TYPE_OF_ROLL.WEAPON) return {};
-  if (!item.system.equiped) {
-    ui.notifications.info(game.i18n.localize("arm5e.sheet.notEquipedWeapon"));
+  if (!item.system.equipped) {
+    ui.notifications.info(game.i18n.localize("arm5e.sheet.notEquippedWeapon"));
     return {};
   }
   return {

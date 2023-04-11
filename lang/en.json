@@ -129,7 +129,7 @@
   "arm5e.sheet.speciality": "Specialty",
   "arm5e.sheet.defaultCharacteristicForAbility": "Default characteristic",
   "arm5e.sheet.date": "Date",
-  "arm5e.sheet.equiped": "Equipped",
+  "arm5e.sheet.equipped": "Equipped",
   "arm5e.sheet.weaponExpert": "Weapon Expert",
   "arm5e.sheet.combat": "Combat",
   "arm5e.sheet.attackAdvantage": "Attack Advantage",
@@ -322,7 +322,7 @@
   "arm5e.sheet.covenantSurroundings": "Covenant: Surroundings",
   "arm5e.sheet.other": "Other",
 
-  "arm5e.sheet.notEquipedWeapon": "You cannot use an unequipped weapon",
+  "arm5e.sheet.notEquippedWeapon": "You cannot use an unequipped weapon",
   "arm5e.sheet.fastCastingSpeed": "Fast Casting Speed",
   "arm5e.sheet.determiningEffect": "Determining Effect",
   "arm5e.sheet.targeting": "Targeting",

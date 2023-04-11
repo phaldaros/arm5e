@@ -1,4 +1,4 @@
-## 2.0.5.6, Lexora, the apprentice
+## 2.0.5.7, Lexora, the apprentice
 
 ### Features & changes
 
@@ -18,6 +18,10 @@
 - Extended even more the room for abilities
 - [technical] Cleaned up template.json and adjusted initial values of schema fields
 - Fixed migration bug of reputations and personality traits for invalid actors
+- "Equipped" is now properly spelled
+- Fatigue overflow is now working properly
+- Migration
+  - Weapon.load not a number
 
 ### V10 migration (on going)
 
@@ -734,7 +738,7 @@ Features
 - unconscious characters are only able to roll characteristics rolls
 - new "Rest" button to recover all fatigue levels
 - PC and NPC now store soak and size at the same place (migration needed for NPCs)
-- Soak field is now readonly and computed automatically based on stamina and equiped armor
+- Soak field is now readonly and computed automatically based on stamina and equipped armor
 - NPCs of type entity only have powers. Those only have a might cost and a form (for magical resistance)
 - Vis sources and books now have their metadata available (sourcebook and page).
 - Weapons items have now a range

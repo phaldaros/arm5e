@@ -123,7 +123,7 @@
   "arm5e.sheet.speciality": "Especialización",
   "arm5e.sheet.defaultCharacteristicForAbility": "Característica por defecto",
   "arm5e.sheet.date": "Fecha",
-  "arm5e.sheet.equiped": "Equipado",
+  "arm5e.sheet.equipped": "Equipado",
   "arm5e.sheet.weaponExpert": "Experto con el Arma",
   "arm5e.sheet.combat": "Combate",
   "arm5e.sheet.attackAdvantage": "Ventaja de ataque",
@@ -308,7 +308,7 @@
   "arm5e.sheet.covenantSurroundings": "Alianza: Entorno",
   "arm5e.sheet.other": "Otros",
 
-  "arm5e.sheet.notEquipedWeapon": "No puedes usar un arma sin equipar",
+  "arm5e.sheet.notEquippedWeapon": "No puedes usar un arma sin equipar",
   "arm5e.sheet.fastCastingSpeed": "Lanzamiento Rápido",
   "arm5e.sheet.determiningEffect": "Determinar efecto",
   "arm5e.sheet.targeting": "Apuntar",
