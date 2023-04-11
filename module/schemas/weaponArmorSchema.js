@@ -150,6 +150,7 @@ export class WeaponSchema extends foundry.abstract.DataModel {
         step: 1
       }),
       weaponExpert: boolOption(false, true),
+      equipped: boolOption(false, true),
       horse: boolOption(false, true),
       ability: new fields.StringField({ required: false, blank: true, initial: "brawl" })
     };
@@ -183,6 +184,9 @@ export class WeaponSchema extends foundry.abstract.DataModel {
     }
     if (typeof data.system.range != "number") {
       update["system.range"] = convertToNumber(data.system.range, 0);
+    }
+    if (typeof data.system.load != "number") {
+      update["system.load"] = convertToNumber(data.system.load, 0);
     }
     return update;
   }

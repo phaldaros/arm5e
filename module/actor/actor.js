@@ -521,7 +521,7 @@ export class ArM5ePCActor extends Actor {
       item._index = key;
 
       if (item.type === "weapon" || item.type === "enchantedWeapon") {
-        if (item.system.equiped == true) {
+        if (item.system.equipped == true) {
           combat.load = parseInt(combat.load) + parseInt(item.system.load);
           combat.init = parseInt(combat.init) + parseInt(item.system.init);
           combat.atk = parseInt(combat.atk) + parseInt(item.system.atk);
@@ -556,7 +556,7 @@ export class ArM5ePCActor extends Actor {
         item.system.abilities = abilitiesSelect;
         weapons.push(item);
       } else if (item.type === "armor" || item.type === "enchantedArmor") {
-        if (item.system.equiped == true) {
+        if (item.system.equipped == true) {
           combat.load = parseInt(combat.load) + parseInt(item.system.weight);
           combat.prot = parseInt(combat.prot) + parseInt(item.system.prot);
         }
@@ -1378,19 +1378,23 @@ export class ArM5ePCActor extends Actor {
         case 0:
           break;
         case 1:
-          updateData["system.wound.light.number.value"] = system.wound.light.number.value + 1;
+          updateData["system.wounds.light.number.value"] =
+            this.system.wounds.light.number.value + 1;
           break;
         case 2:
-          updateData["system.wound.medium.number.value"] = system.wound.medium.number.value + 1;
+          updateData["system.wounds.medium.number.value"] =
+            this.system.wounds.medium.number.value + 1;
           break;
         case 3:
-          updateData["system.wound.heavy.number.value"] = system.wound.heavy.number.value + 1;
+          updateData["system.wounds.heavy.number.value"] =
+            this.system.wounds.heavy.number.value + 1;
           break;
         case 4:
-          updateData["system.wound.incap.number.value"] = system.wound.incap.number.value + 1;
+          updateData["system.wounds.incap.number.value"] =
+            this.system.wounds.incap.number.value + 1;
           break;
         default:
-          updateData["system.wound.dead.number.value"] = system.wound.dead.number.value + 1;
+          updateData["system.wounds.dead.number.value"] = this.system.wounds.dead.number.value + 1;
           break;
       }
     }

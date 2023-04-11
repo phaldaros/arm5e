@@ -128,7 +128,7 @@
   "arm5e.sheet.speciality": "Spécialitée",
   "arm5e.sheet.defaultCharacteristicForAbility": "Charactéristique par défaut",
   "arm5e.sheet.date": "Date",
-  "arm5e.sheet.equiped": "Equipé",
+  "arm5e.sheet.equipped": "Equipé",
   "arm5e.sheet.weaponExpert": "Armes de spécialité",
   "arm5e.sheet.combat": "Combat",
   "arm5e.sheet.attackAdvantage": "Avantage d'attaque",
@@ -321,7 +321,7 @@
   "arm5e.sheet.covenantSurroundings": "Alliance: Alentours",
   "arm5e.sheet.other": "Autre",
 
-  "arm5e.sheet.notEquipedWeapon": "Vous ne pouvez pas utiliser une arme non-équippée",
+  "arm5e.sheet.notEquippedWeapon": "Vous ne pouvez pas utiliser une arme non-équippée",
   "arm5e.sheet.fastCastingSpeed": "Vitesse d'Incantation Rapide",
   "arm5e.sheet.determiningEffect": "Reconnaître un Effet Magique",
   "arm5e.sheet.targeting": "Ciblé",

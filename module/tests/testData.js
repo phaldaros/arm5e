@@ -65,7 +65,7 @@ export const armorItem = {
   load: 6,
   prot: 2,
   full: false,
-  equiped: true
+  equipped: true
 };
 
 export const weaponItem = {
@@ -85,5 +85,5 @@ export const weaponItem = {
   str: -1,
   range: 0,
   load: 2,
-  equiped: true
+  equipped: true
 };
