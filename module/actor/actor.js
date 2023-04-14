@@ -557,7 +557,7 @@ export class ArM5ePCActor extends Actor {
         weapons.push(item);
       } else if (item.type === "armor" || item.type === "enchantedArmor") {
         if (item.system.equipped == true) {
-          combat.load = parseInt(combat.load) + parseInt(item.system.weight);
+          combat.load = parseInt(combat.load) + parseInt(item.system.load);
           combat.prot = parseInt(combat.prot) + parseInt(item.system.prot);
         }
         armor.push(item);

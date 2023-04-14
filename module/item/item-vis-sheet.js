@@ -20,4 +20,10 @@ export class ArM5eItemVisSheet extends ArM5eItemSheetNoDesc {
     const context = await super.getData();
     return context;
   }
+
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html);
+    // html.find(".vis-study").click(this._resetTeacher.bind(this));
+  }
 }
