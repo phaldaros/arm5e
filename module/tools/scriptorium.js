@@ -18,7 +18,8 @@ export class ScriptoriumObject {
     reader: { id: null },
     book: {
       id: null,
-      title: game.i18n.localize("arm5e.activity.book.title"),
+      uuid: null,
+      name: game.i18n.localize("arm5e.activity.book.title"),
       language: game.i18n.localize("arm5e.skill.commonCases.latin"),
       topics: [
         {
@@ -43,6 +44,8 @@ export class ScriptoriumObject {
 export class Scriptorium extends FormApplication {
   constructor(data, options) {
     super(data, options);
+
+    // Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
   /** @override */
   static get defaultOptions() {
@@ -68,6 +71,16 @@ export class Scriptorium extends FormApplication {
     });
   }
 
+  onClose(app) {
+    // if (app.object.reading.book.uuid != null) {
+    //   fromUuidSync(app.object.reading.book.uuid).apps[app.appId] = undefined;
+    // }
+    if (app.object.reading.reader.id != null) {
+      let reader = game.actors.get(app.object.reading.reader.id);
+      delete reader.apps[app.appId];
+    }
+  }
+
   async _onDrop(event) {
     const dropData = TextEditor.getDragEventData(event);
     if (dropData.type == "Item" && event.currentTarget.dataset.drop === "book") {
@@ -91,18 +104,20 @@ export class Scriptorium extends FormApplication {
     let currentDate = game.settings.get("arm5e", "currentDate");
     context.curYear = currentDate.year;
     context.curSeason = currentDate.season;
-    let maxLevel = 99;
-    const topicIndex = context.reading.book.topicIndex;
-    // for convenience
-    context.topicIndex = Number(topicIndex);
-    const currentTopic = context.reading.book.topics[topicIndex];
-    if (context.type === "Summa" || currentTopic.level) {
-      maxLevel = currentTopic.level;
-    }
-    if (context.reading.book.id !== null) {
+    if (context.reading.book.uuid !== null) {
       context.ui.canEditBook = "readonly";
       context.ui.disabledBook = "disabled";
     }
+
+    let maxLevel = 99;
+    const topicIndex = context.reading.book.system.topicIndex;
+    // for convenience
+    context.topicIndex = Number(topicIndex);
+    const currentTopic = context.reading.book.system.topics[topicIndex];
+    if (context.type === "Summa" || currentTopic.level) {
+      maxLevel = currentTopic.level;
+    }
+
     if (currentTopic.category == "mastery") {
       context.ui.disableType = "disabled";
     }
@@ -248,9 +263,9 @@ export class Scriptorium extends FormApplication {
     const readerData = objectData.reading.reader;
     const book = objectData.reading.book;
     const dataset = event.currentTarget.dataset;
-    const topic = book.topics[dataset.index];
+    const topic = book.system.topics[dataset.index];
     let activityName = game.i18n.format("arm5e.scriptorium.reading.activity", {
-      title: book.title
+      title: book.name
     });
 
     const entryData = [
@@ -272,16 +287,16 @@ export class Scriptorium extends FormApplication {
           duration: 1,
           description: game.i18n.format("arm5e.scriptorium.msg.diaryDesc", {
             name: reader.name,
-            title: book.title,
-            author: book.author,
+            title: book.name,
+            author: book.system.author,
             type: topic.type,
-            language: book.language,
+            language: book.system.language,
             topic: getTopicDescription(topic)
           })
         }
       }
     ];
-    let quality = topic.quality + reader.system.bonuses.activities.reading;
+    let quality = topic.quality;
     switch (topic.category) {
       case "ability":
         if (topic.type == "Summa") {
@@ -289,7 +304,7 @@ export class Scriptorium extends FormApplication {
             return a._id === dataset.abilityId;
           });
           objectData.ui = {};
-          entryData[0].system.cappedGain = this.checkAbilityOverload(objectData, ab);
+          entryData[0].system.cappedGain = this.checkAbilityOverload(objectData, reader, ab);
           if (entryData[0].system.cappedGain) {
             quality = topic.quality;
           }
@@ -298,8 +313,11 @@ export class Scriptorium extends FormApplication {
         entryData[0].system.progress.abilities.push({
           id: dataset.abilityId,
           category: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.category ?? "general",
-          name: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.name ?? book.title,
-          xp: quality
+          name: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.name ?? book.name,
+          maxLevel: topic.level,
+          xp: entryData[0].system.cappedGain
+            ? quality
+            : quality + reader.system.bonuses.activities.reading
         });
         log(false, entryData[0].system.progress.abilities[0]);
         break;
@@ -307,7 +325,7 @@ export class Scriptorium extends FormApplication {
         if (topic.type == "Summa") {
           let art = reader.getArtStats(topic.art);
           objectData.ui = {};
-          entryData[0].system.cappedGain = this.checkArtOverload(objectData, art);
+          entryData[0].system.cappedGain = this.checkArtOverload(objectData, reader, art);
           if (entryData[0].system.cappedGain) {
             quality = topic.quality;
           }
@@ -315,7 +333,10 @@ export class Scriptorium extends FormApplication {
         }
         entryData[0].system.progress.arts.push({
           key: topic.art,
-          xp: quality
+          maxLevel: topic.level,
+          xp: entryData[0].system.cappedGain
+            ? quality
+            : quality + reader.system.bonuses.activities.reading
         });
         break;
       case "mastery":
@@ -323,8 +344,11 @@ export class Scriptorium extends FormApplication {
         entryData[0].system.progress.spells.push({
           id: dataset.spellId,
           name: readerSpell.name,
+          maxLevel: topic.level,
           form: readerSpell.system.form.value,
-          xp: quality
+          xp: entryData[0].system.cappedGain
+            ? quality
+            : quality + reader.system.bonuses.activities.reading
         });
     }
     let entry = await reader.createEmbeddedDocuments("Item", entryData, {});
@@ -332,6 +356,8 @@ export class Scriptorium extends FormApplication {
   }
 
   async _resetReader(event) {
+    let reader = game.actors.get(context.reading.reader.id);
+    delete reader.apps[this.appId];
     let updatedData = {
       "reading.reader.id": null,
       "reading.reader.name": "",
@@ -348,12 +374,13 @@ export class Scriptorium extends FormApplication {
   async _resetReadBook(event) {
     const objectData = foundry.utils.expandObject(this.object);
     const index = event.currentTarget.dataset.index;
-    const singleTopic = objectData.reading.book.topics[index];
+    const singleTopic = objectData.reading.book.system.topics[index];
     singleTopic.level = singleTopic.type === "Tractatus" ? 0 : singleTopic.level;
     let updatedData = {
       "reading.book.id": null,
-      "reading.book.topics": [singleTopic],
-      "reading.book.topicIndex": 0
+      "reading.book.uuid": null,
+      "reading.book.system.topics": [singleTopic],
+      "reading.book.system.topicIndex": 0
     };
     await this.submit({
       preventClose: true,
@@ -378,23 +405,17 @@ export class Scriptorium extends FormApplication {
   async _setBook(book) {
     log(false, "set book info");
     let index = book.getFlag("arm5e", "currentBookTopic") ?? 0;
-    let bookInfo = {
-      id: book._id,
-      title: book.name,
-      language: book.system.language,
-      author: book.system.author,
-      topics: book.system.topics,
-      topicIndex: index
-    };
+    book.system.topicIndex = index;
     // book.apps[this.appId] = this;
 
     if (this.object.reading.reader.id) {
       log(false, "reader present");
     }
-    // const readingData = { book: bookInfo };
     await this.submit({
       preventClose: true,
-      updateData: { ["reading.book"]: bookInfo }
+      updateData: {
+        ["reading.book"]: { name: book.name, id: book.id, uuid: book.uuid, system: book.system }
+      }
     });
   }
 
@@ -404,6 +425,7 @@ export class Scriptorium extends FormApplication {
       id: reader._id,
       name: reader.name
     };
+    reader.apps[this.appId] = this;
     const readingData = { reader: readerInfo };
     await this.submit({
       preventClose: true,
@@ -439,7 +461,7 @@ export class Scriptorium extends FormApplication {
       this.object[key] = value;
     }
     this.object = foundry.utils.expandObject(this.object);
-    log(false, `Scriptorium object: ${JSON.stringify(this.object)}`);
+    // log(false, `Scriptorium object: ${JSON.stringify(this.object)}`);
     this.render();
 
     return;
@@ -451,8 +473,8 @@ export class Scriptorium extends FormApplication {
     let chosenTopic = $(".book-topic")
       .find("option:selected")
       .val();
-    const readingData = { book: { topics: { [index]: {} } } };
-    let bookInfo = readingData.book.topics[index];
+    const readingData = { book: { system: { topics: { [index]: {} } } } };
+    let bookInfo = readingData.book.systen.topics[index];
     if (chosenTopic === "ability") {
       bookInfo.art = null;
       bookInfo.key = "awareness";
@@ -485,7 +507,7 @@ export class Scriptorium extends FormApplication {
 
   checkReading(context, reader) {
     const bookData = context.reading.book;
-    const currentTopic = context.reading.book.topics[context.topicIndex];
+    const currentTopic = context.reading.book.system.topics[context.topicIndex];
     // is the character able to  read?
     let readingSkill = reader.getAbilityStats("artesLib");
     if (readingSkill.score == 0) {
@@ -523,7 +545,7 @@ export class Scriptorium extends FormApplication {
             context.ui.warningParam = "";
             context.error = true;
           } else if (ab) {
-            this.checkAbilityOverload(context, ab);
+            this.checkAbilityOverload(context, reader, ab);
           }
         }
         break;
@@ -541,7 +563,7 @@ export class Scriptorium extends FormApplication {
             context.ui.warningParam = "";
             context.error = true;
           } else {
-            this.checkArtOverload(context, art);
+            this.checkArtOverload(context, reader, art);
           }
         }
         break;
@@ -556,11 +578,12 @@ export class Scriptorium extends FormApplication {
     }
   }
 
-  checkArtOverload(context, artStat) {
+  checkArtOverload(context, reader, artStat) {
     // let artStat = reader.getArtStats();
     const coeff = artStat.xpCoeff;
-    const currentTopic = context.reading.book.topics[context.reading.book.topicIndex];
-    let newXp = (currentTopic.quality + artStat.xp) * coeff;
+    const currentTopic = context.reading.book.system.topics[context.reading.book.system.topicIndex];
+    let newXp =
+      (currentTopic.quality + reader.system.bonuses.activities.reading + artStat.xp) * coeff;
     let maxXp = ArM5ePCActor.getArtXp(currentTopic.level);
     if (newXp > maxXp) {
       let newSource = maxXp - artStat.xp;
@@ -573,11 +596,12 @@ export class Scriptorium extends FormApplication {
     return false;
   }
 
-  checkAbilityOverload(context, ability) {
+  checkAbilityOverload(context, reader, ability) {
     // let artStat = reader.getArtStats();
     const coeff = ability.system.xpCoeff;
-    const currentTopic = context.reading.book.topics[context.reading.book.topicIndex];
-    let newXp = (currentTopic.quality + ability.system.xp) * coeff;
+    const currentTopic = context.reading.book.system.topics[context.reading.book.system.topicIndex];
+    let newXp =
+      (currentTopic.quality + reader.system.bonuses.activities.reading + ability.system.xp) * coeff;
     let maxXp = ArM5ePCActor.getAbilityXp(currentTopic.level);
     if (newXp > maxXp) {
       let newSource = maxXp - ability.system.xp;

@@ -572,12 +572,79 @@ export function validTeaching(context, actor, item) {
 export function validReading(context, actor, item) {
   context.system.totalXp = { abilities: 0, arts: 0, masteries: 0, spellLevels: 0 };
   let abilitiesArr = Object.values(item.system.progress.abilities);
-  context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
-
-  context.system.totalXp.arts += checkArtProgressItems(context, item, 1000);
+  // context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
+  let artsArr = Object.values(item.system.progress.arts);
+  // context.system.totalXp.arts += checkArtProgressItems(context, item, 1000);
 
   let spellsArr = Object.values(item.system.progress.spells);
-  context.system.totalXp.masteries = checkMaxXpPerItem(context, spellsArr, 1000);
+  // context.system.totalXp.masteries = checkMaxXpPerItem(context, spellsArr, 1000);
+
+  if (abilitiesArr.length > 0) {
+    const maxLevel = Number(item.system.progress.abilities[0].maxLevel);
+    let ability = Object.values(actor.system.abilities).find(e => {
+      return e._id === item.system.progress.abilities[0].id;
+    });
+    if (ability === undefined) {
+      // either the ability is no longer teachable or it has been deleted
+      ability = actor.items.get(item.system.progress.abilities[0].id);
+
+      if (ability === undefined) {
+        // ability deleted
+        // what should be done here?
+        return;
+      }
+    }
+    const coeff = actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
+    let newXp = (context.system.sourceQuality + ability.system.xp) * coeff;
+    let maxXp = ArM5ePCActor.getAbilityXp(maxLevel);
+    if (newXp > maxXp && !context.system.applied) {
+      let newSource = maxXp / coeff - ability.system.xp;
+      context.system.theoriticalSource = context.system.sourceQuality;
+      context.system.sourceQuality = newSource > 0 ? newSource : 0;
+      context.system.errorParam = context.system.sourceQuality;
+      context.system.applyError = "arm5e.activity.msg.gainCapped";
+      context.system.cappedGain = true;
+    }
+    context.system.progress.abilities[0].xp = Number(context.system.sourceQuality);
+    context.system.totalXp.abilities += Number(context.system.sourceQuality);
+  } else if (spellsArr.length > 0) {
+    const maxLevel = Number(item.system.progress.spells[0].maxLevel);
+    const spell = Object.values(actor.system.spells).find(e => {
+      return e._id === item.system.progress.spells[0].id;
+    });
+    let newXp = context.system.sourceQuality + spell.system.xp;
+    let maxXp = ArM5ePCActor.getAbilityXp(maxLevel);
+    if (newXp > maxXp) {
+      let newSource = maxXp - spell.system.xp;
+      context.system.theoriticalSource = context.system.sourceQuality;
+      context.system.sourceQuality = newSource > 0 ? newSource : 0;
+      context.system.errorParam = context.system.sourceQuality;
+      context.system.applyError = "arm5e.activity.msg.gainCapped";
+      context.system.cappedGain = true;
+    }
+    context.system.progress.spells[0].xp = Number(context.system.sourceQuality);
+    context.system.totalXp.masteries += Number(context.system.sourceQuality);
+  } else if (artsArr.length > 0) {
+    const progressArt = item.system.progress.arts[0];
+    const maxLevel = Number(progressArt.maxLevel);
+    let artType = "techniques";
+    if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(progressArt.key) == -1) {
+      artType = "forms";
+    }
+    const art = actor.system.arts[artType][progressArt.key];
+    let newXp = context.system.sourceQuality + art.xp;
+    let maxXp = ArM5ePCActor.getArtXp(maxLevel);
+    if (newXp > maxXp) {
+      let newSource = maxXp - art.xp;
+      context.system.theoriticalSource = context.system.sourceQuality;
+      context.system.sourceQuality = newSource > 0 ? newSource : 0;
+      context.system.errorParam = context.system.sourceQuality;
+      context.system.applyError = "arm5e.activity.msg.gainCapped";
+      context.system.cappedGain = true;
+    }
+    context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
+    context.system.totalXp.arts += Number(context.system.sourceQuality);
+  }
 }
 
 export function computeTotals(context) {

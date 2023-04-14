@@ -177,18 +177,24 @@ export function compareBooks(b1, b2) {
 
 const seasonOrder = { spring: 0, summer: 1, autumn: 2, winter: 3 };
 
+// TODO multi seasons activities
 export function compareDiaryEntries(e1, e2) {
-  if (e1.system.year < e2.system.year) {
+  if (e1.system.dates[0].year < e2.system.dates[0].year) {
     return 1;
-  } else if (e1.system.year > e2.system.year) {
+  } else if (e1.system.dates[0].year > e2.system.dates[0].year) {
     return -1;
   } else {
-    if (seasonOrder[e1.system.season] < seasonOrder[e2.system.season]) {
+    if (seasonOrder[e1.system.dates[0].season] < seasonOrder[e2.system.dates[0].season]) {
       return 1;
-    } else if (seasonOrder[e1.system.season] > seasonOrder[e2.system.season]) {
+    } else if (seasonOrder[e1.system.dates[0].season] > seasonOrder[e2.system.dates[0].season]) {
       return -1;
     } else {
-      return e1.name.localeCompare(e2.name);
+      let cmp = -e1.system.dates[0].date.localeCompare(e2.system.dates[0].date);
+      if (cmp) {
+        return cmp;
+      } else {
+        return e1.name.localeCompare(e2.name);
+      }
     }
   }
 }

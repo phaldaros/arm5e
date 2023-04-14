@@ -88,6 +88,7 @@ export class BookSchema extends foundry.abstract.DataModel {
     // console.log(`MigrateData book: ${JSON.stringify(data)}`);
 
     if (data.topics && data.topics.length !== 0) {
+      data.topic = null;
       return data;
     }
     if (data.topic) {

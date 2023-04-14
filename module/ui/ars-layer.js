@@ -82,26 +82,29 @@ export class ArsLayer extends InteractionLayer {
       reading: {
         reader: { id: null },
         book: {
+          uuid: null,
           id: null,
-          title: game.i18n.localize("arm5e.activity.book.title"),
-          language: game.i18n.localize("arm5e.skill.commonCases.latin"),
-          author: game.i18n.localize("arm5e.generic.unknown"),
-          topics: [
-            {
-              category: "ability",
-              type: "Summa",
-              author: game.i18n.localize("arm5e.generic.unknown"),
-              quality: 1,
-              level: 1,
-              key: "",
-              option: "",
-              spellName: "",
-              art: "",
-              spellTech: "cr",
-              spellForm: "an"
-            }
-          ],
-          topicIndex: 0
+          name: game.i18n.localize("arm5e.activity.book.title"),
+          system: {
+            language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+            author: game.i18n.localize("arm5e.generic.unknown"),
+            topics: [
+              {
+                category: "ability",
+                type: "Summa",
+                author: game.i18n.localize("arm5e.generic.unknown"),
+                quality: 1,
+                level: 1,
+                key: "",
+                option: "",
+                spellName: "",
+                art: "",
+                spellTech: "cr",
+                spellForm: "an"
+              }
+            ],
+            topicIndex: 0
+          }
         }
       }
     };

@@ -50,7 +50,7 @@
     <div class="tab" data-group="primary" data-tab="reading">
       <div class="flexrow marginsides32">
         <div class="scriptorium backSection padding10 resource flexcol">
-          {{#if (eq reading.book.id null)}}
+          {{#if (eq reading.book.uuid null)}}
             <div class="resource drop-box drop-book" data-drop="book">
               <label>{{localize "arm5e.scriptorium.msg.dropBook"}}</label>
             </div>
@@ -65,27 +65,27 @@
           {{/if}}
 
           <label class="header-label">{{localize "arm5e.activity.book.title"}}</label>
-          <input type="text" name="reading.book.title" value="{{reading.book.title}}" data-dtype="String"
+          <input type="text" name="reading.book.name" value="{{reading.book.name}}" data-dtype="String"
             {{ui.canEditBook}}>
           <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
-          <input type="text" name="reading.book.language" value="{{reading.book.language}}" data-dtype="String"
-            {{ui.canEditBook}}>
+          <input type="text" name="reading.book.system.language" value="{{reading.book.system.language}}"
+            data-dtype="String" {{ui.canEditBook}}>
           <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
-          <input type="text" name="reading.book.author" value="{{reading.book.author}}" data-dtype="String"
-            {{ui.canEditBook}}>
+          <input type="text" name="reading.book.system.author" value="{{reading.book.system.author}}"
+            data-dtype="String" {{ui.canEditBook}}>
           <div class="resource flexcol flexrow">
             <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
-            <select class="book-topic" name="reading.book.topics.{{topicIndex}}.category" data-index="{{topicIndex}}"
-              data-dtype="String" {{ui.disabledBook}}>
+            <select class="book-topic" name="reading.book.system.topics.{{topicIndex}}.category"
+              data-index="{{topicIndex}}" data-dtype="String" {{ui.disabledBook}}>
               {{#select reading.book.currentTopic.category}}
                 {{#each bookTopics as |book key|}}
                   <option value="{{key}}">{{localize book}}</option>
                 {{/each}}
               {{/select}}
             </select>
-            <label for="reading.book.{{topicIndex}}.type"
+            <label for="reading.book.system.topics.{{topicIndex}}.type"
               class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
-            <select name="reading.book.topics.{{topicIndex}}.type" data-type="String" data-index="{{topicIndex}}"
+            <select name="reading.book.system.topics.{{topicIndex}}.type" data-type="String" data-index="{{topicIndex}}"
               {{ui.disabledBook}} {{ui.disableType}}>
               {{#select reading.book.currentTopic.type}} {{#each @root.bookTypes }}
                   <option value="{{this}}">{{this}}</option>
@@ -94,9 +94,9 @@
           </div>
           {{#if (eq reading.book.currentTopic.category "art")}}
             <div class="resource" style="width: 220px; padding-top: 5px;">
-              <label for="reading.book.topics.{{topicIndex}}.art"
+              <label for="reading.book.system.topics.{{topicIndex}}.art"
                 class="header-label">{{localize "arm5e.sheet.art"}}</label>
-              <select name="reading.book.topics.{{topicIndex}}.art" data-type="String" {{ui.disabledBook}}>
+              <select name="reading.book.system.topics.{{topicIndex}}.art" data-type="String" {{ui.disabledBook}}>
                 {{#select reading.book.currentTopic.art}} {{#each arts as |art key|}}
                     <option value="{{key}}">{{art.label}}</option>
                   {{/each}} {{/select}}
@@ -105,9 +105,9 @@
           {{/if}}
           {{#if (eq reading.book.currentTopic.category "ability")}}
             <div class="scriptorium resource">
-              <label for="reading.book.topics.{{topicIndex}}.key"
+              <label for="reading.book.system.topics.{{topicIndex}}.key"
                 class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
-              <select name="reading.book.topics.{{topicIndex}}.key" data-dtype="String" class="ability-key"
+              <select name="reading.book.system.topics.{{topicIndex}}.key" data-dtype="String" class="ability-key"
                 {{ui.disabledBook}}>
                 {{#select reading.book.currentTopic.key}}
                   {{#each abilityKeysList as |item key|}}
@@ -118,32 +118,32 @@
             </div>
             <div class="scriptorium resource" style="width: 220px; padding-top: 5px;padding-bottom: 15px;">
               {{#if (lookup (lookup abilityKeysList reading.book.currentTopic.key) "option")}}
-                <label for="reading.book.topics.{{topicIndex}}.option"
+                <label for="reading.book.system.topics.{{topicIndex}}.option"
                   class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-                <input type="text" class="ability-option" name="reading.book.topics.{{topicIndex}}.option"
+                <input type="text" class="ability-option" name="reading.book.system.topics.{{topicIndex}}.option"
                   value='{{reading.book.currentTopic.option}}' {{ui.canEditBook}} />
               {{else}}
-                <label for="reading.book.topics.{{topicIndex}}.option" class="header-label"
+                <label for="reading.book.system.topics.{{topicIndex}}.option" class="header-label"
                   style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
-                <input type="text" name="reading.book.topics.{{topicIndex}}.option" data-dtype="String" value=""
+                <input type="text" name="reading.book.system.topics.{{topicIndex}}.option" data-dtype="String" value=""
                   readonly />
               {{/if}}
             </div>
           {{/if}}
           {{#if (eq reading.book.currentTopic.category "mastery")}}
             <div class="scriptorium resource">
-              <label for="reading.book.topics.{{topicIndex}}.spellName"
+              <label for="reading.book.system.topics.{{topicIndex}}.spellName"
                 class="header-label">{{localize "arm5e.sheet.spell"}}</label>
-              <input type="text" name="reading.book.topics.{{topicIndex}}.spellName"
+              <input type="text" name="reading.book.system.topics.{{topicIndex}}.spellName"
                 value='{{reading.book.currentTopic.spellName}}' {{ui.canEditBook}} />
             </div>
             <div class="scriptorium resource">
-              <select name="reading.book.topics.{{topicIndex}}.spellTech" data-type="String" {{ui.disabledBook}}>
+              <select name="reading.book.system.topics.{{topicIndex}}.spellTech" data-type="String" {{ui.disabledBook}}>
                 {{#select reading.book.currentTopic.spellTech}} {{#each techs as |tech key|}}
                     <option value="{{key}}">{{tech.label}}</option>
                   {{/each}} {{/select}}
               </select>
-              <select name="reading.book.topics.{{topicIndex}}.spellForm" data-type="String" {{ui.disabledBook}}>
+              <select name="reading.book.system.topics.{{topicIndex}}.spellForm" data-type="String" {{ui.disabledBook}}>
                 {{#select reading.book.currentTopic.spellForm}} {{#each forms as |form key|}}
                     <option value="{{key}}">{{form.label}}</option>
                   {{/each}} {{/select}}
@@ -153,12 +153,12 @@
           <div class="grid-2col">
             {{#if (eq reading.book.currentTopic.type "Summa")}}
               <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-              <input type="number" name="reading.book.topics.{{topicIndex}}.level"
+              <input type="number" name="reading.book.system.topics.{{topicIndex}}.level"
                 value='{{reading.book.currentTopic.level}}' data-dtype="Number" style="max-width: 50px;"
                 {{ui.canEditBook}}>
             {{/if}}
             <label class="header-label">{{localize "arm5e.sheet.quality"}}</label>
-            <input type="number" name="reading.book.topics.{{topicIndex}}.quality"
+            <input type="number" name="reading.book.system.topics.{{topicIndex}}.quality"
               value='{{reading.book.currentTopic.quality}}' data-dtype="Number" style="max-width: 50px;"
               {{ui.canEditBook}}>
           </div>

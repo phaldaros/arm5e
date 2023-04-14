@@ -5,7 +5,7 @@
         <div class="flex-group-left backSection padding12">
           <div class="flexrow marginbot6">
             <label for="system.house.value" class="bold">{{localize "arm5e.sheet.house"}}</label>
-            <span class="width2"><select name="system.house.value" data-type="String" style="width: 100%">
+            <span class="width2"><select name="system.house.value" data-dtype="String" style="width: 100%">
                 {{#select system.house.value}} {{#each config.character.houses as |house key|}}
                     <option value="{{key}}">{{house.label}}</option>
                   {{/each}} {{/select}}
@@ -62,7 +62,7 @@
       <div class="flexrow">
         <label for="system.warping.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
       </div>
-      <div class="flex-group-left marginbot6" style="height: 140px">
+      <div class="flex-group-left marginbot6" style="height: 150px">
         {{editor system.warping.effects target="system.warping.effects" button=true owner=owner editable=editable}}
       </div>
     </div>
@@ -92,9 +92,21 @@
       <div class="flexrow">
         <label for="system.decrepitude.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
       </div>
-      <div class="flex-group-left marginbot6" style="height: 140px">
+      <div class="flex-group-left marginbot6" style="height: 150px">
         {{editor system.decrepitude.effects target="system.decrepitude.effects" button=true owner=owner
       editable=editable}}
+      </div>
+      <div class="flexrow">
+        <div class="flexrow flex-group-center">
+          <label for="system.laboratory.longevityRitual.labTotal">{{localize "arm5e.sheet.labTotal"}}</label>
+          <input type="number" name="system.laboratory.longevityRitual.labTotal"
+            value="{{system.laboratory.longevityRitual.labTotal }}" data-dtype="Number" />
+        </div>
+        <div class="flexrow flex-group-center">
+          <label for="system.laboratory.longevityRitual.modifier">{{localize "arm5e.sheet.longevityModifier"}}</label>
+          <input type="number" name="system.laboratory.longevityRitual.modifier"
+            value="{{system.laboratory.longevityRitual.modifier }}" data-dtype="Number" />
+        </div>
       </div>
     </div>
   </div>

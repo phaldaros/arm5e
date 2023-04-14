@@ -131,7 +131,6 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     if (topic.category == "labText") {
       return;
     }
-
     let formData = {
       seasons: CONFIG.ARM5E.seasons,
       abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
@@ -144,22 +143,23 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
       reading: {
         reader: { id: null },
         book: {
-          id: item.id,
-          title: item.name,
-          language: item.system.language,
-          author: item.system.author,
-          topics: item.system.topics,
-          topicIndex: dataset.index
+          uuid: item.uuid,
+          id: item._id,
+          name: item.name,
+          system: item.system.toObject()
         }
       }
     };
-
+    formData.reading.book.system.topicIndex = this.item.getFlag("arm5e", "currentBookTopic");
     if (item.isOwned && item.actor._isCharacter()) {
       formData.reading.reader.id = item.actor.id;
     }
 
     const scriptorium = new Scriptorium(formData, {}); // data, options
     const res = await scriptorium.render(true);
+    if (formData.reading.reader.id) {
+      item.actor.apps[scriptorium.appId] = scriptorium;
+    }
   }
 
   async _changeCurrentTopic(item, event, offset) {
