@@ -247,14 +247,40 @@ span.player-name {
   font-family: bookAntiqua;
 }
 
-.journal-entry-page a.content-link {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 1px 4px;
-  border: 1px solid var(--color-border-dark-tertiary);
+.arm5e .journal-entry-page a.content-link {
   border-radius: 2px;
   white-space: nowrap;
   word-break: break-all;
+  text-decoration: underline;
+  color: #6e98db;
+  border-bottom: 1px dotted blue;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  padding: 0px;
 }
+
+.arm5e .journal-entry-page a.content-link.broken {
+  border-radius: 2px;
+  white-space: nowrap;
+  word-break: break-all;
+  text-decoration: underline;
+  border-bottom: 1px dotted blue;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  padding: 0px;
+  color: #f05959;
+}
+
+.arm5e a.content-link i.fa-file-lines {
+  display: none;
+}
+
+.arm5e a.content-link i.fa-book-open {
+  display: none;
+}
+
 .scriptorium.resource {
   /* width: 220px; */
   padding-top: 5px;

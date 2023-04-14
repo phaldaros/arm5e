@@ -1,4 +1,4 @@
-## 2.0.5.7, Lexora, the apprentice
+## 2.0.5.8, Lexora, the apprentice
 
 ### Features & changes
 
@@ -10,6 +10,10 @@
 - Personality traits are now Items wit XPs
 - Common law and Canon and Civic law have been merged into a new generic ability: Law
 - New macros for quick access to combat and vitals stats of selected token
+- New design for journal links
+- Diary entries are now also sorted in inverted alphabetical order of date field before title.
+- Changing a reader's Actor sheet will reflect in the scriptorium.
+- Longevity ritual bonus moved next to decrepitude stats and now available to all type of characters.
 
 ### Bug fixes
 
@@ -20,6 +24,9 @@
 - Fixed migration bug of reputations and personality traits for invalid actors
 - "Equipped" is now properly spelled
 - Fatigue overflow is now working properly
+- Rework of DiaryEntry sheet:
+  - Active effects bonus is not displayed twice
+  - Added max level to each progress item to prevent overflow by active effect.
 - Migration
   - Weapon.load not a number
 

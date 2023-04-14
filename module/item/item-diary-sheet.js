@@ -1213,6 +1213,11 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       expanded.system.progress.newSpells = mergeObject(source.system.progress.newSpells, newSpells);
     }
 
+    const dates = expanded?.system?.dates;
+    if (dates) {
+      expanded.system.dates = mergeObject(source.system.dates, dates);
+    }
+
     log(false, `Update object: ${JSON.stringify(expanded)}`);
     await this.object.update(expanded);
   }

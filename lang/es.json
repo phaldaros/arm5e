@@ -814,7 +814,6 @@
   "arm5e.messages.noWound": "No se ha causado ninguna herida",
   "arm5e.messages.woundResult": "Recibe una herida {typeWound}",
   "arm5e.messages.fatigueLost": "Pierde {num} nivel(es) de Fatiga",
-  "arm5e.messages.noWound": "No se sufren heridas",
   "arm5e.messages.applyDamage": "Aplicar daño",
   "arm5e.messages.useConf": "Usar punto de Confianza",
   "arm5e.messages.die.exploding": "¡El dado estrés explota!",

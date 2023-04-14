@@ -164,60 +164,46 @@ ARM5E.character.characteristics = {
 };
 ARM5E.character.houses = {
   "n-a": {
-    label: "N/A",
-    dtype: "String"
+    label: "N/A"
   },
   bjo: {
-    label: "Bjornaer",
-    dtype: "String"
+    label: "Bjornaer"
   },
   bon: {
-    label: "Bonisagus",
-    dtype: "String"
+    label: "Bonisagus"
   },
   cri: {
-    label: "Criamon",
-    dtype: "String"
+    label: "Criamon"
   },
   exm: {
-    label: "Ex Miscellanea",
-    dtype: "String"
+    label: "Ex Miscellanea"
   },
   fla: {
-    label: "Flambeau",
-    dtype: "String"
+    label: "Flambeau"
   },
   gen: {
-    label: "Generic Magus",
-    dtype: "String"
+    label: "Generic Magus"
   },
   gue: {
-    label: "Guernicus",
-    dtype: "String"
+    label: "Guernicus"
   },
   jer: {
-    label: "Jerbiton",
-    dtype: "String"
+    label: "Jerbiton"
   },
   mer: {
-    label: "Mercere",
-    dtype: "String"
+    label: "Mercere"
   },
   mta: {
-    label: "Merinita",
-    dtype: "String"
+    label: "Merinita"
   },
   tre: {
-    label: "Tremere",
-    dtype: "String"
+    label: "Tremere"
   },
   tyt: {
-    label: "Tytalus",
-    dtype: "String"
+    label: "Tytalus"
   },
   ver: {
-    label: "Verditius",
-    dtype: "String"
+    label: "Verditius"
   }
 };
 ARM5E.character.description = {

@@ -526,7 +526,7 @@ export class ArM5eActorSheet extends ActorSheet {
           activity.type = game.i18n.localize(
             CONFIG.ARM5E.activities.generic[entry.system.activity].label
           );
-          activity.date = entry.system.date;
+          activity.date = date.date;
 
           activity._id = entry._id;
           if (!activitiesMap.has(date.year)) {

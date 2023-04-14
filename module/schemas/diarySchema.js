@@ -28,15 +28,15 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
             initial: 1200,
             step: 1
           }),
+          date: new fields.StringField({
+            required: false,
+            blank: true,
+            initial: ""
+          }),
           applied: new fields.BooleanField({ required: false, initial: false })
         }),
         { required: false, initial: [] }
       ),
-      date: new fields.StringField({
-        required: false,
-        blank: true,
-        initial: ""
-      }),
       duration: new fields.NumberField({
         required: false,
         nullable: false,
@@ -143,6 +143,14 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
                 initial: 2,
                 step: 1
               }),
+              maxLevel: new fields.NumberField({
+                required: false,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+                step: 1
+              }),
               xp: XpField()
             }),
             { required: false, initial: [] }
@@ -156,6 +164,14 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
                 integer: true,
                 min: 0,
                 initial: 5,
+                step: 1
+              }),
+              maxLevel: new fields.NumberField({
+                required: false,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
                 step: 1
               }),
               xp: XpField()
@@ -177,6 +193,14 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
                 integer: true,
                 min: 0,
                 initial: 2,
+                step: 1
+              }),
+              maxLevel: new fields.NumberField({
+                required: false,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
                 step: 1
               }),
               xp: XpField()
@@ -218,12 +242,12 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     if (itemData.system) {
       if (itemData.system.dates == undefined) {
         itemData.system.dates = [
-          { year: currentDate.year, season: currentDate.season, applied: false }
+          { year: currentDate.year, season: currentDate.season, date: "", applied: false }
         ];
       }
     } else {
       itemData.system = {
-        dates: [{ year: currentDate.year, season: currentDate.season, applied: false }]
+        dates: [{ year: currentDate.year, season: currentDate.season, date: "", applied: false }]
       };
     }
   }
@@ -300,18 +324,42 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
 
       updateData["system.-=applied"] = null;
       updateData["system.-=year"] = null;
+      updateData["system.-=date"] = null;
       updateData["system.-=season"] = null;
       updateData["system.dates"] = [
-        { year: theYear, season: theSeason, applied: itemData.system.applied }
+        {
+          year: theYear,
+          season: theSeason,
+          date: itemData.system.date,
+          applied: itemData.system.applied
+        }
       ];
+    } else if (itemData.system.date != undefined) {
+      for (let d of itemData.system.dates) {
+        d.date = itemData.system.date;
+      }
+      updateData["system.-=date"] = null;
+      updateData["system.dates"] = itemData.system.dates;
     } else if (itemData.system.dates == []) {
       updateData["system.dates"] = [
         {
           year: Number(currentDate.year),
           season: currentDate.season,
+          date: itemData.system.date ?? "",
           applied: itemData.system.applied ?? false
         }
       ];
+    } else {
+      let update = false;
+      for (let d of itemData.system.dates) {
+        if (d.date === undefined) {
+          d.date = "";
+          update = true;
+        }
+      }
+      if (update) {
+        updateData["system.dates"] = itemData.system.dates;
+      }
     }
     // if (itemData.system.applied !== undefined) {
     //   // if applied exists, the array should be of length 1

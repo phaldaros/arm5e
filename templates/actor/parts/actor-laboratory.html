@@ -3,14 +3,6 @@
   <div class="characteristics grid grid-3col">
     <div class="flexrow flex-group-center" style="border: 0px">
       <label class="smallTitle">
-        <a class="link" href="/systems/arm5e/pdf/longevityRitual.pdf" target="_blank">
-          {{localize "arm5e.sheet.longevityRitual"}}
-        </a>
-      </label>
-    </div>
-
-    <div class="flexrow flex-group-center" style="border: 0px">
-      <label class="smallTitle">
         <a class="link" href="/systems/arm5e/pdf/laboratory.pdf" target="_blank">
           {{localize "arm5e.sheet.laboratory"}}
         </a>
@@ -18,10 +10,10 @@
     </div>
   </div>
 
-  <div class="characteristics grid grid-2col">
-    <div>
-      <div class="flexrow flex-group-center" style="border: 0px">
-        <label for="system.sanctum.value">{{localize "arm5e.sheet.sanctum"}}</label>
+  <div class="characteristics flexrow">
+    <div class="flexcol flex03 flex-group-center" style="border: 0px">
+      <label for="system.sanctum.value">{{localize "arm5e.sheet.sanctum"}}</label>
+      <div>
         <input type="text" name="system.sanctum.value" value="{{system.sanctum.value }}" data-dtype="String" />
         {{#if (eq system.sanctum.linked true)}}
           <a class="item-control actor-link flex0" title="Linked to sanctum"
@@ -29,17 +21,6 @@
         {{else}}
           <a title="Not linked to sanctum" class="flex0"><i class="fas fa-unlink fa-sm"></i></a>
         {{/if}}
-      </div>
-      <div class="flexrow flex-group-center" style="border: 0px">
-        <label for="system.laboratory.longevityRitual.labTotal">{{localize "arm5e.sheet.labTotal"}}</label>
-        <input type="number" name="system.laboratory.longevityRitual.labTotal"
-          value="{{system.laboratory.longevityRitual.labTotal }}" data-dtype="Number" />
-      </div>
-
-      <div class="flexrow flex-group-center" style="border: 0px">
-        <label for="system.laboratory.longevityRitual.modifier">{{localize "arm5e.sheet.longevityModifier"}}</label>
-        <input type="number" name="system.laboratory.longevityRitual.modifier"
-          value="{{system.laboratory.longevityRitual.modifier }}" data-dtype="Number" />
       </div>
     </div>
     <div class="flexcol">
@@ -52,8 +33,4 @@
       </div>
     </div>
   </div>
-
-
 </div>
-
-{{> "systems/arm5e/templates/actor/parts/actor-familiar.html" }}
