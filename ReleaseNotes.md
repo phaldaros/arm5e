@@ -1,4 +1,4 @@
-## 2.0.5.8, Lexora, the apprentice
+## 2.0.5.9, Lexora, the apprentice
 
 ### Features & changes
 
@@ -13,7 +13,8 @@
 - New design for journal links
 - Diary entries are now also sorted in inverted alphabetical order of date field before title.
 - Changing a reader's Actor sheet will reflect in the scriptorium.
-- Longevity ritual bonus moved next to decrepitude stats and now available to all type of characters.
+- Longevity ritual bonus moved next to decrepitude stats and now available to all type of characters
+- Encumbrance is taken into account for spellcasting rolls.
 
 ### Bug fixes
 

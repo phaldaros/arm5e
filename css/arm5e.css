@@ -842,7 +842,7 @@ input[type="time"] {
   background-image: none;
   max-width: 220px;
 }
-
+.arm5eRoll select,
 .arm5e select {
   height: 20px;
   background: rgba(0, 0, 0, 0.05);
@@ -851,6 +851,7 @@ input[type="time"] {
   font-family: inherit;
   padding: 0 3px;
   text-overflow: ellipsis;
+  font-size: 11pt;
 }
 .arm5e .scriptorium select {
   font-family: "bookAntiqua";

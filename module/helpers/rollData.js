@@ -78,6 +78,13 @@ export class ArM5eRollData {
         this.magic.divide = 2;
       case "spell":
         this.initPenetrationVariables(actor);
+
+        this.setGenericField(
+          game.i18n.localize("arm5e.sheet.encumbrance"),
+          actorSystemData.combat.overload,
+          3,
+          "-"
+        );
         if (dataset.id) {
           let spell = actor.items.get(dataset.id);
           this.label += " (" + spell.system.level + ")";

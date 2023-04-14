@@ -120,7 +120,7 @@ function getRollTypeProperties(type) {
 
 function prepareRollVariables(dataset, actor) {
   actor.rollData.init(dataset, actor);
-  log(false, `Roll data: ${JSON.stringify(actor.rollData)}`);
+  // log(false, `Roll data: ${JSON.stringify(actor.rollData)}`);
 }
 
 function chooseTemplate(dataset) {

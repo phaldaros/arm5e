@@ -23,7 +23,6 @@
         <label class="resource-label flex0"> + </label>
         <label class="resource-label flex03 ">{{localize "arm5e.sheet.mastery" }}
           ({{ system.roll.magic.masteryScore }})</label>
-
       {{/unless}}
     </div>
     <div class="flexrow flex-group-center">
@@ -103,15 +102,18 @@
     {{#unless (eq system.woundsTotal 0) }}
       <label class="resource-label flex0"> + </label>
       <label class="resource-label">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
-  </div>
-  {{else}}
-    </div>
     {{/unless}}
-    <div class="flexrow flex-group-center">
-      <label class="resource-label"><img src="/systems/arm5e/assets/icons/Icon_Details_option1.png" title="Penetration"
-          width="24" height="24" style="border :0px" /></label>
-    </div>
-    {{> "systems/arm5e/templates/roll/parts/penetration-options.html" }}
-    </div>
-    {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Rolls" }}
+    {{#unless (eq system.combat.overload 0) }}
+      <label class="resource-label flex0"> - </label>
+      <label class="resource-label">{{localize "arm5e.sheet.encumbrance"}} ({{ system.combat.overload }})</label>
+    {{/unless}}
+
+  </div>
+  <div class="flexrow flex-group-center">
+    <label class="resource-label"><img src="/systems/arm5e/assets/icons/Icon_Details_option1.png" title="Penetration"
+        width="24" height="24" style="border :0px" /></label>
+  </div>
+  {{> "systems/arm5e/templates/roll/parts/penetration-options.html" }}
+  </div>
+  {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Rolls" }}
 </form>
