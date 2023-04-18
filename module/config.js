@@ -11,7 +11,8 @@ import {
   validTeaching,
   validChildhood,
   validTotalXp,
-  validReading
+  validReading,
+  validVisStudy
 } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
@@ -2304,23 +2305,23 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: null,
     secondaryFilter: null
-    // },
-    // visStudy: {
-    //   label: "arm5e.lab.actitivity.visStudy",
-    //   display: {
-    //     tab: true,
-    //     progress: true,
-    //     abilities: false,
-    //     arts: true,
-    //     masteries: false,
-    //     spells: false,
-    //     choosable: "disabled"
-    //   },
-    //   source: { default: 0, readonly: true },
-    //   maxXp: 0,
-    //   bonusOptions: null,
-    //   validation: null,
-    //   secondaryFilter: null
+  },
+  visStudy: {
+    label: "arm5e.activity.visStudy",
+    display: {
+      tab: true,
+      progress: true,
+      abilities: false,
+      arts: true,
+      masteries: false,
+      spells: false,
+      choosable: "disabled"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: validVisStudy,
+    secondaryFilter: null
   }
 };
 

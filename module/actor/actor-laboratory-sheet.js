@@ -76,6 +76,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       } else {
         context.classes = { aura: "editable" };
         context.system.covenant.linked = false;
+        if (context.planning.modifiers.aura == undefined) context.planning.modifiers.aura = 0;
       }
     }
     // Owner
@@ -95,6 +96,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         context.owner.apprentice =
           (context.owner.system.apprentice?.int ?? 0) +
           (context.owner.system.apprentice?.magicTheory ?? 0);
+        context.owner.apps[this.appId] = this;
       } else {
         context.system.owner.linked = false;
         this._prepareCharacterItems(context);
@@ -160,7 +162,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     if (!result.valid) {
       context.edition.schedule = "disabled";
-      if (result.duration == 0) {
+      if (result.duration <= 1) {
         context.planning.message = result.message;
       } else {
         context.planning.message =
@@ -442,7 +444,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         type: "diaryEntry",
         system: {
           cappedGain: false,
-          dates: [{ season: planning.date.season, year: planning.date.year, applied: applied }],
+          dates: [
+            { season: planning.date.season, date: "", year: planning.date.year, applied: applied }
+          ],
           sourceQuality: sourceQuality,
           activity: planning.type,
           progress: {

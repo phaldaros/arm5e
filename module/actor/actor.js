@@ -154,7 +154,8 @@ export class ArM5ePCActor extends Actor {
       teacher: 0,
       reading: 0,
       writing: 0,
-      adventuring: 0
+      adventuring: 0,
+      visStudy: 0
     };
     this.system.bonuses.resistance = {
       an: 0,
@@ -752,7 +753,7 @@ export class ArM5ePCActor extends Actor {
 
     // links with other actors
 
-    if (system.type === "player" || system.type === "npc") {
+    if (this.type === "player" || this.type === "npc") {
       if (system.covenant?.value) {
         let covenants = game.actors
           .filter(a => a.type == "covenant")
@@ -1676,9 +1677,9 @@ export class ArM5ePCActor extends Actor {
   }
 
   getArtStats(key) {
-    let artType = "techniques";
-    if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(key) == -1) {
-      artType = "forms";
+    let artType = "forms";
+    if (Object.keys(CONFIG.ARM5E.magic.techniques).includes(key)) {
+      artType = "techniques";
     }
 
     return this.system.arts[artType][key];
@@ -1695,5 +1696,17 @@ export class ArM5ePCActor extends Actor {
     }
 
     let res = spell._computeCastingTotal(spell, { char: "int", focus: options.focus });
+  }
+
+  async changeHermeticArt(art, amount) {
+    if (!this._isMagus()) return;
+
+    let artType = "forms";
+    if (Object.keys(CONFIG.ARM5E.magic.techniques).includes(art)) {
+      artType = "techniques";
+    }
+    return await this.update({
+      [`system.arts.${artType}.${art}.xp`]: this.system.arts[artType][art].xp + amount
+    });
   }
 }

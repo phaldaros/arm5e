@@ -755,11 +755,23 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "learnSpell":
       case "inventSpell":
       case "visExtraction":
+      case "visStudy":
         for (let dependency of this.item.system.externalIds) {
           if (game.actors.has(dependency.actorId)) {
             let actor = game.actors.get(dependency.actorId);
             if (actor.items.has(dependency.itemId)) {
-              await actor.deleteEmbeddedDocuments("Item", [dependency.itemId], {});
+              if (dependency.flags == 0)
+                // delete
+                await actor.deleteEmbeddedDocuments("Item", [dependency.itemId], {});
+              else if (dependency.flags == 1) {
+                // resource update
+                let item = actor.items.get(dependency.itemId);
+                let label = `system.${dependency.data.amountLabel}`;
+                await item.update(
+                  { [label]: item.system[dependency.data.amountLabel] + dependency.data.amount },
+                  { parent: actor }
+                );
+              }
             }
           }
         }
@@ -773,6 +785,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "hermeticApp":
       case "childhood":
       case "laterLife":
+
       case "laterLifeMagi": {
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // check that ability still exists
@@ -833,7 +846,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
 
         if (
-          ["reading", "inventSpell", "learnSpell", "visExtraction"].includes(
+          ["reading", "inventSpell", "learnSpell", "visExtraction", "visStudy"].includes(
             this.item.system.activity
           )
         ) {

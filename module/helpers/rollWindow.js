@@ -20,28 +20,44 @@ const ROLL_MODES = {
   STRESS_OR_SIMPLE: 3
 };
 
+const ROLL_MODIFIERS = {
+  PHYSICAL: 1,
+  ENCUMBRANCE: 2,
+  AURA: 4
+};
+
 const DEFAULT_ROLL_PROPERTIES = {
-  DEFAULT: {
+  OPTION: {
     MODE: ROLL_MODES.STRESS_OR_SIMPLE,
+    MODIFIERS: 1,
+    TITLE: "arm5e.dialog.title.rolldie"
+  },
+  ABILITY: {
+    MODE: ROLL_MODES.STRESS_OR_SIMPLE,
+    MODIFIERS: 5, // impacted by aura, if realm of the ability <> mundane
     TITLE: "arm5e.dialog.title.rolldie"
   },
   COMBAT: {
     MODE: ROLL_MODES.STRESS,
     TITLE: "arm5e.dialog.title.rolldie",
+    MODIFIERS: 1,
     ALT_ACTION: exertSelf,
     ALT_ACTION_LABEL: "arm5e.dialog.button.exertSelf"
   },
   INIT: {
     MODE: ROLL_MODES.STRESS,
+    MODIFIERS: 3,
     TITLE: "arm5e.dialog.title.rolldie"
   },
   MAGIC: {
     MODE: ROLL_MODES.STRESS,
+    MODIFIERS: 7,
     TITLE: "arm5e.dialog.title.rolldie",
     CALLBACK: castSpell
   },
   SPONT: {
     MODE: ROLL_MODES.STRESS,
+    MODIFIERS: 7,
     TITLE: "arm5e.dialog.title.rolldie"
   },
   CHAR: {
@@ -50,16 +66,19 @@ const DEFAULT_ROLL_PROPERTIES = {
   },
   SPELL: {
     MODE: ROLL_MODES.STRESS_OR_SIMPLE,
+    MODIFIERS: 7,
     TITLE: "arm5e.dialog.title.rolldie",
     CALLBACK: castSpell
   },
   AGING: {
     MODE: 61, // STRESS + NO_BOTCH + NO_CONF + UNCONSCIOUS + PRIVATE
+    MODIFIERS: 0,
     TITLE: "arm5e.aging.roll.label",
     CALLBACK: applyAgingEffects
   },
   CRISIS: {
     MODE: 58, // SIMPLE + NO_CONF + UNCONSCIOUS + PRIVATE
+    MODIFIERS: 0,
     TITLE: "arm5e.aging.crisis.label",
     CALLBACK: agingCrisis
   }
@@ -67,7 +86,7 @@ const DEFAULT_ROLL_PROPERTIES = {
 
 // experimental, allow simple die for everything
 const ALTERNATE_ROLL_PROPERTIES = {
-  DEFAULT: {
+  OPTION: {
     MODE: ROLL_MODES.SIMPLE,
     TITLE: "arm5e.dialog.title.rolldie"
   },
@@ -341,7 +360,7 @@ async function castSpell(actorCaster, roll, message) {
   const totalOfSpell = roll._total;
 
   if (roll.botches > 0) {
-    actorCaster.update({
+    await actorCaster.update({
       "system.warping.points": actorCaster.system.warping.points + roll.botches
     });
   }
@@ -375,6 +394,7 @@ export {
   renderRollTemplate,
   prepareRollVariables,
   ROLL_MODES,
+  ROLL_MODIFIERS,
   ROLL_PROPERTIES,
   getRollTypeProperties,
   usePower

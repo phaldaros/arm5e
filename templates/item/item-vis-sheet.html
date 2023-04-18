@@ -14,11 +14,13 @@
               {{/each}} {{/select}}
           </select>
         </div>
-        <div>
-          <a class="vis-study" title="{{localize 'arm5e.activity.visStudy'}}" style=" font-size: 16pt; padding: 0px"><i
-              class="icon-Icon_Effects"></i>
-          </a>
-        </div>
+        {{#if displayStudyIcon}}
+          <div>
+            <a class="vis-study" title="{{localize 'arm5e.activity.visStudy'}}"
+              style=" font-size: 16pt; padding: 0px"><i class="icon-Icon_Effects"></i>
+            </a>
+          </div>
+        {{/if}}
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.sheet.pawns"}}</label>
