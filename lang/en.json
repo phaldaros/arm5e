@@ -731,6 +731,8 @@
   "arm5e.lab.planning.msg.notSkilledInvent": "Not skilled enough to invent that spell.",
   "arm5e.lab.planning.msg.visExtracted": "{num} pawns of Vim vis extracted from the aura.",
   "arm5e.lab.planning.msg.visExtracted2": "Vis vim extracted from the aura of {covenant}.",
+  "arm5e.lab.planning.msg.visExtracted3": "No aura to extract Vis from!",
+  "arm5e.lab.planning.msg.insufficientLabTotal": "Insufficent {arts} lab total to extract vis.",
   "arm5e.lab.planning.button.refresh": "Refresh",
   "arm5e.lab.planning.button.reset": "Reset",
   "arm5e.lab.planning.button.schedule": "Schedule",
@@ -812,7 +814,7 @@
   "arm5e.lab.specialty.texts": "Texts",
   "arm5e.lab.specialty.visExtraction": "Vis extraction",
 
-  "arm5.sheet.bonus.activeEffects": "Effects bonuses",
+  "arm5e.sheet.bonus.activeEffects": "Effects bonuses",
   "arm5e.sheet.action.rest": "Rest",
   "arm5e.sheet.action.reset": "Reset",
   "arm5e.sheet.action.invest": "Invest",
@@ -865,6 +867,7 @@
   "arm5e.notification.notMagus": "This character is not a magus/maga.",
   "arm5e.notification.noLab": "This character doesn't own a lab.",
   "arm5e.notification.noOwner": "This laboratory doesn't have an owner.",
+  "arm5e.notification.noEnoughVis": "{name} doesn't have enough pawns of vis to perform this action.",
 
   "arm5e.canvas.buttons.setAura": "Configure Aura",
   "arm5e.canvas.buttons.clearAura": "Clear Aura",
@@ -1055,6 +1058,7 @@
   "arm5e.activity.laterLifeMagi": "Year after apprenticeship",
   "arm5e.activity.aging": "Aging",
   "arm5e.activity.visStudy": "Vis study",
+  "arm5e.activity.pawnsNeeded": "Pawns of Vis needed",
 
   "arm5e.activity.progress.masteries": "Masteries",
   "arm5e.activity.msg.noAbility": "No ability left",
@@ -1084,6 +1088,8 @@
   "arm5e.activity.title.childhood": "Childhood",
   "arm5e.activity.title.spellLearning": "Learned a spell",
   "arm5e.activity.title.inventSpell": "Invented a spell",
+  "arm5e.activity.title.visStudy": "Study of {art} Vis",
+  "arm5e.activity.desc.visStudy": "From the study of {amount} pawn(s) of {art} Vis, {xp} xps were earned.",
   "arm5e.activity.drop.teacher": "Drop an actor here to act as a teacher/trainer.",
   "arm5e.activity.title.labinuse": "Laboratory in use ({activity}) by {user}.",
 

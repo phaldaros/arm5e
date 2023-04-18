@@ -580,7 +580,10 @@ export function validReading(context, actor, item) {
   // context.system.totalXp.masteries = checkMaxXpPerItem(context, spellsArr, 1000);
 
   if (abilitiesArr.length > 0) {
-    const maxLevel = Number(item.system.progress.abilities[0].maxLevel);
+    const maxLevel =
+      Number(item.system.progress.abilities[0].maxLevel) == 0
+        ? 100
+        : Number(item.system.progress.abilities[0].maxLevel);
     let ability = Object.values(actor.system.abilities).find(e => {
       return e._id === item.system.progress.abilities[0].id;
     });
@@ -608,7 +611,11 @@ export function validReading(context, actor, item) {
     context.system.progress.abilities[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.abilities += Number(context.system.sourceQuality);
   } else if (spellsArr.length > 0) {
-    const maxLevel = Number(item.system.progress.spells[0].maxLevel);
+    const maxLevel =
+      Number(item.system.progress.spells[0].maxLevel) == 0
+        ? 100
+        : Number(item.system.progress.spells[0].maxLevel);
+
     const spell = Object.values(actor.system.spells).find(e => {
       return e._id === item.system.progress.spells[0].id;
     });
@@ -626,7 +633,7 @@ export function validReading(context, actor, item) {
     context.system.totalXp.masteries += Number(context.system.sourceQuality);
   } else if (artsArr.length > 0) {
     const progressArt = item.system.progress.arts[0];
-    const maxLevel = Number(progressArt.maxLevel);
+    const maxLevel = Number(progressArt.maxLevel) == 0 ? 100 : Number(progressArt.maxLevel);
     let artType = "techniques";
     if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(progressArt.key) == -1) {
       artType = "forms";
@@ -645,6 +652,13 @@ export function validReading(context, actor, item) {
     context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.arts += Number(context.system.sourceQuality);
   }
+}
+
+export function validVisStudy(context, actor, item) {
+  context.system.totalXp = { abilities: 0, arts: 0, masteries: 0, spellLevels: 0 };
+  const progressArt = item.system.progress.arts[0];
+
+  context.system.totalXp.arts += Number(context.system.sourceQuality);
 }
 
 export function computeTotals(context) {
@@ -708,6 +722,10 @@ export function getNewTitleForActivity(actor, item) {
       return game.i18n.localize("arm5e.activity.title.laterLife");
     case "laterLifeMagi":
       return game.i18n.localize("arm5e.activity.title.laterLifeMagi");
+    // case "extractVis":
+
+    // case "studyVis":
+
     default:
       return DEFAULT_TITLE;
   }

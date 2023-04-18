@@ -323,9 +323,12 @@ async function onDropActorSheetData(actor, sheet, data) {
  */
 function rollItemMacro(itemId, actorId) {
   const actor = game.actors.get(actorId);
+  if (!actor) {
+    return ui.notifications.warn(`No Actor with Id ${actorId} exists in the world`);
+  }
   const item = actor.items.get(itemId);
   if (!item)
-    return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemName}`);
+    return ui.notifications.warn(`Your controlled Actor does not have an item with ID: ${itemId}`);
   const dataset = prepareDatasetByTypeOfItem(item);
   if (isEmpty(dataset)) {
     item.sheet.render(true);

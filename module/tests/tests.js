@@ -45,8 +45,15 @@ function registerRollTesting(quench) {
                 let roll = await stressDie(actor, "char", 0, null, 10);
                 log(false, roll);
                 assert.ok(roll);
-                if (roll.botched) return;
-                assert.ok(roll.modifier() == actor.system.characteristics[c].value);
+                if (roll.botches) {
+                  assert.equal(roll.total, 0, "botched");
+                  return;
+                }
+                assert.equal(
+                  roll.modifier(),
+                  actor.system.characteristics[c].value,
+                  "modifier not correct"
+                );
               } catch (err) {
                 console.error(`Error: ${err}`);
                 assert.ok(false);
@@ -63,7 +70,11 @@ function registerRollTesting(quench) {
                 let roll = await simpleDie(actor, "char", null);
                 log(false, roll);
                 assert.ok(roll);
-                assert.ok(roll.modifier() == actor.system.characteristics[c].value);
+                assert.equal(
+                  roll.modifier(),
+                  actor.system.characteristics[c].value,
+                  "modifier not correct"
+                );
               } catch (err) {
                 console.error(`Error: ${err}`);
                 assert.ok(false);
@@ -79,6 +90,10 @@ function registerRollTesting(quench) {
             let dataset = { roll: "option", name: "Loyal", option1: 1, txtoption1: "score" };
             actor.rollData.init(dataset, actor);
             let roll = await stressDie(actor, "option", 0, null, 10);
+            if (roll.botched) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
             assert.ok(roll);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -93,8 +108,11 @@ function registerRollTesting(quench) {
             let roll = await stressDie(actor, "char", 0, null, 10);
             // log(false, roll);
             assert.ok(roll);
-            if (roll.botched) return;
-            assert.ok(roll.modifier() == 1);
+            if (roll.botched) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            assert.equal(roll.modifier(), 1, "bad modifier");
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
@@ -122,7 +140,7 @@ function registerRollTesting(quench) {
             log(false, roll);
             assert.ok(roll.total > 50);
 
-            assert.ok(roll.modifier() == 50);
+            assert.equal(roll.modifier(), 50, "modifier not correct");
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
@@ -145,13 +163,16 @@ function registerRollTesting(quench) {
             actor.rollData.init(dataset, actor);
             let roll = await stressDie(actor, type, 0, null, 10);
             assert.ok(roll);
-            if (roll.botched) return;
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
             log(false, roll);
             let tot =
               actor.system.characteristics.qik.value +
               actor.system.combat.init -
               actor.system.combat.overload;
-            assert.ok(roll.modifier() == tot);
+            assert.equal(roll.modifier(), tot, "modifier not correct");
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
@@ -175,7 +196,10 @@ function registerRollTesting(quench) {
             let roll = await stressDie(actor, type, 0, null, 10);
             log(false, roll);
             assert.ok(roll);
-            if (roll.botched) return;
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
             let tot =
               actor.system.characteristics.dex.value +
               actor.system.combat.atk +
@@ -203,6 +227,10 @@ function registerRollTesting(quench) {
             let roll = await stressDie(actor, type, 0, null, 10);
             log(false, roll);
             assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);

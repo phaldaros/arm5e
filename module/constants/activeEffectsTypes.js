@@ -33,7 +33,8 @@ export default {
         label: "arm5e.sheet.magic.aura",
         key: "system.bonuses.arts.spellcasting",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-        default: 0
+        default: 0 //,
+        // option: "mundane"
       }
     }
   },
@@ -115,6 +116,12 @@ export default {
         key: "system.bonuses.activities.reading",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
+      },
+      visStudy: {
+        label: "arm5e.activity.visStudy",
+        key: "system.bonuses.activities.visStudy",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 2
       }
     }
   },

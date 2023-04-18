@@ -1,4 +1,4 @@
-## 2.0.5.9, Lexora, the apprentice
+## 2.0.5.10, Lexora, the apprentice
 
 ### Features & changes
 
@@ -15,6 +15,9 @@
 - Changing a reader's Actor sheet will reflect in the scriptorium.
 - Longevity ritual bonus moved next to decrepitude stats and now available to all type of characters
 - Encumbrance is taken into account for spellcasting rolls.
+- Lab sheet is now updated when its owner changes stats
+- New vis study seasonal activity (started on the vis sheet in a magus inventory)
+- New active effect for vis study bonus
 
 ### Bug fixes
 
@@ -30,6 +33,9 @@
   - Added max level to each progress item to prevent overflow by active effect.
 - Migration
   - Weapon.load not a number
+- Default value of aura is now 0
+- Suppress errors when running a macro item belonging to an Actor no longer in the world.
+- Stress roll were still put to 0 even if there was no botch in some conditions.
 
 ### V10 migration (on going)
 

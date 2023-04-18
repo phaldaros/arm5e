@@ -105,13 +105,15 @@ async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefine
       flavorTxt = `<h2 class="dice-msg">${game.i18n.localize(
         "arm5e.messages.die.botch"
       )}</h2><br/>${game.i18n.format("arm5e.messages.die.warpGain", { num: dieRoll.botches })} `;
+      dieRoll._total = 0;
     } else if (dieRoll._total > 1) {
       confAllowed = false;
       flavorTxt = `<h2 class="dice-msg">${game.i18n.format("arm5e.messages.die.botches", {
         num: dieRoll._total
       })}</h2><br/>${game.i18n.format("arm5e.messages.die.warpGain", { num: dieRoll.botches })} `; // TODO: mention what is botched
+      dieRoll._total = 0;
     }
-    dieRoll._total = 0;
+
     botchCheck = 1;
   }
 
@@ -147,7 +149,7 @@ async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefine
   );
 
   if (callBack) {
-    await callBack(actor, dieRoll, message);
+    await callBack(actor, dieRoll, message, rollData);
   }
   actor.rollData.reset();
   return dieRoll;

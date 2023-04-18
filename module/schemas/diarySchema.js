@@ -120,7 +120,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
             min: 0,
             initial: 0,
             step: 1
-          })
+          }),
+          data: new fields.ObjectField({ required: false, nullable: true, initial: null })
         }),
         { required: false, initial: [] }
       ),

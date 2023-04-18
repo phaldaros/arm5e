@@ -2,6 +2,7 @@ import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "./active-effects.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { log } from "../tools.js";
+import { getRollTypeProperties, ROLL_MODIFIERS } from "./rollWindow.js";
 
 export class ArM5eRollData {
   constructor(actor) {
@@ -13,6 +14,7 @@ export class ArM5eRollData {
     const actorSystemData = actor.system;
     this.type = dataset.roll;
     this.label = dataset.name;
+    this.additionalData = dataset.moredata ?? {};
     if (dataset.divide) {
       this.magic.divide = dataset.divide;
     }
@@ -20,18 +22,30 @@ export class ArM5eRollData {
       this.useFatigue = dataset.usefatigue;
     }
 
-    if (dataset.physicalcondition) {
+    let rollProperties = getRollTypeProperties(this.type);
+
+    if (rollProperties.MODIFIERS & ROLL_MODIFIERS.PHYSICAL) {
+      this.physicalCondition = true;
+    } else {
+      this.physicalCondition = false;
+    }
+    // possible to override physicalCondition with dataset
+    if (dataset.physicalcondition != undefined) {
       this.physicalCondition = dataset.physicalcondition;
     }
+
     this.prepareRollFields(dataset);
+    if (rollProperties.MODIFIERS & ROLL_MODIFIERS.ENCUMBRANCE) {
+      this.setGenericField(
+        game.i18n.localize("arm5e.sheet.encumbrance"),
+        actorSystemData.combat.overload,
+        3,
+        "-"
+      );
+    }
+
     switch (this.type) {
       case "init":
-        this.setGenericField(
-          game.i18n.localize("arm5e.sheet.encumbrance"),
-          actorSystemData.combat.overload,
-          3,
-          "-"
-        );
         break;
       case "combat":
         this.img = actorSystemData.combat.img;
@@ -78,13 +92,6 @@ export class ArM5eRollData {
         this.magic.divide = 2;
       case "spell":
         this.initPenetrationVariables(actor);
-
-        this.setGenericField(
-          game.i18n.localize("arm5e.sheet.encumbrance"),
-          actorSystemData.combat.overload,
-          3,
-          "-"
-        );
         if (dataset.id) {
           let spell = actor.items.get(dataset.id);
           this.label += " (" + spell.system.level + ")";
@@ -126,7 +133,6 @@ export class ArM5eRollData {
 
         break;
       case "aging":
-        this.physicalCondition = false;
         this.environment.year = parseInt(dataset.year);
         this.environment.season = ARM5E.seasons.winter.label;
         this.label =
@@ -168,7 +174,6 @@ export class ArM5eRollData {
         }
         break;
       case "crisis":
-        this.physicalCondition = false;
         this.environment.year = parseInt(dataset.year);
         this.environment.season = ARM5E.seasons.winter.label;
         this.label =
@@ -341,6 +346,8 @@ export class ArM5eRollData {
     // whether physical condition impact the roll
     this.physicalCondition = true;
     this.secondaryScore = 0;
+    // optional data used in the callback
+    this.additionalData = {};
   }
 
   getSpellcastingModifiers(actor, bonusActiveEffects) {

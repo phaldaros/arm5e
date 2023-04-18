@@ -297,6 +297,7 @@ export class Scriptorium extends FormApplication {
       }
     ];
     let quality = topic.quality;
+    let maxLevel = 0;
     switch (topic.category) {
       case "ability":
         if (topic.type == "Summa") {
@@ -309,12 +310,13 @@ export class Scriptorium extends FormApplication {
             quality = topic.quality;
           }
           entryData[0].system.sourceQuality = quality;
+          maxLevel = topic.level;
         }
         entryData[0].system.progress.abilities.push({
           id: dataset.abilityId,
           category: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.category ?? "general",
           name: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.name ?? book.name,
-          maxLevel: topic.level,
+          maxLevel: maxLevel,
           xp: entryData[0].system.cappedGain
             ? quality
             : quality + reader.system.bonuses.activities.reading
@@ -330,10 +332,11 @@ export class Scriptorium extends FormApplication {
             quality = topic.quality;
           }
           entryData[0].system.sourceQuality = quality;
+          maxLevel = topic.level;
         }
         entryData[0].system.progress.arts.push({
           key: topic.art,
-          maxLevel: topic.level,
+          maxLevel: maxLevel,
           xp: entryData[0].system.cappedGain
             ? quality
             : quality + reader.system.bonuses.activities.reading
@@ -344,7 +347,7 @@ export class Scriptorium extends FormApplication {
         entryData[0].system.progress.spells.push({
           id: dataset.spellId,
           name: readerSpell.name,
-          maxLevel: topic.level,
+          maxLevel: 0,
           form: readerSpell.system.form.value,
           xp: entryData[0].system.cappedGain
             ? quality
