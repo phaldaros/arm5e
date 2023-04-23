@@ -29,8 +29,9 @@ export function addChatListeners(message, html, data) {
   actorFace.on("click", ev => {
     const img = $(ev.currentTarget.children[0]);
     const actorId = img.data("id");
-
-    game.actors.get(actorId).sheet.render(true);
+    if (game.actors.has(actorId)) {
+      game.actors.get(actorId).sheet.render(true);
+    }
   });
 
   msgTitle.prepend(actorFace);
@@ -69,7 +70,9 @@ export function addChatListeners(message, html, data) {
         const img = $(ev.currentTarget.children[0]);
         const itemId = img.data("id");
         if (itemId) {
-          actor.items.get(itemId).sheet.render(true);
+          if (actor.items.has(itemId)) {
+            actor.items.get(itemId).sheet.render(true);
+          }
         }
       });
     }

@@ -1,4 +1,4 @@
-## 2.0.5.10, Lexora, the apprentice
+## 2.0.5.11, Lexora, the apprentice
 
 ### Features & changes
 
@@ -18,6 +18,12 @@
 - Lab sheet is now updated when its owner changes stats
 - New vis study seasonal activity (started on the vis sheet in a magus inventory)
 - New active effect for vis study bonus
+- [technical] Use of customize Die class in stress rolls, inspired by leus proposal ( /r Xds )
+- [technical] instrumentation of rolls for better test and diagnostic support
+- [technical][test] bunch of code moved around to not rely on the roll dialog input.
+- [macros](WIP) Simplification of the roll interface, giving more control to parameters (some were ignored in some cases).
+- [macros] New method to add and remove a simple active effect (only one change).
+- New setting to show all rolls, including NPCs (WIP: some more testing needed so it doesn't give too much details in the chat fro other players)
 
 ### Bug fixes
 
@@ -33,9 +39,11 @@
   - Added max level to each progress item to prevent overflow by active effect.
 - Migration
   - Weapon.load not a number
-- Default value of aura is now 0
+- Default value of aura is now 0 in lab planning
 - Suppress errors when running a macro item belonging to an Actor no longer in the world.
 - Stress roll were still put to 0 even if there was no botch in some conditions.
+- Fatigue levels are now updated after computing the casting total, and awaited for...
+- Clicking on a portrait or items on the chat will no longer raise an error if it doesn't exist anymore in the world
 
 ### V10 migration (on going)
 

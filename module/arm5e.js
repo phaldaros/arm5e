@@ -33,7 +33,7 @@ import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } fro
 
 import { registerSettings } from "./settings.js";
 import { registerTestSuites } from "./tests/tests.js";
-import { StressDie } from "./helpers/stressdie.js";
+import { StressDie, StressDieInternal } from "./helpers/stressdie.js";
 import { UserguideTour } from "./tours/userguide-tour.js";
 
 import {
@@ -93,22 +93,31 @@ Hooks.once("init", async function() {
   // }
   // Experimental
   CONFIG.Dice.types.push(StressDie);
+  CONFIG.Dice.types.push(StressDieInternal);
   CONFIG.Dice.terms[StressDie.DENOMINATION] = StressDie;
+  CONFIG.Dice.terms[StressDieInternal.DENOMINATION] = StressDieInternal;
   // instrumenting roll for testing
-  Roll.prototype.botched = false;
-  Roll.prototype.botchNum = 0;
+  Roll.prototype.botches = 0;
+  Roll.prototype.diviser = 1;
+  Roll.prototype.multiplier = 1;
+  Roll.prototype.offset = 0;
   Roll.prototype.modifier = function() {
     if (!this.result) {
       return 0;
     }
-    if (this.botched) {
+    if (this.botches > 0) {
       return 0;
     }
-    // extract second term
-    const pattern = /\w+\s\+\s+(-?\s?\d+)/;
-    let res = pattern.exec(this.result);
-    // remove whitespaces in negative numbers
-    return Number(res[1].replace(/\s+/g, ""));
+    if (this.dice.length != 1) {
+      log(false, "ERROR: wrong number of dice");
+      return 0;
+    }
+
+    log(
+      false,
+      `DBG: Roll total ${this.total} * ${this.diviser} - (${this.dice[0].total} * ${this.multiplier}) `
+    );
+    return this.total * this.diviser - this.dice[0].total * this.multiplier;
   };
 
   // UI customization

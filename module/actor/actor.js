@@ -10,6 +10,8 @@ import {
   compareTopics
 } from "../tools.js";
 
+import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
+
 import { migrateActorData } from "../migration.js";
 
 import ArM5eActiveEffect from "../helpers/active-effects.js";
@@ -1352,8 +1354,8 @@ export class ArM5ePCActor extends Actor {
 
   // Vitals management
 
-  loseFatigueLevel(num, wound = true) {
-    this._changeFatigueLevel(num, wound);
+  async loseFatigueLevel(num, wound = true) {
+    await this._changeFatigueLevel(num, wound);
   }
 
   async _changeFatigueLevel(num, wound = true) {
@@ -1400,6 +1402,46 @@ export class ArM5ePCActor extends Actor {
       }
     }
     await this.update(updateData, {});
+  }
+
+  async addActiveEffect(name, type, subtype, value, option = null, icon) {
+    if (Object.keys(ACTIVE_EFFECTS_TYPES).includes(type)) {
+      if (Object.keys(ACTIVE_EFFECTS_TYPES[type].subtypes).includes(subtype)) {
+        const activeEffectData = [
+          {
+            label: name,
+            icon: icon ?? "icons/svg/aura.svg",
+            origin: this.uuid,
+            duration: {
+              rounds: undefined
+            },
+            flags: {
+              arm5e: {
+                noEdit: false,
+                type: [type],
+                subtype: [subtype],
+                option: [null]
+              }
+            },
+            changes: [
+              {
+                label: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].label,
+                key: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key,
+                mode: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].mode,
+                value: value ?? ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default
+              }
+            ],
+            tint: "#000000"
+          }
+        ];
+        return await this.createEmbeddedDocuments("ActiveEffect", activeEffectData);
+      } else {
+        log(false, "Unknown subtype");
+      }
+    } else {
+      log(false, "Unknown type");
+    }
+    return;
   }
 
   async changeWound(amount, type) {
@@ -1622,7 +1664,7 @@ export class ArM5ePCActor extends Actor {
       ui.notifications.info(`Migrating actor ${this.name}.`, {
         permanent: false
       });
-      const updateData = migrateActorData(this);
+      const updateData = await migrateActorData(this, this.items);
 
       if (!isEmpty(updateData)) {
         console.log(`Migrating Actor entity ${this.name}`);
