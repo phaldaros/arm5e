@@ -225,7 +225,7 @@ export default {
 
   affinity: {
     category: "magic",
-    type: "artAffinity",
+    type: "affinity",
     label: "arm5e.sheet.activeEffect.types.arts.affinity",
     subtypes: {
       cr: {
@@ -435,7 +435,7 @@ export default {
   },
   formResistance: {
     category: "traits",
-    type: "resistance",
+    type: "formResistance",
     label: "arm5e.sheet.activeEffect.types.formResistance",
     subtypes: {
       an: {

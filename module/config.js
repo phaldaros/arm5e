@@ -393,6 +393,17 @@ ARM5E.character.magicAbilities = {
   penetration: "arm5e.skill.arcane.penetration"
 };
 
+ARM5E.character.magicRolls = {
+  fastCastingSpeed: { label: "arm5e.sheet.fastCastingSpeed.label" },
+  determiningEffect: { label: "arm5e.sheet.determiningEffect.label" },
+  concentration: { label: "arm5e.sheet.concentration.label" },
+  targeting: { label: "arm5e.sheet.targeting.label" },
+  magicResistance: { label: "arm5e.sheet.magicResistance.label" },
+  multipleCasting: { label: "arm5e.sheet.multipleCasting.label" },
+  basicLabTotal: { label: "arm5e.sheet.basicLabTotal.label" },
+  visLimit: { label: "arm5e.sheet.visLimit.label" }
+};
+
 ARM5E.reputations = {
   local: { label: "arm5e.sheet.reputationType.local" },
   ecclesiastic: { label: "arm5e.sheet.reputationType.ecclesiastic" },

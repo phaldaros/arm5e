@@ -341,7 +341,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       }
       updateData["system.-=date"] = null;
       updateData["system.dates"] = itemData.system.dates;
-    } else if (itemData.system.dates == []) {
+    } else if (itemData.system.dates instanceof Array && itemData.system.dates.length == 0) {
       updateData["system.dates"] = [
         {
           year: Number(currentDate.year),

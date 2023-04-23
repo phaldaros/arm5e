@@ -1,6 +1,22 @@
 import { simpleDie, stressDie } from "../dice.js";
 import { log, sleep } from "../tools.js";
-import { armorItem, combatSkill, companionData, weaponItem } from "./testData.js";
+import {
+  armorItem,
+  combatSkill,
+  companionData,
+  heavyCombatSkill,
+  languageSkill,
+  magicalEffect1,
+  magicalEffect2,
+  magicalEffect3,
+  magusData,
+  penetrationSkill,
+  readingSkill,
+  spellData1,
+  spellData2,
+  spellData3,
+  weaponItem
+} from "./testData.js";
 
 export function registerTestSuites(quench) {
   registerAbilityScoresTesting(quench);
@@ -15,6 +31,13 @@ function registerRollTesting(quench) {
     context => {
       const { describe, it, assert, before } = context;
       let actor;
+      let magus;
+      let ME1;
+      let ME2;
+      let ME3;
+      let Sp1;
+      let Sp2;
+      let Sp3;
 
       if (game.modules.get("dice-so-nice")?.active) {
         ui.notifications.warn("Disable dice-so-nice to test dice rolls");
@@ -27,10 +50,73 @@ function registerRollTesting(quench) {
           type: "player",
           system: companionData
         });
-        await actor.sheet._itemCreate({ type: "ability", ...combatSkill });
-        await actor.sheet._itemCreate({ type: "ability", ...combatSkill });
+        await actor.sheet._itemCreate({ name: "sword", type: "ability", ...combatSkill });
+        await actor.sheet._itemCreate({ name: "poleaxe", type: "ability", ...heavyCombatSkill });
         await actor.sheet._itemCreate({ type: "weapon", ...weaponItem });
         await actor.sheet._itemCreate({ type: "armor", ...armorItem });
+
+        magus = await Actor.create({
+          name: `MerlinTheMagus`,
+          type: "player",
+          system: magusData
+        });
+        await magus.sheet._itemCreate({
+          name: "Penetration",
+          type: "ability",
+          ...penetrationSkill
+        });
+        await magus.sheet._itemCreate({
+          name: "Artes liberales",
+          type: "ability",
+          ...readingSkill
+        });
+        await magus.sheet._itemCreate({ name: "Gaelic", type: "ability", ...languageSkill });
+        ME1 = (
+          await magus.sheet._itemCreate({
+            name: "Standard effect",
+            type: "magicalEffect",
+            ...magicalEffect1
+          })
+        )[0];
+        ME2 = (
+          await magus.sheet._itemCreate({
+            name: "All req effect",
+            type: "magicalEffect",
+            ...magicalEffect2
+          })
+        )[0];
+        ME3 = (
+          await magus.sheet._itemCreate({
+            name: "Effect with focus",
+            type: "magicalEffect",
+            ...magicalEffect3
+          })
+        )[0];
+        Sp1 = (
+          await magus.sheet._itemCreate({
+            name: "Standard spell",
+            type: "spell",
+            ...spellData1
+          })
+        )[0];
+        Sp2 = (
+          await magus.sheet._itemCreate({
+            name: "Spell with focus",
+            type: "spell",
+            ...spellData2
+          })
+        )[0];
+        Sp3 = (
+          await magus.sheet._itemCreate({
+            name: "Ritual spell",
+            type: "spell",
+            ...spellData3
+          })
+        )[0];
+
+        await magus.addActiveEffect("Affinity Corpus", "affinity", "co", 2, null);
+        await magus.addActiveEffect("Puissant Muto", "art", "mu", 3, null);
+        await magus.addActiveEffect("Deficient Perdo", "deficiency", "pe", undefined, null);
       });
 
       describe("Characteristics rolls", function() {
@@ -204,18 +290,83 @@ function registerRollTesting(quench) {
               actor.system.characteristics.dex.value +
               actor.system.combat.atk +
               actor.system.combat.ability;
-            assert.ok(roll.modifier() == tot);
+            assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
           }
         });
-        it("Combat roll", async function() {
+        it("Combat roll defense", async function() {
           let type = "combat";
           try {
             let dataset = {
               roll: type,
-              name: "all options",
+              name: "combat",
+              option1: actor.system.characteristics.qik.value,
+              txtoption1: "quickness",
+              option2: actor.system.combat.ability,
+              txtoption2: "ability",
+              option3: actor.system.combat.dfn,
+              txtoption3: "attack"
+            };
+            actor.rollData.init(dataset, actor);
+            let roll = await stressDie(actor, type, 0, null, 10);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            assert.equal(
+              roll.modifier(),
+              actor.system.characteristics.qik.value +
+                actor.system.combat.ability +
+                actor.system.combat.dfn
+            );
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Combat roll exertion", async function() {
+          let type = "combat";
+          try {
+            let dataset = {
+              roll: type,
+              name: "combat",
+              option1: actor.system.characteristics.dex.value,
+              txtoption1: "dex",
+              option2: actor.system.combat.ability,
+              txtoption2: "ability",
+              option3: actor.system.combat.atk,
+              txtoption3: "attack"
+            };
+            actor.rollData.init(dataset, actor);
+            actor.rollData.combat.exertion = true;
+            let roll = await stressDie(actor, type, 0, null, 10);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            let tot =
+              actor.system.characteristics.dex.value +
+              actor.system.combat.atk +
+              2 * actor.system.combat.ability;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Combat wounded", async function() {
+          await actor.changeWound(3, "light");
+          let type = "combat";
+          try {
+            let dataset = {
+              roll: type,
+              name: "combat",
               option1: actor.system.characteristics.dex.value,
               txtoption1: "dex",
               option2: actor.system.combat.ability,
@@ -231,15 +382,289 @@ function registerRollTesting(quench) {
               assert.equal(roll.total, 0, "botched");
               return;
             }
+            let tot =
+              actor.system.characteristics.dex.value +
+              actor.system.combat.atk +
+              actor.system.combat.ability -
+              3;
+            assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
             assert.ok(false);
           }
         });
       });
+      describe("Magic rolls", function() {
+        it("Raw spontaneous", async function() {
+          await magus.changeWound(3, "light");
+          let type = "spont";
+          try {
+            let dataset = {
+              roll: type,
+              name: "Spontaneous",
+              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              technique: "mu",
+              form: "co",
+              divide: 2,
+              usefatigue: true
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 10);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            let tot =
+              magus.system.arts.techniques.mu.finalScore +
+              magus.system.arts.forms.co.finalScore +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Raw spontaneous + deficiency", async function() {
+          let type = "spont";
+          try {
+            let dataset = {
+              roll: type,
+              name: "Spontaneous deficient",
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              technique: "pe",
+              form: "co",
+              divide: 2,
+              usefatigue: true
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 10);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            let tot =
+              magus.system.arts.techniques.pe.finalScore +
+              magus.system.arts.forms.co.finalScore +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal +
+              1;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Magic effect std", async function() {
+          let type = "magic";
+          try {
+            let dataset = {
+              roll: type,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              id: ME1._id,
+              divide: 2,
+              usefatigue: true
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 100);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            let tot =
+              magus.system.arts.techniques.cr.finalScore +
+              magus.system.arts.forms.ig.finalScore +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal +
+              2;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Magic effect all req", async function() {
+          let type = "magic";
+          try {
+            await magus.rest();
+            let dataset = {
+              roll: type,
+              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              id: ME2._id,
+              divide: 2,
+              usefatigue: true
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 1);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            let tot =
+              // magus.system.arts.techniques.cr.finalScore +
+              // magus.system.arts.forms.ig.finalScore +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Magic effect with focus", async function() {
+          let type = "magic";
+          try {
+            await magus.rest();
+            let dataset = {
+              roll: type,
+              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              id: ME3.id
+              // divide: 2,
+              // usefatigue: true
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 1);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+            // assert.equal(ME3.system.applyFocus, magus.rollData.magic.focus);
+            let tot =
+              magus.system.arts.techniques.mu.finalScore +
+              magus.system.arts.forms.an.finalScore * 2 +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Spell", async function() {
+          let type = "spell";
+          try {
+            await magus.rest();
+            let dataset = {
+              roll: type,
+              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              id: Sp1._id
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 1);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+
+            // assert.equal(Sp1.system.masteryScore, magus.rollData.magic.mastery);
+            // assert.equal(Sp1.system.bonus, magus.rollData.magic.bonus);
+            let tot =
+              magus.system.arts.techniques.mu.finalScore +
+              magus.system.arts.forms.im.finalScore +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal +
+              Sp1.system.mastery +
+              Sp1.system.bonus;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Spell 2", async function() {
+          let type = "spell";
+          try {
+            await magus.rest();
+            let dataset = {
+              roll: type,
+              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              id: Sp2._id
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 1);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+
+            // assert.equal(Sp1.system.masteryScore, magus.rollData.magic.mastery);
+            // assert.equal(Sp1.system.bonus, magus.rollData.magic.bonus);
+            let tot =
+              magus.system.arts.techniques.mu.finalScore +
+              magus.system.arts.forms.co.finalScore * 2 +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal +
+              Sp2.system.mastery +
+              Sp2.system.bonus;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+        it("Ritual spell", async function() {
+          let type = "spell";
+          try {
+            await magus.rest();
+            let dataset = {
+              roll: type,
+              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              id: Sp3._id
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 1);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+
+            // assert.equal(Sp1.system.masteryScore, magus.rollData.magic.mastery);
+            // assert.equal(Sp1.system.bonus, magus.rollData.magic.bonus);
+            let tot =
+              magus.system.arts.techniques.mu.finalScore +
+              magus.system.arts.forms.vi.finalScore +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal +
+              Sp3.system.mastery +
+              Sp3.system.bonus;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
+      });
+
       after(async function() {
         if (actor) {
           await actor.delete();
+        }
+        if (magus) {
+          await magus.delete();
         }
       });
     },
@@ -357,6 +782,7 @@ function registerItemCreationTests(quench) {
   );
 }
 
+const MAX_SCORE = 10;
 function registerAbilityScoresTesting(quench) {
   quench.registerBatch(
     "Ars-AbilityScore",
@@ -378,7 +804,7 @@ function registerAbilityScoresTesting(quench) {
           )[0];
         });
         describe("Add xps", function() {
-          for (const score of Array(30).keys()) {
+          for (const score of Array(MAX_SCORE).keys()) {
             let inc = (score + 1) * 5;
             it(`Adding ${inc} to actor`, async function() {
               await item.update({ "system.xp": item.system.xp + inc }, { parent: actor.id });
@@ -395,7 +821,7 @@ function registerAbilityScoresTesting(quench) {
         });
 
         describe("Add xp+1", function() {
-          for (const score of Array(30).keys()) {
+          for (const score of Array(MAX_SCORE).keys()) {
             let inc = (score + 1) * 5;
 
             it(`Adding ${inc + 1} to actor`, async function() {
@@ -415,7 +841,7 @@ function registerAbilityScoresTesting(quench) {
           });
         });
         describe("Add xp-1", function() {
-          for (const score of Array(30).keys()) {
+          for (const score of Array(MAX_SCORE).keys()) {
             let inc = (score + 1) * 5;
 
             it(`Adding ${inc - 1} to actor`, async function() {
@@ -436,7 +862,7 @@ function registerAbilityScoresTesting(quench) {
         });
 
         describe("Increase score", function() {
-          for (const score of Array(30).keys()) {
+          for (const score of Array(MAX_SCORE).keys()) {
             it(`Increase score to ${score + 1}`, async function() {
               await item.system._increaseScore();
               assert.equal(item.system.finalScore, score + 1, "Final score");
@@ -447,11 +873,11 @@ function registerAbilityScoresTesting(quench) {
         });
 
         describe("Decrease score", function() {
-          for (const score of Array(30).keys()) {
-            it(`Increase score to ${30 - score}`, async function() {
+          for (const score of Array(MAX_SCORE).keys()) {
+            it(`Increase score to ${MAX_SCORE - score}`, async function() {
               await item.system._decreaseScore();
-              assert.equal(item.system.finalScore, 29 - score, "Final score");
-              assert.equal(item.system.xpNextLevel, 5 * (30 - score), "xpNextLevel");
+              assert.equal(item.system.finalScore, MAX_SCORE - 1 - score, "Final score");
+              assert.equal(item.system.xpNextLevel, 5 * (MAX_SCORE - score), "xpNextLevel");
               assert.equal(item.system.remainingXp, 0, "remainingXp");
             });
           }

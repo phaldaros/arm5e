@@ -13,13 +13,14 @@ export class ArM5eRollData {
     this.reset();
     const actorSystemData = actor.system;
     this.type = dataset.roll;
-    this.label = dataset.name;
-    this.additionalData = dataset.moredata ?? {};
-    if (dataset.divide) {
-      this.magic.divide = dataset.divide;
+
+    if (dataset.name) {
+      this.label = dataset.name;
     }
-    if (dataset.usefatigue) {
-      this.useFatigue = dataset.usefatigue;
+    this.additionalData = dataset.moredata ?? {};
+
+    if (dataset.img) {
+      this.img = dataset.img;
     }
 
     let rollProperties = getRollTypeProperties(this.type);
@@ -48,7 +49,7 @@ export class ArM5eRollData {
       case "init":
         break;
       case "combat":
-        this.img = actorSystemData.combat.img;
+        if (this.img === "") this.img = actorSystemData.combat.img;
         this.itemId = actorSystemData.combat.itemId;
         this.name = actorSystemData.combat.name;
 
@@ -62,7 +63,7 @@ export class ArM5eRollData {
         }
 
         const ab = actor.items.get(dataset.ability);
-        this.img = ab.img;
+        if (this.img === "") this.img = ab.img;
         this.itemId = ab.id;
         this.name = ab.name;
         this.label = this.name;
@@ -78,7 +79,7 @@ export class ArM5eRollData {
         if (dataset.id) {
           let power = actor.items.get(dataset.id);
           this.label += ` (${ARM5E.magic.arts[power.system.form].short})`;
-          this.img = power.img;
+          if (this.img === "") this.img = power.img;
           this.itemId = power.id;
           this.power.cost = Number(power.system.cost);
           this.power.penetrationPenalty = this.power.cost * 5;
@@ -89,16 +90,21 @@ export class ArM5eRollData {
 
       case "magic":
       case "spont":
+        this.useFatigue = true;
         this.magic.divide = 2;
       case "spell":
         this.initPenetrationVariables(actor);
+        this.characteristic = "sta";
         if (dataset.id) {
           let spell = actor.items.get(dataset.id);
+          if (this.label === "") {
+            this.label = spell.name;
+          }
           this.label += " (" + spell.system.level + ")";
-          this.img = spell.img;
+          if (this.img === "") this.img = spell.img;
           this.itemId = spell.id;
           let techData = spell._getTechniqueData(actor.system);
-          this.magic.technique = dataset.technique;
+          this.magic.technique = spell.system.technique.value;
           this.magic.techniqueLabel = techData[0];
           this.magic.techniqueScore = techData[1];
           this.magic.techDeficiency = techData[2];
@@ -106,10 +112,14 @@ export class ArM5eRollData {
           this.magic.formLabel = formData[0];
           this.magic.formScore = formData[1];
           this.magic.formDeficiency = formData[2];
-          this.magic.form = dataset.form;
-          this.magic.bonus = spell.system.bonus == undefined ? 0 : spell.system.bonus;
+          this.magic.form = spell.system.technique.value;
+          this.magic.bonus = spell.system.bonus;
           this.magic.bonusDesc = spell.system.bonusDesc;
-          this.magic.focus = spell.system.applyFocus;
+          if (dataset.applyfocus != undefined) {
+            this.magic.focus = dataset.applyfocus;
+          } else {
+            this.magic.focus = spell.system.applyFocus;
+          }
           this.magic.ritual = spell.system.ritual;
           this.magic.level = spell.system.level;
           this.magic.masteryScore = spell.system.mastery;
@@ -121,12 +131,15 @@ export class ArM5eRollData {
             this.magic.techniqueScore = parseInt(
               actorSystemData.arts.techniques[dataset.technique].finalScore
             );
+            this.magic.techDeficiency =
+              actorSystemData.arts.techniques[dataset.technique].deficient;
           }
 
           if (dataset.form) {
             this.magic.form = dataset.form;
             this.magic.formLabel = ARM5E.magic.forms[dataset.form].label;
             this.magic.formScore = parseInt(actorSystemData.arts.forms[dataset.form].finalScore);
+            this.magic.formDeficiency = actorSystemData.arts.forms[dataset.form].deficient;
           }
           this.magic.masteryScore = 0;
         }
@@ -199,6 +212,13 @@ export class ArM5eRollData {
         break;
     }
 
+    if (dataset.divide) {
+      this.magic.divide = dataset.divide;
+    }
+    if (dataset.usefatigue) {
+      this.useFatigue = dataset.usefatigue;
+    }
+
     if (dataset.bonusActiveEffects) {
       this.activeEffects = this.getSpellcastingModifiers(actor, dataset.bonusActiveEffects);
     }
@@ -215,6 +235,10 @@ export class ArM5eRollData {
     this.penetration.multiplierBonusSympathic = 0;
     this.penetration.config = ARM5E.magic.penetration;
     this.penetration.total = 0;
+  }
+
+  get isMagic() {
+    return ["magic", "spont", "spell"].includes(this.type);
   }
 
   setGenericField(name, value, idx, op = "+") {

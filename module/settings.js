@@ -57,6 +57,14 @@ export function registerSettings() {
     default: true
   });
 
+  game.settings.register(ARM5E.SYSTEM_ID, "showNPCRolls", {
+    name: "Show NPCs rolls",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false
+  });
+
   /**
    * Show NPC magic details (cast, penetration and defense)
    */

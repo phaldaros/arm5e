@@ -41,6 +41,16 @@ export const languageSkill = {
   option: "Gaelic"
 };
 
+export const readingSkill = {
+  description: "",
+  source: "ArM5",
+  page: 66,
+  defaultChaAb: "int",
+  speciality: "latin",
+  xp: 75,
+  key: "artesLiberales"
+};
+
 export const combatSkill = {
   description: "",
   source: "ArM5",
@@ -49,6 +59,26 @@ export const combatSkill = {
   speciality: "sword",
   xp: 55,
   key: "singleWeapon",
+  option: ""
+};
+export const heavyCombatSkill = {
+  description: "",
+  source: "ArM5",
+  page: 66,
+  defaultChaAb: "dex",
+  speciality: "sword",
+  xp: 55,
+  key: "greatWeapon",
+  option: ""
+};
+export const penetrationSkill = {
+  description: "",
+  source: "ArM5",
+  page: 62,
+  defaultChaAb: "sta",
+  speciality: "Creo",
+  xp: 55,
+  key: "penetration",
   option: ""
 };
 
@@ -68,6 +98,150 @@ export const armorItem = {
   equipped: true
 };
 
+export const magicalEffect1 = {
+  description: "",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "cr"
+  },
+  "technique-req": {
+    cr: false,
+    in: false,
+    mu: false,
+    pe: false,
+    re: false
+  },
+  form: {
+    value: "ig"
+  },
+  "form-req": {
+    an: false,
+    aq: false,
+    au: false,
+    co: false,
+    he: false,
+    ig: false,
+    im: false,
+    me: false,
+    te: false,
+    vi: false
+  },
+  range: {
+    value: "voice"
+  },
+  duration: {
+    value: "sun"
+  },
+  target: {
+    value: "ind"
+  },
+  targetSize: 0,
+  complexity: 0,
+  enhancingRequisite: 0,
+  general: false,
+  levelOffset: 0,
+  baseLevel: 2,
+  baseEffectDescription: "Blabla",
+  applyFocus: false
+};
+
+export const magicalEffect2 = {
+  description: "All req",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "mu"
+  },
+  "technique-req": {
+    cr: true,
+    in: true,
+    mu: false,
+    pe: true,
+    re: true
+  },
+  form: {
+    value: "vi"
+  },
+  "form-req": {
+    an: true,
+    aq: true,
+    au: true,
+    co: true,
+    he: true,
+    ig: true,
+    im: true,
+    me: true,
+    te: true,
+    vi: false
+  },
+  range: {
+    value: "voice"
+  },
+  duration: {
+    value: "sun"
+  },
+  target: {
+    value: "ind"
+  },
+  targetSize: 0,
+  complexity: 0,
+  enhancingRequisite: 0,
+  general: false,
+  levelOffset: 0,
+  baseLevel: 1,
+  baseEffectDescription: "Blabla",
+  applyFocus: false
+};
+
+export const magicalEffect3 = {
+  description: "",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "mu"
+  },
+  "technique-req": {
+    cr: false,
+    in: false,
+    mu: false,
+    pe: false,
+    re: false
+  },
+  form: {
+    value: "co"
+  },
+  "form-req": {
+    an: true,
+    aq: false,
+    au: false,
+    co: false,
+    he: false,
+    ig: false,
+    im: false,
+    me: false,
+    te: false,
+    vi: false
+  },
+  range: {
+    value: "voice"
+  },
+  duration: {
+    value: "sun"
+  },
+  target: {
+    value: "ind"
+  },
+  targetSize: 1,
+  complexity: 1,
+  enhancingRequisite: 1,
+  general: false,
+  levelOffset: 0,
+  baseLevel: 2,
+  baseEffectDescription: "Blabla",
+  applyFocus: true
+};
+
 export const weaponItem = {
   description: "A weapon",
   source: "custom",
@@ -85,5 +259,299 @@ export const weaponItem = {
   str: -1,
   range: 0,
   load: 2,
-  equipped: true
+  equipped: true,
+  ability: "singleWeapon"
+};
+export const spellData1 = {
+  description: "",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "mu"
+  },
+  "technique-req": {
+    cr: false,
+    in: false,
+    mu: false,
+    pe: false,
+    re: false
+  },
+  form: {
+    value: "im"
+  },
+  "form-req": {
+    an: false,
+    aq: false,
+    au: false,
+    co: false,
+    he: false,
+    ig: false,
+    im: false,
+    me: false,
+    te: false,
+    vi: false
+  },
+  range: {
+    value: "personal"
+  },
+  duration: {
+    value: "sun"
+  },
+  target: {
+    value: "ind"
+  },
+  targetSize: 0,
+  complexity: 0,
+  enhancingRequisite: 0,
+  general: false,
+  levelOffset: 0,
+  baseLevel: 4,
+  baseEffectDescription: "",
+  applyFocus: false,
+  ritual: false,
+  bonus: 4,
+  bonusDesc: "Talisman",
+  xp: 30,
+  masteryAbilities: ""
+};
+
+export const spellData2 = {
+  description: "",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "mu"
+  },
+  "technique-req": {
+    cr: false,
+    in: false,
+    mu: false,
+    pe: false,
+    re: false
+  },
+  form: {
+    value: "co"
+  },
+  "form-req": {
+    an: false,
+    aq: false,
+    au: false,
+    co: false,
+    he: false,
+    ig: false,
+    im: false,
+    me: false,
+    te: false,
+    vi: false
+  },
+  range: {
+    value: "personal"
+  },
+  duration: {
+    value: "sun"
+  },
+  target: {
+    value: "ind"
+  },
+  targetSize: 0,
+  complexity: 0,
+  enhancingRequisite: 2,
+  general: false,
+  levelOffset: 0,
+  baseLevel: 10,
+  baseEffectDescription: "",
+  applyFocus: true,
+  ritual: false,
+  bonus: 3,
+  bonusDesc: "Talisman",
+  xp: 30,
+  masteryAbilities: ""
+};
+export const spellData3 = {
+  description: "",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "mu"
+  },
+  "technique-req": {
+    cr: false,
+    in: false,
+    mu: false,
+    pe: false,
+    re: false
+  },
+  form: {
+    value: "vi"
+  },
+  "form-req": {
+    an: false,
+    aq: false,
+    au: false,
+    co: false,
+    he: false,
+    ig: false,
+    im: false,
+    me: false,
+    te: false,
+    vi: false
+  },
+  range: {
+    value: "personal"
+  },
+  duration: {
+    value: "sun"
+  },
+  target: {
+    value: "ind"
+  },
+  targetSize: 3,
+  complexity: 4,
+  enhancingRequisite: 0,
+  general: true,
+  levelOffset: 3,
+  baseLevel: 4,
+  baseEffectDescription: "",
+  applyFocus: false,
+  ritual: false,
+  bonus: 3,
+  bonusDesc: "Talisman",
+  xp: 30,
+  masteryAbilities: ""
+};
+export const magusData = {
+  biography: "Character biography, notes, &c.",
+  characteristics: {
+    int: { value: 4, aging: 1 },
+    per: { value: 2, aging: 0 },
+    str: { value: 0, aging: 0 },
+    sta: { value: 3, aging: 0 },
+    pre: { value: 1, aging: 0 },
+    com: { value: -1, aging: 0 },
+    dex: { value: -2, aging: 0 },
+    qik: { value: -3, aging: 2 }
+  },
+  description: {
+    born: { value: "1200" },
+    apprentice: { value: "10" },
+    birthname: { value: "" },
+    birthplace: { value: "Aix" },
+    nationality: { value: "Roman" },
+    religion: { value: "Christian" },
+    height: { value: "175" },
+    weight: { value: "" },
+    gender: { value: "male" },
+    hair: { value: "black" },
+    eyes: { value: "grey" },
+    title: { value: "Magus" },
+    handed: { value: "right" }
+  },
+  arts: {
+    techniques: {
+      cr: {
+        xp: 15
+      },
+      in: {
+        xp: 6
+      },
+      mu: {
+        xp: 187
+      },
+      pe: {
+        xp: 0
+      },
+      re: {
+        xp: 23
+      }
+    },
+    forms: {
+      an: {
+        xp: 21
+      },
+      aq: {
+        xp: 20
+      },
+      au: {
+        xp: 10
+      },
+      co: {
+        xp: 120
+      },
+      he: {
+        xp: 0
+      },
+      ig: {
+        xp: 30
+      },
+      im: {
+        xp: 30
+      },
+      me: {
+        xp: 30
+      },
+      te: {
+        xp: 30
+      },
+      vi: {
+        xp: 6
+      }
+    },
+    voiceAndGestures: {
+      voice: "FIRM",
+      gestures: "BOLD"
+    }
+  }
+};
+
+export const spell1 = {
+  description: "",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "cr"
+  },
+  "technique-req": {
+    cr: false,
+    in: false,
+    mu: false,
+    pe: false,
+    re: false
+  },
+  form: {
+    value: "ig"
+  },
+  "form-req": {
+    an: false,
+    aq: false,
+    au: false,
+    co: false,
+    he: false,
+    ig: false,
+    im: false,
+    me: false,
+    te: false,
+    vi: false
+  },
+  range: {
+    value: "personal"
+  },
+  duration: {
+    value: "moment"
+  },
+  target: {
+    value: "room"
+  },
+  targetSize: 3,
+  complexity: 1,
+  enhancingRequisite: 0,
+  general: false,
+  levelOffset: 0,
+  baseLevel: 10,
+  baseEffectDescription: "",
+  applyFocus: false,
+  ritual: false,
+  bonus: 0,
+  bonusDesc: "",
+  xp: 0,
+  masteryAbilities: ""
 };

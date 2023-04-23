@@ -1025,7 +1025,12 @@ export class ArM5eActorSheet extends ActorSheet {
     // Get the type of item to create.
     const type = dataset.type;
     // Initialize a default name.
-    const name = `New ${type.capitalize()}`;
+    let name;
+    if (dataset.name) {
+      name = dataset.name;
+    } else {
+      name = `New ${type.capitalize()}`;
+    }
     // Prepare the item object.
     const itemData = [
       {
@@ -1244,11 +1249,14 @@ export class ArM5eActorSheet extends ActorSheet {
           updateData[`system.laboratory.abilitiesSelected.${key}.abilityID`] = abs[0].id;
         }
       }
-      this.actor.update(updateData, {});
-      this.actor.createEmbeddedDocuments("Item", newAbilities, {});
+      await this.actor.update(updateData, {});
+      await this.actor.createEmbeddedDocuments("Item", newAbilities, {});
     }
   }
 
+  async roll(data) {
+    await this._onRoll(data);
+  }
   /**
    * Handle clickable rolls.
    * @param {Event} event   The originating click event
