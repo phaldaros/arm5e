@@ -226,6 +226,7 @@
         }
       },
       "arts": {
+        "spontDivider": 2,
         "arts": {
           "techniques": {
             "cr": {

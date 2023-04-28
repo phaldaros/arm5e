@@ -1,7 +1,7 @@
 import { ARM5E } from "../config.js";
 
 import { simpleDie, stressDie, noRoll, getFormData } from "../dice.js";
-import { checkTargetAndCalculateResistance } from "./magic.js";
+import { checkTargetAndCalculateResistance, noFatigue } from "./magic.js";
 import { chatFailedCasting } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { applyAgingEffects, agingCrisis } from "./long-term-activities.js";
@@ -41,6 +41,7 @@ const DEFAULT_ROLL_PROPERTIES = {
     MODE: ROLL_MODES.STRESS,
     TITLE: "arm5e.dialog.title.rolldie",
     MODIFIERS: 1,
+    // ALTER_ROLL: doubleAbility,
     ALT_ACTION: exertSelf,
     ALT_ACTION_LABEL: "arm5e.dialog.button.exertSelf"
   },
@@ -53,12 +54,19 @@ const DEFAULT_ROLL_PROPERTIES = {
     MODE: ROLL_MODES.STRESS,
     MODIFIERS: 7,
     TITLE: "arm5e.dialog.title.rolldie",
-    CALLBACK: castSpell
+    CALLBACK: castSpell,
+    ALTER_ROLL: noFatigue,
+    ALT_ACTION: noRoll,
+    ALT_ACTION_LABEL: "arm5e.dialog.button.noroll"
   },
   SPONT: {
     MODE: ROLL_MODES.STRESS,
     MODIFIERS: 7,
-    TITLE: "arm5e.dialog.title.rolldie"
+    TITLE: "arm5e.dialog.title.rolldie",
+    CALLBACK: castSpell,
+    ALTER_ROLL: noFatigue,
+    ALT_ACTION: noRoll,
+    ALT_ACTION_LABEL: "arm5e.dialog.button.noroll"
   },
   CHAR: {
     MODE: 19, // STRESS + SIMPLE + UNCONSCIOUS
@@ -103,11 +111,14 @@ const ALTERNATE_ROLL_PROPERTIES = {
   MAGIC: {
     MODE: ROLL_MODES.SIMPLE,
     TITLE: "arm5e.dialog.title.rolldie",
-    CALLBACK: castSpell
+    CALLBACK: castSpell,
+    ALT_ACTION: noRoll,
+    ALT_ACTION_LABEL: "arm5e.dialog.button.noroll"
   },
   SPONT: {
     MODE: ROLL_MODES.SIMPLE,
-    TITLE: "arm5e.dialog.title.rolldie"
+    TITLE: "arm5e.dialog.title.rolldie",
+    CALLBACK: castSpell
   },
   CHAR: {
     MODE: 18, // STRESS + SIMPLE + UNCONSCIOUS
@@ -210,10 +221,17 @@ function getDialogData(dataset, html, actor) {
   let altBtn;
   if (altAction) {
     const btnLabel = getRollTypeProperties(dataset.roll).ALT_ACTION_LABEL;
+    const rollAlteration = getRollTypeProperties(dataset.roll).ALTER_ROLL;
     altBtn = {
       icon: "<i class='fas fa-check'></i>",
       label: game.i18n.localize(btnLabel),
-      callback: async html => await altAction(actor, mode, callback, dataset.roll)
+      callback: async html => {
+        actor = getFormData(html, actor);
+        if (rollAlteration) {
+          rollAlteration(actor);
+        }
+        await altAction(actor, mode, callback);
+      }
     };
   }
 
@@ -301,7 +319,7 @@ async function usePower(dataset, actor) {
           label: game.i18n.localize("arm5e.dialog.powerUse"),
           callback: async html => {
             actor = getFormData(html, actor);
-            await noRoll(actor);
+            await noRoll(actor, changeMight);
           }
         },
         no: {
@@ -347,7 +365,7 @@ async function renderRollTemplate(dataset, template, actor) {
     },
     {
       classes: ["arm5e-dialog", "dialog"],
-      height: "600px",
+      height: "780px",
       width: "400px"
     }
   );
@@ -371,7 +389,7 @@ async function castSpell(actorCaster, roll, message) {
         fatigue = Math.ceil((levelOfSpell - totalOfSpell) / 5);
       }
       // lose fatigue levels
-      actorCaster.loseFatigueLevel(fatigue);
+      await actorCaster.loseFatigueLevel(fatigue);
       if (totalOfSpell < levelOfSpell - 10) {
         await chatFailedCasting(actorCaster, roll, message, fatigue);
         return false;

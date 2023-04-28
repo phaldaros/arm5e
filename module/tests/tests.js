@@ -1,5 +1,8 @@
+import { ARM5E } from "../config.js";
 import { simpleDie, stressDie } from "../dice.js";
+import { setAuraValueForAllTokensInScene } from "../helpers/aura.js";
 import { log, sleep } from "../tools.js";
+import { ArsLayer } from "../ui/ars-layer.js";
 import {
   armorItem,
   combatSkill,
@@ -38,10 +41,15 @@ function registerRollTesting(quench) {
       let Sp1;
       let Sp2;
       let Sp3;
+      let magusToken;
 
       if (game.modules.get("dice-so-nice")?.active) {
         ui.notifications.warn("Disable dice-so-nice to test dice rolls");
         return;
+      }
+      let hasScene = false;
+      if (game.scenes.viewed) {
+        hasScene = true;
       }
 
       before(async function() {
@@ -50,6 +58,7 @@ function registerRollTesting(quench) {
           type: "player",
           system: companionData
         });
+        ArsLayer.clearAura();
         await actor.sheet._itemCreate({ name: "sword", type: "ability", ...combatSkill });
         await actor.sheet._itemCreate({ name: "poleaxe", type: "ability", ...heavyCombatSkill });
         await actor.sheet._itemCreate({ type: "weapon", ...weaponItem });
@@ -117,6 +126,13 @@ function registerRollTesting(quench) {
         await magus.addActiveEffect("Affinity Corpus", "affinity", "co", 2, null);
         await magus.addActiveEffect("Puissant Muto", "art", "mu", 3, null);
         await magus.addActiveEffect("Deficient Perdo", "deficiency", "pe", undefined, null);
+        if (hasScene) {
+          const data = await magus.getTokenDocument({ x: 1000, y: 1000 });
+          data.actorLink = true;
+          magusToken = (await canvas.scene.createEmbeddedDocuments("Token", [data]))[0];
+          await magusToken.update({ actorLink: true });
+          await setAuraValueForAllTokensInScene(6, ARM5E.REALM_TYPES.FAERIC);
+        }
       });
 
       describe("Characteristics rolls", function() {
@@ -402,7 +418,7 @@ function registerRollTesting(quench) {
             let dataset = {
               roll: type,
               name: "Spontaneous",
-              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting, // tmp
               technique: "mu",
               form: "co",
               divide: 2,
@@ -421,7 +437,8 @@ function registerRollTesting(quench) {
               magus.system.arts.forms.co.finalScore +
               magus.system.characteristics.sta.value +
               magus.system.woundsTotal +
-              magus.system.fatigueTotal;
+              magus.system.fatigueTotal +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -454,7 +471,8 @@ function registerRollTesting(quench) {
               magus.system.characteristics.sta.value +
               magus.system.woundsTotal +
               magus.system.fatigueTotal +
-              1;
+              1 +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -485,7 +503,8 @@ function registerRollTesting(quench) {
               magus.system.characteristics.sta.value +
               magus.system.woundsTotal +
               magus.system.fatigueTotal +
-              2;
+              2 +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -498,7 +517,7 @@ function registerRollTesting(quench) {
             await magus.rest();
             let dataset = {
               roll: type,
-              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               id: ME2._id,
               divide: 2,
               usefatigue: true
@@ -516,7 +535,8 @@ function registerRollTesting(quench) {
               // magus.system.arts.forms.ig.finalScore +
               magus.system.characteristics.sta.value +
               magus.system.woundsTotal +
-              magus.system.fatigueTotal;
+              magus.system.fatigueTotal +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -529,7 +549,7 @@ function registerRollTesting(quench) {
             await magus.rest();
             let dataset = {
               roll: type,
-              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               id: ME3.id
               // divide: 2,
               // usefatigue: true
@@ -548,7 +568,8 @@ function registerRollTesting(quench) {
               magus.system.arts.forms.an.finalScore * 2 +
               magus.system.characteristics.sta.value +
               magus.system.woundsTotal +
-              magus.system.fatigueTotal;
+              magus.system.fatigueTotal +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -561,11 +582,11 @@ function registerRollTesting(quench) {
             await magus.rest();
             let dataset = {
               roll: type,
-              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               id: Sp1._id
             };
             magus.rollData.init(dataset, magus);
-            let roll = await stressDie(magus, type, 0, undefined, 1);
+            let roll = await stressDie(magus, type, 0, undefined, 4);
             log(false, roll);
             assert.ok(roll);
             if (roll.botches) {
@@ -582,7 +603,8 @@ function registerRollTesting(quench) {
               magus.system.woundsTotal +
               magus.system.fatigueTotal +
               Sp1.system.mastery +
-              Sp1.system.bonus;
+              Sp1.system.bonus +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -595,11 +617,11 @@ function registerRollTesting(quench) {
             await magus.rest();
             let dataset = {
               roll: type,
-              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               id: Sp2._id
             };
             magus.rollData.init(dataset, magus);
-            let roll = await stressDie(magus, type, 0, undefined, 1);
+            let roll = await stressDie(magus, type, 0, undefined, 3);
             log(false, roll);
             assert.ok(roll);
             if (roll.botches) {
@@ -616,7 +638,8 @@ function registerRollTesting(quench) {
               magus.system.woundsTotal +
               magus.system.fatigueTotal +
               Sp2.system.mastery +
-              Sp2.system.bonus;
+              Sp2.system.bonus +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -629,11 +652,11 @@ function registerRollTesting(quench) {
             await magus.rest();
             let dataset = {
               roll: type,
-              // bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               id: Sp3._id
             };
             magus.rollData.init(dataset, magus);
-            let roll = await stressDie(magus, type, 0, undefined, 1);
+            let roll = await stressDie(magus, type, 0, undefined, 2);
             log(false, roll);
             assert.ok(roll);
             if (roll.botches) {
@@ -650,7 +673,8 @@ function registerRollTesting(quench) {
               magus.system.woundsTotal +
               magus.system.fatigueTotal +
               Sp3.system.mastery +
-              Sp3.system.bonus;
+              Sp3.system.bonus +
+              3;
             assert.equal(roll.modifier(), tot);
           } catch (err) {
             console.error(`Error: ${err}`);
@@ -662,6 +686,9 @@ function registerRollTesting(quench) {
       after(async function() {
         if (actor) {
           await actor.delete();
+        }
+        if (magusToken) {
+          await magusToken.delete();
         }
         if (magus) {
           await magus.delete();

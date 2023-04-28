@@ -7,7 +7,8 @@ import {
   compareDiaryEntries,
   log,
   error,
-  compareTopics
+  compareTopics,
+  integerToRomanNumeral
 } from "../tools.js";
 
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
@@ -581,7 +582,7 @@ export class ArM5ePCActor extends Actor {
           topic.id = item.id;
           topic.img = item.img;
           topic.index = idx++;
-          topic.book = item.name;
+          topic.book = `${item.name} (${integerToRomanNumeral(idx)})`;
           switch (topic.category) {
             case "ability":
               mundaneTopics.push(topic);
@@ -1444,6 +1445,20 @@ export class ArM5ePCActor extends Actor {
     return;
   }
 
+  // async removeActiveEffect(type, subtype) {
+  //   if (Object.keys(ACTIVE_EFFECTS_TYPES).includes(type)) {
+  //     if (Object.keys(ACTIVE_EFFECTS_TYPES[type].subtypes).includes(subtype)) {
+  //       const toDelete = Object.values(this.effects).filter(e => )
+  //       return await this.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+  //     } else {
+  //       log(false, "Unknown subtype");
+  //     }
+  //   } else {
+  //     log(false, "Unknown type");
+  //   }
+  //   return;
+  // }
+
   async changeWound(amount, type) {
     if (!this._isCharacter() || (amount < 0 && this.system.wounds[type].number.value == 0)) {
       return;
@@ -1749,6 +1764,14 @@ export class ArM5ePCActor extends Actor {
     }
     return await this.update({
       [`system.arts.${artType}.${art}.xp`]: this.system.arts[artType][art].xp + amount
+    });
+  }
+
+  async changeMight(amount) {
+    if (!this._hasMight()) return;
+
+    await this.update({
+      system: { might: { points: this.system.might.points + amount } }
     });
   }
 }

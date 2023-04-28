@@ -1,12 +1,16 @@
 import { log } from "../tools.js";
 import { stressDie } from "../dice.js";
 
-export async function exertSelf(actor, mode, callback, roll) {
+// export function doubleAbility(actor) {
+//   actor.rollData.ability.score *= 2;
+// }
+
+export async function exertSelf(actor, mode, callback) {
   log(false, "Exert self in combat");
 
   actor.rollData.combat.exertion = true;
 
-  await stressDie(actor, roll, callback, mode, 0);
+  await stressDie(actor, actor.rollData.type, callback, mode, 0);
 
   await actor.loseFatigueLevel(1);
 }

@@ -1,7 +1,87 @@
 import { log, putInFoldableLink, putInFoldableLinkWithAnimation } from "../tools.js";
 
+export function showRollResults(actor, type) {
+  let showRolls = game.settings.get("arm5e", "showRolls");
+  return (
+    game.users.get(game.userId).isGM ||
+    actor?.isOwner ||
+    (type === "player" && ["ALL", "PLAYERS"].includes(showRolls)) ||
+    "ALL" == showRolls
+  );
+}
+
+function showRollFormulas(actor, type) {
+  let showFormulas = game.settings.get("arm5e", "showRollFormulas");
+  return (
+    game.users.get(game.userId).isGM ||
+    actor?.isOwner ||
+    (type === "player" && ["ALL", "PLAYERS"].includes(showFormulas)) ||
+    "ALL" == showFormulas
+  );
+}
+
 export function addChatListeners(message, html, data) {
   let actor = game.actors.get(data.message.speaker.actor);
+
+  if (message.isRoll) {
+    let rollFormula = html.find(".dice-formula");
+    if (showRollFormulas(actor, data.message.flags.arm5e.actorType)) {
+      if (rollFormula) {
+        // botches
+        let tmp = rollFormula.text();
+        if (tmp.match(/(\d+)d10cf=10/g)) {
+          tmp = rollFormula.text().replace(/(\d+)d10cf=10/g, "$1 botch dice");
+        } else if (tmp.match(/1di /g)) {
+          tmp = rollFormula.text().replace(/1di /g, "1d10 ");
+        } else if (tmp.match(/1di10 /g)) {
+          tmp = rollFormula.text().replace(/1di10 /g, "1d10 ");
+        }
+
+        rollFormula.text(tmp);
+      }
+    } else {
+      rollFormula.remove();
+      html.find(".dice-tooltip").remove();
+    }
+  }
+
+  const originatorOrGM = game.users.get(game.userId).isGM || actor?.isOwner;
+  // Hide the details if you are not the GM or owner
+
+  if (originatorOrGM) {
+    html.find(".clickable").click(ev => {
+      $(ev.currentTarget)
+        .next()
+        .toggleClass("hide");
+    });
+  } else {
+    html.find(".clickable").remove();
+  }
+  // legacy chat messages, ignore them
+  if (data.message.flags.arm5e === undefined) {
+    return;
+  }
+  let showResults = showRollResults(actor, data.message.flags.arm5e.actorType);
+  let rollResult = html.find(".dice-total");
+
+  if (data.message.flags.arm5e.secondaryScore) {
+    let newValue = Math.round(
+      data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total)
+    );
+
+    rollResult.text(
+      Number.isNaN(rollResult.text())
+        ? rollResult.text()
+        : Math.round(Number(rollResult.text())) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
+    );
+  } else {
+    if (!Number.isNaN(rollResult.text())) {
+      rollResult.text(Math.round(Number(rollResult.text())));
+    }
+  }
+  if (!showResults) {
+    rollResult.remove();
+  }
 
   if (actor === undefined) {
     // Actor no longer exists in the world
@@ -36,29 +116,8 @@ export function addChatListeners(message, html, data) {
 
   msgTitle.prepend(actorFace);
 
-  const originatorOrGM = game.users.get(game.userId).isGM || actor.isOwner;
-  // Hide the details if you are not the GM
-
-  if (originatorOrGM) {
-    html.find(".clickable").click(ev => {
-      $(ev.currentTarget)
-        .next()
-        .toggleClass("hide");
-    });
-  } else {
-    html.find(".clickable").remove();
-
-    if (actor.type != "player") {
-      html.find(".dice-result").remove();
-      return;
-    }
-  }
-
   if (!message.isRoll) return;
-  // old chat messages, ignore them
-  if (data.message.flags.arm5e === undefined) {
-    return;
-  }
+
   let img = data.message.flags.arm5e?.roll?.img;
   if (img) {
     const chatTitle = html.find(".ars-chat-title");
@@ -82,18 +141,6 @@ export function addChatListeners(message, html, data) {
 
   if (!originatorOrGM) {
     return;
-  }
-
-  let rollResult = html.find(".dice-total");
-  if (data.message.flags.arm5e.secondaryScore) {
-    let newValue = Math.round(
-      data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total)
-    );
-    rollResult.text(
-      Number.isNaN(rollResult.text())
-        ? rollResult.text()
-        : Math.round(Number(rollResult.text())) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
-    );
   }
 
   // confidence has been used already => no button
@@ -168,7 +215,8 @@ async function useConfidence(ev) {
       msgData.flags = {
         arm5e: {
           usedConf: usedConf,
-          confScore: message.flags.arm5e.confScore
+          confScore: message.flags.arm5e.confScore,
+          actorType: actor.type // for if the actor is deleted
         }
       };
       msgData.content = newContent;
@@ -498,7 +546,8 @@ async function privateMessage(content, actor, title, flavor) {
     blind: true,
     flags: {
       arm5e: {
-        type: "damage"
+        type: "damage",
+        actorType: actor.type // for if the actor is deleted
       }
     }
   };
