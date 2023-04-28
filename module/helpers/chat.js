@@ -63,20 +63,21 @@ export function addChatListeners(message, html, data) {
   }
   let showResults = showRollResults(actor, data.message.flags.arm5e.actorType);
   let rollResult = html.find(".dice-total");
-
+  let rollRes = rollResult.text();
+  log(false, `Roll result: ${rollRes}`);
   if (data.message.flags.arm5e.secondaryScore) {
     let newValue = Math.round(
       data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total)
     );
 
     rollResult.text(
-      Number.isNaN(rollResult.text())
-        ? rollResult.text()
-        : Math.round(Number(rollResult.text())) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
+      Number.isNaN(rollRes)
+        ? rollRes
+        : Math.round(Number(rollRes)) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
     );
   } else {
-    if (!Number.isNaN(rollResult.text())) {
-      rollResult.text(Math.round(Number(rollResult.text())));
+    if (Number.isNumeric(rollRes)) {
+      rollResult.text(Math.round(Number(rollRes)));
     }
   }
   if (!showResults) {
@@ -404,10 +405,15 @@ async function chatContestOfPower({
     flavor: title + putInFoldableLinkWithAnimation("arm5e.sheet.label.details", flavorForPlayers),
     speaker: ChatMessage.getSpeaker({
       actorCaster
-    })
+    }),
+    flags: {
+      arm5e: {
+        actorType: actorCaster.type // for if the actor is deleted
+      }
+    }
   });
   if (flavorForPlayers !== flavorForGM) {
-    privateMessage(content, actorCaster, title, flavorForGM);
+    privateMessage(content, actorCaster, title, flavorForGM, "power");
   }
 }
 
@@ -526,10 +532,10 @@ async function chatContestOfMagic({
     })
   });
   if (flavorForPlayers !== flavorForGM) {
-    privateMessage(content, actorCaster, title, flavorForGM);
+    privateMessage(content, actorCaster, title, flavorForGM, "magic");
   }
 }
-async function privateMessage(content, actor, title, flavor) {
+async function privateMessage(content, actor, title, flavor, type = "") {
   // only roll messages can be hidden from roller
 
   let roll = new Roll("0");
@@ -546,7 +552,7 @@ async function privateMessage(content, actor, title, flavor) {
     blind: true,
     flags: {
       arm5e: {
-        type: "damage",
+        type: type,
         actorType: actor.type // for if the actor is deleted
       }
     }
