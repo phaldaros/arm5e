@@ -112,7 +112,7 @@ export class ArM5eRollData {
           this.magic.formLabel = formData[0];
           this.magic.formScore = formData[1];
           this.magic.formDeficiency = formData[2];
-          this.magic.form = spell.system.technique.value;
+          this.magic.form = spell.system.form.value;
           this.magic.bonus = spell.system.bonus ?? 0;
           this.magic.bonusDesc = spell.system.bonusDesc ?? "";
           if (dataset.applyfocus != undefined) {
