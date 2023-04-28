@@ -975,26 +975,33 @@ ARM5E.covenant.labels = {
     label: "arm5e.sheet.money"
   }
 };
+ARM5E.REALM_TYPES = {
+  MUNDANE: 0,
+  MAGIC: 1,
+  FAERIC: 2,
+  DIVINE: 3,
+  INFERNAL: 4
+};
 // influence is the impact the aura has on powers of mundane (ie: none), magic, faery, divine and infernal respectively
 ARM5E.realms = {
   magic: {
     label: "arm5e.sheet.realm.magical",
-    value: 1,
+    value: ARM5E.REALM_TYPES.MAGIC,
     influence: [0, 1, 0.5, 0, -1]
   },
   faeric: {
     label: "arm5e.sheet.realm.faeric",
-    value: 2,
+    value: ARM5E.REALM_TYPES.FAERIC,
     influence: [0, 0.5, 1, 0, -1]
   },
   divine: {
     label: "arm5e.sheet.realm.divine",
-    value: 3,
+    value: ARM5E.REALM_TYPES.DIVINE,
     influence: [0, -3, -4, 1, -5]
   },
   infernal: {
     label: "arm5e.sheet.realm.infernal",
-    value: 4,
+    value: ARM5E.REALM_TYPES.INFERNAL,
     influence: [0, -1, -2, 0, 1]
   }
 };

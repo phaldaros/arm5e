@@ -113,16 +113,16 @@ export class ArM5eRollData {
           this.magic.formScore = formData[1];
           this.magic.formDeficiency = formData[2];
           this.magic.form = spell.system.technique.value;
-          this.magic.bonus = spell.system.bonus;
-          this.magic.bonusDesc = spell.system.bonusDesc;
+          this.magic.bonus = spell.system.bonus ?? 0;
+          this.magic.bonusDesc = spell.system.bonusDesc ?? "";
           if (dataset.applyfocus != undefined) {
             this.magic.focus = dataset.applyfocus;
           } else {
             this.magic.focus = spell.system.applyFocus;
           }
-          this.magic.ritual = spell.system.ritual;
+          this.magic.ritual = spell.system.ritual ?? false;
           this.magic.level = spell.system.level;
-          this.magic.masteryScore = spell.system.mastery;
+          this.magic.masteryScore = spell.system.mastery ?? 0;
           this.bonuses = this.magic.bonus;
         } else {
           if (dataset.technique) {
@@ -400,6 +400,38 @@ export class ArM5eRollData {
       return {
         label,
         value
+      };
+    });
+  }
+
+  getModifiers(actor, bonusActiveEffects) {
+    this.bonuses += Number(actor.system.bonuses.arts[bonusActiveEffects]);
+    const activeEffects = actor.effects;
+    const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
+      activeEffects,
+      "spellcasting"
+    );
+    return activeEffectsByType.map(activeEffect => {
+      const label = activeEffect.label;
+      let value = 0;
+      let optional = false;
+      if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
+        this.environment.hasAuraBonus = true;
+      }
+      activeEffect.changes
+        .filter((c, idx) => {
+          return (
+            c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
+            activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+          );
+        })
+        .forEach(item => {
+          value += Number(item.value);
+        });
+      return {
+        label,
+        value,
+        optional
       };
     });
   }

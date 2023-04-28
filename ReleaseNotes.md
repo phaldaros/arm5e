@@ -1,4 +1,4 @@
-## 2.0.5.11, Lexora, the apprentice
+## 2.0.5.12, Lexora, the apprentice
 
 ### Features & changes
 
@@ -23,7 +23,12 @@
 - [technical][test] bunch of code moved around to not rely on the roll dialog input.
 - [macros](WIP) Simplification of the roll interface, giving more control to parameters (some were ignored in some cases).
 - [macros] New method to add and remove a simple active effect (only one change).
-- New setting to show all rolls, including NPCs (WIP: some more testing needed so it doesn't give too much details in the chat fro other players)
+- New setting to show rolls : (ALL,PLAYERS,OWNED)
+- New setting to show rolls formula : (ALL,PLAYERS,OWNED)
+- New Target level field in roll dialog for raw spontaneous magic
+- New alternate action for spontaneous magic: No fatigue spent (divided by 5)
+- Added a roman numeral for the topic number in the library tab
+- More compact dialog for magic rolls
 
 ### Bug fixes
 
@@ -44,6 +49,7 @@
 - Stress roll were still put to 0 even if there was no botch in some conditions.
 - Fatigue levels are now updated after computing the casting total, and awaited for...
 - Clicking on a portrait or items on the chat will no longer raise an error if it doesn't exist anymore in the world
+- diary entries without date are migrated properly
 
 ### V10 migration (on going)
 

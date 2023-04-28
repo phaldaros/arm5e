@@ -92,22 +92,23 @@
 
       </div>
     {{/unless}}
-    {{#unless (eq system.fatigueTotal 0) }}
-      <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
-      </div>
-      <div class="flexrow flex-group-center">
-        <label class="resource-label">{{localize "arm5e.sheet.fatigue"}} ({{ system.fatigueTotal }})</label>
-    {{/unless}}
-    {{#unless (eq system.woundsTotal 0) }}
-      <label class="resource-label flex0"> + </label>
-      <label class="resource-label">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
-    {{/unless}}
-    {{#unless (eq system.combat.overload 0) }}
-      <label class="resource-label flex0"> - </label>
-      <label class="resource-label">{{localize "arm5e.sheet.encumbrance"}} ({{ system.combat.overload }})</label>
-    {{/unless}}
-
+    <div class="flexrow flex-group-center">
+      {{#unless (eq system.fatigueTotal 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+ {{localize "arm5e.sheet.fatigue"}} ({{ system.fatigueTotal }})</label>
+        </div>
+      {{/unless}}
+      {{#unless (eq system.woundsTotal 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+ {{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
+        </div>
+      {{/unless}}
+      {{#unless (eq system.combat.overload 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">- {{localize "arm5e.sheet.encumbrance"}} ({{ system.combat.overload }})</label>
+        </div>
+      {{/unless}}
+    </div>
   </div>
   <div class="flexrow flex-group-center">
     <label class="resource-label"><img src="/systems/arm5e/assets/icons/Icon_Details_option1.png" title="Penetration"

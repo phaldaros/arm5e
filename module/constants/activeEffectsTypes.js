@@ -36,6 +36,13 @@ export default {
         default: 0 //,
         // option: "mundane"
       }
+      // optional: {
+      //   label: "arm5e.sheet.activeEffect.types.optional",
+      //   key: "system.bonuses.arts.spellcasting",
+      //   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+      //   default: 0,
+      //   optional: true
+      // }
     }
   },
   penetration: {

@@ -57,12 +57,28 @@ export function registerSettings() {
     default: true
   });
 
-  game.settings.register(ARM5E.SYSTEM_ID, "showNPCRolls", {
-    name: "Show NPCs rolls",
+  game.settings.register(ARM5E.SYSTEM_ID, "showRolls", {
+    name: "Show rolls",
     scope: "world",
     config: true,
-    type: Boolean,
-    default: false
+    choices: {
+      ALL: "Give me all details!",
+      PLAYERS: "Only players rolls.",
+      OWNED: "Only the rolls of owned characters."
+    },
+    default: "PLAYERS"
+  });
+
+  game.settings.register(ARM5E.SYSTEM_ID, "showRollFormulas", {
+    name: "Show rolls formula",
+    scope: "world",
+    config: true,
+    choices: {
+      ALL: "Give me all details!",
+      PLAYERS: "Only players rolls.",
+      OWNED: "Only the formula for owned characters."
+    },
+    default: "PLAYERS"
   });
 
   /**
@@ -74,6 +90,7 @@ export function registerSettings() {
     config: true,
     choices: {
       SHOW_ALL: "Give me all details!",
+      // PLAYERS: "Only players' results.",
       ONLY_RESULTS: "Show me only the result"
     },
     default: "ONLY_RESULTS"

@@ -1254,8 +1254,8 @@ export class ArM5eActorSheet extends ActorSheet {
     }
   }
 
-  async roll(data) {
-    await this._onRoll(data);
+  async roll(parameters) {
+    await this._onRoll(parameters);
   }
   /**
    * Handle clickable rolls.

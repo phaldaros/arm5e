@@ -2,6 +2,7 @@ import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
 import { checkTargetAndCalculateResistance } from "./helpers/magic.js";
 import { log, putInFoldableLink, putInFoldableLinkWithAnimation, sleep } from "./tools.js";
 import { ARM5E } from "./config.js";
+import { showRollResults } from "./helpers/chat.js";
 let mult = 1;
 
 async function simpleDie(actor, type = "DEFAULT", callBack) {
@@ -34,10 +35,10 @@ async function simpleDie(actor, type = "DEFAULT", callBack) {
 
   // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
   let rollMode = game.settings.get("core", "rollMode");
-  let showNPCRolls = game.settings.get("arm5e", "showNPCRolls");
+  // let showRolls = game.settings.get("arm5e", "showRolls");
   if (
-    getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE ||
-    (actor.type != "player" && !showNPCRolls)
+    getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE &&
+    rollMode != CONST.DICE_ROLL_MODES.BLIND
   ) {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
@@ -47,12 +48,12 @@ async function simpleDie(actor, type = "DEFAULT", callBack) {
       roll: { type: type, img: rollData.img, name: rollData.name, id: rollData.itemId },
       type: "confidence",
       confScore: conf,
+      actorType: actor.type, // for if the actor is deleted
       secondaryScore: rollData.secondaryScore
     }
   };
 
   // TODO: HERE Do the callback for before message creation
-
   const message = await tmp.toMessage(
     {
       speaker: ChatMessage.getSpeaker({
@@ -63,7 +64,6 @@ async function simpleDie(actor, type = "DEFAULT", callBack) {
     },
     { rollMode: rollMode }
   );
-
   if (callBack) {
     await callBack(actor, tmp, message);
   }
@@ -102,9 +102,9 @@ async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefine
     )}</h3><br/>`;
   } else if (mult === 0) {
     if (dieRoll.botches === 0) {
-      flavorTxt = `<h2 class="dice-msg">${game.i18n.localize(
-        "arm5e.messages.die.noBotch"
-      )}</h2><br/>`;
+      flavorTxt = `<h2 class="dice-msg">${game.i18n.format("arm5e.messages.die.noBotch", {
+        dicenum: dieRoll.botchDice
+      })}</h2><br/>`;
     } else if (dieRoll._total == 1) {
       confAllowed = false;
       flavorTxt = `<h2 class="dice-msg">${game.i18n.localize("arm5e.messages.die.botch")}</h2>`;
@@ -136,13 +136,13 @@ async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefine
   // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
 
   let rollMode = game.settings.get("core", "rollMode");
-  let showNPCRolls = game.settings.get("arm5e", "showNPCRolls");
   if (
-    getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE ||
-    (actor.type != "player" && !showNPCRolls)
+    getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE &&
+    rollMode != CONST.DICE_ROLL_MODES.BLIND
   ) {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
+
   const message = await dieRoll.toMessage(
     {
       flavor: chatTitle + flavorTxt + details,
@@ -155,6 +155,7 @@ async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefine
           roll: { type: type, img: rollData.img, name: rollData.name, id: rollData.itemId },
           type: "confidence",
           divide: rollData.magic.divide,
+          actorType: actor.type, // for if the actor is deleted
           confScore: confAllowed,
           botchCheck: botchCheck,
           secondaryScore: rollData.secondaryScore
@@ -163,7 +164,6 @@ async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefine
     },
     { rollMode: rollMode }
   );
-
   if (callBack) {
     await callBack(actor, dieRoll, message, rollData);
   }
@@ -220,17 +220,22 @@ export function getFormData(html, actor) {
 
   find = html.find(".SelectedAura");
   if (find.length > 0) {
-    actor.rollData.environment.aura = find[0].value;
+    actor.rollData.environment.aura = Number(find[0].value) ?? 0;
+  }
+
+  find = html.find(".SelectedLevel");
+  if (find.length > 0) {
+    actor.rollData.magic.level = Number(find[0].value) ?? 0;
   }
 
   find = html.find(".SelectedModifier");
   if (find.length > 0) {
-    actor.rollData.modifier = find[0].value;
+    actor.rollData.modifier = Number(find[0].value) ?? 0;
   }
 
   find = html.find(".SelectedAdvantage");
   if (find.length > 0) {
-    actor.rollData.combat.advantage = find[0].value;
+    actor.rollData.combat.advantage = Number(find[0].value) ?? 0;
   }
 
   find = html.find(".SelectedFocus");
@@ -240,12 +245,13 @@ export function getFormData(html, actor) {
 
   find = html.find(".SelectedYear");
   if (find.length > 0) {
-    actor.rollData.environment.year = find[0].value;
+    actor.rollData.environment.year = Number(find[0].value) ?? 1220;
   }
 
   if (
     actor.rollData.type == "spell" ||
     actor.rollData.type == "magic" ||
+    actor.rollData.type == "spont" ||
     actor.rollData.type == "power"
   ) {
     find = html.find(".penSpeciality");
@@ -258,12 +264,12 @@ export function getFormData(html, actor) {
     }
     find = html.find(".multiplierBonusArcanic");
     if (find.length > 0) {
-      actor.rollData.penetration.multiplierBonusArcanic = Number(find[0].value);
+      actor.rollData.penetration.multiplierBonusArcanic = Number(find[0].value) ?? 0;
     }
 
     find = html.find(".multiplierBonusSympathic");
     if (find.length > 0) {
-      actor.rollData.penetration.multiplierBonusSympathic = Number(find[0].value);
+      actor.rollData.penetration.multiplierBonusSympathic = Number(find[0].value) ?? 0;
     }
   }
 
@@ -481,7 +487,7 @@ async function getRollFormula(actor) {
     ///
     // after computing total
     ///
-    if (rollData.type == "spell" || rollData.type == "magic") {
+    if (rollData.type == "spell" || rollData.type == "magic" || rollData.type == "spont") {
       const multiplier =
         rollData.penetration.multiplierBonusArcanic +
         rollData.penetration.multiplierBonusSympathic +
@@ -644,8 +650,8 @@ async function explodingRoll(actorData, modes = 0, botchNum = 0) {
                   icon: "<i class='fas fa-check'></i>",
                   label: game.i18n.localize("arm5e.dialog.button.rollbotch"),
                   callback: async html => {
-                    let botchDice = html.find("#botchDice").val();
-                    botchRoll = await CheckBotch(botchDice);
+                    botchNum = html.find("#botchDice").val();
+                    botchRoll = await CheckBotch(botchNum);
                     resolve();
                   }
                 },
@@ -676,6 +682,7 @@ async function explodingRoll(actorData, modes = 0, botchNum = 0) {
       if (botchRoll.botches > 0) {
         dieRoll = botchRoll;
       }
+      dieRoll.botchDice = botchNum;
     }
   }
 
@@ -700,7 +707,7 @@ async function createRoll(rollFormula, mult, divide) {
   return output_roll;
 }
 
-async function noRoll(actor, callBack) {
+async function noRoll(actor, mode, callback, roll) {
   actor = await getRollFormula(actor);
   const rollData = actor.rollData;
   //console.log('simple die');
@@ -711,18 +718,22 @@ async function noRoll(actor, callBack) {
 
   const flags = {
     arm5e: {
-      roll: { type: "power", img: rollData.img, name: rollData.name, id: rollData.itemId },
-      secondaryScore: rollData.secondaryScore
+      roll: { type: rollData.type, img: rollData.img, name: rollData.name, id: rollData.itemId },
+      secondaryScore: rollData.secondaryScore,
+      actorType: actor.type // for if the actor is deleted
     }
   };
   let formula = `${rollData.formula}`;
   // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
   let rollMode = game.settings.get("core", "rollMode");
-  if (actor.type != "player") {
-    rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
+  // if (actor.type != "player") {
+  rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
+  // }
+  if (rollData.magic.divide > 1) {
+    formula += ` / ${rollData.magic.divide}`;
   }
-
   const dieRoll = new Roll(formula, actor.system);
+  dieRoll.diviser = rollData.magic.divide;
   let tmp = await dieRoll.roll({
     async: true
   });
@@ -738,10 +749,13 @@ async function noRoll(actor, callBack) {
     { rollMode: rollMode }
   );
   await checkTargetAndCalculateResistance(actor, dieRoll, message);
-  await actor.update({
-    system: { might: { points: actor.system.might.points - rollData.power.cost } }
-  });
+  if (callback) {
+    await callback(actor, dieRoll, message);
+  }
   actor.rollData.reset();
 }
+async function changeMight(actor, roll, message) {
+  await actor.changeMight(-actor.rollData.power.cost);
+}
 
-export { simpleDie, stressDie, noRoll };
+export { simpleDie, stressDie, noRoll, changeMight };

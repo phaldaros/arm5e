@@ -182,6 +182,13 @@ export function computeRawCastingTotal(effect, owner, options = {}) {
   };
 }
 
+async function noFatigue(actor) {
+  if (actor._isMagus()) {
+    actor.rollData.useFatigue = false;
+    actor.rollData.magic.divide = 5;
+  }
+}
+
 async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
   const actorsTargeted = getActorsFromTargetedTokens(actorCaster);
   if (!actorsTargeted) {
@@ -304,4 +311,4 @@ function calculateSuccessOfPower({ actorCaster, actorTarget, roll }) {
   };
 }
 
-export { calculateSuccessOfMagic, checkTargetAndCalculateResistance };
+export { calculateSuccessOfMagic, checkTargetAndCalculateResistance, noFatigue };

@@ -1,6 +1,7 @@
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
 import ArM5eActiveEffect from "./active-effects.js";
 import { log } from "../tools.js";
+import { ARM5E } from "../config.js";
 
 const ICON = "icons/magic/defensive/barrier-shield-dome-blue-purple.webp";
 
@@ -56,34 +57,38 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
   if (!scene.active) {
     return;
   }
-  let activeEffectData = getAuraActiveEffect(value);
-  activeEffectData.origin = scene.uuid;
+  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
+    let activeEffectData = getAuraActiveEffect(value);
+    activeEffectData.origin = scene.uuid;
 
-  const tokens = scene.tokens.filter(token => token.actor);
-  for (const token of tokens) {
-    if (token.actor._isCharacter()) {
-      if (token.isLinked) {
-        const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
-        // patch the active effect data
-        activeEffectData.changes[0].value = modifier;
-        await addEffect(token.actor, activeEffectData);
-      } else {
-        const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
-        // patch the active effect data
-        activeEffectData.changes[0].value = modifier;
-        log(false, `Change aura for ${token.name}`);
-        await addEffect(token.actor, activeEffectData);
+    const tokens = scene.tokens.filter(token => token.actor);
+    for (const token of tokens) {
+      if (token.actor._isCharacter()) {
+        if (token.isLinked) {
+          const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
+          // patch the active effect data
+          activeEffectData.changes[0].value = modifier;
+          await addEffect(token.actor, activeEffectData);
+        } else {
+          const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
+          // patch the active effect data
+          activeEffectData.changes[0].value = modifier;
+          log(false, `Change aura for ${token.name}`);
+          await addEffect(token.actor, activeEffectData);
+        }
       }
     }
   }
 }
 
 async function addActiveEffectAuraToActor(actor, value, type) {
-  const auraEffect = getAuraActiveEffect(value);
-  const modifier = computeAuraModifier(actor.system.realmAlignment, Number(value), type);
-  // patch the active effect data
-  auraEffect.changes[0].value = modifier;
-  await addEffect(actor, auraEffect);
+  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
+    const auraEffect = getAuraActiveEffect(value);
+    const modifier = computeAuraModifier(actor.system.realmAlignment, Number(value), type);
+    // patch the active effect data
+    auraEffect.changes[0].value = modifier;
+    await addEffect(actor, auraEffect);
+  }
 }
 
 async function clearAuraFromActor(actor) {
@@ -113,14 +118,18 @@ function computeAuraModifier(alignment, auraVal, type) {
 }
 
 async function setAuraValueForAllTokensInScene(value, type) {
-  // Store a flag with the current aura
-  game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
-  game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
-  modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
+  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
+    // Store a flag with the current aura
+    game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
+    game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
+    modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
+  }
 }
 
 function setAuraValueForToken(value, type) {
-  addActiveEffectAuraToActor(this, Number(value), Number(type));
+  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
+    addActiveEffectAuraToActor(this, Number(value), Number(type));
+  }
 }
 
 async function resetTokenAuraToSceneAura() {
