@@ -289,6 +289,18 @@ export const migrateSceneData = async function(scene, migrationData) {
   return { tokens };
 };
 
+const isEffectObsolete = function(effect) {
+  if (
+    effect.flags.arm5e.type[0] === "spellcasting" &&
+    ["gestures", "voice"].includes(effect.flags.arm5e.subtype[0])
+  ) {
+    if (effect.flags.arm5e.value) {
+      return true;
+    }
+  }
+  return false;
+};
+
 /**
  * Migrate a single Actor entity to incorporate latest data model changes
  * Return an Object of updateData to be applied
@@ -362,6 +374,17 @@ export const migrateActorData = async function(actorDoc, actorItems) {
     if (actor.system.season?.value != undefined) {
       updateData["system.datetime.season"] = actor.system?.season.value ?? "spring";
       updateData["system.-=season"] = null;
+    }
+
+    if (actor.system.stances === undefined) {
+      updateData["system.stances"] = { voiceStance: "firm", gesturesStance: "bold" };
+    } else {
+      if (actor.system.stances.voiceStance == undefined) {
+        updateData["system.stances.voiceStance"] = "firm";
+      }
+      if (actor.system.stances.gesturesStance == undefined) {
+        updateData["system.stances.gesturesStance"] = "bold";
+      }
     }
 
     // if (actor.system.)
@@ -611,8 +634,14 @@ export const migrateActorData = async function(actorDoc, actorItems) {
       log(false, `Migrating effects of ${actor.name}`);
       // Migrate effects
       let effects = [];
+      let toDelete = [];
       for (let e of actor.effects) {
+        if (isEffectObsolete(e)) {
+          toDelete.push(e._id);
+          continue;
+        }
         const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
+
         let effectUpdate = await migrateActiveEffectData(effectData);
         if (!isEmpty(effectUpdate)) {
           // Update the effect
@@ -620,6 +649,10 @@ export const migrateActorData = async function(actorDoc, actorItems) {
           effects.push(expandObject(effectUpdate));
         }
       }
+      if (toDelete.length > 0) {
+        await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+      }
+
       if (effects.length > 0) {
         log(false, effects);
         updateData.effects = effects;
@@ -751,10 +784,10 @@ export const migrateActiveEffectData = async function(effectData) {
   } else {
     let options = effectData.flags.arm5e.option;
     let subtypes = effectData.flags.arm5e.subtype;
-    let changes = effectData.changes;
+    let changes = [];
     let idx = 0;
     let needUpdate = false;
-    for (let ch of changes) {
+    for (let ch of effectData.changes) {
       if (ch.key === "system.bonuses.skills.civilCanonLaw.bonus") {
         ch.key = "system.bonuses.skills.law_CivilAndCanon.bonus";
         options[idx] = "CivilAndCanon";
@@ -765,7 +798,17 @@ export const migrateActiveEffectData = async function(effectData) {
         options[idx] = "Common";
         subtypes[idx] = "law";
         needUpdate = true;
+      } else if (
+        ch.key === "system.bonuses.arts.voice" ||
+        ch.key === "system.bonuses.arts.gestures" ||
+        (ch.key === "system.bonuses.arts.spellcasting" && subtypes[idx] === "gesture")
+      ) {
+        // delete those old effects
+        idx++;
+        needUpdate = true;
+        continue;
       }
+      changes.push(ch);
       idx++;
     }
     if (needUpdate) {
@@ -994,7 +1037,12 @@ export const migrateItemData = async function(item) {
 
   if (itemData.effects.length > 0) {
     log(false, `Migrating effects of ${itemData.name}`);
+    let toDelete = [];
     const effects = itemData.effects.reduce(async (arr, e) => {
+      if (isEffectObsolete(e)) {
+        toDelete.push(e._id);
+        return arr;
+      }
       // Migrate effects
       const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
       let effectUpdate = await migrateActiveEffectData(effectData);
@@ -1005,6 +1053,10 @@ export const migrateItemData = async function(item) {
       }
       return arr;
     }, []);
+    if (toDelete.length > 0) {
+      await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+    }
+
     if (effects.length > 0) {
       updateData.effects = effects;
     }

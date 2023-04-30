@@ -115,20 +115,32 @@ export class ArM5ePCActor extends Actor {
         this.system.arts.forms[key].xpCoeff = 1.0;
         this.system.arts.forms[key].deficient = false;
       }
-    }
 
-    this.system.bonuses.arts = {
-      voice: 0,
-      gestures: 0,
-      spellcasting: 0,
-      laboratory: 0,
-      penetration: 0,
-      magicResistance: null
-    };
+      this.system.stances.gestures = {
+        exaggerated: 1,
+        bold: 0,
+        subtle: -2,
+        motionless: -5
+      };
+      this.system.stances.voice = {
+        loud: 1,
+        firm: 0,
+        quiet: -5,
+        silent: -10
+      };
+    }
 
     this.system.bonuses.labActivities = {
       learnSpell: 0,
       inventSpell: 0
+    };
+
+    this.system.bonuses.arts = {
+      spellcasting: 0,
+      laboratory: 0,
+      magicResistance: null,
+      spontDivider: 2,
+      spontDividerNoFatigue: 5
     };
 
     this.system.bonuses.skills = {};
@@ -458,7 +470,9 @@ export class ArM5ePCActor extends Actor {
 
       // compute the spellcasting bonus:
       this.system.bonuses.arts.spellcasting +=
-        parseInt(this.system.bonuses.arts.voice) + parseInt(this.system.bonuses.arts.gestures);
+        this.system.stances.voice[system.stances.voiceStance] ||
+        0 + this.system.stances.gestures[system.stances.gesturesStance] ||
+        0;
 
       if (system.laboratory === undefined) {
         system.laboratory = {};

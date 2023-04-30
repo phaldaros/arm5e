@@ -532,13 +532,13 @@ async function chatContestOfMagic({
     })
   });
   if (flavorForPlayers !== flavorForGM) {
-    privateMessage(content, actorCaster, title, flavorForGM, "magic");
+    privateMessage(messageTotalWithName, actorCaster, title, flavorForGM, "magic");
   }
 }
 async function privateMessage(content, actor, title, flavor, type = "") {
   // only roll messages can be hidden from roller
 
-  let roll = new Roll("0");
+  // let roll = new Roll("0");
 
   let messageData = {
     content: content,
@@ -547,7 +547,7 @@ async function privateMessage(content, actor, title, flavor, type = "") {
       actor
     }),
     type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-    roll: "0",
+    // roll: "0",
     whisper: ChatMessage.getWhisperRecipients("gm"),
     blind: true,
     flags: {
@@ -557,7 +557,8 @@ async function privateMessage(content, actor, title, flavor, type = "") {
       }
     }
   };
-  await roll.toMessage(messageData, { rollMode: CONST.DICE_ROLL_MODES.BLIND });
+  ChatMessage.create(messageData);
+  // await roll.toMessage(messageData, { rollMode: CONST.DICE_ROLL_MODES.BLIND });
 }
 
 export { chatContestOfMagic, chatFailedCasting, chatContestOfPower };

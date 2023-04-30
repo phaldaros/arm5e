@@ -95,7 +95,7 @@ async function clearAuraFromActor(actor) {
   const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(actor.effects, "aura");
   for (const e of effects) {
     log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);
-    actor.deleteEmbeddedDocuments("ActiveEffect", [e.id]);
+    await actor.deleteEmbeddedDocuments("ActiveEffect", [e.id]);
   }
 }
 
@@ -120,15 +120,15 @@ function computeAuraModifier(alignment, auraVal, type) {
 async function setAuraValueForAllTokensInScene(value, type) {
   if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
     // Store a flag with the current aura
-    game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
-    game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
+    await game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
+    await game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
     modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
   }
 }
 
-function setAuraValueForToken(value, type) {
+async function setAuraValueForToken(value, type) {
   if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
-    addActiveEffectAuraToActor(this, Number(value), Number(type));
+    await addActiveEffectAuraToActor(this, Number(value), Number(type));
   }
 }
 
@@ -136,7 +136,7 @@ async function resetTokenAuraToSceneAura() {
   const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
   const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
   if (aura !== undefined && !Number.isNaN(aura) && type !== undefined && !Number.isNaN(type)) {
-    addActiveEffectAuraToActor(this, Number(aura), Number(type));
+    await addActiveEffectAuraToActor(this, Number(aura), Number(type));
   }
 }
 

@@ -27,6 +27,22 @@ export const companionData = {
   },
   reputation: {
     rep1: { label: "Dead", type: "awda", score: 1 }
+  },
+  stances: {
+    voiceStance: "firm",
+    voice: {
+      loud: 1,
+      firm: 0,
+      quiet: -5,
+      silent: -10
+    },
+    gesturesStance: "bold",
+    gestures: {
+      exaggerated: 1,
+      bold: 0,
+      subtle: -2,
+      motionless: -5
+    }
   }
 };
 
@@ -495,10 +511,22 @@ export const magusData = {
       vi: {
         xp: 6
       }
+    }
+  },
+  stances: {
+    voiceStance: "firm",
+    voice: {
+      loud: 1,
+      firm: 0,
+      quiet: -5,
+      silent: -10
     },
-    voiceAndGestures: {
-      voice: "FIRM",
-      gestures: "BOLD"
+    gesturesStance: "bold",
+    gestures: {
+      exaggerated: 1,
+      bold: 0,
+      subtle: -2,
+      motionless: -5
     }
   }
 };

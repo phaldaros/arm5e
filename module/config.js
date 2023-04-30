@@ -1052,6 +1052,21 @@ ARM5E.seasons = {
 };
 
 ARM5E.magic = {};
+ARM5E.magic.mod = {
+  voice: {
+    loud: { value: 1, mnemonic: "arm5e.sheet.magic.voiceType.loud" },
+    firm: { value: 0, mnemonic: "arm5e.sheet.magic.voiceType.firm" },
+    quiet: { value: -5, mnemonic: "arm5e.sheet.magic.voiceType.quiet" },
+    silent: { value: -10, mnemonic: "arm5e.sheet.magic.voiceType.silent" }
+  },
+  gestures: {
+    exaggerated: { value: 1, mnemonic: "arm5e.sheet.magic.gesturesType.exaggerated" },
+    bold: { value: 0, mnemonic: "arm5e.sheet.magic.gesturesType.bold" },
+    subtle: { value: -2, mnemonic: "arm5e.sheet.magic.gesturesType.subtle" },
+    motionless: { value: -5, mnemonic: "arm5e.sheet.magic.gesturesType.motionless" }
+  }
+};
+
 ARM5E.magic.arts = {
   cr: {
     label: "Creo",

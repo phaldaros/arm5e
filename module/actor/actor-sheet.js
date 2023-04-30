@@ -15,12 +15,7 @@ import {
   compareLabTexts
 } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
-import { VOICE_AND_GESTURES_VALUES } from "../constants/voiceAndGestures.js";
 import { HERMETIC_FILTER, updateUserCache } from "../constants/userdata.js";
-import {
-  findVoiceAndGesturesActiveEffects,
-  modifyVoiceOrGesturesActiveEvent
-} from "../helpers/voiceAndGestures.js";
 import {
   prepareRollVariables,
   updateCharacteristicDependingOnRoll,
@@ -139,7 +134,6 @@ export class ArM5eActorSheet extends ActorSheet {
     context.flags = actorData.flags;
 
     context.config = CONFIG.ARM5E;
-    context.config.constants = { VOICE_AND_GESTURES_VALUES: VOICE_AND_GESTURES_VALUES };
     context.abilityKeys = CONFIG.ARM5E.ALL_ABILITIES;
     context.abilityKeys[""] = {
       mnemonic: "arm5e.sheet.skill.abilityNoKey",
@@ -591,9 +585,6 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Prepare active effects
     context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.actor.effects);
-    if (context.system?.arts?.voiceAndGestures) {
-      context.system.arts.voiceAndGestures = findVoiceAndGesturesActiveEffects(this.actor.effects);
-    }
     this._prepareCharacterItems(context);
 
     return context;
@@ -882,7 +873,9 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
     html.find(".power-use").click(this._onUsePower.bind(this));
-    html.find(".voice-and-gestures").change(this._onSelectVoiceAndGestures.bind(this));
+    // html.find(".voice-and-gestures").change(async event => {
+    //   await this._onSelectVoiceAndGestures.bind(event);
+    // });
     html.find(".addFatigue").click(event => this.actor._changeFatigueLevel(1));
     html.find(".removeFatigue").click(event => this.actor._changeFatigueLevel(-1));
 
@@ -1148,11 +1141,14 @@ export class ArM5eActorSheet extends ActorSheet {
     });
   }
 
-  async _onSelectVoiceAndGestures(event) {
-    event.preventDefault();
-    const name = $(event.target).attr("effect");
-    await modifyVoiceOrGesturesActiveEvent(this, name, $(event.target).val());
-  }
+  // async _onSelectVoiceAndGestures(event) {
+  //   event.preventDefault();
+  //   const name = $(event.target).attr("effect");
+  //   const val = Number($(event.target).val());
+  //   const update = {};
+  //   update[`system.voiceAndGestures.${name}`] = val;
+  //   await this.actor.update(update);
+  // }
 
   async _onUsePower(event) {
     const dataset = getDataset(event);
