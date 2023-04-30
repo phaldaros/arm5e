@@ -1,4 +1,4 @@
-## 2.0.5.13, Lexora, the apprentice
+## 2.0.5.14, Lexora, the apprentice
 
 ### Features & changes
 
@@ -52,7 +52,7 @@
 - Fatigue levels are now updated after computing the casting total, and awaited for...
 - Clicking on a portrait or items on the chat will no longer raise an error if it doesn't exist anymore in the world
 - diary entries without date are migrated properly
-- Aura management had a series of synchronization problems that have been solved
+- Aura management had a series of synchronization problems that have been resolved
 
 ### V10 migration (on going)
 
