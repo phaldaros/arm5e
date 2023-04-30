@@ -359,6 +359,11 @@ Hooks.on("deleteToken", (token, options, userId) => {
   }
 });
 
+// On Apply an ActiveEffect that uses a CUSTOM application mode.
+Hooks.on("applyActiveEffect", (actor, change, current, delta, changes) => {
+  ArM5eActiveEffect.applyCustomEffect(actor, change, current, delta, changes);
+});
+
 Hooks.on("getSceneControlButtons", buttons => addArsButtons(buttons));
 
 Hooks.on("renderPause", function() {

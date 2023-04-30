@@ -17,17 +17,53 @@ export default {
     type: "spellcasting",
     label: "arm5e.sheet.activeEffect.type.spellcasting",
     subtypes: {
-      voice: {
-        label: "arm5e.sheet.magic.voice",
-        key: "system.bonuses.arts.voice",
-        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+      voiceLoud: {
+        label: "arm5e.sheet.magic.voiceType.loud",
+        key: "system.stances.voice.loud",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 1
+      },
+      voiceFirm: {
+        label: "arm5e.sheet.magic.voiceType.firm",
+        key: "system.stances.voice.firm",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
         default: 0
       },
-      gestures: {
-        label: "arm5e.sheet.magic.gestures",
-        key: "system.bonuses.arts.spellcasting",
-        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+      voiceQuiet: {
+        label: "arm5e.sheet.magic.voiceType.quiet",
+        key: "system.stances.voice.quiet",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
         default: 0
+      },
+      voiceSilent: {
+        label: "arm5e.sheet.magic.voiceType.silent",
+        key: "system.stances.voice.silent",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: -5
+      },
+      gesturesExaggerated: {
+        label: "arm5e.sheet.magic.gesturesType.exaggerated",
+        key: "system.stances.gestures.exaggerated",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 1
+      },
+      gesturesBold: {
+        label: "arm5e.sheet.magic.gesturesType.bold",
+        key: "system.stances.gestures.bold",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 0
+      },
+      gesturesSubtle: {
+        label: "arm5e.sheet.magic.gesturesType.subtle",
+        key: "system.stances.gestures.subtle",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 0
+      },
+      gesturesMotionless: {
+        label: "arm5e.sheet.magic.gesturesType.motionless",
+        key: "system.stances.gestures.motionless",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: -2
       },
       aura: {
         label: "arm5e.sheet.magic.aura",
@@ -43,19 +79,6 @@ export default {
       //   default: 0,
       //   optional: true
       // }
-    }
-  },
-  penetration: {
-    category: "magic",
-    type: "penetration",
-    label: "arm5e.skill.arcane.penetration",
-    subtypes: {
-      bonus: {
-        label: "arm5e.sheet.activeEffect.bonuses.penetration",
-        key: "system.bonuses.arts.penetration",
-        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-        default: 0
-      }
     }
   },
   realm: {

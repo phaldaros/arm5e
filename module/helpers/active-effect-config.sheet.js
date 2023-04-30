@@ -113,6 +113,10 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     });
   }
 
+  // _castType(type, value) {
+  //   const newVal = foundry.utils.getType(value);
+  // }
+
   async _setValue(value, index) {
     let arrayTypes = this.object.getFlag("arm5e", "type");
     let arraySubtypes = this.object.getFlag("arm5e", "subtype");

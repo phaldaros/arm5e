@@ -182,6 +182,10 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     return res;
   }
 
+  static async applyCustomEffect(actor, change, current, delta, changes) {
+    log(false, `CUSTOM effect apply: change: ${change}, current : ${current}, delta: ${delta}`);
+  }
+
   //********************************* */
   // ACTIVE EFFECT NON STATIC METHODS
   //********************************* */
@@ -225,6 +229,9 @@ export default class ArM5eActiveEffect extends ActiveEffect {
               subtype;
             break;
           case CONST.ACTIVE_EFFECT_MODES.OVERRIDE:
+            descr += ` = ${c.value}`;
+            break;
+          case CONST.ACTIVE_EFFECT_MODES.UPGRADE:
             descr += ` = ${c.value}`;
             break;
           default:

@@ -1,6 +1,11 @@
 import { getActorsFromTargetedTokens } from "./tokens.js";
 import { chatContestOfMagic, chatContestOfPower } from "./chat.js";
 
+const VOICE_AND_GESTURES_ICONS = {
+  voice: "icons/skills/trades/music-singing-voice-blue.webp",
+  gestures: "icons/skills/social/wave-halt-stop.webp"
+};
+
 export function addSpellMagnitude(base, num) {
   if (num == 0) {
     return base;
@@ -194,7 +199,7 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
   if (!actorsTargeted) {
     return false;
   }
-  if (actorCaster.system.roll.type != "power") {
+  if (actorCaster.rollData.type != "power") {
     actorsTargeted.forEach(async actorTarget => {
       const successOfMagic = calculateSuccessOfMagic({
         actorTarget,

@@ -226,7 +226,10 @@
         }
       },
       "arts": {
-        "spontDivider": 2,
+        "stances": {
+          "voiceStance": "firm",
+          "gesturesStance": "bold"
+        },
         "arts": {
           "techniques": {
             "cr": {

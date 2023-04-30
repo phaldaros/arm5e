@@ -1,4 +1,4 @@
-## 2.0.5.12, Lexora, the apprentice
+## 2.0.5.13, Lexora, the apprentice
 
 ### Features & changes
 
@@ -29,6 +29,8 @@
 - New alternate action for spontaneous magic: No fatigue spent (divided by 5)
 - Added a roman numeral for the topic number in the library tab
 - More compact dialog for magic rolls
+- [technical] Total overhaul of the voice and gestures spellcasting stances
+- New Active effects to alter the modifier due to spellcasting stances (virtues Quiet magic and Subtle magic updated)
 
 ### Bug fixes
 
@@ -50,6 +52,7 @@
 - Fatigue levels are now updated after computing the casting total, and awaited for...
 - Clicking on a portrait or items on the chat will no longer raise an error if it doesn't exist anymore in the world
 - diary entries without date are migrated properly
+- Aura management had a series of synchronization problems that have been solved
 
 ### V10 migration (on going)
 

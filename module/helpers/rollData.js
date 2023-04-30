@@ -377,11 +377,11 @@ export class ArM5eRollData {
   getSpellcastingModifiers(actor, bonusActiveEffects) {
     this.bonuses += Number(bonusActiveEffects);
     const activeEffects = actor.effects;
-    const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
+    let activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(
       activeEffects,
-      "spellcasting"
+      "aura"
     );
-    return activeEffectsByType.map(activeEffect => {
+    let res = activeEffectsByType.map(activeEffect => {
       const label = activeEffect.label;
       let value = 0;
       if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
@@ -402,6 +402,19 @@ export class ArM5eRollData {
         value
       };
     });
+
+    res.push({
+      label: game.i18n.localize(ARM5E.magic.mod.voice[actor.system.stances.voiceStance].mnemonic),
+      value: actor.system.stances.voice[actor.system.stances.voiceStance]
+    });
+    res.push({
+      label: game.i18n.localize(
+        ARM5E.magic.mod.gestures[actor.system.stances.gesturesStance].mnemonic
+      ),
+      value: actor.system.stances.gestures[actor.system.stances.gesturesStance]
+    });
+
+    return res;
   }
 
   getModifiers(actor, bonusActiveEffects) {
@@ -421,8 +434,10 @@ export class ArM5eRollData {
       activeEffect.changes
         .filter((c, idx) => {
           return (
-            c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
-            activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+            (c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
+              activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting") ||
+            (c.mode == CONST.ACTIVE_EFFECT_MODES.OVERRIDE &&
+              activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting")
           );
         })
         .forEach(item => {

@@ -646,6 +646,45 @@ function registerRollTesting(quench) {
             assert.ok(false);
           }
         });
+        it("Spell loud and exaggerated", async function() {
+          let type = "spell";
+          try {
+            await magus.rest();
+            await magus.update({
+              "system.stances.voice": "loud",
+              "system.stances.gestures": "exaggerated"
+            });
+            let dataset = {
+              roll: type,
+              bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
+              id: Sp2._id
+            };
+            magus.rollData.init(dataset, magus);
+            let roll = await stressDie(magus, type, 0, undefined, 3);
+            log(false, roll);
+            assert.ok(roll);
+            if (roll.botches) {
+              assert.equal(roll.total, 0, "botched");
+              return;
+            }
+
+            // assert.equal(Sp1.system.masteryScore, magus.rollData.magic.mastery);
+            // assert.equal(Sp1.system.bonus, magus.rollData.magic.bonus);
+            let tot =
+              magus.system.arts.techniques.mu.finalScore +
+              magus.system.arts.forms.co.finalScore * 2 +
+              magus.system.characteristics.sta.value +
+              magus.system.woundsTotal +
+              magus.system.fatigueTotal +
+              Sp2.system.mastery +
+              Sp2.system.bonus +
+              3;
+            assert.equal(roll.modifier(), tot);
+          } catch (err) {
+            console.error(`Error: ${err}`);
+            assert.ok(false);
+          }
+        });
         it("Ritual spell", async function() {
           let type = "spell";
           try {

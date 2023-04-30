@@ -59,11 +59,11 @@ export class ArsLayer extends InteractionLayer {
     ).render(true);
   }
   static async clearAura() {
-    game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed._id);
-    game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed._id);
+    await game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed._id);
+    await game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed._id);
     const tokens = canvas.tokens.placeables.filter(token => token.actor);
     for (const token of tokens) {
-      clearAuraFromActor(token.actor);
+      await clearAuraFromActor(token.actor);
     }
   }
   static async openAstrolab() {
