@@ -470,9 +470,8 @@ export class ArM5ePCActor extends Actor {
 
       // compute the spellcasting bonus:
       this.system.bonuses.arts.spellcasting +=
-        this.system.stances.voice[system.stances.voiceStance] ||
-        0 + this.system.stances.gestures[system.stances.gesturesStance] ||
-        0;
+        (this.system.stances.voice[system.stances.voiceStance] || 0) +
+        (this.system.stances.gestures[system.stances.gesturesStance] || 0);
 
       if (system.laboratory === undefined) {
         system.laboratory = {};
@@ -1489,6 +1488,13 @@ export class ArM5ePCActor extends Actor {
       }
     };
     await this.update(updateData);
+  }
+
+  // Used by Quick magic dialog
+  async selectVoiceAndGestures(stance, value) {
+    const update = {};
+    update[`system.stances.${stance}`] = value;
+    await this.actor.update(update);
   }
 
   async useConfidencePoint() {
