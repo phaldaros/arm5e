@@ -1492,9 +1492,13 @@ export class ArM5ePCActor extends Actor {
 
   // Used by Quick magic dialog
   async selectVoiceAndGestures(stance, value) {
-    const update = {};
-    update[`system.stances.${stance}`] = value;
-    await this.actor.update(update);
+    if (this._isMagus()) {
+      if (["voice", "gestures"].includes(stance)) {
+        const update = {};
+        update[`system.stances.${stance}Stance`] = value;
+        await this.update(update);
+      }
+    }
   }
 
   async useConfidencePoint() {

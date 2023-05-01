@@ -1067,160 +1067,85 @@ ARM5E.magic.mod = {
   }
 };
 
-ARM5E.magic.arts = {
-  cr: {
-    label: "Creo",
-    short: "Cr",
-    dtype: "String"
-  },
-  in: {
-    label: "Intellego",
-    short: "In",
-    dtype: "String"
-  },
-  mu: {
-    label: "Muto",
-    short: "Mu",
-    dtype: "String"
-  },
-  pe: {
-    label: "Perdo",
-    short: "Pe",
-    dtype: "String"
-  },
-  re: {
-    label: "Rego",
-    short: "Re",
-    dtype: "String"
-  },
-  an: {
-    label: "Animal",
-    short: "An",
-    dtype: "String"
-  },
-  aq: {
-    label: "Aquam",
-    short: "Aq",
-    dtype: "String"
-  },
-  au: {
-    label: "Auram",
-    short: "Au",
-    dtype: "String"
-  },
-  co: {
-    label: "Corpus",
-    short: "Co",
-    dtype: "String"
-  },
-  he: {
-    label: "Herbam",
-    short: "He",
-    dtype: "String"
-  },
-  ig: {
-    label: "Ignem",
-    short: "Ig",
-    dtype: "String"
-  },
-  im: {
-    label: "Imaginem",
-    short: "Im",
-    dtype: "String"
-  },
-  me: {
-    label: "Mentem",
-    short: "Me",
-    dtype: "String"
-  },
-  te: {
-    label: "Terram",
-    short: "Te",
-    dtype: "String"
-  },
-  vi: {
-    label: "Vim",
-    short: "Vi",
-    dtype: "String"
-  }
-};
-
 ARM5E.magic.techniques = {
   cr: {
     label: "Creo",
-    dtype: "String"
+    short: "Cr"
   },
   in: {
     label: "Intellego",
-    dtype: "String"
+    short: "In"
   },
   mu: {
     label: "Muto",
-    dtype: "String"
+    short: "Mu"
   },
   pe: {
     label: "Perdo",
-    dtype: "String"
+    short: "Pe"
   },
   re: {
     label: "Rego",
-    dtype: "String"
+    short: "Re"
   }
 };
 
 ARM5E.magic.forms = {
   an: {
     label: "Animal",
-    dtype: "String",
+    short: "An",
     baseSize: "arm5e.spell.targets.baseSize.an"
   },
   aq: {
     label: "Aquam",
-    dtype: "String",
+    short: "Aq",
     baseSize: "arm5e.spell.targets.baseSize.aq"
   },
   au: {
     label: "Auram",
-    dtype: "String",
+    short: "Au",
     baseSize: "arm5e.spell.targets.baseSize.au"
   },
   co: {
     label: "Corpus",
-    dtype: "String",
+    short: "Co",
     baseSize: "arm5e.spell.targets.baseSize.co"
   },
   he: {
     label: "Herbam",
-    dtype: "String",
+    short: "He",
     baseSize: "arm5e.spell.targets.baseSize.he"
   },
   ig: {
     label: "Ignem",
-    dtype: "String",
+    short: "Ig",
     baseSize: "arm5e.spell.targets.baseSize.ig"
   },
   im: {
     label: "Imaginem",
-    dtype: "String",
+    short: "Im",
     baseSize: "arm5e.spell.targets.baseSize.im"
   },
   me: {
     label: "Mentem",
-    dtype: "String",
+    short: "Me",
     baseSize: "arm5e.spell.targets.baseSize.me"
   },
   te: {
     label: "Terram",
-    dtype: "String",
+    short: "Te",
     baseSize: "arm5e.spell.targets.baseSize.te"
   },
   vi: {
     label: "Vim",
-    dtype: "String",
+    short: "Vi",
     baseSize: "arm5e.spell.targets.baseSize.vi"
   }
 };
-
+ARM5E.magic.arts = {
+  ...ARM5E.magic.techniques,
+  ...ARM5E.magic.forms
+};
 ARM5E.magic.gift = {
   normal: "arm5e.sheet.gift.normal",
   blatant: "arm5e.sheet.gift.blatant",

@@ -11,13 +11,13 @@
     <div class="flexrow flex-group-center">
       <select name="system.roll.technique" data-dtype="String" class="SelectedTechnique">
         {{#select system.roll.magic.technique}} {{#each system.arts.techniques as |item key|}}
-            <option value="{{key}}">{{ item.label }} ({{ item.finalScore }})</option>
+            <option value="{{key}}"><b>{{ item.label }}</b> ({{ item.finalScore }})</option>
           {{/each}} {{/select}}
       </select>
       <label class="resource-label">+</label>
       <select name="system.roll.form" data-dtype="String" class="SelectedForm">
         {{#select system.roll.magic.form}} {{#each system.arts.forms as |item key|}}
-            <option value="{{ key }}">{{ item.label }} ({{ item.finalScore }})</option>
+            <option value="{{ key }}"><b>{{ item.label }}</b> ({{ item.finalScore }})</option>
           {{/each}} {{/select}}
       </select>
     </div>
