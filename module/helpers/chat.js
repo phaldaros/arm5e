@@ -71,9 +71,9 @@ export function addChatListeners(message, html, data) {
     );
 
     rollResult.text(
-      Number.isNaN(rollRes)
-        ? rollRes
-        : Math.round(Number(rollRes)) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
+      Number.isNumeric(rollRes)
+        ? Math.round(Number(rollRes)) + ` ( ${(newValue < 0 ? "" : "+") + newValue} ) `
+        : rollRes
     );
   } else {
     if (Number.isNumeric(rollRes)) {

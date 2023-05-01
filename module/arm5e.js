@@ -62,6 +62,9 @@ Hooks.once("init", async function() {
     rollItemMacro
   };
 
+  // Flag to manage V11 backward compatibility
+  CONFIG.ISV10 = foundry.utils.isNewerVersion(11, game.version);
+
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
 

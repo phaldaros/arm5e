@@ -1,10 +1,103 @@
 import { getActorsFromTargetedTokens } from "./tokens.js";
 import { chatContestOfMagic, chatContestOfPower } from "./chat.js";
+import { log } from "../tools.js";
 
 const VOICE_AND_GESTURES_ICONS = {
   voice: "icons/skills/trades/music-singing-voice-blue.webp",
   gestures: "icons/skills/social/wave-halt-stop.webp"
 };
+
+export class QuickMagic extends FormApplication {
+  constructor(data, options) {
+    super(data, options);
+    this.object.technique = "cr";
+    this.object.form = "an";
+    this.object.actor.apps[this.appId] = this;
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
+  }
+  /** @override */
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["arm5e-dialog", "dialog"],
+      title: game.i18n.localize("arm5e.sheet.magicLabel"),
+      template: "systems/arm5e/templates/generic/quick-magic.html",
+      width: "auto",
+      height: "auto",
+      submitOnChange: true,
+      closeOnSubmit: false
+    });
+  }
+
+  onClose(app) {
+    if (this.object.actor.apps[app.appId] != undefined) {
+      delete this.object.actor.apps[app.appId];
+    }
+  }
+
+  async getData(options = {}) {
+    let sys = {
+      stances: this.object.actor.system.stances,
+      arts: this.object.actor.system.arts,
+      characteristics: this.object.actor.system.characteristics,
+      laboratory: this.object.actor.system.laboratory
+    };
+    const context = {
+      name: this.object.name,
+      system: sys,
+      technique: this.object.technique,
+      form: this.object.form,
+      config: { magic: CONFIG.ARM5E.magic }
+    };
+    log(false, `QuickMagic: ${JSON.stringify(context)}`);
+    return context;
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+    html.find(".rollable").click(async event => {
+      event.preventDefault();
+      let dataset = event.currentTarget.dataset;
+      dataset.technique = this.object.technique;
+      dataset.form = this.object.form;
+      await this.object.actor.sheet._onRoll(dataset);
+    });
+    html.find(".voice-and-gestures").change(async event => {
+      event.preventDefault();
+      const name = $(event.target).attr("effect");
+      await this.object.actor.selectVoiceAndGestures(name, $(event.target).val());
+    });
+  }
+
+  async _updateObject(event, formData) {
+    if (formData.technique) {
+      this.object.technique = formData.technique;
+    }
+    if (formData.form) {
+      this.object.form = formData.form;
+    }
+    // for (let [key, value] of Object.entries(formData)) {
+    //   log(false, `Updated ${key} : ${value}`);
+    //   this.object[key] = value;
+    // }
+    // this.object = foundry.utils.expandObject(this.object);
+    // log(false, `Scriptorium object: ${JSON.stringify(this.object)}`);
+    this.render();
+
+    return;
+  }
+}
+export async function quickMagic(tokenName, actor) {
+  if (!actor._isMagus()) return;
+
+  const magic = new QuickMagic(
+    {
+      name: tokenName,
+      actor: actor
+    },
+    {}
+  );
+  const res = await magic.render(true);
+}
 
 export function addSpellMagnitude(base, num) {
   if (num == 0) {

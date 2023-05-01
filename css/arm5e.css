@@ -1385,6 +1385,7 @@ input[type="time"] {
 .posRelative {
   position: relative;
 }
+input[type="text"].magic-total,
 input[type="text"].combat-total,
 input[type="text"].wound-level,
 input[type="number"].art-score {
@@ -1749,6 +1750,16 @@ img.art-icon {
 
 .arm5e .margintop18 {
   margin-top: 18px;
+}
+
+.marginsides6 {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.marginsides10 {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .arm5e .smallTitle {

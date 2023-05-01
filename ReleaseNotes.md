@@ -1,4 +1,4 @@
-## 2.0.5.14, Lexora, the apprentice
+## 2.0.5.15, Lexora, the apprentice
 
 ### Features & changes
 
@@ -31,6 +31,8 @@
 - More compact dialog for magic rolls
 - [technical] Total overhaul of the voice and gestures spellcasting stances
 - New Active effects to alter the modifier due to spellcasting stances (virtues Quiet magic and Subtle magic updated)
+- New quick magic macro dialog
+- Up to date French and Spanish version (by respectively orneen and Teotimus)
 
 ### Bug fixes
 
@@ -53,6 +55,7 @@
 - Clicking on a portrait or items on the chat will no longer raise an error if it doesn't exist anymore in the world
 - diary entries without date are migrated properly
 - Aura management had a series of synchronization problems that have been resolved
+- Checking if the character is dead is working again when attempting to roll.
 
 ### V10 migration (on going)
 

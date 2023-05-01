@@ -28,6 +28,7 @@ import {
 
 import { spellTechniqueLabel, spellFormLabel } from "../helpers/spells.js";
 import { computeCombatStats, quickCombat, quickVitals } from "../helpers/combat.js";
+import { quickMagic } from "../helpers/magic.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -873,9 +874,6 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
     html.find(".power-use").click(this._onUsePower.bind(this));
-    // html.find(".voice-and-gestures").change(async event => {
-    //   await this._onSelectVoiceAndGestures.bind(event);
-    // });
     html.find(".addFatigue").click(event => this.actor._changeFatigueLevel(1));
     html.find(".removeFatigue").click(event => this.actor._changeFatigueLevel(-1));
 
@@ -1141,15 +1139,6 @@ export class ArM5eActorSheet extends ActorSheet {
     });
   }
 
-  // async _onSelectVoiceAndGestures(event) {
-  //   event.preventDefault();
-  //   const name = $(event.target).attr("effect");
-  //   const val = Number($(event.target).val());
-  //   const update = {};
-  //   update[`system.voiceAndGestures.${name}`] = val;
-  //   await this.actor.update(update);
-  // }
-
   async _onUsePower(event) {
     const dataset = getDataset(event);
     await usePower(dataset, this.actor);
@@ -1261,7 +1250,7 @@ export class ArM5eActorSheet extends ActorSheet {
   async _onRoll(event) {
     const dataset = getDataset(event);
 
-    if (this.actor.system.wounds.dead.number > 0) {
+    if (this.actor.system.wounds.dead.number.value > 0) {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
         permanent: true
       });
@@ -1300,6 +1289,10 @@ export class ArM5eActorSheet extends ActorSheet {
 
   async quickVitals(name) {
     await quickVitals(name, this.actor);
+  }
+
+  async quickMagic(name) {
+    await quickMagic(name, this.actor);
   }
 
   // Overloaded core functions (TODO: review at each Foundry update)

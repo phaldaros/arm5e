@@ -403,7 +403,7 @@ async function castSpell(actorCaster, roll, message) {
     }
   }
   // then do contest of magic
-  checkTargetAndCalculateResistance(actorCaster, roll, message);
+  await checkTargetAndCalculateResistance(actorCaster, roll, message);
 }
 
 export {
