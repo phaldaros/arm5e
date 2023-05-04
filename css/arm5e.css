@@ -247,6 +247,7 @@ span.player-name {
   font-family: bookAntiqua;
 }
 
+a.content-link,
 .arm5e .journal-entry-page a.content-link {
   border-radius: 2px;
   white-space: nowrap;
@@ -260,6 +261,7 @@ span.player-name {
   padding: 0px;
 }
 
+.arm5e a.content-link.broken,
 .arm5e .journal-entry-page a.content-link.broken {
   border-radius: 2px;
   white-space: nowrap;
@@ -273,11 +275,11 @@ span.player-name {
   color: #f05959;
 }
 
-.arm5e a.content-link i.fa-file-lines {
+a.content-link i.fa-file-lines {
   display: none;
 }
 
-.arm5e a.content-link i.fa-book-open {
+a.content-link i.fa-book-open {
   display: none;
 }
 

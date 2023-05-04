@@ -7,6 +7,9 @@ export function registerSettings() {
    */
   game.settings.register(ARM5E.SYSTEM_ID, "systemMigrationVersion", {
     name: "System Migration Version",
+    hint:
+      "Allows to reset the version of the system to an older version in order to trigger a migration from that version. \
+       Useful to quickly migrate documents freshly imported from an old compendium.",
     scope: "world",
     config: true,
     type: String,
@@ -18,6 +21,9 @@ export function registerSettings() {
    */
   game.settings.register(ARM5E.SYSTEM_ID, "defaultIconStyle", {
     name: "Default icons style",
+    hint:
+      "Whether black&white or color version of default icons are used at creation of documents. \
+      It only applies to brand new documents, a copy will keep the original icon.",
     scope: "world",
     config: true,
     type: String,
@@ -35,7 +41,8 @@ export function registerSettings() {
    * 2 Different sets of default icons for new documents
    */
   game.settings.register(ARM5E.SYSTEM_ID, "artsIcons", {
-    name: "Icons style for art",
+    name: "Icons style for Arts",
+    hint: "Choose between the Hermetic Arts symbols or Hand gestures to represent Hermetic Arts.",
     scope: "client",
     config: true,
     type: String,
@@ -50,7 +57,8 @@ export function registerSettings() {
    * Show source of document
    */
   game.settings.register(ARM5E.SYSTEM_ID, "metagame", {
-    name: "Show metagame information (sourcebook, page)",
+    name: "Show metagame information",
+    hint: "Whether to show the sourcebook and page where an Item is coming from.",
     scope: "world",
     config: true,
     type: Boolean,
@@ -59,6 +67,7 @@ export function registerSettings() {
 
   game.settings.register(ARM5E.SYSTEM_ID, "showRolls", {
     name: "Show rolls",
+    hint: "Who can see the rolls of who.",
     scope: "world",
     config: true,
     choices: {
@@ -86,6 +95,10 @@ export function registerSettings() {
    */
   game.settings.register(ARM5E.SYSTEM_ID, "showNPCMagicDetails", {
     name: "Show NPC magic details (cast, penetration and defense)",
+    hint:
+      "During magic contests against a NPC, choose between: \
+    -   Tell only if it is a success or failure \
+    -   Tell exactly by how much a success or failure happened",
     scope: "world",
     config: true,
     choices: {
@@ -101,7 +114,8 @@ export function registerSettings() {
    */
 
   game.settings.register(ARM5E.SYSTEM_ID, "funRolls", {
-    name: "Show a dialog when rolling a 1 on stress die",
+    name: "Fun stress dice",
+    hint: "Show a dialog when rolling a 1 on stress die",
     scope: "world",
     config: true,
     choices: {
@@ -114,6 +128,9 @@ export function registerSettings() {
 
   game.settings.register(ARM5E.SYSTEM_ID, "dramaticPause", {
     name: "Dramatic pause after rolling a one",
+    hint:
+      '[Dice so Nice integration] If you have the Dice so Nice module enabled and the "Fun stress die" setting disabled, \
+    it will add a dramatic pause (ms) after rolling a one.',
     scope: "world",
     config: true,
     type: Number,
@@ -122,7 +139,8 @@ export function registerSettings() {
   });
 
   game.settings.register(ARM5E.SYSTEM_ID, "confirmDelete", {
-    name: "Ask for confirmation when deleting an owned item",
+    name: "Quick delete",
+    hint: "Ask for confirmation when deleting an owned item",
     scope: "client",
     config: true,
     type: Boolean,
