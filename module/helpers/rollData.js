@@ -212,14 +212,14 @@ export class ArM5eRollData {
         break;
     }
 
-    if (dataset.divide) {
+    if (dataset.divide != undefined) {
       this.magic.divide = dataset.divide;
     }
-    if (dataset.usefatigue) {
+    if (dataset.usefatigue != undefined) {
       this.useFatigue = dataset.usefatigue;
     }
 
-    if (dataset.bonusActiveEffects) {
+    if (dataset.bonusActiveEffects != undefined) {
       this.activeEffects = this.getSpellcastingModifiers(actor, dataset.bonusActiveEffects);
     }
 
