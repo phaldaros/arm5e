@@ -1,7 +1,7 @@
 The following Items are available for creation.
 
   
-**Reminder**: You can create folder of Items in the sidebar or in a Compendium to be then dragged and dropped on an Actor (eg: Magus package, Grog package). Easy way to add a bunch of abilities, virtues and flaws to a character at creation. Note that
+**Reminder**: You can create folder of Items in the sidebar or in a Compendium to be then dragged and dropped on an Actor (eg: Magus package, Grog package). Easy way to add a bunch of abilities, virtues and flaws to a character at creation. 
 
 **Game metadata:** Since the description cannot be made available for copyright reasons, most Item types available in the system Compendium are provided with the name of the sourcebook they are coming from and the page they can be found (English edition). Their display is managed by a setting (see [[Introduction#Settings|Settings]])
 
@@ -81,6 +81,10 @@ Affinity with ability and puissant ability
 Virtues and flaws can have active effects which will be transmitted to their owner (see [[Active effects]]). Whenever possible, those are already configured in the system Compendia (eg: the Large virtue will give +1 size).
 
 **Important:** Before V11, due to a Foundry core's limitation, it is not possible to edit active effects of an owned Item. You must edit it first in the sidebar. It is particularly relevant for effects that need configuration like Affinity, Puissant art, etc.
+
+### Personality traits and reputations
+
+You can add as many reputations and personality traits as you wish. They can progress as abilities.
 
 ## Base effects
 

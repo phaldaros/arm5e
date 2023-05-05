@@ -1,4 +1,4 @@
-## 2.0.5.16, Lexora, the apprentice
+## 2.0.5.17, Lexora, the apprentice
 
 ### Features & changes
 

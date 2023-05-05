@@ -31,7 +31,7 @@ The advanced tab will look something like this:
     
 -   Some activities types may have bonus options with specific restrictions
     
--   There are active effects for most types of activities to modify the source quality (see @UUID[.Gm3bQXMrk6WUTBaJ]{Active effects} )
+-   There are active effects for most types of activities to modify the source quality (see [[Active effects]])
     
 -   Once an activity is applied, it is possible to rollback the effects using the Rollback button. **Disclaimer**: This feature is intended to fix typos and errors, if too many changes happened after applying you may encounter problems:  
     - A progress item was deleted  
@@ -43,7 +43,7 @@ The advanced tab will look something like this:
     
 -   The experience gain from a trainer or teacher cannot go beyond the teacher skill. You will be warned and any excess will be discarded.
     
--   For spell learning, you can drop any spell or lab text from the sidebar. This feature is not available outside character creation and advanced creation rules (See @UUID[.4djOVjB0GDPlJY1T]{Laboratory activities} for learning spells during play)
+-   For spell learning, you can drop any spell or lab text from the sidebar. This feature is not available outside character creation and advanced creation rules (See [[Laboratory activities]] for learning spells during play)
     
 
 Find below the list of current activities and their specificities
@@ -102,10 +102,21 @@ Find below the list of current activities and their specificities
     
 -   Teacher: yes
     
+### Vis Study
+
+This activity is created by clicking on a special icon present in the vis sheet if it is in the inventory of a Magus. After confirmation, the Vis needed will be removed from the inventory.
+
+-   Editable source quality: no
+    
+-   Progress items available: Arts
+    
+-   Options: no
+    
+-   Teacher: no
 
 ### Reading (special)
 
-This activity is not created the usual way but rather through a book or the Scriptorium dialog (see @UUID[.xpdDPJUjChabvRof#the-scriptorium]{Scriptorium})
+This activity is not created the usual way but rather through a book or the Scriptorium dialog (see [[Canvas menu#The Scriptorium|Scriptorium]])
 
 ### Aging (special)
 
@@ -126,7 +137,7 @@ You can roll for aging by clicking the hourglass icon in Description tab.
 
 ### Spell learning and spell invention
 
-Those activities are not available directly, you must schedule them from a laboratory. See @UUID[.4djOVjB0GDPlJY1T]{Laboratory activities}
+Those activities are not available directly, you must schedule them from a laboratory. See [[Laboratory activities]]
 
 -   Editable source quality: yes
     
@@ -148,3 +159,7 @@ Apprenticeship, Early childhood, Later life and Year after apprenticeship
 -   Options: no
     
 -   Teacher: no
+
+### Placeholders
+
+Some activities are reserved for laboratories and are not editable. It is to track whether the lab is in use or not (for yearly cost, shared lab,...)
