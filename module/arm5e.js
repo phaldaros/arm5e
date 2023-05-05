@@ -73,7 +73,7 @@ Hooks.once("init", async function() {
   // game.tours.register(
   //   ARM5E.SYSTEM_ID,
   //   "userguide",
-  //   await UserguideTour.fromJSON("/systems/arm5e/tours/userguide.json")
+  //   await UserguideTour.fromJSON("systems/arm5e/tours/userguide.json")
   // );
 
   /**
@@ -371,7 +371,7 @@ Hooks.on("getSceneControlButtons", buttons => addArsButtons(buttons));
 
 Hooks.on("renderPause", function() {
   if ($("#pause").attr("class") !== "paused") return;
-  const path = "/systems/arm5e/assets/clockwork.svg";
+  const path = "systems/arm5e/assets/clockwork.svg";
   // const opacity = 100
   const speed = "20s linear 0s infinite normal none running rotation";
   const opacity = 0.6;

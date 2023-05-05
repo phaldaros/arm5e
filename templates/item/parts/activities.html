@@ -1,42 +1,42 @@
 <nav class="arm5eTabs diary-tabs tabs" data-group="diary-secondary"
-  style='background-image: url("/systems/arm5e/assets/{{ui.flavor}}/bar.png")'>
+  style='background-image: url("systems/arm5e/assets/{{ui.flavor}}/bar.png")'>
   {{#if ui.showTeacher}}
     <a class="posRelative diary-tabs" data-tab="teacher" data-group="diary-secondary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 0px" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 0px" /></div>
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" style="padding-top: 0px" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" style="padding-top: 0px" /></div>
       {{localize "arm5e.activity.teacher.label"}} ({{system.teacher.name}})
     </a>
   {{/if}}
   {{#if ui.showAbilities}}
     <a class="posRelative diary-tabs" data-tab="abilities" data-group="diary-secondary">
-      <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 0px" /></div>
-      <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 0px" /></div>
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" style="padding-top: 0px" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" style="padding-top: 0px" /></div>
       {{localize "arm5e.sheet.abilities"}} ({{system.totalXp.abilities}})
     </a>
   {{/if}}
   {{#if ui.showMagicProgress}}
     {{#if ui.showArts}}
       <a class="posRelative diary-tabs" data-tab="arts" data-group="diary-secondary">
-        <div class="navItem-right-ball" style="padding-top: 0px"><img src="/systems/arm5e/assets/bLeft.png"
+        <div class="navItem-right-ball" style="padding-top: 0px"><img src="systems/arm5e/assets/bLeft.png"
             style="padding-top: 0px" /></div>
-        <div class="navItem-left-ball" style="padding-top: 0px"><img src="/systems/arm5e/assets/bRight.png"
+        <div class="navItem-left-ball" style="padding-top: 0px"><img src="systems/arm5e/assets/bRight.png"
             style="padding-top: 0px" /></div>
         {{localize "arm5e.sheet.arts"}} ({{system.totalXp.arts}})
       </a>
     {{/if}}
     {{#if ui.showMasteries}}
       <a class="posRelative diary-tabs" data-tab="masteries" data-group="diary-secondary">
-        <div class="navItem-right-ball" style="padding-top: 0px"><img src="/systems/arm5e/assets/bLeft.png"
+        <div class="navItem-right-ball" style="padding-top: 0px"><img src="systems/arm5e/assets/bLeft.png"
             style="padding-top: 0px" /></div>
-        <div class="navItem-left-ball" style="padding-top: 0px"><img src="/systems/arm5e/assets/bRight.png"
+        <div class="navItem-left-ball" style="padding-top: 0px"><img src="systems/arm5e/assets/bRight.png"
             style="padding-top: 0px" /></div>
         {{localize "arm5e.activity.progress.masteries"}} ({{system.totalXp.masteries}})
       </a>
     {{/if}}
     {{#if ui.showNewSpells}}
       <a class="posRelative diary-tabs" data-tab="spells" data-group="diary-secondary">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/bLeft.png" style="padding-top: 0px" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/bRight.png" style="padding-top: 0px" /></div>
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" style="padding-top: 0px" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" style="padding-top: 0px" /></div>
         {{localize "arm5e.activity.spellLearning"}} ({{system.totalXp.spellLevels}})
       </a>
     {{/if}}

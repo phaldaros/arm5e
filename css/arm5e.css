@@ -203,7 +203,7 @@ span.player-name {
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  background: url(/systems/arm5e/assets/compendium/parchment.png) repeat;
+  background: url(../assets/compendium/parchment.png) repeat;
   /* padding: 8px; */
   color: var(--color-text-dark-primary);
   overflow-y: auto;
@@ -215,7 +215,7 @@ span.player-name {
 .sheet.journal-entry .journal-entry-content {
   flex: 1;
   height: 100%;
-  background: url(/systems/arm5e/assets/compendium/parchment.png) repeat;
+  background: url(../assets/compendium/parchment.png) repeat;
   border: 2px solid #000;
   border-radius: 6px 0 0 0;
 }

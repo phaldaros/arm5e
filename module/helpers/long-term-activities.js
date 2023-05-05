@@ -119,7 +119,7 @@ async function createAgingDiaryEntry(actor, input) {
     name: game.i18n.format("arm5e.aging.resultTitle", {
       character: actor.name
     }),
-    img: "/systems/arm5e/assets/icons/Icon_Aging_and_Decrepitude.png",
+    img: "systems/arm5e/assets/icons/Icon_Aging_and_Decrepitude.png",
     type: "diaryEntry",
     system: {
       dates: [{ year: input.year, season: "winter", applied: true }],

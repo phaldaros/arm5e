@@ -426,7 +426,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             type: "vis",
             system: {
               art: "vi",
-              pawns: Math.floor(planning.labTotal.score / 10),
+              pawns: Math.ceil(planning.labTotal.score / 10),
               description: game.i18n.format("arm5e.lab.planning.msg.visExtracted2", {
                 covenant: owner.system.covenant.value
               })
