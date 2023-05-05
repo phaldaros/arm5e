@@ -1,3 +1,12 @@
+## 2.0.5.18, Lexora, the magus
+
+### Features & changes
+
+### Bug fixes
+
+- Fix computation of the number of pawns of vis extracted from aura
+- [technical] Switched assets paths to relative paths
+
 ## 2.0.5.17, Lexora, the apprentice
 
 ### Features & changes
