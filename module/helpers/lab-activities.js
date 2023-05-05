@@ -37,24 +37,23 @@ export function validateInvention(planning) {
 }
 
 export function validateExtraction(planning) {
-  let delta = planning.labTotal.score % 10;
   let isValid = true;
   let msg = game.i18n.format("arm5e.lab.planning.msg.visExtracted", {
-    num: Math.floor(planning.labTotal.score / 10)
+    num: Math.ceil(planning.labTotal.score / 10)
   });
-  if (planning.labTotal.score < 10) {
-    msg = game.i18n.format("arm5e.lab.planning.msg.insufficientLabTotal", {
-      arts: "CrVi"
-    });
-    isValid = false;
-  }
+  // if (planning.labTotal.score < 10) {
+  //   msg = game.i18n.format("arm5e.lab.planning.msg.insufficientLabTotal", {
+  //     arts: "CrVi"
+  //   });
+  //   isValid = false;
+  // }
   if (planning.modifiers.aura == 0) {
     msg = game.i18n.localize("arm5e.lab.planning.msg.visExtracted3");
     isValid = false;
   }
   return {
     valid: isValid,
-    waste: delta,
+    waste: 0,
     duration: 1,
     message: msg
   };
