@@ -33,6 +33,11 @@ Instead it is recommended to drag and drop spells, magic effects or lab text on 
 
 ### Learn spell from lab text
 
--   This is the activity displayed when you attempt to read from a book or lab text (See @UUID[.5Jj2WDHaVKZPXOBV#books]{Books})
+-   This is the activity displayed when you attempt to read from a book or lab text (See [[Items#Books|Books]])
     
 -   All the fields are read-only as per the rules, but you can still switch to "Invent spell" activity for a few minutes without losing the content to edit some fields if needed.
+
+
+### Vis extraction
+
+This activity will create an amount of Vim vis based on the aura and the magus CrVi lab total
