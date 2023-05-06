@@ -1,10 +1,12 @@
-## 2.0.5.18, Lexora, the magus
+## 2.0.5.19, Lexora, the magus
 
 ### Features & changes
 
 ### Bug fixes
 
 - Fix computation of the number of pawns of vis extracted from aura
+- Aura is no longer read only after unlinking the covenant
+- Covenant Aura was not taken into account in some cases.
 - [technical] Switched assets paths to relative paths
 
 ## 2.0.5.17, Lexora, the apprentice

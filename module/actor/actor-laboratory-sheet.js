@@ -74,10 +74,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         context.covenant = game.actors.get(cov[0].id);
         context.edition.aura = "readonly";
       } else {
+        context.edition.aura = "";
         context.classes = { aura: "editable" };
         context.system.covenant.linked = false;
         if (context.planning.modifiers.aura == undefined) context.planning.modifiers.aura = 0;
       }
+    } else {
     }
     // Owner
     context.system.world.magi = game.actors
@@ -122,7 +124,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       context.planning.modifiers.apprentice = 0;
     }
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
-    if (context.system.covenant.linked && context.planning.modifiers.aura == undefined) {
+    if (context.system.covenant.linked) {
       context.planning.modifiers.aura = Number(context.covenant.system.levelAura);
       // TODO fix covenant date
     }
@@ -326,8 +328,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     });
 
     html.find(".lab-activity").change(async event => this._changeActivity(this.actor, event));
-    html.find(".reset-planning").click(async () => {
-      this._resetPlanning();
+    html.find(".reset-planning").click(async event => {
+      let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+      event.preventDefault();
+      this._resetPlanning(planning.type);
       this.render();
     });
     html.find(".refresh").click(this._refreshValues.bind(this));
@@ -380,13 +384,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       type: activity,
       data: newSpell.toObject(),
       visibility: { desc: "hide", attr: "hide", options: "hide" },
-      modifiers: { generic: 0 },
+      modifiers: { generic: 0, aura: 0 },
       magicThSpecApply: false
     };
     await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
   }
 
-  _refreshValues() {
+  _refreshValues(event) {
+    event.preventDefault();
     this.render(true);
   }
 
