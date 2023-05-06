@@ -735,6 +735,7 @@
   "arm5e.lab.planning.msg.visExtracted": "{num} pawns of Vim vis extracted from the aura.",
   "arm5e.lab.planning.msg.visExtracted2": "Vis vim extracted from the aura of {covenant}.",
   "arm5e.lab.planning.msg.visExtracted3": "No aura to extract Vis from!",
+  "arm5e.lab.planning.msg.wounded": " Warning: character is wounded ({penalty}), check if it applies to lab total",
   "arm5e.lab.planning.msg.insufficientLabTotal": "Insufficent {arts} lab total to extract vis.",
   "arm5e.lab.planning.button.refresh": "Refresh",
   "arm5e.lab.planning.button.reset": "Reset",

@@ -142,14 +142,19 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
       }
     } else if (type == "ability") {
       if (this.actor.hasSkill(item.system.key)) {
-        ui.notifications.warn(`This character already have the ability: ${item.name}`);
+        ui.notifications.warn(
+          `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${item.name}`
+        );
       }
     }
     // }
     const res = await super._onDropItem(event, data);
 
-    if (res && res.length == 1) {
-      res[0].sheet.render(true);
+    // not dropped in the same actor
+    if (this.actor.uuid !== item.parent?.uuid) {
+      if (res && res.length == 1) {
+        res[0].sheet.render(true);
+      }
     }
     return res;
   }

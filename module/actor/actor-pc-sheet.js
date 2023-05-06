@@ -112,6 +112,8 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       case "magicItem":
       case "magicalEffect":
       case "laboratoryText":
+      case "personalityTrait":
+      case "reputation":
         return true;
       default:
         return false;
@@ -150,8 +152,11 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       }
     }
     const res = await super._onDropItem(event, data);
-    if (res && res.length == 1) {
-      res[0].sheet.render(true);
+    // not dropped in the same actor
+    if (this.actor.uuid !== item.parent?.uuid) {
+      if (res && res.length == 1) {
+        res[0].sheet.render(true);
+      }
     }
     return res;
   }

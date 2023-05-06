@@ -21,7 +21,10 @@ function showRollFormulas(actor, type) {
 }
 
 export function addChatListeners(message, html, data) {
-  let actor = game.actors.get(data.message.speaker.actor);
+  let actor;
+  if (data.message.speaker.actor) {
+    actor = game.actors.get(data.message.speaker.actor);
+  }
 
   if (message.isRoll) {
     let rollFormula = html.find(".dice-formula");

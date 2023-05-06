@@ -52,14 +52,11 @@ The null effect is a placeholder until a proper one is chosen. It has no effect.
 
 ### Spellcasting
 
-Those are mostly used internally by the system.
+- Aura: bonus due to Aura (See [[Canvas menu#Aura management (GM only) |Aura-management]]) used internally by the system.
+- Spellcasting stances
+This is to overrides the modifier applied to casting total for spellcasting stances (voice and gestures).
 
--   Voice: Bonus due to voice intensity during spellcasting (see Character.Arts)
-    
--   Gestures: Bonus due to gesture made during spellcasting (see Character.Arts).
-    
--   Aura: bonus due to Aura (See [[Canvas menu#Aura management (GM only) |Aura-management]])  
-    
+Dev note: since it is an override effect, having multiple of the same type will simply take into account the last one processed. For example, taking "Quiet magic" virtue twice would not work as expected as the effects are not cummulative. In this case, I have created the virtue "Silent magic" to do the same.
 
 ### Realm alignment
 
@@ -105,7 +102,7 @@ As per the rules, halve casting and lab totals.
 -   Deficiencies for a Technique and a Form are cumulative (ie: totals divided by 4)
     
 -   Deficiencies on multiple Forms or Techniques are not cumulative (effects with requisites)
-    
+
 
 ### Vitals
 

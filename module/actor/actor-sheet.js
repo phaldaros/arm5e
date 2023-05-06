@@ -33,8 +33,11 @@ import { quickMagic } from "../helpers/magic.js";
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      dragDrop: [{ dragSelector: ".macro-ready" }]
+    const res = mergeObject(super.defaultOptions, {
+      dragDrop: [
+        { dragSelector: ".item-list .item", dropSelector: null },
+        { dragSelector: ".macro-ready" }
+      ]
       /*         classes: ["arm5e", "sheet", "actor"],
          template: "systems/arm5e/templates/actor/actor-pc-sheet.html",
          width: 1100,
@@ -47,6 +50,7 @@ export class ArM5eActorSheet extends ActorSheet {
         }
       ]*/
     });
+    return res;
   }
 
   _canDragStart(selector) {
