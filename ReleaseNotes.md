@@ -1,6 +1,10 @@
-## 2.0.5.19, Lexora, the magus
+## 2.0.5.20, Lexora, the magus
 
 ### Features & changes
+
+- Warning if the character is wounded in the lab planning tab
+- Drag and drop sorting for virtues, flaws, items, vis, armors, weapons, ...basically everything which isn't sorted yet.
+- Armor and weapons added to combat tab of NPCs
 
 ### Bug fixes
 

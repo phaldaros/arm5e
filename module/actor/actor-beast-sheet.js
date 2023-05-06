@@ -127,8 +127,11 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
       }
     }
     const res = await super._onDropItem(event, data);
-    if (res.length == 1) {
-      res[0].sheet.render(true);
+    // not dropped in the same actor
+    if (this.actor.uuid !== item.parent?.uuid) {
+      if (res && res.length == 1) {
+        res[0].sheet.render(true);
+      }
     }
     return res;
   }

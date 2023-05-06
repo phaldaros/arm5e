@@ -661,6 +661,16 @@ export class ArM5ePCActor extends Actor {
       }
     }
 
+    items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    virtues.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    flaws.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    weapons.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    armor.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    magicItems.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    powers.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.personalities.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    reputations.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    vis.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     // combat
 
     combat.overload = ArM5ePCActor.getArtScore(combat.load);
@@ -979,6 +989,10 @@ export class ArM5ePCActor extends Actor {
         system.diaryEntries.push(item);
       }
     }
+    system.virtues.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.flaws.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.rawVis.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
 
     system.artsTopics = artsTopics.sort(compareTopics);
     system.mundaneTopics = mundaneTopics.sort(compareTopics);
@@ -1235,6 +1249,16 @@ export class ArM5ePCActor extends Actor {
     if (system.labs) {
       system.labs = labs;
     }
+
+    system.labs.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.virtues.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.flaws.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.visStock.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.visSources.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.possessions.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.incomingSources.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.reputations.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    system.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
   }
 
   _prepareCrucibleData() {
