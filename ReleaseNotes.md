@@ -1,3 +1,9 @@
+## 2.1.0.0, Mercere, first to join
+
+### Features & changes
+
+### Bug fixes
+
 ## 2.0.5.21, Lexora, the maga
 
 ### Features & changes
