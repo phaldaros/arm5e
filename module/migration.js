@@ -650,14 +650,17 @@ export const migrateActorData = async function(actorDoc, actorItems) {
           effects.push(expandObject(effectUpdate));
         }
       }
-      if (toDelete.length > 0 && actorDoc instanceof ArM5ePCActor) {
-        await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
-      } else {
-        ChatMessage.create({
-          content:
-            "<b>MIGRATION NOTIFICATION</b><br/>" +
-            `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
-        });
+
+      if (toDelete.length > 0) {
+        if (actorDoc instanceof ArM5ePCActor) {
+          await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+        } else {
+          ChatMessage.create({
+            content:
+              "<b>MIGRATION NOTIFICATION</b><br/>" +
+              `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
+          });
+        }
       }
 
       if (effects.length > 0) {
@@ -1060,14 +1063,16 @@ export const migrateItemData = async function(item) {
       }
       return arr;
     }, []);
-    if (toDelete.length > 0 && actorDoc instanceof ArM5ePCActor) {
-      await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
-    } else {
-      ChatMessage.create({
-        content:
-          "<b>MIGRATION NOTIFICATION</b><br/>" +
-          `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
-      });
+    if (toDelete.length > 0) {
+      if (actorDoc instanceof ArM5ePCActor) {
+        await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+      } else {
+        ChatMessage.create({
+          content:
+            "<b>MIGRATION NOTIFICATION</b><br/>" +
+            `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
+        });
+      }
     }
 
     if (effects.length > 0) {
