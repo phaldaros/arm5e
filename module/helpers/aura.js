@@ -118,7 +118,7 @@ function computeAuraModifier(alignment, auraVal, type) {
 }
 
 async function setAuraValueForAllTokensInScene(value, type) {
-  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
+  if (Object.values(ARM5E.REALM_TYPES).includes(Number(type))) {
     // Store a flag with the current aura
     await game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
     await game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));

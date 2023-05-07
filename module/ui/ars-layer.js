@@ -45,8 +45,8 @@ export class ArsLayer extends InteractionLayer {
           let val = html.find('input[name="inputField"]');
 
           if (val.val() !== "") {
-            const aura = val.val();
-            const type = html.find(".aura-type")[0].value;
+            const aura = Number(val.val());
+            const type = Number(html.find(".aura-type")[0].value);
             await setAuraValueForAllTokensInScene(aura, type);
           }
         }

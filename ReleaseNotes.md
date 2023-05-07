@@ -1,4 +1,4 @@
-## 2.0.5.20, Lexora, the magus
+## 2.0.5.21, Lexora, the maga
 
 ### Features & changes
 
@@ -9,8 +9,14 @@
 ### Bug fixes
 
 - Fix computation of the number of pawns of vis extracted from aura
-- Aura is no longer read only after unlinking the covenant
+- Aura is no longer read only in the lab planning tab after unlinking the covenant
 - Covenant Aura was not taken into account in some cases.
+- It is again possible to set auras with the GUI
+- Migration:
+
+  - clean up of obsolete active effects takes into account Foundry core ones.
+  - Prevent an error when attempting to clean up effects of an invalid character.
+
 - [technical] Switched assets paths to relative paths
 
 ## 2.0.5.17, Lexora, the apprentice
