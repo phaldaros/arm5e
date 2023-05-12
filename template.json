@@ -877,16 +877,6 @@
       "laboratoryTexts": [],
       "mundaneBooks": []
     },
-    "magicCodex": {
-      "techniqueFilter": "",
-      "formFilter": "",
-      "levelOperator": 0,
-      "levelFilter": 0,
-      "baseEffects": [],
-      "magicEffects": [],
-      "spells": [],
-      "enchantments": []
-    },
     "beast": {
       "templates": ["base", "wounds", "fatigue", "datetime"],
       "characteristics": {

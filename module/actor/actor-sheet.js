@@ -12,10 +12,17 @@ import {
   getDataset,
   hermeticFilter,
   putInFoldableLinkWithAnimation,
-  compareLabTexts
+  compareLabTexts,
+  topicFilter,
+  hermeticTopicFilter
 } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
-import { HERMETIC_FILTER, updateUserCache } from "../constants/userdata.js";
+import {
+  HERMETIC_FILTER,
+  HERMETIC_TOPIC_FILTER,
+  TOPIC_FILTER,
+  updateUserCache
+} from "../constants/userdata.js";
 import {
   prepareRollVariables,
   updateCharacteristicDependingOnRoll,
@@ -127,6 +134,29 @@ export class ArM5eActorSheet extends ActorSheet {
     return false;
   }
 
+  getUserCache() {
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[this.actor.id] == undefined) {
+      usercache[this.actor.id] = {
+        filters: {
+          hermetic: {
+            spells: HERMETIC_FILTER,
+            magicalEffects: HERMETIC_FILTER,
+            laboratoryTexts: HERMETIC_FILTER
+          },
+          bookTopics: {
+            abilitiesTopics: TOPIC_FILTER,
+            artsTopics: TOPIC_FILTER,
+            masteriesTopics: HERMETIC_TOPIC_FILTER
+          }
+        }
+      };
+
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    }
+    return usercache[this.actor.id];
+  }
+
   /** @override */
   async getData() {
     const context = await super.getData();
@@ -145,7 +175,7 @@ export class ArM5eActorSheet extends ActorSheet {
       option: false,
       selection: "disabled"
     };
-
+    context.ui = {};
     // context.system.dtypes = ["String", "Number", "Boolean"];
 
     // Xzotl : not sure what this was used for
@@ -155,32 +185,87 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Allow effect creation
     actorData.system.effectCreation = game.user.isGM;
-    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
-    if (usercache === null) usercache = {};
-    if (usercache[this.actor.id]) {
-      context.userData = usercache[this.actor.id];
-    } else {
-      usercache[this.actor.id] = {
-        filters: {
-          hermetic: {
-            spells: HERMETIC_FILTER,
-            magicalEffects: HERMETIC_FILTER,
-            laboratoryTexts: HERMETIC_FILTER
-          },
-          abilities: {
-            category: ""
-          }
-        }
-      };
-      context.userData = usercache[this.actor.id];
-      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+
+    context.userData = this.getUserCache();
+
+    if (this.actor.type != "magicCodex") {
+      // topic filters
+      // 1. Filter
+      // Arts
+      let artsFilters = context.userData.filters.bookTopics.artsTopics;
+      // log(false, "Filter: " + JSON.stringify(artsFilters));
+      context.system.filteredArtsTopics = topicFilter(
+        artsFilters,
+        context.system.artsTopics,
+        "art"
+      );
+      // context.system.filteredArtsTopics = context.system.artsTopics;
+      if (artsFilters.expanded) {
+        context.ui.artsFilterVisibility = "";
+      } else {
+        context.ui.artsFilterVisibility = "hidden";
+      }
+      if (
+        artsFilters.topic != "" ||
+        artsFilters.typeFilter != "" ||
+        (artsFilters.levelFilter != 0 && artsFilters.levelFilter != null) ||
+        (artsFilters.qualityFilter != 0 && artsFilters.qualityFilter != null)
+      ) {
+        context.ui.artsTopicsFilter = 'style="text-shadow: 0 0 5px maroon"';
+      }
+
+      // 1. Filter
+      // abilities
+      let abilitiesFilters = context.userData.filters.bookTopics.abilitiesTopics;
+      // log(false, "Filter: " + JSON.stringify(abilitiesFilters));
+      context.system.filteredMundaneTopics = topicFilter(
+        abilitiesFilters,
+        context.system.mundaneTopics,
+        "key"
+      );
+      if (abilitiesFilters.expanded) {
+        context.ui.abilitiesFilterVisibility = "";
+      } else {
+        context.ui.abilitiesFilterVisibility = "hidden";
+      }
+      if (
+        abilitiesFilters.topic != "" ||
+        abilitiesFilters.typeFilter != "" ||
+        (abilitiesFilters.levelFilter != 0 && abilitiesFilters.levelFilter != null) ||
+        (abilitiesFilters.qualityFilter != 0 && abilitiesFilters.qualityFilter != null)
+      ) {
+        context.ui.abilitiesTopicsFilter = 'style="text-shadow: 0 0 5px maroon"';
+      }
+
+      // 1. Filter
+      // masteries
+      let masteriesFilters = context.userData.filters.bookTopics.masteriesTopics;
+      log(false, "Masteries filter: " + JSON.stringify(masteriesFilters));
+      context.system.filteredMasteriesTopics = hermeticTopicFilter(
+        masteriesFilters,
+        context.system.masteryTopics
+      );
+      if (masteriesFilters.expanded) {
+        context.ui.masteriesFilterVisibility = "";
+      } else {
+        context.ui.masteriesFilterVisibility = "hidden";
+      }
+      if (
+        masteriesFilters.formFilter != "" ||
+        masteriesFilters.techniqueFilter != "" ||
+        (masteriesFilters.levelFilter != 0 && masteriesFilters.levelFilter != null)
+      ) {
+        context.ui.masteriesTopicsFilter = 'style="text-shadow: 0 0 5px maroon"';
+      }
     }
 
-    if (actorData.type === "player" || actorData.type === "npc" || actorData.type === "beast") {
+    context.system.isCharacter = this.actor._isCharacter();
+    if (this.actor._isCharacter()) {
       for (let [key, v] of Object.entries(context.system.vitals)) {
         v.label = game.i18n.localize(CONFIG.ARM5E.character.vitals[key].label);
       }
 
+      context.system.isMagus = this.actor._isMagus();
       context.system.world = {};
 
       // check whether the character is linked to an existing covenant
@@ -291,7 +376,6 @@ export class ArM5eActorSheet extends ActorSheet {
         // 1. Filter
         // Spells
         let spellsFilters = context.userData.filters.hermetic.spells;
-        context.ui = {};
         context.system.filteredSpells = hermeticFilter(spellsFilters, context.system.spells);
         if (spellsFilters.expanded) {
           context.ui.spellsFilterVisibility = "";
@@ -560,7 +644,6 @@ export class ArM5eActorSheet extends ActorSheet {
       // if (!labtTextFilters) {
       //   labtTextFilters = { formFilter: "", levelFilter: "", levelOperator: 0, techniqueFilter: "" };
       // }
-      context.ui = {};
       context.system.filteredLaboratoryTexts = hermeticFilter(
         labtTextFilters,
         context.system.laboratoryTexts
@@ -682,45 +765,75 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // filters
     html.find(".toggleHidden").click(async ev => {
-      const list = $(ev.target).data("list");
-      const val = html
-        .find(`.${list}`)
-        .attr("class")
-        .indexOf("hidden");
-      await updateUserCache(this.actor.id, list, "expanded", val >= 0);
-      html.find(`.${list}`).toggleClass("hidden");
+      const dataset = getDataset(ev);
+      const tmp = html.find(`.${dataset.list}`).attr("class");
+      const val = tmp.indexOf("hidden");
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "expanded", val >= 0);
+      html.find(`.${dataset.list}`).toggleClass("hidden");
+    });
+
+    html.find(".topic-filter").change(async ev => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      const val = ev.target.value;
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "topicFilter", val);
+      this.render();
+    });
+
+    html.find(".type-filter").change(async ev => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      const val = ev.target.value;
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "typeFilter", val);
+      this.render();
     });
 
     html.find(".technique-filter").change(async ev => {
       ev.preventDefault();
-      const list = $(ev.currentTarget).data("list");
+      const dataset = getDataset(ev);
       const val = ev.target.value;
-      await updateUserCache(this.actor.id, list, "techniqueFilter", val);
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "techniqueFilter", val);
       this.render();
     });
 
     html.find(".form-filter").change(async ev => {
       ev.preventDefault();
-      const list = $(ev.currentTarget).data("list");
+      const dataset = getDataset(ev);
       const val = ev.target.value;
-      await updateUserCache(this.actor.id, list, "formFilter", val);
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "formFilter", val);
       this.render();
     });
 
     html.find(".levelOperator-filter").change(async ev => {
       ev.preventDefault();
-      const list = $(ev.currentTarget).data("list");
+      const dataset = getDataset(ev);
       const val = ev.target.value;
-      await updateUserCache(this.actor.id, list, "levelOperator", val);
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "levelOperator", val);
       this.render();
     });
 
     html.find(".level-filter").change(async ev => {
       ev.preventDefault();
-      const list = $(ev.currentTarget).data("list");
+      const dataset = getDataset(ev);
       const val = ev.target.value;
-      await updateUserCache(this.actor.id, list, "levelFilter", val);
-      this.actor.update();
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "levelFilter", val);
+      this.render();
+    });
+
+    html.find(".qualityOperator-filter").change(async ev => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      const val = ev.target.value;
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "qualityOperator", val);
+      this.render();
+    });
+
+    html.find(".quality-filter").change(async ev => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      const val = ev.target.value;
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "qualityFilter", val);
+      this.render();
     });
 
     html.find(".sortable").click(ev => {
@@ -735,6 +848,13 @@ export class ArM5eActorSheet extends ActorSheet {
           [listName]: !val[listName]
         });
       }
+    });
+
+    html.find(".vis-study").click(async ev => {
+      const li = $(ev.currentTarget).parents(".item");
+      const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
+      if (!this.actor._isMagus()) return;
+      await item.system.studyVis(item.id, this.actor);
     });
 
     // Everything below here is only needed if the sheet is editable
@@ -897,6 +1017,16 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // migrate actor
     html.find(".migrate").click(event => this.actor.migrate());
+
+    html.find(".plan-reading").click(async ev => this._readBook(ev));
+  }
+
+  async _readBook(ev) {
+    ev.preventDefault();
+    const li = $(ev.currentTarget).parents(".item");
+    const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
+    const dataset = getDataset(ev);
+    await item.system.readBook(item, dataset);
   }
 
   async _editAging(event) {

@@ -10,10 +10,11 @@
     <div class="header-fields">
       <div class="resources flexrow flex-between">
         <span class="codexname flexrow" style="padding-top: 4px">
-          <label for="system.techniqueFilter" class="header-label"
+          <label for="techniqueFilter" class="header-label"
             style="padding-left: 24px">{{localize "arm5e.sheet.technique"}}</label>
-          <select name="system.techniqueFilter" data-type="String" style="flex: 0 0 100px">
-            {{#select system.techniqueFilter}}
+          <select name="techniqueFilter" class="technique-filter" data-type="String" data-list="filter"
+            data-category="hermetic" style="flex: 0 0 100px">
+            {{#select userData.filters.hermetic.filter.techniqueFilter}}
               <option value=""></option>
               {{#each config.magic.techniques as |technique key|}}
                 <option value="{{key}}">{{technique.label}}</option>
@@ -22,10 +23,11 @@
           </select>
         </span>
         <span class="codexname flexrow" style="padding-top: 4px">
-          <label for="system.formFilter" class="header-label"
+          <label for="formFilter" class="header-label"
             style="padding-left: 24px">{{localize "arm5e.sheet.form"}}</label>
-          <select name="system.formFilter" data-type="String" style="flex: 0 0">
-            {{#select system.formFilter}}
+          <select name="formFilter" data-type="String" class="form-filter" data-list="filter" data-category="hermetic"
+            style="flex: 0 0">
+            {{#select userData.filters.hermetic.filter.formFilter}}
               <option value=""></option>
               {{#each config.magic.forms as |form key|}}
                 <option value="{{key}}">{{form.label}}</option>
@@ -34,16 +36,18 @@
           </select>
         </span>
         <span class="codexname flexrow" style="padding-top: 4px">
-          <label for="system.levelFilter" class="header-label"
+          <label for="levelFilter" class="header-label"
             style="padding-left: 24px">{{localize "arm5e.sheet.level"}}</label>
-          <select name="system.levelOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua">
-            {{#select system.levelOperator}}
+          <select name="levelOperator" data-type="Number" data-list="filter" data-category="hermetic"
+            style="flex: 0 0; font-family: bookAntiqua" class="levelOperator-filter">
+            {{#select userData.filters.hermetic.filter.levelOperator}}
               <option value="0">=</option>
               <option value="-1">&leq;</option>
               <option value="1">&geq;</option>
             {{/select}}
           </select>
-          <input type="number" name="system.levelFilter" value="{{system.levelFilter}}" data-dtype="Number" />
+          <input type="number" name="levelFilter" data-list="filter" data-category="hermetic"
+            value="{{userData.filters.hermetic.filter.levelFilter}}" data-dtype="Number" class="level-filter" />
         </span>
       </div>
     </div>
@@ -77,26 +81,26 @@
     <section class="sheet-body">
       {{!-- Base effects Tab --}}
       <div class="tab diary" data-group="primary" data-tab="base-effects">
-        <ol class="spell-list backSection margintop18" style="min-height: 350px; padding-right: 18px;">
-          {{> "systems/arm5e/templates/actor/parts/actor-base-effects.html" }}
+        <ol class="spell-list backSection margintop18" style="min-height: 380px; padding-right: 18px;">
+          {{> "systems/arm5e/templates/actor/parts/codex-base-effects.hbs" }}
         </ol>
       </div>
       {{!--Magical Effect Tab --}}
       <div class="tab spell-design" data-group="primary" data-tab="magical-effect">
-        <ol class="spell-list backSection margintop18" style="min-height: 350px;padding-right: 18px;">
-          {{> "systems/arm5e/templates/actor/parts/actor-magical-effects.html" }}
+        <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+          {{> "systems/arm5e/templates/actor/parts/codex-magical-effects.hbs" }}
         </ol>
       </div>
       {{!--Spells Tab --}}
       <div class="tab spells" data-group="primary" data-tab="spells">
-        <ol class="spell-list backSection margintop18" style="min-height: 350px;padding-right: 18px;">
-          {{> "systems/arm5e/templates/actor/parts/actor-spells.html" }}
+        <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+          {{> "systems/arm5e/templates/actor/parts/codex-spells.hbs" }}
         </ol>
       </div>
       {{!--Enchantments Tab --}}
       <div class="tab enchantments" data-group="primary" data-tab="enchantments">
-        <ol class="spell-list backSection margintop18" style="min-height: 350px;padding-right: 18px;">
-          {{> "systems/arm5e/templates/actor/parts/actor-enchantments.html" }}
+        <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+          {{> "systems/arm5e/templates/actor/parts/codex-enchantments.hbs" }}
         </ol>
       </div>
     </section>

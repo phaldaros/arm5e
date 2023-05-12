@@ -5,7 +5,7 @@
   </div>
 </li>
 {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-{{#each system.magicEffects as |effect id|}}
+{{#each system.filteredMagicEffects as |effect id|}}
   <li class="item spell-value flexrow flex-center" data-name="{{effect.name}}" data-item-id="{{effect.id}}"
     data-item-type="{{effect.type}}">
     <div class="flexrow flex-center">

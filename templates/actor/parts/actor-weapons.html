@@ -17,7 +17,7 @@
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.weapons as |item id|}}
         <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}">
-            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class="flexrow flex-center">
                 <span class="flexrow item-title">{{item.name}}</span>
                 <label><span class="bold">{{localize "arm5e.sheet.initiative"}}:</span> {{item.system.init}}</label>

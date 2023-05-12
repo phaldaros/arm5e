@@ -117,62 +117,6 @@ export class ItemSchema extends foundry.abstract.DataModel {
   }
 }
 
-export class VisSchema extends foundry.abstract.DataModel {
-  // TODO remove in V11
-  static _enableV10Validation = true;
-
-  static defineSchema() {
-    return {
-      ...itemBase(),
-      art: new fields.StringField({
-        required: false,
-        blank: false,
-        initial: "cr",
-        choices: Object.keys(ARM5E.magic.arts)
-      }),
-      pawns: new fields.NumberField({
-        required: false,
-        nullable: false,
-        integer: true,
-        min: 0, // allow quantity of 0 to keep an eye on what is missing
-        initial: 1,
-        step: 1
-      })
-    };
-  }
-
-  static migrateData(data) {
-    // if (data.art == "") {
-    //   data.art = "cr";
-    // } else
-    if (data.art?.value) {
-      data.art = data.art.value;
-    }
-
-    return data;
-  }
-
-  static migrate(itemData) {
-    const updateData = {};
-    if (itemData.system.art.value !== undefined) {
-      updateData["system.art"] = itemData.system.art.value;
-    } else if (itemData.system.art == "") {
-      updateData["system.art"] = "cr";
-    }
-    // get ride of form of vis field
-    if (
-      itemData.system.form != undefined &&
-      itemData.system.form !== "Physical form of the raw vis." &&
-      itemData.system.form !== ""
-    ) {
-      updateData["system.description"] = itemData.system.description + itemData.system.form;
-      updateData["system.-=form"] = null;
-    }
-
-    return updateData;
-  }
-}
-
 export class ReputationSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;

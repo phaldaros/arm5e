@@ -127,39 +127,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     event.preventDefault();
 
     const dataset = getDataset(event);
-    const topic = item.system.topics[dataset.index];
-    if (topic.category == "labText") {
-      return;
-    }
-    let formData = {
-      seasons: CONFIG.ARM5E.seasons,
-      abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
-      arts: CONFIG.ARM5E.magic.arts,
-      techs: CONFIG.ARM5E.magic.techniques,
-      forms: CONFIG.ARM5E.magic.forms,
-      bookTopics: CONFIG.ARM5E.books.categories,
-      bookTypes: CONFIG.ARM5E.books.types,
-      ...game.settings.get("arm5e", "currentDate"),
-      reading: {
-        reader: { id: null },
-        book: {
-          uuid: item.uuid,
-          id: item._id,
-          name: item.name,
-          system: item.system.toObject()
-        }
-      }
-    };
-    formData.reading.book.system.topicIndex = this.item.getFlag("arm5e", "currentBookTopic");
-    if (item.isOwned && item.actor._isCharacter()) {
-      formData.reading.reader.id = item.actor.id;
-    }
-
-    const scriptorium = new Scriptorium(formData, {}); // data, options
-    const res = await scriptorium.render(true);
-    if (formData.reading.reader.id) {
-      item.actor.apps[scriptorium.appId] = scriptorium;
-    }
+    await this.item.system.readBook(this.item, dataset);
   }
 
   async _changeCurrentTopic(item, event, offset) {

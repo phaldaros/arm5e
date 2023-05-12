@@ -10,7 +10,7 @@
   </div>
 </li>
 {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-{{#each system.baseEffects as |effect id|}}
+{{#each system.filteredBaseEffects as |effect id|}}
   <li class="item spell-value flexrow flex-center" data-name="{{effect.system.name}}" data-item-id="{{effect.id}}"
     data-item-type="{{effect.type}}">
     <div class="flexrow flex-center">

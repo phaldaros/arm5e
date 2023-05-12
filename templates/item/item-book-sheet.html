@@ -146,7 +146,7 @@
           <select name="system.topics.{{topicIdx}}.key" data-dtype="String" class="ability-key">
             {{#select currentTopic.key}}
               {{#each abilityKeysList as |item key|}}
-                <option value="{{key}}" {{item.selection}}>{{item.name}}</option>
+                <option value="{{key}}" {{item.selection}}>{{item.label}}</option>
               {{/each}}
             {{/select}}
           </select>

@@ -163,6 +163,16 @@ export function registerSettings() {
     restricted: true
   });
 
+  game.settings.register(ARM5E.SYSTEM_ID, "clearUserCache", {
+    name: "Clear user cache",
+    hint: "Reset user cache on next refresh (filters).",
+    icon: "fas fa-trash",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+
   let filters = {
     custom: ARM5E.generic.sourcesTypes.custom,
     ArM5: ARM5E.generic.sourcesTypes.ArM5

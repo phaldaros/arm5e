@@ -1,10 +1,10 @@
 import { ArM5eActorSheet } from "./actor-sheet.js";
 
-import { log } from "../tools.js";
+import { hermeticFilter, log } from "../tools.js";
 
 import { labTextToEffect } from "../item/item-converter.js";
 import { ArM5eItem } from "../item/item.js";
-
+import { HERMETIC_FILTER } from "../constants/userdata.js";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -12,8 +12,9 @@ import { ArM5eItem } from "../item/item.js";
 export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
   /** @override */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ["arm5e", "sheet", "actor"],
+    const options = super.defaultOptions;
+    return mergeObject(options, {
+      classes: [...options.classes, "arm5e", "sheet", "actor"],
       template: "systems/arm5e/templates/actor/actor-magic-codex-sheet.html",
       width: 790,
       height: 800,
@@ -27,6 +28,20 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     });
   }
 
+  getUserCache() {
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[this.actor.id] == undefined) {
+      usercache[this.actor.id] = {
+        filters: {
+          hermetic: {
+            filter: HERMETIC_FILTER
+          }
+        }
+      };
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    }
+    return usercache[this.actor.id];
+  }
   /* -------------------------------------------- */
 
   /** @override */
@@ -37,6 +52,17 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     context.config = {};
     context.config.magic = CONFIG.ARM5E.magic;
     this._prepareCodexItems(context);
+
+    let filters = context.userData.filters.hermetic.filter;
+    context.ui = {};
+    context.system.filteredBaseEffects = hermeticFilter(filters, context.system.baseEffects);
+    context.system.baseEffectCount = context.system.filteredBaseEffects.length;
+    context.system.filteredMagicEffects = hermeticFilter(filters, context.system.magicEffects);
+    context.system.magicEffectsCount = context.system.filteredMagicEffects.length;
+    context.system.filteredEnchantments = hermeticFilter(filters, context.system.enchantments);
+    context.system.enchantmentsCount = context.system.filteredEnchantments.length;
+    context.system.filteredSpells = hermeticFilter(filters, context.system.spells);
+    context.system.spellsCount = context.system.filteredSpells.length;
 
     return context;
   }

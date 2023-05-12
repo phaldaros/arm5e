@@ -11,7 +11,7 @@
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.armor as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
-            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+            <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class="flexrow flex-center">
                 <span class="flexrow item-title">{{item.name}}</span>
                 <label><span class="bold">{{localize "arm5e.sheet.protection"}}:</span> {{item.system.prot}} (+{{

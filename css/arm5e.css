@@ -1552,7 +1552,7 @@ img.art-icon {
 .arm5e .items-list .item .item-image {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 24px;
-  flex: 0 0 24px;
+  flex: 0 0 45px;
   margin-right: 5px;
 }
 

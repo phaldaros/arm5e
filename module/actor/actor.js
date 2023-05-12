@@ -845,41 +845,10 @@ export class ArM5ePCActor extends Actor {
         enchantments.push(item);
       }
     }
-    if (system.formFilter != "") {
-      baseEffects = baseEffects.filter(e => e.system.form.value === system.formFilter);
-      magicEffects = magicEffects.filter(e => e.system.form.value === system.formFilter);
-      spells = spells.filter(e => e.system.form.value === system.formFilter);
-      enchantments = enchantments.filter(e => e.system.form.value === system.formFilter);
-    }
-    if (system.techniqueFilter != "") {
-      baseEffects = baseEffects.filter(e => e.system.technique.value === system.techniqueFilter);
-      magicEffects = magicEffects.filter(e => e.system.technique.value === system.techniqueFilter);
-      spells = spells.filter(e => e.system.technique.value === system.techniqueFilter);
-      enchantments = enchantments.filter(e => e.system.technique.value === system.techniqueFilter);
-    }
-    if (system.levelFilter != 0 && system.levelFilter != null) {
-      if (system.levelOperator == 0) {
-        magicEffects = magicEffects.filter(e => e.system.level === system.levelFilter);
-        spells = spells.filter(e => e.system.level === system.levelFilter);
-        enchantments = enchantments.filter(e => e.system.level === system.levelFilter);
-      } else if (system.levelOperator == -1) {
-        magicEffects = magicEffects.filter(e => e.system.level <= system.levelFilter);
-        spells = spells.filter(e => e.system.level <= system.levelFilter);
-        enchantments = enchantments.filter(e => e.system.level <= system.levelFilter);
-      } else {
-        magicEffects = magicEffects.filter(e => e.system.level >= system.levelFilter);
-        spells = spells.filter(e => e.system.level >= system.levelFilter);
-        enchantments = enchantments.filter(e => e.system.level >= system.levelFilter);
-      }
-    }
     system.baseEffects = baseEffects.sort(compareBaseEffects);
-    system.baseEffectCount = baseEffects.length;
     system.magicEffects = magicEffects.sort(compareMagicalEffects);
-    system.magicEffectsCount = magicEffects.length;
     system.enchantments = enchantments.sort(compareMagicalEffects);
-    system.enchantmentsCount = enchantments.length;
     system.spells = spells.sort(compareSpells);
-    system.spellsCount = spells.length;
   }
 
   getRollData() {

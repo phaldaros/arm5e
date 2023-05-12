@@ -8,6 +8,7 @@ import { ArM5eItem } from "../item/item.js";
 import { getDataset, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { ArM5eItemDiarySheet } from "../item/item-diary-sheet.js";
+import { HERMETIC_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
 /**
  * Extend the basic ArM5eActorSheet with some very simple modifications
  * @extends {ArM5eActorSheet}
@@ -37,6 +38,27 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         { dragSelector: null, dropSelector: ".mainLaboratory" }
       ]
     });
+  }
+
+  getUserCache() {
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[this.actor.id] == undefined) {
+      usercache[this.actor.id] = {
+        filters: {
+          hermetic: {
+            laboratoryTexts: HERMETIC_FILTER
+          },
+          bookTopics: {
+            abilitiesTopics: TOPIC_FILTER,
+            artsTopics: TOPIC_FILTER,
+            masteriesTopics: HERMETIC_FILTER
+          }
+        }
+      };
+
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    }
+    return usercache[this.actor.id];
   }
 
   /* -------------------------------------------- */

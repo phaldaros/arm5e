@@ -5,7 +5,7 @@
   </div>
 </li>
 {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-{{#each system.enchantments as |enchantment id|}}
+{{#each system.filteredEnchantments as |enchantment id|}}
   <li class="item spell-value flexrow flex-center" data-name="{{enchantment.name}}" data-item-id="{{enchantment.id}}"
     data-item-type="{{enchantment.type}}">
     <div class="flexrow flex-center">

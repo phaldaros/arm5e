@@ -6,10 +6,9 @@
                 <span class="flexrow">
                     <label for="techniqueFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.technique"}}</label>
-
                     <select id="techniqueFilter" name="techniqueFilter" data-type="String" style="flex: 0 0 100px"
-                        class="technique-filter" data-list="{{list}}">
-                        {{#with (lookup userData.filters.hermetic list)}}
+                        class="technique-filter" data-list="{{list}}" data-category="{{category}}">
+                        {{#with (lookup (lookup userData.filters category) list)}}
                             {{#select techniqueFilter}}
                                 <option value=""></option>
                                 {{#each ../config.magic.techniques as |technique key|}}
@@ -18,14 +17,13 @@
                             {{/select}}
                         {{/with}}
                     </select>
-
                 </span>
                 <span class="flexrow">
                     <label for="system.formFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.form"}}</label>
                     <select name="formFilter" data-type="String" style="flex: 0 0" class="form-filter"
-                        data-list="{{list}}">
-                        {{#with (lookup userData.filters.hermetic list)}}
+                        data-list="{{list}}" data-category="{{category}}">
+                        {{#with (lookup (lookup userData.filters category) list)}}
                             {{#select formFilter}}
                                 <option value=""></option>
                                 {{#each ../config.magic.forms as |form key|}}
@@ -35,12 +33,13 @@
                         {{/with}}
                     </select>
                 </span>
+                {{#unless topic}}
                 <span class="flexrow">
                     <label for="system.levelFilter" class="header-label"
                         style="padding-left: 24px">{{localize "arm5e.sheet.level"}}</label>
                     <select name="levelOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua"
-                        class="levelOperator-filter" data-list="{{list}}">
-                        {{#with (lookup userData.filters.hermetic list)}}
+                        class="levelOperator-filter" data-list="{{list}}" data-category="{{category}}">
+                        {{#with (lookup (lookup userData.filters category) list)}}
                             {{#select levelOperator}}
                                 <option value="0">=</option>
                                 <option value="-1">&leq;</option>
@@ -48,11 +47,33 @@
                             {{/select}}
                         {{/with}}
                     </select>
-                    {{#with (lookup userData.filters.hermetic list)}}
+                    {{#with (lookup (lookup userData.filters category) list)}}
                         <input type="number" name="levelFilter" value="{{levelFilter}}" data-dtype="Number"
-                            style="margin-right: 36px" class="level-filter" data-list="{{../list}}" />
+                            style="margin-right: 36px" class="level-filter" data-list="{{../list}}"
+                            data-category="{{../category}}" />
                     {{/with}}
                 </span>
+                {{else}}
+                 <span class="flexrow">
+                    <label for="system.levelFilter" class="header-label"
+                        style="padding-left: 12px">{{localize "arm5e.sheet.quality"}}</label>
+                    <select name="qualityOperator" data-type="Number" style="flex: 0 0; font-family: bookAntiqua"
+                        class="qualityOperator-filter" data-list="{{list}}" data-category="{{category}}">
+                        {{#with (lookup (lookup userData.filters category) list)}}
+                            {{#select qualityOperator}}
+                                <option value="0">=</option>
+                                <option value="-1">&leq;</option>
+                                <option value="1">&geq;</option>
+                            {{/select}}
+                        {{/with}}
+                    </select>
+                    {{#with (lookup (lookup userData.filters category) list)}}
+                        <input type="number" name="qualityFilter" value="{{qualityFilter}}" data-dtype="Number"
+                            style="margin-right: 12px" class="quality-filter" data-list="{{../list}}"
+                            data-category="{{../category}}" />
+                    {{/with}}
+                </span>
+                {{/unless}}
             </div>
         </div>
     </li>
