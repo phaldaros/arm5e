@@ -315,7 +315,7 @@ export class Scriptorium extends FormApplication {
         entryData[0].system.progress.abilities.push({
           id: dataset.abilityId,
           category: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.category ?? "general",
-          name: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.name ?? book.name,
+          name: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.label ?? book.name,
           maxLevel: maxLevel,
           xp: entryData[0].system.cappedGain
             ? quality
@@ -359,7 +359,7 @@ export class Scriptorium extends FormApplication {
   }
 
   async _resetReader(event) {
-    let reader = game.actors.get(context.reading.reader.id);
+    let reader = game.actors.get(this.object.reading.reader.id);
     delete reader.apps[this.appId];
     let updatedData = {
       "reading.reader.id": null,

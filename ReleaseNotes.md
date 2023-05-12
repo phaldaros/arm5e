@@ -1,3 +1,43 @@
+## 2.1.0.0, Mercere, first to join
+
+### Features & changes
+
+- Magic Codex migrated to V10 datamodel
+- Magic Codex using filters based on the Foundry user data, not the Actor itself
+- [Technical] Factorization and generalization of user-cache management for filters
+- Reading books and study vis from actor sheet.
+- Filters for book topics
+- Cosmetic improvements left and right
+- New setting to reset the user cache (sheet filters)
+- Updated French version by orneen
+
+### Bug fixes
+
+- Unlinking the reader is working again in the scriptorium.
+- Creating a book from a character sheet won't generate an error anymore.
+
+### V10 migration (on going)
+
+- Data models activated
+
+  - Abilities
+  - Books
+  - Virtues & Flaws
+  - Mundane items
+  - Vis
+  - Base effects
+  - Spontaneous effets
+  - Spells
+  - Laboratory Texts
+  - Magical effects
+  - Diary entry
+  - Laboratory
+  - Magic Codex
+  - Reputation
+  - Personality trait
+  - Armor
+  - Weapon
+
 ## 2.0.5.21, Lexora, the maga
 
 ### Features & changes

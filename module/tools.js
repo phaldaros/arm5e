@@ -75,7 +75,7 @@ export function compareBaseEffects(e1, e2) {
 //     } else if (keys.indexOf(a1.system.key) < keys.indexOf(a2.system.key)) {
 //       return -1;
 //     } else {
-//       return a1.name.localeCompare(a2.name);
+//       return a1.label.localeCompare(a2.label);
 //     }
 //   }
 // }
@@ -264,6 +264,74 @@ export function hermeticFilter(filters, inputArray) {
       inputArray = inputArray.filter(e => e.system.level <= parseInt(filters.levelFilter));
     } else {
       inputArray = inputArray.filter(e => e.system.level >= parseInt(filters.levelFilter));
+    }
+  }
+  return inputArray;
+}
+
+export function topicFilter(filters, inputArray, typeField) {
+  if (filters.typeFilter != "") {
+    inputArray = inputArray.filter(e => e.type === filters.typeFilter);
+  }
+  if (filters.topicFilter != "") {
+    inputArray = inputArray.filter(e => e[typeField] === filters.topicFilter);
+  }
+  if (
+    filters.levelFilter != 0 &&
+    filters.levelFilter != null &&
+    filters.levelFilter != "" &&
+    filters.levelFilter != "0"
+  ) {
+    if (filters.levelOperator == 0) {
+      inputArray = inputArray.filter(
+        e => e.type === "Tractatus" || e.level === parseInt(filters.levelFilter)
+      );
+    } else if (filters.levelOperator == -1) {
+      inputArray = inputArray.filter(
+        e => e.type === "Tractatus" || e.level <= parseInt(filters.levelFilter)
+      );
+    } else {
+      inputArray = inputArray.filter(
+        e => e.type === "Tractatus" || e.level >= parseInt(filters.levelFilter)
+      );
+    }
+  }
+  if (
+    filters.qualityFilter != 0 &&
+    filters.qualityFilter != null &&
+    filters.qualityFilter != "" &&
+    filters.qualityFilter != "0"
+  ) {
+    if (filters.qualityOperator == 0) {
+      inputArray = inputArray.filter(e => e.quality === parseInt(filters.qualityFilter));
+    } else if (filters.qualityOperator == -1) {
+      inputArray = inputArray.filter(e => e.quality <= parseInt(filters.qualityFilter));
+    } else {
+      inputArray = inputArray.filter(e => e.quality >= parseInt(filters.qualityFilter));
+    }
+  }
+  return inputArray;
+}
+
+export function hermeticTopicFilter(filters, inputArray) {
+  if (filters.formFilter != "") {
+    inputArray = inputArray.filter(e => e.spellForm === filters.formFilter);
+  }
+  if (filters.techniqueFilter != "") {
+    inputArray = inputArray.filter(e => e.spellTech === filters.techniqueFilter);
+  }
+  if (
+    filters.qualityFilter != 0 &&
+    filters.qualityFilter != null &&
+    filters.qualityFilter != "" &&
+    filters.qualityFilter != "0"
+  ) {
+    if (filters.qualityOperator == 0) {
+      inputArray = inputArray.filter(e => e.quality === parseInt(filters.qualityFilter));
+    } else if (filters.qualityOperator == -1) {
+      inputArray = inputArray.filter(e => e.quality <= parseInt(filters.qualityFilter));
+    } else {
+      inputArray = inputArray.filter(e => e.quality >= parseInt(filters.qualityFilter));
     }
   }
   return inputArray;

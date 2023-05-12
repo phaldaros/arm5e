@@ -49,11 +49,13 @@ import {
   ItemSchema,
   PersonalityTraitSchema,
   ReputationSchema,
-  VirtueFlawSchema,
-  VisSchema
+  VirtueFlawSchema
 } from "./schemas/minorItemsSchemas.js";
 import { LabSchema } from "./schemas/labSchema.js";
 import { ArmorSchema, WeaponSchema } from "./schemas/weaponArmorSchema.js";
+import { CodexSchema } from "./schemas/actorCommonSchema.js";
+import { VisSchema } from "./schemas/visSchema.js";
+import { clearUserCache } from "./constants/userdata.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {
@@ -228,25 +230,19 @@ Hooks.once("ready", async function() {
     }
   }
 
-  // check and warning that magic codex is missing or more than one occurence.
-  // TODO: re-enable it (and move it?) when Codex is used in lab activities
-  // const codex = game.actors.filter(a => a.type === "magicCodex");
-  // if (codex.length > 1) {
-  //   ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.tooMany"), {
-  //     permanent: false
-  //   });
-  // } else if (codex.length === 0) {
-  //   ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.none"), {
-  //     permanent: false
-  //   });
-  // }
-
   // setup session storage:
 
+  if (game.settings.get("arm5e", "clearUserCache")) {
+    clearUserCache();
+    game.settings.set("arm5e", "clearUserCache", false);
+  }
   let userData = sessionStorage.getItem(`usercache-${game.user.id}`);
   if (!userData) {
     // create user cache if it doesn't exist yet
-    sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify({}));
+    sessionStorage.setItem(
+      `usercache-${game.user.id}`,
+      JSON.stringify({ version: game.system.version })
+    );
   }
 });
 
@@ -397,6 +393,7 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["weapon"] = WeaponSchema;
   //Actors
   CONFIG.Actor.systemDataModels["laboratory"] = LabSchema;
+  CONFIG.Actor.systemDataModels["magicCodex"] = CodexSchema;
 }
 
 function registerSheets() {

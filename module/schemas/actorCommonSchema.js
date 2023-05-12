@@ -28,3 +28,20 @@ export const actorBase = () => {
     })
   };
 };
+
+export class CodexSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
+  static defineSchema() {
+    return {};
+  }
+
+  // static migrateData(data) {
+  //   return data;
+  // }
+
+  static migrate(data) {
+    return {};
+  }
+}

@@ -1,5 +1,6 @@
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
+import { Scriptorium } from "../tools/scriptorium.js";
 import {
   authorship,
   hermeticForm,
@@ -75,6 +76,11 @@ export class BookSchema extends foundry.abstract.DataModel {
     if (itemData.system) {
       itemData.system.season = currentDate.season;
       itemData.system.year = Number(currentDate.year);
+      if (itemData.system.topics == undefined) {
+        itemData.system.topics = [
+          { category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }
+        ];
+      }
     } else {
       itemData.system = {
         season: currentDate.season,
@@ -146,6 +152,42 @@ export class BookSchema extends foundry.abstract.DataModel {
     }
     // log(false, `TYPE: ${data.topics}`);
     return data;
+  }
+
+  async readBook(item, dataset) {
+    const topic = this.topics[dataset.index];
+    if (topic.category == "labText") {
+      return;
+    }
+    let formData = {
+      seasons: CONFIG.ARM5E.seasons,
+      abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
+      arts: CONFIG.ARM5E.magic.arts,
+      techs: CONFIG.ARM5E.magic.techniques,
+      forms: CONFIG.ARM5E.magic.forms,
+      bookTopics: CONFIG.ARM5E.books.categories,
+      bookTypes: CONFIG.ARM5E.books.types,
+      ...game.settings.get("arm5e", "currentDate"),
+      reading: {
+        reader: { id: null },
+        book: {
+          uuid: item.uuid,
+          id: item._id,
+          name: item.name,
+          system: this.toObject()
+        }
+      }
+    };
+    formData.reading.book.system.topicIndex = dataset.index;
+    if (item.isOwned && item.actor._isCharacter()) {
+      formData.reading.reader.id = item.actor.id;
+    }
+
+    const scriptorium = new Scriptorium(formData, {}); // data, options
+    const res = await scriptorium.render(true);
+    if (formData.reading.reader.id) {
+      item.actor.apps[scriptorium.appId] = scriptorium;
+    }
   }
 
   static migrate(itemData) {

@@ -5,7 +5,7 @@
   </div>
 </li>
 {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-{{#each system.spells as |spell id|}}
+{{#each system.filteredSpells as |spell id|}}
   <li class="item spell-value flexrow" data-name="{{spell.name}}" data-item-id="{{spell.id}}"
     data-item-type="{{spell.type}}">
     <div class="flexrow flex-center">

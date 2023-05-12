@@ -70,7 +70,7 @@
         <select name="system.key" data-dtype="String" class="ability-key">
           {{#select system.key}}
             {{#each abilityKeysList as |item key|}}
-              <option value="{{key}}" {{item.selection}}>{{item.name}}</option>
+              <option value="{{key}}" {{item.selection}}>{{item.label}}</option>
             {{/each}}
           {{/select}}
         </select>

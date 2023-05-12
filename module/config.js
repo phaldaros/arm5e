@@ -827,42 +827,42 @@ ARM5E.ALL_ABILITIES = {
 export function localizeAbilities() {
   const res = {
     general: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.general.mnemonic),
+      label: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.general.mnemonic),
       mnemonic: ARM5E.ABILITIES_CATEGORIES.general.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.GENERAL_ABILITIES),
     academic: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.academic.mnemonic),
+      label: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.academic.mnemonic),
       mnemonic: ARM5E.ABILITIES_CATEGORIES.academic.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.ACADEMIC_ABILITIES),
     arcane: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.arcane.mnemonic),
+      label: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.arcane.mnemonic),
       mnemonic: ARM5E.ABILITIES_CATEGORIES.arcane.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.ARCANE_ABILITIES),
     martial: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.martial.mnemonic),
+      label: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.martial.mnemonic),
       mnemonic: ARM5E.ABILITIES_CATEGORIES.martial.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.MARTIAL_ABILITIES),
     supernaturalCat: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.supernaturalCat.mnemonic),
+      label: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.supernaturalCat.mnemonic),
       mnemonic: ARM5E.ABILITIES_CATEGORIES.supernaturalCat.mnemonic,
       option: false,
       selection: "disabled"
     },
     ...translateAndSort(ARM5E.SUPERNATURAL_ABILITIES),
     mystery: {
-      name: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.mystery.mnemonic),
+      label: game.i18n.localize(ARM5E.ABILITIES_CATEGORIES.mystery.mnemonic),
       mnemonic: ARM5E.ABILITIES_CATEGORIES.mystery.mnemonic,
       option: false,
       selection: "disabled"
@@ -880,10 +880,10 @@ function translateAndSort(abilityList) {
         option: game.i18n.localize(value.optionPlaceholder)
       });
     else translation = game.i18n.localize(value.mnemonic);
-    abilityList[key].name = translation;
+    abilityList[key].label = translation;
   }
   let tmp = Object.entries(abilityList).sort((a, b) => {
-    return a[1].name.localeCompare(b[1].name);
+    return a[1].label.localeCompare(b[1].label);
   });
   return Object.fromEntries(tmp);
   // let tmp = abilityList.map(a => {

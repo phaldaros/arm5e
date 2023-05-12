@@ -24,10 +24,10 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/actor/parts/actor-setAbilities.html",
     "systems/arm5e/templates/actor/parts/actor-magic-attributes.html",
 
-    "systems/arm5e/templates/actor/parts/actor-base-effects.html",
-    "systems/arm5e/templates/actor/parts/actor-magical-effects.html",
-    "systems/arm5e/templates/actor/parts/actor-enchantments.html",
-    "systems/arm5e/templates/actor/parts/actor-spells.html",
+    "systems/arm5e/templates/actor/parts/codex-base-effects.hbs",
+    "systems/arm5e/templates/actor/parts/codex-magical-effects.hbs",
+    "systems/arm5e/templates/actor/parts/codex-enchantments.hbs",
+    "systems/arm5e/templates/actor/parts/codex-spells.hbs",
     "systems/arm5e/templates/actor/parts/actor-weapons.html",
     "systems/arm5e/templates/actor/parts/actor-armor.html",
 
@@ -41,7 +41,8 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/actor/parts/actor-covenantEconomics.html",
     "systems/arm5e/templates/actor/parts/actor-library.html",
     "systems/arm5e/templates/actor/parts/actor-covenantCalendar.html",
-    "systems/arm5e/templates/actor/parts/hermeticFilter.html",
+    "systems/arm5e/templates/actor/parts/hermeticFilter.hbs",
+    "systems/arm5e/templates/actor/parts/topicFilter.hbs",
 
     "systems/arm5e/templates/actor/parts/crucible-magic-item.html",
     "systems/arm5e/templates/actor/parts/crucible-enchantment.html",
