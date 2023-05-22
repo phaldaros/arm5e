@@ -52,6 +52,7 @@
   "arm5e.sheet.charType": "Type",
   "arm5e.sheet.age": "Age",
   "arm5e.sheet.season": "Season",
+  "arm5e.sheet.seasons": "seasons",
   "arm5e.sheet.year": "Year",
   "arm5e.sheet.confidence": "Confidence",
   "arm5e.sheet.characteristic": "Characteristic",
@@ -1045,6 +1046,10 @@
   "arm5e.aging.rollback.confirm": "This action will revert the effect of aging and delete the diary entry. Are you sure?",
   "arm5e.aging.manualEdit": "{name} lost one point in {char} due to aging.",
 
+  "arm5e.time.minYear": "Minimum year",
+  "arm5e.time.maxYear": "Maximum year",
+  "arm5e.activity.current": "Season {current} of {total}",
+  "arm5e.activity.eventType": "Type of event",
   "arm5e.activity.activity": "Activity",
   "arm5e.activity.label": "Seasonal activities",
   "arm5e.activity.diary": "Diary",
@@ -1082,6 +1087,9 @@
   "arm5e.activity.msg.gainCapped": "The experience gain has been capped to {param}, the student will equal the master.",
   "arm5e.activity.msg.noTrainer": "No trainer selected",
   "arm5e.activity.msg.noTeacher": "No teacher selected",
+  "arm5e.activity.msg.scheduleConflict": "There is a schedule conflict.",
+  "arm5e.activity.msg.activityEndsInFuture": "Impossible to apply. This activity ends in the future",
+
   "arm5e.activity.title.adventuring": "Events of {season} {year}",
   "arm5e.activity.title.practice": "Practice of {skills}",
   "arm5e.activity.title.exposure": "Exposure to {skills}",
