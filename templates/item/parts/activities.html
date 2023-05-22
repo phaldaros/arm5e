@@ -49,13 +49,13 @@
       <div class="flexcol">
         <label class="header-label">{{localize "arm5e.activity.teacher.name"}}</label>
         <input type="text" name="system.teacher.name" value="{{system.teacher.name}}" data-dtype="String"
-          style="max-width: 220px;" {{system.canEditTeacher}}>
+          style="max-width: 220px;" {{system.canEditTeacher}} class="resource-focus">
         {{#if (eq system.activity "teaching")}} <label class="header-label">{{localize "arm5e.sheet.com"}}</label>
           <input type="number" name="system.teacher.com" value="{{system.teacher.com}}" data-dtype="Number"
-            style="max-width: 50px;" {{system.canEditTeacher}}>
+            style="max-width: 50px;" {{system.canEditTeacher}} class="resource-focus">
           <label class="header-label">{{localize "arm5e.skill.general.teaching"}}</label>
           <input type="number" name="system.teacher.teaching" value="{{system.teacher.teaching}}" data-dtype="Number"
-            style="max-width: 50px;" {{system.canEditTeacher}}>
+            style="max-width: 50px;" {{system.canEditTeacher}} class="resource-focus">
           <label class="header-label">{{localize "arm5e.sheet.speciality"}} ({{system.teacher.speciality}})</label>
           <input type="checkbox" name="system.teacher.applySpec" {{checked system.teacher.applySpec}}
             data-dtype="Boolean" {{system.disabled}} />
@@ -63,14 +63,13 @@
         {{#unless system.teacherLinked}}
           <label class="header-label">{{localize "arm5e.sheet.score"}}</label>
           <input type="number" class="score-teacher" name="system.teacher.score" value="{{system.teacher.score}}"
-            data-dtype="Number" style="max-width: 50px;" {{system.canEditTeacher}}>
+            data-dtype="Number" style="max-width: 50px;" {{system.canEditTeacher}} class="resource-focus">
         {{/unless}}
       </div>
       <div class="flexcol" style="text-align: center;">
         <label style="padding: 15px;">{{localize "arm5e.activity.drop.teacher"}}</label>
         {{#unless (eq system.teacher.id null)}}
-          <a class="break-link" title="Break link to teacher" data-applied="{{system.applied}}"><i class="fas fa-link"
-              style="font-size: 18pt;"></i></a>
+          <a class="break-link" title="Break link to teacher"><i class="fas fa-link" style="font-size: 18pt;"></i></a>
         {{/unless}}
       </div>
     </section>
@@ -90,8 +89,7 @@
           {{localize "arm5e.activity.msg.noAbility"}}
         {{else}}
           <a class="progress-control" data-action="add" data-type="abilities" data-default="{{system.defaultAbility}}"
-            data-applied="{{system.applied}}" data-teacherscore="{{system.teacherScore}}"><i
-              class="fas fa-plus"></i></a>
+            data-teacherscore="{{system.teacherScore}}"><i class="fas fa-plus"></i></a>
         {{/if}}
       </div>
     </header>
@@ -121,7 +119,7 @@
               {{#unless ../ui.showTeacher}}
                 <input type="number" name="system.progress.abilities.{{idx}}.xp" value="{{ability.xp}}"
                   data-dtype="Number" data-index="{{idx}}" data-type="abilities" {{@root.system.canEdit}}
-                  class="progress-xp flex0" style="width:50px" min="0" step="1" />
+                  class="progress-xp flex0 resource-focus" style="width:50px" min="0" step="1" />
               {{else}}
                 <input type="number" name="system.progress.abilities.{{idx}}.teacherScore"
                   value="{{ability.teacherScore}}" data-dtype="Number" data-index="{{idx}}" data-type="abilities"
@@ -132,8 +130,8 @@
               {{/unless}}
             </div>
             <div class="progress-controls">
-              <a class="progress-control" data-idx="{{idx}}" data-type="abilities" data-action="delete"
-                data-applied="{{../system.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+              <a class="progress-control" data-idx="{{idx}}" data-type="abilities" data-action="delete"><i
+                  class="icon-Icon_Delete_Hand_Gesture"></i></a>
             </div>
           </li>
         {{/each}}
@@ -153,8 +151,7 @@
           {{localize "arm5e.activity.msg.noArt"}}
         {{else}}
           <a class="progress-control" data-action="add" data-type="arts" data-default="{{system.defaultArt}}"
-            data-teacherscore="{{system.teacherScore}}" data-applied="{{system.applied}}"><i
-              class="fas fa-plus"></i></a>
+            data-teacherscore="{{system.teacherScore}}"><i class="fas fa-plus"></i></a>
         {{/if}}
       </div>
 
@@ -175,8 +172,8 @@
             <div class="xp">
               {{#unless ../ui.showTeacher}}
                 <input type="number" name="system.progress.arts.{{idx}}.xp" value="{{art.xp}}" data-dtype="Number"
-                  data-index="{{idx}}" data-type="arts" {{@root.system.canEdit}} class="progress-xp flex0"
-                  style="width:50px" min="0" step="1" />
+                  data-index="{{idx}}" data-type="arts" {{@root.system.canEdit}}
+                  class="progress-xp flex0 resource-focus" style="width:50px" min="0" step="1" />
               {{else}}
                 <input type="number" name="system.progress.arts.{{idx}}.teacherScore" value="{{art.teacherScore}}"
                   data-dtype="Number" data-index="{{idx}}" data-type="arts" readonly class="flex0" style="width:50px"
@@ -187,8 +184,8 @@
               {{/unless}}
             </div>
             <div class="progress-controls">
-              <a class="progress-control" data-idx="{{idx}}" data-type="arts" data-action="delete"
-                data-applied="{{../system.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+              <a class="progress-control" data-idx="{{idx}}" data-type="arts" data-action="delete"><i
+                  class="icon-Icon_Delete_Hand_Gesture"></i></a>
             </div>
           </li>
         {{/each}}
@@ -209,9 +206,8 @@
         {{#if (eq system.defaultSpellMastery "")}}
           {{localize "arm5e.activity.msg.noSpell"}}
         {{else}}
-          <a class="progress-control" data-action="add" data-type="spells" data-applied="{{system.applied}}"
-            data-teacherscore="{{system.teacherScore}}" data-default="{{system.defaultSpellMastery}}"><i
-              class="fas fa-plus"></i></a>
+          <a class="progress-control" data-action="add" data-type="spells" data-teacherscore="{{system.teacherScore}}"
+            data-default="{{system.defaultSpellMastery}}"><i class="fas fa-plus"></i></a>
         {{/if}}
       </div>
     </header>
@@ -238,8 +234,8 @@
             <div class="xp">
               {{#unless ../ui.showTeacher}}
                 <input type="number" name="system.progress.spells.{{idx}}.xp" value="{{spell.xp}}" data-dtype="Number"
-                  data-index="{{idx}}" data-type="spells" {{@root.system.canEdit}} class="progress-xp flex0"
-                  style="width:50px" min="0" step="1" />
+                  data-index="{{idx}}" data-type="spells" {{@root.system.canEdit}}
+                  class="progress-xp flex0 resource-focus" style="width:50px" min="0" step="1" />
               {{else}}
                 <input type="number" name="system.progress.spells.{{idx}}.teacherScore" value="{{spell.teacherScore}}"
                   data-dtype="Number" data-index="{{idx}}" data-type="spells" readonly class="flex0" style="width:50px"
@@ -250,8 +246,8 @@
               {{/unless}}
             </div>
             <div class="progress-controls">
-              <a class="progress-control" data-idx="{{idx}}" data-type="spells" data-action="delete"
-                data-applied="{{../system.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+              <a class="progress-control" data-idx="{{idx}}" data-type="spells" data-action="delete"><i
+                  class="icon-Icon_Delete_Hand_Gesture"></i></a>
             </div>
           </li>
         {{/each}}
@@ -274,8 +270,8 @@
                 <div class="flex01 flexrow">
                   <a class="item-control show-details flex0" title='{{localize "arm5e.generic.details"}}'
                     data-index="{{idx}}"><i class="icon-Icon_Read"></i></a>
-                  <a class="progress-control flex0" data-idx="{{idx}}" data-type="newSpells" data-action="delete"
-                    data-applied="{{../system.applied}}"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+                  <a class="progress-control flex0" data-idx="{{idx}}" data-type="newSpells" data-action="delete"><i
+                      class="icon-Icon_Delete_Hand_Gesture"></i></a>
                 </div>
               </div>
             </li>

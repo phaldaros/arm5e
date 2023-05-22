@@ -9,27 +9,23 @@
       <div class="flexrow">
         <div class="resource">
           <label>{{localize "arm5e.sheet.year"}}<input type="number" name="system.dates.0.year"
-              value="{{system.dates.0.year}}" data-dtype="Number" /></label>
+              value="{{firstSeason.year}}" class="resource-focus" data-dtype="Number"
+              {{@root.system.disabled}} /></label>
         </div>
         <div class="resource">
           <label>{{localize "arm5e.sheet.season"}}</label><select name="system.dates.0.season" data-type="String"
-            style="width: 100%">
-            {{#select system.dates.0.season}} {{#each config.seasons as |season key|}}
+            style="width: 100%" {{@root.system.disabled}}>
+            {{#select firstSeason.season}} {{#each config.seasons as |season key|}}
                 <option value="{{key}}">{{localize season.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
-        {{#unless (eq system.dates.length 1)}}
-          <a class="select-dates flex0" style="width:50px"><i class=" icon-Tool_Astrolab"></i></a>
-        {{/unless}}
       </div>
       <div class="grid grid-col">
 
         <div class="resource">
           <label>{{localize "arm5e.sheet.date"}}<input type="text" name="system.dates.0.date"
-              value="{{system.dates.0.date}}" data-dtype="String" /></label>
-          <input type="checkbox" name="system.dates.0.applied" hidden {{checked system.dates.0.applied}}
-            data-dtype="Boolean">
+              value="{{firstSeason.date}}" data-dtype="String" /></label>
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.activity.activity"}}</label>
@@ -41,6 +37,19 @@
               {{/each}} {{/select}}
           </select>
         </div>
+      </div>
+
+      <div class="flexrow">
+        <div class="flex01">
+          <label>{{localize "arm5e.sheet.duration"}}</label> <input type="number" name="system.duration"
+            value="{{system.duration}}" data-dtype="Number" readonly />
+        </div>
+        {{#unless system.done}}
+          <div class="resource">
+            <a class="select-dates flex0" style="width:50px"><i {{{astrolabIconStyle}}}
+                class=" icon-Tool_Astrolab"></i></a>
+          </div>
+        {{/unless}}
       </div>
     </div>
   </header>

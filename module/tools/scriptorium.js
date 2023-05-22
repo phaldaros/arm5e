@@ -133,25 +133,25 @@ export class Scriptorium extends FormApplication {
     context.reading.reader.name = reader.name;
     // get known languages
     context.reading.reader.languages = reader.system.abilities
-      .filter(e => {
+      .filter((e) => {
         return (
           (e.system.key === "livingLanguage" || e.system.key === "deadLanguage") &&
           e.system.finalScore >= 4
         );
       })
-      .map(lang => {
+      .map((lang) => {
         return { id: lang.id, name: lang.name, score: lang.system.finalScore };
       });
 
     // always get spell list to have at least one spell selected
     context.reading.reader.spells = reader.system.spells
-      .filter(s => {
+      .filter((s) => {
         return (
           s.system.technique.value === currentTopic.spellTech &&
           s.system.form.value === currentTopic.spellForm
         );
       })
-      .map(s => {
+      .map((s) => {
         return {
           id: s.id,
           name: s.name,
@@ -161,7 +161,7 @@ export class Scriptorium extends FormApplication {
       });
     switch (currentTopic.category) {
       case "ability": {
-        context.reading.reader.abilities = reader.system.abilities.map(a => {
+        context.reading.reader.abilities = reader.system.abilities.map((a) => {
           return {
             id: a.id,
             key: a.system.key,
@@ -178,15 +178,15 @@ export class Scriptorium extends FormApplication {
           };
         });
 
-        let filteredAbilities = context.reading.reader.abilities.filter(a => a.score < maxLevel);
+        let filteredAbilities = context.reading.reader.abilities.filter((a) => a.score < maxLevel);
         // does the reader has the book topic ability?
         let abilityId = context.reading.reader.abilities.find(
-          a => a.key == currentTopic.key && a.option == currentTopic.option
+          (a) => a.key == currentTopic.key && a.option == currentTopic.option
         )?.id;
 
         if (abilityId) {
           // is the reader low skilled enough?
-          if (filteredAbilities.find(a => a.id == abilityId)) {
+          if (filteredAbilities.find((a) => a.id == abilityId)) {
             context.reading.reader.ability = abilityId;
           } else {
             context.ui.editItem = "disabled";
@@ -197,7 +197,7 @@ export class Scriptorium extends FormApplication {
           context.reading.reader.abilities = filteredAbilities;
         } else {
           // check if the ability is not found because of the option field
-          filteredAbilities = filteredAbilities.filter(a => a.key == currentTopic.key);
+          filteredAbilities = filteredAbilities.filter((a) => a.key == currentTopic.key);
           if (filteredAbilities.length > 0) {
             context.ui.warning = "arm5e.scriptorium.msg.whichItem";
             context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
@@ -277,6 +277,7 @@ export class Scriptorium extends FormApplication {
           dates: [{ season: objectData.season, year: Number(objectData.year), applied: false }],
           sourceQuality: topic.quality,
           activity: "reading",
+          done: false,
           progress: {
             abilities: [],
             arts: [],
@@ -301,7 +302,7 @@ export class Scriptorium extends FormApplication {
     switch (topic.category) {
       case "ability":
         if (topic.type == "Summa") {
-          let ab = reader.system.abilities.find(a => {
+          let ab = reader.system.abilities.find((a) => {
             return a._id === dataset.abilityId;
           });
           objectData.ui = {};
@@ -343,7 +344,7 @@ export class Scriptorium extends FormApplication {
         });
         break;
       case "mastery":
-        let readerSpell = reader.system.spells.find(s => s.id === dataset.spellId);
+        let readerSpell = reader.system.spells.find((s) => s.id === dataset.spellId);
         entryData[0].system.progress.spells.push({
           id: dataset.spellId,
           name: readerSpell.name,
@@ -473,9 +474,7 @@ export class Scriptorium extends FormApplication {
   async _changeBookTopic(event) {
     event.preventDefault();
     const index = event.currentTarget.dataset.index;
-    let chosenTopic = $(".book-topic")
-      .find("option:selected")
-      .val();
+    let chosenTopic = $(".book-topic").find("option:selected").val();
     const readingData = { book: { system: { topics: { [index]: {} } } } };
     let bookInfo = readingData.book.systen.topics[index];
     if (chosenTopic === "ability") {
@@ -540,7 +539,7 @@ export class Scriptorium extends FormApplication {
     switch (currentTopic.category) {
       case "ability": {
         if (currentTopic.type === "Summa") {
-          let ab = reader.system.abilities.find(a => {
+          let ab = reader.system.abilities.find((a) => {
             return a._id === context.reading.reader.ability;
           });
           if (ab?.system.finalscore >= currentTopic.level) {

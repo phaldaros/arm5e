@@ -26,7 +26,7 @@ export const baseLevel = () =>
     step: 1
   });
 
-const migrateMagicalItem = itemData => {
+const migrateMagicalItem = (itemData) => {
   const updateData = {};
 
   if (typeof itemData.system.baseLevel != "number") {
@@ -294,6 +294,24 @@ export class SpellSchema extends foundry.abstract.DataModel {
       general: boolOption(),
       levelOffset: ModifierField()
     };
+  }
+
+  // static getDefault(itemData) {
+  //   let res = itemData;
+
+  //   return res;
+  // }
+
+  static getIcon(item, newValue = null) {
+    if (newValue != null) {
+      return `systems/arm5e/assets/magic/${newValue}.png`;
+    } else {
+      let init = "an";
+      if (item.system?.form?.value !== undefined) {
+        init = item.system.form.value;
+      }
+      return `systems/arm5e/assets/magic/${init}.png`;
+    }
   }
 
   async _increaseScore() {

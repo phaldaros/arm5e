@@ -1,4 +1,4 @@
-import { ARM5E, ARM5E_DEFAULT_ICONS } from "../config.js";
+import { ARM5E } from "../config.js";
 import {
   compareBaseEffects,
   compareSpells,
@@ -449,7 +449,7 @@ export class ArM5ePCActor extends Actor {
     }
 
     if (system.abilities) {
-      system.abilities = abilities.sort(function(e1, e2) {
+      system.abilities = abilities.sort(function (e1, e2) {
         return e1.name.localeCompare(e2.name);
       });
     }
@@ -642,7 +642,7 @@ export class ArM5ePCActor extends Actor {
             parseInt(totalFlaws) + parseInt(ARM5E.impacts[item.system.impact.value].cost);
         }
       } else if (item.type === "diaryEntry") {
-        if (item.system.duration != item.system.done) {
+        if (item.system.done) {
           pendingXps += item.system.sourceQuality;
         }
         diaryEntries.push(item);
@@ -782,12 +782,12 @@ export class ArM5ePCActor extends Actor {
     if (this.type === "player" || this.type === "npc") {
       if (system.covenant?.value) {
         let covenants = game.actors
-          .filter(a => a.type == "covenant")
+          .filter((a) => a.type == "covenant")
           .map(({ name, id }) => ({
             name,
             id
           }));
-        let cov = covenants.filter(c => c.name == system.covenant.value);
+        let cov = covenants.filter((c) => c.name == system.covenant.value);
         if (cov.length > 0) {
           system.covenant.linked = true;
           system.covenant.actorId = cov[0].id;
@@ -803,13 +803,13 @@ export class ArM5ePCActor extends Actor {
       // check whether the character is linked to an existing lab
       if (system.sanctum?.value) {
         let labs = game.actors
-          .filter(a => a.type == "laboratory")
+          .filter((a) => a.type == "laboratory")
           .map(({ name, id }) => ({
             name,
             id
           }));
 
-        let lab = labs.filter(c => c.name == system.sanctum.value);
+        let lab = labs.filter((c) => c.name == system.sanctum.value);
         if (lab.length > 0) {
           system.sanctum.linked = true;
           system.sanctum.actorId = lab[0].id;
@@ -991,7 +991,7 @@ export class ArM5ePCActor extends Actor {
     system.totalVirtues = totalVirtues;
     system.totalFlaws = totalFlaws;
 
-    var baseSafetyEffect = this.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+    var baseSafetyEffect = this.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
     if (baseSafetyEffect != null && baseSafetyEffect.changes[0].value != String(baseSafety)) {
       let changes = duplicate(baseSafetyEffect.changes);
       changes[0].value = String(baseSafety);
@@ -1000,13 +1000,13 @@ export class ArM5ePCActor extends Actor {
 
     if (system.covenant?.value) {
       let covenants = game.actors
-        .filter(a => a.type == "covenant")
+        .filter((a) => a.type == "covenant")
         .map(({ name, id }) => ({
           name,
           id
         }));
 
-      let cov = covenants.filter(c => c.name == system.covenant.value);
+      let cov = covenants.filter((c) => c.name == system.covenant.value);
       if (cov.length > 0) {
         system.covenant.linked = true;
         system.covenant.actorId = cov[0].id;
@@ -1020,12 +1020,12 @@ export class ArM5ePCActor extends Actor {
     // check whether the character is linked to an existing lab
     if (system.owner?.value) {
       let characters = game.actors
-        .filter(a => a.type == "player" || a.type == "npc")
+        .filter((a) => a.type == "player" || a.type == "npc")
         .map(({ name, id }) => ({
           name,
           id
         }));
-      let char = characters.filter(c => c.name == system.owner.value);
+      let char = characters.filter((c) => c.name == system.owner.value);
       if (char.length > 0) {
         system.owner.linked = true;
         system.owner.actorId = char[0].id;
@@ -1340,7 +1340,7 @@ export class ArM5ePCActor extends Actor {
       return null;
     }
     let ability = this.system.abilities.filter(
-      val => val.system.key == abilityKey && val.system.option == abilityOption
+      (val) => val.system.key == abilityKey && val.system.option == abilityOption
     );
 
     if (ability.length) {
@@ -1539,18 +1539,27 @@ export class ArM5ePCActor extends Actor {
   async _preCreate(data, options, userId) {
     await super._preCreate(data, options, userId);
     log(false, `_preCreate: _id = ${this._id}`);
-    if (data.img === undefined) {
+    let toUpdate = false;
+    if (CONFIG.Actor.systemDataModels[data.type]?.getDefault) {
+      data = CONFIG.Actor.systemDataModels[data.type].getDefault(data);
+      toUpdate = true;
+    }
+
+    if (CONFIG.Actor.systemDataModels[data.type]?.getIcon) {
+      data.img = CONFIG.Actor.systemDataModels[data.type].getIcon(data);
+      toUpdate = true;
+    } else if (data.img === undefined || data.img === "icons/svg/mystery-man.svg") {
       if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
-        const img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
-        if (img)
-          await this.updateSource({
-            img
-          });
+        data.img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
+        toUpdate = true;
       }
     }
+
+    if (toUpdate) await this.updateSource(data);
+
     if (this.type == "laboratory") {
       let effectsData = this.effects.contents;
-      var baseSafetyEffect = this.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
+      var baseSafetyEffect = this.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
       if (!baseSafetyEffect) {
         // TODO put that data structure elsewhere (during lab activities implementation)
         effectsData.push({
@@ -1724,13 +1733,13 @@ export class ArM5ePCActor extends Actor {
     if (key == "") return false;
 
     return (
-      this.system.abilities.find(e => e.system.key == key && e.system.option == "") != undefined
+      this.system.abilities.find((e) => e.system.key == key && e.system.option == "") != undefined
     );
   }
 
   getAbilityStats(key, option = "") {
     const ability = this.system.abilities.find(
-      e => e.system.key == key && e.system.option == option
+      (e) => e.system.key == key && e.system.option == option
     );
     if (ability) {
       return { score: ability.system.finalScore, speciality: ability.system.speciality };
@@ -1739,7 +1748,7 @@ export class ArM5ePCActor extends Actor {
   }
 
   getSpellMasteryStats(spellId) {
-    const spell = this.system.spell.find(e => e.id == spellId);
+    const spell = this.system.spell.find((e) => e.id == spellId);
     if (spell) {
       return {
         score: spell.system.mastery,
@@ -1790,5 +1799,71 @@ export class ArM5ePCActor extends Actor {
     await this.update({
       system: { might: { points: this.system.might.points + amount } }
     });
+  }
+
+  // IDEA: check if the sheet is not null and filter the system activities instead.
+  getSchedule(min, max, excludedActivities = [], excludedIds = [], season) {
+    let res = [];
+    const activitiesMap = new Map();
+    for (let entry of this.system.diaryEntries) {
+      if (!excludedIds.includes(entry._id) && !excludedActivities.includes(entry.system.activity)) {
+        for (let date of entry.system.dates) {
+          if (date.year >= min && date.year <= max) {
+            if (min == max) {
+              if (season && date.season == season) {
+                if (!activitiesMap.has(date.year)) {
+                  activitiesMap.set(date.year, { winter: [], autumn: [], summer: [], spring: [] });
+                }
+                activitiesMap.get(date.year)[date.season].push({
+                  id: entry._id,
+                  img: entry.img,
+                  name: entry.name,
+                  applied: date.applied,
+                  type: entry.system.activity,
+                  date: date.date
+                });
+              }
+            } else {
+              if (!activitiesMap.has(date.year)) {
+                activitiesMap.set(date.year, { winter: [], autumn: [], summer: [], spring: [] });
+              }
+              activitiesMap.get(date.year)[date.season].push({
+                id: entry._id,
+                img: entry.img,
+                name: entry.name,
+                applied: date.applied,
+                type: entry.system.activity,
+                date: date.date
+              });
+            }
+          }
+        }
+      }
+    }
+    // return Object.fromEntries(activitiesMap.entries());
+    return Array.from(
+      new Map(
+        [...activitiesMap.entries()].sort(function (a, b) {
+          return b[0] - a[0];
+        })
+      ),
+      ([key, value]) => ({
+        year: key,
+        seasons: value
+      })
+    );
+  }
+
+  isBusy(year, season, excludedActivities = [], excludedIds = []) {
+    for (let entry of this.system.diaryEntries) {
+      if (!excludedIds.includes(entry._id) && !excludedActivities.includes(entry.system.activity)) {
+        for (let date of entry.system.dates) {
+          if (date.year == year && date.season == season) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

@@ -26,6 +26,13 @@ const TOPIC_FILTER = {
   expanded: false
 };
 
+const TIME_FILTER = {
+  minYearFilter: 0,
+  maxYearFilter: 0,
+  typeFilter: "",
+  expanded: false
+};
+
 function updateUserCache(actorId, category, list, key, value) {
   let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
 
@@ -45,4 +52,11 @@ function clearUserCache() {
   ui.notifications.info("User cache has been reset.");
 }
 
-export { TOPIC_FILTER, HERMETIC_FILTER, HERMETIC_TOPIC_FILTER, updateUserCache, clearUserCache };
+export {
+  TOPIC_FILTER,
+  HERMETIC_FILTER,
+  HERMETIC_TOPIC_FILTER,
+  TIME_FILTER,
+  updateUserCache,
+  clearUserCache
+};

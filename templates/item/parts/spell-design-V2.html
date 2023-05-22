@@ -94,13 +94,13 @@
       <div class="resource">
         <label class="header-label">Base level</label>
         <input style="max-width: 70px;" type="number" name="{{prefix}}.system.baseLevel" size="4"
-          value="{{spelldata.system.baseLevel}}" data-dtype="Number" {{edition.spellField}} />
+          value="{{spelldata.system.baseLevel}}" class="resource-focus" data-dtype="Number" {{edition.spellField}} />
       </div>
       <div class="resource">
         {{#if spelldata.system.general}}
           <label class="header-label">{{localize "arm5e.spell.effect.levelOffset"}}</label>
           <input type="number" name="{{prefix}}.system.levelOffset" value="{{spelldata.system.levelOffset}}"
-            data-dtype="Number" style="max-width: 40px;" {{edition.spellField}} />
+            class="resource-focus" data-dtype="Number" style="max-width: 40px;" {{edition.spellField}} />
         {{/if}}
       </div>
     </div>
@@ -116,17 +116,17 @@
       <div class="resource">
         <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
         <input type="number" name="{{prefix}}.system.targetSize" value="{{spelldata.system.targetSize}}"
-          data-dtype="Number" {{edition.spellField}} />
+          class="resource-focus" data-dtype="Number" {{edition.spellField}} />
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
         <input type="number" name="{{prefix}}.system.complexity" value="{{spelldata.system.complexity}}"
-          data-dtype="Number" {{edition.spellField}} />
+          class="resource-focus" data-dtype="Number" {{edition.spellField}} />
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
         <input type="number" name="{{prefix}}.system.enhancingRequisite" value="{{spelldata.system.enhancingRequisite}}"
-          data-dtype="Number" {{edition.spellField}} />
+          class="resource-focus" data-dtype="Number" {{edition.spellField}} />
       </div>
       <div class="resource">
         <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>

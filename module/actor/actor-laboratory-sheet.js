@@ -5,10 +5,11 @@ import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 import { ArM5eItem } from "../item/item.js";
-import { getDataset, log } from "../tools.js";
+import { getDataset, log, nextDate } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { ArM5eItemDiarySheet } from "../item/item-diary-sheet.js";
-import { HERMETIC_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
+import { HERMETIC_FILTER, TIME_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
+import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 /**
  * Extend the basic ArM5eActorSheet with some very simple modifications
  * @extends {ArM5eActorSheet}
@@ -52,6 +53,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             abilitiesTopics: TOPIC_FILTER,
             artsTopics: TOPIC_FILTER,
             masteriesTopics: HERMETIC_FILTER
+          },
+          events: {
+            diaryEvents: TIME_FILTER
           }
         }
       };
@@ -83,13 +87,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     // Covenant
     context.system.world = {};
     context.system.world.covenants = game.actors
-      .filter(a => a.type == "covenant")
+      .filter((a) => a.type == "covenant")
       .map(({ name, id }) => ({
         name,
         id
       }));
     if (context.system.covenant) {
-      let cov = context.system.world.covenants.filter(c => c.name == context.system.covenant.value);
+      let cov = context.system.world.covenants.filter(
+        (c) => c.name == context.system.covenant.value
+      );
       if (cov.length > 0) {
         context.system.covenant.linked = true;
         context.system.covenant.actorId = cov[0].id;
@@ -105,13 +111,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     }
     // Owner
     context.system.world.magi = game.actors
-      .filter(a => a._isMagus() === true)
+      .filter((a) => a._isMagus() === true)
       .map(({ name, id }) => ({
         name,
         id
       }));
     if (context.system.world.magi.length > 0) {
-      let per = context.system.world.magi.filter(p => p.name == context.system.owner.value);
+      let per = context.system.world.magi.filter((p) => p.name == context.system.owner.value);
       if (per.length > 0) {
         context.system.owner.linked = true;
         context.system.owner.actorId = per[0].id;
@@ -354,8 +360,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     });
 
-    html.find(".lab-activity").change(async event => this._changeActivity(this.actor, event));
-    html.find(".reset-planning").click(async event => {
+    html.find(".lab-activity").change(async (event) => this._changeActivity(this.actor, event));
+    html.find(".reset-planning").click(async (event) => {
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
       event.preventDefault();
       this._resetPlanning(planning.type);
@@ -363,7 +369,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     });
     html.find(".refresh").click(this._refreshValues.bind(this));
     html.find(".schedule").click(async () => this._schedule());
-    html.find(".moreinfo").click(async ev => {
+    html.find(".moreinfo").click(async (ev) => {
       const actorId = $(ev.currentTarget).data("id");
       game.actors.get(actorId).sheet.render(true);
     });
@@ -426,6 +432,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
 
     let owner = game.actors.get(this.actor.system.owner.actorId);
+    let applied = false;
+    let dates = DiaryEntrySchema.buildSchedule(
+      planning.duration,
+      planning.date.year,
+      planning.date.season
+    );
+
     const labLog = [
       {
         name: game.i18n.format("arm5e.activity.title.labinuse", {
@@ -434,17 +447,18 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         }),
         type: "diaryEntry",
         system: {
-          dates: [{ season: planning.date.season, year: planning.date.year, applied: true }],
+          dates: dates,
           activity: "lab",
-          duration: 1,
-          description: ""
+          duration: planning.duration,
+          description: "",
+          done: false
         }
       }
     ];
     let log = await this.actor.createEmbeddedDocuments("Item", labLog, {});
-    let externalIds = [{ actorId: this.actor._id, itemId: log[0]._id }];
+    let externalIds = [{ actorId: this.actor._id, itemId: log[0]._id, flags: 2 }];
     let sourceQuality = 0;
-    let applied = false;
+
     switch (planning.type) {
       case "inventSpell":
       case "learnSpell":
@@ -475,10 +489,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         name: game.i18n.localize(CONFIG.ARM5E.activities.lab[planning.type].label),
         type: "diaryEntry",
         system: {
+          done: false,
           cappedGain: false,
-          dates: [
-            { season: planning.date.season, date: "", year: planning.date.year, applied: applied }
-          ],
+          dates: dates,
           sourceQuality: sourceQuality,
           activity: planning.type,
           progress: {
@@ -488,7 +501,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             newSpells: []
           },
           optionKey: "standard",
-          duration: 1,
+          duration: planning.duration,
           description: `${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
             planning.labTotal.score
           }</b> <br/> ${planning.labTotal.label}`,

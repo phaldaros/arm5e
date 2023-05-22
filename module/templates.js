@@ -43,6 +43,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function() {
     "systems/arm5e/templates/actor/parts/actor-covenantCalendar.html",
     "systems/arm5e/templates/actor/parts/hermeticFilter.hbs",
     "systems/arm5e/templates/actor/parts/topicFilter.hbs",
+    "systems/arm5e/templates/actor/parts/timeFilter.hbs",
 
     "systems/arm5e/templates/actor/parts/crucible-magic-item.html",
     "systems/arm5e/templates/actor/parts/crucible-enchantment.html",

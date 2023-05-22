@@ -14,12 +14,14 @@ import {
   putInFoldableLinkWithAnimation,
   compareLabTexts,
   topicFilter,
-  hermeticTopicFilter
+  hermeticTopicFilter,
+  diaryEntryFilter
 } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import {
   HERMETIC_FILTER,
   HERMETIC_TOPIC_FILTER,
+  TIME_FILTER,
   TOPIC_FILTER,
   updateUserCache
 } from "../constants/userdata.js";
@@ -36,6 +38,7 @@ import {
 import { spellTechniqueLabel, spellFormLabel } from "../helpers/spells.js";
 import { computeCombatStats, quickCombat, quickVitals } from "../helpers/combat.js";
 import { quickMagic } from "../helpers/magic.js";
+import { UI } from "../constants/ui.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -148,6 +151,9 @@ export class ArM5eActorSheet extends ActorSheet {
             abilitiesTopics: TOPIC_FILTER,
             artsTopics: TOPIC_FILTER,
             masteriesTopics: HERMETIC_TOPIC_FILTER
+          },
+          events: {
+            diaryEvents: TIME_FILTER
           }
         }
       };
@@ -211,7 +217,7 @@ export class ArM5eActorSheet extends ActorSheet {
         (artsFilters.levelFilter != 0 && artsFilters.levelFilter != null) ||
         (artsFilters.qualityFilter != 0 && artsFilters.qualityFilter != null)
       ) {
-        context.ui.artsTopicsFilter = 'style="text-shadow: 0 0 5px maroon"';
+        context.ui.artsTopicsFilter = UI.STYLES.FILTER_ACTIVE;
       }
 
       // 1. Filter
@@ -234,10 +240,10 @@ export class ArM5eActorSheet extends ActorSheet {
         (abilitiesFilters.levelFilter != 0 && abilitiesFilters.levelFilter != null) ||
         (abilitiesFilters.qualityFilter != 0 && abilitiesFilters.qualityFilter != null)
       ) {
-        context.ui.abilitiesTopicsFilter = 'style="text-shadow: 0 0 5px maroon"';
+        context.ui.abilitiesTopicsFilter = UI.STYLES.FILTER_ACTIVE;
       }
 
-      // 1. Filter
+      //  Filter
       // masteries
       let masteriesFilters = context.userData.filters.bookTopics.masteriesTopics;
       log(false, "Masteries filter: " + JSON.stringify(masteriesFilters));
@@ -255,7 +261,7 @@ export class ArM5eActorSheet extends ActorSheet {
         masteriesFilters.techniqueFilter != "" ||
         (masteriesFilters.levelFilter != 0 && masteriesFilters.levelFilter != null)
       ) {
-        context.ui.masteriesTopicsFilter = 'style="text-shadow: 0 0 5px maroon"';
+        context.ui.masteriesTopicsFilter = UI.STYLES.FILTER_ACTIVE;
       }
     }
 
@@ -270,14 +276,14 @@ export class ArM5eActorSheet extends ActorSheet {
 
       // check whether the character is linked to an existing covenant
       context.system.world.covenants = game.actors
-        .filter(a => a.type == "covenant")
+        .filter((a) => a.type == "covenant")
         .map(({ name, id }) => ({
           name,
           id
         }));
       if (context.system.covenant) {
         let cov = context.system.world.covenants.filter(
-          c => c.name == context.system.covenant.value
+          (c) => c.name == context.system.covenant.value
         );
         if (cov.length > 0) {
           context.system.covenant.linked = true;
@@ -294,7 +300,7 @@ export class ArM5eActorSheet extends ActorSheet {
         // Arts icons style
         context.artsIcons = game.settings.get("arm5e", "artsIcons");
         context.system.world.labs = game.actors
-          .filter(a => a.type == "laboratory")
+          .filter((a) => a.type == "laboratory")
           .map(({ name, id }) => ({
             name,
             id
@@ -302,7 +308,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
         // check whether the character is linked to an existing lab
         if (context.system.sanctum) {
-          let lab = context.system.world.labs.filter(c => c.name == context.system.sanctum.value);
+          let lab = context.system.world.labs.filter((c) => c.name == context.system.sanctum.value);
           if (lab.length > 0) {
             context.system.sanctum.linked = true;
             context.system.sanctum.actorId = lab[0].id;
@@ -387,7 +393,7 @@ export class ArM5eActorSheet extends ActorSheet {
           spellsFilters.techniqueFilter != "" ||
           (spellsFilters.levelFilter != 0 && spellsFilters.levelFilter != null)
         ) {
-          context.ui.spellFilter = 'style="text-shadow: 0 0 5px maroon"';
+          context.ui.spellFilter = UI.STYLES.FILTER_ACTIVE;
         }
 
         // magical effects
@@ -406,7 +412,7 @@ export class ArM5eActorSheet extends ActorSheet {
           magicEffectFilters.techniqueFilter != "" ||
           (magicEffectFilters.levelFilter != 0 && magicEffectFilters.levelFilter != null)
         ) {
-          context.ui.magicEffectFilter = 'style="text-shadow: 0 0 5px maroon"';
+          context.ui.magicEffectFilter = UI.STYLES.FILTER_ACTIVE;
         }
         // 2. Sort (not needed since done in prepareData?)
         // context.system.spells = context.system.spells.sort(compareSpells);
@@ -416,24 +422,24 @@ export class ArM5eActorSheet extends ActorSheet {
         for (let [key, technique] of Object.entries(context.system.arts.techniques)) {
           if (technique.deficient) {
             technique.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px darkslateblue"',
+              style: UI.STYLES.DEFICIENT_ART,
               title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.deficiency")
             };
           } else if (!technique.bonus && technique.xpCoeff == 1.0) {
-            technique.ui = { style: 'style="border: 0px; height: 40px;"' };
+            technique.ui = { style: UI.STYLES.STANDARD_ART };
           } else if (!technique.bonus && technique.xpCoeff != 1.0) {
             technique.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"',
+              style: UI.STYLES.AFINITY_ART,
               title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           } else if (technique.bonus && technique.xpCoeff == 1.0) {
             technique.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"',
+              style: UI.STYLES.PUISSANT_ART,
               title: ""
             };
           } else {
             technique.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
+              style: UI.STYLES.COMBO_ART,
               title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           }
@@ -446,24 +452,24 @@ export class ArM5eActorSheet extends ActorSheet {
         for (let [key, form] of Object.entries(context.system.arts.forms)) {
           if (form.deficient) {
             form.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px darkslateblue"',
+              style: UI.STYLES.DEFICIENT_ART,
               title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.deficiency")
             };
           } else if (!form.bonus && form.xpCoeff == 1.0) {
-            form.ui = { style: 'style="border: 0px; height: 40px;"' };
+            form.ui = { style: UI.STYLES.STANDARD_ART };
           } else if (!form.bonus && form.xpCoeff != 1.0) {
             form.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px maroon"',
+              style: UI.STYLES.AFINITY_ART,
               title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           } else if (form.bonus && form.xpCoeff == 1.0) {
             form.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px blue"',
+              style: UI.STYLES.PUISSANT_ART,
               title: ""
             };
           } else {
             form.ui = {
-              style: 'style="border: 0px; height: 40px; box-shadow: 0 0 10px purple"',
+              style: UI.STYLES.COMBO_ART,
               title: game.i18n.localize("arm5e.sheet.activeEffect.types.arts.affinity")
             };
           }
@@ -559,11 +565,11 @@ export class ArM5eActorSheet extends ActorSheet {
           // ui related stuff
           ab.ui = { style: "" };
         } else if (ab.system.derivedScore == ab.system.finalScore && ab.system.xpCoeff != 1.0) {
-          ab.ui = { style: 'style="box-shadow: 0 0 10px maroon"', title: "Affinity, " };
+          ab.ui = { style: UI.STYLES.AFFINITY_ABILITY, title: "Affinity, " };
         } else if (ab.system.derivedScore != ab.system.finalScore && ab.system.xpCoeff == 1.0) {
-          ab.ui = { style: 'style="box-shadow: 0 0 10px blue"', title: "" };
+          ab.ui = { style: UI.STYLES.PUISSANT_ABILITY, title: "" };
         } else {
-          ab.ui = { style: 'style="box-shadow: 0 0 10px purple"', title: "Affinity, " };
+          ab.ui = { style: UI.STYLES.COMBO_ABILITY, title: "Affinity, " };
         }
       }
       // let flag = this.actor.getFlag("arm5e", "sorting", "abilities");
@@ -595,17 +601,44 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     if (context.system.diaryEntries) {
-      context.activities = [];
+      //  Filter
+      // activities
+      let diaryFilters = context.userData.filters.events.diaryEvents;
+      log(false, "Events filter: " + JSON.stringify(diaryFilters));
+      let diaryCopy = foundry.utils.deepClone(context.system.diaryEntries);
+      let filteredActivities = diaryEntryFilter(diaryFilters, diaryCopy);
+      if (diaryFilters.expanded) {
+        context.ui.diaryFilterVisibility = "";
+      } else {
+        context.ui.diaryFilterVisibility = "hidden";
+      }
+      if (
+        diaryFilters.typeFilter != "" ||
+        (diaryFilters.minYearFilter != 0 && diaryFilters.minYearFilter != null) ||
+        (diaryFilters.maxYearFilter != 0 && diaryFilters.maxYearFilter != null)
+      ) {
+        context.ui.diaryFilter = UI.STYLES.FILTER_ACTIVE;
+      }
+
       const activitiesMap = new Map();
-      for (let [key, entry] of Object.entries(context.system.diaryEntries)) {
+      for (let entry of filteredActivities) {
+        let step = 1;
         for (let date of entry.system.dates) {
           let activity = {};
-          if (entry.system.duration == entry.system.done || entry.system.activity == "none") {
+          if (entry.system.done || entry.system.activity == "none") {
             activity.ui = { diary: 'style="font-style: normal;"' };
           } else {
             activity.ui = { diary: 'style="font-style: italic;"' };
           }
-          activity.name = entry.name;
+
+          if (entry.system.dates.length > 1) {
+            // TODO localize
+            activity.name = `${entry.name} (${step} of ${entry.system.dates.length})`;
+          } else {
+            activity.name = entry.name;
+          }
+          step++;
+          activity.img = entry.img;
           activity.type = game.i18n.localize(
             CONFIG.ARM5E.activities.generic[entry.system.activity].label
           );
@@ -618,9 +651,9 @@ export class ArM5eActorSheet extends ActorSheet {
           activitiesMap.get(date.year)[date.season].push(activity);
         }
       }
-      context.activities = Array.from(
+      context.system.activities = Array.from(
         new Map(
-          [...activitiesMap.entries()].sort(function(a, b) {
+          [...activitiesMap.entries()].sort(function (a, b) {
             return b[0] - a[0];
           })
         ),
@@ -658,12 +691,11 @@ export class ArM5eActorSheet extends ActorSheet {
         labtTextFilters.techniqueFilter != "" ||
         (labtTextFilters.levelFilter != 0 && labtTextFilters.levelFilter != null)
       ) {
-        context.ui.labTextFilter = 'style="text-shadow: 0 0 5px maroon"';
+        context.ui.labTextFilter = UI.STYLES.FILTER_ACTIVE;
       }
       // 2. Sort
-      context.system.filteredLaboratoryTexts = context.system.filteredLaboratoryTexts.sort(
-        compareLabTexts
-      );
+      context.system.filteredLaboratoryTexts =
+        context.system.filteredLaboratoryTexts.sort(compareLabTexts);
     }
     context.isGM = game.user.isGM;
 
@@ -730,18 +762,18 @@ export class ArM5eActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find(".ability-category").click(async ev => {
+    html.find(".ability-category").click(async (ev) => {
       const category = $(ev.currentTarget).data("category");
       document.getElementById(category).classList.toggle("hide");
       // let tmp2 = tmp.toggle("hide");
     });
 
-    html.find(".book-topic").click(async ev => {
+    html.find(".book-topic").click(async (ev) => {
       const category = $(ev.currentTarget).data("topic");
       document.getElementById(category).classList.toggle("hide");
     });
 
-    html.find(".planning-item").click(async ev => {
+    html.find(".planning-item").click(async (ev) => {
       const category = $(ev.currentTarget).data("item");
       const persist = $(ev.currentTarget).data("persist");
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
@@ -764,7 +796,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // });
 
     // filters
-    html.find(".toggleHidden").click(async ev => {
+    html.find(".toggleHidden").click(async (ev) => {
       const dataset = getDataset(ev);
       const tmp = html.find(`.${dataset.list}`).attr("class");
       const val = tmp.indexOf("hidden");
@@ -772,7 +804,7 @@ export class ArM5eActorSheet extends ActorSheet {
       html.find(`.${dataset.list}`).toggleClass("hidden");
     });
 
-    html.find(".topic-filter").change(async ev => {
+    html.find(".topic-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
@@ -780,7 +812,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".type-filter").change(async ev => {
+    html.find(".type-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
@@ -788,7 +820,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".technique-filter").change(async ev => {
+    html.find(".technique-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
@@ -796,7 +828,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".form-filter").change(async ev => {
+    html.find(".form-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
@@ -804,7 +836,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".levelOperator-filter").change(async ev => {
+    html.find(".levelOperator-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
@@ -812,7 +844,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".level-filter").change(async ev => {
+    html.find(".level-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
@@ -820,7 +852,7 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".qualityOperator-filter").change(async ev => {
+    html.find(".qualityOperator-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
@@ -828,15 +860,30 @@ export class ArM5eActorSheet extends ActorSheet {
       this.render();
     });
 
-    html.find(".quality-filter").change(async ev => {
+    html.find(".quality-filter").change(async (ev) => {
       ev.preventDefault();
       const dataset = getDataset(ev);
       const val = ev.target.value;
       updateUserCache(this.actor.id, dataset.category, dataset.list, "qualityFilter", val);
       this.render();
     });
+    html.find(".minyear-filter").change(async (ev) => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      const val = ev.target.value;
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "minYearFilter", val);
+      this.render();
+    });
 
-    html.find(".sortable").click(ev => {
+    html.find(".maxyear-filter").change(async (ev) => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      const val = ev.target.value;
+      updateUserCache(this.actor.id, dataset.category, dataset.list, "maxYearFilter", val);
+      this.render();
+    });
+
+    html.find(".sortable").click((ev) => {
       const listName = ev.currentTarget.dataset.list;
       let val = this.actor.getFlag("arm5e", "sorting");
       if (val === undefined) {
@@ -850,7 +897,7 @@ export class ArM5eActorSheet extends ActorSheet {
       }
     });
 
-    html.find(".vis-study").click(async ev => {
+    html.find(".vis-study").click(async (ev) => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       if (!this.actor._isMagus()) return;
@@ -867,7 +914,7 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".item-create").click(this._onItemCreate.bind(this));
 
     // Update Inventory Item
-    html.find(".item-edit").click(ev => {
+    html.find(".item-edit").click((ev) => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       // const item = this.actor.items.get(li.data("itemId"))
@@ -875,7 +922,7 @@ export class ArM5eActorSheet extends ActorSheet {
     });
 
     // Update Inventory Item
-    html.find(".book-edit").click(async ev => {
+    html.find(".book-edit").click(async (ev) => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       await item.setFlag("arm5e", "currentBookTopic", Number(li.data("index")));
@@ -884,26 +931,31 @@ export class ArM5eActorSheet extends ActorSheet {
       // item.sheet._tabs[0].activate("topics");
     });
 
-    html.find(".increase-tech").click(event => {
+    html.find(".increase-tech").click((event) => {
       const element = $(event.currentTarget).parents(".art");
       this._increaseArt("techniques", element[0].dataset.attribute);
     });
-    html.find(".decrease-tech").click(event => {
+    html.find(".decrease-tech").click((event) => {
       const element = $(event.currentTarget).parents(".art");
       this._deccreaseArt("techniques", element[0].dataset.attribute);
     });
 
-    html.find(".increase-form").click(event => {
+    html.find(".increase-form").click((event) => {
       const element = $(event.currentTarget).parents(".art");
       this._increaseArt("forms", element[0].dataset.attribute);
     });
-    html.find(".decrease-form").click(event => {
+    html.find(".decrease-form").click((event) => {
       const element = $(event.currentTarget).parents(".art");
       this._deccreaseArt("forms", element[0].dataset.attribute);
     });
 
+    html.find(".resource-focus").focus((ev) => {
+      ev.preventDefault();
+      ev.currentTarget.select();
+    });
+
     // Quick edit of Item from inside Actor sheet
-    html.find(".quick-edit").change(event => {
+    html.find(".quick-edit").change((event) => {
       const li = $(event.currentTarget).parents(".item");
       let field = $(event.currentTarget).attr("name");
       let itemId = li.data("itemId");
@@ -927,7 +979,7 @@ export class ArM5eActorSheet extends ActorSheet {
     });
 
     // Delete Inventory Item, optionally ask for confirmation
-    html.find(".item-delete").click(async ev => {
+    html.find(".item-delete").click(async (ev) => {
       ev.preventDefault();
       const li = $(ev.currentTarget).parents(".item");
       let itemId = li.data("itemId");
@@ -956,7 +1008,7 @@ export class ArM5eActorSheet extends ActorSheet {
     });
 
     // Delete Inventory Item and always ask for confirmation
-    html.find(".item-delete-confirm").click(async event => {
+    html.find(".item-delete-confirm").click(async (event) => {
       event.preventDefault();
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       const li = $(event.currentTarget).parents(".item");
@@ -979,7 +1031,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // Generate abilities automatically
     html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
 
-    html.find(".rest").click(ev => {
+    html.find(".rest").click((ev) => {
       if (this.actor.type === "player" || this.actor.type === "npc" || this.actor.type == "beast") {
         this.actor.rest();
       }
@@ -988,7 +1040,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // Rollable abilities.
     html.find(".rollable").click(this._onRoll.bind(this));
 
-    html.find(".rollable-aging").click(async event => {
+    html.find(".rollable-aging").click(async (event) => {
       if (event.shiftKey) {
         this._editAging(event);
       } else this._onRoll(event);
@@ -998,12 +1050,12 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
     html.find(".power-use").click(this._onUsePower.bind(this));
-    html.find(".addFatigue").click(event => this.actor._changeFatigueLevel(1));
-    html.find(".removeFatigue").click(event => this.actor._changeFatigueLevel(-1));
+    html.find(".addFatigue").click((event) => this.actor._changeFatigueLevel(1));
+    html.find(".removeFatigue").click((event) => this.actor._changeFatigueLevel(-1));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = ev => this._onDragStart(ev);
+      let handler = (ev) => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
         li.setAttribute("draggable", true);
         li.addEventListener("dragstart", handler, false);
@@ -1013,12 +1065,12 @@ export class ArM5eActorSheet extends ActorSheet {
     // Active Effect management
     html
       .find(".effect-control")
-      .click(ev => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
+      .click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.actor));
 
     // migrate actor
-    html.find(".migrate").click(event => this.actor.migrate());
+    html.find(".migrate").click((event) => this.actor.migrate());
 
-    html.find(".plan-reading").click(async ev => this._readBook(ev));
+    html.find(".plan-reading").click(async (ev) => this._readBook(ev));
   }
 
   async _readBook(ev) {
@@ -1060,7 +1112,7 @@ export class ArM5eActorSheet extends ActorSheet {
           }
         },
         default: "yes",
-        close: async html => {
+        close: async (html) => {
           let input = html.find('input[name="inputField"]');
           let newVal = 0;
           if (Number.isNumeric(input.val())) {
@@ -1168,9 +1220,9 @@ export class ArM5eActorSheet extends ActorSheet {
     delete itemData[0].system["type"];
 
     // default fields for some Item types
-    if (CONFIG.Item.systemDataModels[type]?.getDefault) {
-      CONFIG.Item.systemDataModels[type].getDefault(itemData[0]);
-    }
+    // if (CONFIG.Item.systemDataModels[type]?.getDefault) {
+    //   itemDate = CONFIG.Item.systemDataModels[type].getDefault(itemData[0]);
+    // }
 
     return await this.actor.createEmbeddedDocuments("Item", itemData, {});
   }
@@ -1181,7 +1233,7 @@ export class ArM5eActorSheet extends ActorSheet {
     const element = event.currentTarget;
     var actor = this.actor;
     let template = "systems/arm5e/templates/generic/simpleListPicker.html";
-    renderTemplate(template, this.actor).then(function(html) {
+    renderTemplate(template, this.actor).then(function (html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.dialog.chooseCovenant"),
@@ -1190,7 +1242,7 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: html => setCovenant(html, actor)
+              callback: (html) => setCovenant(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -1245,7 +1297,7 @@ export class ArM5eActorSheet extends ActorSheet {
       extraData
     };
     let template = "systems/arm5e/templates/actor/parts/actor-soak.html";
-    renderTemplate(template, data).then(function(html) {
+    renderTemplate(template, data).then(function (html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.dialog.woundCalculator"),
@@ -1254,7 +1306,7 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: html => setWounds(html, actor)
+              callback: (html) => setWounds(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -1297,7 +1349,7 @@ export class ArM5eActorSheet extends ActorSheet {
       extraData
     };
     let template = "systems/arm5e/templates/actor/parts/actor-calculateDamage.html";
-    renderTemplate(template, data).then(function(html) {
+    renderTemplate(template, data).then(function (html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.dialog.damageCalculator"),
@@ -1306,7 +1358,7 @@ export class ArM5eActorSheet extends ActorSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: html => calculateDamage(html, actor)
+              callback: (html) => calculateDamage(html, actor)
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",
@@ -1329,12 +1381,12 @@ export class ArM5eActorSheet extends ActorSheet {
     let charType = this.actor.system.charType.value;
     let updateData = {};
     if (charType === "magus" || charType === "magusNPC") {
-      let abilities = this.actor.items.filter(i => i.type == "ability");
+      let abilities = this.actor.items.filter((i) => i.type == "ability");
       let newAbilities = [];
       for (let [key, a] of Object.entries(CONFIG.ARM5E.character.magicAbilities)) {
         let localizedA = game.i18n.localize(a);
         // check if the ability already exists in the Actor
-        let abs = abilities.filter(ab => ab.name == localizedA || ab.name === localizedA + "*");
+        let abs = abilities.filter((ab) => ab.name == localizedA || ab.name === localizedA + "*");
 
         if (abs.length == 0) {
           log(false, `Did not find ${game.i18n.localize(a)}, creating it...`);
@@ -1344,12 +1396,12 @@ export class ArM5eActorSheet extends ActorSheet {
           };
           // First, check if the Ability is found in the world
           abs = game.items.filter(
-            i => i.type === "ability" && (i.name === localizedA || i.name === localizedA + "*")
+            (i) => i.type === "ability" && (i.name === localizedA || i.name === localizedA + "*")
           );
           if (abs.length == 0) {
             // Then, check if the Abilities compendium exists
             let abPack = game.packs.filter(
-              p => p.metadata.packageName === "arm5e" && p.metadata.name === "abilities"
+              (p) => p.metadata.packageName === "arm5e" && p.metadata.name === "abilities"
             );
             const documents = await abPack[0].getDocuments();
             for (let doc of documents) {
@@ -1440,7 +1492,7 @@ export class ArM5eActorSheet extends ActorSheet {
    */
   async _onDropItemCreate(itemData) {
     itemData = itemData instanceof Array ? itemData : [itemData];
-    let filtered = itemData.filter(e => this.isItemDropAllowed(e));
+    let filtered = itemData.filter((e) => this.isItemDropAllowed(e));
     for (let item of filtered) {
       // log(false, "Before reset " + JSON.stringify(item.data));
       item = resetOwnerFields(item);

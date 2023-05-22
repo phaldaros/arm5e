@@ -4,7 +4,7 @@ import { ArM5ePCActor } from "../actor/actor.js";
 export async function applyAgingEffects(actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
-  const agingTable = docs.filter(rt => rt.name === "Aging table")[0];
+  const agingTable = docs.filter((rt) => rt.name === "Aging table")[0];
   let res = agingTable.getResultsForRoll(roll.total)[0].text;
   let dialogData = CONFIG.ARM5E.activities.aging[res];
 
@@ -17,7 +17,7 @@ export async function applyAgingEffects(actor, roll, message) {
     dialogData
   );
   let resultAging = {};
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     new Dialog(
       {
         title: game.i18n.localize("arm5e.aging.summary"),
@@ -26,7 +26,7 @@ export async function applyAgingEffects(actor, roll, message) {
           yes: {
             icon: "<i class='fas fa-check'></i>",
             label: game.i18n.localize("Apply"),
-            callback: async html => {
+            callback: async (html) => {
               let char = dialogData.char;
               let find = html.find(".SelectedCharacteristic");
               if (find.length > 0) {
@@ -39,7 +39,7 @@ export async function applyAgingEffects(actor, roll, message) {
           no: {
             icon: "<i class='fas fa-bomb'></i>",
             label: game.i18n.localize("Cancel"),
-            callback: html => {
+            callback: (html) => {
               resolve();
             }
           }
@@ -63,7 +63,7 @@ export async function agingCrisis(actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
 
-  const crisisTable = docs.filter(rt => rt.name === "Aging crisis table")[0];
+  const crisisTable = docs.filter((rt) => rt.name === "Aging crisis table")[0];
   let res = crisisTable.getResultsForRoll(roll.total)[0].text;
 
   const title =
@@ -126,7 +126,7 @@ async function createAgingDiaryEntry(actor, input) {
       activity: "aging",
       description: "<p>" + desc + "</p>",
       duration: 1,
-      done: 1
+      done: true
     },
     flags: { arm5e: { effect: input } }
   };
@@ -141,11 +141,11 @@ function genericValidationOfActivity(context) {}
 
 function checkForDuplicates(param, context, array) {
   // look for duplicates
-  let ids = array.map(e => {
+  let ids = array.map((e) => {
     return e.id;
   });
   if (
-    ids.some(e => {
+    ids.some((e) => {
       return ids.indexOf(e) !== ids.lastIndexOf(e);
     })
   ) {
@@ -158,11 +158,11 @@ function checkForDuplicates(param, context, array) {
 function checkArtProgressItems(context, item, max) {
   // look for duplicates arts
   let artsArr = Object.values(item.system.progress.arts);
-  let artsKeys = artsArr.map(e => {
+  let artsKeys = artsArr.map((e) => {
     return e.key;
   });
   if (
-    artsKeys.some(e => {
+    artsKeys.some((e) => {
       return artsKeys.indexOf(e) !== artsKeys.lastIndexOf(e);
     })
   ) {
@@ -234,8 +234,8 @@ export function validChildhood(context, actor, item) {
   let abilitiesArr = Object.values(item.system.progress.abilities);
   checkForDuplicates("abilities", context, abilitiesArr);
   context.system.totalXp.abilities = checkMaxXpPerItem(context, abilitiesArr, 1000);
-  const filteredArray = actor.system.abilities.filter(e => {
-    return abilitiesArr.some(filter => {
+  const filteredArray = actor.system.abilities.filter((e) => {
+    return abilitiesArr.some((filter) => {
       return filter.id === e._id && e.system.key == "livingLanguage" && filter.xp >= 50;
     });
   });
@@ -357,8 +357,8 @@ export function validPractice(context, actor, item) {
     if (spellsArr.length > 0) {
       optionError = true;
     } else {
-      const filteredArray = actor.system.abilities.filter(e => {
-        return abilitiesArr.some(filter => {
+      const filteredArray = actor.system.abilities.filter((e) => {
+        return abilitiesArr.some((filter) => {
           return (
             filter.id === e._id &&
             e.system.key != "livingLanguage" &&
@@ -374,8 +374,8 @@ export function validPractice(context, actor, item) {
     if (spellsArr.length > 0) {
       optionError = true;
     } else {
-      const filteredArray = actor.system.abilities.filter(e => {
-        return abilitiesArr.some(filter => {
+      const filteredArray = actor.system.abilities.filter((e) => {
+        return abilitiesArr.some((filter) => {
           return filter.id === e._id && e.system.key != "areaLore";
         });
       });
@@ -435,7 +435,7 @@ export function validTraining(context, actor, item) {
   if (abilitiesArr.length > 0) {
     const teacherScore = Number(item.system.progress.abilities[0].teacherScore);
     context.system.baseQuality = teacherScore + 3;
-    let ability = Object.values(actor.system.abilities).find(e => {
+    let ability = Object.values(actor.system.abilities).find((e) => {
       return e._id === item.system.progress.abilities[0].id;
     });
     if (ability === undefined) {
@@ -464,7 +464,7 @@ export function validTraining(context, actor, item) {
   } else if (spellsArr.length > 0) {
     const teacherScore = Number(item.system.progress.spells[0].teacherScore);
     context.system.baseQuality = teacherScore + 3;
-    const spell = Object.values(actor.system.spells).find(e => {
+    const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
     let newXp = context.system.sourceQuality + spell.system.xp;
@@ -503,7 +503,7 @@ export function validTeaching(context, actor, item) {
 
   if (abilitiesArr.length > 0) {
     const teacherScore = Number(item.system.progress.abilities[0].teacherScore);
-    let ability = Object.values(actor.system.abilities).find(e => {
+    let ability = Object.values(actor.system.abilities).find((e) => {
       return e._id === item.system.progress.abilities[0].id;
     });
     if (ability === undefined) {
@@ -531,7 +531,7 @@ export function validTeaching(context, actor, item) {
     context.system.totalXp.abilities += Number(context.system.sourceQuality);
   } else if (spellsArr.length > 0) {
     const teacherScore = Number(item.system.progress.spells[0].teacherScore);
-    const spell = Object.values(actor.system.spells).find(e => {
+    const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
     let newXp = context.system.sourceQuality + spell.system.xp;
@@ -584,7 +584,7 @@ export function validReading(context, actor, item) {
       Number(item.system.progress.abilities[0].maxLevel) == 0
         ? 100
         : Number(item.system.progress.abilities[0].maxLevel);
-    let ability = Object.values(actor.system.abilities).find(e => {
+    let ability = Object.values(actor.system.abilities).find((e) => {
       return e._id === item.system.progress.abilities[0].id;
     });
     if (ability === undefined) {
@@ -616,7 +616,7 @@ export function validReading(context, actor, item) {
         ? 100
         : Number(item.system.progress.spells[0].maxLevel);
 
-    const spell = Object.values(actor.system.spells).find(e => {
+    const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
     let newXp = context.system.sourceQuality + spell.system.xp;

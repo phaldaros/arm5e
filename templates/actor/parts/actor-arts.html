@@ -37,7 +37,7 @@
               <div class="flex4 marginbot12" style="color: #625d52cc">
                 <label class="fontSize8">{{localize "arm5e.sheet.experienceShort"}}</label>
                 <input type="number" name="system.arts.techniques.{{key}}.xp" value="{{technique.xp}}"
-                  data-dtype="Number" style="color: #625d52cc; width: 40px" />
+                  data-dtype="Number" style="color: #625d52cc; width: 40px" class="resource-focus" />
                 <label class="fontSize8"> / {{ technique.xpNextLevel }} </label>
                 <div></div>
               </div>
@@ -83,7 +83,7 @@
               <div class="flex3 marginbot12" style="color: #625d52cc">
                 <label class="fontSize8">{{localize "arm5e.sheet.experienceShort"}}</label>
                 <input type="number" name="system.arts.forms.{{key}}.xp" value="{{form.xp}}" data-dtype="Number"
-                  style="color: #625d52cc; width: 40px" />
+                  style="color: #625d52cc; width: 40px" class="resource-focus" />
                 <label class="fontSize8"> / {{ form.xpNextLevel }} </label>
               </div>
             </div>
@@ -125,6 +125,7 @@
     {{#each system.filteredSpells as |item id|}}
       <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
         data-attribute="{{id}}">
+        <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="spell" data-id="{{item._id}}"
             data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" name="item.name">
@@ -172,6 +173,7 @@
     {{#each system.filteredMagicalEffects as |item id|}}
       <li class="item item-value flexrow macro-ready" data-name="{{item.name}}" data-item-id="{{item._id}}"
         data-attribute="{{id}}">
+        <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="magic" data-id="{{item._id}}"
             data-modifier="{{ item.system.bonus }}" data-name="{{item.name}}" data-divide="2" data-usefatigue="true"
@@ -216,6 +218,7 @@
       {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
       {{#each system.powers as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
+          <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
           <div class="flexrow flex-center">
             <span class="flexrow item-title width4 clickable power-use" name="item.name" data-id="{{item._id}}"
               data-roll="power" data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}">

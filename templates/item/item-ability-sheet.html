@@ -67,7 +67,7 @@
     <div class="tab">
       <div class="resource flexrow">
         <label for="system.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
-        <select name="system.key" data-dtype="String" class="ability-key">
+        <select class="change-abilitykey" name="system.key" data-dtype="String" class="ability-key">
           {{#select system.key}}
             {{#each abilityKeysList as |item key|}}
               <option value="{{key}}" {{item.selection}}>{{item.label}}</option>

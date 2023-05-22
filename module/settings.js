@@ -7,8 +7,7 @@ export function registerSettings() {
    */
   game.settings.register(ARM5E.SYSTEM_ID, "systemMigrationVersion", {
     name: "System Migration Version",
-    hint:
-      "Allows to reset the version of the system to an older version in order to trigger a migration from that version. \
+    hint: "Allows to reset the version of the system to an older version in order to trigger a migration from that version. \
        Useful to quickly migrate documents freshly imported from an old compendium.",
     scope: "world",
     config: true,
@@ -21,8 +20,7 @@ export function registerSettings() {
    */
   game.settings.register(ARM5E.SYSTEM_ID, "defaultIconStyle", {
     name: "Default icons style",
-    hint:
-      "Whether black&white or color version of default icons are used at creation of documents. \
+    hint: "Whether black&white or color version of default icons are used at creation of documents. \
       It only applies to brand new documents, a copy will keep the original icon.",
     scope: "world",
     config: true,
@@ -32,7 +30,7 @@ export function registerSettings() {
       COLOR: "Color"
     },
     default: "MONO",
-    onChange: value => {
+    onChange: (value) => {
       CONFIG.ARM5E_DEFAULT_ICONS = CONFIG.ARM5E_DEFAULT_ICONS[value];
     }
   });
@@ -95,8 +93,7 @@ export function registerSettings() {
    */
   game.settings.register(ARM5E.SYSTEM_ID, "showNPCMagicDetails", {
     name: "Show NPC magic details (cast, penetration and defense)",
-    hint:
-      "During magic contests against a NPC, choose between: \
+    hint: "During magic contests against a NPC, choose between: \
     -   Tell only if it is a success or failure \
     -   Tell exactly by how much a success or failure happened",
     scope: "world",
@@ -128,8 +125,7 @@ export function registerSettings() {
 
   game.settings.register(ARM5E.SYSTEM_ID, "dramaticPause", {
     name: "Dramatic pause after rolling a one",
-    hint:
-      '[Dice so Nice integration] If you have the Dice so Nice module enabled and the "Fun stress die" setting disabled, \
+    hint: '[Dice so Nice integration] If you have the Dice so Nice module enabled and the "Fun stress die" setting disabled, \
     it will add a dramatic pause (ms) after rolling a one.',
     scope: "world",
     config: true,
@@ -154,6 +150,15 @@ export function registerSettings() {
     type: Object,
     default: { year: 1220, season: "spring" }
   });
+
+  // game.settings.register(ARM5E.SYSTEM_ID, "maxDiaryEntries", {
+  //   name: "Maximimum number of diary entries displayed",
+  //   hint: "Could help with performance with a large number of entries",
+  //   scope: "client",
+  //   config: true,
+  //   type: Number,
+  //   default: 100
+  // });
 
   game.settings.registerMenu(ARM5E.SYSTEM_ID, "sourcebookFilter", {
     name: game.i18n.localize("arm5e.config.sourcebookFilter"),

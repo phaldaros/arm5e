@@ -26,9 +26,8 @@ export function validateInvention(planning) {
     return { valid: true, waste: delta - lvl, duration: 1, message: "" };
   } else {
     let dur = Math.ceil(lvl / delta);
-    // TODO set valid true when multi-season supported
     return {
-      valid: false,
+      valid: true,
       waste: (delta * dur) % lvl,
       duration: dur,
       message: ""

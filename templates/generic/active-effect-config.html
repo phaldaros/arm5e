@@ -21,7 +21,7 @@
       <div class="form-group">
         <label>{{ localize "EFFECT.Label" }}</label>
         <div class="form-fields">
-          <input type="text" name="label" value="{{ data.label }}" />
+          <input type="text" name="label" value="{{ data.label }}" class="resource-focus" />
         </div>
       </div>
 
@@ -115,8 +115,8 @@
                     <input class="effect-value" type="checkbox" name="changes.{{i}}.value" {{checked change.value}}
                       data-dtype="Boolean" data-index="{{i}}" />
                   {{else}}
-                    <input class="effect-value" type="number" name="changes.{{i}}.value" value="{{change.value}}"
-                      data-dtype="Number" data-index="{{i}}" />
+                    <input class="effect-value resource-focus" type="number" name="changes.{{i}}.value"
+                      value="{{change.value}}" data-dtype="Number" data-index="{{i}}" />
                   {{/if }}
                 {{/if }}
               </div>

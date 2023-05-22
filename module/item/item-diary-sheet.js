@@ -1,8 +1,10 @@
-import { debug, log } from "../tools.js";
+import { debug, getDataset, log } from "../tools.js";
 import { ArM5eItemSheet } from "./item-sheet.js";
 import { getNewTitleForActivity } from "../helpers/long-term-activities.js";
 import { ArM5eItem } from "./item.js";
 import { Calendar } from "../tools/calendar.js";
+import { ACTIVITIES_DEFAULT_ICONS, UI } from "../constants/ui.js";
+import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -88,7 +90,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     // }
 
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];
-
+    context.firstSeason = context.system.dates[0];
     // legacy diary or just a simple recounting of events
     if (actType == "none") {
       context.ui.showTab = false;
@@ -98,7 +100,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     // configuration
     let hasTeacher = actType == "training" || actType == "teaching";
     context.system.sourceBonus = 0;
-    context.system.applied = context.system.duration == context.system.done;
     context.ui.showTab = true;
     context.ui.showProgress = activityConfig.display.progress;
     context.ui.showAbilities = activityConfig.display.abilities;
@@ -111,20 +112,34 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.ui.editSource = true;
     context.ui.bonusOptions = false;
 
-    if (activityConfig.source.readonly && !context.system.applied) {
+    context.system.applyBtnStatus = "";
+    context.system.applyError = "";
+    let hasScheduleConflict =
+      this.item.isOwned &&
+      this.item.system.hasConflict(this.item.actor, CONFIG.ARM5E.activities.conflictExclusion);
+    context.applyAllowed = !context.system.done && !hasScheduleConflict;
+    if (!context.applyAllowed) {
+      context.applyBtnStatus = "disabled";
+      context.system.applyError = game.i18n.localize("arm5e.activity.msg.scheduleConflict");
+    }
+    if (hasScheduleConflict) {
+      context.astrolabIconStyle = 'style="text-shadow: 0 0 10px red"';
+    }
+
+    if (activityConfig.source.readonly && !context.system.done) {
       context.system.sourceQuality = context.system.baseQuality;
       context.ui.editSource = false;
       context.system.sourceDefault = activityConfig.source.default;
     }
 
-    if (activityConfig.bonusOptions != null && !context.system.applied) {
+    if (activityConfig.bonusOptions != null && !context.system.done) {
       context.ui.bonusOptions = true;
       context.bonusOptions = activityConfig.bonusOptions;
       context.system.sourceBonus = activityConfig.bonusOptions[context.system.optionKey].modifier;
       context.system.sourceQuality += context.system.sourceBonus;
     }
     context.system.aeBonus = 0;
-    if (this.actor.system.bonuses.activities[actType] !== undefined && !context.system.applied) {
+    if (this.actor.system.bonuses.activities[actType] !== undefined && !context.system.done) {
       context.system.aeBonus = this.actor.system.bonuses.activities[actType];
     }
 
@@ -145,9 +160,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.system.ownedArts = [];
     context.system.defaultSpellMastery = "";
 
-    context.system.applyPossible = "";
-    context.system.applyError = "";
-
     context.system.canEdit = "";
     context.system.disabled = "";
 
@@ -156,7 +168,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     // context.system.canEditBook = "";
     // context.system.disabledBook = "";
 
-    if (context.system.applied) {
+    if (context.system.done) {
       context.system.canEdit = "readonly";
       context.system.canEditTeacher = "readonly";
       context.system.disabledTeacher = "disabled";
@@ -193,7 +205,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         teacher = game.actors.get(this.item.system.teacher.id);
         if (teacher === undefined) {
           context.system.canEdit = "readonly";
-          context.system.applyPossible = "disabled";
+          context.system.applyBtnStatus = "disabled";
           if (actType === "training") {
             context.system.applyError = "arm5e.activity.msg.noTrainer";
           } else {
@@ -209,7 +221,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       } else {
         if (context.system.teacher.score < 2) {
           context.system.canEdit = "readonly";
-          context.system.applyPossible = "disabled";
+          context.system.applyBtnStatus = "disabled";
           context.system.applyError = "arm5e.activity.msg.uselessTeacher";
           context.system.errorParam =
             context.system.teacher.name === ""
@@ -231,7 +243,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       }
     }
 
-    if (!context.system.applied && !context.system.cappedGain) {
+    if (!context.system.done && !context.system.cappedGain) {
       context.system.sourceQuality += Number(context.system.aeBonus);
     }
     if (activityConfig.validation != null) {
@@ -251,12 +263,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (hasTeacher) {
       if (context.system.teacherLinked) {
         context.system.aeBonus += teacher.system.bonuses.activities.teacher;
-        context.teacherAbilities = teacher.system.abilities.filter(e => {
+        context.teacherAbilities = teacher.system.abilities.filter((e) => {
           return e.system.finalScore >= 2;
         });
-        availableAbilities = this.actor.system.abilities.filter(e => {
-          return context.teacherAbilities.some(filter => {
-            if (context.system.applied)
+        availableAbilities = this.actor.system.abilities.filter((e) => {
+          return context.teacherAbilities.some((filter) => {
+            if (context.system.done)
               // for rollback, the item must still be there
               return filter.system.key === e.system.key && filter.system.option === e.system.option;
             else
@@ -268,7 +280,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           });
         });
       } else {
-        availableAbilities = this.actor.system.abilities.filter(e => {
+        availableAbilities = this.actor.system.abilities.filter((e) => {
           return e.system.finalScore < context.system.teacher.score;
         });
       }
@@ -282,7 +294,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         if (context.system.teacher.id === null) {
           teacherScore = context.system.teacher.score ?? 0;
         } else {
-          let teacherAbility = context.teacherAbilities.find(e => {
+          let teacherAbility = context.teacherAbilities.find((e) => {
             return e.system.key === ability.system.key && e.system.option === ability.system.option;
           });
           teacherScore = teacherAbility.system.finalScore;
@@ -301,7 +313,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         teacherScore: teacherScore
       };
       if (firstAb) {
-        let filteredList = Object.values(context.system.progress.abilities).filter(e => {
+        let filteredList = Object.values(context.system.progress.abilities).filter((e) => {
           return e.id === ability._id;
         });
         if (
@@ -326,8 +338,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         // get the arts the teacher is skilled enough in to teach
         if (context.system.teacherLinked) {
           let teacherTechniques = Object.entries(teacher.system.arts.techniques)
-            .filter(e => {
-              if (context.system.applied) {
+            .filter((e) => {
+              if (context.system.done) {
                 return e[1].finalScore >= 5;
               } else {
                 return (
@@ -336,7 +348,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
                 );
               }
             })
-            .map(e => {
+            .map((e) => {
               return {
                 key: e[0],
                 label: CONFIG.ARM5E.magic.arts[e[0]].label,
@@ -346,8 +358,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             });
 
           let teacherForms = Object.entries(teacher.system.arts.forms)
-            .filter(e => {
-              if (context.system.applied) {
+            .filter((e) => {
+              if (context.system.done) {
                 return e[1].finalScore >= 5;
               } else {
                 return (
@@ -356,7 +368,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
                 );
               }
             })
-            .map(e => {
+            .map((e) => {
               return {
                 key: e[0],
                 label: CONFIG.ARM5E.magic.arts[e[0]].label,
@@ -375,7 +387,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             // must have a score of 5 to teach an Art
             availableArts = [];
           } else {
-            let actorTechniques = Object.entries(this.actor.system.arts.techniques).map(e => {
+            let actorTechniques = Object.entries(this.actor.system.arts.techniques).map((e) => {
               return {
                 key: e[0],
                 label: CONFIG.ARM5E.magic.arts[e[0]].label,
@@ -384,7 +396,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               };
             });
 
-            let actorForms = Object.entries(this.actor.system.arts.forms).map(e => {
+            let actorForms = Object.entries(this.actor.system.arts.forms).map((e) => {
               return {
                 key: e[0],
                 label: CONFIG.ARM5E.magic.arts[e[0]].label,
@@ -394,14 +406,14 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             });
 
             availableArts = actorTechniques.concat(actorForms);
-            availableArts = availableArts.filter(e => {
+            availableArts = availableArts.filter((e) => {
               return e.score < context.system.teacher.score;
             });
           }
         }
       } else {
         availableArts = [
-          ...Object.entries(this.actor.system.arts.techniques).map(e => {
+          ...Object.entries(this.actor.system.arts.techniques).map((e) => {
             return {
               key: e[0],
               score: e[1].finalScore,
@@ -409,7 +421,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               teacherScore: 0
             };
           }),
-          ...Object.entries(this.actor.system.arts.forms).map(e => {
+          ...Object.entries(this.actor.system.arts.forms).map((e) => {
             return {
               key: e[0],
               score: e[1].finalScore,
@@ -423,7 +435,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       let firstArt = true;
       for (const art of Object.values(availableArts)) {
         if (firstArt) {
-          let filteredList = Object.values(context.system.progress.arts).filter(e => {
+          let filteredList = Object.values(context.system.progress.arts).filter((e) => {
             return e.key === art.key;
           });
           if (
@@ -445,12 +457,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     let availableSpells = this.actor.system.spells;
     if (hasTeacher) {
       if (context.system.teacherLinked) {
-        context.teacherMasteries = teacher.system.spells.filter(e => {
+        context.teacherMasteries = teacher.system.spells.filter((e) => {
           return e.system.mastery >= 2;
         });
-        availableSpells = this.actor.system.spells.filter(e => {
-          return context.teacherMasteries.some(filter => {
-            if (context.system.applied) {
+        availableSpells = this.actor.system.spells.filter((e) => {
+          return context.teacherMasteries.some((filter) => {
+            if (context.system.done) {
               return (
                 // for rollback, the item must still be there
                 filter.name === e.name &&
@@ -469,7 +481,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         });
       } else {
         // if unlinked teacher any available spell with a mastery below the teacher score is valid.
-        availableSpells = this.actor.system.spells.filter(e => {
+        availableSpells = this.actor.system.spells.filter((e) => {
           return e.system.mastery < context.system.teacher.score;
         });
       }
@@ -481,7 +493,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         if (context.system.teacher.id === null) {
           teacherScore = context.system.teacher.score ?? 0;
         } else {
-          let teacherSpell = context.teacherMasteries.find(e => {
+          let teacherSpell = context.teacherMasteries.find((e) => {
             return (
               e.system.technique.value === spell.system.technique.value &&
               e.system.form.value === spell.system.form.value &&
@@ -502,7 +514,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         teacherScore: teacherScore
       };
       if (firstSpell) {
-        let filteredList = Object.values(context.system.progress.spells).filter(e => {
+        let filteredList = Object.values(context.system.progress.spells).filter((e) => {
           return e.id === spell._id;
         });
         if (
@@ -548,13 +560,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".progress-xp").change(this._setXp.bind(this));
     html.find(".break-link").click(this._resetTeacher.bind(this));
     html.find(".score-teacher").change(this._resetTeacher.bind(this));
-    html.find(".show-details").click(async event => this._showSpell(this.item, event));
+    html.find(".show-details").click(async (event) => this._showSpell(this.item, event));
     html.find(".select-dates").click(this.displayCalendar.bind(this));
   }
 
   async _resetTeacher(event) {
     const target = event.currentTarget;
-    if (target.dataset.applied == "true") {
+    if (this.item.system.done) {
       return;
     }
     let updateData = {};
@@ -592,6 +604,23 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     updateData["system.sourceQuality"] = CONFIG.ARM5E.activities.generic[actType].source.default;
+    if (CONFIG.ARM5E.activities.generic[actType].duration) {
+      updateData["system.duration"] = CONFIG.ARM5E.activities.generic[actType].duration;
+      updateData["system.dates"] = DiaryEntrySchema.buildSchedule(
+        CONFIG.ARM5E.activities.generic[actType].duration,
+        this.item.system.dates[0].year,
+        this.item.system.dates[0].season
+      );
+    } else {
+      updateData["system.duration"] = 1;
+      updateData["system.dates"] = DiaryEntrySchema.buildSchedule(
+        1,
+        this.item.system.dates[0].year,
+        this.item.system.dates[0].season
+      );
+    }
+    updateData["img"] =
+      ACTIVITIES_DEFAULT_ICONS.COLOR[actType] ?? CONFIG.ARM5E_DEFAULT_ICONS[diaryEntry];
     switch (actType) {
       case "none":
         this._tabs[0].activate("description");
@@ -605,10 +634,15 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
   async _onProgressApply(event) {
     event.preventDefault();
-    // this.render();
     let description = this.item.system.description + "<h4>Technical part:<h4><ol>";
     let updateData = [];
     let sourceQuality = 0;
+
+    if (this.item.system.done) {
+      // no idea how it got there:
+      log(false, "WARNING: something weird is happening");
+      return;
+    }
 
     // TODO
     // if (this.item.system.type === "reading") {
@@ -726,14 +760,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     description += "</ol>";
     // }
     let newTitle = getNewTitleForActivity(this.actor, this.item);
-    // TODO for multi-seasons activities, use the current date flag.
-    let datesApplied = this.item.system.dates;
-    datesApplied[0].applied = true;
+
     await this.item.update(
       {
         name: newTitle,
+
         system: {
-          dates: datesApplied,
+          done: true,
           description: description,
           sourceQuality: sourceQuality,
           progress: this.item.system.progress
@@ -749,6 +782,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
   async _onProgressRollback(event) {
     event.preventDefault();
     // this.render();
+    if (!this.item.system.done) {
+      // no idea how it got there:
+      log(false, "WARNING: something weird is happening");
+      return;
+    }
+
     const actor = this.actor;
     let updateData = [];
     switch (this.item.system.activity) {
@@ -839,17 +878,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
         await this.actor.deleteEmbeddedDocuments(
           "Item",
-          this.item.system.progress.newSpells.map(e => e.id)
+          this.item.system.progress.newSpells.map((e) => e.id)
         );
 
         await this.actor.update(actorUpdate, { render: true });
         await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
 
-        if (
-          ["reading", "inventSpell", "learnSpell", "visExtraction", "visStudy"].includes(
-            this.item.system.activity
-          )
-        ) {
+        if (["visExtraction", "visStudy"].includes(this.item.system.activity)) {
           // delete the diary entry
           await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
           return;
@@ -858,7 +893,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       }
       case "aging": {
         let confirmed = await new Promise(
-          resolve => {
+          (resolve) => {
             Dialog.confirm({
               title: game.i18n.localize("arm5e.aging.rollback.title"),
               content: `<p>${game.i18n.localize("arm5e.aging.rollback.confirm")}</p>`,
@@ -911,11 +946,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       }
     }
     let description = this.item.system.description + "<h4>Rollbacked<h4>";
-    // TODO for multi-seasons activities, use the current date flag.
-    let datesRollbacked = this.item.system.dates;
-    datesRollbacked[0].applied = false;
     await this.item.update({
-      system: { dates: datesRollbacked, description: description }
+      system: { done: false, description: description }
     });
   }
 
@@ -947,7 +979,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     } else {
       // check if the character already has that skill and use it instead
       let actorAbility = this.item.actor.system.abilities.find(
-        e => e.system.key == ability.system.key && e.system.option == ability.system.option
+        (e) => e.system.key == ability.system.key && e.system.option == ability.system.option
       );
       if (actorAbility) {
         ability = actorAbility;
@@ -986,11 +1018,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     event.preventDefault();
     const button = event.currentTarget;
     // no edit possible if applied
-    if (
-      button.dataset.applied == "true" ||
-      button.dataset.applied === true ||
-      this.item.system.activity === "reading"
-    ) {
+    if (this.item.system.done || this.item.system.activity === "reading") {
       return;
     }
     // let currentData = Object.values(this.item.system.progress[button.dataset.type]) ?? [];
@@ -1155,7 +1183,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       xp: 0,
       teacherScore: Object.values(
         this.item.system.ownedAbilities[selectedAbility.system.category]
-      ).find(e => {
+      ).find((e) => {
         return e.key === selectedAbility.system.key && e.option === selectedAbility.system.option;
       }).teacherScore
     };
@@ -1174,7 +1202,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const data = {
       key: value,
       xp: 0,
-      teacherScore: this.item.system.ownedArts.find(e => {
+      teacherScore: this.item.system.ownedArts.find((e) => {
         return e.key === value;
       }).teacherScore
     };
@@ -1199,8 +1227,17 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
   }
 
   async displayCalendar() {
-    const calendar = new Calendar({});
-    const res = await calendar.render(true);
+    if (this.item.isOwned) {
+      const calendar = new Calendar({
+        actor: this.item.actor,
+        activity: {
+          id: this.item.id,
+          name: this.item.name,
+          system: foundry.utils.deepClone(this.item.system)
+        }
+      });
+      const res = await calendar.render(true);
+    }
   }
 
   async _updateObject(event, formData) {
@@ -1231,7 +1268,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       expanded.system.dates = mergeObject(source.system.dates, dates);
     }
 
-    log(false, `Update object: ${JSON.stringify(expanded)}`);
+    // log(false, `Update object: ${JSON.stringify(expanded)}`);
     await this.object.update(expanded);
   }
 }

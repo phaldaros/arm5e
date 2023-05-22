@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { ABILITIES_DEFAULT_ICONS } from "../constants/ui.js";
 import { log } from "../tools.js";
 import { itemBase, RealmField, XpField } from "./commonSchemas.js";
 const fields = foundry.data.fields;
@@ -16,6 +17,26 @@ export class AbilitySchema extends foundry.abstract.DataModel {
       option: new fields.StringField({ required: false, blank: true, initial: "" }),
       realm: RealmField()
     };
+  }
+
+  static getIcon(item, newValue = null) {
+    if (newValue != null) {
+      return ABILITIES_DEFAULT_ICONS.MONO[newValue] ?? CONFIG.ARM5E_DEFAULT_ICONS["ability"];
+    } else {
+      return ABILITIES_DEFAULT_ICONS.MONO[item.system.key] ?? CONFIG.ARM5E_DEFAULT_ICONS["ability"];
+    }
+  }
+
+  static getDefault(itemData) {
+    let res = itemData;
+    if (itemData.system) {
+      if (itemData.system.key == undefined) {
+        res.system.key = "awareness";
+      }
+    } else {
+      res = { system: { key: "awareness" } };
+    }
+    return res;
   }
 
   async _increaseScore() {

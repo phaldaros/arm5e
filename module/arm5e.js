@@ -1,5 +1,5 @@
 // Import Modules
-import { ARM5E, ARM5E_DEFAULT_ICONS, localizeAbilities, localizeCategories } from "./config.js";
+import { ARM5E, localizeAbilities, localizeCategories } from "./config.js";
 import { ArM5ePCActor } from "./actor/actor.js";
 import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
 import { ArM5eBeastActorSheet } from "./actor/actor-beast-sheet.js";
@@ -56,6 +56,7 @@ import { ArmorSchema, WeaponSchema } from "./schemas/weaponArmorSchema.js";
 import { CodexSchema } from "./schemas/actorCommonSchema.js";
 import { VisSchema } from "./schemas/visSchema.js";
 import { clearUserCache } from "./constants/userdata.js";
+import { ARM5E_DEFAULT_ICONS } from "./constants/ui.js";
 
 Hooks.once("init", async function() {
   game.arm5e = {

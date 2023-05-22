@@ -1,6 +1,6 @@
 import { compareLabTexts, log, hermeticFilter } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
-import { HERMETIC_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
+import { HERMETIC_FILTER, TIME_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
 import { effectToLabText, resetOwnerFields } from "../item/item-converter.js";
 
 /**
@@ -37,6 +37,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
             abilitiesTopics: TOPIC_FILTER,
             artsTopics: TOPIC_FILTER,
             masteriesTopics: HERMETIC_FILTER
+          },
+          events: {
+            diaryEvents: TIME_FILTER,
+            calendarEvents: TIME_FILTER
           }
         }
       };

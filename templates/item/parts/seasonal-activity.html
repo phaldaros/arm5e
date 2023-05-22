@@ -6,7 +6,7 @@
         <input type="text" name="system.sourceQuality" value="{{system.sourceQuality}}" data-dtype="Number"
           {{system.canEdit}} style="max-width: 50px;" />
       {{else}}
-        {{#if system.applied}}
+        {{#if system.done}}
           <label class="header-label"><b>{{system.baseQuality}}</b></label>
         {{else}}
           {{#if ui.showBaseQuality}}
@@ -40,9 +40,9 @@
   {{> "systems/arm5e/templates/item/parts/activities.html" }}
 {{/if}}
 <div class="flexrow">
-  {{#unless system.applied}}
+  {{#unless system.done}}
     <button class="arm5e flex02 progress-apply" style="font-family: bookAntika"
-      {{system.applyPossible}}>{{localize "arm5e.sheet.action.apply"}}</button>
+      {{system.applyBtnStatus}}>{{localize "arm5e.sheet.action.apply"}}</button>
     <label class="header-label"
       style="color:red; padding: 10px;">{{localize system.applyError param=system.errorParam}}</label>
   {{else}}
