@@ -1,5 +1,5 @@
 import { ArM5ePCActor } from "./actor/actor.js";
-import { log } from "./tools.js";
+import { error, log } from "./tools.js";
 
 const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
 const DEPRECATED_ACTORS = ["scriptorium"];
@@ -55,7 +55,9 @@ export async function migration(originalVersion) {
     const invalidActorsUpdates = [];
     for (const invalidId of invalidActorIds) {
       try {
-        const rawData = foundry.utils.deepClone(game.actors._source.find(d => d._id == invalidId));
+        const rawData = foundry.utils.deepClone(
+          game.actors._source.find((d) => d._id == invalidId)
+        );
 
         console.log(`Migrating invalid Actor document: ${rawData.name}`);
         if (DEPRECATED_ACTORS.includes(rawData.type)) {
@@ -118,7 +120,7 @@ export async function migration(originalVersion) {
     const invalidItemsUpdates = [];
     for (const invalidId of invalidItemIds) {
       try {
-        const rawData = foundry.utils.deepClone(game.items._source.find(d => d._id == invalidId));
+        const rawData = foundry.utils.deepClone(game.items._source.find((d) => d._id == invalidId));
         console.log(`Migrating invalid item document: ${rawData.name}`);
         let invalidItem = game.items.getInvalid(invalidId);
         const updateData = await migrateItemData(invalidItem);
@@ -144,7 +146,7 @@ export async function migration(originalVersion) {
           await s.update(updateData, { enforceTypes: false });
           // If we do not do this, then synthetic token actors remain in cache
           // with the un-updated actor.
-          s.tokens.forEach(t => (t._actor = null));
+          s.tokens.forEach((t) => (t._actor = null));
         }
       } catch (err) {
         err.message = `Failed system migration for Scene ${s.name}: ${err.message}`;
@@ -185,7 +187,7 @@ export async function migration(originalVersion) {
  * @param pack
  * @return {Promise}
  */
-export const migrateCompendium = async function(pack) {
+export const migrateCompendium = async function (pack) {
   const documentName = pack.documentName;
   if (!["Actor", "Item", "Scene"].includes(documentName)) return;
 
@@ -242,9 +244,9 @@ export const migrateCompendium = async function(pack) {
  * @param {object} [migrationData]  Additional data to perform the migration
  * @returns {object}                The updateData to apply
  */
-export const migrateSceneData = async function(scene, migrationData) {
+export const migrateSceneData = async function (scene, migrationData) {
   const tokens = await Promise.all(
-    scene.tokens.map(async token => {
+    scene.tokens.map(async (token) => {
       const t = token instanceof foundry.abstract.DataModel ? token.toObject() : token;
       const update = {};
       if (!t.actorId || t.actorLink) {
@@ -261,10 +263,10 @@ export const migrateSceneData = async function(scene, migrationData) {
         }
 
         const update = await migrateActorData(actorData, actorData.items);
-        ["items", "effects"].forEach(embeddedName => {
+        ["items", "effects"].forEach((embeddedName) => {
           if (!update[embeddedName]?.length) return;
-          const updates = new Map(update[embeddedName].map(u => [u._id, u]));
-          t.actorData[embeddedName].forEach(original => {
+          const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
+          t.actorData[embeddedName].forEach((original) => {
             const update = updates.get(original._id);
             if (update) foundry.utils.mergeObject(original, update);
           });
@@ -289,17 +291,22 @@ export const migrateSceneData = async function(scene, migrationData) {
   return { tokens };
 };
 
-const isEffectObsolete = function(effect) {
-  if (
-    effect.flags.arm5e?.type &&
-    effect.flags.arm5e.type[0] === "spellcasting" &&
-    ["gestures", "voice"].includes(effect.flags.arm5e.subtype[0])
-  ) {
-    if (effect.flags.arm5e.value) {
-      return true;
+const isEffectObsolete = function (effect) {
+  try {
+    if (
+      effect.flags.arm5e?.type &&
+      effect.flags.arm5e.type[0] === "spellcasting" &&
+      ["gestures", "voice"].includes(effect.flags.arm5e.subtype[0])
+    ) {
+      if (effect.flags.arm5e.value) {
+        return true;
+      }
     }
+    return false;
+  } catch {
+    error(true, "PB with EFFECT: " + JSON.stringify(effect.flags.arm5e));
+    return true;
   }
-  return false;
 };
 
 /**
@@ -308,7 +315,7 @@ const isEffectObsolete = function(effect) {
  * @param {object} actor    The actor data object to update
  * @return {Object}         The updateData to apply
  */
-export const migrateActorData = async function(actorDoc, actorItems) {
+export const migrateActorData = async function (actorDoc, actorItems) {
   let actor = {};
   let updateData = {};
   if (actorDoc instanceof CONFIG.Actor.documentClass) {
@@ -719,7 +726,7 @@ export const migrateActorData = async function(actorDoc, actorItems) {
     for (let invalidItemId of invalidItemIds) {
       try {
         const rawData = foundry.utils.deepClone(
-          actorDoc.items._source.find(d => d._id == invalidItemId)
+          actorDoc.items._source.find((d) => d._id == invalidItemId)
         );
         let invalidItem = actorDoc.items.getInvalid(invalidItemId);
         const itemUpdate = await migrateItemData(invalidItem);
@@ -745,7 +752,7 @@ export const migrateActorData = async function(actorDoc, actorItems) {
   return updateData;
 };
 
-export const migrateActiveEffectData = async function(effectData) {
+export const migrateActiveEffectData = async function (effectData) {
   let effectUpdate = {};
   // update flags
 
@@ -831,7 +838,7 @@ export const migrateActiveEffectData = async function(effectData) {
   return effectUpdate;
 };
 
-export const migrateItemData = async function(item) {
+export const migrateItemData = async function (item) {
   let itemData = {};
   if (item instanceof CONFIG.Item.documentClass) {
     itemData = item._source;

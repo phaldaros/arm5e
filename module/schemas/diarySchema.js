@@ -342,7 +342,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         } else {
           updateData["system.done"] = false;
         }
-      } else if (itemData.system.done === null) {
+      } else if (itemData.system.done === null || typeof itemData.system.done == "number") {
         updateData["system.done"] =
           itemData.system.dates.filter((d) => d.applied == true).length == itemData.system.duration;
       }
@@ -387,7 +387,10 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       }
     }
 
-    if (itemData.system.done === null && itemData.system.dates) {
+    if (
+      (typeof itemData.system.done == "number" || itemData.system.done === null) &&
+      itemData.system.dates
+    ) {
       updateData["system.done"] =
         itemData.system.dates.filter((d) => d.applied == true).length == itemData.system.duration;
     }
@@ -480,7 +483,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         updateNeeded = false;
       }
     }
-
+    log(false, "Diary migration: " + updateData);
     return updateData;
   }
   static getIcon(item, newValue = null) {
