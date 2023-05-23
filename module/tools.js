@@ -31,7 +31,7 @@ export function error(force, ...args) {
 }
 
 export async function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function getDocumentFromCompendium(pack, id) {
@@ -176,7 +176,14 @@ export function compareBooks(b1, b2) {
 }
 
 const seasonOrder = { spring: 0, summer: 1, autumn: 2, winter: 3 };
-
+const seasonOrderInv = { 0: "spring", 1: "summer", 2: "autumn", 3: "winter" };
+export function nextDate(season, year) {
+  if (season == "winter") {
+    return { season: "spring", year: year + 1 };
+  } else {
+    return { season: seasonOrderInv[seasonOrder[season] + 1], year: year };
+  }
+}
 // TODO multi seasons activities
 export function compareDiaryEntries(e1, e2) {
   if (e1.system.dates[0].year < e2.system.dates[0].year) {
@@ -190,6 +197,28 @@ export function compareDiaryEntries(e1, e2) {
       return -1;
     } else {
       let cmp = -e1.system.dates[0].date.localeCompare(e2.system.dates[0].date);
+      if (cmp) {
+        return cmp;
+      } else {
+        return e1.name.localeCompare(e2.name);
+      }
+    }
+  }
+}
+
+// used in the calendar
+export function compareEvents(e1, e2) {
+  if (e1.year < e2.year) {
+    return -1;
+  } else if (e1.year > e2.year) {
+    return 1;
+  } else {
+    if (seasonOrder[e1.season] < seasonOrder[e2.season]) {
+      return -1;
+    } else if (seasonOrder[e1.season] > seasonOrder[e2.season]) {
+      return 1;
+    } else {
+      let cmp = -e1.date.localeCompare(e2.date);
       if (cmp) {
         return cmp;
       } else {
@@ -245,12 +274,12 @@ export function compareSpells(e1, e2) {
 
 export function hermeticFilter(filters, inputArray) {
   // for books with empty labtext topics
-  inputArray = inputArray.filter(e => e.system !== null);
+  inputArray = inputArray.filter((e) => e.system !== null);
   if (filters.formFilter != "") {
-    inputArray = inputArray.filter(e => e.system.form.value === filters.formFilter);
+    inputArray = inputArray.filter((e) => e.system.form.value === filters.formFilter);
   }
   if (filters.techniqueFilter != "") {
-    inputArray = inputArray.filter(e => e.system.technique.value === filters.techniqueFilter);
+    inputArray = inputArray.filter((e) => e.system.technique.value === filters.techniqueFilter);
   }
   if (
     filters.levelFilter != 0 &&
@@ -259,11 +288,11 @@ export function hermeticFilter(filters, inputArray) {
     filters.levelFilter != "0"
   ) {
     if (filters.levelOperator == 0) {
-      inputArray = inputArray.filter(e => e.system.level === parseInt(filters.levelFilter));
+      inputArray = inputArray.filter((e) => e.system.level === parseInt(filters.levelFilter));
     } else if (filters.levelOperator == -1) {
-      inputArray = inputArray.filter(e => e.system.level <= parseInt(filters.levelFilter));
+      inputArray = inputArray.filter((e) => e.system.level <= parseInt(filters.levelFilter));
     } else {
-      inputArray = inputArray.filter(e => e.system.level >= parseInt(filters.levelFilter));
+      inputArray = inputArray.filter((e) => e.system.level >= parseInt(filters.levelFilter));
     }
   }
   return inputArray;
@@ -271,10 +300,10 @@ export function hermeticFilter(filters, inputArray) {
 
 export function topicFilter(filters, inputArray, typeField) {
   if (filters.typeFilter != "") {
-    inputArray = inputArray.filter(e => e.type === filters.typeFilter);
+    inputArray = inputArray.filter((e) => e.type === filters.typeFilter);
   }
   if (filters.topicFilter != "") {
-    inputArray = inputArray.filter(e => e[typeField] === filters.topicFilter);
+    inputArray = inputArray.filter((e) => e[typeField] === filters.topicFilter);
   }
   if (
     filters.levelFilter != 0 &&
@@ -284,15 +313,15 @@ export function topicFilter(filters, inputArray, typeField) {
   ) {
     if (filters.levelOperator == 0) {
       inputArray = inputArray.filter(
-        e => e.type === "Tractatus" || e.level === parseInt(filters.levelFilter)
+        (e) => e.type === "Tractatus" || e.level === parseInt(filters.levelFilter)
       );
     } else if (filters.levelOperator == -1) {
       inputArray = inputArray.filter(
-        e => e.type === "Tractatus" || e.level <= parseInt(filters.levelFilter)
+        (e) => e.type === "Tractatus" || e.level <= parseInt(filters.levelFilter)
       );
     } else {
       inputArray = inputArray.filter(
-        e => e.type === "Tractatus" || e.level >= parseInt(filters.levelFilter)
+        (e) => e.type === "Tractatus" || e.level >= parseInt(filters.levelFilter)
       );
     }
   }
@@ -303,11 +332,11 @@ export function topicFilter(filters, inputArray, typeField) {
     filters.qualityFilter != "0"
   ) {
     if (filters.qualityOperator == 0) {
-      inputArray = inputArray.filter(e => e.quality === parseInt(filters.qualityFilter));
+      inputArray = inputArray.filter((e) => e.quality === parseInt(filters.qualityFilter));
     } else if (filters.qualityOperator == -1) {
-      inputArray = inputArray.filter(e => e.quality <= parseInt(filters.qualityFilter));
+      inputArray = inputArray.filter((e) => e.quality <= parseInt(filters.qualityFilter));
     } else {
-      inputArray = inputArray.filter(e => e.quality >= parseInt(filters.qualityFilter));
+      inputArray = inputArray.filter((e) => e.quality >= parseInt(filters.qualityFilter));
     }
   }
   return inputArray;
@@ -315,10 +344,10 @@ export function topicFilter(filters, inputArray, typeField) {
 
 export function hermeticTopicFilter(filters, inputArray) {
   if (filters.formFilter != "") {
-    inputArray = inputArray.filter(e => e.spellForm === filters.formFilter);
+    inputArray = inputArray.filter((e) => e.spellForm === filters.formFilter);
   }
   if (filters.techniqueFilter != "") {
-    inputArray = inputArray.filter(e => e.spellTech === filters.techniqueFilter);
+    inputArray = inputArray.filter((e) => e.spellTech === filters.techniqueFilter);
   }
   if (
     filters.qualityFilter != 0 &&
@@ -327,11 +356,35 @@ export function hermeticTopicFilter(filters, inputArray) {
     filters.qualityFilter != "0"
   ) {
     if (filters.qualityOperator == 0) {
-      inputArray = inputArray.filter(e => e.quality === parseInt(filters.qualityFilter));
+      inputArray = inputArray.filter((e) => e.quality === parseInt(filters.qualityFilter));
     } else if (filters.qualityOperator == -1) {
-      inputArray = inputArray.filter(e => e.quality <= parseInt(filters.qualityFilter));
+      inputArray = inputArray.filter((e) => e.quality <= parseInt(filters.qualityFilter));
     } else {
-      inputArray = inputArray.filter(e => e.quality >= parseInt(filters.qualityFilter));
+      inputArray = inputArray.filter((e) => e.quality >= parseInt(filters.qualityFilter));
+    }
+  }
+  return inputArray;
+}
+export function diaryEntryFilter(filters, inputArray) {
+  if (filters.typeFilter != "") {
+    inputArray = inputArray.filter((e) => e.system.activity === filters.typeFilter);
+  }
+  for (let a of inputArray) {
+    if (
+      filters.minYearFilter != 0 &&
+      filters.minYearFilter != null &&
+      filters.minYearFilter != "" &&
+      filters.minYearFilter != "0"
+    ) {
+      a.system.dates = a.system.dates.filter((e) => e.year >= parseInt(filters.minYearFilter));
+    }
+    if (
+      filters.maxYearFilter != 0 &&
+      filters.maxYearFilter != null &&
+      filters.maxYearFilter != "" &&
+      filters.maxYearFilter != "0"
+    ) {
+      a.system.dates = a.system.dates.filter((e) => e.year <= parseInt(filters.maxYearFilter));
     }
   }
   return inputArray;
@@ -378,7 +431,7 @@ export function getLabUpkeepCost(upkeep) {
 
 export function getLastMessageByHeader(game, key) {
   const searchString = game.i18n.localize(key).toLowerCase() + " </h2>";
-  const messages = game.messages.filter(msg => {
+  const messages = game.messages.filter((msg) => {
     const flavor = (msg?.flavor || "").toLowerCase();
     return flavor.indexOf(searchString) > -1;
   });
@@ -396,7 +449,7 @@ export function calculateWound(damage, size) {
   const wounds = Object.keys(typeOfWoundsBySize);
 
   let typeOfWound = DEFAULT_WOUND;
-  wounds.forEach(wound => {
+  wounds.forEach((wound) => {
     if (Number(wound) <= damage) {
       typeOfWound = typeOfWoundsBySize[wound];
     }
@@ -624,7 +677,7 @@ export function generateActiveEffectFromAbilities() {
 
 export function getSystemCompendium(compendiumName) {
   let pack = game.packs.filter(
-    p => p.metadata.packageName === "arm5e" && p.metadata.name === compendiumName
+    (p) => p.metadata.packageName === "arm5e" && p.metadata.name === compendiumName
   );
   if (pack.length) return pack[0];
   return undefined;

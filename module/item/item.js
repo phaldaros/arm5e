@@ -107,9 +107,7 @@ export class ArM5eItem extends Item {
       if (this.actor !== null) {
         const activityConfig = CONFIG.ARM5E.activities.generic[systemData.activity];
 
-        this.system.done = systemData.dates.filter(d => d.applied == true).length;
-
-        if (this.system.done > 0) {
+        if (this.system.done) {
           // keep the existing quality at the time of applying
           // log(false, `Use source quality (${systemData.sourceQuality}) as base for ${this.name}`);
           this.system.baseQuality = systemData.sourceQuality;
@@ -240,10 +238,10 @@ export class ArM5eItem extends Item {
 
   static getTechLabel(systemData) {
     let label = CONFIG.ARM5E.magic.arts[systemData.technique.value].short;
-    let techReq = Object.entries(systemData["technique-req"]).filter(r => r[1] === true);
+    let techReq = Object.entries(systemData["technique-req"]).filter((r) => r[1] === true);
     if (techReq.length > 0) {
       label += " (";
-      techReq.forEach(key => {
+      techReq.forEach((key) => {
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
       // remove last whitespace
@@ -255,10 +253,10 @@ export class ArM5eItem extends Item {
 
   static getFormLabel(systemData) {
     let label = CONFIG.ARM5E.magic.arts[systemData.form.value].short;
-    let formReq = Object.entries(systemData["form-req"]).filter(r => r[1] === true);
+    let formReq = Object.entries(systemData["form-req"]).filter((r) => r[1] === true);
     if (formReq.length > 0) {
       label += " (";
-      formReq.forEach(key => {
+      formReq.forEach((key) => {
         label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
       });
       // remove last whitespace
@@ -274,11 +272,11 @@ export class ArM5eItem extends Item {
 
     let label = CONFIG.ARM5E.magic.techniques[this.system.technique.value].label;
     let tech = 1000;
-    let techReq = Object.entries(this.system["technique-req"]).filter(r => r[1] === true);
+    let techReq = Object.entries(this.system["technique-req"]).filter((r) => r[1] === true);
     let techDeficient = false;
     if (techReq.length > 0) {
       label += " (";
-      techReq.forEach(key => {
+      techReq.forEach((key) => {
         if (actorSystemData.arts.techniques[key[0]].deficient) {
           techDeficient = true;
         }
@@ -305,10 +303,10 @@ export class ArM5eItem extends Item {
     let label = CONFIG.ARM5E.magic.forms[this.system.form.value].label;
     let form = 1000;
     let formDeficient = false;
-    let formReq = Object.entries(this.system["form-req"]).filter(r => r[1] === true);
+    let formReq = Object.entries(this.system["form-req"]).filter((r) => r[1] === true);
     if (formReq.length > 0) {
       label += " (";
-      formReq.forEach(key => {
+      formReq.forEach((key) => {
         if (actorSystemData.arts.forms[key[0]].deficient) {
           formDeficient = true;
         }
@@ -337,8 +335,8 @@ export class ArM5eItem extends Item {
     let deficiencyDivider = 1;
     let deficientTech = false;
     let deficientForm = false;
-    let techReq = Object.entries(itemData["technique-req"]).filter(r => r[1] === true);
-    let formReq = Object.entries(itemData["form-req"]).filter(r => r[1] === true);
+    let techReq = Object.entries(itemData["technique-req"]).filter((r) => r[1] === true);
+    let formReq = Object.entries(itemData["form-req"]).filter((r) => r[1] === true);
     if (owner.system.arts.techniques[this.system.technique.value].deficient) {
       deficientTech = true;
     }
@@ -346,7 +344,7 @@ export class ArM5eItem extends Item {
       deficientForm = true;
     }
     if (techReq.length > 0) {
-      techReq.forEach(key => {
+      techReq.forEach((key) => {
         if (owner.system.arts.techniques[key[0]].deficient) {
           deficientTech = true;
         }
@@ -358,7 +356,7 @@ export class ArM5eItem extends Item {
       tech = owner.system.arts.techniques[this.system.technique.value].finalScore;
     }
     if (formReq.length > 0) {
-      formReq.forEach(key => {
+      formReq.forEach((key) => {
         if (owner.system.arts.forms[key[0]].deficient) {
           deficientForm = true;
         }
@@ -391,11 +389,14 @@ export class ArM5eItem extends Item {
     // if (data.img === undefined) {
     let toUpdate = false;
     if (CONFIG.Item.systemDataModels[data.type]?.getDefault) {
-      CONFIG.Item.systemDataModels[data.type].getDefault(data);
+      data = CONFIG.Item.systemDataModels[data.type].getDefault(data);
       toUpdate = true;
     }
 
-    if (data.img === undefined || data.img === "icons/svg/item-bag.svg") {
+    if (CONFIG.Item.systemDataModels[data.type]?.getIcon) {
+      data.img = CONFIG.Item.systemDataModels[data.type].getIcon(data);
+      toUpdate = true;
+    } else if (data.img === undefined || data.img === "icons/svg/item-bag.svg") {
       if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
         data.img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
         toUpdate = true;

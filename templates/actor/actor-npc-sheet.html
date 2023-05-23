@@ -39,9 +39,10 @@
               style="font-size: 13pt; font-family:blackmoor;  padding-top: 15px; padding-left: 5px;padding-right: 5px;">{{localize "arm5e.sheet.might"}}</label>
             <div style="padding-top: 15px">
               <input type="number" name="system.might.points" value="{{system.might.points}}" data-dtype="Number"
-                style="width: 36px; text-align: center;" /> {{localize "arm5e.sheet.pointsShort"}} /
+                style="width: 36px; text-align: center;" class="resource-focus" />
+              {{localize "arm5e.sheet.pointsShort"}} /
               <input type="number" name="system.might.value" value="{{system.might.value}}" data-dtype="Number"
-                style="width: 40px; text-align: center; " />
+                style="width: 40px; text-align: center; " class="resource-focus" />
             </div>
             <div style="padding-top: 15px; padding-left: 5px;">
               <select name="system.realmAlignment" data-type="Number">
@@ -80,9 +81,11 @@
         <div class="resource flex-group-center backSection">
           <label for="system.age.value" class="smallTitle">{{localize "arm5e.sheet.age"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="system.age.value" value="{{system.age.value}}" data-dtype="Number" />
+            <input type="number" name="system.age.value" value="{{system.age.value}}" data-dtype="Number"
+              class="resource-focus" />
             <span> ( </span>
-            <input type="number" name="system.apparent.value" value="{{system.apparent.value}}" data-dtype="Number" />
+            <input type="number" name="system.apparent.value" value="{{system.apparent.value}}" data-dtype="Number"
+              class="resource-focus" />
             <span> ) </span>
           </div>
         </div>

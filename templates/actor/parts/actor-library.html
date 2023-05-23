@@ -15,7 +15,7 @@
     {{#each system.filteredArtsTopics as |item id|}}
       <li class="item item-value flexrow" data-name="{{item.book}}" data-index="{{item.index}}"
         data-item-id="{{item.id}}">
-        <div class="item-image"><img src="{{item.img}}" title="{{item.book}}" /></div>
+        <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
           <span class="flexrow item-title width15">{{item.book}}</span>
           <span class="flexrow bold">{{localize "arm5e.sheet.type"}}:{{item.type~}} </span>
@@ -56,7 +56,7 @@
 
       <li class="item item-value flexrow flex-center" data-name="{{item.book}}" data-index="{{item.index}}"
         data-item-id="{{item.id}}">
-        <div class="item-image"><img src="{{item.img}}" title="{{item.book}}" /></div>
+        <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
           <span class="flexrow item-title width15">{{item.book}}</span>
 
@@ -76,7 +76,7 @@
           </div>
         </div>
         <div class="item-controls">
-          {{#if ../system.isCharacter}}
+          {{#if @root.system.isCharacter}}
             <a class="plan-reading" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
               data-index="{{item.index}}"><i class="icon-Icon_Readspell"></i></a>
           {{/if}}
@@ -105,7 +105,7 @@
 
       <li class="item item-value flexrow flex-center" data-name="{{item.book}}" data-index="{{item.index}}"
         data-item-id="{{item.id}}">
-        <div class="item-image"><img src="{{item.img}}" title="{{item.book}}" /></div>
+        <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
           <span class="flexrow item-title width15">{{item.book}}</span>
 
@@ -119,7 +119,7 @@
           </div>
         </div>
         <div class="item-controls">
-          {{#if ../system.isCharacter}}
+          {{#if @root.system.isCharacter}}
             <a class="plan-reading" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
               data-index="{{item.index}}"><i class="icon-Icon_Readspell"></i></a>
           {{/if}}
@@ -151,6 +151,7 @@
   system.filteredLaboratoryTexts as |item id|}}
     <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-index="{{item.index}}"
       data-item-id="{{item.id}}">
+      <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
       <div class="flexrow flex-center">
         <span class="flexrow item-title width15">
           {{localize (lookup @root.config.lab.labTextType item.system.type)~}} : {{item.name}} ( {{#with
@@ -161,7 +162,7 @@
         </span>
       </div>
       <div class="item-controls">
-        {{#if ../system.isCharacter}}
+        {{#if @root.system.isCharacter}}
           <a class="study-labtext" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
             data-index="{{item.index}}"><i class="icon-Icon_Readspell"></i></a>
         {{/if}}

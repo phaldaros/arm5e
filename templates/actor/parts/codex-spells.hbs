@@ -8,6 +8,7 @@
 {{#each system.filteredSpells as |spell id|}}
   <li class="item spell-value flexrow" data-name="{{spell.name}}" data-item-id="{{spell.id}}"
     data-item-type="{{spell.type}}">
+    <div class="item-image item-control item-edit"><img src="{{spell.img}}" title="{{spell.name}}" /></div>
     <div class="flexrow flex-center">
       <span class="flexrow spell-title design" data-name="{{spell.name}}">
         <!-- data-level="{{spell.system.baseLevel}}" data-technique="{{spell.system.technique.value}}" data-form="{{spell.system.form.value}}"-->

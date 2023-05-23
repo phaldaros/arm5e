@@ -1,5 +1,6 @@
 import { log } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
+import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -64,7 +65,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.ui = { flavor: "Neutral" };
     context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon" && this.item.isOwned) {
-      context.system.abilities = this.actor.system.abilities.map(v => {
+      context.system.abilities = this.actor.system.abilities.map((v) => {
         return { id: v._id, name: `${v.name} (${v.system.speciality}) - ${v.system.finalScore}` };
       });
       context.system.abilities.unshift({
@@ -183,16 +184,19 @@ export class ArM5eItemSheet extends ItemSheet {
 
     html
       .find(".default-characteristic")
-      .change(event => this._onSelectDefaultCharacteristic(this.item, event));
-    html.find(".item-enchant").click(event => this._enchantItemQuestion(this.item));
-    html.find(".ability-option").change(event => this._cleanUpOption(this.item, event));
+      .change((event) => this._onSelectDefaultCharacteristic(this.item, event));
+    html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
+    html.find(".ability-option").change((event) => this._cleanUpOption(this.item, event));
+    html.find(".change-abilitykey").change((event) => this._changeAbilitykey(this.item, event));
 
     // Active Effect management
-    html.find(".effect-control").click(ev => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
+    html
+      .find(".effect-control")
+      .click((ev) => ArM5eActiveEffect.onManageActiveEffect(ev, this.item));
 
-    html.find(".study-labtext").click(event => this.item._studyLabText(this.item, event));
+    html.find(".study-labtext").click((event) => this.item._studyLabText(this.item, event));
 
-    html.find(".migrate").click(event => this.item.migrate());
+    html.find(".migrate").click((event) => this.item.migrate());
 
     html.find(".item-delete-confirm").click(async () => {
       const question = game.i18n.localize("arm5e.dialog.delete-question");
@@ -210,6 +214,32 @@ export class ArM5eItemSheet extends ItemSheet {
         { rejectClose: true }
       );
     });
+
+    html.find(".resource-focus").focus((ev) => {
+      ev.preventDefault();
+      ev.currentTarget.select();
+    });
+  }
+
+  async _changeAbilitykey(item, event) {
+    event.preventDefault();
+
+    if (CONFIG.Item.systemDataModels[this.item.type]?.getIcon) {
+      let currentDefIcon = CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item);
+      // if the current img is the default icon of the previous value, allow change
+      if (
+        this.item.img === currentDefIcon ||
+        this.item.img === ARM5E_DEFAULT_ICONS.MONO[this.item.type] ||
+        this.item.img === ARM5E_DEFAULT_ICONS.COLOR[this.item.type] ||
+        this.item.img === "icons/svg/mystery-man.svg" ||
+        this.item.img === "icons/svg/item-bag.svg"
+      ) {
+        await this.item.update({
+          img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, event.target.value),
+          "system.key": event.target.value
+        });
+      }
+    }
   }
 
   async _onSelectDefaultCharacteristic(item, event) {
@@ -217,9 +247,7 @@ export class ArM5eItemSheet extends ItemSheet {
     await this.item.update(
       {
         system: {
-          defaultChaAb: $(".default-characteristic")
-            .find("option:selected")
-            .val()
+          defaultChaAb: $(".default-characteristic").find("option:selected").val()
         }
       },
       {}
@@ -266,7 +294,7 @@ export class ArM5eItemSheet extends ItemSheet {
   }
 
   async _onEnchant(item) {
-    var codex = game.actors.filter(a => a.type === "magicCodex");
+    var codex = game.actors.filter((a) => a.type === "magicCodex");
 
     if (codex.length === 0) {
       ui.notifications.warn(game.i18n.localize("arm5e.notification.codex.enchant"), {
@@ -274,11 +302,11 @@ export class ArM5eItemSheet extends ItemSheet {
       });
       return;
     }
-    this.item.system.list = codex[0].items.filter(i => i.type === "enchantment");
+    this.item.system.list = codex[0].items.filter((i) => i.type === "enchantment");
 
     let template = "systems/arm5e/templates/generic/simpleListPicker.html";
     var item = this.item;
-    renderTemplate(template, this.item).then(function(html) {
+    renderTemplate(template, this.item).then(function (html) {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.sheet.enchantment"),
@@ -287,7 +315,7 @@ export class ArM5eItemSheet extends ItemSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: html => createMagicItem(html, item, codex[0])
+              callback: (html) => createMagicItem(html, item, codex[0])
             },
             no: {
               icon: "<i class='fas fa-ban'></i>",

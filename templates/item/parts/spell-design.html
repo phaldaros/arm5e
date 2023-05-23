@@ -10,7 +10,7 @@
     {{#if system.general}}
       <label class="header-label">{{localize "arm5e.spell.effect.levelOffset"}}</label>
       <input type="number" name="system.levelOffset" value="{{system.levelOffset}}" data-dtype="Number"
-        style="max-width: 40px;" />
+        style="max-width: 40px;" class="resource-focus" />
     {{/if}}
   </div>
 </div>
@@ -58,15 +58,18 @@
 
   <div class="resource">
     <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
-    <input type="number" name="system.targetSize" value="{{system.targetSize}}" data-dtype="Number" />
+    <input type="number" name="system.targetSize" value="{{system.targetSize}}" class="resource-focus"
+      data-dtype="Number" />
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
-    <input type="number" name="system.complexity" value="{{system.complexity}}" data-dtype="Number" />
+    <input type="number" name="system.complexity" value="{{system.complexity}}" class="resource-focus"
+      data-dtype="Number" />
   </div>
   <div class="resource">
     <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
-    <input type="number" name="system.enhancingRequisite" value="{{system.enhancingRequisite}}" data-dtype="Number" />
+    <input type="number" name="system.enhancingRequisite" value="{{system.enhancingRequisite}}" class="resource-focus"
+      data-dtype="Number" />
   </div>
   {{#if item.parent}} {{#if (ne item.parent.system.type "magicCodex")}}
       <div class="resource">

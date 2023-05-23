@@ -16,97 +16,13 @@ import {
 } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
-export const ARM5E_DEFAULT_ICONS = {};
+
 /**
  * The set of metadata used within the sytem that will
  * probably not change
  * @type {Object}
  */
 ARM5E.SYSTEM_ID = "arm5e";
-
-// default icons
-
-ARM5E_DEFAULT_ICONS.MONO = {
-  weapon: "icons/svg/sword.svg",
-  armor: "icons/svg/statue.svg",
-  spell: "icons/svg/explosion.svg",
-  vis: "icons/svg/daze.svg",
-  book: "icons/svg/book.svg",
-  virtue: "systems/arm5e/assets/icons/upgraded-magic.svg",
-  flaw: "systems/arm5e/assets/icons/base-magic.svg",
-  ability: "icons/svg/aura.svg",
-  abilityFamiliar: "icons/svg/aura.svg",
-  diaryEntry: "icons/svg/sun.svg",
-  power: "icons/svg/tower.svg",
-  powerFamiliar: "icons/svg/tower.svg",
-  speciality: "icons/svg/obelisk.svg",
-  distinctive: "icons/svg/target.svg",
-  sanctumRoom: "icons/svg/temple.svg",
-  magicItem: "icons/svg/mage-shield.svg",
-  personalityTrait: "icons/svg/personality.svg",
-  reputation: "icons/svg/angel.svg",
-  habitantMagi: "icons/svg/mountain.svg",
-  habitantCompanion: "icons/svg/castle.svg",
-  habitantSpecialists: "icons/svg/city.svg",
-  habitantHabitants: "icons/svg/village.svg",
-  habitantHorses: "icons/svg/bridge.svg",
-  habitantLivestock: "icons/svg/windmill.svg",
-  possessionsCovenant: "icons/svg/barrel.svg",
-  visSourcesCovenant: "icons/svg/ruins.svg",
-  visStockCovenant: "icons/svg/chest.svg",
-  magicalEffect: "icons/svg/up.svg",
-  baseEffect: "icons/svg/down.svg",
-  calendarCovenant: "icons/svg/clockwork.svg",
-  incomingSource: "icons/svg/regen.svg",
-  laboratoryText: "systems/arm5e/assets/icons/journal-book.svg",
-  magicCodex: "icons/commodities/materials/parchment-secrets.webp",
-  covenant: "icons/svg/castle.svg",
-  crucible: "icons/tools/laboratory/bowl-liquid-orange.webp",
-  npc: "icons/svg/mystery-man-black.svg",
-  laboratory: "icons/svg/tower.svg",
-  enchantment: "icons/svg/daze.svg",
-  labCovenant: "icons/svg/tower.svg"
-};
-ARM5E_DEFAULT_ICONS.COLOR = {
-  weapon: "icons/weapons/swords/greatsword-crossguard-silver.webp",
-  armor: "icons/equipment/chest/breastplate-scale-grey.webp",
-  spell: "icons/magic/light/explosion-star-glow-blue-purple.webp",
-  vis: "icons/magic/light/orbs-firefly-hand-yellow.webp",
-  item: "icons/sundries/survival/rope-coiled-tan.webp",
-  book: "icons/sundries/books/book-tooled-eye-gold-red.webp",
-  virtue: "icons/magic/light/explosion-star-glow-silhouette.webp",
-  flaw: "icons/magic/control/silhouette-hold-change-blue.webp",
-  //"flaw": "icons/magic/unholy/silhouette-evil-horned-giant.webp",
-  ability: "icons/skills/trades/woodcutting-logging-axe-stump.webp",
-  abilityFamiliar: "icons/creatures/mammals/deer-antlers-glowing-blue.webp",
-  diaryEntry: "icons/sundries/documents/document-sealed-signatures-red.webp",
-  power: "icons/creatures/abilities/dragon-fire-breath-orange.webp",
-  powerFamiliar: "icons/creatures/abilities/wolf-howl-moon-purple.webp",
-  speciality: "icons/skills/trades/construction-carpentry-hammer.webp",
-  distinctive: "icons/sundries/flags/banner-symbol-sun-gold-red.webp",
-  magicItem: "icons/weapons/staves/staff-ornate-red.webp",
-  personalityTrait: "icons/skills/social/intimidation-impressing.webp",
-  reputation: "icons/skills/social/diplomacy-handshake.webp",
-  habitantCompanion: "icons/environment/people/cleric-grey.webp",
-  habitantSpecialists: "icons/environment/people/commoner.webp",
-  habitantHabitants: "icons/environment/people/group.webp",
-  habitantHorses: "icons/environment/creatures/horse-brown.webp",
-  habitantLivestock: "icons/environment/creatures/horses.webp",
-  possessionsCovenant: "icons/commodities/currency/coins-plain-pouch-gold.webp",
-  visSourcesCovenant: "icons/environment/wilderness/arch-stone.webp",
-  visStockCovenant: "icons/commodities/currency/coin-oval-rune-copper.webp",
-  laboratoryText: "icons/sundries/documents/blueprint-recipe-alchemical.webp",
-  magicalEffect: "icons/sundries/documents/document-symbol-lightning-brown.webp",
-  baseEffect: "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
-  enchantment: "icons/magic/symbols/runes-etched-steel-blade.webp",
-  labCovenant: "icons/tools/laboratory/vials-blue-pink.webp",
-  // Actors
-  covenant: "icons/environment/settlement/wizard-castle.webp",
-  magicCodex: "icons/commodities/materials/parchment-secrets.webp",
-  npc: "icons/svg/mystery-man-black.svg",
-  laboratory: "icons/tools/laboratory/vials-blue-pink.webp",
-  crucible: "icons/tools/laboratory/bowl-liquid-orange.webp"
-};
 
 ARM5E.character = {};
 
@@ -2120,7 +2036,8 @@ ARM5E.activities.generic = {
     maxXp: 1000,
     bonusOptions: null,
     validation: validTotalXp,
-    secondaryFilter: null
+    secondaryFilter: null,
+    duration: 60
   },
   childhood: {
     label: "arm5e.activity.childhood",
@@ -2152,7 +2069,8 @@ ARM5E.activities.generic = {
     maxXp: 1000,
     bonusOptions: null,
     validation: validTotalXp,
-    secondaryFilter: null
+    secondaryFilter: null,
+    duration: 4
   },
   laterLifeMagi: {
     label: "arm5e.activity.laterLifeMagi",
@@ -2168,7 +2086,8 @@ ARM5E.activities.generic = {
     maxXp: 1000,
     bonusOptions: null,
     validation: validTotalXp,
-    secondaryFilter: null
+    secondaryFilter: null,
+    duration: 4
   },
   reading: {
     label: "arm5e.activity.reading",
@@ -2405,6 +2324,8 @@ ARM5E.activities.aging = {
   IntPerPts: { desc: "arm5e.aging.roll.IntPerPts", impact: 2, char: "int", char2: "per" },
   crisis: { desc: "arm5e.aging.roll.crisis", impact: 42 }
 };
+
+ARM5E.activities.conflictExclusion = ["aging", "adventuring", "exposure", "none"];
 
 ARM5E.lab = {};
 

@@ -103,7 +103,7 @@ export class VisSchema extends foundry.abstract.DataModel {
           yes: {
             icon: "<i class='fas fa-check'></i>",
             label: game.i18n.localize("arm5e.dialog.button.roll"),
-            callback: async html => {
+            callback: async (html) => {
               let val = html.find('input[name="aura"]');
               actor.rollData.setGenericField(auraLabel, Number(val.val()), 1, "+");
               await stressDie(actor, dataset.roll, 0, this.applyResults);
@@ -139,6 +139,7 @@ export class VisSchema extends foundry.abstract.DataModel {
           }),
           type: "diaryEntry",
           system: {
+            done: true,
             cappedGain: false,
             dates: [
               { season: currentDate.season, date: "", year: currentDate.year, applied: true }

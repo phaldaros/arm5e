@@ -22,7 +22,7 @@ export const actorBase = () => {
         required: true,
         nullable: false,
         integer: true,
-        initial: 1200,
+        initial: 1220,
         step: 1
       })
     })

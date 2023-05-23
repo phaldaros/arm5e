@@ -64,7 +64,7 @@ export const readingSkill = {
   defaultChaAb: "int",
   speciality: "latin",
   xp: 75,
-  key: "artesLiberales"
+  key: "artesLib"
 };
 
 export const combatSkill = {

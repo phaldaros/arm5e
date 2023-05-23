@@ -10,7 +10,7 @@ margin-top: -10px;">
           <label for="system.characteristics.{{key}}.value" class="resource-label rollable-aging" data-roll="char"
             data-characteristic="{{key}}">{{localize short}}</label>
         {{/with}}
-        <input type="text" name="system.characteristics.{{key}}.value" class="agingPoints"
+        <input type="text" name="system.characteristics.{{key}}.value" class="resource-focus agingPoints"
           value="{{numberFormat characteristic.value decimals=0 sign=true}}" data-dtype="Number"
           {{{characteristic.ui.style}}} title="{{characteristic.ui.title}}" />
       </div>

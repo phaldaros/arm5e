@@ -2,6 +2,7 @@ import { ArM5eItemSheet } from "./item-sheet.js";
 import { log } from "../tools.js";
 import { ARM5E } from "../config.js";
 import { ArM5eItem } from "./item.js";
+import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
 /**
  * Extend the basic ArM5eItemSheet with some very simple modifications
  * @extends {ArM5eItemSheet}
@@ -102,12 +103,34 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
-    html.find(".advanced-req").click(async evt => {
+    html.find(".advanced-req").click(async (evt) => {
       let update = await ArM5eItemMagicSheet.PickRequisites(
         this.item.system,
         evt.currentTarget.dataset.flavor
       );
       if (update) await this.item.update(update);
+    });
+
+    html.find(".select-form").change(async (evt) => {
+      evt.preventDefault();
+
+      if (CONFIG.Item.systemDataModels[this.item.type]?.getIcon) {
+        let currentDefIcon = CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item);
+        // if the current img is the default icon of the previous value, allow change
+        if (
+          this.item.img === currentDefIcon ||
+          this.item.img === ARM5E_DEFAULT_ICONS.MONO[this.item.type] ||
+          this.item.img === ARM5E_DEFAULT_ICONS.COLOR[this.item.type] ||
+          this.item.img === "icons/svg/mystery-man.svg" ||
+          this.item.img === "icons/svg/item-bag.svg"
+        ) {
+          await this.item.update({
+            img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, evt.target.value),
+            "system.form.value": evt.target.value
+          });
+        }
+      }
+      // }
     });
   }
 
@@ -125,7 +148,7 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     let template = "systems/arm5e/templates/item/parts/requisites.html";
     let html = await renderTemplate(template, spelldata);
 
-    let itemUpdate = await new Promise(resolve => {
+    let itemUpdate = await new Promise((resolve) => {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.sheet.Requisites"),
@@ -134,7 +157,7 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: game.i18n.localize("arm5e.dialog.button.save"),
-              callback: async html => {
+              callback: async (html) => {
                 resolve(_setRequisites(html));
               }
             },

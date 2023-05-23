@@ -75,7 +75,8 @@
         <div class="resource flex-group-center backSection">
           <label for="system.datetime.year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="system.datetime.year" value="{{system.datetime.year}}" data-dtype="String" />
+            <input type="number" name="system.datetime.year" value="{{system.datetime.year}}" class="resource-focus"
+              data-dtype="String" />
           </div>
         </div>
         {{#if (ne system.charType.value "grog")}}

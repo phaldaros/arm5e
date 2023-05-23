@@ -1,4 +1,4 @@
-## 2.1.0.0, Mercere, first to join
+## 2.1.0.2, Mercere, first to join
 
 ### Features & changes
 
@@ -10,6 +10,11 @@
 - Cosmetic improvements left and right
 - New setting to reset the user cache (sheet filters)
 - Updated French version by orneen
+- Filters for diary entries
+- New custom icons for abilities (thanks to Nestua)
+- Multi-seasons activities (spell invention)
+  - Scheduling
+- Select on focus for input fields
 
 ### Bug fixes
 
@@ -32,7 +37,7 @@
   - Magical effects
   - Diary entry
   - Laboratory
-  - Magic Codex
+  - Magic Codex (new)
   - Reputation
   - Personality trait
   - Armor

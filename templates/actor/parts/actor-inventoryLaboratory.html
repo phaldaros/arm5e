@@ -9,7 +9,7 @@
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.rawVis as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
-      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+      <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <span></span>
       <span class="flexrow bold">{{localize "arm5e.sheet.art"}}:
@@ -36,7 +36,7 @@
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.magicItems as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
-      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+      <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <span></span>
       <span class="flexrow bold">{{localize "arm5e.sheet.creator"}}: {{item.system.creator}} </span>
@@ -60,7 +60,7 @@
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.items as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
-      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24" /></div>
+      <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <div class="item-controls">
         <a class="item-control item-edit" title="Edit item"><i class="icon-Icon_Edit"></i></a>

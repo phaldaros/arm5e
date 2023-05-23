@@ -1,5 +1,6 @@
 import { ARM5E } from "../config.js";
-import { log } from "../tools.js";
+import { ACTIVITIES_DEFAULT_ICONS } from "../constants/ui.js";
+import { log, nextDate } from "../tools.js";
 import {
   characteristicField,
   convertToNumber,
@@ -25,7 +26,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
             required: true,
             nullable: false,
             integer: true,
-            initial: 1200,
+            initial: 1220,
             step: 1
           }),
           date: new fields.StringField({
@@ -44,12 +45,11 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         positive: true,
         initial: 1
       }),
-      // done: new fields.NumberField({
-      //   required: false,
-      //   nullable: false,
-      //   integer: true,
-      //   initial: 0
-      // }),
+      done: new fields.BooleanField({
+        required: false,
+        nullable: true,
+        initial: null
+      }),
       sourceQuality: new fields.NumberField({
         required: false,
         nullable: false,
@@ -238,19 +238,40 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     };
   }
 
+  static buildSchedule(duration, year, season, date = "") {
+    let tmpDate = { season: season, year: year, date: date, applied: false };
+    let schedule = [tmpDate];
+    for (let ii = 1; ii < duration; ii++) {
+      tmpDate = nextDate(tmpDate.season, tmpDate.year);
+      schedule.push({
+        season: tmpDate.season,
+        date: "",
+        year: tmpDate.year,
+        applied: false
+      });
+    }
+    return schedule;
+  }
+
   static getDefault(itemData) {
+    let res = itemData;
     let currentDate = game.settings.get("arm5e", "currentDate");
     if (itemData.system) {
       if (itemData.system.dates == undefined) {
-        itemData.system.dates = [
+        res.system.dates = [
           { year: currentDate.year, season: currentDate.season, date: "", applied: false }
         ];
       }
+      if (itemData.system.done == null) {
+        itemData.system.done = false;
+      }
     } else {
-      itemData.system = {
-        dates: [{ year: currentDate.year, season: currentDate.season, date: "", applied: false }]
+      res.system = {
+        dates: [{ year: currentDate.year, season: currentDate.season, date: "", applied: false }],
+        done: false
       };
     }
+    return res;
   }
 
   static migrate(itemData) {
@@ -317,10 +338,13 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       if (itemData.system.duration === undefined) {
         updateData["system.duration"] = 1;
         if (itemData.system.applied) {
-          updateData["system.done"] = 1;
+          updateData["system.done"] = true;
         } else {
-          updateData["system.done"] = 0;
+          updateData["system.done"] = false;
         }
+      } else if (itemData.system.done === null || typeof itemData.system.done == "number") {
+        updateData["system.done"] =
+          itemData.system.dates.filter((d) => d.applied == true).length == itemData.system.duration;
       }
 
       updateData["system.-=applied"] = null;
@@ -361,6 +385,14 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       if (update) {
         updateData["system.dates"] = itemData.system.dates;
       }
+    }
+
+    if (
+      (typeof itemData.system.done == "number" || itemData.system.done === null) &&
+      itemData.system.dates
+    ) {
+      updateData["system.done"] =
+        itemData.system.dates.filter((d) => d.applied == true).length == itemData.system.duration;
     }
     // if (itemData.system.applied !== undefined) {
     //   // if applied exists, the array should be of length 1
@@ -451,7 +483,32 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         updateNeeded = false;
       }
     }
-
+    log(false, "Diary migration: " + updateData);
     return updateData;
+  }
+  static getIcon(item, newValue = null) {
+    if (newValue == null) {
+      return (
+        ACTIVITIES_DEFAULT_ICONS.COLOR[item.system.activity] ?? ACTIVITIES_DEFAULT_ICONS.COLOR.none
+      );
+    } else {
+      return ACTIVITIES_DEFAULT_ICONS.COLOR[newValue] ?? ACTIVITIES_DEFAULT_ICONS.COLOR.none;
+    }
+  }
+  // TODO
+  hasConflict(actor, excludedActivities = []) {
+    if (this.activity === "none") {
+      return false;
+    }
+    for (let entry of actor.system.diaryEntries) {
+      if (entry._id != this.parent._id && !excludedActivities.includes(entry.system.activity)) {
+        for (let date of entry.system.dates) {
+          if (this.dates.some((e) => e.year == date.year && e.season === date.season)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }
