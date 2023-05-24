@@ -49,12 +49,13 @@ export class Calendar extends FormApplication {
       data.displayYear + YEARS_FORWARD,
       dates.length ? dates[dates.length - 1].year : 0
     );
-    const actorSchedule = data.actor.getSchedule(
-      MIN_YEAR,
-      MAX_YEAR,
-      ARM5E.activities.conflictExclusion,
-      [data.activity.id]
-    );
+    let exclusion = ARM5E.activities.conflictExclusion;
+    if (data.activity.system.activity === "exposure") {
+      exclusion = ["aging", "adventuring", "none"];
+    } else if (data.activity.system.activity === "aging") {
+      exclusion = ["adventuring", "exposure", "none"];
+    }
+    const actorSchedule = data.actor.getSchedule(MIN_YEAR, MAX_YEAR, exclusion, [data.activity.id]);
 
     let dateIndex = 0;
     data.selectedCnt = 0;
@@ -145,7 +146,7 @@ export class Calendar extends FormApplication {
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
-      if (item) item.sheet.render(true);
+      if (item) item.sheet.render(true, { focus: true });
     });
     html.find(".calendar-update").click(async (event) => this._submitChanges(event));
   }

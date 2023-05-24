@@ -1,4 +1,4 @@
-## 2.1.0.2, Mercere, first to join
+## 2.1.0.3, Mercere, first to join
 
 ### Features & changes
 
@@ -15,6 +15,8 @@
 - Multi-seasons activities (spell invention)
   - Scheduling
 - Select on focus for input fields
+- New character schedule app
+- Displaying a sheet will also set the focus on it and bring it to front if already rendered
 
 ### Bug fixes
 
