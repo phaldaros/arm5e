@@ -19,24 +19,9 @@
     </div>
     <div class="flexrow">
 
-      <div class="calendar-field">
-        <label>{{activityName}}</label>
-      </div>
-
     </div>
     <div>
-      {{> "systems/arm5e/templates/generic/calendar-grid.html" type="calendar"}}
-    </div>
-    <div class="flexrow padding12">
-      <div class="flex-group-center">
-        <label style="font-size: 18pt;">{{selectedCnt}} / {{activity.system.duration}}
-          {{localize "arm5e.sheet.seasons"}}</label>
-        <label style="color:red">
-          <p>{{message}}</p>
-        </label>
-      </div>
-      <button class="calendar-update" {{updatePossible}}
-        style="max-height: 100px;">{{localize "arm5e.sheet.action.update"}}</button>
+      {{> "systems/arm5e/templates/generic/calendar-grid.html" type="schedule" }}
     </div>
   </div>
 

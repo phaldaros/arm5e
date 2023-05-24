@@ -642,7 +642,7 @@ export class ArM5ePCActor extends Actor {
             parseInt(totalFlaws) + parseInt(ARM5E.impacts[item.system.impact.value].cost);
         }
       } else if (item.type === "diaryEntry") {
-        if (item.system.done) {
+        if (!item.system.done) {
           pendingXps += item.system.sourceQuality;
         }
         diaryEntries.push(item);

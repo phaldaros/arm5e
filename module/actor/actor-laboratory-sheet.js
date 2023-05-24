@@ -371,7 +371,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     html.find(".schedule").click(async () => this._schedule());
     html.find(".moreinfo").click(async (ev) => {
       const actorId = $(ev.currentTarget).data("id");
-      game.actors.get(actorId).sheet.render(true);
+      game.actors.get(actorId).sheet.render(true, { focus: true });
     });
   }
   async _changeActivity(item, event) {

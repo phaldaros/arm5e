@@ -39,6 +39,7 @@ import { spellTechniqueLabel, spellFormLabel } from "../helpers/spells.js";
 import { computeCombatStats, quickCombat, quickVitals } from "../helpers/combat.js";
 import { quickMagic } from "../helpers/magic.js";
 import { UI } from "../constants/ui.js";
+import { Schedule } from "../tools/schedule.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -762,6 +763,8 @@ export class ArM5eActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find(".character-schedule").click(this.displaySchedule.bind(this));
+
     html.find(".ability-category").click(async (ev) => {
       const category = $(ev.currentTarget).data("category");
       document.getElementById(category).classList.toggle("hide");
@@ -918,7 +921,7 @@ export class ArM5eActorSheet extends ActorSheet {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       // const item = this.actor.items.get(li.data("itemId"))
-      item.sheet.render(true);
+      item.sheet.render(true, { focus: true });
     });
 
     // Update Inventory Item
@@ -1182,7 +1185,7 @@ export class ArM5eActorSheet extends ActorSheet {
     const header = event.currentTarget;
     const id = header.dataset.actorid;
     const actor = game.actors.get(id);
-    actor.sheet.render(true);
+    actor.sheet.render(true, { focus: true });
   }
 
   /**
@@ -1479,6 +1482,15 @@ export class ArM5eActorSheet extends ActorSheet {
 
   async quickMagic(name) {
     await quickMagic(name, this.actor);
+  }
+
+  async displaySchedule(event) {
+    event.preventDefault();
+    const schedule = new Schedule({
+      actor: this.actor,
+      type: "character"
+    });
+    const res = await schedule.render(true);
   }
 
   // Overloaded core functions (TODO: review at each Foundry update)

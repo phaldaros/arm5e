@@ -584,10 +584,16 @@ h4.window-title {
   padding-bottom: 0px;
 }
 
+.calendar-sheet .schedule-years {
+  height: 424px;
+  overflow-y: scroll;
+}
+
 .calendar-sheet .calendar-years {
   height: 300px;
   overflow-y: scroll;
 }
+
 .calendar-season {
   border: 1px solid #bbb;
   margin: 2px;
