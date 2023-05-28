@@ -28,7 +28,7 @@ export function addChatListeners(message, html, data) {
 
   if (message.isRoll) {
     let rollFormula = html.find(".dice-formula");
-    if (showRollFormulas(actor, data.message.flags.arm5e.actorType)) {
+    if (showRollFormulas(actor, data.message.flags.arm5e?.actorType ?? "npc")) {
       if (rollFormula) {
         // botches
         let tmp = rollFormula.text();
@@ -38,6 +38,10 @@ export function addChatListeners(message, html, data) {
           tmp = rollFormula.text().replace(/1di /g, "1d10 ");
         } else if (tmp.match(/1di10 /g)) {
           tmp = rollFormula.text().replace(/1di10 /g, "1d10 ");
+        } else if (tmp.match(/1de10 /g)) {
+          tmp = rollFormula.text().replace(/1de10 /g, "1d10 ");
+        } else if (tmp.match(/1de /g)) {
+          tmp = rollFormula.text().replace(/1de /g, "1d10 ");
         }
 
         rollFormula.text(tmp);
@@ -52,10 +56,8 @@ export function addChatListeners(message, html, data) {
   // Hide the details if you are not the GM or owner
 
   if (originatorOrGM) {
-    html.find(".clickable").click(ev => {
-      $(ev.currentTarget)
-        .next()
-        .toggleClass("hide");
+    html.find(".clickable").click((ev) => {
+      $(ev.currentTarget).next().toggleClass("hide");
     });
   } else {
     html.find(".clickable").remove();
@@ -110,7 +112,7 @@ export function addChatListeners(message, html, data) {
   const actorFace = $(
     `<div class="moreInfo item-image flex01"><img src="${actorImg}" title="${tokenName}" data-id="${actor.id}" width="30" height="30">`
   );
-  actorFace.on("click", ev => {
+  actorFace.on("click", (ev) => {
     const img = $(ev.currentTarget.children[0]);
     const actorId = img.data("id");
     if (game.actors.has(actorId)) {
@@ -129,7 +131,7 @@ export function addChatListeners(message, html, data) {
       `<div class="moreInfo item-image"><img src="${img}" data-id="${data.message.flags.arm5e?.roll?.id}"width="30" height="30"></div>`
     );
     if (originatorOrGM) {
-      newTitle.on("click", ev => {
+      newTitle.on("click", (ev) => {
         const img = $(ev.currentTarget.children[0]);
         const itemId = img.data("id");
         if (itemId) {
@@ -176,7 +178,7 @@ export function addChatListeners(message, html, data) {
   rollResult.append(btnContainer);
 
   // Handle button clicks
-  useConfButton.on("click", ev => useConfidence(ev));
+  useConfButton.on("click", (ev) => useConfidence(ev));
 }
 
 async function useConfidence(ev) {
@@ -194,9 +196,7 @@ async function useConfidence(ev) {
       }
 
       // horrible code, TODO find a cleaner way.
-      let total = $(ev.currentTarget)
-        .closest(".dice-total")
-        .text();
+      let total = $(ev.currentTarget).closest(".dice-total").text();
       let usedConf = message.flags.arm5e.usedConf + 1 || 1;
       let flavor = message.flavor;
       if (usedConf == 1) {
