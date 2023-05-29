@@ -38,10 +38,6 @@ export function addChatListeners(message, html, data) {
           tmp = rollFormula.text().replace(/1di /g, "1d10 ");
         } else if (tmp.match(/1di10 /g)) {
           tmp = rollFormula.text().replace(/1di10 /g, "1d10 ");
-        } else if (tmp.match(/1de10 /g)) {
-          tmp = rollFormula.text().replace(/1de10 /g, "1d10 ");
-        } else if (tmp.match(/1de /g)) {
-          tmp = rollFormula.text().replace(/1de /g, "1d10 ");
         }
 
         rollFormula.text(tmp);

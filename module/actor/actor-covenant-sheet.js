@@ -67,7 +67,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     log(false, context);
     context.system.world = {};
     context.system.world.people = game.actors
-      .filter(a => a.type == "player" || a.type == "npc")
+      .filter((a) => a.type == "player" || a.type == "npc")
       .map(({ name, id }) => ({
         name,
         id
@@ -75,7 +75,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
 
     if (context.system.world.people.length > 1) {
       for (let person of context.system.habitants.magi) {
-        let per = context.system.world.people.filter(p => p.name == person.name);
+        let per = context.system.world.people.filter((p) => p.name == person.name);
         if (per.length > 0) {
           person.system.linked = true;
           person.system.actorId = per[0].id;
@@ -84,7 +84,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         }
       }
       for (let person of context.system.habitants.companion) {
-        let per = context.system.world.people.filter(p => p.name == person.name);
+        let per = context.system.world.people.filter((p) => p.name == person.name);
         if (per.length > 0) {
           person.system.linked = true;
           person.system.actorId = per[0].id;
@@ -93,7 +93,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         }
       }
       for (let person of context.system.habitants.habitants) {
-        let per = context.system.world.people.filter(p => p.name == person.name);
+        let per = context.system.world.people.filter((p) => p.name == person.name);
         if (per.length > 0) {
           person.system.linked = true;
           person.system.actorId = per[0].id;
@@ -103,7 +103,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       }
     }
     context.system.world.labs = game.actors
-      .filter(a => a.type == "laboratory")
+      .filter((a) => a.type == "laboratory")
       .map(({ name, id }) => ({
         name,
         id
@@ -111,7 +111,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
 
     if (context.system.labs) {
       for (let sanctum of context.system.labs) {
-        let lab = context.system.world.labs.filter(p => p.name == sanctum.name);
+        let lab = context.system.world.labs.filter((p) => p.name == sanctum.name);
         if (lab.length > 0) {
           sanctum.system.linked = true;
           sanctum.system.actorId = lab[0].id;
@@ -145,12 +145,13 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       case "book":
       case "magicItem":
       case "reputation":
-      case "habitantMagi":
-      case "habitantCompanion":
-      case "habitantSpecialists":
-      case "habitantHabitants":
-      case "habitantHorses":
-      case "habitantLivestock":
+      case "inhabitant":
+      // case "habitantMagi":
+      // case "habitantCompanion":
+      // case "habitantSpecialists":
+      // case "habitantHabitants":
+      // case "habitantHorses":
+      // case "habitantLivestock":
       case "possessionsCovenant":
       case "visSourcesCovenant":
       case "visStockCovenant":
@@ -246,7 +247,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         }
       ];
       // check if it is already bound
-      let magi = targetActor.system.habitants.magi.filter(h => h.name == actor.name);
+      let magi = targetActor.system.habitants.magi.filter((h) => h.name == actor.name);
       if (magi.length == 0) {
         log(false, "Added to inhabitants Magi");
         return await this.actor.createEmbeddedDocuments("Item", itemData, {});
@@ -273,7 +274,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       ];
 
       // check if it is already bound
-      let comp = targetActor.system.habitants.companion.filter(h => h.name == actor.name);
+      let comp = targetActor.system.habitants.companion.filter((h) => h.name == actor.name);
       if (comp.length == 0) {
         log(false, "Added to inhabitants Companion");
         return await this.actor.createEmbeddedDocuments("Item", itemData, {});
@@ -303,7 +304,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       ];
 
       // check if it is already bound
-      let hab = targetActor.system.habitants.habitants.filter(h => h.name == actor.name);
+      let hab = targetActor.system.habitants.habitants.filter((h) => h.name == actor.name);
       if (hab.length == 0) {
         log(false, "Added to inhabitants");
         return await this.actor.createEmbeddedDocuments("Item", itemData, {});
@@ -324,7 +325,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         }
       ];
       // check if it is already bound
-      let lab = targetActor.system.labs.filter(h => h.name == actor.name);
+      let lab = targetActor.system.labs.filter((h) => h.name == actor.name);
       if (lab.length == 0) {
         log(false, "Added to sanctums");
         return await this.actor.createEmbeddedDocuments("Item", itemData, {});
@@ -353,9 +354,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     if (data.documentName !== "Item") return [];
     const folder = game.folders.get(data.id);
     if (!folder) return [];
-    let nonConvertibleItems = folder.contents.filter(e => this.needConversion(e.type) === false);
-    let res = await this._onDropItemCreate(nonConvertibleItems.map(e => e.toObject()));
-    let convertibleItems = folder.contents.filter(e => this.needConversion(e.type) === true);
+    let nonConvertibleItems = folder.contents.filter((e) => this.needConversion(e.type) === false);
+    let res = await this._onDropItemCreate(nonConvertibleItems.map((e) => e.toObject()));
+    let convertibleItems = folder.contents.filter((e) => this.needConversion(e.type) === true);
     for (let item of convertibleItems) {
       // let actorID = this.actor.id;
       let itemData = {

@@ -726,7 +726,7 @@ async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
 export async function createRoll(rollFormula, mult, divide, options = {}) {
   let rollInit;
   if (options.noBotch) {
-    rollInit = `1de10 + ${rollFormula}`;
+    rollInit = `1d10 + ${rollFormula}`;
   } else {
     rollInit = `1di10 + ${rollFormula}`;
   }

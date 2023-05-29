@@ -38,17 +38,30 @@
             {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" prefix=namePrefix spelldata=planning.data }}
         {{/if}}
         <div class="flexrow flex01">
-            <div class="flexcol flex02" style="margin-top: 10px;">
+            <div class="flexcol" style="margin-top: 10px; margin-right: 10px;">
                 <label class="planning-item header-label clickable flex0 " data-item="planning-options"
                     data-persist="options">{{localize "arm5e.generic.options"}}</label>
                 <div class="planning-options {{planning.visibility.options}}" id="planning-options">
-                    <div class="resource flexcol flex-center flex01">
-                        <label class="header-label ">{{localize "arm5e.skill.arcane.magicTheory"}}
-                            {{localize "arm5e.sheet.speciality"}}</label>
-                        <input class="flex01" name="mtSpec" title="{{owner.magicTheory.speciality}}" type="text"
-                            value="{{owner.magicTheory.speciality}}" readonly />
-                        <input type="checkbox" name="flags.arm5e.planning.magicThSpecApply" {{checked
-                            planning.magicThSpecApply }} />
+                    <div class="flexrow">
+                        <div class="resource flexcol flex-center">
+                            <label class="header-label ">{{localize "arm5e.skill.arcane.magicTheory"}}
+                                {{localize "arm5e.sheet.speciality"}}</label>
+                            <input class="flex01" name="mtSpec" title="{{owner.magicTheory.speciality}}" type="text"
+                                value="{{owner.magicTheory.speciality}}" readonly style="max-width: 150px" />
+                            <input type="checkbox" name="flags.arm5e.planning.magicThSpecApply" {{checked
+                                planning.magicThSpecApply }} />
+                        </div>
+                        <div class="resource flexcol flex-center flex01">
+                            <label class="header-label ">{{localize "arm5e.lab.distraction.label"}}
+                            </label>
+                            <select name="flags.arm5e.planning.distractions" data-dtype="String"
+                                style="max-height: 22px">
+                                {{#select flags.arm5e.planning.distractions}}
+                                    {{#each config.activities.distractions as |type key|}}
+                                        <option value="{{key}}">{{localize type.label}}</option>
+                                    {{/each}} {{/select}}
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>

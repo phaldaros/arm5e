@@ -14,7 +14,7 @@
           <div class="calendar-season flexrow" {{{this.style}}}>
             {{#if this.edition}}
               <input type="checkbox" name="" {{checked this.selected}} class="selectedSeason"
-                data-year="{{../this.year}}" data-season="{{@key}}">
+                data-year="{{../this.year}}" data-season="{{@key}}" data-selected="{{this.selected}}">
             {{/if}}
             <div class="flexrow">
               {{#each this.others}}

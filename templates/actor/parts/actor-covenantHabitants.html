@@ -91,7 +91,7 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.maguss"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add habitantMagi" data-type="habitantMagi"><i
+            <a class="item-control item-create" title="Add habitantMagi" data-type="inhabitant" data-category="magi"><i
                     class="fas fa-plus"></i></a>
         </div>
     </li>
@@ -99,7 +99,9 @@
     {{#each system.habitants.magi as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
+            <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class=" flexrow flex-center">
+
                 <span class="flexrow item-title width15">{{item.name}} </span>
                 <label><span class="flexrow bold width15"></span>{{item.system.job}}</label>
                 <label><span class="flexrow bold">{{localize "arm5e.sheet.yearBorn"}}: </span>
@@ -132,14 +134,15 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.companion"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add habitantCompanion" data-type="habitantCompanion"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add habitantCompanion" data-type="inhabitant"
+                data-category="companions"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.habitants.companion as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
+            <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <label><span class="flexrow bold width15"></span>{{item.system.job}} ({{ item.system.score
@@ -175,14 +178,15 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.specialists"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add habitantSpecialists" data-type="habitantSpecialists"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add habitantSpecialists" data-type="inhabitant"
+                data-category="specialists"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.habitants.specialists as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
+            <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span class="flexrow bold width15">{{item.system.job}} ({{ item.system.score }})</span>
@@ -208,14 +212,15 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.habitants"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add habitantHabitants" data-type="habitantHabitants"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add habitantHabitants" data-type="inhabitant"
+                data-category="grogs"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.habitants.habitants as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
+            <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width15">{{item.name}}</span>
                 <span class="flexrow bold width15">{{item.system.job}} ({{ item.system.score }})</span>
@@ -246,14 +251,15 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.horses"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add habitantHorses" data-type="habitantHorses"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add habitantHorses" data-type="inhabitant"
+                data-category="horses"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.habitants.horses as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
-            data-item-id="{{item._id}}">
+            data-item-id="{{item._id}}" data-category="horses">
+            <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width2">{{item.name}}</span>
                 <span></span>
@@ -276,14 +282,15 @@
         <div class="item-image"></div>
         <div class="item-name">{{localize "arm5e.sheet.livestock"}}</div>
         <div class="item-controls">
-            <a class="item-control item-create" title="Add habitantLivestock" data-type="habitantLivestock"><i
-                    class="fas fa-plus"></i></a>
+            <a class="item-control item-create" title="Add habitantLivestock" data-type="inhabitant"
+                data-category="livestock"><i class="fas fa-plus"></i></a>
         </div>
     </li>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
     {{#each system.habitants.livestock as |item id|}}
         <li class="item item-value flexrow flex-center" data-name="{{item.name}}" data-attribute="{{id}}"
             data-item-id="{{item._id}}">
+            <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
             <div class="flexrow flex-center">
                 <span class="flexrow item-title width2">{{item.name}}</span>
                 <span></span>

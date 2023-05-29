@@ -48,7 +48,7 @@ export class NullableDocumentIdField extends fields.DocumentIdField {
 }
 
 // convert a field value into a number
-export const convertToNumber = function(value, fallback = 0) {
+export const convertToNumber = function (value, fallback = 0) {
   if (value === undefined || value === "" || value === null) {
     return fallback;
   } else if (typeof value === "string") {
@@ -66,7 +66,7 @@ export const convertToNumber = function(value, fallback = 0) {
   }
 };
 
-export const convertToInteger = function(value, fallback = 0) {
+export const convertToInteger = function (value, fallback = 0) {
   return Math.round(convertToNumber(value, fallback));
 };
 
@@ -81,16 +81,17 @@ export const itemBase = () => {
       initial: 0,
       min: 0,
       step: 1
-    })
+    }),
+    url: new fields.StringField({ required: false, blank: true, initial: "" })
   };
 };
 
 export const basicTextField = () =>
   new fields.StringField({ required: false, blank: true, initial: "" });
 
-export const possibleRanges = Object.keys(ARM5E.magic.ranges).filter(r => !r.disabled);
-export const possibleTargets = Object.keys(ARM5E.magic.targets).filter(r => !r.disabled);
-export const possibleDurations = Object.keys(ARM5E.magic.durations).filter(r => !r.disabled);
+export const possibleRanges = Object.keys(ARM5E.magic.ranges).filter((r) => !r.disabled);
+export const possibleTargets = Object.keys(ARM5E.magic.targets).filter((r) => !r.disabled);
+export const possibleDurations = Object.keys(ARM5E.magic.durations).filter((r) => !r.disabled);
 export const boolOption = (val = false, nullable = false) =>
   new fields.BooleanField({ required: false, initial: val, nullable: nullable });
 export const baseDescription = () =>

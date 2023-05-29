@@ -647,7 +647,12 @@ export class ArM5eActorSheet extends ActorSheet {
 
           activity._id = entry._id;
           if (!activitiesMap.has(date.year)) {
-            activitiesMap.set(date.year, { winter: [], autumn: [], summer: [], spring: [] });
+            activitiesMap.set(date.year, {
+              [CONFIG.SEASON_ORDER_INV[3]]: [],
+              [CONFIG.SEASON_ORDER_INV[2]]: [],
+              [CONFIG.SEASON_ORDER_INV[1]]: [],
+              [CONFIG.SEASON_ORDER_INV[0]]: []
+            });
           }
           activitiesMap.get(date.year)[date.season].push(activity);
         }

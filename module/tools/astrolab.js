@@ -19,6 +19,8 @@ export class Astrolab extends FormApplication {
     let currentDate = game.settings.get("arm5e", "currentDate");
     data.curYear = currentDate.year;
     data.curSeason = currentDate.season;
+
+    data.date = "1220-03-21";
     return data;
   }
 
@@ -66,7 +68,7 @@ export class Astrolab extends FormApplication {
     const updateData = {
       system: { datetime: { season: dataset.season, year: dataset.year } }
     };
-    await game.actors.updateAll(updateData, e => {
+    await game.actors.updateAll(updateData, (e) => {
       return e.type === "player" || e.type === "npc" || e.type === "covenant";
     });
     ui.notifications.info(

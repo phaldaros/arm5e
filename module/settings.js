@@ -148,17 +148,26 @@ export function registerSettings() {
     scope: "world",
     config: false,
     type: Object,
-    default: { year: 1220, season: "spring" }
+    default: { year: 1220, season: "spring", date: "1220-03-21" }
   });
 
-  // game.settings.register(ARM5E.SYSTEM_ID, "maxDiaryEntries", {
-  //   name: "Maximimum number of diary entries displayed",
-  //   hint: "Could help with performance with a large number of entries",
-  //   scope: "client",
-  //   config: true,
-  //   type: Number,
-  //   default: 100
-  // });
+  game.settings.register(ARM5E.SYSTEM_ID, "enforceSchedule", {
+    name: "Enforce schedule constraints",
+    hint: "Whether to prevent users to schedule or apply seasonal activities due to constraints put in the system",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+
+  game.settings.register(ARM5E.SYSTEM_ID, "winterFirst", {
+    name: "Winter first",
+    hint: "Whether the first season of the year is winter or spring (advise: do not change while running a saga)",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false
+  });
 
   game.settings.registerMenu(ARM5E.SYSTEM_ID, "sourcebookFilter", {
     name: game.i18n.localize("arm5e.config.sourcebookFilter"),

@@ -24,19 +24,27 @@
         </div>
       </div>
 
-      <div class="grid grid-2col" style="margin-top: 8px">
-        <div class="resource flexcol flexrow">
+      <div class="flexrow" style="margin: 8px">
+        <div class="resource-focus flexcol flexrow">
           <label for="system.loyalty" class="bold">{{localize "arm5e.sheet.loyalty"}}</label>
           <input type="text" name="system.loyalty" value="{{system.loyalty}}" data-dtype="String" />
         </div>
-        <div class="resource flexcol flexrow">
+        <div class="resource-focus flexcol flexrow">
           <label for="system.points" class="bold">{{localize "arm5e.sheet.points"}}</label>
           <input type="text" name="system.points" value="{{system.points}}" data-dtype="Number" />
+        </div>
+        <div class="resource flexcol flexrow">
+          <label for="system.category" class="bold">{{localize "arm5e.skill.category.label"}}</label>
+          <select name="system.category" data-dtype="String" class="category-change">
+            {{#select system.category}} {{#each config.covenant.inhabitants as |type key|}}
+                <option value="{{key}}">{{localize type.label}}</option>
+              {{/each}} {{/select}}
+          </select>
         </div>
       </div>
     </div>
   </header>
-  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+
   {{!-- Sheet Tab Navigation --}}
   <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
     <a class="item posRelative" data-tab="description">
@@ -45,7 +53,7 @@
       {{localize "arm5e.sheet.description"}}
     </a>
   </nav>
-
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Description Tab --}}

@@ -1,6 +1,7 @@
 import { ARM5E } from "../config.js";
 import { ACTIVITIES_DEFAULT_ICONS } from "../constants/ui.js";
-import { log, nextDate } from "../tools.js";
+import { log } from "../tools.js";
+import { nextDate } from "../tools/time.js";
 import {
   characteristicField,
   convertToNumber,
@@ -495,13 +496,41 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       return ACTIVITIES_DEFAULT_ICONS.COLOR[newValue] ?? ACTIVITIES_DEFAULT_ICONS.COLOR.none;
     }
   }
+  // input: list of activities of a season
+  static hasConflict(activities) {
+    if (activities.length <= 1) {
+      return false;
+    }
+    if (activities.filter((a) => !ARM5E.activities.conflictExclusion.includes(a.type)).length > 1) {
+      return true;
+    }
+    let agingCount = 0;
+    let exposureCount = 0;
+    for (let a of activities) {
+      if (["none", "adventuring"].includes(a.type)) {
+        continue;
+      }
+      if (a.type === "aging") {
+        agingCount++;
+        if (agingCount > 1) return true;
+      } else if (a.type === "exposure") {
+        exposureCount++;
+        if (exposureCount > 1) return true;
+      }
+    }
+    return false;
+  }
+
   // TODO
-  hasConflict(actor, excludedActivities = []) {
+  hasScheduleConflict(actor) {
     if (this.activity === "none") {
       return false;
     }
-    for (let entry of actor.system.diaryEntries) {
-      if (entry._id != this.parent._id && !excludedActivities.includes(entry.system.activity)) {
+    for (let entry of Object.values(actor.system.diaryEntries)) {
+      if (
+        entry._id != this.parent._id &&
+        !ARM5E.activities.conflictExclusion.includes(entry.system.activity)
+      ) {
         for (let date of entry.system.dates) {
           if (this.dates.some((e) => e.year == date.year && e.season === date.season)) {
             return true;

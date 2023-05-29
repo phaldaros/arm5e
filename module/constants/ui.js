@@ -36,6 +36,7 @@ ARM5E_DEFAULT_ICONS.MONO = {
   magicItem: "icons/svg/mage-shield.svg",
   personalityTrait: "icons/svg/personality.svg",
   reputation: "icons/svg/angel.svg",
+  inhabitant: "icons/svg/city.svg",
   habitantMagi: "icons/svg/mountain.svg",
   habitantCompanion: "icons/svg/castle.svg",
   habitantSpecialists: "icons/svg/city.svg",
@@ -118,6 +119,33 @@ export const ACTIVITIES_DEFAULT_ICONS = {
     lab: "icons/tools/laboratory/vials-blue-pink.webp",
     aging: "icons/sundries/misc/hourglass-wood.webp",
     visStudy: "icons/skills/toxins/bottle-open-vapors-pink.webp"
+  }
+};
+
+export const INHABITANTS_DEFAULT_ICONS = {
+  MONO: {
+    magi: "icons/svg/mountain.svg",
+    companions: "icons/svg/castle.svg",
+    grogs: "icons/svg/combat.svg",
+    craftmen: "icons/svg/city.svg",
+    specialists: "icons/svg/city.svg",
+    dependants: "icons/svg/village.svg",
+    servants: "icons/svg/village.svg",
+    teamsters: "icons/svg/village.svg",
+    horses: "icons/svg/bridge.svg",
+    livestock: "icons/svg/windmill.svg"
+  },
+  COLOR: {
+    magi: "icons/svg/mountain.svg",
+    companions: "icons/svg/castle.svg",
+    grogs: "icons/skills/melee/sword-shield-stylized-white.webp",
+    craftmen: "icons/environment/people/commoner.webp",
+    specialists: "icons/environment/people/commoner.webp",
+    dependants: "icons/environment/people/group.webp",
+    servants: "icons/environment/people/group.webp",
+    teamsters: "icons/environment/people/group.webp",
+    horses: "icons/environment/creatures/horse-brown.webp",
+    livestock: "icons/environment/creatures/horses.webp"
   }
 };
 
