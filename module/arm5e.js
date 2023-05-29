@@ -56,9 +56,11 @@ import { ArmorSchema, WeaponSchema } from "./schemas/weaponArmorSchema.js";
 import { CodexSchema } from "./schemas/actorCommonSchema.js";
 import { VisSchema } from "./schemas/visSchema.js";
 import { clearUserCache } from "./constants/userdata.js";
-import { ARM5E_DEFAULT_ICONS } from "./constants/ui.js";
+import { ARM5E_DEFAULT_ICONS, INHABITANTS_DEFAULT_ICONS } from "./constants/ui.js";
+import { InhabitantSchema } from "./schemas/inhabitantSchema.js";
+import { seasonOrder, seasonOrderInv } from "./tools/time.js";
 
-Hooks.once("init", async function() {
+Hooks.once("init", async function () {
   game.arm5e = {
     ArM5ePCActor,
     ArM5eItem,
@@ -100,14 +102,16 @@ Hooks.once("init", async function() {
   // Experimental
   CONFIG.Dice.types.push(StressDie);
   CONFIG.Dice.types.push(StressDieInternal);
+  // CONFIG.Dice.types.push(StressDieNoBotchInternal);
   CONFIG.Dice.terms[StressDie.DENOMINATION] = StressDie;
   CONFIG.Dice.terms[StressDieInternal.DENOMINATION] = StressDieInternal;
+  // CONFIG.Dice.terms[StressDieNoBotchInternal.DENOMINATION] = StressDieNoBotchInternal;
   // instrumenting roll for testing
   Roll.prototype.botches = 0;
   Roll.prototype.diviser = 1;
   Roll.prototype.multiplier = 1;
   Roll.prototype.offset = 0;
-  Roll.prototype.modifier = function() {
+  Roll.prototype.modifier = function () {
     if (!this.result) {
       return 0;
     }
@@ -131,6 +135,18 @@ Hooks.once("init", async function() {
   CONFIG.Item.sidebarIcon = "fas fa-sack-xmark";
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
+  CONFIG.INHABITANTS_DEFAULT_ICONS =
+    INHABITANTS_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
+
+  if (game.settings.get("arm5e", "winterFirst")) {
+    CONFIG.SEASON_ORDER = seasonOrder.winterFirst;
+    CONFIG.SEASON_ORDER_INV = seasonOrderInv.winterFirst;
+    CONFIG.ARM5E.seasons = CONFIG.ARM5E.seasonsLabels.winterFirst;
+  } else {
+    CONFIG.SEASON_ORDER = seasonOrder.standard;
+    CONFIG.SEASON_ORDER_INV = seasonOrderInv.standard;
+    CONFIG.ARM5E.seasons = CONFIG.ARM5E.seasonsLabels.standard;
+  }
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = ArM5ePCActor;
@@ -148,7 +164,7 @@ Hooks.once("init", async function() {
   ArM5ePreloadHandlebarsTemplates();
 
   // If you need to add Handlebars helpers, here are a few useful examples:
-  Handlebars.registerHelper("concat", function() {
+  Handlebars.registerHelper("concat", function () {
     var outStr = "";
     for (var arg in arguments) {
       if (typeof arguments[arg] != "object") {
@@ -157,11 +173,11 @@ Hooks.once("init", async function() {
     }
     return outStr;
   });
-  Handlebars.registerHelper("toLowerCase", function(str) {
+  Handlebars.registerHelper("toLowerCase", function (str) {
     return str.toLowerCase();
   });
 
-  Handlebars.registerHelper("ifIn", function(elem, list, options) {
+  Handlebars.registerHelper("ifIn", function (elem, list, options) {
     if (list.indexOf(elem) > -1) {
       return options.fn(this);
     }
@@ -169,7 +185,7 @@ Hooks.once("init", async function() {
   });
 });
 
-Hooks.once("ready", async function() {
+Hooks.once("ready", async function () {
   // DEV:
   // generateActiveEffectFromAbilities();
 
@@ -251,13 +267,13 @@ Hooks.once("ready", async function() {
  * This function runs after game data has been requested and loaded from the servers, so entities exist
  */
 
-Hooks.once("setup", function() {});
+Hooks.once("setup", function () {});
 
 Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(ARM5E.SYSTEM_ID);
 });
 
-Hooks.on("quenchReady", quench => {
+Hooks.on("quenchReady", (quench) => {
   registerTestSuites(quench);
 });
 
@@ -281,7 +297,7 @@ async function createArM5eMacro(data, slot) {
 
   // Create the macro command
   const command = `game.arm5e.rollItemMacro('${item._id}', '${item.actor._id}');`;
-  let macro = game.macros.contents.find(m => m.name === item.name && m.command === command);
+  let macro = game.macros.contents.find((m) => m.name === item.name && m.command === command);
   if (!macro) {
     macro = await Macro.create({
       name: item.name,
@@ -364,9 +380,9 @@ Hooks.on("applyActiveEffect", (actor, change, current, delta, changes) => {
   ArM5eActiveEffect.applyCustomEffect(actor, change, current, delta, changes);
 });
 
-Hooks.on("getSceneControlButtons", buttons => addArsButtons(buttons));
+Hooks.on("getSceneControlButtons", (buttons) => addArsButtons(buttons));
 
-Hooks.on("renderPause", function() {
+Hooks.on("renderPause", function () {
   if ($("#pause").attr("class") !== "paused") return;
   const path = "systems/arm5e/assets/clockwork.svg";
   // const opacity = 100
@@ -392,9 +408,19 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["reputation"] = ReputationSchema;
   CONFIG.Item.systemDataModels["armor"] = ArmorSchema;
   CONFIG.Item.systemDataModels["weapon"] = WeaponSchema;
+  CONFIG.Item.systemDataModels["inhabitant"] = InhabitantSchema;
   //Actors
   CONFIG.Actor.systemDataModels["laboratory"] = LabSchema;
   CONFIG.Actor.systemDataModels["magicCodex"] = CodexSchema;
+
+  // Deprecated types
+
+  CONFIG.Item.systemDataModels["habitantMagi"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["habitantCompanion"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["habitantSpecialists"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["habitantHabitants"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["habitantHorses"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["habitantLivestock"] = InhabitantSchema;
 }
 
 function registerSheets() {
@@ -477,12 +503,13 @@ function registerSheets() {
       "distinctive",
       "sanctumRoom",
       "reputation",
+      "inhabitant",
       "habitantMagi",
-      "habitantCompanion",
-      "habitantSpecialists",
-      "habitantHabitants",
-      "habitantHorses",
-      "habitantLivestock",
+      "habitantCompanion", // deprecated
+      "habitantSpecialists", // deprecated
+      "habitantHabitants", // deprecated
+      "habitantHorses", // deprecated
+      "habitantLivestock", // deprecated
       "possessionsCovenant",
       "visSourcesCovenant",
       "visStockCovenant",

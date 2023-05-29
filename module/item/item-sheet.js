@@ -45,6 +45,30 @@ export class ArM5eItemSheet extends ItemSheet {
     }
 
     if (this.item.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
+      if (this.item.type === "inhabitant") {
+        switch (this.item.system.category) {
+          case "magi":
+            return `${path}/item-habitantMagi-sheet.html`;
+          case "companions":
+            return `${path}/item-habitantCompanion-sheet.html`;
+          case "specialists":
+          case "craftmen":
+            return `${path}/item-habitantSpecialists-sheet.html`;
+          case "grogs":
+          case "servants":
+          case "laborers":
+          case "teamsters":
+          case "dependants":
+            return `${path}/item-habitantHabitants-sheet.html`;
+            break;
+          case "horses":
+            return `${path}/item-habitantHorses-sheet.html`;
+            break;
+          case "livestock":
+            return `${path}/item-habitantLivestock-sheet.html`;
+        }
+      }
+
       return `${path}/item-${this.item.type}-sheet.html`;
     }
     return `${path}/item-limited-sheet.html`;
@@ -187,8 +211,10 @@ export class ArM5eItemSheet extends ItemSheet {
       .change((event) => this._onSelectDefaultCharacteristic(this.item, event));
     html.find(".item-enchant").click((event) => this._enchantItemQuestion(this.item));
     html.find(".ability-option").change((event) => this._cleanUpOption(this.item, event));
+    html
+      .find(".category-change")
+      .change((event) => this._changeInhabitantCategory(this.item, event));
     html.find(".change-abilitykey").change((event) => this._changeAbilitykey(this.item, event));
-
     // Active Effect management
     html
       .find(".effect-control")
@@ -237,6 +263,27 @@ export class ArM5eItemSheet extends ItemSheet {
         await this.item.update({
           img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, event.target.value),
           "system.key": event.target.value
+        });
+      }
+    }
+  }
+
+  async _changeInhabitantCategory(item, event) {
+    event.preventDefault();
+
+    if (CONFIG.Item.systemDataModels[this.item.type]?.getIcon) {
+      let currentDefIcon = CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item);
+      // if the current img is the default icon of the previous value, allow change
+      if (
+        this.item.img === currentDefIcon ||
+        this.item.img === ARM5E_DEFAULT_ICONS.MONO[this.item.type] ||
+        this.item.img === ARM5E_DEFAULT_ICONS.COLOR[this.item.type] ||
+        this.item.img === "icons/svg/mystery-man.svg" ||
+        this.item.img === "icons/svg/item-bag.svg"
+      ) {
+        await this.item.update({
+          img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, event.target.value),
+          "system.category": event.target.value
         });
       }
     }

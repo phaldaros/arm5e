@@ -591,6 +591,7 @@ ARM5E.MARTIAL_ABILITIES = {
     selection: ""
   },
   trownWeapon: {
+    // I know typo, thrown weapon
     mnemonic: "arm5e.skill.martial.trownWeapon",
     option: false,
     category: "martial",
@@ -891,6 +892,23 @@ ARM5E.covenant.labels = {
     label: "arm5e.sheet.money"
   }
 };
+ARM5E.covenant.inhabitants = {
+  magi: {
+    label: "arm5e.sheet.maguss",
+    points: 5
+  },
+  companions: { label: "arm5e.sheet.companion", points: 3 },
+
+  grogs: { label: "arm5e.sheet.grog", points: 1 },
+  craftmen: { label: "arm5e.sheet.craftmen", points: 2 },
+  specialists: { label: "arm5e.sheet.specialists", points: 2 },
+  dependants: { label: "arm5e.sheet.dependants", points: 1 },
+  laborers: { label: "arm5e.sheet.laborers", points: 1 },
+  servants: { label: "arm5e.sheet.servants", points: 1 },
+  teamsters: { label: "arm5e.sheet.teamsters", points: 1 },
+  horses: { label: "arm5e.sheet.horses", points: 1 },
+  livestock: { label: "arm5e.sheet.livestock", points: 0 }
+};
 ARM5E.REALM_TYPES = {
   MUNDANE: 0,
   MAGIC: 1,
@@ -952,18 +970,34 @@ ARM5E.impacts = {
   }
 };
 
-ARM5E.seasons = {
-  spring: {
-    label: "arm5e.sheet.spring"
+ARM5E.seasonsLabels = {
+  standard: {
+    spring: {
+      label: "arm5e.sheet.spring"
+    },
+    summer: {
+      label: "arm5e.sheet.summer"
+    },
+    autumn: {
+      label: "arm5e.sheet.autumn"
+    },
+    winter: {
+      label: "arm5e.sheet.winter"
+    }
   },
-  summer: {
-    label: "arm5e.sheet.summer"
-  },
-  autumn: {
-    label: "arm5e.sheet.autumn"
-  },
-  winter: {
-    label: "arm5e.sheet.winter"
+  winterFirst: {
+    winter: {
+      label: "arm5e.sheet.winter"
+    },
+    spring: {
+      label: "arm5e.sheet.spring"
+    },
+    summer: {
+      label: "arm5e.sheet.summer"
+    },
+    autumn: {
+      label: "arm5e.sheet.autumn"
+    }
   }
 };
 
@@ -2297,10 +2331,10 @@ ARM5E.activities.lab = {
 };
 
 ARM5E.activities.distractions = {
-  none: { label: "Full", coeff: 1 },
-  oneMonth: { label: "One month", coeff: 2 / 3 },
-  twoMonths: { label: "Two months", coeff: 1 / 3 },
-  threeMonths: { label: "Three months", coeff: 0 }
+  none: { label: "arm5e.lab.distraction.none", coeff: 1 },
+  oneMonth: { label: "arm5e.lab.distraction.oneMonth", coeff: 2 / 3 },
+  twoMonths: { label: "arm5e.lab.distraction.twoMonths", coeff: 1 / 3 },
+  threeMonths: { label: "arm5e.lab.distraction.threeMonths", coeff: 0 }
 };
 
 ARM5E.activities.books = {

@@ -175,59 +175,6 @@ export function compareBooks(b1, b2) {
   return b1.name.localeCompare(b2.name);
 }
 
-const seasonOrder = { spring: 0, summer: 1, autumn: 2, winter: 3 };
-const seasonOrderInv = { 0: "spring", 1: "summer", 2: "autumn", 3: "winter" };
-export function nextDate(season, year) {
-  if (season == "winter") {
-    return { season: "spring", year: year + 1 };
-  } else {
-    return { season: seasonOrderInv[seasonOrder[season] + 1], year: year };
-  }
-}
-// TODO multi seasons activities
-export function compareDiaryEntries(e1, e2) {
-  if (e1.system.dates[0].year < e2.system.dates[0].year) {
-    return 1;
-  } else if (e1.system.dates[0].year > e2.system.dates[0].year) {
-    return -1;
-  } else {
-    if (seasonOrder[e1.system.dates[0].season] < seasonOrder[e2.system.dates[0].season]) {
-      return 1;
-    } else if (seasonOrder[e1.system.dates[0].season] > seasonOrder[e2.system.dates[0].season]) {
-      return -1;
-    } else {
-      let cmp = -e1.system.dates[0].date.localeCompare(e2.system.dates[0].date);
-      if (cmp) {
-        return cmp;
-      } else {
-        return e1.name.localeCompare(e2.name);
-      }
-    }
-  }
-}
-
-// used in the calendar
-export function compareEvents(e1, e2) {
-  if (e1.year < e2.year) {
-    return -1;
-  } else if (e1.year > e2.year) {
-    return 1;
-  } else {
-    if (seasonOrder[e1.season] < seasonOrder[e2.season]) {
-      return -1;
-    } else if (seasonOrder[e1.season] > seasonOrder[e2.season]) {
-      return 1;
-    } else {
-      let cmp = -e1.date.localeCompare(e2.date);
-      if (cmp) {
-        return cmp;
-      } else {
-        return e1.name.localeCompare(e2.name);
-      }
-    }
-  }
-}
-
 export function compareMagicalEffects(e1, e2) {
   if (e1.system.form.value < e2.system.form.value) {
     return -1;

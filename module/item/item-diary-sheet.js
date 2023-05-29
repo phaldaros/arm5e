@@ -98,6 +98,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     // configuration
+    let enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
     let hasTeacher = actType == "training" || actType == "teaching";
     context.system.sourceBonus = 0;
     context.ui.showTab = true;
@@ -112,18 +113,22 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.ui.editSource = true;
     context.ui.bonusOptions = false;
 
-    context.system.applyBtnStatus = "";
+    context.system.applyPossible = "";
     context.system.applyError = "";
+    // TODO
     let hasScheduleConflict =
-      this.item.isOwned &&
-      this.item.system.hasConflict(this.item.actor, CONFIG.ARM5E.activities.conflictExclusion);
-    context.applyAllowed = !context.system.done && !hasScheduleConflict;
-    if (!context.applyAllowed) {
-      context.applyBtnStatus = "disabled";
-      context.system.applyError = game.i18n.localize("arm5e.activity.msg.scheduleConflict");
-    }
+      this.item.isOwned && this.item.system.hasScheduleConflict(this.item.actor);
+
     if (hasScheduleConflict) {
+      context.system.applyError = game.i18n.localize("arm5e.activity.msg.scheduleConflict");
       context.astrolabIconStyle = 'style="text-shadow: 0 0 10px red"';
+      if (enforceSchedule) {
+        context.applyPossible = "disabled";
+      }
+    }
+
+    if (!context.system.done) {
+      context.applyPossible = "disabled";
     }
 
     if (activityConfig.source.readonly && !context.system.done) {
@@ -205,7 +210,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         teacher = game.actors.get(this.item.system.teacher.id);
         if (teacher === undefined) {
           context.system.canEdit = "readonly";
-          context.system.applyBtnStatus = "disabled";
+          context.system.applyPossible = "disabled";
           if (actType === "training") {
             context.system.applyError = "arm5e.activity.msg.noTrainer";
           } else {
@@ -221,7 +226,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       } else {
         if (context.system.teacher.score < 2) {
           context.system.canEdit = "readonly";
-          context.system.applyBtnStatus = "disabled";
+          context.system.applyPossible = "disabled";
           context.system.applyError = "arm5e.activity.msg.uselessTeacher";
           context.system.errorParam =
             context.system.teacher.name === ""

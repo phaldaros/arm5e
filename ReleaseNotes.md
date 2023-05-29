@@ -1,4 +1,4 @@
-## 2.1.0.3, Mercere, first to join
+## 2.1.0.4, Mercere, first to join
 
 ### Features & changes
 
@@ -17,11 +17,17 @@
 - Select on focus for input fields
 - New character schedule app
 - Displaying a sheet will also set the focus on it and bring it to front if already rendered
+- Covenant inhabitants migrated to V10 datamodel
+- Season distractions in lab's work
+- New setting to enforce schedule constraints
+- New setting for starting the year in winter.
 
 ### Bug fixes
 
 - Unlinking the reader is working again in the scriptorium.
 - Creating a book from a character sheet won't generate an error anymore.
+- Fixed problem with exploding 10 rolls were counted as 0.
+- It is possible again to roll dice in the chat using /r
 
 ### V10 migration (on going)
 
@@ -44,6 +50,7 @@
   - Personality trait
   - Armor
   - Weapon
+  - Covenant inhabitants (new)
 
 ## 2.0.5.21, Lexora, the maga
 

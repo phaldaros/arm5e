@@ -774,7 +774,7 @@ export const migrateActiveEffectData = async function (effectData) {
   if (effectData.flags?.arm5e?.type != undefined) {
     if (!(effectData.flags.arm5e.type instanceof Array)) {
       if (effectData.flags.arm5e.type === "spellCasting") {
-        effectData.flags.arm5e.type = "spellcasting";
+        effectData.flags.arm5e.type = ["spellcasting"];
       }
       effectUpdate["flags.arm5e.type"] = [effectData.flags.arm5e.type];
     } else {

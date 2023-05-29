@@ -947,6 +947,7 @@
       "sanctumRoom",
       "magicItem",
       "reputation",
+      "inhabitant",
       "habitantMagi",
       "habitantCompanion",
       "habitantSpecialists",
@@ -1039,14 +1040,6 @@
         "shapeBonus": 0,
         "expiry": 1
       },
-      "habitant": {
-        "loyalty": 0,
-        "points": 0,
-        "yearBorn": "",
-        "job": "",
-        "score": 0,
-        "quantity": 0
-      },
       "season": {
         "season": ""
       },
@@ -1097,25 +1090,6 @@
       "templates": ["base", "magicalEffectAttributes"],
       "effect": "",
       "uses": 0
-    },
-    "habitantMagi": {
-      "templates": ["base", "habitant"],
-      "giftType": ""
-    },
-    "habitantCompanion": {
-      "templates": ["base", "habitant"]
-    },
-    "habitantSpecialists": {
-      "templates": ["base", "habitant"]
-    },
-    "habitantHabitants": {
-      "templates": ["base", "habitant"]
-    },
-    "habitantHorses": {
-      "templates": ["base", "habitant"]
-    },
-    "habitantLivestock": {
-      "templates": ["base", "habitant"]
     },
     "possessionsCovenant": {
       "templates": ["base"],

@@ -4,6 +4,7 @@ import { migrateItemData } from "../migration.js";
 import { computeLevel } from "../helpers/magic.js";
 import { resetOwnerFields } from "./item-converter.js";
 import { PersonalityTraitSchema } from "../schemas/minorItemsSchemas.js";
+import { ARM5E } from "../config.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -84,6 +85,12 @@ export class ArM5eItem extends Item {
       this.system.points = pts * CONFIG.ARM5E.lab.usage[system.usage].coeff;
     } else if (this.type == "magicItem") {
       this.system.maxLevel = 10 * this.system.materialBase * this.system.sizeMultiplier;
+    }
+
+    if (this.type == "inhabitant") {
+      if (this.system.points === null) {
+        this.system.points = ARM5E.covenant.inhabitants[this.system.category].points;
+      }
     }
     // log(false,"prepare-item");
     // log(false,itemData);

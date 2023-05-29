@@ -1,10 +1,12 @@
 import { ARM5E } from "../config.js";
-import { compareEvents, debug, getDataset, log } from "../tools.js";
+import { debug, getDataset, log } from "../tools.js";
+import { compareEvents } from "./time.js";
 
 export class Calendar extends FormApplication {
   constructor(data, options) {
     super(data, options);
     this.object.displayYear = null;
+    this.object.dates = this.object.activity.system.dates;
   }
   /** @override */
   static get defaultOptions() {
@@ -21,19 +23,20 @@ export class Calendar extends FormApplication {
   async getData(options = {}) {
     const data = await super.getData().object;
     let currentDate = game.settings.get("arm5e", "currentDate");
+    let enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
     data.curYear = Number(currentDate.year);
     data.curSeason = currentDate.season;
-    let dates = data.activity.system.dates;
+    let dates = data.dates;
     data.duration = data.activity.system.duration;
     data.activityName = `${data.actor.name} : ${data.activity.name}`;
     data.title = game.i18n.localize("arm5e.lab.planning.label");
-    if (data.activity.system.dates.length == 0) {
+    if (dates.length == 0) {
       // all season unselected, use current date
       data.firstYear = data.curYear;
       data.firstSeason = data.curSeason;
     } else {
-      data.firstYear = Number(data.activity.system.dates[0].year);
-      data.firstSeason = data.activity.system.dates[0].season;
+      data.firstYear = Number(dates[0].year);
+      data.firstSeason = dates[0].season;
     }
 
     data.updatePossible = "";
@@ -65,10 +68,10 @@ export class Calendar extends FormApplication {
       let year = {
         year: y,
         seasons: {
-          spring: { selected: false, busy: false, others: [] },
-          summer: { selected: false, busy: false, others: [] },
-          autumn: { selected: false, busy: false, others: [] },
-          winter: { selected: false, busy: false, others: [] }
+          [CONFIG.SEASON_ORDER_INV[0]]: { selected: false, busy: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[1]]: { selected: false, busy: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[2]]: { selected: false, busy: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[3]]: { selected: false, busy: false, others: [] }
         }
       };
       let thisYearSchedule = actorSchedule.filter((e) => {
@@ -112,7 +115,11 @@ export class Calendar extends FormApplication {
           }
         } else {
           if (event.others.length > 0) {
-            event.edition = false;
+            if (enforceSchedule) {
+              event.edition = false;
+            } else {
+              event.edition = true;
+            }
             if (event.others.length == 1) {
               event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
             } else {
@@ -129,7 +136,7 @@ export class Calendar extends FormApplication {
     }
 
     // log(false, `selectedDates: ${JSON.stringify(data.selectedDates)}`);
-    if (data.activity.system.duration != data.selectedCnt || !noConflict) {
+    if (data.activity.system.duration != data.selectedCnt || (!noConflict && enforceSchedule)) {
       data.updatePossible = "disabled";
     }
 
@@ -159,7 +166,7 @@ export class Calendar extends FormApplication {
             // update schedule of dependency
             await actor.updateEmbeddedDocuments(
               "Item",
-              [{ _id: dependency.itemId, system: { dates: this.object.activity.system.dates } }],
+              [{ _id: dependency.itemId, system: { dates: this.object.dates } }],
               {}
             );
           }
@@ -167,7 +174,7 @@ export class Calendar extends FormApplication {
       }
     }
     await this.object.actor.updateEmbeddedDocuments("Item", [
-      { _id: this.object.activity.id, system: { dates: this.object.activity.system.dates } }
+      { _id: this.object.activity.id, system: { dates: this.object.dates } }
     ]);
 
     this.close();
@@ -176,10 +183,8 @@ export class Calendar extends FormApplication {
     event.preventDefault();
     let dataset = getDataset(event);
     // log(false, `Select season ${dataset.season} ${dataset.year} ${event.target.value}`);
-    let newDates = this.object.activity.system.dates;
-    let wasChecked = newDates.some(
-      (e) => e.season === dataset.season && e.year == Number(dataset.year)
-    );
+    let newDates = this.object.dates;
+    let wasChecked = dataset.selected === "true" ? true : false;
     if (wasChecked) {
       // it was checked
       newDates = newDates.filter((e) => {
@@ -226,7 +231,7 @@ export class Calendar extends FormApplication {
       this.object.displayYear = formData.displayYear;
     }
     if (formData.dates) {
-      this.object.activity.system.dates = formData.dates;
+      this.object.dates = formData.dates;
     }
 
     this.render();

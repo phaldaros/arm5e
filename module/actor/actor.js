@@ -4,7 +4,6 @@ import {
   compareSpells,
   compareMagicalEffects,
   compareLabTexts,
-  compareDiaryEntries,
   log,
   error,
   compareTopics,
@@ -17,6 +16,7 @@ import { migrateActorData } from "../migration.js";
 
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ArM5eRollData } from "../helpers/rollData.js";
+import { compareDiaryEntries } from "../tools/time.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -1083,18 +1083,31 @@ export class ArM5ePCActor extends Actor {
         diaryEntries.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
-      } else if (item.type === "habitantMagi") {
-        magi.push(item);
-      } else if (item.type === "habitantCompanion") {
-        companion.push(item);
-      } else if (item.type === "habitantSpecialists") {
-        specialists.push(item);
-      } else if (item.type === "habitantHabitants") {
-        habitants.push(item);
-      } else if (item.type === "habitantHorses") {
-        horses.push(item);
-      } else if (item.type === "habitantLivestock") {
-        livestock.push(item);
+      } else if (item.type === "inhabitant") {
+        switch (item.system.category) {
+          case "magi":
+            magi.push(item);
+            break;
+          case "companions":
+            companion.push(item);
+            break;
+          case "specialists":
+          case "craftmen":
+            specialists.push(item);
+            break;
+          case "grogs":
+          case "servants":
+          case "laborers":
+          case "teamster":
+            habitants.push(item);
+            break;
+          case "horses":
+            horses.push(item);
+            break;
+          case "livestock":
+            livestock.push(item);
+            break;
+        }
       } else if (item.type === "possessionsCovenant") {
         possessions.push(item);
       } else if (item.type === "visSourcesCovenant") {
@@ -1812,7 +1825,12 @@ export class ArM5ePCActor extends Actor {
             if (min == max) {
               if (season && date.season == season) {
                 if (!activitiesMap.has(date.year)) {
-                  activitiesMap.set(date.year, { winter: [], autumn: [], summer: [], spring: [] });
+                  activitiesMap.set(date.year, {
+                    [CONFIG.SEASON_ORDER_INV[3]]: [],
+                    [CONFIG.SEASON_ORDER_INV[2]]: [],
+                    [CONFIG.SEASON_ORDER_INV[1]]: [],
+                    [CONFIG.SEASON_ORDER_INV[0]]: []
+                  });
                 }
                 activitiesMap.get(date.year)[date.season].push({
                   id: entry._id,

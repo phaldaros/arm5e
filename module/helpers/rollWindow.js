@@ -290,8 +290,8 @@ function getDialogData(dataset, html, actor) {
     title: game.i18n.localize(title),
     content: html,
     buttons: {
-      ...btns
-      //...getDebugButtonsIfNeeded(actor, callback)
+      ...btns,
+      ...getDebugButtonsIfNeeded(actor, callback)
     }
   };
 }

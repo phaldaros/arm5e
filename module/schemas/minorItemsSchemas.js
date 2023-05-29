@@ -278,7 +278,7 @@ export class PersonalityTraitSchema extends foundry.abstract.DataModel {
     return data;
   }
 }
-
+// TEMPLATE
 export class MySchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;

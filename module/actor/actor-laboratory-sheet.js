@@ -5,7 +5,7 @@ import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 import { ArM5eItem } from "../item/item.js";
-import { getDataset, log, nextDate } from "../tools.js";
+import { getDataset, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { ArM5eItemDiarySheet } from "../item/item-diary-sheet.js";
 import { HERMETIC_FILTER, TIME_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
@@ -336,8 +336,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         divisor: deficiencyDivider
       });
     }
+    let coeff = CONFIG.ARM5E.activities.distractions[context.planning.distractions ?? "none"].coeff;
+    if (coeff != 1) {
+      labTot.label += `* ${coeff.toFixed(2)} (${game.i18n.localize(
+        "arm5e.lab.distraction.label"
+      )})&#10`;
+    }
 
-    return { score: Math.round(total / deficiencyDivider), label: labTot.label };
+    return { score: Math.round((total / deficiencyDivider) * coeff), label: labTot.label };
   }
 
   /** @override */
@@ -418,6 +424,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       data: newSpell.toObject(),
       visibility: { desc: "hide", attr: "hide", options: "hide" },
       modifiers: { generic: 0, aura: 0 },
+      distrations: "none",
       magicThSpecApply: false
     };
     await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);

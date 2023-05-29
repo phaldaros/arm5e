@@ -43,10 +43,10 @@ export class Schedule extends FormApplication {
       let year = {
         year: y,
         seasons: {
-          [CONFIG.SEASON_ORDER_INV[0]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[1]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[2]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[3]]: { selected: false, busy: false, others: [] }
+          spring: { selected: false, busy: false, others: [] },
+          summer: { selected: false, busy: false, others: [] },
+          autumn: { selected: false, busy: false, others: [] },
+          winter: { selected: false, busy: false, others: [] }
         }
       };
       let thisYearSchedule = actorSchedule.filter((e) => {

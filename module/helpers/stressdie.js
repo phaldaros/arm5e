@@ -1,5 +1,16 @@
 import { log } from "../tools.js";
 
+// WIP
+export class ArsRoll extends Roll {
+  constructor(formula, data = {}, options = {}) {
+    super(formula, data, options);
+    this.botches = 0;
+    this.diviser = 1;
+    this.multiplier = 1;
+    this.offset = 0;
+  }
+}
+
 export class StressDie extends Die {
   constructor(termData = {}) {
     termData.faces = 10;
@@ -89,9 +100,9 @@ export class StressDieInternal extends Die {
   /** @inheritdoc */
   static DENOMINATION = "i";
 
-  async evaluate() {
+  async evaluate({ minimize = false, maximize = false, async = true } = {}) {
     this.number = 1; // only ever one dice
-    super.evaluate();
+    super.evaluate({ minimize: minimize, maximize: maximize, async: async });
     if (this.results[0].result === 10) {
       this.results[0].result = 0;
       return this;
@@ -108,8 +119,6 @@ export class StressDieInternal extends Die {
         return 0;
       }
       return r.result;
-      // if (r.result === 1) return t * 2;
-      // return t * r.result;
     }, 0);
   }
 }

@@ -42,7 +42,7 @@
 <div class="flexrow">
   {{#unless system.done}}
     <button class="arm5e flex02 progress-apply" style="font-family: bookAntika"
-      {{system.applyBtnStatus}}>{{localize "arm5e.sheet.action.apply"}}</button>
+      {{system.applyPossible}}>{{localize "arm5e.sheet.action.apply"}}</button>
     <label class="header-label"
       style="color:red; padding: 10px;">{{localize system.applyError param=system.errorParam}}</label>
   {{else}}
