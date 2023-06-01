@@ -160,7 +160,7 @@ export class ArM5ePCActor extends Actor {
       }
     }
 
-    this.system.bonuses.traits = { soak: 0, aging: 0, wounds: 0, fatigue: 0 };
+    this.system.bonuses.traits = { soak: 0, aging: 0, wounds: 0, fatigue: 0, agingStart: 0 };
 
     this.system.bonuses.activities = {
       practice: 0,
@@ -1823,23 +1823,24 @@ export class ArM5ePCActor extends Actor {
         for (let date of entry.system.dates) {
           if (date.year >= min && date.year <= max) {
             if (min == max) {
-              if (season && date.season == season) {
-                if (!activitiesMap.has(date.year)) {
-                  activitiesMap.set(date.year, {
-                    [CONFIG.SEASON_ORDER_INV[3]]: [],
-                    [CONFIG.SEASON_ORDER_INV[2]]: [],
-                    [CONFIG.SEASON_ORDER_INV[1]]: [],
-                    [CONFIG.SEASON_ORDER_INV[0]]: []
-                  });
-                }
-                activitiesMap.get(date.year)[date.season].push({
-                  id: entry._id,
-                  img: entry.img,
-                  name: entry.name,
-                  applied: date.applied,
-                  type: entry.system.activity,
-                  date: date.date
+              if (!activitiesMap.has(date.year)) {
+                activitiesMap.set(date.year, {
+                  [CONFIG.SEASON_ORDER_INV[3]]: [],
+                  [CONFIG.SEASON_ORDER_INV[2]]: [],
+                  [CONFIG.SEASON_ORDER_INV[1]]: [],
+                  [CONFIG.SEASON_ORDER_INV[0]]: []
                 });
+              }
+              activitiesMap.get(date.year)[date.season].push({
+                id: entry._id,
+                img: entry.img,
+                name: entry.name,
+                applied: date.applied,
+                type: entry.system.activity,
+                date: date.date
+              });
+              if (season && date.season == season) {
+                break;
               }
             } else {
               if (!activitiesMap.has(date.year)) {

@@ -552,6 +552,12 @@ export default {
         key: "system.bonuses.traits.aging",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
+      },
+      agingStart: {
+        label: "arm5e.sheet.agingStart",
+        key: "system.bonuses.traits.agingStart",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
       }
     }
   },

@@ -8,19 +8,40 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
       <div class="flexrow">
         <div class="resource">
-          <label>{{localize "arm5e.sheet.year"}}<input type="number" name="system.dates.0.year"
-              value="{{firstSeason.year}}" class="resource-focus" data-dtype="Number"
-              {{@root.system.disabled}} /></label>
+          <label>{{localize "arm5e.generic.begins"}}: </label>
         </div>
         <div class="resource">
-          <label>{{localize "arm5e.sheet.season"}}</label><select name="system.dates.0.season" data-type="String"
-            style="width: 100%" {{@root.system.disabled}}>
+          <label>{{localize "arm5e.sheet.year"}}<input type="number" name="system.dates.0.year"
+              value="{{firstSeason.year}}" class="resource-focus" data-dtype="Number" {{@root.ui.editDate}} /></label>
+        </div>
+        <div class="resource">
+          <label>{{localize "arm5e.sheet.season"}}</label>
+          <select name="system.dates.0.season" data-type="String" style="width: 100%" {{@root.ui.editDate}}>
             {{#select firstSeason.season}} {{#each config.seasons as |season key|}}
                 <option value="{{key}}">{{localize season.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
       </div>
+      {{#if (gt system.duration 1)}}
+        <div class="flexrow">
+          <div class="resource">
+            <label>{{localize "arm5e.generic.ends"}}: </label>
+          </div>
+          <div class="resource">
+            <label>{{localize "arm5e.sheet.year"}}<input type="number" name="lastSeason.year"
+                value="{{lastSeason.year}}" class="resource-focus" data-dtype="Number" disabled /></label>
+          </div>
+          <div class="resource">
+            <label>{{localize "arm5e.sheet.season"}}</label>
+            <select name="lastSeason.season" data-type="String" style="width: 100%" disabled>
+              {{#select lastSeason.season}} {{#each config.seasons as |season key|}}
+                  <option value="{{key}}">{{localize season.label}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </div>
+        </div>
+      {{/if}}
       <div class="grid grid-col">
 
         <div class="resource">

@@ -37,7 +37,8 @@ export class Schedule extends FormApplication {
     const MIN_YEAR = data.displayYear - YEARS_BACK;
     const MAX_YEAR = data.displayYear + YEARS_FORWARD;
     const actorSchedule = data.actor.getSchedule(MIN_YEAR, MAX_YEAR, [], []);
-
+    const born = Number(data.actor.system.description.born.value);
+    const agingStart = 35 + data.actor.system.bonuses.traits.agingStart;
     data.message = "";
     for (let y = MAX_YEAR; y >= MIN_YEAR; y--) {
       let year = {
@@ -61,21 +62,46 @@ export class Schedule extends FormApplication {
             }
           }
         }
+        // check if aging roll is needed this season.
+        if (
+          agingStart + born <= y &&
+          s === "winter" &&
+          (thisYearSchedule.length == 0 ||
+            thisYearSchedule[0]?.seasons[s].filter((s) => s.type === "aging").length == 0)
+        ) {
+          if (year.seasons[s].others.length == 0) {
+            year.seasons[s].others.push({
+              id: 0,
+              name: "Aging roll needed",
+              img: "systems/arm5e/assets/icons/Icon_Aging_and_Decrepitude.png"
+            });
+          }
+          year.seasons[s].agingNeeded = true;
+        }
       }
       data.selectedDates.push(year);
     }
     // styling
     for (let y of data.selectedDates) {
       for (let event of Object.values(y.seasons)) {
+        event.edition = false;
         if (event.others.length > 0) {
-          event.edition = false;
           if (!event.busy) {
-            event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
+            if (event.agingNeeded) {
+              let color1 = "rgb(96 109 188)";
+              let color2 = "rgb(70 82 152)";
+              event.style = `style="height: auto; background: repeating-linear-gradient(45deg,${color1},${color1} 5px,${color2} 5px,${color2} 10px);"`;
+            } else {
+              event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
+            }
           } else {
+            if (event.agingNeeded) {
+              let color1 = "rgb(192 116 237)";
+              let color2 = "rgb(73 1 105)";
+              event.style = `style="height: auto; background: repeating-linear-gradient(45deg,${color1},${color1} 5px,${color2} 5px,${color2} 10px);"`;
+            }
             event.style = 'style="background-color:rgb(100 0 200 / 50%)"';
           }
-        } else {
-          event.edition = false;
         }
       }
     }
@@ -91,7 +117,7 @@ export class Schedule extends FormApplication {
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
-      if (item) item.sheet.render(true);
+      if (item) item.sheet.render(true, { focus: true });
     });
   }
 

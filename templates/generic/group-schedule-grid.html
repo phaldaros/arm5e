@@ -1,0 +1,33 @@
+<div class="flexrow" style="margin:10px">
+  <div class="flex-center" style="min-width: 150px;">
+    <label for="name" class="smallTitle" style="font-size:14pt">{{localize "arm5e.sheet.name"}}</label>
+  </div>
+  {{#each config.seasons as |season key|}}
+    <div class=" flex-center">
+      <label for="season" class="smallTitle" style="font-size:14pt">{{localize season.label}}</label>
+    </div>
+  {{/each}}
+</div>
+<div class="{{type}}-years flexcol">
+  {{#each selectedActors }}
+    <div class="backSection calendar-year flex-center flex-between">
+
+      <div class="flexrow">
+        <label class="smallTitle "
+          style="min-width: 150px; font-size:13pt; font-family:bookAntiqua">{{this.actorName}}</label>
+        {{#each this.seasons }}
+          <div class="calendar-season flexrow" {{{this.style}}}>
+            <div class="flexrow">
+              {{log "season: " this}}
+              {{#each this.activities}}
+                <div class="vignette" data-actorid={{../../this.id}} data-id="{{this.id}}"><img src="{{this.img}}"
+                    title="{{this.name}}" style="max-height: inherit;" />
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/each}}
+</div>

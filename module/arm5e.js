@@ -56,7 +56,11 @@ import { ArmorSchema, WeaponSchema } from "./schemas/weaponArmorSchema.js";
 import { CodexSchema } from "./schemas/actorCommonSchema.js";
 import { VisSchema } from "./schemas/visSchema.js";
 import { clearUserCache } from "./constants/userdata.js";
-import { ARM5E_DEFAULT_ICONS, INHABITANTS_DEFAULT_ICONS } from "./constants/ui.js";
+import {
+  ACTIVITIES_DEFAULT_ICONS,
+  ARM5E_DEFAULT_ICONS,
+  INHABITANTS_DEFAULT_ICONS
+} from "./constants/ui.js";
 import { InhabitantSchema } from "./schemas/inhabitantSchema.js";
 import { seasonOrder, seasonOrderInv } from "./tools/time.js";
 
@@ -137,7 +141,8 @@ Hooks.once("init", async function () {
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
   CONFIG.INHABITANTS_DEFAULT_ICONS =
     INHABITANTS_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
-
+  CONFIG.ACTIVITIES_DEFAULT_ICONS =
+    ACTIVITIES_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
   if (game.settings.get("arm5e", "winterFirst")) {
     CONFIG.SEASON_ORDER = seasonOrder.winterFirst;
     CONFIG.SEASON_ORDER_INV = seasonOrderInv.winterFirst;
