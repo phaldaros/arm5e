@@ -91,6 +91,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];
     context.firstSeason = context.system.dates[0];
+    context.lastSeason = context.system.dates[context.system.dates.length - 1];
+    if (context.system.duration > 1) {
+      context.ui.editDate = "disabled";
+    }
     // legacy diary or just a simple recounting of events
     if (actType == "none") {
       context.ui.showTab = false;
@@ -180,6 +184,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       // context.system.canEditBook = "readonly";
       // context.system.disabledBook = "disabled";
       context.system.disabled = "disabled";
+      context.ui.editDate = "disabled";
     }
     if (actType === "reading") {
       context.system.disabled = "disabled";
@@ -567,7 +572,17 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".score-teacher").change(this._resetTeacher.bind(this));
     html.find(".show-details").click(async (event) => this._showSpell(this.item, event));
     html.find(".select-dates").click(this.displayCalendar.bind(this));
+    // html.find(".select-year").click(this._selectYear.bind(this));
   }
+
+  // async _selectYear(event) {
+  //   event.preventDefault();
+  //   let newYear = Number(event.currentTarget.value);
+  //   let dates = this.item.system.dates;
+  //   if (this.item.system.duration == 1) {
+  //     dates[0].year = newY
+  //   }
+  // }
 
   async _resetTeacher(event) {
     const target = event.currentTarget;
@@ -625,7 +640,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       );
     }
     updateData["img"] =
-      ACTIVITIES_DEFAULT_ICONS.COLOR[actType] ?? CONFIG.ARM5E_DEFAULT_ICONS[diaryEntry];
+      CONFIG.ACTIVITIES_DEFAULT_ICONS[actType] ?? CONFIG.ARM5E_DEFAULT_ICONS[diaryEntry];
     switch (actType) {
       case "none":
         this._tabs[0].activate("description");
@@ -638,7 +653,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
   }
 
   async _onProgressApply(event) {
-    event.preventDefault();
+    event?.preventDefault();
     let description = this.item.system.description + "<h4>Technical part:<h4><ol>";
     let updateData = [];
     let sourceQuality = 0;

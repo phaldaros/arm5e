@@ -1113,6 +1113,7 @@ export class ArM5eActorSheet extends ActorSheet {
           item: game.i18n.localize("arm5e.sheet.agingPts")
         }),
         content: html,
+        render: this.addListenersDialog,
         buttons: {
           yes: {
             icon: "<i class='fas fa-check'></i>",
@@ -1151,6 +1152,12 @@ export class ArM5eActorSheet extends ActorSheet {
         classes: ["arm5e-dialog", "dialog"]
       }
     ).render(true);
+  }
+  addListenersDialog(html) {
+    html.find(".resource-focus").focus((ev) => {
+      ev.preventDefault();
+      ev.currentTarget.select();
+    });
   }
 
   async _increaseArt(type, art) {

@@ -490,10 +490,11 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
   static getIcon(item, newValue = null) {
     if (newValue == null) {
       return (
-        ACTIVITIES_DEFAULT_ICONS.COLOR[item.system.activity] ?? ACTIVITIES_DEFAULT_ICONS.COLOR.none
+        CONFIG.ACTIVITIES_DEFAULT_ICONS[item.system.activity] ??
+        CONFIG.ACTIVITIES_DEFAULT_ICONS.none
       );
     } else {
-      return ACTIVITIES_DEFAULT_ICONS.COLOR[newValue] ?? ACTIVITIES_DEFAULT_ICONS.COLOR.none;
+      return CONFIG.ACTIVITIES_DEFAULT_ICONS[newValue] ?? CONFIG.ACTIVITIES_DEFAULT_ICONS.none;
     }
   }
   // input: list of activities of a season

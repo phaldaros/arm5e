@@ -177,8 +177,13 @@
           {{#with (lookup @root.config.character.description key)}}
             <label for="system.description.{{key}}.label" class="bold">{{localize label}}</label>
           {{/with}}
-          <span><input type="text" name="system.description.{{key}}.value" value="{{description.value}}"
-              data-dtype="String" /></span>
+          {{#if (eq key "born")}}
+            <span><input type="number" name="system.description.{{key}}.value" value="{{description.value}}"
+                data-dtype="Number" /></span>
+          {{else}}
+            <span><input type="text" name="system.description.{{key}}.value" value="{{description.value}}"
+                data-dtype="String" /></span>
+          {{/if}}
         </div>
       {{/each}}
     </div>

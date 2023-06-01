@@ -1,4 +1,5 @@
 import { debug, log } from "../tools.js";
+import { GroupSchedule } from "./group-schedule.js";
 
 export class Astrolab extends FormApplication {
   constructor(data, options) {
@@ -30,8 +31,13 @@ export class Astrolab extends FormApplication {
     html.find(".update-actors").click(this.updateActors.bind(this));
     html.find(".change-season").change(this._changeSeason.bind(this));
     html.find(".change-year").change(this._changeYear.bind(this));
+    html.find(".group-schedule").click(this.displaySchedule.bind(this));
   }
-
+  async displaySchedule(event) {
+    event.preventDefault();
+    const schedule = new GroupSchedule();
+    const res = await schedule.render(true);
+  }
   async _changeSeason(event) {
     await this.submit({
       preventClose: true,

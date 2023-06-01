@@ -101,6 +101,25 @@ ARM5E_DEFAULT_ICONS.COLOR = {
 };
 
 export const ACTIVITIES_DEFAULT_ICONS = {
+  MONO: {
+    none: "systems/arm5e/assets/icons/activities/Diary.svg",
+    inventSpell: "systems/arm5e/assets/icons/activities/InventSpell.svg",
+    learnSpell: "systems/arm5e/assets/icons/activities/LearnSpell.svg",
+    adventuring: "systems/arm5e/assets/icons/activities/Adventuring.svg",
+    exposure: "systems/arm5e/assets/icons/activities/Exposure.svg",
+    practice: "systems/arm5e/assets/icons/activities/Practice.svg",
+    training: "systems/arm5e/assets/icons/activities/Training.svg",
+    teaching: "systems/arm5e/assets/icons/activities/Teaching.svg",
+    hermeticApp: "systems/arm5e/assets/icons/activities/Diary.svg",
+    childhood: "systems/arm5e/assets/icons/activities/HermeticApp.svg",
+    laterLife: "systems/arm5e/assets/icons/activities/LaterLife.svg",
+    laterLifeMagi: "systems/arm5e/assets/icons/activities/LaterLifeMagi.svg",
+    reading: "systems/arm5e/assets/icons/activities/Reading.svg",
+    visExtraction: "systems/arm5e/assets/icons/activities/VisExtraction.svg",
+    lab: "systems/arm5e/assets/icons/activities/Lab.svg",
+    aging: "systems/arm5e/assets/icons/activities/Aging.svg",
+    visStudy: "systems/arm5e/assets/icons/activities/VisStudy.svg"
+  },
   COLOR: {
     none: "icons/sundries/documents/document-sealed-signatures-red.webp",
     inventSpell: "icons/sundries/documents/document-letter-blue.webp",

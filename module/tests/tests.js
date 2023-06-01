@@ -1,14 +1,25 @@
 import { ARM5E } from "../config.js";
 import { createRoll, stressDie } from "../dice.js";
 import { StressDieInternal } from "../helpers/stressdie.js";
-import { log } from "../tools.js";
+import { log, sleep } from "../tools.js";
 import { registerAbilityScoresTesting } from "./abilityScoreTesting.js";
 import { registerItemCreationTests } from "./itemCreationTests.js";
 import { registerRollTesting } from "./rollsTest.js";
 import { registerSheetDisplayTests } from "./sheetDisplayTests.js";
-import { companionData } from "./testData.js";
+import { registerStressDieTesting } from "./stressDieTesting.js";
+import {
+  athleticsSkill,
+  companionData,
+  languageSkill,
+  magicTheorySkill,
+  magusData,
+  penetrationSkill,
+  readingSkill,
+  spellData1
+} from "./testData.js";
 
 export function registerTestSuites(quench) {
+  registerDiaryTesting(quench);
   registerStressDieTesting(quench);
   registerAbilityScoresTesting(quench);
   registerRollTesting(quench);
@@ -16,59 +27,93 @@ export function registerTestSuites(quench) {
   registerItemCreationTests(quench);
 }
 
-export function registerStressDieTesting(quench) {
+export function registerDiaryTesting(quench) {
   quench.registerBatch(
-    "Ars-StressDie",
+    "Ars-Diary",
     (context) => {
-      let actor;
-      if (game.modules.get("dice-so-nice")?.active) {
-        ui.notifications.warn("Disable dice-so-nice to test dice rolls");
-        return;
-      }
+      let magus;
+      let Sp1;
       const { describe, it, assert, after, before } = context;
-      describe(`Exploding die`, function () {
+      describe(``, function () {
         before(async function () {
-          actor = await Actor.create({
-            name: `BobTheCompanion`,
+          magus = await Actor.create({
+            name: `JasquierTheChroniquer`,
             type: "player",
-            system: companionData
+            system: magusData
           });
+          await magus.sheet._itemCreate({
+            name: "Penetration",
+            type: "ability",
+            ...penetrationSkill
+          });
+          await magus.sheet._itemCreate({
+            name: "Artes liberales",
+            type: "ability",
+            ...readingSkill
+          });
+
+          await magus.sheet._itemCreate({
+            name: "Athletics",
+            type: "ability",
+            ...athleticsSkill
+          });
+          await magus.sheet._itemCreate({
+            name: "Magic Theory",
+            type: "ability",
+            ...magicTheorySkill
+          });
+          await magus.sheet._itemCreate({ name: "Gaelic", type: "ability", ...languageSkill });
+          Sp1 = (
+            await magus.sheet._itemCreate({
+              name: "Standard spell",
+              type: "spell",
+              ...spellData1
+            })
+          )[0];
         });
-        describe("Dice", function () {
-          for (const score of Array(5).keys()) {
-            it(`Die exploding`, async function () {
-              let die = new StressDieInternal();
-              await die.evaluate({ async: true, minimize: true });
-              assert.equal(die.total, 1, "Min not correct");
-              log(false, `Roll result: ${die.total}`);
-            });
-            it(`Die botching `, async function () {
-              let die = new StressDieInternal();
-              await die.evaluate({ async: true, maximize: true });
-              assert.equal(die.total, 0, "Max not correct");
-            });
-          }
-          after(async function () {});
-        });
-        describe("Rolls", function () {
-          for (const score of Array(20).keys()) {
-            it(`Roll exploding`, async function () {
-              let dataset = { roll: "char", characteristic: "pre" };
-              actor.rollData.init(dataset, actor);
-              let roll = await stressDie(actor, "char", 1, null, 10);
-              assert.equal(roll.total > 0, true, "No explosion!");
-              log(false, `Roll result: ${roll.total}`);
+        describe("Display sheet test", function () {
+          for (const [key, act] of Object.entries(ARM5E.activities.generic)) {
+            it(`${game.i18n.localize(act.label)}'s sheet`, async function () {
+              const entryData = [
+                {
+                  name: `${game.i18n.localize(act.label)}'s sheet`,
+                  type: "diaryEntry",
+                  system: {
+                    done: false,
+                    cappedGain: false,
+                    dates: [{ year: 1220, season: "winter", date: "The Date", applied: true }],
+                    sourceQuality: 42,
+                    activity: key,
+                    progress: {
+                      abilities: [],
+                      arts: [],
+                      spells: [],
+                      newSpells: []
+                    },
+                    optionKey: "standard",
+                    duration: 1,
+                    description: `Some label for ${game.i18n.localize(act.label)}`,
+                    externalIds: []
+                  }
+                }
+              ];
+              let entry = await magus.createEmbeddedDocuments("Item", entryData, {});
+              assert.equal(entry.length, 1, "Item created");
+              entry[0].sheet.render(true);
+              await sleep(100);
+              await entry[0].sheet._onProgressApply();
+              await entry[0].sheet.close();
             });
           }
           after(async function () {});
         });
         after(async function () {
-          if (actor) {
-            await actor.delete();
+          if (magus) {
+            await magus.delete();
           }
         });
       });
     },
-    { displayName: "ARS : Stress die tests" }
+    { displayName: "ARS : Diary and activity sheets" }
   );
 }

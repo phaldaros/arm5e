@@ -78,6 +78,7 @@
   "arm5e.sheet.sigil": "Wizard's Sigil",
   "arm5e.sheet.warping": "Warping",
   "arm5e.sheet.aging": "Aging",
+  "arm5e.sheet.agingStart": "Aging start offset",
   "arm5e.sheet.decrepitude": "Decrepitude",
   "arm5e.sheet.score": "Score",
   "arm5e.sheet.points": "Points",
@@ -1052,6 +1053,7 @@
 
   "arm5e.time.minYear": "Minimum year",
   "arm5e.time.maxYear": "Maximum year",
+  "arm5e.time.troupSchedule": "Troup schedule",
   "arm5e.activity.current": "Season {current} of {total}",
   "arm5e.activity.eventType": "Type of event",
   "arm5e.activity.activity": "Activity",
@@ -1193,5 +1195,7 @@
   "arm5e.generic.unknown": "Unknown",
   "arm5e.generic.current": "Current",
   "arm5e.generic.nothing": "Nothing",
-  "arm5e.generic.custom": "Custom"
+  "arm5e.generic.custom": "Custom",
+  "arm5e.generic.begins": "Begins",
+  "arm5e.generic.ends": "Ends"
 }

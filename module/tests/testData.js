@@ -98,6 +98,28 @@ export const penetrationSkill = {
   option: ""
 };
 
+export const magicTheorySkill = {
+  description: "",
+  source: "ArM5",
+  page: 62,
+  defaultChaAb: "int",
+  speciality: "Creo",
+  xp: 75,
+  key: "magicTheory",
+  option: ""
+};
+
+export const athleticsSkill = {
+  description: "",
+  source: "ArM5",
+  page: 62,
+  defaultChaAb: "dex",
+  speciality: "",
+  xp: 32,
+  key: "athletics",
+  option: ""
+};
+
 export const armorItem = {
   description:
     '<p>&nbsp;</p>\n<div class="page" title="Page 176">\n<div class="section">\n<div class="layoutArea">\n<div class="column">\n<p>Using very thick leather, or hardening leather by wax impregnation or baking, makes a better material for deflecting crushing damage.<span style="font-size: 9.000000pt; font-family: \'Weiss\'; color: rgb(6.313300%, 8.863500%, 10.356300%);">&nbsp;</span></p>\n</div>\n</div>\n</div>\n</div>\n<p>Partial armor covers the vital areas only, and generally consists of a hauberk (a short- sleeved armored coat that extends down to the knee), perhaps a coif to protect the head and neck, and often an open-faced helmet.</p>',
