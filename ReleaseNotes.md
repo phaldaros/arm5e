@@ -11,7 +11,7 @@
 - New setting to reset the user cache (sheet filters)
 - Updated French version by orneen
 - Filters for diary entries
-- New custom icons for abilities (thanks to Nestua)
+- New custom icons for abilities, activities, vices and virtues (thanks to Nestua)
 - Multi-seasons activities (spell invention)
   - Scheduling
 - Select on focus for input fields
@@ -21,6 +21,9 @@
 - Season distractions in lab's work
 - New setting to enforce schedule constraints
 - New setting for starting the year in winter.
+- Active effect to change the age a character starts aging (eg: strong faerie blood, curse, spell)
+- New troup schedule dialog to see the activities of a group of characters during the year
+- Aging roll reminder
 
 ### Bug fixes
 

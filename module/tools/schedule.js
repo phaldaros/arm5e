@@ -88,16 +88,16 @@ export class Schedule extends FormApplication {
         if (event.others.length > 0) {
           if (!event.busy) {
             if (event.agingNeeded) {
-              let color1 = "rgb(96 109 188)";
-              let color2 = "rgb(70 82 152)";
+              let color1 = "rgb(106 106 106 / 52%)";
+              let color2 = "rgb(190 165 91 / 49%)";
               event.style = `style="height: auto; background: repeating-linear-gradient(45deg,${color1},${color1} 5px,${color2} 5px,${color2} 10px);"`;
             } else {
               event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
             }
           } else {
             if (event.agingNeeded) {
-              let color1 = "rgb(192 116 237)";
-              let color2 = "rgb(73 1 105)";
+              let color1 = "rgb(106 106 106 / 52%)";
+              let color2 = "rgb(190 165 91 / 49%)";
               event.style = `style="height: auto; background: repeating-linear-gradient(45deg,${color1},${color1} 5px,${color2} 5px,${color2} 10px);"`;
             }
             event.style = 'style="background-color:rgb(100 0 200 / 50%)"';

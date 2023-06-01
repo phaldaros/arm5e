@@ -30,10 +30,11 @@ export class ArsLayer extends InteractionLayer {
       realms: CONFIG.ARM5E.realms
     };
     const html = await renderTemplate("systems/arm5e/templates/generic/auraInput.html", dialogData);
-    new Dialog(
+    const dialog = new Dialog(
       {
         title: game.i18n.localize("arm5e.sheet.aura"),
         content: html,
+        render: addListenersDialog,
         buttons: {
           yes: {
             icon: "<i class='fas fa-check'></i>",
@@ -41,7 +42,7 @@ export class ArsLayer extends InteractionLayer {
           }
         },
         default: "yes",
-        close: async html => {
+        close: async (html) => {
           let val = html.find('input[name="inputField"]');
 
           if (val.val() !== "") {
@@ -56,12 +57,14 @@ export class ArsLayer extends InteractionLayer {
         height: "140px",
         classes: ["arm5e-dialog", "dialog"]
       }
-    ).render(true);
+    );
+    dialog.render(true);
   }
+
   static async clearAura() {
     await game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed._id);
     await game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed._id);
-    const tokens = canvas.tokens.placeables.filter(token => token.actor);
+    const tokens = canvas.tokens.placeables.filter((token) => token.actor);
     for (const token of tokens) {
       await clearAuraFromActor(token.actor);
     }

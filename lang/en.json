@@ -1053,7 +1053,7 @@
 
   "arm5e.time.minYear": "Minimum year",
   "arm5e.time.maxYear": "Maximum year",
-  "arm5e.time.groupSchedule": "Group schedule",
+  "arm5e.time.troupSchedule": "Troup schedule",
   "arm5e.activity.current": "Season {current} of {total}",
   "arm5e.activity.eventType": "Type of event",
   "arm5e.activity.activity": "Activity",
