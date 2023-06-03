@@ -1,6 +1,6 @@
 import { ARM5E } from "../config.js";
 
-import { simpleDie, stressDie, noRoll, getFormData } from "../dice.js";
+import { simpleDie, stressDie, noRoll, getFormData, changeMight } from "../dice.js";
 import { checkTargetAndCalculateResistance, noFatigue } from "./magic.js";
 import { chatFailedCasting } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor.js";
@@ -145,7 +145,7 @@ const ROLL_PROPERTIES = DEFAULT_ROLL_PROPERTIES;
 //const ROLL_PROPERTIES = ALTERNATE_ROLL_PROPERTIES;
 
 function getRollTypeProperties(type) {
-  return ROLL_PROPERTIES[type.toUpperCase()] ?? ROLL_PROPERTIES.DEFAULT;
+  return ROLL_PROPERTIES[type.toUpperCase()] ?? ROLL_PROPERTIES.OPTION;
 }
 
 function prepareRollVariables(dataset, actor) {
@@ -319,7 +319,7 @@ async function usePower(dataset, actor) {
           label: game.i18n.localize("arm5e.dialog.powerUse"),
           callback: async (html) => {
             actor = getFormData(html, actor);
-            await noRoll(actor, changeMight);
+            await noRoll(actor, 1, changeMight);
           }
         },
         no: {

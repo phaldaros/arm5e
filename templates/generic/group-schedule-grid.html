@@ -18,10 +18,9 @@
         {{#each this.seasons }}
           <div class="calendar-season flexrow" {{{this.style}}}>
             <div class="flexrow">
-              {{log "season: " this}}
               {{#each this.activities}}
-                <div class="vignette" data-actorid={{../../this.id}} data-id="{{this.id}}"><img src="{{this.img}}"
-                    title="{{this.name}}" style="max-height: inherit;" />
+                <div class="vignette" data-actorid={{../../this.id}} data-id="{{this.id}}" {{{this.style}}}><img
+                    src="{{this.img}}" title="{{this.name}}" style="max-height: inherit;" />
                 </div>
               {{/each}}
             </div>

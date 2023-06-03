@@ -1,3 +1,8 @@
+import { stressDie } from "../dice.js";
+import { StressDieInternal } from "../helpers/stressdie.js";
+import { log } from "../tools.js";
+import { companionData } from "./testData.js";
+
 export function registerStressDieTesting(quench) {
   quench.registerBatch(
     "Ars-StressDie",

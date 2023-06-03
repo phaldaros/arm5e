@@ -153,6 +153,13 @@ Hooks.once("init", async function () {
     CONFIG.ARM5E.seasons = CONFIG.ARM5E.seasonsLabels.standard;
   }
 
+  CONFIG.ARM5E.activities.conflictExclusion = Object.entries(CONFIG.ARM5E.activities.generic)
+    .filter((e) => e[1].scheduling.conflict == false)
+    .map((e) => e[0]);
+  CONFIG.ARM5E.activities.duplicateAllowed = Object.entries(CONFIG.ARM5E.activities.generic)
+    .filter((e) => e[1].scheduling.duplicate)
+    .map((e) => e[0]);
+
   // Define custom Document classes
   CONFIG.Actor.documentClass = ArM5ePCActor;
   CONFIG.Item.documentClass = ArM5eItem;

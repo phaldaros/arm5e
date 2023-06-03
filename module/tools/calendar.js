@@ -62,8 +62,10 @@ export class Calendar extends FormApplication {
 
     let dateIndex = 0;
     data.selectedCnt = 0;
-    let noConflict = true;
+    let conflict = false;
     data.message = "";
+    const notAppliedStyle =
+      'style="color: #000; box-shadow: 0 0 10px rgb(200, 0, 0); cursor: pointer;"';
     for (let y = MIN_YEAR; y <= MAX_YEAR; y++) {
       let year = {
         year: y,
@@ -87,16 +89,22 @@ export class Calendar extends FormApplication {
         }
         if (thisYearSchedule.length > 0) {
           if (thisYearSchedule[0].seasons[s].length > 0) {
-            year.seasons[s].busy = true;
             if (
               year.seasons[s].selected &&
               !ARM5E.activities.conflictExclusion.includes(data.activity.system.activity)
             ) {
-              noConflict = false;
+              year.seasons[s].busy = true;
+              conflict = true;
               data.message = game.i18n.localize("arm5e.activity.msg.scheduleConflict");
             }
             for (let busy of thisYearSchedule[0].seasons[s]) {
-              year.seasons[s].others.push({ id: busy.id, name: busy.name, img: busy.img });
+              let tmpStyle = busy.applied ? "" : notAppliedStyle;
+              year.seasons[s].others.push({
+                id: busy.id,
+                name: busy.name,
+                img: busy.img,
+                style: tmpStyle
+              });
             }
           }
         }
@@ -136,7 +144,7 @@ export class Calendar extends FormApplication {
     }
 
     // log(false, `selectedDates: ${JSON.stringify(data.selectedDates)}`);
-    if (data.activity.system.duration != data.selectedCnt || (!noConflict && enforceSchedule)) {
+    if (data.activity.system.duration != data.selectedCnt || (conflict && enforceSchedule)) {
       data.updatePossible = "disabled";
     }
 

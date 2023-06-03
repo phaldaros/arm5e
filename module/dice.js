@@ -5,7 +5,7 @@ import { ARM5E } from "./config.js";
 import { showRollResults } from "./helpers/chat.js";
 let mult = 1;
 
-async function simpleDie(actor, type = "DEFAULT", callBack) {
+async function simpleDie(actor, type = "OPTION", callBack) {
   mult = 1;
   // actor = getFormData(html, actor);
   actor = await getRollFormula(actor);
@@ -76,7 +76,7 @@ async function simpleDie(actor, type = "DEFAULT", callBack) {
 // 1 => force a one
 // 2 => force a zero
 // 4 => Aging roll
-async function stressDie(actor, type = "DEFAULT", modes = 0, callBack = undefined, botchNum = 0) {
+async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined, botchNum = 0) {
   mult = 1;
   actor = await getRollFormula(actor);
   const rollData = actor.rollData;

@@ -58,7 +58,7 @@ ALSO IMPORTANT: The dev system and the official releases can not exist in parall
 
 ## Credits
 
-<b>Authors:</b>xzotl, ialbiol, phaldaros, sylph, Ludo.Bermejo<br>
+<b>Authors:</b>xzotl, ialbiol, phaldaros, sylph<br>
 
 ## Feedback
 

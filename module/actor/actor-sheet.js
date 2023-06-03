@@ -1502,6 +1502,7 @@ export class ArM5eActorSheet extends ActorSheet {
       actor: this.actor,
       type: "character"
     });
+    this.actor.apps[schedule.appId] = schedule;
     const res = await schedule.render(true);
   }
 

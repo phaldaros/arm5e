@@ -1,4 +1,4 @@
-## 2.1.0.4, Mercere, first to join
+## 2.1.0.5, Mercere, first to join
 
 ### Features & changes
 
@@ -23,7 +23,10 @@
 - New setting for starting the year in winter.
 - Active effect to change the age a character starts aging (eg: strong faerie blood, curse, spell)
 - New troup schedule dialog to see the activities of a group of characters during the year
-- Aging roll reminder
+- [Technical] hundreds of non-regression tests added for scheduling.
+- Updated French version by Orneen
+- Updated Portuguese (BR) version by Ramon Alves
+- Impossible to apply activities ending in the future
 
 ### Bug fixes
 
@@ -31,6 +34,9 @@
 - Creating a book from a character sheet won't generate an error anymore.
 - Fixed problem with exploding 10 rolls were counted as 0.
 - It is possible again to roll dice in the chat using /r
+- Powers are working again:
+  - Omitting the roll type will properly use the correct one
+  - Spellcasting stances are only for magi.
 
 ### V10 migration (on going)
 
