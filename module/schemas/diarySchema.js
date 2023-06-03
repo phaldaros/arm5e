@@ -502,19 +502,19 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     if (activities.length <= 1) {
       return false;
     }
-    if (activities.filter((a) => !ARM5E.activities.conflictExclusion.includes(a.type)).length > 1) {
+    if (
+      activities.filter((a) => {
+        return !ARM5E.activities.conflictExclusion.includes(a.type);
+      }).length > 1
+    ) {
       return true;
     }
-    let agingCount = 0;
     let exposureCount = 0;
     for (let a of activities) {
       if (["none", "adventuring"].includes(a.type)) {
         continue;
       }
-      if (a.type === "aging") {
-        agingCount++;
-        if (agingCount > 1) return true;
-      } else if (a.type === "exposure") {
+      if (a.type === "exposure") {
         exposureCount++;
         if (exposureCount > 1) return true;
       }
@@ -522,19 +522,30 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     return false;
   }
 
-  // TODO
   hasScheduleConflict(actor) {
     if (this.activity === "none") {
       return false;
     }
+    let conflicting = !ARM5E.activities.conflictExclusion.includes(this.activity);
+    let duplicateAllowed = ARM5E.activities.duplicateAllowed.includes(this.activity);
+    // For each diary entry of the actor
     for (let entry of Object.values(actor.system.diaryEntries)) {
-      if (
-        entry._id != this.parent._id &&
-        !ARM5E.activities.conflictExclusion.includes(entry.system.activity)
-      ) {
-        for (let date of entry.system.dates) {
-          if (this.dates.some((e) => e.year == date.year && e.season === date.season)) {
-            return true;
+      // the entry is not the current entry
+      if (entry._id != this.parent._id) {
+        // if the type is the same and doesn't allow duplicates, check if dates overlap
+        if (this.activity === entry.system.activity && !duplicateAllowed) {
+          for (let date of entry.system.dates) {
+            if (this.dates.some((e) => e.year == date.year && e.season === date.season)) {
+              return true;
+            }
+          }
+        }
+
+        if (conflicting && !ARM5E.activities.conflictExclusion.includes(entry.system.activity)) {
+          for (let date of entry.system.dates) {
+            if (this.dates.some((e) => e.year == date.year && e.season === date.season)) {
+              return true;
+            }
           }
         }
       }

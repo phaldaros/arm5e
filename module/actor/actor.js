@@ -1835,7 +1835,7 @@ export class ArM5ePCActor extends Actor {
                 id: entry._id,
                 img: entry.img,
                 name: entry.name,
-                applied: date.applied,
+                applied: entry.system.done || entry.system.activity === "none",
                 type: entry.system.activity,
                 date: date.date
               });
@@ -1850,7 +1850,7 @@ export class ArM5ePCActor extends Actor {
                 id: entry._id,
                 img: entry.img,
                 name: entry.name,
-                applied: date.applied,
+                applied: entry.system.done || entry.system.activity === "none",
                 type: entry.system.activity,
                 date: date.date
               });

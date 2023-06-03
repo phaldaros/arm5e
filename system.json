@@ -3,7 +3,7 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "2.1.0.4",
+  "version": "2.1.0.5",
   "minimumCoreVersion": "10.290",
   "compatibility": {
     "minimum": "10.290",
@@ -20,7 +20,7 @@
     { "name": "Lanneval", "contribution": "French version" },
     { "name": "Orneen", "contribution": "French version, compendium content" },
     { "name": "N0Br41nZ", "contribution": "Italian version" },
-    { "name": "Ramon Alves", "contribution": "Portuguese version" },
+    { "name": "Ramon Alves", "contribution": "Portuguese (BR) version" },
     { "name": "jaircunhavianna", "contribution": "Compendium content" }
   ],
   "esmodules": ["module/arm5e.js"],
@@ -142,6 +142,11 @@
       "lang": "pt",
       "name": "Portuguese",
       "path": "lang/pt.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Portuguese (Brazil)",
+      "path": "lang/pt-BR.json"
     }
   ],
   "gridDistance": 5,

@@ -77,6 +77,11 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
   async getData() {
     const context = await super.getData();
     const actType = context.system.activity;
+    context.firstSeason = context.system.dates[0];
+    context.lastSeason = context.system.dates[context.system.dates.length - 1];
+    if (context.system.duration > 1) {
+      context.ui.editDate = "disabled";
+    }
     if (this.actor == null || this.actor.type == "covenant" || this.actor.type == "laboratory") {
       context.ui.showTab = false;
       context.system.disabled = "disabled";
@@ -90,11 +95,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     // }
 
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];
-    context.firstSeason = context.system.dates[0];
-    context.lastSeason = context.system.dates[context.system.dates.length - 1];
-    if (context.system.duration > 1) {
-      context.ui.editDate = "disabled";
-    }
+
     // legacy diary or just a simple recounting of events
     if (actType == "none") {
       context.ui.showTab = false;
@@ -124,15 +125,15 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       this.item.isOwned && this.item.system.hasScheduleConflict(this.item.actor);
 
     if (hasScheduleConflict) {
-      context.system.applyError = game.i18n.localize("arm5e.activity.msg.scheduleConflict");
+      context.system.applyError = "arm5e.activity.msg.scheduleConflict";
       context.astrolabIconStyle = 'style="text-shadow: 0 0 10px red"';
       if (enforceSchedule) {
-        context.applyPossible = "disabled";
+        context.system.applyPossible = "disabled";
       }
     }
 
-    if (!context.system.done) {
-      context.applyPossible = "disabled";
+    if (context.system.done) {
+      context.system.applyPossible = "disabled";
     }
 
     if (activityConfig.source.readonly && !context.system.done) {
@@ -258,6 +259,15 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
     if (activityConfig.validation != null) {
       activityConfig.validation(context, this.actor, this.item);
+    }
+    let currentDate = game.settings.get("arm5e", "currentDate");
+    if (
+      context.lastSeason.year > currentDate.year ||
+      (context.lastSeason.year == currentDate.year &&
+        CONFIG.SEASON_ORDER[context.lastSeason.season] > CONFIG.SEASON_ORDER[currentDate.season])
+    ) {
+      context.system.applyPossible = "disabled";
+      context.system.applyError = "arm5e.activity.msg.activityEndsInFuture";
     }
 
     log(false, "ITEM-DIARY-sheet get data");

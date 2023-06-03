@@ -381,7 +381,7 @@ export class ArM5eRollData {
       activeEffects,
       "aura"
     );
-    let res = activeEffectsByType.map(activeEffect => {
+    let res = activeEffectsByType.map((activeEffect) => {
       const label = activeEffect.label;
       let value = 0;
       if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
@@ -394,7 +394,7 @@ export class ArM5eRollData {
             activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
           );
         })
-        .forEach(item => {
+        .forEach((item) => {
           value += Number(item.value);
         });
       return {
@@ -403,16 +403,18 @@ export class ArM5eRollData {
       };
     });
 
-    res.push({
-      label: game.i18n.localize(ARM5E.magic.mod.voice[actor.system.stances.voiceStance].mnemonic),
-      value: actor.system.stances.voice[actor.system.stances.voiceStance]
-    });
-    res.push({
-      label: game.i18n.localize(
-        ARM5E.magic.mod.gestures[actor.system.stances.gesturesStance].mnemonic
-      ),
-      value: actor.system.stances.gestures[actor.system.stances.gesturesStance]
-    });
+    if (actor._isMagus()) {
+      res.push({
+        label: game.i18n.localize(ARM5E.magic.mod.voice[actor.system.stances.voiceStance].mnemonic),
+        value: actor.system.stances.voice[actor.system.stances.voiceStance]
+      });
+      res.push({
+        label: game.i18n.localize(
+          ARM5E.magic.mod.gestures[actor.system.stances.gesturesStance].mnemonic
+        ),
+        value: actor.system.stances.gestures[actor.system.stances.gesturesStance]
+      });
+    }
 
     return res;
   }
@@ -424,7 +426,7 @@ export class ArM5eRollData {
       activeEffects,
       "spellcasting"
     );
-    return activeEffectsByType.map(activeEffect => {
+    return activeEffectsByType.map((activeEffect) => {
       const label = activeEffect.label;
       let value = 0;
       let optional = false;
@@ -440,7 +442,7 @@ export class ArM5eRollData {
               activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting")
           );
         })
-        .forEach(item => {
+        .forEach((item) => {
           value += Number(item.value);
         });
       return {

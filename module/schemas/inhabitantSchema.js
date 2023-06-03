@@ -68,7 +68,7 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
 
   static getDefault(itemData) {
     let res = itemData;
-    if (res.system.category === undefined) {
+    if (res.system === undefined) {
       res.system = {
         category: "grogs"
       };

@@ -1963,7 +1963,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: null,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: true,
+      conflict: false
+    }
   },
   adventuring: {
     label: "arm5e.activity.adventuring",
@@ -1979,7 +1983,11 @@ ARM5E.activities.generic = {
     maxXp: 5,
     bonusOptions: null,
     validation: validAdventuring,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: true,
+      conflict: false
+    }
   },
   exposure: {
     label: "arm5e.activity.exposure",
@@ -1995,7 +2003,11 @@ ARM5E.activities.generic = {
     maxXp: 2,
     bonusOptions: null,
     validation: validExposure,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: false
+    }
   },
   practice: {
     label: "arm5e.activity.practice",
@@ -2017,7 +2029,11 @@ ARM5E.activities.generic = {
       mastery: { label: "arm5e.activity.options.mastery", modifier: 1 }
     },
     validation: validPractice,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   training: {
     label: "arm5e.activity.training",
@@ -2033,7 +2049,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: validTraining,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   teaching: {
     label: "arm5e.activity.teaching",
@@ -2053,7 +2073,11 @@ ARM5E.activities.generic = {
       twoStudents: { label: "arm5e.activity.options.twoStudents", modifier: 3 }
     },
     validation: validTeaching,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
 
   hermeticApp: {
@@ -2071,7 +2095,11 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: validTotalXp,
     secondaryFilter: null,
-    duration: 60
+    duration: 60,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   childhood: {
     label: "arm5e.activity.childhood",
@@ -2087,7 +2115,11 @@ ARM5E.activities.generic = {
     maxXp: 1000,
     bonusOptions: null,
     validation: validChildhood,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   laterLife: {
     label: "arm5e.activity.laterLife",
@@ -2104,7 +2136,11 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: validTotalXp,
     secondaryFilter: null,
-    duration: 4
+    duration: 4,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   laterLifeMagi: {
     label: "arm5e.activity.laterLifeMagi",
@@ -2121,7 +2157,11 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: validTotalXp,
     secondaryFilter: null,
-    duration: 4
+    duration: 4,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   reading: {
     label: "arm5e.activity.reading",
@@ -2138,7 +2178,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: validReading,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   learnSpell: {
     label: "arm5e.lab.activity.spellLearning",
@@ -2155,7 +2199,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: null,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   inventSpell: {
     label: "arm5e.lab.activity.inventSpell",
@@ -2172,7 +2220,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: null,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   visExtraction: {
     label: "arm5e.lab.activity.visExtraction",
@@ -2189,7 +2241,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: null,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   lab: {
     label: "arm5e.sheet.laboratory",
@@ -2198,7 +2254,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: null,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   },
   aging: {
     label: "arm5e.activity.aging",
@@ -2215,7 +2275,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: null,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: true,
+      conflict: false
+    }
   },
   visStudy: {
     label: "arm5e.activity.visStudy",
@@ -2232,7 +2296,11 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: validVisStudy,
-    secondaryFilter: null
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   }
 };
 
@@ -2358,8 +2426,6 @@ ARM5E.activities.aging = {
   IntPerPts: { desc: "arm5e.aging.roll.IntPerPts", impact: 2, char: "int", char2: "per" },
   crisis: { desc: "arm5e.aging.roll.crisis", impact: 42 }
 };
-
-ARM5E.activities.conflictExclusion = ["aging", "adventuring", "exposure", "none"];
 
 ARM5E.lab = {};
 

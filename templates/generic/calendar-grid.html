@@ -18,9 +18,8 @@
             {{/if}}
             <div class="flexrow">
               {{#each this.others}}
-                <div class="vignette" data-id="{{this.id}}"><img src="{{this.img}}" title="{{this.name}}"
-                    style="max-height: inherit;" />
-                </div>
+                <div class="vignette" data-id="{{this.id}}" {{{this.style}}}><img src="{{this.img}}"
+                    title="{{this.name}}" /> </div>
               {{/each}}
             </div>
           </div>

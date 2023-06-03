@@ -19,6 +19,13 @@ export class Schedule extends FormApplication {
       closeOnSubmit: false
     });
   }
+
+  onClose(app) {
+    if (app.object.actor) {
+      delete actor.apps[app.appId];
+    }
+  }
+
   async getData(options = {}) {
     const data = await super.getData().object;
     let currentDate = game.settings.get("arm5e", "currentDate");
@@ -40,6 +47,12 @@ export class Schedule extends FormApplication {
     const born = Number(data.actor.system.description.born.value);
     const agingStart = 35 + data.actor.system.bonuses.traits.agingStart;
     data.message = "";
+    const notAppliedStyle =
+      'style="color: #000; box-shadow: 0 0 10px rgb(200, 0, 0); cursor: pointer;"';
+    if (Number.isNaN(born)) {
+      data.message = "No year of birth defined!";
+      born = 1;
+    }
     for (let y = MAX_YEAR; y >= MIN_YEAR; y--) {
       let year = {
         year: y,
@@ -58,7 +71,13 @@ export class Schedule extends FormApplication {
           if (thisYearSchedule[0].seasons[s].length > 0) {
             year.seasons[s].busy = DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s]);
             for (let busy of thisYearSchedule[0].seasons[s]) {
-              year.seasons[s].others.push({ id: busy.id, name: busy.name, img: busy.img });
+              let tmpStyle = busy.applied ? "" : notAppliedStyle;
+              year.seasons[s].others.push({
+                id: busy.id,
+                name: busy.name,
+                img: busy.img,
+                style: tmpStyle
+              });
             }
           }
         }
@@ -87,19 +106,8 @@ export class Schedule extends FormApplication {
         event.edition = false;
         if (event.others.length > 0) {
           if (!event.busy) {
-            if (event.agingNeeded) {
-              let color1 = "rgb(106 106 106 / 52%)";
-              let color2 = "rgb(190 165 91 / 49%)";
-              event.style = `style="height: auto; background: repeating-linear-gradient(45deg,${color1},${color1} 5px,${color2} 5px,${color2} 10px);"`;
-            } else {
-              event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
-            }
+            event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
           } else {
-            if (event.agingNeeded) {
-              let color1 = "rgb(106 106 106 / 52%)";
-              let color2 = "rgb(190 165 91 / 49%)";
-              event.style = `style="height: auto; background: repeating-linear-gradient(45deg,${color1},${color1} 5px,${color2} 5px,${color2} 10px);"`;
-            }
             event.style = 'style="background-color:rgb(100 0 200 / 50%)"';
           }
         }
