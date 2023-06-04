@@ -1506,6 +1506,118 @@ export class ArM5eActorSheet extends ActorSheet {
     const res = await schedule.render(true);
   }
 
+  async _handleTransfer(info, item) {
+    const html = await TextEditor.enrichHTML(
+      `<div class="flex-center"><p>${game.i18n.format("arm5e.dialog.confirmTransfer-question", {
+        name: item.name
+      })}</p>
+      <p>${game.i18n.localize("arm5e.dialog.confirmTransfer-info")}</p></div`,
+      { async: true }
+    );
+    let quantity = item.system.hasQuantity();
+
+    let confirmed = false;
+    var chosenAmount = 1;
+    if (quantity.qty == 0) return false;
+    if (quantity.qty == 1) {
+      confirmed = await new Promise((resolve) => {
+        new Dialog(
+          {
+            title: game.i18n.localize("arm5e.dialog.confirmTransfer"),
+            content: html,
+            buttons: {
+              yes: {
+                icon: "<i class='fas fa-check'></i>",
+                label: game.i18n.localize("arm5e.dialog.button.yes"),
+                callback: () => resolve(true)
+              },
+              no: {
+                icon: "<i class='fas fa-times'></i>",
+                label: game.i18n.localize("arm5e.dialog.button.no"),
+                callback: () => resolve(false)
+              }
+            },
+            close: () => resolve(false)
+          },
+          {
+            classes: ["arm5e-dialog", "dialog"]
+          }
+        ).render(true);
+      });
+    } else {
+      let dialogData = {
+        fieldname: item.name,
+        prompt: game.i18n.format("arm5e.dialog.confirmTransfer-amount", {
+          max: quantity.qty
+        }),
+        help: game.i18n.localize("arm5e.dialog.confirmTransfer-info"),
+        value: 1,
+        min: 1,
+        max: quantity.qty
+      };
+      const html = await renderTemplate(
+        "systems/arm5e/templates/generic/numberInput.html",
+        dialogData
+      );
+      confirmed = await new Promise((resolve) => {
+        new Dialog(
+          {
+            title: item.name,
+            content: html,
+            render: this.addListenersDialog,
+            buttons: {
+              yes: {
+                icon: "<i class='fas fa-check'></i>",
+                label: `Yes`,
+                callback: async (html) => {
+                  let result = html.find('input[name="inputField"]');
+                  if (result.val() !== "") {
+                    chosenAmount = Number(result.val());
+                  }
+                  resolve(true);
+                }
+              },
+              no: {
+                icon: "<i class='fas fa-ban'></i>",
+                label: `Cancel`,
+                callback: () => {
+                  resolve(false);
+                }
+              }
+            },
+            close: () => resolve(false)
+          },
+          {
+            jQuery: true,
+            height: "140px",
+            classes: ["arm5e-dialog", "dialog"]
+          }
+        ).render(true);
+      });
+    }
+    if (confirmed) {
+      const originActor = game.actors.get(info.ownerId);
+      if (!originActor) return false;
+
+      let res = [];
+      let modified = [];
+      if (chosenAmount == quantity.qty) {
+        res = await this.actor.createEmbeddedDocuments("Item", [item]);
+        let deleted = await originActor.deleteEmbeddedDocuments("Item", [item._id]);
+      } else {
+        item.updateSource({ system: { [quantity.name]: chosenAmount } });
+        res = await this.actor.createEmbeddedDocuments("Item", [item]);
+        item.updateSource({ system: { [quantity.name]: quantity.qty - chosenAmount } });
+        modified = await originActor.updateEmbeddedDocuments("Item", [item]);
+      }
+      originActor.sheet.render(false);
+
+      return res;
+    } else {
+      return false;
+    }
+  }
+
   // Overloaded core functions (TODO: review at each Foundry update)
 
   /**

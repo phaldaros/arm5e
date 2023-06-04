@@ -117,8 +117,18 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
     return await this.actor.update(updateData, {});
   }
   async _onDropItem(event, data) {
+    const info = getUuidInfo(data.uuid);
     const item = await fromUuid(data.uuid);
     const type = item.type;
+    if (this.actor.uuid !== item.parent?.uuid) {
+      if (info.ownerType === "Actor" && info.type === "Item" && item.system.hasQuantity) {
+        if (!event.shiftKey) {
+          if (this.isItemDropAllowed(item)) {
+            return this._handleTransfer(info, item);
+          }
+        }
+      }
+    }
     if (type == "ability") {
       if (this.actor.hasSkill(item.system.key)) {
         ui.notifications.warn(
