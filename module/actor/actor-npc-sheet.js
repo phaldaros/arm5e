@@ -128,8 +128,17 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
   }
 
   async _onDropItem(event, data) {
-    let type;
+    const info = getUuidInfo(data.uuid);
     const item = await fromUuid(data.uuid);
+    if (this.actor.uuid !== item.parent?.uuid) {
+      if (info.ownerType === "Actor" && info.type === "Item" && item.system.hasQuantity) {
+        if (!event.shiftKey) {
+          if (this.isItemDropAllowed(item)) {
+            return this._handleTransfer(info, item);
+          }
+        }
+      }
+    }
     // transform input into labText
     if (item.type == "laboratoryText") {
       if (item.system.type == "spell") {

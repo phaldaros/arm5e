@@ -65,6 +65,10 @@ export class VisSchema extends foundry.abstract.DataModel {
     return updateData;
   }
 
+  hasQuantity() {
+    return { name: "pawns", qty: this.pawns };
+  }
+
   async studyVis(itemId, actor) {
     let artStats = actor.getArtStats(this.art);
     let amount = Math.max(1, Math.ceil(artStats.derivedScore / 5));

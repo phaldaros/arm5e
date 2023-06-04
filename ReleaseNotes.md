@@ -1,4 +1,4 @@
-## 2.1.0.5, Mercere, first to join
+## 2.1.0.6, Mercere, first to join
 
 ### Features & changes
 
@@ -27,6 +27,10 @@
 - Updated French version by Orneen
 - Updated Portuguese (BR) version by Ramon Alves
 - Impossible to apply activities ending in the future
+- Changed the default behavior when dropping physical items from an actor to another:
+  - item will be transfered after confirmation
+  - If there is more than one item, ask for the quantity to be transferred
+  - Previous default behavior is still available using shift.
 
 ### Bug fixes
 
@@ -37,6 +41,7 @@
 - Powers are working again:
   - Omitting the roll type will properly use the correct one
   - Spellcasting stances are only for magi.
+- Fixed personality rolls
 
 ### V10 migration (on going)
 

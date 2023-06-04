@@ -12,7 +12,7 @@
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.items as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item.id}}">
-      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" /></div>
+      <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
       <h4 class="item-title">{{item.name}}</h4>
       <div class="item-controls">
         <a class="item-control item-edit" title='{{localize "arm5e.hints.edit" item=(localize "ITEM.TypeItem")}}'><i
@@ -35,7 +35,7 @@
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{#each system.vis as |item id|}}
     <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
-      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" /></div>
+      <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
       <div class="flexrow flex-center">
         <span class="flexrow item-title">{{item.name}}</span>
         <label><span class="bold">{{localize "arm5e.sheet.art"}}:</span>

@@ -34,6 +34,34 @@ export async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export function getUuidInfo(uuid) {
+  const info = {
+    uuid: uuid,
+    ownerId: null,
+    ownerType: null,
+    id: null,
+    type: null
+  };
+  const regex1 = /^(?<owner>\w+)\.(?<ownerId>\w+)\.(?<type>\w+)\.(?<id>\w+)/;
+  const regex2 = /^(?<type>\w+)\.(?<id>\w+)/;
+  if (regex1.test(uuid)) {
+    let matched = uuid.match(regex1);
+    info.ownerId = matched.groups.ownerId;
+    info.ownerType = matched.groups.owner;
+    info.type = matched.groups.type;
+    info.id = matched.groups.id;
+
+    log(false, matched.groups);
+  } else if (regex2.test(uuid)) {
+    let matched = uuid.match(regex2);
+    info.type = matched.groups.type;
+    info.id = matched.groups.id;
+  }
+  // TODO: other uuid formats?
+
+  return info;
+}
+
 export async function getDocumentFromCompendium(pack, id) {
   let compendium = game.packs.get(pack);
   // const documents = await compendium.getDocuments();

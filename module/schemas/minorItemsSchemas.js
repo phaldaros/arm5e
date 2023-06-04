@@ -115,6 +115,10 @@ export class ItemSchema extends foundry.abstract.DataModel {
 
     return updateData;
   }
+
+  hasQuantity() {
+    return { name: "quantity", qty: this.quantity };
+  }
 }
 
 export class ReputationSchema extends foundry.abstract.DataModel {

@@ -69,6 +69,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/generic/group-schedule-grid.html",
     "systems/arm5e/templates/generic/simpleListPicker.html",
     "systems/arm5e/templates/generic/textInput.html",
+    "systems/arm5e/templates/generic/numberInput.html",
     "systems/arm5e/templates/generic/auraInput.html",
     "systems/arm5e/templates/generic/agingPointsEdit.html",
     "systems/arm5e/templates/generic/largeDialog-footer.html",

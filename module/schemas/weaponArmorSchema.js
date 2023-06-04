@@ -54,6 +54,10 @@ export class ArmorSchema extends foundry.abstract.DataModel {
     };
   }
 
+  hasQuantity() {
+    return { name: "quantity", qty: this.quantity };
+  }
+
   static migrateData(data) {
     if (data.weight != undefined) {
       if (data.weight > 0 && data.load == 0) {
@@ -164,6 +168,9 @@ export class WeaponSchema extends foundry.abstract.DataModel {
     return data;
   }
 
+  hasQuantity() {
+    return { name: "quantity", qty: this.quantity };
+  }
   static migrate(data) {
     let update = {};
 

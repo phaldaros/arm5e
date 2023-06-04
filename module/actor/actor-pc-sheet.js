@@ -1,4 +1,4 @@
-import { log } from "../tools.js";
+import { getUuidInfo, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 
 import { labTextToEffect } from "../item/item-converter.js";
@@ -131,10 +131,20 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
   }
 
   async _onDropItem(event, data) {
+    const info = getUuidInfo(data.uuid);
     const item = await fromUuid(data.uuid);
-    const type = item.type;
+    if (this.actor.uuid !== item.parent?.uuid) {
+      if (info.ownerType === "Actor" && info.type === "Item" && item.system.hasQuantity) {
+        if (!event.shiftKey) {
+          if (this.isItemDropAllowed(item)) {
+            return this._handleTransfer(info, item);
+          }
+        }
+      }
+    }
+
     // transform input into labText
-    if (type == "laboratoryText") {
+    if (item.type == "laboratoryText") {
       if (item.system.type == "spell") {
         log(false, "Valid drop");
         // create a spell or enchantment data:
@@ -144,7 +154,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
         log(false, "Invalid drop");
         return false;
       }
-    } else if (type == "ability") {
+    } else if (item.type == "ability") {
       if (this.actor.hasSkill(item.system.key)) {
         ui.notifications.warn(
           `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${item.name}`
@@ -159,6 +169,20 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       }
     }
     return res;
+  }
+
+  addListenersDialog(html) {
+    html.find('input[name="inputField"]').change((ev) => {
+      let v = parseInt(ev.currentTarget.value);
+      if (v < 1) ev.currentTarget.value = 1;
+      if (v > parseInt(ev.currentTarget.max))
+        ev.currentTarget.value = parseInt(ev.currentTarget.max);
+    });
+
+    html.find(".resource-focus").focus((ev) => {
+      ev.preventDefault();
+      ev.currentTarget.select();
+    });
   }
 
   async _bindActor(actor) {
