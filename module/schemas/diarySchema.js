@@ -257,7 +257,14 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
   static getDefault(itemData) {
     let res = itemData;
     let currentDate = game.settings.get("arm5e", "currentDate");
+
     if (itemData.system) {
+      if (itemData.system.year) {
+        currentDate.year = itemData.system.year;
+      }
+      if (itemData.system.season) {
+        currentDate.season = itemData.system.season;
+      }
       if (itemData.system.dates == undefined) {
         res.system.dates = [
           { year: currentDate.year, season: currentDate.season, date: "", applied: false }

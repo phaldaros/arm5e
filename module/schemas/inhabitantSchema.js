@@ -123,6 +123,11 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
           updateData["name"] = "LivestockBreed";
         }
         break;
+      default:
+        updateData["system.category"] = "grogs";
+        if (data.name === "") {
+          updateData["name"] = "A grog";
+        }
     }
     if (typeof data.system.loyalty != "number") {
       updateData["system.loyalty"] = convertToNumber(data.system.loyalty, 0);

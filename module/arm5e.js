@@ -62,7 +62,7 @@ import {
   INHABITANTS_DEFAULT_ICONS
 } from "./constants/ui.js";
 import { InhabitantSchema } from "./schemas/inhabitantSchema.js";
-import { seasonOrder, seasonOrderInv } from "./tools/time.js";
+import { SimpleCalendarSeasons, seasonOrder, seasonOrderInv } from "./tools/time.js";
 
 Hooks.once("init", async function () {
   game.arm5e = {
@@ -76,6 +76,8 @@ Hooks.once("init", async function () {
 
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
+
+  CONFIG.SC = { SEASONS: SimpleCalendarSeasons };
 
   registerSettings();
 
@@ -289,6 +291,26 @@ Hooks.on("quenchReady", (quench) => {
   registerTestSuites(quench);
 });
 
+Hooks.on("simple-calendar-date-time-change", async (data) => {
+  // ignore change of less than an hour
+  if (Math.abs(data.diff) < 3600) return;
+  let current = game.settings.get("arm5e", "currentDate");
+  let newDatetime = {};
+  if (
+    current.year !== Number(data.date.year) ||
+    current.season !== CONFIG.SC.SEASONS[data.date.currentSeason.name]
+  ) {
+    newDatetime = {
+      year: Number(data.date.year),
+      season: CONFIG.SC.SEASONS[data.date.currentSeason.name],
+      date: "",
+      month: data.date.month,
+      day: data.date.day
+    };
+    await game.settings.set("arm5e", "currentDate", newDatetime);
+    Hooks.callAll("arm5e-date-change", newDatetime);
+  }
+});
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
@@ -433,6 +455,7 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["habitantHabitants"] = InhabitantSchema;
   CONFIG.Item.systemDataModels["habitantHorses"] = InhabitantSchema;
   CONFIG.Item.systemDataModels["habitantLivestock"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["visStockCovenant"] = VisSchema;
 }
 
 function registerSheets() {

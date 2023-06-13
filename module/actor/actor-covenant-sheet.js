@@ -1,4 +1,4 @@
-import { compareLabTexts, log, hermeticFilter } from "../tools.js";
+import { compareLabTexts, log, hermeticFilter, getUuidInfo } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { HERMETIC_FILTER, TIME_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
 import { effectToLabText, resetOwnerFields } from "../item/item-converter.js";
@@ -154,12 +154,15 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       // case "habitantLivestock":
       case "possessionsCovenant":
       case "visSourcesCovenant":
-      case "visStockCovenant":
+      case "visStockCovenant": // TODO convert and remove
       case "magicalEffect":
       case "calendarCovenant":
       case "incomingSource":
       case "laboratoryText":
       case "enchantment":
+      case "armor":
+      case "weapon":
+      case "item":
         return true;
       default:
         return false;

@@ -234,3 +234,43 @@ export const ABILITIES_DEFAULT_ICONS = {
     cult: "systems/arm5e/assets/icons/abilities/cult.svg"
   }
 };
+
+export async function getConfirmation(title, question, flavor = "Neutral", info1, info2) {
+  const dialogData = {
+    question: question,
+    flavor: flavor,
+    info1: info1,
+    info2: info2
+  };
+  const html = await renderTemplate(
+    "systems/arm5e/templates/generic/confirmation.html",
+    dialogData
+  );
+  return await new Promise((resolve) => {
+    new Dialog(
+      {
+        title: title,
+        content: html,
+        buttons: {
+          yes: {
+            icon: "<i class='fas fa-check'></i>",
+            label: game.i18n.localize("arm5e.dialog.button.yes"),
+            callback: () => resolve(true)
+          },
+          no: {
+            icon: "<i class='fas fa-times'></i>",
+            label: game.i18n.localize("arm5e.dialog.button.no"),
+            callback: () => resolve(false)
+          }
+        },
+        default: "yes",
+        close: () => resolve(false)
+      },
+      {
+        jQuery: true,
+        height: "150px",
+        classes: ["arm5e-dialog", "dialog"]
+      }
+    ).render(true);
+  });
+}

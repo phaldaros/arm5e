@@ -4,7 +4,13 @@ import { GroupSchedule } from "./group-schedule.js";
 export class Astrolab extends FormApplication {
   constructor(data, options) {
     super(data, options);
+    Hooks.on("arm5e-date-change", (date) => {
+      this.object.year = date.year;
+      this.object.season = date.season;
+      this.render(true);
+    });
   }
+
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {

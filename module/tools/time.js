@@ -13,6 +13,14 @@ export function nextDate(season, year) {
     return { season: CONFIG.SEASON_ORDER_INV[CONFIG.SEASON_ORDER[season] + 1], year: year };
   }
 }
+
+export const SimpleCalendarSeasons = {
+  Spring: "spring",
+  Summer: "summer",
+  Fall: "autumn",
+  Winter: "winter"
+};
+
 export function compareDiaryEntries(e1, e2) {
   if (e1.system.dates[0].year < e2.system.dates[0].year) {
     return 1;

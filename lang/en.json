@@ -858,10 +858,9 @@
   "arm5e.dialog.powerUse": "Use power",
   "arm5e.dialog.hint.abilityOption": "Only alphanumeric characters.",
   "arm5e.dialog.delete-topic": "Delete topic",
-  "arm5e.dialog.confirmTransfer": "Transfer confirmation.",
   "arm5e.dialog.confirmTransfer-question": "Are you sure you want to transfer the item named \"{name}\"?",
   "arm5e.dialog.confirmTransfer-amount": "Which quantity do you want to transfer? (Max {max})",
-  "arm5e.dialog.confirmTransfer-info": "Use SHIFT to copy items as usual.",
+  "arm5e.dialog.confirmTransfer-info": "Use SHIFT+drag to copy items as usual.",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
   "arm5e.notification.pendingCrisis": "This character has a pending aging crisis, no action possible... Resolve the crisis by clicking the skull next to the character name",
@@ -1051,6 +1050,7 @@
   "arm5e.aging.result4": "- Gained {num} point(s) of aging in {characteristic}.<br/>",
   "arm5e.aging.result5": "- Lost one point in {characteristic}.<br/>",
   "arm5e.aging.result6": "- Gained {num} point(s) of decrepitude.<br/>",
+  "arm5e.aging.result7": "- Gained {num} point(s) of Warping due to longetivity potion.<br/>",
   "arm5e.aging.rollback.title": "Revert effect of aging roll",
   "arm5e.aging.rollback.confirm": "This action will revert the effect of aging and delete the diary entry. Are you sure?",
   "arm5e.aging.manualEdit": "{name} lost one point in {char} due to aging.",
@@ -1078,7 +1078,12 @@
   "arm5e.activity.laterLifeMagi": "Year after apprenticeship",
   "arm5e.activity.aging": "Aging",
   "arm5e.activity.visStudy": "Vis study",
+  "arm5e.activity.recovery": "Recovery",
   "arm5e.activity.pawnsNeeded": "Pawns of Vis needed",
+
+  "arm5e.activity.roll.aging": "Roll for aging",
+  "arm5e.activity.roll.visStudy": "Roll for Vis study",
+  "arm5e.activity.roll.recovery": "Roll for recovery",
 
   "arm5e.activity.progress.masteries": "Masteries",
   "arm5e.activity.msg.noAbility": "No ability left",
@@ -1099,6 +1104,7 @@
   "arm5e.activity.msg.noTeacher": "No teacher selected",
   "arm5e.activity.msg.scheduleConflict": "There is a schedule conflict.",
   "arm5e.activity.msg.activityEndsInFuture": "Impossible to apply. This activity ends in the future",
+  "arm5e.activity.msg.agingInWinter": "Aging happens usually in winter unless it is an external effect.",
 
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "No distraction",

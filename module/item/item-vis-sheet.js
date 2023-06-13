@@ -38,6 +38,7 @@ export class ArM5eItemVisSheet extends ArM5eItemSheetNoDesc {
     const actor = item.actor;
     if (!actor._isMagus()) return;
 
-    await item.system.studyVis(item.id, actor);
+    const entry = await item.system.createDiaryEntry(actor);
+    entry.sheet.render(true);
   }
 }

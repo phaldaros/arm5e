@@ -64,7 +64,7 @@
         <div class="resource flex-group-center backSection">
           <label for="system.datetime.season" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <select name="system.datetime.season" data-type="String" style="width: 100%">
+            <select name="season" class="set-season" data-type="String" style="width: 100%">
               {{#select system.datetime.season}} {{#each config.seasons as |season key|}}
                   <option value="{{key}}">{{localize season.label}}</option>
                 {{/each}} {{/select}}
@@ -75,8 +75,7 @@
         <div class="resource flex-group-center backSection">
           <label for="system.datetime.year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" name="system.datetime.year" value="{{system.datetime.year}}" class="resource-focus"
-              data-dtype="String" />
+            <input type="number" value="{{system.datetime.year}}" class="set-year resource-focus" data-dtype="String" />
           </div>
         </div>
         {{#if (ne system.charType.value "grog")}}

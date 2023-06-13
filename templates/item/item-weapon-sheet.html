@@ -5,27 +5,28 @@
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
-
-      <div class="resource flexcol flexrow">
-        <label for="system.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
-        <select name="system.ability" data-type="String" class="ability-key">
-          {{#select system.ability}} {{#each system.abilities }}
-              <option value="{{id}}">{{name}}</option>
-            {{/each}} {{/select}}
-        </select>
-      </div>
-
+      {{#if canEquip}}
+        <div class="resource flexcol flexrow">
+          <label for="system.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
+          <select name="system.ability" data-type="String" class="ability-key">
+            {{#select system.ability}} {{#each system.abilities }}
+                <option value="{{id}}">{{name}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+      {{/if}}
       <div class="grid grid-2col">
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.equipped"}}</label>
-          <input type="checkbox" name="system.equipped" class="toggle" data-item-id="{{item.id}}" data-attr="equipped"
-            {{checked system.equipped}} />
-        </div>
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.weaponExpert"}}</label>
-          <input type="checkbox" name="system.weaponExpert" {{checked system.weaponExpert}} />
-        </div>
-
+        {{#if canEquip}}
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.sheet.equipped"}}</label>
+            <input type="checkbox" name="system.equipped" class="toggle" data-item-id="{{item.id}}" data-attr="equipped"
+              {{checked system.equipped}} />
+          </div>
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.sheet.weaponExpert"}}</label>
+            <input type="checkbox" name="system.weaponExpert" {{checked system.weaponExpert}} />
+          </div>
+        {{/if}}
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.initiative"}}</label>
           <input type="number" name="system.init" value="{{system.init}}" class="resource-focus" data-dtype="Number" />

@@ -80,6 +80,9 @@ export class Calendar extends FormApplication {
         return e.year == y;
       });
       for (let s of Object.keys(ARM5E.seasons)) {
+        if (year == data.curYear && s == data.curSeason) {
+          // TODO today style
+        }
         if (dateIndex < dates.length) {
           if (y == dates[dateIndex].year && s == dates[dateIndex].season) {
             dateIndex++;
@@ -123,7 +126,10 @@ export class Calendar extends FormApplication {
           }
         } else {
           if (event.others.length > 0) {
-            if (enforceSchedule) {
+            if (
+              enforceSchedule &&
+              !ARM5E.activities.conflictExclusion.includes(data.activity.system.activity)
+            ) {
               event.edition = false;
             } else {
               event.edition = true;

@@ -29,6 +29,7 @@ export class Schedule extends FormApplication {
   async getData(options = {}) {
     const data = await super.getData().object;
     let currentDate = game.settings.get("arm5e", "currentDate");
+    let enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
     data.curYear = Number(currentDate.year);
     data.curSeason = currentDate.season;
 
@@ -103,7 +104,7 @@ export class Schedule extends FormApplication {
     // styling
     for (let y of data.selectedDates) {
       for (let event of Object.values(y.seasons)) {
-        event.edition = false;
+        event.edition = true;
         if (event.others.length > 0) {
           if (!event.busy) {
             event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
@@ -126,6 +127,11 @@ export class Schedule extends FormApplication {
     html.find(".vignette").click(async (event) => {
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
       if (item) item.sheet.render(true, { focus: true });
+    });
+
+    // Add Inventory Item
+    html.find(".item-create").click(async (event) => {
+      await this.object.actor.sheet._onItemCreate(event);
     });
   }
 

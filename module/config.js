@@ -12,7 +12,10 @@ import {
   validChildhood,
   validTotalXp,
   validReading,
-  validVisStudy
+  validVisStudy,
+  agingRoll,
+  validAging,
+  visStudy
 } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
@@ -2265,17 +2268,17 @@ ARM5E.activities.generic = {
     display: {
       tab: false,
       progress: false,
-      abilities: true,
+      abilities: false,
       arts: false,
       masteries: false,
-      spells: false,
-      choosable: "disabled"
+      spells: false
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
     bonusOptions: null,
-    validation: null,
+    validation: validAging,
     secondaryFilter: null,
+    roll: { label: "arm5e.activity.roll.aging", action: agingRoll },
     scheduling: {
       duplicate: true,
       conflict: false
@@ -2297,6 +2300,7 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: validVisStudy,
     secondaryFilter: null,
+    roll: { label: "arm5e.activity.roll.visStudy", action: visStudy },
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2424,7 +2428,8 @@ ARM5E.activities.aging = {
   DexQikPts: { desc: "arm5e.aging.roll.DexQikPts", impact: 2, char: "dex", char2: "qik" },
   ComPrsPts: { desc: "arm5e.aging.roll.ComPrsPts", impact: 2, char: "com", char2: "pre" },
   IntPerPts: { desc: "arm5e.aging.roll.IntPerPts", impact: 2, char: "int", char2: "per" },
-  crisis: { desc: "arm5e.aging.roll.crisis", impact: 42 }
+  crisis: { desc: "arm5e.aging.roll.crisis", impact: 42 },
+  warping: { impact: 1 }
 };
 
 ARM5E.lab = {};
