@@ -2,7 +2,8 @@
   {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Botch_rolls"}}
   <div class="roll-options">
     <div class="flexrow flex-group-center" style="font-size: large">
-      <label class="resource-label">{{ localize "arm5e.sheet.winter" }} {{system.roll.environment.year}}</label>
+      <label class="resource-label">{{ localize system.roll.environment.season }}
+        {{system.roll.environment.year}}</label>
     </div>
     <div class="flexrow flex-group-center">
       <label class="resource-label">{{ lookup system.roll.generic.txtOption 0 }} ({{lookup system.roll.generic.option 0

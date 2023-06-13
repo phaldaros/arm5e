@@ -30,6 +30,9 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/actor/parts/codex-spells.hbs",
     "systems/arm5e/templates/actor/parts/actor-weapons.html",
     "systems/arm5e/templates/actor/parts/actor-armor.html",
+    "systems/arm5e/templates/actor/parts/actor-items.html",
+
+    "systems/arm5e/templates/actor/parts/actor-vis.html",
 
     "systems/arm5e/templates/actor/parts/actor-attributesLaboratory.html",
     "systems/arm5e/templates/actor/parts/actor-inventoryLaboratory.html",
@@ -58,6 +61,8 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/item/parts/seasonal-activity.html",
     "systems/arm5e/templates/item/parts/item-header.html",
     "systems/arm5e/templates/item/parts/item-footer.html",
+    "systems/arm5e/templates/item/parts/item-thin-header.html",
+    "systems/arm5e/templates/item/parts/item-thin-footer.html",
     "systems/arm5e/templates/item/parts/activities.html",
     // Rolls partials
     "systems/arm5e/templates/roll/parts/roll-header.html",
@@ -81,6 +86,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/generic/quick-combat.html",
     "systems/arm5e/templates/generic/quick-magic.html",
     "systems/arm5e/templates/generic/quick-vitals.html",
-    "systems/arm5e/templates/generic/vis-study.html"
+    "systems/arm5e/templates/generic/vis-study.html",
+    "systems/arm5e/templates/generic/confirmation.html"
   ]);
 };

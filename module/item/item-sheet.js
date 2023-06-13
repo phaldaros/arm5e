@@ -1,6 +1,7 @@
 import { log } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
-import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
+import { ARM5E_DEFAULT_ICONS, getConfirmation } from "../constants/ui.js";
+import { ArM5eActorSheet } from "../actor/actor-sheet.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -88,7 +89,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.flags = itemData.flags;
     context.ui = { flavor: "Neutral" };
     context.config = CONFIG.ARM5E;
-    if (itemData.type == "weapon" && this.item.isOwned) {
+    if (itemData.type == "weapon" && this.item.isOwned && this.item.actor._isCharacter()) {
       context.system.abilities = this.actor.system.abilities.map((v) => {
         return { id: v._id, name: `${v.name} (${v.system.speciality}) - ${v.system.finalScore}` };
       });
@@ -96,7 +97,7 @@ export class ArM5eItemSheet extends ItemSheet {
         id: "",
         name: "N/A"
       });
-
+      context.canEquip = true;
       //console.log("item-sheet get data weapon")
       //console.log(data)
     } else if (
@@ -131,7 +132,9 @@ export class ArM5eItemSheet extends ItemSheet {
           break;
       }
     }
-
+    if (itemData.type == "armor" && context.isOwned && this.item.actor._isCharacter()) {
+      context.canEquip = true;
+    }
     if (itemData.type == "virtue" || itemData.type == "flaw") {
       if (context.isOwned) {
         context.system.effectCreation = false;
@@ -227,17 +230,10 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".item-delete-confirm").click(async () => {
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       let itemId = this.item._id;
-      await Dialog.confirm(
-        {
-          title: this.item.name,
-          content: `<p>${question}</p>`,
-          yes: async () => {
-            itemId = itemId instanceof Array ? itemId : [itemId];
-            await this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-          },
-          no: () => null
-        },
-        { rejectClose: true }
+      let confirm = await getConfirmation(
+        this.item.name,
+        question,
+        ArM5eActorSheet.getFlavor(this.item.actor?.type)
       );
     });
 

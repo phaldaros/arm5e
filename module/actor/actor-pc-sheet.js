@@ -78,10 +78,6 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
     super._prepareCharacterItems(actorData);
   }
 
-  _onRoll(evt) {
-    super._onRoll(evt);
-  }
-
   isItemDropAllowed(itemData) {
     switch (itemData.type) {
       case "virtue":

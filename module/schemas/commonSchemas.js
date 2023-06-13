@@ -29,7 +29,7 @@ export class NullableDocumentIdField extends fields.DocumentIdField {
       blank: false,
       nullable: true,
       initial: null,
-      readonly: true,
+      readonly: false,
       validationError: "is not a valid Document ID string"
     });
   }

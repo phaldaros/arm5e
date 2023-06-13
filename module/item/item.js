@@ -160,7 +160,8 @@ export class ArM5eItem extends Item {
             }
             case "reading":
             case "inventSpell":
-            case "learnSpell": {
+            case "learnSpell":
+            case "visStudy": {
               this.system.baseQuality = systemData.sourceQuality;
               break;
             }

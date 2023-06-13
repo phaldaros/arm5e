@@ -186,47 +186,6 @@ export class ArM5ePCActor extends Actor {
     };
   }
 
-  // DEV: to be deleted, the code below is done in the preCreate hook
-  // /** @override */
-  // prepareEmbeddedDocuments() {
-  //   // if (this.type == "laboratory") {
-  //   //   this._prepareLaboratoryEmbeddedDocuments();
-  //   // }
-
-  //   super.prepareEmbeddedDocuments();
-  // }
-
-  // _prepareLaboratoryEmbeddedDocuments() {
-  //   var baseSafetyEffect = this.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
-  //   if (!baseSafetyEffect) {
-  //     this.createEmbeddedDocuments("ActiveEffect", [
-  //       {
-  //         label: game.i18n.localize("arm5e.sheet.baseSafety"),
-  //         icon: "icons/svg/aura.svg",
-  //         origin: this.uuid,
-  //         tint: "#000000",
-  //         changes: [
-  //           {
-  //             label: "arm5e.sheet.safety",
-  //             key: "system.safety.bonus",
-  //             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-  //             value: 0
-  //           }
-  //         ],
-  //         flags: {
-  //           arm5e: {
-  //             baseSafetyEffect: true,
-  //             noEdit: true,
-  //             type: ["laboratory"],
-  //             subtype: ["safety"],
-  //             option: [null]
-  //           }
-  //         }
-  //       }
-  //     ]);
-  //   }
-  // }
-
   /** @override */
   prepareDerivedData() {
     if (this.type == "magicCodex") {
@@ -694,9 +653,6 @@ export class ArM5ePCActor extends Actor {
     }
     //warping & decrepitude
     if ((this.type == "npc" && this.system.charType.value != "entity") || this.type == "player") {
-      if (system.warping == undefined) {
-        system.warping = { points: 0 };
-      }
       system.warping.finalScore = ArM5ePCActor.getAbilityScoreFromXp(system.warping.points);
       system.warping.experienceNextLevel =
         ((parseInt(system.warping.finalScore) + 1) *
@@ -1047,8 +1003,10 @@ export class ArM5ePCActor extends Actor {
     let horses = [];
     let livestock = [];
     let possessions = [];
+    let weapons = [];
+    let armor = [];
     let visSources = [];
-    let visStock = [];
+    let vis = [];
     let calendar = [];
     let incomingSources = [];
     let laboratoryTexts = [];
@@ -1112,8 +1070,8 @@ export class ArM5ePCActor extends Actor {
         possessions.push(item);
       } else if (item.type === "visSourcesCovenant") {
         visSources.push(item);
-      } else if (item.type === "visStockCovenant") {
-        visStock.push(item);
+      } else if (item.type === "visStockCovenant" || item.type === "vis") {
+        vis.push(item);
       } else if (item.type === "calendarCovenant") {
         calendar.push(item);
       } else if (item.type === "incomingSource") {
@@ -1167,6 +1125,10 @@ export class ArM5ePCActor extends Actor {
         magicItems.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
+      } else if (item.type === "weapon" || item.type === "enchantedWeapon") {
+        weapons.push(item);
+      } else if (item.type === "armor" || item.type === "enchantedArmor") {
+        armor.push(item);
       } else if (item.type === "item") {
         items.push(item);
       } else if (item.type === "labCovenant") labs.push(item);
@@ -1188,9 +1150,8 @@ export class ArM5ePCActor extends Actor {
     if (system.visSources) {
       system.visSources = visSources;
     }
-    if (system.visStock) {
-      system.visStock = visStock;
-    }
+    system.vis = vis;
+
     if (system.calendar) {
       system.calendar = calendar;
     }
@@ -1218,6 +1179,9 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
+
+    system.weapons = weapons;
+    system.armor = armor;
 
     if (system.laboratoryTexts) {
       let flag = this.getFlag("arm5e", "sorting", "laboratoryTexts");
@@ -1604,10 +1568,14 @@ export class ArM5ePCActor extends Actor {
     }
   }
 
-  async addAgingPoints(amount, char1, char2) {
+  async getAgingEffects(agingData) {
     if (!this._isCharacter()) {
       return;
     }
+    let amount = agingData.impact;
+    let char1 = agingData.char;
+    let char2 = agingData.char2;
+    let naturalAging = agingData.season == "winter";
     let updateData = {};
     let result = { crisis: false, apparent: 1, charac: {} };
     updateData["system.age.value"] = this.system.age.value + 1;
@@ -1707,6 +1675,11 @@ export class ArM5ePCActor extends Actor {
     log(false, updateData);
     if (result.crisis) {
       updateData["system.pendingCrisis"] = true;
+    }
+
+    if (this.system.laboratory.longevityRitual.modifier && naturalAging) {
+      updateData["system.warping.points"] =
+        this.system.warping.points + CONFIG.ARM5E.activities.aging.warping.impact;
     }
     await this.update(updateData, {});
     return result;

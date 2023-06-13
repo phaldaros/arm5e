@@ -3,7 +3,7 @@
   <div class="flex-group-left backSection" style="padding: 25px; inline-size: 400px">
     <div class="flexrow flex-group-center">
       <!-- <div class="flexrow marginbot6" style="padding: 5px"> -->
-      <label class="resource-label" style="font-size: 16px">{{localize "arm5e.sheet.winter"}} {{year}}</label>
+      <label class="resource-label" style="font-size: 16px">{{localize season}} {{year}}</label>
       <!-- </div> -->
     </div>
     <div class="flexrow flex-group-center">
@@ -13,13 +13,13 @@
       <label>{{localize desc}}</label>
     </div>
     {{#if choice}}
-    <div class="flexrow marginbot6" style="padding: 5px">
-      <select class="SelectedCharacteristic" name="char" data-type="String">
-        {{#select char}} {{#each chars as |char key|}} {{#if (ne key "cun")}}
-        <option value="{{key}}">{{localize char.label}}</option>
-        {{/if}} {{/each}} {{/select}}
-      </select>
-    </div>
+      <div class="flexrow marginbot6" style="padding: 5px">
+        <select class="SelectedCharacteristic" name="char" data-type="String">
+          {{#select char}} {{#each chars as |char key|}} {{#if (ne key "cun")}}
+                <option value="{{key}}">{{localize char.label}}</option>
+              {{/if}} {{/each}} {{/select}}
+        </select>
+      </div>
     {{/if}}
   </div>
   {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Aging"}}

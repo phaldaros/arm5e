@@ -1,10 +1,15 @@
 import { debug, getDataset, log } from "../tools.js";
 import { ArM5eItemSheet } from "./item-sheet.js";
-import { getNewTitleForActivity } from "../helpers/long-term-activities.js";
+import {
+  agingRoll,
+  genericValidationOfActivity,
+  getNewTitleForActivity
+} from "../helpers/long-term-activities.js";
 import { ArM5eItem } from "./item.js";
 import { Calendar } from "../tools/calendar.js";
-import { ACTIVITIES_DEFAULT_ICONS, UI } from "../constants/ui.js";
+import { ACTIVITIES_DEFAULT_ICONS, UI, getConfirmation } from "../constants/ui.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
+import { ArM5eActorSheet } from "../actor/actor-sheet.js";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -101,6 +106,11 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.ui.showTab = false;
       return context;
     }
+    context.rollNeeded = false;
+    if (activityConfig.roll && !context.system.done) {
+      context.rollNeeded = true;
+      context.rollLabel = activityConfig.roll.label;
+    }
 
     // configuration
     let enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
@@ -108,10 +118,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.system.sourceBonus = 0;
     context.ui.showTab = true;
     context.ui.showProgress = activityConfig.display.progress;
-    context.ui.showAbilities = activityConfig.display.abilities;
-    context.ui.showArts = activityConfig.display.arts;
-    context.ui.showMasteries = activityConfig.display.masteries;
-    context.ui.showNewSpells = activityConfig.display.spells;
+    context.ui.showAbilities = activityConfig.display.abilities && !context.rollNeeded;
+    context.ui.showArts = activityConfig.display.arts && !context.rollNeeded;
+    context.ui.showMasteries = activityConfig.display.masteries && !context.rollNeeded;
+    context.ui.showNewSpells = activityConfig.display.spells && !context.rollNeeded;
 
     context.ui.showTeacher = hasTeacher;
     context.ui.showBaseQuality = hasTeacher;
@@ -120,7 +130,15 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     context.system.applyPossible = "";
     context.system.applyError = "";
-    // TODO
+    context.system.applyInfo = "";
+    context.system.errorParam = "";
+    context.system.infoParam = "";
+
+    if (this.actor.system.pendingCrisis) {
+      context.system.applyError = "arm5e.notification.pendingCrisis";
+      context.system.disabled = "disabled";
+      return context;
+    }
     let hasScheduleConflict =
       this.item.isOwned && this.item.system.hasScheduleConflict(this.item.actor);
 
@@ -260,15 +278,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (activityConfig.validation != null) {
       activityConfig.validation(context, this.actor, this.item);
     }
-    let currentDate = game.settings.get("arm5e", "currentDate");
-    if (
-      context.lastSeason.year > currentDate.year ||
-      (context.lastSeason.year == currentDate.year &&
-        CONFIG.SEASON_ORDER[context.lastSeason.season] > CONFIG.SEASON_ORDER[currentDate.season])
-    ) {
-      context.system.applyPossible = "disabled";
-      context.system.applyError = "arm5e.activity.msg.activityEndsInFuture";
-    }
+
+    genericValidationOfActivity(context);
 
     log(false, "ITEM-DIARY-sheet get data");
     log(false, context);
@@ -582,6 +593,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".score-teacher").change(this._resetTeacher.bind(this));
     html.find(".show-details").click(async (event) => this._showSpell(this.item, event));
     html.find(".select-dates").click(this.displayCalendar.bind(this));
+    html.find(".roll-activity").click(async (event) => await this.rollActivity());
     // html.find(".select-year").click(this._selectYear.bind(this));
   }
 
@@ -593,6 +605,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
   //     dates[0].year = newY
   //   }
   // }
+  async rollActivity() {
+    const activityConfig = CONFIG.ARM5E.activities.generic[this.item.system.activity];
+    if (activityConfig.roll) {
+      await activityConfig.roll.action(this.item);
+    }
+  }
 
   async _resetTeacher(event) {
     const target = event.currentTarget;
@@ -631,6 +649,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
     if (CONFIG.ARM5E.activities.generic[actType].display.spells === false) {
       updateData["system.progress.newSpells"] = [];
+    }
+    if (CONFIG.ARM5E.activities.generic[actType].roll) {
+      updateData["system.rollDone"] = false;
     }
 
     updateData["system.sourceQuality"] = CONFIG.ARM5E.activities.generic[actType].source.default;
@@ -674,139 +695,168 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       return;
     }
 
-    // TODO
-    // if (this.item.system.type === "reading") {
-    //   sourceQuality = this.item.system.sourceQuality;
-    //   if (this.item.system.book.art === null) {
-    //     let ability = this.actor.items.get(ab.id);
-    //   }
-    // } else {
-    for (const ab of Object.values(this.item.system.progress.abilities)) {
-      // ignore 0 xp gain
-      if (ab.xp == 0) {
-        continue;
-      }
-      // check that ability still exists
-      let ability = this.actor.items.get(ab.id);
-      if (ability == undefined) {
-        ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
-          permanent: false
+    switch (this.item.system.activity) {
+      case "learnSpell":
+      case "inventSpell":
+      case "visExtraction":
+      case "visStudy":
+        for (let dependency of this.item.system.externalIds) {
+          if (game.actors.has(dependency.actorId)) {
+            let actor = game.actors.get(dependency.actorId);
+            if (actor.items.has(dependency.itemId)) {
+              if (dependency.flags == 1) {
+                // resource update
+                let item = actor.items.get(dependency.itemId);
+                let label = `system.${dependency.data.amountLabel}`;
+                await item.update(
+                  { [label]: item.system[dependency.data.amountLabel] - dependency.data.amount },
+                  { parent: actor }
+                );
+              }
+            }
+          }
+        }
+
+      case "adventuring":
+      case "exposure":
+      case "practice":
+      case "training":
+      case "teaching":
+      case "reading":
+      case "hermeticApp":
+      case "childhood":
+      case "laterLife":
+      case "laterLifeMagi":
+        for (const ab of Object.values(this.item.system.progress.abilities)) {
+          // ignore 0 xp gain
+          if (ab.xp == 0) {
+            continue;
+          }
+          // check that ability still exists
+          let ability = this.actor.items.get(ab.id);
+          if (ability == undefined) {
+            ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
+              permanent: false
+            });
+            return;
+          }
+          let data = {
+            _id: ab.id,
+            system: {
+              xp: ability.system.xp + ab.xp
+            }
+          };
+          description += `<li>${game.i18n.format("arm5e.activity.descItem", {
+            item: ability.name,
+            xp: ab.xp
+          })}</li>`;
+          log(false, `Added ${ab.xp} to ${ability.name}`);
+          sourceQuality += ab.xp;
+          updateData.push(data);
+        }
+        for (const s of Object.values(this.item.system.progress.spells)) {
+          // ignore 0 xp gain
+          if (s.xp == 0) {
+            continue;
+          }
+          // check that spell still exists
+          let spell = this.actor.items.get(s.id);
+          if (spell == undefined) {
+            ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
+              permanent: false
+            });
+            return;
+          }
+          let data = {
+            _id: s.id,
+            system: {
+              xp: spell.system.xp + s.xp
+            }
+          };
+          description += `<li>${game.i18n.format("arm5e.activity.descItem", {
+            item: spell.name,
+            xp: s.xp
+          })}</li>`;
+          log(false, `Added ${s.xp} to ${spell.name}`);
+          sourceQuality += s.xp;
+          updateData.push(data);
+        }
+
+        let actorUpdate = { system: { arts: { forms: {}, techniques: {} } } };
+        for (const a of Object.values(this.item.system.progress.arts)) {
+          // ignore 0 xp gain
+          if (a.xp == 0) {
+            continue;
+          }
+          let artType = "techniques";
+          if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
+            artType = "forms";
+          }
+          actorUpdate.system.arts[artType][a.key] = {};
+          actorUpdate.system.arts[artType][a.key].xp =
+            this.actor.system.arts[artType][a.key].xp + a.xp;
+          description += `<li>${game.i18n.format("arm5e.activity.descItem", {
+            item: game.i18n.localize(CONFIG.ARM5E.magic.arts[a.key].label),
+            xp: a.xp
+          })}</li>`;
+          log(false, `Added ${a.xp} to ${a.key}`);
+          sourceQuality += a.xp;
+        }
+        let newSpells = [];
+        for (const a of Object.values(this.item.system.progress.newSpells)) {
+          let spell = {
+            name: a.name,
+            type: "spell",
+            img: a.img,
+            system: a.spellData
+          };
+          spell.type = "spell";
+          spell.system.applyFocus = false;
+          spell.system.bonus = 0;
+          spell.system.bonusDesc = "";
+          spell.system.xp = 0;
+          spell.system.masteries = "";
+          description += `<li>${game.i18n.localize("arm5e.activity.newSpell")} : ${
+            spell.name
+          }</li>`;
+
+          newSpells.push(spell);
+          // TODO check why level is there instead of system
+          sourceQuality += a.level;
+        }
+        const newlyCreated = await this.actor.createEmbeddedDocuments("Item", newSpells, {
+          render: false
         });
-        return;
-      }
-      let data = {
-        _id: ab.id,
-        system: {
-          xp: ability.system.xp + ab.xp
+        if (newlyCreated.length > 0) {
+          let spellsToBeLearned = this.item.system.progress.newSpells;
+          let ii = 0;
+          for (const s of newlyCreated) {
+            spellsToBeLearned[ii].id = s._id;
+            ii++;
+          }
         }
-      };
-      description += `<li>${game.i18n.format("arm5e.activity.descItem", {
-        item: ability.name,
-        xp: ab.xp
-      })}</li>`;
-      log(false, `Added ${ab.xp} to ${ability.name}`);
-      sourceQuality += ab.xp;
-      updateData.push(data);
+
+        description += "</ol>";
+        // }
+        let newTitle = getNewTitleForActivity(this.actor, this.item);
+
+        await this.item.update(
+          {
+            name: newTitle,
+
+            system: {
+              done: true,
+              description: description,
+              sourceQuality: sourceQuality,
+              progress: this.item.system.progress
+            }
+          },
+          { render: true }
+        );
+
+        await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
+        await this.actor.update(actorUpdate, { render: true });
     }
-    for (const s of Object.values(this.item.system.progress.spells)) {
-      // ignore 0 xp gain
-      if (s.xp == 0) {
-        continue;
-      }
-      // check that spell still exists
-      let spell = this.actor.items.get(s.id);
-      if (spell == undefined) {
-        ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
-          permanent: false
-        });
-        return;
-      }
-      let data = {
-        _id: s.id,
-        system: {
-          xp: spell.system.xp + s.xp
-        }
-      };
-      description += `<li>${game.i18n.format("arm5e.activity.descItem", {
-        item: spell.name,
-        xp: s.xp
-      })}</li>`;
-      log(false, `Added ${s.xp} to ${spell.name}`);
-      sourceQuality += s.xp;
-      updateData.push(data);
-    }
-
-    let actorUpdate = { system: { arts: { forms: {}, techniques: {} } } };
-    for (const a of Object.values(this.item.system.progress.arts)) {
-      // ignore 0 xp gain
-      if (a.xp == 0) {
-        continue;
-      }
-      let artType = "techniques";
-      if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
-        artType = "forms";
-      }
-      actorUpdate.system.arts[artType][a.key] = {};
-      actorUpdate.system.arts[artType][a.key].xp = this.actor.system.arts[artType][a.key].xp + a.xp;
-      description += `<li>${game.i18n.format("arm5e.activity.descItem", {
-        item: game.i18n.localize(CONFIG.ARM5E.magic.arts[a.key].label),
-        xp: a.xp
-      })}</li>`;
-      log(false, `Added ${a.xp} to ${a.key}`);
-      sourceQuality += a.xp;
-    }
-    let newSpells = [];
-    for (const a of Object.values(this.item.system.progress.newSpells)) {
-      let spell = {
-        name: a.name,
-        type: "spell",
-        img: a.img,
-        system: a.spellData
-      };
-      spell.type = "spell";
-      spell.system.applyFocus = false;
-      spell.system.bonus = 0;
-      spell.system.bonusDesc = "";
-      spell.system.xp = 0;
-      spell.system.masteries = "";
-      description += `<li>${game.i18n.localize("arm5e.activity.newSpell")} : ${spell.name}</li>`;
-
-      newSpells.push(spell);
-      // TODO check why level is there instead of system
-      sourceQuality += a.level;
-    }
-    const newlyCreated = await this.actor.createEmbeddedDocuments("Item", newSpells, {
-      render: false
-    });
-    if (newlyCreated.length > 0) {
-      let spellsToBeLearned = this.item.system.progress.newSpells;
-      let ii = 0;
-      for (const s of newlyCreated) {
-        spellsToBeLearned[ii].id = s._id;
-        ii++;
-      }
-    }
-
-    description += "</ol>";
-    // }
-    let newTitle = getNewTitleForActivity(this.actor, this.item);
-
-    await this.item.update(
-      {
-        name: newTitle,
-
-        system: {
-          done: true,
-          description: description,
-          sourceQuality: sourceQuality,
-          progress: this.item.system.progress
-        }
-      },
-      { render: true }
-    );
-
-    await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
-    await this.actor.update(actorUpdate, { render: true });
   }
 
   async _onProgressRollback(event) {
@@ -922,22 +972,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         break;
       }
       case "aging": {
-        let confirmed = await new Promise(
-          (resolve) => {
-            Dialog.confirm({
-              title: game.i18n.localize("arm5e.aging.rollback.title"),
-              content: `<p>${game.i18n.localize("arm5e.aging.rollback.confirm")}</p>`,
-              yes: () => {
-                resolve(true);
-              },
-              no: () => {
-                resolve(false);
-              }
-            });
-          },
-          {
-            rejectClose: true
-          }
+        let confirmed = await getConfirmation(
+          game.i18n.localize("arm5e.aging.rollback.title"),
+          game.i18n.localize("arm5e.aging.rollback.confirm"),
+          ArM5eActorSheet.getFlavor(this.item.actor?.type)
         );
         if (!confirmed) return;
         let actorUpdate = {
@@ -962,13 +1000,18 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             };
           } else {
             actorUpdate.system.characteristics[char] = {
-              value: currentCharValue + 1,
+              value: currentCharValue,
               aging: newAgingPts < 0 ? 0 : newAgingPts
             };
           }
         }
         let newDecrepitude = actor.system.decrepitude.points - effects.decrepitude;
         actorUpdate.system.decrepitude = { points: newDecrepitude < 0 ? 0 : newDecrepitude };
+        if (this.item.system.dates[0].season == "winter") {
+          let newWarping =
+            actor.system.warping.points - CONFIG.ARM5E.activities.aging.warping.impact;
+          actorUpdate.system.warping = { points: newWarping < 0 ? 0 : newWarping };
+        }
         await this.actor.update(actorUpdate, {});
         await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
         return;

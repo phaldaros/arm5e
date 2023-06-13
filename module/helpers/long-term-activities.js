@@ -1,7 +1,7 @@
-import { log } from "../tools.js";
+import { getDataset, log } from "../tools.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 
-export async function applyAgingEffects(actor, roll, message) {
+export async function setAgingEffects(actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
   const agingTable = docs.filter((rt) => rt.name === "Aging table")[0];
@@ -9,6 +9,7 @@ export async function applyAgingEffects(actor, roll, message) {
   let dialogData = CONFIG.ARM5E.activities.aging[res];
 
   dialogData.year = actor.rollData.environment.year;
+  dialogData.season = actor.rollData.environment.season;
   dialogData.choice = res === "crisis" || res === "anyAgingPt";
   dialogData.chars = CONFIG.ARM5E.character.characteristics;
 
@@ -25,20 +26,19 @@ export async function applyAgingEffects(actor, roll, message) {
         buttons: {
           yes: {
             icon: "<i class='fas fa-check'></i>",
-            label: game.i18n.localize("Apply"),
+            label: game.i18n.localize("arm5e.sheet.action.apply"),
             callback: async (html) => {
-              let char = dialogData.char;
               let find = html.find(".SelectedCharacteristic");
               if (find.length > 0) {
-                char = find[0].value;
+                dialogData.char = find[0].value;
               }
-              resultAging = await actor.addAgingPoints(dialogData.impact, char, dialogData.char2);
+              resultAging = await actor.getAgingEffects(dialogData);
               resolve();
             }
           },
           no: {
             icon: "<i class='fas fa-bomb'></i>",
-            label: game.i18n.localize("Cancel"),
+            label: game.i18n.localize("arm5e.dialog.button.cancel"),
             callback: (html) => {
               resolve();
             }
@@ -52,11 +52,20 @@ export async function applyAgingEffects(actor, roll, message) {
       }
     ).render(true);
   });
-  resultAging.type = "aging";
-  resultAging.year = dialogData.year;
   resultAging.roll = { formula: roll._formula, result: roll.result };
+  resultAging.year = actor.rollData.environment.year;
 
-  createAgingDiaryEntry(actor, resultAging);
+  await updateAgingDiaryEntry(actor, resultAging);
+}
+
+export async function agingRoll(item) {
+  const input = {
+    roll: "aging",
+    year: item.system.dates[0].year,
+    season: item.system.dates[0].season,
+    moredata: { diaryId: item._id }
+  };
+  await item.actor.sheet._onRoll(input);
 }
 
 export async function agingCrisis(actor, roll, message) {
@@ -81,8 +90,10 @@ export async function agingCrisis(actor, roll, message) {
   await actor.update({ system: { pendingCrisis: false } }, {});
 }
 
-async function createAgingDiaryEntry(actor, input) {
+export async function updateAgingDiaryEntry(actor, input) {
+  let item = actor.items.get(actor.rollData.additionalData.diaryId);
   let desc =
+    item.system.description +
     game.i18n.localize("arm5e.aging.result0") +
     "<br/>" +
     game.i18n.format("arm5e.aging.result1", {
@@ -114,7 +125,24 @@ async function createAgingDiaryEntry(actor, input) {
     });
   }
 
+  if (input.warping) {
+    desc += game.i18n.format("arm5e.aging.result7", {
+      num: input.warping.points
+    });
+  }
+
   desc += "<br/>- Roll: " + input.roll.formula + " => " + input.roll.result;
+  let updateData = {
+    _id: item._id,
+    "system.description": desc,
+    "flags.arm5e.effect": input,
+    "system.done": true
+  };
+
+  await actor.updateEmbeddedDocuments("Item", [updateData], {});
+}
+
+export async function createAgingDiaryEntry(actor, input) {
   let diaryEntry = {
     name: game.i18n.format("arm5e.aging.resultTitle", {
       character: actor.name
@@ -122,22 +150,34 @@ async function createAgingDiaryEntry(actor, input) {
     img: "systems/arm5e/assets/icons/Icon_Aging_and_Decrepitude.png",
     type: "diaryEntry",
     system: {
-      dates: [{ year: input.year, season: "winter", applied: true }],
+      dates: [{ year: input.year, season: input.season, applied: false }],
       activity: "aging",
-      description: "<p>" + desc + "</p>",
+      description: "",
       duration: 1,
-      done: true
-    },
-    flags: { arm5e: { effect: input } }
+      done: false,
+      rollDone: false
+    }
   };
-
-  await actor.createEmbeddedDocuments("Item", [diaryEntry], {});
+  return await actor.createEmbeddedDocuments("Item", [diaryEntry], {});
 }
+
 // ********************
 // Progress activities
 // ********************
 
-function genericValidationOfActivity(context) {}
+export function genericValidationOfActivity(context) {
+  // check if there are any preivous activities not applied.
+  // check if it ends in the future
+  let currentDate = game.settings.get("arm5e", "currentDate");
+  if (
+    context.lastSeason.year > currentDate.year ||
+    (context.lastSeason.year == currentDate.year &&
+      CONFIG.SEASON_ORDER[context.lastSeason.season] > CONFIG.SEASON_ORDER[currentDate.season])
+  ) {
+    context.system.applyPossible = "disabled";
+    context.system.applyError = "arm5e.activity.msg.activityEndsInFuture";
+  }
+}
 
 function checkForDuplicates(param, context, array) {
   // look for duplicates
@@ -196,6 +236,13 @@ function checkMaxXpPerItem(context, array, max) {
     res += Number(ab.xp);
   }
   return res;
+}
+
+export function validAging(context, actor, item) {
+  if (context.firstSeason.season !== "winter") {
+    context.system.applyInfo = game.i18n.localize("arm5e.activity.msg.agingInWinter");
+    context.unnaturalAging = true;
+  }
 }
 
 export function validAdventuring(context, actor, item) {
@@ -656,13 +703,53 @@ export function validReading(context, actor, item) {
 
 export function validVisStudy(context, actor, item) {
   context.system.totalXp = { abilities: 0, arts: 0, masteries: 0, spellLevels: 0 };
-  const progressArt = item.system.progress.arts[0];
+  // const progressArt = item.system.progress.arts[0];
 
   context.system.totalXp.arts += Number(context.system.sourceQuality);
 }
 
+export async function visStudy(item) {
+  const visEntry = item.actor.items.get(item.system.externalIds[0].itemId);
+  if (!visEntry) {
+    ui.notifications.info(
+      game.i18n.format("arm5e.notification.noEnoughVis", { name: item.actor.name })
+    );
+    return;
+  }
+  await visEntry.system.studyVis(item);
+}
+
 export function computeTotals(context) {
   context.system.totalXp = { abilities: 0, arts: 0, masteries: 0 };
+}
+
+export async function setVisStudyResults(actor, roll, message, rollData) {
+  if (roll.botches > 0) {
+    await actor.update({
+      "system.warping.points": actorCaster.system.warping.points + roll.botches
+    });
+    //ui.notifications.info()
+  } else {
+    let diaryitem = actor.items.get(actor.rollData.additionalData.diaryId);
+    const xpGain = roll.total + actor.system.bonuses.activities.visStudy;
+
+    const updateData = { "system.sourceQuality": xpGain };
+    const progressArts = diaryitem.system.progress.arts;
+
+    progressArts.push({ key: rollData.additionalData.art, maxLevel: 0, xp: xpGain });
+    updateData["system.progress.arts"] = progressArts;
+    const externalIds = diaryitem.system.externalIds;
+    externalIds[0].data = { amountLabel: "pawns", amount: rollData.additionalData.amount };
+    updateData["system.externalIds"] = externalIds;
+    // updateData["system.rollDone"] = true;
+    updateData._id = diaryitem._id;
+
+    //  TODO
+    // "system.description": desc,
+
+    await actor.updateEmbeddedDocuments("Item", [updateData], {});
+    await diaryitem.sheet._onProgressApply();
+  }
 }
 
 // get a new title for a diary entry if it is still the default : "New DiaryEntry"

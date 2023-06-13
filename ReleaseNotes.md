@@ -1,4 +1,4 @@
-## 2.1.0.6, Mercere, first to join
+## 2.1.0.7, Mercere, first to join
 
 ### Features & changes
 
@@ -31,6 +31,14 @@
   - item will be transfered after confirmation
   - If there is more than one item, ask for the quantity to be transferred
   - Previous default behavior is still available using shift.
+- Aging and vis study rolls create instead a diary entry that need to be scheduled
+- Activities with roll (eg: aging) are applied by rolling.
+- Basic Simple-Calendar integration
+- Better confirmation dialogs
+- Armors, weapons, vis and items can now be created/dropped on the covenant sheet.
+- visStockCovenant item type was deprecated and replaced by vis type.
+- Warping added on aging roll if there is a longevity potion effect
+- It is not possible anymore to change the date of an actor to the future.
 
 ### Bug fixes
 
@@ -41,7 +49,9 @@
 - Powers are working again:
   - Omitting the roll type will properly use the correct one
   - Spellcasting stances are only for magi.
-- Fixed personality rolls
+- Personality rolls add the personality score properly
+- Fixed aging rollback bug, where characteristic was increased instead of decreased
+- Fixed warping reset bug in some cases
 
 ### V10 migration (on going)
 

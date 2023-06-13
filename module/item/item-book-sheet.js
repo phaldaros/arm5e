@@ -4,6 +4,8 @@ import { Scriptorium } from "../tools/scriptorium.js";
 import { ArM5eItemSheet } from "./item-sheet.js";
 import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
 import { ArM5eItemMagicSheet } from "./item-magic-sheet.js";
+import { getConfirmation } from "../constants/ui.js";
+import { ArM5eActorSheet } from "../actor/actor-sheet.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -105,22 +107,24 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".plan-reading").click(event => this._readBook(this.item, event));
-    html.find(".show-details").click(async event => this._showLabText(this.item, event));
-    html.find(".next-topic").click(async event => this._changeCurrentTopic(this.item, event, 1));
+    html.find(".plan-reading").click((event) => this._readBook(this.item, event));
+    html.find(".show-details").click(async (event) => this._showLabText(this.item, event));
+    html.find(".next-topic").click(async (event) => this._changeCurrentTopic(this.item, event, 1));
     html
       .find(".previous-topic")
-      .click(async event => this._changeCurrentTopic(this.item, event, -1));
+      .click(async (event) => this._changeCurrentTopic(this.item, event, -1));
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 
     // books
-    html.find(".book-category").change(event => this._changeTopicCategory(this.item, event));
-    html.find(".table-contents").click(async event => this._createTableOfContent(this.item, event));
+    html.find(".book-category").change((event) => this._changeTopicCategory(this.item, event));
+    html
+      .find(".table-contents")
+      .click(async (event) => this._createTableOfContent(this.item, event));
 
-    html.find(".new-topic").click(async event => this._addTopic(this.item, event));
+    html.find(".new-topic").click(async (event) => this._addTopic(this.item, event));
 
-    html.find(".delete-topic").click(async event => this._removeTopic(this.item, event));
+    html.find(".delete-topic").click(async (event) => this._removeTopic(this.item, event));
   }
 
   async _readBook(item, event) {
@@ -167,25 +171,19 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     const topics = item.system.topics;
     const idx = Number(dataset.index);
     topics.splice(idx, 1);
+    let confirm = true;
+    let flavor = "Neutral";
+    if (this.item.isOwned) {
+      flavor = ArM5eActorSheet.getFlavor(this.item.actor.type);
+    }
     if (game.settings.get("arm5e", "confirmDelete")) {
-      const question = game.i18n.localize("arm5e.dialog.delete-question");
-      await Dialog.confirm(
-        {
-          title: game.i18n.localize("arm5e.dialog.delete-topic"),
-          content: `<p>${question}</p>`,
-          yes: async () => {
-            await item.update({
-              "system.topics": topics,
-              "flags.arm5e.currentBookTopic": Math.max(0, Math.min(idx - 1, topics.length))
-            });
-          },
-          no: () => null
-        },
-        {
-          rejectClose: true
-        }
+      const confirm = await getConfirmation(
+        game.i18n.localize("arm5e.dialog.delete-topic"),
+        game.i18n.localize("arm5e.dialog.delete-question"),
+        flavor
       );
-    } else {
+    }
+    if (confirm) {
       await item.update({
         "system.topics": topics,
         "flags.arm5e.currentBookTopic": Math.max(0, Math.min(idx - 1, topics.length))

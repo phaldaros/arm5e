@@ -38,8 +38,9 @@ import {
 import { spellTechniqueLabel, spellFormLabel } from "../helpers/spells.js";
 import { computeCombatStats, quickCombat, quickVitals } from "../helpers/combat.js";
 import { quickMagic } from "../helpers/magic.js";
-import { UI } from "../constants/ui.js";
+import { UI, getConfirmation } from "../constants/ui.js";
 import { Schedule } from "../tools/schedule.js";
+import { createAgingDiaryEntry } from "../helpers/long-term-activities.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -768,6 +769,12 @@ export class ArM5eActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find(".schedule-aging").click(async (ev) => {
+      let input = getDataset(ev);
+      let diary = await createAgingDiaryEntry(this.actor, input);
+      diary[0].sheet.render(true);
+    });
+
     html.find(".character-schedule").click(this.displaySchedule.bind(this));
 
     html.find(".ability-category").click(async (ev) => {
@@ -909,7 +916,8 @@ export class ArM5eActorSheet extends ActorSheet {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       if (!this.actor._isMagus()) return;
-      await item.system.studyVis(item.id, this.actor);
+      const entry = await item.system.createDiaryEntry(this.actor);
+      entry.sheet.render(true);
     });
 
     // Everything below here is only needed if the sheet is editable
@@ -992,24 +1000,17 @@ export class ArM5eActorSheet extends ActorSheet {
       const li = $(ev.currentTarget).parents(".item");
       let itemId = li.data("itemId");
       itemId = itemId instanceof Array ? itemId : [itemId];
+      let confirmed = true;
       if (game.settings.get("arm5e", "confirmDelete")) {
         const question = game.i18n.localize("arm5e.dialog.delete-question");
-        await Dialog.confirm(
-          {
-            title: `${li[0].dataset.name}`,
-            content: `<p>${question}</p>`,
-            yes: () => {
-              itemId = itemId instanceof Array ? itemId : [itemId];
-              this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-              li.slideUp(200, () => this.render(false));
-            },
-            no: () => null
-          },
-          {
-            rejectClose: true
-          }
+        confirmed = await getConfirmation(
+          li[0].dataset.name,
+          question,
+          ArM5eActorSheet.getFlavor(this.actor.type)
         );
-      } else {
+      }
+      if (confirmed) {
+        itemId = itemId instanceof Array ? itemId : [itemId];
         this.actor.deleteEmbeddedDocuments("Item", itemId, {});
         li.slideUp(200, () => this.render(false));
       }
@@ -1021,19 +1022,17 @@ export class ArM5eActorSheet extends ActorSheet {
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       const li = $(event.currentTarget).parents(".item");
       let itemId = li.data("itemId");
-      await Dialog.confirm(
-        {
-          title: `${li[0].dataset.name}`,
-          content: `<p>${question}</p>`,
-          yes: async () => {
-            itemId = itemId instanceof Array ? itemId : [itemId];
-            await this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-            li.slideUp(200, () => this.render(false));
-          },
-          no: () => null
-        },
-        { rejectClose: true }
+      let confirm = await getConfirmation(
+        li[0].dataset.name,
+        question,
+        ArM5eActorSheet.getFlavor(this.actor.type)
       );
+
+      if (confirm) {
+        itemId = itemId instanceof Array ? itemId : [itemId];
+        await this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+        li.slideUp(200, () => this.render(false));
+      }
     });
 
     // Generate abilities automatically
@@ -1079,6 +1078,28 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".migrate").click((event) => this.actor.migrate());
 
     html.find(".plan-reading").click(async (ev) => this._readBook(ev));
+
+    html.find(".set-year").change(async (ev) => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      let currentDate = game.settings.get("arm5e", "currentDate");
+      let newYear = Number(ev.currentTarget.value);
+      if (newYear > currentDate.year) {
+        newYear = Number(currentDate.year);
+      }
+      await this.actor.update({ "system.datetime.year": newYear });
+    });
+
+    html.find(".set-season").change(async (ev) => {
+      ev.preventDefault();
+      const dataset = getDataset(ev);
+      let currentDate = game.settings.get("arm5e", "currentDate");
+      let newSeason = Number(ev.currentTarget.value);
+      if (CONFIG.SEASON_ORDER[newSeason] > CONFIG.SEASON_ORDER[currentDate.season]) {
+        newSeason = Number(currentDate.season);
+      }
+      await this.actor.update({ "system.datetime.season": newSeason });
+    });
   }
 
   async _readBook(ev) {
@@ -1320,12 +1341,16 @@ export class ArM5eActorSheet extends ActorSheet {
           buttons: {
             yes: {
               icon: "<i class='fas fa-check'></i>",
-              label: `Yes`,
+              label: game.i18n.localize("arm5e.generic.yes"),
               callback: (html) => setWounds(html, actor)
             },
+            // roll: {
+            //   label: game.i18n.localize("arm5e.dialog.button.stressdie"),
+            //   callback: (html) => setWounds(html, actor)
+            // },
             no: {
               icon: "<i class='fas fa-ban'></i>",
-              label: `Cancel`,
+              label: game.i18n.localize("arm5e.dialog.button.cancel"),
               callback: null
             }
           }
@@ -1455,7 +1480,7 @@ export class ArM5eActorSheet extends ActorSheet {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
         permanent: true
       });
-      return;
+      return false;
     }
     if ((getRollTypeProperties(dataset.roll).MODE & ROLL_MODES.UNCONSCIOUS) == 0) {
       // if (dataset.roll != "char" && dataset.roll != "aging" && dataset.roll != "crisis") {
@@ -1463,14 +1488,14 @@ export class ArM5eActorSheet extends ActorSheet {
         ui.notifications.info(game.i18n.localize("arm5e.notification.pendingCrisis"), {
           permanent: true
         });
-        return;
+        return false;
       }
 
       if (this.actor.system.fatigueCurrent == this.actor.system.fatigueMaxLevel) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.unconscious"), {
           permanent: true
         });
-        return;
+        return false;
       }
     }
 
@@ -1481,7 +1506,8 @@ export class ArM5eActorSheet extends ActorSheet {
     updateCharacteristicDependingOnRoll(dataset, this.actor);
 
     const template = chooseTemplate(dataset);
-    renderRollTemplate(dataset, template, this.actor);
+    await renderRollTemplate(dataset, template, this.actor);
+    return true;
   }
 
   async quickCombat(name) {
@@ -1506,6 +1532,21 @@ export class ArM5eActorSheet extends ActorSheet {
     const res = await schedule.render(true);
   }
 
+  static getFlavor(actorType) {
+    switch (actorType) {
+      case "player":
+        return "PC";
+      case "npc":
+      case "beast":
+        return "NPC";
+      case "covenant":
+        return "Covenant";
+      case "laboratory":
+        return "Lab";
+      default:
+        return "Neutral";
+    }
+  }
   async _handleTransfer(info, item) {
     const html = await TextEditor.enrichHTML(
       `<div class="flex-center"><p>${game.i18n.format("arm5e.dialog.confirmTransfer-question", {
@@ -1520,30 +1561,14 @@ export class ArM5eActorSheet extends ActorSheet {
     var chosenAmount = 1;
     if (quantity.qty == 0) return false;
     if (quantity.qty == 1) {
-      confirmed = await new Promise((resolve) => {
-        new Dialog(
-          {
-            title: game.i18n.localize("arm5e.dialog.confirmTransfer"),
-            content: html,
-            buttons: {
-              yes: {
-                icon: "<i class='fas fa-check'></i>",
-                label: game.i18n.localize("arm5e.dialog.button.yes"),
-                callback: () => resolve(true)
-              },
-              no: {
-                icon: "<i class='fas fa-times'></i>",
-                label: game.i18n.localize("arm5e.dialog.button.no"),
-                callback: () => resolve(false)
-              }
-            },
-            close: () => resolve(false)
-          },
-          {
-            classes: ["arm5e-dialog", "dialog"]
-          }
-        ).render(true);
-      });
+      confirmed = await this.getConfirmation(
+        item.name,
+        game.i18n.format("arm5e.dialog.confirmTransfer-question", {
+          name: item.name
+        }),
+        ArM5eActorSheet.getFlavor(this.actor.type),
+        game.i18n.localize("arm5e.dialog.confirmTransfer-info")
+      );
     } else {
       let dialogData = {
         fieldname: item.name,

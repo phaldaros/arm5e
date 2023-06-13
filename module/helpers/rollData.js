@@ -147,11 +147,11 @@ export class ArM5eRollData {
         break;
       case "aging":
         this.environment.year = parseInt(dataset.year);
-        this.environment.season = ARM5E.seasons.winter.label;
+        this.environment.season = ARM5E.seasons[dataset.season].label;
         this.label =
           game.i18n.localize("arm5e.aging.roll.label") +
           " " +
-          this.environment.season +
+          game.i18n.localize(ARM5E.seasons[dataset.season].label) +
           " " +
           this.environment.year;
         this.setGenericField(

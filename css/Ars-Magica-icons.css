@@ -106,7 +106,8 @@
 }
 .icon-Tool_AstrolabBig:before {
   content: "\0053";
-  font-size: 40pt;
+  padding-top: 16px;
+  font-size: 28pt;
 }
 .icon-Icon_Locked:before {
   content: "\0054";
