@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { UI } from "../constants/ui.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { debug, getDataset, log } from "../tools.js";
 
@@ -107,9 +108,9 @@ export class Schedule extends FormApplication {
         event.edition = true;
         if (event.others.length > 0) {
           if (!event.busy) {
-            event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
+            event.style = UI.STYLES.CALENDAR_BUSY;
           } else {
-            event.style = 'style="background-color:rgb(100 0 200 / 50%)"';
+            event.style = UI.STYLES.CALENDAR_CONFLICT;
           }
         }
       }
@@ -125,6 +126,8 @@ export class Schedule extends FormApplication {
     html.find(".next-step").click(async (event) => this._changeYear(event, 1));
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
+      event.stopPropagation();
+
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
       if (item) item.sheet.render(true, { focus: true });
     });
@@ -132,6 +135,7 @@ export class Schedule extends FormApplication {
     // Add Inventory Item
     html.find(".item-create").click(async (event) => {
       await this.object.actor.sheet._onItemCreate(event);
+      this.render();
     });
   }
 

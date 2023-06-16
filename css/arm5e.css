@@ -335,6 +335,14 @@ h4.window-title {
   text-align: center;
 }
 
+.hideme {
+  display: none;
+}
+
+.show-on-hover:hover + .hideme {
+  display: block;
+}
+
 .rollable-aging:hover,
 .rollable-aging:focus,
 .rollable:hover,
@@ -1291,8 +1299,8 @@ input[type="time"] {
 }
 
 .arm5e .sheet-body .tab .editor {
-  height: 100%;
-  min-height: 150px;
+  height: 90%;
+  min-height: 280px;
   /* height: auto; */
 }
 

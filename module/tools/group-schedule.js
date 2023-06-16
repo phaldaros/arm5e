@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { UI } from "../constants/ui.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { debug, getDataset, log } from "../tools.js";
 
@@ -65,9 +66,9 @@ export class GroupSchedule extends FormApplication {
         event.edition = false;
         if (event.activities.length > 0) {
           if (!event.busy) {
-            event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
+            event.style = UI.STYLES.CALENDAR_BUSY;
           } else {
-            event.style = 'style="background-color:rgb(100 0 200 / 50%)"';
+            event.style = UI.STYLES.CALENDAR_OTHER_CONFLICT;
           }
         }
       }
@@ -83,11 +84,18 @@ export class GroupSchedule extends FormApplication {
     html.find(".next-step").click(async (event) => this._changeYear(event, 1));
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
+      event.preventDefault();
       const actor = game.actors.get(event.currentTarget.dataset.actorid);
       if (actor) {
         const item = actor.items.get(event.currentTarget.dataset.id);
         if (item) item.sheet.render(true, { focus: true });
       }
+    });
+    // Add activity Item
+    html.find(".item-create").click(async (event) => {
+      const actor = game.actors.get(event.currentTarget.dataset.actor);
+      await actor.sheet._onItemCreate(event);
+      this.render();
     });
   }
 

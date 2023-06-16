@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { UI } from "../constants/ui.js";
 import { debug, getDataset, log } from "../tools.js";
 import { compareEvents } from "./time.js";
 
@@ -7,6 +8,10 @@ export class Calendar extends FormApplication {
     super(data, options);
     this.object.displayYear = null;
     this.object.dates = this.object.activity.system.dates;
+
+    Hooks.on("arm5e-date-change", (date) => {
+      this.render(true);
+    });
   }
   /** @override */
   static get defaultOptions() {
@@ -70,18 +75,18 @@ export class Calendar extends FormApplication {
       let year = {
         year: y,
         seasons: {
-          [CONFIG.SEASON_ORDER_INV[0]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[1]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[2]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[3]]: { selected: false, busy: false, others: [] }
+          [CONFIG.SEASON_ORDER_INV[0]]: { future: false, selected: false, busy: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[1]]: { future: false, selected: false, busy: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[2]]: { future: false, selected: false, busy: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[3]]: { future: false, selected: false, busy: false, others: [] }
         }
       };
       let thisYearSchedule = actorSchedule.filter((e) => {
         return e.year == y;
       });
       for (let s of Object.keys(ARM5E.seasons)) {
-        if (year == data.curYear && s == data.curSeason) {
-          // TODO today style
+        if (y >= data.curYear && s == data.curSeason) {
+          // TODO future style
         }
         if (dateIndex < dates.length) {
           if (y == dates[dateIndex].year && s == dates[dateIndex].season) {
@@ -120,9 +125,9 @@ export class Calendar extends FormApplication {
         if (event.selected) {
           event.edition = true;
           if (event.busy) {
-            event.style = 'style="background-color:rgb(200 0 0 / 50%)"';
+            event.style = UI.STYLES.CALENDAR_BUSY;
           } else {
-            event.style = 'style="background-color:rgb(0 200 0 / 50%)"';
+            event.style = UI.STYLES.CALENDAR_CURRENT;
           }
         } else {
           if (event.others.length > 0) {
@@ -135,9 +140,9 @@ export class Calendar extends FormApplication {
               event.edition = true;
             }
             if (event.others.length == 1) {
-              event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
+              event.style = UI.STYLES.CALENDAR_BUSY;
             } else {
-              event.style = 'style="background-color:rgb(100 0 200 / 50%)"';
+              event.style = UI.STYLES.CALENDAR_OTHER_CONFLICT;
             }
           } else {
             event.edition = true;

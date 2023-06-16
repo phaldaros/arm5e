@@ -113,7 +113,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     // configuration
-    let enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
+    context.enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
     let hasTeacher = actType == "training" || actType == "teaching";
     context.system.sourceBonus = 0;
     context.ui.showTab = true;
@@ -139,13 +139,16 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.system.disabled = "disabled";
       return context;
     }
+
+    genericValidationOfActivity(context, this.actor, this.item);
+
     let hasScheduleConflict =
       this.item.isOwned && this.item.system.hasScheduleConflict(this.item.actor);
 
     if (hasScheduleConflict) {
       context.system.applyError = "arm5e.activity.msg.scheduleConflict";
       context.astrolabIconStyle = 'style="text-shadow: 0 0 10px red"';
-      if (enforceSchedule) {
+      if (context.enforceSchedule) {
         context.system.applyPossible = "disabled";
       }
     }
@@ -278,8 +281,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (activityConfig.validation != null) {
       activityConfig.validation(context, this.actor, this.item);
     }
-
-    genericValidationOfActivity(context);
 
     log(false, "ITEM-DIARY-sheet get data");
     log(false, context);
