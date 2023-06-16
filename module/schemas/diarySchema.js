@@ -264,7 +264,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     for (let entry of Object.values(actor.system.diaryEntries)) {
       // the entry is not the current entry
       if (entry._id != this.parent._id) {
-        if (entry.done) {
+        if (entry.system.done) {
           continue;
         }
         if (
