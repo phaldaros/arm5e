@@ -165,8 +165,13 @@ export async function createAgingDiaryEntry(actor, input) {
 // Progress activities
 // ********************
 
-export function genericValidationOfActivity(context) {
-  // check if there are any preivous activities not applied.
+export function genericValidationOfActivity(context, actor, item) {
+  // check if there are any previous activities not applied.
+
+  if (context.enforceSchedule && item.system.hasUnappliedActivityInThePast(actor)) {
+    context.system.applyPossible = "disabled";
+    context.system.applyError = "arm5e.activity.msg.unappliedActivities";
+  }
   // check if it ends in the future
   let currentDate = game.settings.get("arm5e", "currentDate");
   if (

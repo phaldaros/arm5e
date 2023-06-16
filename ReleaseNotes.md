@@ -1,4 +1,4 @@
-## 2.1.0.7, Mercere, first to join
+## 2.1.0.8, Mercere, first to join
 
 ### Features & changes
 
@@ -39,6 +39,11 @@
 - visStockCovenant item type was deprecated and replaced by vis type.
 - Warping added on aging roll if there is a longevity potion effect
 - It is not possible anymore to change the date of an actor to the future.
+- [technical] migration to ProseMirror editor
+- New "rest everyone" button in Astrolabium
+- Calendar is now notified if the world's date changes
+- Quick item's description on right click
+- Prevent activity's application if there one unapplied before it.
 
 ### Bug fixes
 

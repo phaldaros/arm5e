@@ -1105,6 +1105,7 @@
   "arm5e.activity.msg.scheduleConflict": "There is a schedule conflict.",
   "arm5e.activity.msg.activityEndsInFuture": "Impossible to apply. This activity ends in the future",
   "arm5e.activity.msg.agingInWinter": "Aging happens usually in winter unless it is an external effect.",
+  "arm5e.activity.msg.unappliedActivities": "There are still unapplied activities scheduled before this one.",
 
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "No distraction",
@@ -1143,6 +1144,7 @@
 
   "arm5e.astrolab.setWorldDate": "Set world date",
   "arm5e.astrolab.updateActors": "Update actors",
+  "arm5e.astrolab.restAll": "Rest everyone",
 
   "arm5e.scriptorium.index": "Index",
   "arm5e.scriptorium.reader.title": "Reader",

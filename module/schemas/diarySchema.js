@@ -254,6 +254,32 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     return schedule;
   }
 
+  hasUnappliedActivityInThePast(actor) {
+    if (this.activity === "none") {
+      return false;
+    }
+    let year = this.dates[this.dates.length - 1].year;
+    let season = this.dates[this.dates.length - 1].season;
+    // For each diary entry of the actor
+    for (let entry of Object.values(actor.system.diaryEntries)) {
+      // the entry is not the current entry
+      if (entry._id != this.parent._id) {
+        if (entry.done) {
+          continue;
+        }
+        if (
+          entry.system.dates[entry.system.dates.length - 1].year < year ||
+          (entry.system.dates[entry.system.dates.length - 1] == year &&
+            CONFIG.SEASON_ORDER[entry.system.dates[entry.system.dates.length - 1].season] <
+              CONFIG.SEASON_ORDER[season])
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   static getDefault(itemData) {
     let res = itemData;
     let currentDate = game.settings.get("arm5e", "currentDate");

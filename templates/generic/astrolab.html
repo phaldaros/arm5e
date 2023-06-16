@@ -11,7 +11,8 @@
       <div class="resource-content flexrow">
         <div class="resource-content flexrow flex-center flex-between margintop6">
           <label for="season" class="smallTitle" style="font-size:16pt">{{localize "arm5e.sheet.season"}}</label>
-          <select name="season" data-type="String" class="change-season flex0 astrolab" style="font-size: 14pt;">
+          <select name="season" {{dateChange}} data-type="String" class="change-season flex0 astrolab"
+            style="font-size: 14pt;">
             {{#select season}} {{#each seasons as |season key|}}
                 <option value="{{key}}">{{localize season.label}}</option>
               {{/each}} {{/select}}
@@ -19,7 +20,7 @@
         </div>
         <div class="resource-content flexrow flex-center flex-between margintop6">
           <label for="year" class="smallTitle" style="font-size:16pt">{{localize "arm5e.sheet.year"}}</label>
-          <input type="number" name="year" value="{{year}}" data-dtype="Number"
+          <input type="number" name="year" {{dateChange}} value="{{year}}" data-dtype="Number"
             class="astrolab change-year resource-focus" style="
         font-size: 18pt;" />
 
@@ -34,16 +35,24 @@
         <div class="flex0">
           <a class="group-schedule flex0" style="width:36px"><i class="icon-Tool_AstrolabBig"></i></a>
         </div>
-
-        <div style=" margin:10px">
-          <button class="astrolab button set-date" data-year="{{year}}" data-season="{{season}}" style="font-size:16pt">
-            {{localize "arm5e.astrolab.setWorldDate"}}
-          </button>
+        <div class="flexrow" style=" margin:10px">
+          {{#if (eq dateChange "disabled")}}
+            <div class="show-calendar" style="height: 48px; width:48px; max-width: 48px;">
+              <i class="fas fa-calendar simple-calendar-icon"></i>
+            </div>
+          {{else}}
+            <button class="astrolab button set-date" data-year="{{year}}" data-season="{{season}}"
+              style="font-size:16pt">
+              {{localize "arm5e.astrolab.setWorldDate"}}
+            </button>
+          {{/if}}
           <button class="astrolab button update-actors" data-year="{{year}}" data-season="{{season}}"
             style="font-size:16pt">
             {{localize "arm5e.astrolab.updateActors"}}
           </button>
-
+          <button class="astrolab button rest-all" style="font-size:16pt">
+            {{localize "arm5e.astrolab.restAll"}}
+          </button>
         </div>
       </div>
     </div>

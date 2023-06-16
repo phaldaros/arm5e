@@ -1,7 +1,4 @@
 <div class="flexrow" style="margin:10px">
-  <div class="flex-center" style="min-width: 150px;">
-    <label for="name" class="smallTitle" style="font-size:14pt">{{localize "arm5e.sheet.name"}}</label>
-  </div>
   {{#each config.seasons as |season key|}}
     <div class=" flex-center">
       <label for="season" class="smallTitle" style="font-size:14pt">{{localize season.label}}</label>
@@ -12,20 +9,17 @@
   {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
 </div>
 <div class="{{type}}-years flexcol">
-  {{#each selectedActors }}
+  {{#each selectedDates }}
     <div class="backSection calendar-year flex-center flex-between">
-
+      <label for="year" class="smallTitle" style="font-size:16pt">{{this.year}}</label>
       <div class="flexrow">
-        <label class="smallTitle "
-          style="padding:5px; overflow-wrap: break-word; min-width: 150px; font-size:13pt; font-family:bookAntiquaBold; background-color: rgb(203, 168, 121,40%);">{{this.actorName}}</label>
         {{#each this.seasons }}
           <div class="calendar-season flexrow item-create" data-type="diaryEntry" data-year="{{../this.year}}"
-            data-season="{{@key}}" data-actor="{{../this.id}}" title="Create activity" {{{this.style}}}>
+            data-season="{{@key}}" title="Create activity" {{{this.style}}}>
             <div class="flexrow">
-              {{#each this.activities}}
-                <div class="vignette" data-actorid={{../../this.id}} data-id="{{this.id}}" {{{this.style}}}><img
-                    src="{{this.img}}" title="{{this.name}}" />
-                </div>
+              {{#each this.others}}
+                <div class="vignette" data-id="{{this.id}}" {{{this.style}}}><img src="{{this.img}}"
+                    title="{{this.name}}" /> </div>
               {{/each}}
               <div style="max-width: 25px; max-height: 25px; height: 25px; width: 25px;">
               </div>
