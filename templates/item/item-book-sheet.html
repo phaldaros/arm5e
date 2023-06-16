@@ -45,7 +45,7 @@
     <div class="tab" data-group="primary" data-tab="description">
 
       <div style="height: 200px">
-        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
       {{#if (eq metagame true)}}
         {{> "systems/arm5e/templates/generic/source.html" }}
