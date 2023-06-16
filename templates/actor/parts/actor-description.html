@@ -37,7 +37,7 @@
       <div class="flex-group-left backSection padding12">
         <label for="system.sigil" class="smallTitle">{{localize "arm5e.sheet.sigil"}}</label>
         <div class="flex-group-left marginbot6" style="height: 140px">
-          {{editor system.sigil.value target="system.sigil.value" button=true owner=owner editable=editable}}
+          {{editor system.sigil.value target="system.sigil.value" button=true owner=owner engine="prosemirror" editable=editable}}
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@
         <label for="system.warping.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
       </div>
       <div class="flex-group-left marginbot6" style="height: 150px">
-        {{editor system.warping.effects target="system.warping.effects" button=true owner=owner editable=editable}}
+        {{editor system.warping.effects target="system.warping.effects" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
     </div>
 
@@ -115,7 +115,7 @@
 <div class="flexcol grid grid-2col margintop18">
   <div class="flex-group-left padding12 backSection">
     <label class="smallTitle">{{localize "arm5e.sheet.biography"}}</label>
-    {{editor system.biography target="system.biography" button=true owner=owner editable=editable}}
+    {{editor system.biography target="system.biography" button=true owner=owner engine="prosemirror" editable=editable}}
   </div>
 
   <div>
