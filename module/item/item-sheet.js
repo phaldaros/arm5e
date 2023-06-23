@@ -235,6 +235,10 @@ export class ArM5eItemSheet extends ItemSheet {
         question,
         ArM5eActorSheet.getFlavor(this.item.actor?.type)
       );
+      if (confirm) {
+        itemId = itemId instanceof Array ? itemId : [itemId];
+        this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+      }
     });
 
     html.find(".resource-focus").focus((ev) => {

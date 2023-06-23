@@ -167,9 +167,8 @@ export async function createAgingDiaryEntry(actor, input) {
 
 export function genericValidationOfActivity(context, actor, item) {
   // check if there are any previous activities not applied.
-
   if (context.enforceSchedule && item.system.hasUnappliedActivityInThePast(actor)) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.applyError = "arm5e.activity.msg.unappliedActivities";
   }
   // check if it ends in the future
@@ -179,7 +178,7 @@ export function genericValidationOfActivity(context, actor, item) {
     (context.lastSeason.year == currentDate.year &&
       CONFIG.SEASON_ORDER[context.lastSeason.season] > CONFIG.SEASON_ORDER[currentDate.season])
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.applyError = "arm5e.activity.msg.activityEndsInFuture";
   }
 }
@@ -194,7 +193,7 @@ function checkForDuplicates(param, context, array) {
       return ids.indexOf(e) !== ids.lastIndexOf(e);
     })
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.errorParam = param;
     context.system.applyError = "arm5e.activity.msg.duplicates";
   }
@@ -211,14 +210,14 @@ function checkArtProgressItems(context, item, max) {
       return artsKeys.indexOf(e) !== artsKeys.lastIndexOf(e);
     })
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.applyError = "arm5e.activity.msg.duplicates";
     context.system.errorParam = "arts";
   }
   let res = 0;
   for (const a of artsArr) {
     if (a.xp < 0 || a.xp > max) {
-      context.system.applyPossible = "disabled";
+      context.system.applyPossible = false;
       context.system.applyError = "arm5e.activity.msg.wrongSingleItemXp";
       context.system.errorParam = max;
       return 0;
@@ -233,7 +232,7 @@ function checkMaxXpPerItem(context, array, max) {
   let res = 0;
   for (const ab of array) {
     if (ab.xp < 0 || ab.xp > max) {
-      context.system.applyPossible = "disabled";
+      context.system.applyPossible = false;
       context.system.applyError = "arm5e.activity.msg.wrongSingleItemXp";
       context.system.errorParam = max;
       return 0;
@@ -269,7 +268,7 @@ export function validAdventuring(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -293,7 +292,7 @@ export function validChildhood(context, actor, item) {
   });
 
   if (filteredArray.length != 1) {
-    context.system.applyPossible = "";
+    context.system.applyPossible = true;
     if (context.system.applyError === "")
       context.system.applyError = "arm5e.activity.msg.missingMotherTongue";
   }
@@ -304,7 +303,7 @@ export function validChildhood(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -339,7 +338,7 @@ export function validTotalXp(context, actor, item) {
     context.system.totalXp.masteries +
     context.system.totalXp.spellLevels;
   if (totalXp != context.system.sourceQuality) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam = totalXp;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
@@ -374,7 +373,7 @@ export function validExposure(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -441,8 +440,8 @@ export function validPractice(context, actor, item) {
     }
   }
   if (optionError === true) {
-    context.system.applyPossible = "";
-    // context.system.applyPossible = "disabled";
+    context.system.applyPossible = true;
+    // context.system.applyPossible = false;
     context.system.errorParam = game.i18n.localize(
       activityConfig.bonusOptions[item.system.optionKey].label
     );
@@ -455,7 +454,7 @@ export function validPractice(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -472,12 +471,12 @@ export function validTraining(context, actor, item) {
   let abilitiesArr = Object.values(item.system.progress.abilities);
   let spellsArr = Object.values(item.system.progress.spells);
   if (abilitiesArr.length + spellsArr.length > 1) {
-    context.system.applyPossible = "";
+    context.system.applyPossible = true;
     context.system.applyError = "arm5e.activity.msg.tooManyItems";
     context.system.errorParam = 1;
     return;
   } else if (abilitiesArr.length + spellsArr.length == 0) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
   }
   context.system.baseQuality = 3;
   if (item.system.teacher.id === null) {
@@ -532,6 +531,12 @@ export function validTraining(context, actor, item) {
     context.system.progress.spells[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.masteries += Number(context.system.sourceQuality);
   }
+
+  if (context.system.cappedGain && context.system.sourceQuality == 0) {
+    context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+    context.system.errorParam = context.system.teacher.name;
+    context.system.applyPossible = false;
+  }
 }
 
 export function validTeaching(context, actor, item) {
@@ -541,12 +546,12 @@ export function validTeaching(context, actor, item) {
   let artsArr = Object.values(item.system.progress.arts);
   let spellsArr = Object.values(item.system.progress.spells);
   if (abilitiesArr.length + spellsArr.length + artsArr.length > 1) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.applyError = "arm5e.activity.msg.tooManyItems";
     context.system.errorParam = 1;
     return;
   } else if (abilitiesArr.length + artsArr.length + spellsArr.length == 0) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
   }
   context.system.baseQuality = 3 + item.system.teacher.teaching + item.system.teacher.com;
   if (item.system.teacher.applySpec) {
@@ -555,6 +560,18 @@ export function validTeaching(context, actor, item) {
 
   if (abilitiesArr.length > 0) {
     const teacherScore = Number(item.system.progress.abilities[0].teacherScore);
+    // if for some reason the teacher score was reduced...
+    if (teacherScore < 2) {
+      context.system.canEdit = "readonly";
+      context.system.applyPossible = false;
+      context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+      context.system.errorParam =
+        context.system.teacher.name === ""
+          ? game.i18n.localize("arm5e.activity.teacher.label")
+          : context.system.teacher.name;
+      return;
+    }
+
     let ability = Object.values(actor.system.abilities).find((e) => {
       return e._id === item.system.progress.abilities[0].id;
     });
@@ -583,6 +600,19 @@ export function validTeaching(context, actor, item) {
     context.system.totalXp.abilities += Number(context.system.sourceQuality);
   } else if (spellsArr.length > 0) {
     const teacherScore = Number(item.system.progress.spells[0].teacherScore);
+
+    // if for some reason the teacher score was reduced...
+    if (teacherScore < 2) {
+      context.system.canEdit = "readonly";
+      context.system.applyPossible = false;
+      context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+      context.system.errorParam =
+        context.system.teacher.name === ""
+          ? game.i18n.localize("arm5e.activity.teacher.label")
+          : context.system.teacher.name;
+      return;
+    }
+
     const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
@@ -601,6 +631,18 @@ export function validTeaching(context, actor, item) {
   } else if (artsArr.length > 0) {
     const progressArt = item.system.progress.arts[0];
     const teacherScore = Number(progressArt.teacherScore);
+    // if for some reason the teacher score was reduced...
+    if (teacherScore < 5) {
+      context.system.canEdit = "readonly";
+      context.system.applyPossible = false;
+      context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+      context.system.errorParam =
+        context.system.teacher.name === ""
+          ? game.i18n.localize("arm5e.activity.teacher.label")
+          : context.system.teacher.name;
+      return;
+    }
+
     let artType = "techniques";
     if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(progressArt.key) == -1) {
       artType = "forms";
@@ -618,6 +660,11 @@ export function validTeaching(context, actor, item) {
     }
     context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.arts += Number(context.system.sourceQuality);
+  }
+  if (context.system.cappedGain && context.system.sourceQuality == 0) {
+    context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+    context.system.errorParam = context.system.teacher.name;
+    context.system.applyPossible = false;
   }
 }
 
@@ -703,6 +750,12 @@ export function validReading(context, actor, item) {
     }
     context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.arts += Number(context.system.sourceQuality);
+  }
+
+  if (context.system.cappedGain && context.system.sourceQuality == 0) {
+    context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+    context.system.errorParam = context.system.teacher.name;
+    context.system.applyPossible = false;
   }
 }
 

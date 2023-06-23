@@ -246,8 +246,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       const itemData = [
         {
           name: actor.name,
-          type: "habitantMagi",
+          type: "inhabitant",
           system: {
+            category: "magi",
             job:
               actor.system.description.title.value +
               " " +
@@ -277,8 +278,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       const itemData = [
         {
           name: actor.name,
-          type: "habitantCompanion",
+          type: "inhabitant",
           system: {
+            category: "companions",
             job: actor.system.description.title.value,
             points: pts,
             yearBorn: actor.system.description.born.value
@@ -307,8 +309,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       const itemData = [
         {
           name: actor.name,
-          type: "habitantHabitants",
+          type: "inhabitant",
           system: {
+            category: "grogs",
             job: actor.system.description.title.value,
             points: pts,
             yearBorn: actor.system.description.born.value

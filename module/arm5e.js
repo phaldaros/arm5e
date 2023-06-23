@@ -154,6 +154,10 @@ Hooks.once("init", async function () {
     CONFIG.SEASON_ORDER_INV = seasonOrderInv.standard;
     CONFIG.ARM5E.seasons = CONFIG.ARM5E.seasonsLabels.standard;
   }
+  //////////////////////
+  // CONFIG DONE!
+  //////////////////////
+  Hooks.callAll("arm5e-config-done", CONFIG);
 
   CONFIG.ARM5E.activities.conflictExclusion = Object.entries(CONFIG.ARM5E.activities.generic)
     .filter((e) => e[1].scheduling.conflict == false)
@@ -494,6 +498,10 @@ function registerSheets() {
     makeDefault: true,
     label: "arm5e.sheet.magic-codex"
   });
+
+  // Handlebars.registerHelper("arraySize", function (data) {
+  //   return data.length;
+  // });
 
   // Actors.registerSheet("arm5eCrucible", ArM5eCrucibleSheet, {
   //     types: ["crucible"],

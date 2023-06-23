@@ -41,13 +41,17 @@
 {{/if}}
 <div class="flexrow">
   <div class="flexrow">
-    {{#if rollNeeded}}
-      <button class="arm5e flex03 roll-activity" style="font-family: bookAntika"
-        {{system.applyPossible}}>{{localize rollLabel}}</button>
+    {{#if system.applyPossible}}
+      {{#if rollNeeded}}
+        <button class="arm5e flex03 roll-activity" style="font-family: bookAntika">{{localize rollLabel}}</button>
+      {{else}}
+        <button class="arm5e flex02 progress-apply"
+          style="font-family: bookAntika">{{localize "arm5e.sheet.action.apply"}}</button>
+      {{/if}}
     {{else}}
       {{#unless system.done}}
-        <button class="arm5e flex02 progress-apply" style="font-family: bookAntika"
-          {{system.applyPossible}}>{{localize "arm5e.sheet.action.apply"}}</button>
+        <button class="arm5e flex02 progress-refresh"
+          style="font-family: bookAntika">{{localize "arm5e.lab.planning.button.refresh"}}</button>
       {{else}}
         <button class="arm5e flex02 progress-rollback"
           style="font-family: bookAntika">{{localize "arm5e.sheet.action.rollback"}}</button>

@@ -14,6 +14,19 @@ export function nextDate(season, year) {
   }
 }
 
+export function isInThePast(date) {
+  let datetime = game.settings.get("arm5e", "currentDate");
+  if (Number(date.year) < Number(datetime.year)) return true;
+  if (
+    Number(date.year) == Number(datetime.year) &&
+    CONFIG.SEASON_ORDER[date.season] < CONFIG.SEASON_ORDER[datetime.season]
+  ) {
+    return true;
+  }
+  // TODO months and days?
+  return false;
+}
+
 export const SimpleCalendarSeasons = {
   Spring: "spring",
   Summer: "summer",

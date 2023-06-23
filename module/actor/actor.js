@@ -16,7 +16,7 @@ import { migrateActorData } from "../migration.js";
 
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ArM5eRollData } from "../helpers/rollData.js";
-import { compareDiaryEntries } from "../tools/time.js";
+import { compareDiaryEntries, isInThePast } from "../tools/time.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -30,6 +30,14 @@ export class ArM5ePCActor extends Actor {
   constructor(data, context) {
     super(data, context);
     this.rollData = new ArM5eRollData(this);
+    Hooks.on("arm5e-date-change", async (date) => {
+      if (this._hasDate() && !isInThePast(this.system.datetime)) {
+        await this.update({
+          "system.datetime.year": date.year,
+          "system.datetime.season": date.season
+        });
+      }
+    });
   }
 
   prepareData() {
@@ -1488,6 +1496,10 @@ export class ArM5ePCActor extends Actor {
     log(false, "Used confidence point");
     await this.update({ system: { con: { points: this.system.con.points - 1 } } });
     return true;
+  }
+
+  _hasDate() {
+    return ["player", "beast", "covenant", "npc"].includes(this.type);
   }
 
   async rest() {

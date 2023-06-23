@@ -85,12 +85,12 @@
         <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       {{/if}}
       <div class="progress-controls">
-        {{#if (eq system.defaultAbility "")}}
+        {{#unless system.canProgress.abilities}}
           {{localize "arm5e.activity.msg.noAbility"}}
         {{else}}
           <a class="progress-control" data-action="add" data-type="abilities" data-default="{{system.defaultAbility}}"
             data-teacherscore="{{system.teacherScore}}"><i class="fas fa-plus"></i></a>
-        {{/if}}
+        {{/unless}}
       </div>
     </header>
     <div class="resource">
@@ -100,6 +100,7 @@
             <select name="system.progress.abilities.{{idx}}.category" data-dtype="String" data-index="{{idx}}"
               data-type="abilities" {{@root.system.disabled}} class="progress-category ability-key flex02"
               style="min-width: 135px;">
+
               {{#select ability.category}}
                 {{#each ../system.ownedAbilities as | ab key|   }}
                   <option value="{{key}}">{{lookup (lookup @root.config.LOCALIZED_ABILITIESCAT key) "label"}}
@@ -108,7 +109,8 @@
               {{/select}}
             </select>
             <select name="system.progress.abilities.{{idx}}.id" data-dtype="String" data-index="{{idx}}"
-              data-type="abilities" class="progress-ability flex02" {{@root.system.disabled}} style="min-width: 150px;">
+              data-type="abilities" data-teacher="{{teacher.id}}" class="progress-ability flex02"
+              {{@root.system.disabled}} style="min-width: 150px;">
               {{#select ability.id}}
                 {{#each (lookup ../system.ownedAbilities ability.category) as |ab i|}}
                   <option value="{{ab.id}}">{{ab.name}} ({{ab.score}})</option>
@@ -147,12 +149,12 @@
         <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       {{/if}}
       <div class="progress-controls">
-        {{#if (eq system.defaultArt "")}}
+        {{#unless system.canProgress.arts}}
           {{localize "arm5e.activity.msg.noArt"}}
         {{else}}
           <a class="progress-control" data-action="add" data-type="arts" data-default="{{system.defaultArt}}"
             data-teacherscore="{{system.teacherScore}}"><i class="fas fa-plus"></i></a>
-        {{/if}}
+        {{/unless}}
       </div>
 
     </header>
@@ -203,12 +205,12 @@
         <div class="xpamount">{{ localize "arm5e.sheet.experience"}}</div>
       {{/if}}
       <div class="progress-controls">
-        {{#if (eq system.defaultSpellMastery "")}}
+        {{#unless system.canProgress.spells}}
           {{localize "arm5e.activity.msg.noSpell"}}
         {{else}}
           <a class="progress-control" data-action="add" data-type="spells" data-teacherscore="{{system.teacherScore}}"
             data-default="{{system.defaultSpellMastery}}"><i class="fas fa-plus"></i></a>
-        {{/if}}
+        {{/unless}}
       </div>
     </header>
     <div class="resource">
