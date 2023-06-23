@@ -61,7 +61,7 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
     let activeEffectData = getAuraActiveEffect(value);
     activeEffectData.origin = scene.uuid;
 
-    const tokens = scene.tokens.filter(token => token.actor);
+    const tokens = scene.tokens.filter((token) => token.actor);
     for (const token of tokens) {
       if (token.actor._isCharacter()) {
         if (token.isLinked) {
@@ -92,6 +92,7 @@ async function addActiveEffectAuraToActor(actor, value, type) {
 }
 
 async function clearAuraFromActor(actor) {
+  if (actor == undefined || actor == null) return;
   const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(actor.effects, "aura");
   for (const e of effects) {
     log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);

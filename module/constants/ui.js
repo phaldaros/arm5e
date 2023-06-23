@@ -172,6 +172,21 @@ export const INHABITANTS_DEFAULT_ICONS = {
   }
 };
 
+export const VIRTUESFLAWS_DEFAULT_ICONS = {
+  MONO: {
+    hermetic: "systems/arm5e/assets/icons/VF/hermetic.svg",
+    supernatural: "systems/arm5e/assets/icons/VF/supernatural.svg",
+    social: "systems/arm5e/assets/icons/VF/social.svg",
+    generalVirtue: "systems/arm5e/assets/icons/VF/generalVirtue.svg",
+    generalFlaw: "systems/arm5e/assets/icons/VF/generalFlaw.svg",
+    personality: "systems/arm5e/assets/icons/VF/personality.svg",
+    story: "systems/arm5e/assets/icons/VF/story.svg",
+    child: "systems/arm5e/assets/icons/VF/child.svg",
+    heroic: "systems/arm5e/assets/icons/VF/heroic.svg",
+    tainted: "systems/arm5e/assets/icons/VF/tainted.svg"
+  }
+};
+
 export const ABILITIES_DEFAULT_ICONS = {
   MONO: {
     animalHandling: "systems/arm5e/assets/icons/abilities/animalHandling.svg",
