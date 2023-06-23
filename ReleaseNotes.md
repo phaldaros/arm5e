@@ -1,4 +1,4 @@
-## 2.1.0.8, Mercere, first to join
+## 2.1.0.10, Mercere, first to join
 
 ### Features & changes
 
@@ -43,7 +43,10 @@
 - New "rest everyone" button in Astrolabium
 - Calendar is now notified if the world's date changes
 - Quick item's description on right click
-- Prevent activity's application if there one unapplied before it.
+- Prevent activity's application if there one unapplied ending before it.
+- Setting the world date in the past will put the actor's date back to that date if it is now in the future.
+- Added Diedne house to the list of Hermetic Houses
+- Delay rolling and checks for activities validity to when they are applied
 
 ### Bug fixes
 
@@ -57,6 +60,8 @@
 - Personality rolls add the personality score properly
 - Fixed aging rollback bug, where characteristic was increased instead of decreased
 - Fixed warping reset bug in some cases
+- Changing the trainer/teacher score will update it in the other tabs
+- Dropping a magus or companion on a covenant sheet will add them properly as members
 
 ### V10 migration (on going)
 

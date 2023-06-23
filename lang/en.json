@@ -882,6 +882,7 @@
   "arm5e.notification.noLab": "This character doesn't own a lab.",
   "arm5e.notification.noOwner": "This laboratory doesn't have an owner.",
   "arm5e.notification.noEnoughVis": "{name} doesn't have enough pawns of vis to perform this action.",
+  "arm5e.notification.situationHasChanged": "The situation has changed, applying is no longer possible.",
 
   "arm5e.canvas.buttons.setAura": "Configure Aura",
   "arm5e.canvas.buttons.clearAura": "Clear Aura",

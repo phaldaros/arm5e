@@ -124,6 +124,9 @@ ARM5E.character.houses = {
   },
   ver: {
     label: "Verditius"
+  },
+  die: {
+    label: "Diedne"
   }
 };
 ARM5E.character.description = {

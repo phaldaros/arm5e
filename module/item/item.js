@@ -28,7 +28,7 @@ export class ArM5eItem extends Item {
     const system = this.system;
     if (this.isOwned && this.actor.system == undefined) {
       // this is a call from constructor, it will be called again with actor data initialied
-      log(false, `Owned Item : ${this.id} : ${this.name}, actor.data= ${this.actor.data}`);
+      log(false, `Owned Item : ${this.id} : ${this.name}, actor.data= ${this.actor.system}`);
       return;
     }
     const owner = this.actor ? this.actor : {};
@@ -55,6 +55,22 @@ export class ArM5eItem extends Item {
         }
 
         system.abilities = abilitiesSelect;
+      }
+
+      if (this.type == "diaryEntry") {
+        if (!system.done) {
+          for (let a of system.progress.abilities) {
+            if (a.key == "") {
+              let ability = this.actor.items.get(a.id);
+              if (ability) {
+                a.key = ability.system.key;
+                a.option = ability.system.option;
+              } else {
+                log(false, `${this.actor.name} ability doesn't exist : ${a.name} for ${this.name}`);
+              }
+            }
+          }
+        }
       }
 
       // compute mastery score

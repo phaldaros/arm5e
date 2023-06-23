@@ -887,6 +887,7 @@ export class ArM5eActorSheet extends ActorSheet {
       const dataset = getDataset(ev);
       const val = ev.target.value;
       updateUserCache(this.actor.id, dataset.category, dataset.list, "minYearFilter", val);
+      this.submit({ preventClose: true });
       this.render();
     });
 
@@ -895,6 +896,7 @@ export class ArM5eActorSheet extends ActorSheet {
       const dataset = getDataset(ev);
       const val = ev.target.value;
       updateUserCache(this.actor.id, dataset.category, dataset.list, "maxYearFilter", val);
+      this.submit({ preventClose: true });
       this.render();
     });
 
@@ -937,15 +939,13 @@ export class ArM5eActorSheet extends ActorSheet {
       item.sheet.render(true, { focus: true });
     });
 
-    html.find(".item").contextmenu(ev => {
+    html.find(".item").contextmenu((ev) => {
       let li = ev.currentTarget;
       let item = this.document.items.get(li.dataset.itemId);
-      if (item && item.system.description)
-      {
+      if (item && item.system.description) {
         this._onDropdown($(ev.currentTarget), item.system.description);
       }
-
-    })
+    });
 
     // Update Inventory Item
     html.find(".book-edit").click(async (ev) => {
@@ -1275,25 +1275,21 @@ export class ArM5eActorSheet extends ActorSheet {
 
   /**
    * Adds dropdown text for a specified element.
-   * 
+   *
    * @param {HTMLElement} element Parent element for dropdown
    * @param {string} text Text in the dropdown
    */
-  _onDropdown(element, text)
-  {
-    let summary = element.next()
-    
-    if (summary.hasClass("item-summary")) // If summary is present, remove
-    {
-        summary.slideUp(200, () => summary.remove());
-    }
-    else 
-    {
-        summary = $(`<div class="item-summary">${text}</div>`)
-        summary.hide();
-        summary.insertAfter(element);
-        summary.slideDown(200);
-        
+  _onDropdown(element, text) {
+    let summary = element.next();
+
+    if (summary.hasClass("item-summary")) {
+      // If summary is present, remove
+      summary.slideUp(200, () => summary.remove());
+    } else {
+      summary = $(`<div class="item-summary">${text}</div>`);
+      summary.hide();
+      summary.insertAfter(element);
+      summary.slideDown(200);
     }
   }
 
