@@ -277,7 +277,7 @@ export class ArM5eItemSheet extends ItemSheet {
       ) {
         await this.item.update({
           img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, value),
-          key: value
+          [key]: value
         });
       }
     }

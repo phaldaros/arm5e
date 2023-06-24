@@ -1137,81 +1137,80 @@ export default {
       }
     }
   },
-  // TODO: disabled for now
-  // xpBonusSupernaturalAbility: {
-  //   category: "abilities",
-  //   type: "xpBonusSupernaturalAbility",
-  //   label: "arm5e.sheet.activeEffect.types.supernaturalAbilitiesXPBonus",
-  //   subtypes: {
-  //     animalKen: {
-  //       label: "arm5e.skill.supernatural.animalKen",
-  //       key: "system.bonuses.skills.animalKen.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     dowsing: {
-  //       label: "arm5e.skill.supernatural.dowsing",
-  //       key: "system.bonuses.skills.dowsing.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     enchantingMusic: {
-  //       label: "arm5e.skill.supernatural.enchantingMusic",
-  //       key: "system.bonuses.skills.enchantingMusic.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     entrancement: {
-  //       label: "arm5e.skill.supernatural.entrancement",
-  //       key: "system.bonuses.skills.entrancement.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     magicSensitivity: {
-  //       label: "arm5e.skill.supernatural.magicSensitivity",
-  //       key: "system.bonuses.skills.magicSensitivity.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     premonitions: {
-  //       label: "arm5e.skill.supernatural.premonitions",
-  //       key: "system.bonuses.skills.premonitions.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     secondSight: {
-  //       label: "arm5e.skill.supernatural.secondSight",
-  //       key: "system.bonuses.skills.secondSight.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     senseHolyAndUnholy: {
-  //       label: "arm5e.skill.supernatural.senseHolyAndUnholy",
-  //       key: "system.bonuses.skills.senseHolyAndUnholy.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     shapeshifter: {
-  //       label: "arm5e.skill.supernatural.shapeshifter",
-  //       key: "system.bonuses.skills.shapeshifter.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     },
-  //     supernatural: {
-  //       label: "arm5e.skill.supernatural.generic",
-  //       key: "system.bonuses.skills.supernatural_#OPTION#.xpMod",
-  //       mode: 2,
-  //       default: 5,
-  //       option: "supernaturalAbilityName"
-  //     },
-  //     wildernessSense: {
-  //       label: "arm5e.skill.supernatural.wildernessSense",
-  //       key: "system.bonuses.skills.wildernessSense.xpMod",
-  //       mode: 2,
-  //       default: 5
-  //     }
-  //   }
-  // },
+  xpBonusSupernaturalAbility: {
+    category: "abilities",
+    type: "xpBonusSupernaturalAbility",
+    label: "arm5e.sheet.activeEffect.types.supernaturalAbilitiesXPBonus",
+    subtypes: {
+      animalKen: {
+        label: "arm5e.skill.supernatural.animalKen",
+        key: "system.bonuses.skills.animalKen.xpMod",
+        mode: 2,
+        default: 5
+      },
+      dowsing: {
+        label: "arm5e.skill.supernatural.dowsing",
+        key: "system.bonuses.skills.dowsing.xpMod",
+        mode: 2,
+        default: 5
+      },
+      enchantingMusic: {
+        label: "arm5e.skill.supernatural.enchantingMusic",
+        key: "system.bonuses.skills.enchantingMusic.xpMod",
+        mode: 2,
+        default: 5
+      },
+      entrancement: {
+        label: "arm5e.skill.supernatural.entrancement",
+        key: "system.bonuses.skills.entrancement.xpMod",
+        mode: 2,
+        default: 5
+      },
+      magicSensitivity: {
+        label: "arm5e.skill.supernatural.magicSensitivity",
+        key: "system.bonuses.skills.magicSensitivity.xpMod",
+        mode: 2,
+        default: 5
+      },
+      premonitions: {
+        label: "arm5e.skill.supernatural.premonitions",
+        key: "system.bonuses.skills.premonitions.xpMod",
+        mode: 2,
+        default: 5
+      },
+      secondSight: {
+        label: "arm5e.skill.supernatural.secondSight",
+        key: "system.bonuses.skills.secondSight.xpMod",
+        mode: 2,
+        default: 5
+      },
+      senseHolyAndUnholy: {
+        label: "arm5e.skill.supernatural.senseHolyAndUnholy",
+        key: "system.bonuses.skills.senseHolyAndUnholy.xpMod",
+        mode: 2,
+        default: 5
+      },
+      shapeshifter: {
+        label: "arm5e.skill.supernatural.shapeshifter",
+        key: "system.bonuses.skills.shapeshifter.xpMod",
+        mode: 2,
+        default: 5
+      },
+      supernatural: {
+        label: "arm5e.skill.supernatural.generic",
+        key: "system.bonuses.skills.supernatural_#OPTION#.xpMod",
+        mode: 2,
+        default: 5,
+        option: "supernaturalAbilityName"
+      },
+      wildernessSense: {
+        label: "arm5e.skill.supernatural.wildernessSense",
+        key: "system.bonuses.skills.wildernessSense.xpMod",
+        mode: 2,
+        default: 5
+      }
+    }
+  },
   affinityGeneralAbility: {
     category: "abilities",
     type: "affinityGeneralAbility",
