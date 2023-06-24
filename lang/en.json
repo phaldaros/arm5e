@@ -46,7 +46,9 @@
   "ITEM.TypeMundanebook": "Mundane book (deprecated)",
 
   "arm5e.sheet.player": "Player",
+  "arm5e.sheet.players": "Players",
   "arm5e.sheet.npc": "NPC",
+  "arm5e.sheet.npcs": "NPCs",
   "arm5e.sheet.laboratory": "Laboratory",
 
   "arm5e.sheet.charType": "Type",
@@ -194,7 +196,9 @@
   "arm5e.sheet.magus": "Magus",
   "arm5e.sheet.maguss": "Magi",
   "arm5e.sheet.companion": "Companion",
+  "arm5e.sheet.companions": "Companions",
   "arm5e.sheet.grog": "Grog",
+  "arm5e.sheet.grogs": "Grogs",
   "arm5e.sheet.human": "Human",
   "arm5e.sheet.mundane": "Mundane",
   "arm5e.sheet.entity": "Entity",
@@ -1058,7 +1062,7 @@
 
   "arm5e.time.minYear": "Minimum year",
   "arm5e.time.maxYear": "Maximum year",
-  "arm5e.time.troupSchedule": "Troup schedule",
+  "arm5e.time.troupeSchedule": "Troupe schedule",
   "arm5e.activity.current": "Season {current} of {total}",
   "arm5e.activity.eventType": "Type of event",
   "arm5e.activity.activity": "Activity",
@@ -1210,5 +1214,6 @@
   "arm5e.generic.nothing": "Nothing",
   "arm5e.generic.custom": "Custom",
   "arm5e.generic.begins": "Begins",
-  "arm5e.generic.ends": "Ends"
+  "arm5e.generic.ends": "Ends",
+  "arm5e.generic.all": "All"
 }

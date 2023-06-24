@@ -1,4 +1,4 @@
-## 2.1.0.10, Mercere, first to join
+## 2.1.0.11, Mercere, first to join
 
 ### Features & changes
 
@@ -12,6 +12,7 @@
 - Updated French version by orneen
 - Filters for diary entries
 - New custom icons for abilities, activities, vices and virtues (thanks to Nestua)
+  - Updated compendiums accordingly
 - Multi-seasons activities (spell invention)
   - Scheduling
 - Select on focus for input fields
@@ -23,6 +24,7 @@
 - New setting for starting the year in winter.
 - Active effect to change the age a character starts aging (eg: strong faerie blood, curse, spell)
 - New troup schedule dialog to see the activities of a group of characters during the year
+  - With filters
 - [Technical] hundreds of non-regression tests added for scheduling.
 - Updated French version by Orneen
 - Updated Portuguese (BR) version by Ramon Alves
@@ -47,6 +49,7 @@
 - Setting the world date in the past will put the actor's date back to that date if it is now in the future.
 - Added Diedne house to the list of Hermetic Houses
 - Delay rolling and checks for activities validity to when they are applied
+- New active effect to add a flat bonus to xp to supernatural abilities (via Supernatural virtues)
 
 ### Bug fixes
 

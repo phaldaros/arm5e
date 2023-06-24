@@ -8,7 +8,7 @@
       <div class="grid grid-2col">
         <div class="resource">
           <label for="system.type" class="header-label">{{localize "arm5e.sheet.type"}}</label>
-          <select name="system.type" data-type="String">
+          <select name="system.type" data-type="String" class="change-VFType">
             {{#select system.type}} {{#each config.virtueFlawTypes.available as |type key|}}
                 <option value="{{key}}">{{localize label}}</option>
               {{/each}} {{/select}}

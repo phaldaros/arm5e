@@ -922,6 +922,13 @@ export class ArM5eActorSheet extends ActorSheet {
       entry.sheet.render(true);
     });
 
+    html.find(".study-labtext").click(async (ev) => {
+      const li = $(ev.currentTarget).parents(".item");
+      const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
+      if (!this.actor._isMagus()) return;
+      await item._studyLabText(item, ev);
+    });
+
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 
