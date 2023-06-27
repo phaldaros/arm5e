@@ -65,6 +65,18 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
     }
   }
 
+  static getDefault(itemData) {
+    let res = itemData;
+    if (itemData.system) {
+      if (itemData.system.type == undefined) {
+        res.system.type = "general";
+      }
+    } else {
+      res = { system: { type: "general" } };
+    }
+    return res;
+  }
+
   static migrateData(data) {
     // if (data.description == null) {
     //   data.description = "";

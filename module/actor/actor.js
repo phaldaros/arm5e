@@ -124,18 +124,8 @@ export class ArM5ePCActor extends Actor {
         this.system.arts.forms[key].deficient = false;
       }
 
-      this.system.stances.gestures = {
-        exaggerated: 1,
-        bold: 0,
-        subtle: -2,
-        motionless: -5
-      };
-      this.system.stances.voice = {
-        loud: 1,
-        firm: 0,
-        quiet: -5,
-        silent: -10
-      };
+      this.system.stances.gestures = CONFIG.ARM5E.magic.stances.gestures;
+      this.system.stances.voice = CONFIG.ARM5E.magic.stances.voice;
     }
 
     this.system.bonuses.labActivities = {
@@ -168,7 +158,14 @@ export class ArM5ePCActor extends Actor {
       }
     }
 
-    this.system.bonuses.traits = { soak: 0, aging: 0, wounds: 0, fatigue: 0, agingStart: 0 };
+    this.system.bonuses.traits = {
+      soak: 0,
+      aging: 0,
+      wounds: 0,
+      fatigue: 0,
+      agingStart: 0,
+      recovery: 0
+    };
 
     this.system.bonuses.activities = {
       practice: 0,

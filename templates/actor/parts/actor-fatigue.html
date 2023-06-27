@@ -34,8 +34,14 @@
   </div>
 
   <div class="flex-group-left backSection padding12">
-    <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
-
+    <div class="flexrow">
+      <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
+      <!-- <img class="clickable recovery-start" src="systems/arm5e/assets/icons/recovery.svg" title="Wounds recovery"
+        style="max-width:30px" /> -->
+      <!-- <a class="recovery clickable" title="Wounds recovery" style="font-size: 16pt;">
+          <i class="icon-Icon_Aging2"></i>
+        </a> -->
+    </div>
     <div class="flexrow flex-group-left">
       <span class="flex07"><br /></span>
       <span class="bold flex07">{{localize config.character.wounds.labels.number}}</span>

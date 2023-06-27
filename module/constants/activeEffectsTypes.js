@@ -558,6 +558,12 @@ export default {
         key: "system.bonuses.traits.agingStart",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
+      },
+      recovery: {
+        label: "arm5e.activity.recovery",
+        key: "system.bonuses.traits.recovery",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
       }
     }
   },
