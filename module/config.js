@@ -1942,6 +1942,20 @@ ARM5E.magic.penetration = {
   }
 };
 
+ARM5E.magic.stances = {
+  gestures: {
+    exaggerated: 1,
+    bold: 0,
+    subtle: -2,
+    motionless: -5
+  },
+  voice: {
+    loud: 1,
+    firm: 0,
+    quiet: -5,
+    silent: -10
+  }
+};
 ARM5E.item = {};
 
 ARM5E.item.costs = {
@@ -2678,5 +2692,34 @@ ARM5E.generic.sourcesTypes = {
   },
   Hook: {
     label: "arm5e.sheet.source.Hooks"
+  }
+};
+
+ARM5E.recovery = {
+  wounds: {
+    light: {
+      stability: 4,
+      improvement: 10,
+      interval: "week",
+      icon: "systems/arm5e/assets/icons/recovery/light.svg"
+    },
+    medium: {
+      stability: 6,
+      improvement: 12,
+      interval: "month",
+      icon: "systems/arm5e/assets/icons/recovery/medium.svg"
+    },
+    heavy: {
+      stability: 9,
+      improvement: 15,
+      interval: "season",
+      icon: "systems/arm5e/assets/icons/recovery/heavy.svg"
+    },
+    incap: {
+      stability: 1,
+      improvement: 9,
+      interval: "halfday",
+      icon: "systems/arm5e/assets/icons/recovery/incap.svg"
+    }
   }
 };

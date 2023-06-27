@@ -91,6 +91,10 @@
   content: "\0057";
   font-size: 19pt;
 }
+.icon-Tool_Journals:before {
+  content: "\0057";
+  padding-top: 0px;
+}
 .icon-Tool_Delete_Perdo2:before {
   content: "\0051";
   font-size: 19pt;

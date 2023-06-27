@@ -678,6 +678,21 @@ h4.window-title {
   position: relative;
 }
 
+.arm5e .sanatorium.sanatorium-sheet {
+  background-image: url("../assets/sanatorium/Background_Sanatorium.png");
+  background-repeat: repeat-y;
+}
+
+.arm5e .sanatorium-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 32pt;
+  height: 35px;
+  border: none;
+  margin-left: -64px;
+  color: rgb(135 38 22 / 100%);
+}
+
 .arm5e .calendar.calendar-sheet,
 .arm5e .astrolab.astrolab-sheet {
   background-image: url("../assets/astrolab/Astrolab_Background.png");
@@ -1729,6 +1744,10 @@ img.art-icon {
   box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
 }
 
+.arm5e .smallBackSection.wide {
+  min-width: 98px;
+}
+
 .arm5e .smallBackSection.editable {
   background-color: rgb(208 182 130 / 50%);
 }
@@ -1797,6 +1816,11 @@ img.art-icon {
 .marginsides10 {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.marginsides32 {
+  margin-left: 32px;
+  margin-right: 32px;
 }
 
 .arm5e .smallTitle {

@@ -41,6 +41,7 @@ import { quickMagic } from "../helpers/magic.js";
 import { UI, getConfirmation } from "../constants/ui.js";
 import { Schedule } from "../tools/schedule.js";
 import { createAgingDiaryEntry } from "../helpers/long-term-activities.js";
+import { Sanatorium } from "../tools/sanatorium.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -768,6 +769,11 @@ export class ArM5eActorSheet extends ActorSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+
+    html.find(".recovery-start").click(async (ev) => {
+      let input = getDataset(ev);
+      await Sanatorium.createDialog(this.actor);
+    });
 
     html.find(".schedule-aging").click(async (ev) => {
       let input = getDataset(ev);

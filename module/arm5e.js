@@ -139,6 +139,7 @@ Hooks.once("init", async function () {
   // UI customization
   CONFIG.ui.actors = ArM5eActorsDirectory;
   CONFIG.Item.sidebarIcon = "fas fa-sack-xmark";
+  CONFIG.JournalEntry.sidebarIcon = "icon-Tool_Journals";
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
   CONFIG.INHABITANTS_DEFAULT_ICONS =

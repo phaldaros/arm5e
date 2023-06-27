@@ -1173,6 +1173,11 @@
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
 
+  "arm5e.sanatorium.magicalHelp": "Magical help",
+  "arm5e.sanatorium.mundaneHelp": "Mundane help",
+  "arm5e.sanatorium.labHealth": "Sanctum help",
+  "arm5e.sanatorium.recoveryBonus": "Recovery bonus",
+
   "arm5e.book.tableContents": "Table of contents",
   "arm5e.book.summaLong": "Summa of level {level} and quality {quality} about",
   "arm5e.book.tractLong": "Tractatus of quality {quality} about",

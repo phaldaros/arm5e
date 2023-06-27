@@ -1,4 +1,4 @@
-## 2.1.0.11, Mercere, first to join
+## 2.1.0.12, Mercere, first to join
 
 ### Features & changes
 
