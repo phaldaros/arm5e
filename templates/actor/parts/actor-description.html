@@ -36,7 +36,7 @@
 
       <div class="flex-group-left backSection padding12">
         <label for="system.sigil" class="smallTitle">{{localize "arm5e.sheet.sigil"}}</label>
-        <div class="flex-group-left marginbot6" style="height: 140px">
+        <div class="flex-group-left marginbot6" style="height: auto; overflow-y: auto;max-height: 210px;">
           {{editor system.sigil.value target="system.sigil.value" button=true owner=owner engine="prosemirror" editable=editable}}
         </div>
       </div>
@@ -62,7 +62,7 @@
       <div class="flexrow">
         <label for="system.warping.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
       </div>
-      <div class="flex-group-left marginbot6" style="height: 150px">
+      <div class="flex-group-left marginbot6" style="height: auto; overflow-y: auto;max-height: 290px;">
         {{editor system.warping.effects target="system.warping.effects" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
     </div>
@@ -92,7 +92,7 @@
       <div class="flexrow">
         <label for="system.decrepitude.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
       </div>
-      <div class="flex-group-left marginbot6" style="height: 150px">
+      <div class="flex-group-left marginbot6" style="height: auto; overflow-y: auto;max-height: 210px;">
         {{editor system.decrepitude.effects target="system.decrepitude.effects" button=true owner=owner engine="prosemirror"
       editable=editable}}
       </div>

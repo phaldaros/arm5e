@@ -1315,9 +1315,15 @@ input[type="time"] {
 
 .arm5e .sheet-body .tab .editor {
   height: 90%;
-  min-height: 280px;
-  /* height: auto; */
+  min-height: 200px;
+  overflow-y: auto;
 }
+
+/* .arm5e .sheet-body .tab .editor-edit {
+  height: 90%;
+  min-height: 200px;
+  overflow-y: auto;
+} */
 
 .arm5e .diary-body {
   padding-top: 7px;
