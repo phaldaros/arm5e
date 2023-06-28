@@ -12,6 +12,19 @@ export class ArsLayer extends InteractionLayer {
 
   async _draw() {}
 
+  addListenersDialog(html) {
+    html.find('input[name="inputField"]').change((ev) => {
+      let v = parseInt(ev.currentTarget.value);
+      if (v < 1) ev.currentTarget.value = 1;
+      if (v > 20) ev.currentTarget.value = 20;
+    });
+
+    html.find(".resource-focus").focus((ev) => {
+      ev.preventDefault();
+      ev.currentTarget.select();
+    });
+  }
+
   static async selectAura() {
     const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
     const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
@@ -34,7 +47,7 @@ export class ArsLayer extends InteractionLayer {
       {
         title: game.i18n.localize("arm5e.sheet.aura"),
         content: html,
-        render: addListenersDialog,
+        render: this.addListenersDialog,
         buttons: {
           yes: {
             icon: "<i class='fas fa-check'></i>",

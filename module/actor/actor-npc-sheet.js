@@ -1,4 +1,4 @@
-import { log } from "../tools.js";
+import { getUuidInfo, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 
 /**
@@ -149,7 +149,7 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
         log(false, "Invalid drop");
         return false;
       }
-    } else if (type == "ability") {
+    } else if (item.type == "ability") {
       if (this.actor.hasSkill(item.system.key)) {
         ui.notifications.warn(
           `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${item.name}`
