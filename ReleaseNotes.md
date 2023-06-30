@@ -1,6 +1,9 @@
-## 2.1.0.13, Mercere, the Founder
+## 2.1.0.14, Mercere, the Founder
 
 ### Features & changes
+
+- Related actors (character,covenant,sanctum) are notified when one is updated.
+- Small cosmetic improvements left and right.
 
 ### Bug fixes
 
@@ -8,6 +11,7 @@
 - Fixed case problem in the intrigue ability default icon
 - It is again possible to edit auras
 - Drag and dropping Items on Covenants, NPCs and Beasts sheet no longer raises an error.
+- Drag and dropping Items with a non-default icon no longer reset them to the default one.
 
 ## 2.1.0.12, Mercere, first to join
 
