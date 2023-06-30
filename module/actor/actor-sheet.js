@@ -291,6 +291,8 @@ export class ArM5eActorSheet extends ActorSheet {
         if (cov.length > 0) {
           context.system.covenant.linked = true;
           context.system.covenant.actorId = cov[0].id;
+          const covenant = game.actors.get(cov[0].id);
+          this.actor.apps[covenant.sheet.appId] = covenant.sheet;
         } else {
           context.system.covenant.linked = false;
         }
@@ -352,6 +354,7 @@ export class ArM5eActorSheet extends ActorSheet {
         if (context.system.sanctum.linked) {
           let lab = game.actors.get(context.system.sanctum.actorId);
           if (lab) {
+            this.actor.apps[lab.sheet.appId] = lab.sheet;
             context.system.labtotal.quality = parseInt(lab.system.generalQuality.total);
             // store the specialties if the character is linked to a lab
             context.system.labtotals = { specialty: lab.system.specialty };

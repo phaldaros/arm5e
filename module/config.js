@@ -2720,6 +2720,12 @@ ARM5E.recovery = {
       improvement: 9,
       interval: "halfday",
       icon: "systems/arm5e/assets/icons/recovery/incap.svg"
+    },
+    dead: {
+      stability: 999,
+      improvement: 999,
+      interval: "instant",
+      icon: "systems/arm5e/assets/icons/skull.svg"
     }
   }
 };

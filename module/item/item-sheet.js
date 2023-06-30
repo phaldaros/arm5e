@@ -251,36 +251,17 @@ export class ArM5eItemSheet extends ItemSheet {
 
   async _changeAbilitykey(item, event) {
     event.preventDefault();
-    await this._updateIcon("system.key", event.target.value);
+    await this.item._updateIcon("system.key", event.target.value);
   }
 
   async _changeInhabitantCategory(item, event) {
     event.preventDefault();
-    await this._updateIcon("system.category", event.target.value);
+    await this.item._updateIcon("system.category", event.target.value);
   }
 
   async _changeVFType(item, event) {
     event.preventDefault();
-    await this._updateIcon("system.type", event.target.value);
-  }
-
-  async _updateIcon(key, value) {
-    if (CONFIG.Item.systemDataModels[this.item.type]?.getIcon) {
-      let currentDefIcon = CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item);
-      // if the current img is the default icon of the previous value, allow change
-      if (
-        this.item.img === currentDefIcon ||
-        this.item.img === ARM5E_DEFAULT_ICONS.MONO[this.item.type] ||
-        this.item.img === ARM5E_DEFAULT_ICONS.COLOR[this.item.type] ||
-        this.item.img === "icons/svg/mystery-man.svg" ||
-        this.item.img === "icons/svg/item-bag.svg"
-      ) {
-        await this.item.update({
-          img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, value),
-          [key]: value
-        });
-      }
-    }
+    await this.item._updateIcon("system.type", event.target.value);
   }
 
   async _onSelectDefaultCharacteristic(item, event) {

@@ -100,6 +100,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         context.system.covenant.linked = true;
         context.system.covenant.actorId = cov[0].id;
         context.covenant = game.actors.get(cov[0].id);
+        this.actor.apps[context.covenant.sheet.appId] = context.covenant.sheet;
         context.edition.aura = "readonly";
       } else {
         context.edition.aura = "";
@@ -122,6 +123,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         context.system.owner.linked = true;
         context.system.owner.actorId = per[0].id;
         context.owner = game.actors.get(per[0].id);
+        this.actor.apps[context.owner.sheet.appId] = context.owner.sheet;
         context.owner.magicTheory = context.owner.getAbilityStats("magicTheory");
         context.owner.apprentice =
           (context.owner.system.apprentice?.int ?? 0) +

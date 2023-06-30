@@ -90,6 +90,11 @@ export class ArM5ePCActor extends Actor {
           day: 21
         };
       }
+    } else if (this.type == "laboratory") {
+      this.system.aura = {
+        value: 0,
+        realm: ARM5E.REALM_TYPES.MUNDANE
+      };
     }
 
     if (this.type != "player" && this.type != "npc" && this.type != "beast") {

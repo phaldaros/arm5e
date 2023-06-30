@@ -19,10 +19,11 @@
     {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sanatorium.labHealth" 
         name="labHealth" attributes="readonly" value=modifiers.labHealth type="number" dtype="Number" classes="wide"}}
   </div>
-  <div class="flex-center marginsides32">
-    <input type="range" name="Days remaining" data-dtype="Number" value="daysLeft" min="0" max="92" step="1">
+  <div class="flex-center marginsides32 marginbot6 margintop6">
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
   </div>
-  <div class="sheet-body backSection marginsides32" style="height:auto;">
+  <div class="sheet-body backSection marginsides32 " style="height:auto;">
+
     <div class="flexcol" style="margin:10px">
       <div class="resource-content flexrow">
         <div class="resource-content flexrow flex-center flex-between margintop6">
@@ -53,6 +54,9 @@
           </div>
         {{/each}}
       </div>
+    </div>
+    <div class="flex-center marginsides10">
+      <input type="range" name="Days remaining" data-dtype="Number" value="{{daysLeft}}" min="0" max="92" step="1">
     </div>
   </div>
 

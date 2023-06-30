@@ -11,6 +11,7 @@ export class Sanatorium extends FormApplication {
   static async createDialog(actor) {
     const dialogData = { patient: actor };
     const sanatorium = new Sanatorium(dialogData, {}); // data, options
+    actor.apps[sanatorium.appId] = sanatorium;
     const res = await sanatorium.render(true);
   }
   /** @override */
@@ -23,11 +24,17 @@ export class Sanatorium extends FormApplication {
       height: "600"
     });
   }
+
+  onClose(app) {
+    if (app.object.patient) {
+      delete patient.apps[app.appId];
+    }
+  }
   async getData(options = {}) {
     const context = await super.getData().object;
     context.curYear = context.patient.system.datetime.year;
     context.curSeason = context.patient.system.datetime.season;
-
+    context.daysLeft = 30;
     const patient = context.patient;
     if (context.modifiers == undefined) {
       context.modifiers = {

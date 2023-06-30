@@ -93,7 +93,6 @@
 }
 .icon-Tool_Journals:before {
   content: "\0057";
-  padding-top: 0px;
 }
 .icon-Tool_Delete_Perdo2:before {
   content: "\0051";
@@ -136,4 +135,11 @@
 }
 .icon-Icon_Readspell:before {
   content: "\0061";
+}
+.icon-Icon_magic-chest:before {
+  content: "\0062";
+}
+.icon-Icon_Sanatorium:before {
+  content: "\0063";
+  font-size: 40pt;
 }

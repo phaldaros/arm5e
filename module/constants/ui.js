@@ -91,6 +91,7 @@ ARM5E_DEFAULT_ICONS.COLOR = {
   possessionsCovenant: "icons/commodities/currency/coins-plain-pouch-gold.webp",
   visSourcesCovenant: "icons/environment/wilderness/arch-stone.webp",
   visStockCovenant: "icons/commodities/currency/coin-oval-rune-copper.webp",
+  incomingSource: "icons/commodities/currency/coins-plain-pouch-gold.webp",
   laboratoryText: "icons/sundries/documents/blueprint-recipe-alchemical.webp",
   magicalEffect: "icons/sundries/documents/document-symbol-lightning-brown.webp",
   baseEffect: "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
