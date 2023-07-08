@@ -608,8 +608,27 @@ h4.window-title {
 }
 
 .calendar-season {
-  border: 1px solid #bbb;
+  border: 1px solid #444;
   margin: 2px;
+}
+
+.calendar-season.conflict {
+  background-color: rgb(135 38 22 / 50%);
+}
+
+.calendar-season.current {
+  background-color: rgb(51 120 34 / 50%);
+}
+
+.calendar-season.busy {
+  background-color: rgb(20 55 175/ 50%);
+}
+
+.calendar-season.busy.future,
+.calendar-season.conflict.future,
+.calendar-season.current.future,
+.calendar-season.future {
+  border: 1px dashed #bbb;
 }
 
 .schedule-update:disabled {

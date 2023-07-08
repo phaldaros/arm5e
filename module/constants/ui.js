@@ -11,10 +11,9 @@ UI.STYLES = {
   PUISSANT_ABILITY: 'style="box-shadow: 0 0 10px blue"',
   AFFINITY_ABILITY: 'style="box-shadow: 0 0 10px maroon"',
   COMBO_ABILITY: 'style="box-shadow: 0 0 10px purple"',
-  CALENDAR_BUSY: 'style="background-color:rgb(20 55 175/ 50%)"',
-  CALENDAR_CONFLICT: 'style="background-color:rgb(135 38 22 / 50%)"',
-  CALENDAR_CURRENT: 'style="background-color:rgb(51 120 34 / 50%)"',
-  CALENDAR_OTHER_CONFLICT: 'style="background-color:rgb(100 20 85 / 50%)"'
+  CALENDAR_BUSY: "busy",
+  CALENDAR_CURRENT: "current",
+  CALENDAR_CONFLICT: "conflict"
 };
 
 export const ARM5E_DEFAULT_ICONS = {};
