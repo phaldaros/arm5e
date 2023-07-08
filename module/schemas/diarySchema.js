@@ -534,27 +534,41 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     }
   }
   // input: list of activities of a season
-  static hasConflict(activities) {
+  static hasConflict(activities, current = undefined) {
+    if (current) {
+      activities.push(current);
+    }
     if (activities.length <= 1) {
       return false;
     }
-    if (
-      activities.filter((a) => {
-        return !ARM5E.activities.conflictExclusion.includes(a.type);
-      }).length > 1
-    ) {
-      return true;
-    }
-    let exposureCount = 0;
     for (let a of activities) {
       if (["none", "adventuring"].includes(a.type)) {
         continue;
       }
-      if (a.type === "exposure") {
-        exposureCount++;
-        if (exposureCount > 1) return true;
+
+      if (ARM5E.activities.duplicateAllowed.includes(a.type)) {
+        if (ARM5E.activities.conflictExclusion.includes(a.type)) {
+          if (activities.filter((e) => e.type != a.type).length > 1) {
+            return true;
+          }
+        }
+      } else {
+        // no duplicate
+        if (ARM5E.activities.conflictExclusion.includes(a.type)) {
+          if (activities.filter((e) => e.type == a.type).length > 1) {
+            return true;
+          }
+        } else {
+          if (
+            activities.filter((e) => !ARM5E.activities.conflictExclusion.includes(e.type)).length >
+            1
+          ) {
+            return true;
+          }
+        }
       }
     }
+    log(false, "NO CONFLICT");
     return false;
   }
 
@@ -575,6 +589,10 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
               return true;
             }
           }
+        }
+        // if conflict with others but not of the same type
+        if (conflicting && duplicateAllowed && this.activity === entry.system.activity) {
+          continue;
         }
 
         if (conflicting && !ARM5E.activities.conflictExclusion.includes(entry.system.activity)) {

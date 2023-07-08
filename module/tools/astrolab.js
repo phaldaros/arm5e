@@ -11,6 +11,10 @@ export class Astrolab extends FormApplication {
     });
   }
 
+  onClose(app) {
+    Hooks.off("arm5e-date-change");
+  }
+
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {

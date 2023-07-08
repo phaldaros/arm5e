@@ -29,6 +29,9 @@
                 <input type="checkbox" name="" {{checked this.selected}} class="selectedSeason"
                   data-year="{{../this.year}}" data-season="{{@key}}" data-selected="{{this.selected}}">
               {{/if}}
+            {{else}}
+              <div style="max-width: 25px; max-height: 25px; height: 25px; width: 25px;">
+              </div>
             {{/if}}
 
           </div>

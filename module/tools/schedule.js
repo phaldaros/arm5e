@@ -59,10 +59,10 @@ export class Schedule extends FormApplication {
       let year = {
         year: y,
         seasons: {
-          [CONFIG.SEASON_ORDER_INV[0]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[1]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[2]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[3]]: { selected: false, busy: false, others: [] }
+          [CONFIG.SEASON_ORDER_INV[0]]: { selected: false, conflict: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[1]]: { selected: false, conflict: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[2]]: { selected: false, conflict: false, others: [] },
+          [CONFIG.SEASON_ORDER_INV[3]]: { selected: false, conflict: false, others: [] }
         }
       };
       let thisYearSchedule = actorSchedule.filter((e) => {
@@ -71,7 +71,7 @@ export class Schedule extends FormApplication {
       for (let s of Object.keys(ARM5E.seasons)) {
         if (thisYearSchedule.length > 0) {
           if (thisYearSchedule[0].seasons[s].length > 0) {
-            year.seasons[s].busy = DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s]);
+            year.seasons[s].conflict = DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s]);
             for (let busy of thisYearSchedule[0].seasons[s]) {
               let tmpStyle = busy.applied ? "" : notAppliedStyle;
               year.seasons[s].others.push({
@@ -107,7 +107,7 @@ export class Schedule extends FormApplication {
       for (let event of Object.values(y.seasons)) {
         event.edition = true;
         if (event.others.length > 0) {
-          if (!event.busy) {
+          if (!event.conflict) {
             event.style = UI.STYLES.CALENDAR_BUSY;
           } else {
             event.style = UI.STYLES.CALENDAR_CONFLICT;
@@ -129,7 +129,10 @@ export class Schedule extends FormApplication {
       event.stopPropagation();
 
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
-      if (item) item.sheet.render(true, { focus: true });
+      if (item) {
+        item.apps[this.appId] = this;
+        item.sheet.render(true, { focus: true });
+      }
     });
 
     // Add Inventory Item

@@ -70,6 +70,7 @@ const DEFAULT_ROLL_PROPERTIES = {
   },
   CHAR: {
     MODE: 19, // STRESS + SIMPLE + UNCONSCIOUS
+    MODIFIERS: 1,
     TITLE: "arm5e.dialog.title.rolldie"
   },
   SPELL: {

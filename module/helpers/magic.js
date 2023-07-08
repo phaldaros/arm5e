@@ -1,6 +1,7 @@
 import { getActorsFromTargetedTokens } from "./tokens.js";
 import { chatContestOfMagic, chatContestOfPower } from "./chat.js";
 import { log } from "../tools.js";
+import { getAuraModifier } from "./aura.js";
 
 const VOICE_AND_GESTURES_ICONS = {
   voice: "icons/skills/trades/music-singing-voice-blue.webp",
@@ -54,14 +55,14 @@ export class QuickMagic extends FormApplication {
 
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".rollable").click(async event => {
+    html.find(".rollable").click(async (event) => {
       event.preventDefault();
       let dataset = event.currentTarget.dataset;
       dataset.technique = this.object.technique;
       dataset.form = this.object.form;
       await this.object.actor.sheet._onRoll(dataset);
     });
-    html.find(".voice-and-gestures").change(async event => {
+    html.find(".voice-and-gestures").change(async (event) => {
       event.preventDefault();
       const name = $(event.target).attr("effect");
       await this.object.actor.selectVoiceAndGestures(name, $(event.target).val());
@@ -227,8 +228,8 @@ export function computeRawCastingTotal(effect, owner, options = {}) {
   let label = "";
   let deficientTech = false;
   let deficientForm = false;
-  let techReq = Object.entries(effectData["technique-req"]).filter(r => r[1] === true);
-  let formReq = Object.entries(effectData["form-req"]).filter(r => r[1] === true);
+  let techReq = Object.entries(effectData["technique-req"]).filter((r) => r[1] === true);
+  let formReq = Object.entries(effectData["form-req"]).filter((r) => r[1] === true);
   if (owner.system.arts.techniques[effectData.technique.value].deficient) {
     deficientTech = true;
   }
@@ -236,7 +237,7 @@ export function computeRawCastingTotal(effect, owner, options = {}) {
     deficientForm = true;
   }
   if (techReq.length > 0) {
-    techReq.forEach(key => {
+    techReq.forEach((key) => {
       if (owner.system.arts.techniques[key[0]].deficient) {
         deficientTech = true;
       }
@@ -248,7 +249,7 @@ export function computeRawCastingTotal(effect, owner, options = {}) {
     tech = owner.system.arts.techniques[effectData.technique.value].finalScore;
   }
   if (formReq.length > 0) {
-    formReq.forEach(key => {
+    formReq.forEach((key) => {
       if (owner.system.arts.forms[key[0]].deficient) {
         deficientForm = true;
       }
@@ -283,7 +284,7 @@ export function computeRawCastingTotal(effect, owner, options = {}) {
 async function noFatigue(actor) {
   if (actor._isMagus()) {
     actor.rollData.useFatigue = false;
-    actor.rollData.magic.divide = 5;
+    actor.rollData.magic.divide = actor.system.bonuses.arts.spontDividerNoFatigue;
   }
 }
 
@@ -293,7 +294,7 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
     return false;
   }
   if (actorCaster.rollData.type != "power") {
-    actorsTargeted.forEach(async actorTarget => {
+    actorsTargeted.forEach(async (actorTarget) => {
       const successOfMagic = calculateSuccessOfMagic({
         actorTarget,
         actorCaster,
@@ -303,7 +304,7 @@ async function checkTargetAndCalculateResistance(actorCaster, roll, message) {
       await chatContestOfMagic({ actorCaster, actorTarget, ...successOfMagic });
     });
   } else {
-    actorsTargeted.forEach(async actorTarget => {
+    actorsTargeted.forEach(async (actorTarget) => {
       const successOfPower = calculateSuccessOfPower({
         actorTarget,
         actorCaster,
@@ -359,14 +360,14 @@ function calculateResistance(actor, form) {
   let auraMod = 0;
   // TODO, do a better job for player aligned to a realm
   if (actor._hasMight()) {
-    auraMod = actor.getActiveEffectValue("spellcasting", "aura");
+    auraMod = getAuraModifier(actor, actor.system.realmAlignment);
     magicResistance += parseInt(auraMod);
   }
 
   let formScore = 0;
   if (arts) {
     const formKey = Object.keys(arts.forms).filter(
-      key => arts.forms[key].label.toUpperCase() === form.toUpperCase()
+      (key) => arts.forms[key].label.toUpperCase() === form.toUpperCase()
     )[0];
     formScore = arts.forms[formKey].finalScore || 0;
   }

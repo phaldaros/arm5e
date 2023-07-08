@@ -296,7 +296,7 @@ const isEffectObsolete = function (effect) {
     if (
       effect.flags.arm5e?.type &&
       effect.flags.arm5e.type[0] === "spellcasting" &&
-      ["gestures", "voice"].includes(effect.flags.arm5e.subtype[0])
+      ["gestures", "voice", "aura"].includes(effect.flags.arm5e.subtype[0])
     ) {
       if (effect.flags.arm5e.value) {
         return true;
@@ -645,8 +645,10 @@ export const migrateActorData = async function (actorDoc, actorItems) {
       let toDelete = [];
       for (let e of actor.effects) {
         if (isEffectObsolete(e)) {
-          toDelete.push(e._id);
-          continue;
+          if (actorDoc instanceof ArM5ePCActor) {
+            toDelete.push(e._id);
+            continue;
+          }
         }
         const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
 
@@ -801,6 +803,7 @@ export const migrateActiveEffectData = async function (effectData) {
   } else {
     let options = effectData.flags.arm5e.option;
     let subtypes = effectData.flags.arm5e.subtype;
+    let types = effectData.flags.arm5e.type;
     let changes = [];
     let idx = 0;
     let needUpdate = false;
@@ -818,12 +821,18 @@ export const migrateActiveEffectData = async function (effectData) {
       } else if (
         ch.key === "system.bonuses.arts.voice" ||
         ch.key === "system.bonuses.arts.gestures" ||
-        (ch.key === "system.bonuses.arts.spellcasting" && subtypes[idx] === "gesture")
+        (ch.key === "system.bonuses.arts.spellcasting" && subtypes[idx] === "gesture") ||
+        (types[idx] == "spellcasting" && subtypes[idx] === "aura")
       ) {
         // delete those old effects
+
+        types.splice(idx, 1);
+        subtypes.splice(idx, 1);
+        options.splice(idx, 1);
         idx++;
         needUpdate = true;
         continue;
+      } else if (types[idx] == "spellcasting" && subtypes[idx] === "aura") {
       }
       changes.push(ch);
       idx++;
@@ -831,6 +840,7 @@ export const migrateActiveEffectData = async function (effectData) {
     if (needUpdate) {
       effectUpdate["flags.arm5e.option"] = options;
       effectUpdate["flags.arm5e.subtype"] = subtypes;
+      effectUpdate["flags.arm5e.type"] = types;
       effectUpdate["changes"] = changes;
     }
   }

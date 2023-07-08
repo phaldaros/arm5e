@@ -220,7 +220,7 @@ Hooks.once("ready", async function () {
   });
 
   Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
-  Hooks.on("dropCanvasData", (canvas, data) => onDropOnCanvas(canvas, data));
+  Hooks.on("dropCanvasData", async (canvas, data) => onDropOnCanvas(canvas, data));
 
   if (game.user.isGM) {
     // Determine whether a system migration is required and feasible

@@ -154,6 +154,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       context.planning.modifiers.apprentice = 0;
     }
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
+
+    // const hasSpecificAuraRealm =
+    //   ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.actor.effects, "auraRealm")
+    //     .length > 0;
+    // const hasSpecificAuraLevel =
+    //   ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.actor.effects, "auraLevel")
+    //     .length > 0;
+    // if (hasSpecificAuraRealm || hasSpecificAuraLevel) {
+    // } else
     if (context.system.covenant.linked) {
       context.planning.modifiers.aura = Number(context.covenant.system.levelAura);
       // TODO fix covenant date

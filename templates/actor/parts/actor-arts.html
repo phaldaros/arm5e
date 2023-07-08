@@ -23,8 +23,7 @@
             <div>
               <div class="flexrow marginbot4">
                 <span class="flexrow fontSize10 rollable" name="system.arts.technique.{{key}}.label" data-roll="spont"
-                  data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" data-technique="{{key}}"
-                  data-divide="2" data-usefatigue="true">
+                  data-technique="{{key}}" data-usefatigue="true">
                   {{label}}
                 </span>
                 <div class="flexrow">
@@ -68,8 +67,7 @@
             <div>
               <div class="flexrow marginbot4">
                 <span class="flexrow fontSize10 rollable" name="system.arts.forms.{{key}}.label" data-roll="spont"
-                  data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" data-form="{{key}}"
-                  data-divide="2">
+                  data-form="{{key}}">
                   {{label}}&nbsp;({{ form.magicResistance }})
                 </span>
                 <div class="flexrow">
@@ -127,8 +125,7 @@
         data-attribute="{{id}}">
         <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
-          <span class="flexrow item-title width4 rollable" data-roll="spell" data-id="{{item._id}}"
-            data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" name="item.name">
+          <span class="flexrow item-title width4 rollable" data-roll="spell" data-id="{{item._id}}" name="item.name">
             {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.system.level}})
             {{#if (eq item.system.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
           </span>
@@ -176,8 +173,7 @@
         <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
           <span class="flexrow item-title width4 rollable" data-roll="magic" data-id="{{item._id}}"
-            data-modifier="{{ item.system.bonus }}" data-name="{{item.name}}" data-divide="2" data-usefatigue="true"
-            data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}" name="item.name">
+            data-modifier="{{ item.system.bonus }}" data-name="{{item.name}}" data-usefatigue="true" name="item.name">
             {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.system.level}})
             {{#if (eq item.system.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
           </span>
@@ -221,7 +217,7 @@
           <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
           <div class="flexrow flex-center">
             <span class="flexrow item-title width4 clickable power-use" name="item.name" data-id="{{item._id}}"
-              data-roll="power" data-bonus-active-effects="{{ ../system.bonuses.arts.spellcasting }}">
+              data-roll="power">
               {{item.name}}
             </span>
             <span class="bold" name="item.name">

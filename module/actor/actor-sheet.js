@@ -611,7 +611,9 @@ export class ArM5eActorSheet extends ActorSheet {
       // activities
       let diaryFilters = context.userData.filters.events.diaryEvents;
       log(false, "Events filter: " + JSON.stringify(diaryFilters));
-      let diaryCopy = foundry.utils.deepClone(context.system.diaryEntries);
+      let diaryCopy = context.system.diaryEntries.map((e) => {
+        return e.toObject();
+      });
       let filteredActivities = diaryEntryFilter(diaryFilters, diaryCopy);
       if (diaryFilters.expanded) {
         context.ui.diaryFilterVisibility = "";
