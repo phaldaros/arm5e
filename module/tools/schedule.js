@@ -59,16 +59,42 @@ export class Schedule extends FormApplication {
       let year = {
         year: y,
         seasons: {
-          [CONFIG.SEASON_ORDER_INV[0]]: { selected: false, conflict: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[1]]: { selected: false, conflict: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[2]]: { selected: false, conflict: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[3]]: { selected: false, conflict: false, others: [] }
+          [CONFIG.SEASON_ORDER_INV[0]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[1]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[2]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[3]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          }
         }
       };
       let thisYearSchedule = actorSchedule.filter((e) => {
         return e.year == y;
       });
       for (let s of Object.keys(ARM5E.seasons)) {
+        if (
+          y > data.curYear ||
+          (y == data.curYear && CONFIG.SEASON_ORDER[data.curSeason] < CONFIG.SEASON_ORDER[s])
+        ) {
+          year.seasons[s].future = true;
+        }
         if (thisYearSchedule.length > 0) {
           if (thisYearSchedule[0].seasons[s].length > 0) {
             year.seasons[s].conflict = DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s]);
@@ -106,12 +132,16 @@ export class Schedule extends FormApplication {
     for (let y of data.selectedDates) {
       for (let event of Object.values(y.seasons)) {
         event.edition = true;
+        event.style = "";
         if (event.others.length > 0) {
           if (!event.conflict) {
             event.style = UI.STYLES.CALENDAR_BUSY;
           } else {
             event.style = UI.STYLES.CALENDAR_CONFLICT;
           }
+        }
+        if (event.future) {
+          event.style += " future";
         }
       }
     }

@@ -109,7 +109,10 @@ export class ActivitySchedule extends FormApplication {
         return e.year == y;
       });
       for (let s of Object.keys(ARM5E.seasons)) {
-        if (y >= data.curYear && s == data.curSeason) {
+        if (
+          y > data.curYear ||
+          (y == data.curYear && CONFIG.SEASON_ORDER[data.curSeason] < CONFIG.SEASON_ORDER[s])
+        ) {
           year.seasons[s].future = true;
         }
         // flag current activity schedule
@@ -159,13 +162,17 @@ export class ActivitySchedule extends FormApplication {
     let activityConflicting = false;
     for (let y of data.selectedDates) {
       for (let event of Object.values(y.seasons)) {
+        event.style = "";
         if (event.selected) {
           event.edition = true;
           if (event.conflict) {
-            event.style = UI.STYLES.CALENDAR_OTHER_CONFLICT;
+            event.style = UI.STYLES.CALENDAR_CONFLICT;
             activityConflicting = true;
           } else {
             event.style = UI.STYLES.CALENDAR_CURRENT;
+          }
+          if (event.future) {
+            event.style += " future";
           }
         } else {
           if (event.others.length > 0) {
@@ -181,10 +188,13 @@ export class ActivitySchedule extends FormApplication {
             if (!event.conflict) {
               event.style = UI.STYLES.CALENDAR_BUSY;
             } else {
-              event.style = UI.STYLES.CALENDAR_OTHER_CONFLICT;
+              event.style = UI.STYLES.CALENDAR_CONFLICT;
             }
           } else {
             event.edition = true;
+          }
+          if (event.future) {
+            event.style += " future";
           }
           if (data.selectedCnt == data.activity.system.duration) {
             event.edition = false;

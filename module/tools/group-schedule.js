@@ -96,7 +96,7 @@ export class GroupSchedule extends FormApplication {
           if (!event.busy) {
             event.style = UI.STYLES.CALENDAR_BUSY;
           } else {
-            event.style = UI.STYLES.CALENDAR_OTHER_CONFLICT;
+            event.style = UI.STYLES.CALENDAR_CONFLICT;
           }
         }
       }

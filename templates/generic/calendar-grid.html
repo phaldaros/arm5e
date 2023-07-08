@@ -14,11 +14,10 @@
       <label for="year" class="smallTitle" style="font-size:16pt">{{this.year}}</label>
       <div class="flexrow">
         {{#each this.seasons }}
-          <div class="calendar-season flexrow" {{{this.style}}}>
+          <div class="calendar-season {{this.style}} flexrow">
             <div class="flexrow">
               {{#each this.others}}
-                <div class="vignette" data-id="{{this.id}}" {{{this.style}}}><img src="{{this.img}}"
-                    title="{{this.name}}" /> </div>
+                <div class="vignette" data-id="{{this.id}}"><img src="{{this.img}}" title="{{this.name}}" /> </div>
               {{/each}}
             </div>
             {{#if this.edition}}
