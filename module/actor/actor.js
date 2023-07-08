@@ -129,8 +129,8 @@ export class ArM5ePCActor extends Actor {
         this.system.arts.forms[key].deficient = false;
       }
 
-      this.system.stances.gestures = CONFIG.ARM5E.magic.stances.gestures;
-      this.system.stances.voice = CONFIG.ARM5E.magic.stances.voice;
+      this.system.stances.gestures = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.gestures);
+      this.system.stances.voice = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.voice);
     }
 
     this.system.bonuses.labActivities = {
@@ -162,6 +162,10 @@ export class ArM5ePCActor extends Actor {
         }
       }
     }
+    this.system.penalties = {
+      activityDivider: 1,
+      activityBlocker: false
+    };
 
     this.system.bonuses.traits = {
       soak: 0,
@@ -441,7 +445,7 @@ export class ArM5ePCActor extends Actor {
       this.system.bonuses.arts.spellcasting +=
         (this.system.stances.voice[system.stances.voiceStance] || 0) +
         (this.system.stances.gestures[system.stances.gesturesStance] || 0);
-
+      log(false, `Bonus spellcasting: ${this.system.bonuses.arts.spellcasting}`);
       if (system.laboratory === undefined) {
         system.laboratory = {};
       }
@@ -1397,7 +1401,6 @@ export class ArM5ePCActor extends Actor {
     }
     await this.update(updateData, {});
   }
-
   async addActiveEffect(name, type, subtype, value, option = null, icon) {
     if (Object.keys(ACTIVE_EFFECTS_TYPES).includes(type)) {
       if (Object.keys(ACTIVE_EFFECTS_TYPES[type].subtypes).includes(subtype)) {
@@ -1719,16 +1722,6 @@ export class ArM5ePCActor extends Actor {
     }
   }
 
-  // TODO improve: what should happen if more that one effect is returned?
-  getActiveEffectValue(type, subtype) {
-    const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.effects, subtype);
-    if (ae.length) {
-      log(false, ae);
-      return ae[0].changes[0].value;
-    }
-    return 0;
-  }
-
   hasSkill(key) {
     if (key == "") return false;
 
@@ -1802,7 +1795,7 @@ export class ArM5ePCActor extends Actor {
   }
 
   // IDEA: check if the sheet is not null and filter the system activities instead.
-  getSchedule(min, max, excludedActivities = [], excludedIds = [], season) {
+  getSchedule(min, max, excludedActivities = [], excludedIds = [], season = undefined) {
     let res = [];
     const activitiesMap = new Map();
     for (let entry of this.system.diaryEntries) {
@@ -1831,7 +1824,12 @@ export class ArM5ePCActor extends Actor {
               }
             } else {
               if (!activitiesMap.has(date.year)) {
-                activitiesMap.set(date.year, { winter: [], autumn: [], summer: [], spring: [] });
+                activitiesMap.set(date.year, {
+                  [CONFIG.SEASON_ORDER_INV[3]]: [],
+                  [CONFIG.SEASON_ORDER_INV[2]]: [],
+                  [CONFIG.SEASON_ORDER_INV[1]]: [],
+                  [CONFIG.SEASON_ORDER_INV[0]]: []
+                });
               }
               activitiesMap.get(date.year)[date.season].push({
                 id: entry._id,

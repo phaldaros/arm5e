@@ -1,4 +1,22 @@
-## 2.1.0.14, Mercere, the Founder
+## 2.1.0.16, Mercere, the Magus
+
+### Features & changes
+
+- Overhaul of the aura active effects
+  - auras now impact rolls of supernatural abilities
+- Spell invention activity is now temporary allowed to have duplicates in the same season
+- It is now possible to delete a owned diary entry from its sheet.
+
+### Bug fixes
+
+- [technical] Removed a memory leak in astrolabium lifecycle
+- Characteristic rolls are again impacted by wounds and fatigue penalties
+- Dropping a new token on the canvas now properly apply an aura effect if any
+- Gestures and voice spellcasting stances are now properly computed when under active effect.
+- [technical] refactoring of activity conflict detection + enhanced non-regression tests.
+- Fixed event filters
+
+## 2.1.0.15, Mercere, the Founder
 
 ### Features & changes
 

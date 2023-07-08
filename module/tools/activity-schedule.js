@@ -1,24 +1,27 @@
 import { ARM5E } from "../config.js";
 import { UI } from "../constants/ui.js";
+import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { debug, getDataset, log } from "../tools.js";
 import { compareEvents } from "./time.js";
 
-export class Calendar extends FormApplication {
+export class ActivitySchedule extends FormApplication {
   constructor(data, options) {
     super(data, options);
     this.object.displayYear = null;
     this.object.dates = this.object.activity.system.dates;
-
     Hooks.on("arm5e-date-change", (date) => {
       this.render(true);
     });
+  }
+  onClose(app) {
+    Hooks.off("arm5e-date-change");
   }
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "calendar-sheet"],
-      title: "Calendar",
-      template: "systems/arm5e/templates/generic/calendar.html",
+      title: "Activity schedule",
+      template: "systems/arm5e/templates/generic/activity-schedule.html",
       width: "600",
       height: "790",
       submitOnChange: false,
@@ -57,28 +60,49 @@ export class Calendar extends FormApplication {
       data.displayYear + YEARS_FORWARD,
       dates.length ? dates[dates.length - 1].year : 0
     );
-    let exclusion = ARM5E.activities.conflictExclusion;
-    if (data.activity.system.activity === "exposure") {
-      exclusion = ["aging", "adventuring", "none"];
-    } else if (data.activity.system.activity === "aging") {
-      exclusion = ["adventuring", "exposure", "none"];
-    }
-    const actorSchedule = data.actor.getSchedule(MIN_YEAR, MAX_YEAR, exclusion, [data.activity.id]);
+    // let exclusion = ARM5E.activities.conflictExclusion;
+    // let duplicate = ARM5E.activities.duplicateAllowed;
+    // if (data.activity.system.activity === "exposure") {
+    //   exclusion = ["aging", "adventuring", "none"];
+    // } else if (data.activity.system.activity === "aging") {
+    //   exclusion = ["adventuring", "exposure", "none"];
+    // }
+    const actorSchedule = data.actor.getSchedule(MIN_YEAR, MAX_YEAR, [], [data.activity.id]);
 
     let dateIndex = 0;
     data.selectedCnt = 0;
-    let conflict = false;
     data.message = "";
+    const actType = data.activity.system.activity;
     const notAppliedStyle =
       'style="color: #000; box-shadow: 0 0 10px rgb(200, 0, 0); cursor: pointer;"';
     for (let y = MIN_YEAR; y <= MAX_YEAR; y++) {
       let year = {
         year: y,
         seasons: {
-          [CONFIG.SEASON_ORDER_INV[0]]: { future: false, selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[1]]: { future: false, selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[2]]: { future: false, selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[3]]: { future: false, selected: false, busy: false, others: [] }
+          [CONFIG.SEASON_ORDER_INV[0]]: {
+            future: false,
+            selected: false,
+            conflict: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[1]]: {
+            future: false,
+            selected: false,
+            conflict: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[2]]: {
+            future: false,
+            selected: false,
+            conflict: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[3]]: {
+            future: false,
+            selected: false,
+            conflict: false,
+            others: []
+          }
         }
       };
       let thisYearSchedule = actorSchedule.filter((e) => {
@@ -86,8 +110,9 @@ export class Calendar extends FormApplication {
       });
       for (let s of Object.keys(ARM5E.seasons)) {
         if (y >= data.curYear && s == data.curSeason) {
-          // TODO future style
+          year.seasons[s].future = true;
         }
+        // flag current activity schedule
         if (dateIndex < dates.length) {
           if (y == dates[dateIndex].year && s == dates[dateIndex].season) {
             dateIndex++;
@@ -97,14 +122,25 @@ export class Calendar extends FormApplication {
         }
         if (thisYearSchedule.length > 0) {
           if (thisYearSchedule[0].seasons[s].length > 0) {
-            if (
-              year.seasons[s].selected &&
-              !ARM5E.activities.conflictExclusion.includes(data.activity.system.activity)
-            ) {
-              year.seasons[s].busy = true;
-              conflict = true;
-              data.message = game.i18n.localize("arm5e.activity.msg.scheduleConflict");
+            let currentEntry;
+            if (!year.seasons[s].selected) {
+              if (DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s])) {
+                year.seasons[s].conflict = true;
+              }
+            } else {
+              currentEntry = {
+                id: data.activity.id,
+                img: data.activity.img,
+                name: data.activity.name,
+                applied: data.activity.system.done || data.activity.system.activity === "none",
+                type: data.activity.system.activity
+              };
+              if (DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s], currentEntry)) {
+                year.seasons[s].conflict = true;
+                data.message = game.i18n.localize("arm5e.activity.msg.scheduleConflict");
+              }
             }
+
             for (let busy of thisYearSchedule[0].seasons[s]) {
               let tmpStyle = busy.applied ? "" : notAppliedStyle;
               year.seasons[s].others.push({
@@ -120,12 +156,14 @@ export class Calendar extends FormApplication {
       data.selectedDates.push(year);
     }
     // styling
+    let activityConflicting = false;
     for (let y of data.selectedDates) {
       for (let event of Object.values(y.seasons)) {
         if (event.selected) {
           event.edition = true;
-          if (event.busy) {
-            event.style = UI.STYLES.CALENDAR_BUSY;
+          if (event.conflict) {
+            event.style = UI.STYLES.CALENDAR_OTHER_CONFLICT;
+            activityConflicting = true;
           } else {
             event.style = UI.STYLES.CALENDAR_CURRENT;
           }
@@ -133,13 +171,14 @@ export class Calendar extends FormApplication {
           if (event.others.length > 0) {
             if (
               enforceSchedule &&
-              !ARM5E.activities.conflictExclusion.includes(data.activity.system.activity)
+              !ARM5E.activities.conflictExclusion.includes(actType) &&
+              !ARM5E.activities.duplicateAllowed.includes(actType)
             ) {
               event.edition = false;
             } else {
               event.edition = true;
             }
-            if (event.others.length == 1) {
+            if (!event.conflict) {
               event.style = UI.STYLES.CALENDAR_BUSY;
             } else {
               event.style = UI.STYLES.CALENDAR_OTHER_CONFLICT;
@@ -155,7 +194,10 @@ export class Calendar extends FormApplication {
     }
 
     // log(false, `selectedDates: ${JSON.stringify(data.selectedDates)}`);
-    if (data.activity.system.duration != data.selectedCnt || (conflict && enforceSchedule)) {
+    if (
+      data.activity.system.duration != data.selectedCnt ||
+      (activityConflicting && enforceSchedule)
+    ) {
       data.updatePossible = "disabled";
     }
 
@@ -172,9 +214,12 @@ export class Calendar extends FormApplication {
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
-      if (item) item.sheet.render(true, { focus: true });
+      if (item) {
+        item.apps[this.appId] = this;
+        item.sheet.render(true, { focus: true });
+      }
     });
-    html.find(".calendar-update").click(async (event) => this._submitChanges(event));
+    html.find(".schedule-update").click(async (event) => this._submitChanges(event));
   }
   async _submitChanges(event) {
     for (let dependency of this.object.activity.system.externalIds) {

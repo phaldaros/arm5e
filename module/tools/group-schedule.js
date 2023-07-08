@@ -116,7 +116,10 @@ export class GroupSchedule extends FormApplication {
       const actor = game.actors.get(event.currentTarget.dataset.actorid);
       if (actor) {
         const item = actor.items.get(event.currentTarget.dataset.id);
-        if (item) item.sheet.render(true, { focus: true });
+        if (item) {
+          item.apps[this.appId] = this;
+          item.sheet.render(true, { focus: true });
+        }
       }
     });
     // Add activity Item

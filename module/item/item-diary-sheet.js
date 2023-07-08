@@ -6,7 +6,7 @@ import {
   getNewTitleForActivity
 } from "../helpers/long-term-activities.js";
 import { ArM5eItem } from "./item.js";
-import { Calendar } from "../tools/calendar.js";
+import { ActivitySchedule } from "../tools/activity-schedule.js";
 import { UI, getConfirmation } from "../constants/ui.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { ArM5eActorSheet } from "../actor/actor-sheet.js";
@@ -145,12 +145,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     let hasScheduleConflict =
       this.item.isOwned && this.item.system.hasScheduleConflict(this.item.actor);
 
-    if (hasScheduleConflict) {
+    if (hasScheduleConflict && context.enforceSchedule) {
       context.system.applyError = "arm5e.activity.msg.scheduleConflict";
       context.astrolabIconStyle = 'style="text-shadow: 0 0 10px red"';
-      if (context.enforceSchedule) {
-        context.system.applyPossible = false;
-      }
+      context.system.applyPossible = false;
     }
 
     if (context.system.done) {
@@ -307,6 +305,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     if (!context.system.done && !context.system.cappedGain) {
       context.system.sourceQuality += Number(context.system.aeBonus);
+    }
+    //
+    if (!context.system.done && this.actor.system.penalties.activityDivider != 1) {
+      context.system.sourceQuality /= this.actor.system.penalties.activityDivider;
+      context.system.applyError = "arm5e.activity.msg.sourceQualityHalved";
+      context.system.errorParam = "";
     }
     if (activityConfig.validation != null) {
       activityConfig.validation(context, this.actor, this.item);
@@ -1411,11 +1415,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
   async displayCalendar() {
     if (this.item.isOwned) {
-      const calendar = new Calendar({
+      const calendar = new ActivitySchedule({
         actor: this.item.actor,
         activity: {
           id: this.item.id,
           name: this.item.name,
+          img: this.item.img,
           system: foundry.utils.deepClone(this.item.system)
         }
       });

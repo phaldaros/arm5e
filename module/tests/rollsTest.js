@@ -414,7 +414,6 @@ export function registerRollTesting(quench) {
               bonusActiveEffects: magus.system.bonuses.arts.spellcasting, // tmp
               technique: "mu",
               form: "co",
-              divide: 2,
               usefatigue: true
             };
             magus.rollData.init(dataset, magus);
@@ -447,7 +446,6 @@ export function registerRollTesting(quench) {
               bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               technique: "pe",
               form: "co",
-              divide: 2,
               usefatigue: true
             };
             magus.rollData.init(dataset, magus);
@@ -479,7 +477,6 @@ export function registerRollTesting(quench) {
               roll: type,
               bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               id: ME1._id,
-              divide: 2,
               usefatigue: true
             };
             magus.rollData.init(dataset, magus);
@@ -512,7 +509,6 @@ export function registerRollTesting(quench) {
               roll: type,
               bonusActiveEffects: magus.system.bonuses.arts.spellcasting,
               id: ME2._id,
-              divide: 2,
               usefatigue: true
             };
             magus.rollData.init(dataset, magus);

@@ -12,6 +12,33 @@ export default {
       }
     }
   },
+  aura: {
+    category: "magic",
+    type: "aura",
+    label: "arm5e.sheet.magic.aura",
+    subtypes: {
+      auraRealm: {
+        label: "arm5e.sheet.activeEffect.subtypes.auraRealm",
+        key: "system.aura.realm",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 1,
+        choice: {
+          1: "arm5e.sheet.realm.magical",
+          2: "arm5e.sheet.realm.faeric",
+          3: "arm5e.sheet.realm.divine",
+          4: "arm5e.sheet.realm.infernal"
+        },
+        internal: true
+      },
+      auraLevel: {
+        label: "arm5e.sheet.activeEffect.subtypes.auraLevel",
+        key: "system.aura.level",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 3,
+        internal: true
+      }
+    }
+  },
   spellcasting: {
     category: "magic",
     type: "spellcasting",
@@ -64,14 +91,26 @@ export default {
         key: "system.stances.gestures.motionless",
         mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
         default: -2
-      },
-      aura: {
-        label: "arm5e.sheet.magic.aura",
-        key: "system.bonuses.arts.spellcasting",
-        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-        default: 0 //,
-        // option: "mundane"
       }
+      // spontDivider: {
+      //   label: "arm5e.sheet.activeEffect.subtypes.spontDivider",
+      //   key: "system.bonuses.arts.spontDivider",
+      //   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+      //   default: 2
+      // },
+      // spontDividerNoFatigue: {
+      //   label: "arm5e.sheet.activeEffect.subtypes.spontDividerNoFatigue",
+      //   key: "system.bonuses.arts.spontDividerNoFatigue",
+      //   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+      //   default: 5
+      // },
+      // aura: {
+      //   label: "arm5e.sheet.magic.aura",
+      //   key: "system.bonuses.arts.spellcasting",
+      //   mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+      //   default: 0 //,
+      //   // option: "mundane"
+      // }
       // optional: {
       //   label: "arm5e.sheet.activeEffect.types.optional",
       //   key: "system.bonuses.arts.spellcasting",
@@ -152,6 +191,13 @@ export default {
         key: "system.bonuses.activities.visStudy",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
+      },
+      divider: {
+        label: "arm5e.activity.visStudy",
+        key: "system.system.penalties.activityDivider",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: 2,
+        internal: true
       }
     }
   },

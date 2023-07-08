@@ -2242,7 +2242,7 @@ ARM5E.activities.generic = {
     validation: null,
     secondaryFilter: null,
     scheduling: {
-      duplicate: false,
+      duplicate: true,
       conflict: true
     }
   },

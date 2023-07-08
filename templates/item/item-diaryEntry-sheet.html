@@ -71,6 +71,13 @@
                 class=" icon-Tool_Astrolab"></i></a>
           </div>
         {{/unless}}
+        {{#if isOwned}}
+          <div class="flexrow ">
+            <a class="item-control item-delete-confirm"
+              title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.diary")}}'><i
+                class="icon-Icon_Delete_Hand_Gesture"></i></a>
+          </div>
+        {{/if}}
       </div>
     </div>
   </header>

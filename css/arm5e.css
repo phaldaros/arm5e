@@ -612,7 +612,7 @@ h4.window-title {
   margin: 2px;
 }
 
-.calendar-update:disabled {
+.schedule-update:disabled {
   background: rgba(95, 95, 95, 0.25);
 }
 

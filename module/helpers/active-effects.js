@@ -131,7 +131,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
 
   static findAllActiveEffectsWithTypeFiltered(effects, type) {
     const activeEffects = [];
-    let filtered = effects.filter(e => !e.disabled && e.getFlag("arm5e", "type").includes(type));
+    let filtered = effects.filter((e) => !e.disabled && e.getFlag("arm5e", "type").includes(type));
     for (let e of filtered) {
       e._getSourceName(); // Trigger a lookup for the source name
       let idx = 0;
@@ -162,7 +162,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   static findAllActiveEffectsWithSubtypeFiltered(effects, subtype) {
     let res = [];
     let filtered = effects.filter(
-      e => !e.disabled && e.getFlag("arm5e", "subtype").includes(subtype)
+      (e) => !e.disabled && e.getFlag("arm5e", "subtype").includes(subtype)
     );
 
     for (let e of filtered) {
