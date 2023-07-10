@@ -96,8 +96,6 @@ export class VisSchema extends foundry.abstract.DataModel {
     let dataset = {
       roll: "option",
       name: "",
-      option1: aura,
-      txtoption1: 0,
       physicalcondition: false,
       moredata: { id: this.parent._id, art: this.art, amount: amount, diaryId: item._id }
     };

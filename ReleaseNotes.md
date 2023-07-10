@@ -1,4 +1,4 @@
-## 2.1.0.16, Mercere, the Magus
+## 2.1.0.17, Mercere, the Magus
 
 ### Features & changes
 
@@ -16,7 +16,7 @@
 - [technical] refactoring of activity conflict detection + enhanced non-regression tests.
 - Fixed event filters
 
-## 2.1.0.15, Mercere, the Founder
+## 2.1.0.14, Mercere, the Founder
 
 ### Features & changes
 
