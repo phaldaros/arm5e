@@ -1057,6 +1057,7 @@ input[type="time"] {
   width: 100px;
   margin-right: 5px;
   margin-bottom: 5px;
+  object-fit: contain;
 }
 
 .arm5e .sheet-header .item-img {
@@ -1066,6 +1067,7 @@ input[type="time"] {
   height: 200px;
   margin-right: 16px;
   margin-bottom: 16px;
+  object-fit: contain;
 }
 
 .arm5e .sheet-header .header-fields {
