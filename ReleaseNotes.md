@@ -1,3 +1,11 @@
+## 2.1.0.18, Mercere, the Giftless
+
+### Bug fixes
+
+- The realm of the covenant aura is now properly taken into account for lab work and vis study.
+- Fix major bug in xp computation of ability with affinity
+- Characters incapacited can only roll for characteristics
+
 ## 2.1.0.17, Mercere, the Magus
 
 ### Features & changes
