@@ -1,0 +1,34 @@
+<form class="{{cssClass}}" autocomplete="off">
+<div>
+
+
+  <div class="form-group">
+    <label>{{localize "arm5e.sheet.realm.visible"}} <i class="fa-regular fa-circle-question" data-tooltip="{{localize 'arm5e.sheet.realm.visibleHint'}}"></i></label>
+    <input  type="checkbox" name="{{visible}}" {{checked aura.visible}}/>
+  </div>
+
+  {{#each aura.values}}
+    <div class="form-group">
+      <label>{{localize (concat "arm5e.sheet.realm." @key)}}</label>
+      <input type="number" name="{{@key}}" value="{{this}}" />
+    </div>
+  {{/each}}
+
+  <fieldset>
+    <legend>{{localize "arm5e.sheet.realm.nightModifier"}}</legend>
+    <div class="form-group">
+      <label>{{localize "arm5e.sheet.realm.divine"}}</label>
+      <input type="number" name="divineNightModifier" value="{{aura.nightModifier.divine}}" />
+    </div>
+    
+    <div class="form-group">
+      <label>{{localize "arm5e.sheet.realm.infernal"}}</label>
+      <input type="number" name="infernalNightModifier" value="{{aura.nightModifier.infernal}}" />
+    </div>
+  </fieldset>
+  
+
+</div>
+  <button type="submit">{{localize "Confirm"}}</button>
+
+</form>

@@ -3,6 +3,7 @@ import ArM5eActiveEffect from "./active-effects.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { log } from "../tools.js";
 import { getRollTypeProperties, ROLL_MODIFIERS } from "./rollWindow.js";
+import AuraHelper from "./aura-helper.js";
 
 export class ArM5eRollData {
   constructor(actor) {
@@ -374,35 +375,7 @@ export class ArM5eRollData {
     this.additionalData = {};
   }
 
-  getSpellcastingModifiers(actor, bonusActiveEffects) {
-    this.bonuses += Number(bonusActiveEffects);
-    const activeEffects = actor.effects;
-    let activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithSubtype(
-      activeEffects,
-      "aura"
-    );
-    let res = activeEffectsByType.map((activeEffect) => {
-      const label = activeEffect.label;
-      let value = 0;
-      if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
-        this.environment.hasAuraBonus = true;
-      }
-      activeEffect.changes
-        .filter((c, idx) => {
-          return (
-            c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
-            activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
-          );
-        })
-        .forEach((item) => {
-          value += Number(item.value);
-        });
-      return {
-        label,
-        value
-      };
-    });
-
+  getSpellcastingModifiers(actor) {
     if (actor._isMagus()) {
       res.push({
         label: game.i18n.localize(ARM5E.magic.mod.voice[actor.system.stances.voiceStance].mnemonic),
@@ -430,9 +403,6 @@ export class ArM5eRollData {
       const label = activeEffect.label;
       let value = 0;
       let optional = false;
-      if (activeEffect.getFlag("arm5e", "value")?.includes("AURA")) {
-        this.environment.hasAuraBonus = true;
-      }
       activeEffect.changes
         .filter((c, idx) => {
           return (

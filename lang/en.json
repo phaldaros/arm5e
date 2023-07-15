@@ -572,6 +572,9 @@
   "arm5e.sheet.realm.divine": "Divine",
   "arm5e.sheet.realm.infernal": "Infernal",
   "arm5e.sheet.realm.mundane": "Mundane",
+  "arm5e.sheet.realm.visible": "Visible",
+  "arm5e.sheet.realm.visibleHint": "Show or hide the aura modifier when rolling",
+  "arm5e.sheet.realm.nightModifier": "Night Modifier",
 
   "arm5e.sheet.authorship.author": "Author",
   "arm5e.sheet.authorship.label": "Authorship",
@@ -862,6 +865,7 @@
   "arm5e.dialog.confirmTransfer-question": "Are you sure you want to transfer the item named \"{name}\"?",
   "arm5e.dialog.confirmTransfer-amount": "Which quantity do you want to transfer? (Max {max})",
   "arm5e.dialog.confirmTransfer-info": "Use SHIFT to copy items as usual.",
+  "arm5e.dialog.confirmClearAura": "Are you sure you wish to clear the aura from this scene?",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
   "arm5e.notification.pendingCrisis": "This character has a pending aging crisis, no action possible... Resolve the crisis by clicking the skull next to the character name",
