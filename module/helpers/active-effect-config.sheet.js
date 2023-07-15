@@ -97,17 +97,17 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     if (!this.options.editable) return;
 
     // // Active Effect management
-    html.find(".effect-type").change(async ev => {
+    html.find(".effect-type").change(async (ev) => {
       const index = parseInt(ev.currentTarget.dataset.index);
       await this._setType($(ev.currentTarget).val(), index);
     });
 
-    html.find(".effect-subtype").change(async ev => {
+    html.find(".effect-subtype").change(async (ev) => {
       const index = parseInt(ev.currentTarget.dataset.index);
       await this._setSubtype(ev.currentTarget.selectedOptions[0].dataset.subtype, index);
     });
 
-    html.find(".effect-value").change(async ev => {
+    html.find(".effect-value").change(async (ev) => {
       const index = parseInt(ev.currentTarget.dataset.index);
       await this._setValue(ev.currentTarget.value, index);
     });
@@ -248,7 +248,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
       value: option
     };
     const html = await renderTemplate("systems/arm5e/templates/generic/textInput.html", dialogData);
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       new Dialog(
         {
           title: game.i18n.localize("arm5e.sheet.skill.abilityOption"),
@@ -257,7 +257,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
             yes: {
               icon: "<i class='fas fa-check'></i>",
               label: `Yes`,
-              callback: async html => {
+              callback: async (html) => {
                 let result = html.find('input[name="inputField"]');
                 if (result.val() !== "") {
                   chosenOption = result.val();

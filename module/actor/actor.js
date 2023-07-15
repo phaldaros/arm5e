@@ -16,7 +16,7 @@ import { migrateActorData } from "../migration.js";
 
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ArM5eRollData } from "../helpers/rollData.js";
-import { compareDiaryEntries } from "../tools/time.js";
+import { compareDiaryEntries, isInThePast } from "../tools/time.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -30,6 +30,14 @@ export class ArM5ePCActor extends Actor {
   constructor(data, context) {
     super(data, context);
     this.rollData = new ArM5eRollData(this);
+    Hooks.on("arm5e-date-change", async (date) => {
+      if (this._hasDate() && !isInThePast(this.system.datetime)) {
+        await this.update({
+          "system.datetime.year": date.year,
+          "system.datetime.season": date.season
+        });
+      }
+    });
   }
 
   prepareData() {
@@ -82,6 +90,11 @@ export class ArM5ePCActor extends Actor {
           day: 21
         };
       }
+    } else if (this.type == "laboratory") {
+      this.system.aura = {
+        value: 0,
+        realm: ARM5E.REALM_TYPES.MUNDANE
+      };
     }
 
     if (this.type != "player" && this.type != "npc" && this.type != "beast") {
@@ -116,18 +129,8 @@ export class ArM5ePCActor extends Actor {
         this.system.arts.forms[key].deficient = false;
       }
 
-      this.system.stances.gestures = {
-        exaggerated: 1,
-        bold: 0,
-        subtle: -2,
-        motionless: -5
-      };
-      this.system.stances.voice = {
-        loud: 1,
-        firm: 0,
-        quiet: -5,
-        silent: -10
-      };
+      this.system.stances.gestures = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.gestures);
+      this.system.stances.voice = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.voice);
     }
 
     this.system.bonuses.labActivities = {
@@ -159,8 +162,19 @@ export class ArM5ePCActor extends Actor {
         }
       }
     }
+    this.system.penalties = {
+      activityDivider: 1,
+      activityBlocker: false
+    };
 
-    this.system.bonuses.traits = { soak: 0, aging: 0, wounds: 0, fatigue: 0, agingStart: 0 };
+    this.system.bonuses.traits = {
+      soak: 0,
+      aging: 0,
+      wounds: 0,
+      fatigue: 0,
+      agingStart: 0,
+      recovery: 0
+    };
 
     this.system.bonuses.activities = {
       practice: 0,
@@ -185,47 +199,6 @@ export class ArM5ePCActor extends Actor {
       vi: 0
     };
   }
-
-  // DEV: to be deleted, the code below is done in the preCreate hook
-  // /** @override */
-  // prepareEmbeddedDocuments() {
-  //   // if (this.type == "laboratory") {
-  //   //   this._prepareLaboratoryEmbeddedDocuments();
-  //   // }
-
-  //   super.prepareEmbeddedDocuments();
-  // }
-
-  // _prepareLaboratoryEmbeddedDocuments() {
-  //   var baseSafetyEffect = this.effects.find(e => e.getFlag("arm5e", "baseSafetyEffect"));
-  //   if (!baseSafetyEffect) {
-  //     this.createEmbeddedDocuments("ActiveEffect", [
-  //       {
-  //         label: game.i18n.localize("arm5e.sheet.baseSafety"),
-  //         icon: "icons/svg/aura.svg",
-  //         origin: this.uuid,
-  //         tint: "#000000",
-  //         changes: [
-  //           {
-  //             label: "arm5e.sheet.safety",
-  //             key: "system.safety.bonus",
-  //             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-  //             value: 0
-  //           }
-  //         ],
-  //         flags: {
-  //           arm5e: {
-  //             baseSafetyEffect: true,
-  //             noEdit: true,
-  //             type: ["laboratory"],
-  //             subtype: ["safety"],
-  //             option: [null]
-  //           }
-  //         }
-  //       }
-  //     ]);
-  //   }
-  // }
 
   /** @override */
   prepareDerivedData() {
@@ -472,7 +445,7 @@ export class ArM5ePCActor extends Actor {
       this.system.bonuses.arts.spellcasting +=
         (this.system.stances.voice[system.stances.voiceStance] || 0) +
         (this.system.stances.gestures[system.stances.gesturesStance] || 0);
-
+      log(false, `Bonus spellcasting: ${this.system.bonuses.arts.spellcasting}`);
       if (system.laboratory === undefined) {
         system.laboratory = {};
       }
@@ -694,9 +667,6 @@ export class ArM5ePCActor extends Actor {
     }
     //warping & decrepitude
     if ((this.type == "npc" && this.system.charType.value != "entity") || this.type == "player") {
-      if (system.warping == undefined) {
-        system.warping = { points: 0 };
-      }
       system.warping.finalScore = ArM5ePCActor.getAbilityScoreFromXp(system.warping.points);
       system.warping.experienceNextLevel =
         ((parseInt(system.warping.finalScore) + 1) *
@@ -1047,8 +1017,10 @@ export class ArM5ePCActor extends Actor {
     let horses = [];
     let livestock = [];
     let possessions = [];
+    let weapons = [];
+    let armor = [];
     let visSources = [];
-    let visStock = [];
+    let vis = [];
     let calendar = [];
     let incomingSources = [];
     let laboratoryTexts = [];
@@ -1112,8 +1084,8 @@ export class ArM5ePCActor extends Actor {
         possessions.push(item);
       } else if (item.type === "visSourcesCovenant") {
         visSources.push(item);
-      } else if (item.type === "visStockCovenant") {
-        visStock.push(item);
+      } else if (item.type === "visStockCovenant" || item.type === "vis") {
+        vis.push(item);
       } else if (item.type === "calendarCovenant") {
         calendar.push(item);
       } else if (item.type === "incomingSource") {
@@ -1167,6 +1139,10 @@ export class ArM5ePCActor extends Actor {
         magicItems.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
+      } else if (item.type === "weapon" || item.type === "enchantedWeapon") {
+        weapons.push(item);
+      } else if (item.type === "armor" || item.type === "enchantedArmor") {
+        armor.push(item);
       } else if (item.type === "item") {
         items.push(item);
       } else if (item.type === "labCovenant") labs.push(item);
@@ -1188,9 +1164,8 @@ export class ArM5ePCActor extends Actor {
     if (system.visSources) {
       system.visSources = visSources;
     }
-    if (system.visStock) {
-      system.visStock = visStock;
-    }
+    system.vis = vis;
+
     if (system.calendar) {
       system.calendar = calendar;
     }
@@ -1218,6 +1193,9 @@ export class ArM5ePCActor extends Actor {
     if (system.items) {
       system.items = items;
     }
+
+    system.weapons = weapons;
+    system.armor = armor;
 
     if (system.laboratoryTexts) {
       let flag = this.getFlag("arm5e", "sorting", "laboratoryTexts");
@@ -1423,7 +1401,6 @@ export class ArM5ePCActor extends Actor {
     }
     await this.update(updateData, {});
   }
-
   async addActiveEffect(name, type, subtype, value, option = null, icon) {
     if (Object.keys(ACTIVE_EFFECTS_TYPES).includes(type)) {
       if (Object.keys(ACTIVE_EFFECTS_TYPES[type].subtypes).includes(subtype)) {
@@ -1526,6 +1503,10 @@ export class ArM5ePCActor extends Actor {
     return true;
   }
 
+  _hasDate() {
+    return ["player", "beast", "covenant", "npc"].includes(this.type);
+  }
+
   async rest() {
     if (!this._isCharacter()) {
       return;
@@ -1604,10 +1585,14 @@ export class ArM5ePCActor extends Actor {
     }
   }
 
-  async addAgingPoints(amount, char1, char2) {
+  async getAgingEffects(agingData) {
     if (!this._isCharacter()) {
       return;
     }
+    let amount = agingData.impact;
+    let char1 = agingData.char;
+    let char2 = agingData.char2;
+    let naturalAging = agingData.season == "winter";
     let updateData = {};
     let result = { crisis: false, apparent: 1, charac: {} };
     updateData["system.age.value"] = this.system.age.value + 1;
@@ -1708,6 +1693,11 @@ export class ArM5ePCActor extends Actor {
     if (result.crisis) {
       updateData["system.pendingCrisis"] = true;
     }
+
+    if (this.system.laboratory.longevityRitual.modifier && naturalAging) {
+      updateData["system.warping.points"] =
+        this.system.warping.points + CONFIG.ARM5E.activities.aging.warping.impact;
+    }
     await this.update(updateData, {});
     return result;
   }
@@ -1730,16 +1720,6 @@ export class ArM5ePCActor extends Actor {
       err.message = `Failed system migration for Actor ${this.name}: ${err.message}`;
       console.error(err);
     }
-  }
-
-  // TODO improve: what should happen if more that one effect is returned?
-  getActiveEffectValue(type, subtype) {
-    const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.effects, subtype);
-    if (ae.length) {
-      log(false, ae);
-      return ae[0].changes[0].value;
-    }
-    return 0;
   }
 
   hasSkill(key) {
@@ -1815,7 +1795,7 @@ export class ArM5ePCActor extends Actor {
   }
 
   // IDEA: check if the sheet is not null and filter the system activities instead.
-  getSchedule(min, max, excludedActivities = [], excludedIds = [], season) {
+  getSchedule(min, max, excludedActivities = [], excludedIds = [], season = undefined) {
     let res = [];
     const activitiesMap = new Map();
     for (let entry of this.system.diaryEntries) {
@@ -1844,7 +1824,12 @@ export class ArM5ePCActor extends Actor {
               }
             } else {
               if (!activitiesMap.has(date.year)) {
-                activitiesMap.set(date.year, { winter: [], autumn: [], summer: [], spring: [] });
+                activitiesMap.set(date.year, {
+                  [CONFIG.SEASON_ORDER_INV[3]]: [],
+                  [CONFIG.SEASON_ORDER_INV[2]]: [],
+                  [CONFIG.SEASON_ORDER_INV[1]]: [],
+                  [CONFIG.SEASON_ORDER_INV[0]]: []
+                });
               }
               activitiesMap.get(date.year)[date.season].push({
                 id: entry._id,

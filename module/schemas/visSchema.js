@@ -1,5 +1,7 @@
 import { ARM5E } from "../config.js";
 import { stressDie } from "../dice.js";
+import { computeAuraModifier } from "../helpers/aura.js";
+import { setVisStudyResults } from "../helpers/long-term-activities.js";
 import { log } from "../tools.js";
 import {
   boolOption,
@@ -46,7 +48,9 @@ export class VisSchema extends foundry.abstract.DataModel {
   }
 
   static migrate(itemData) {
-    const updateData = {};
+    const updateData = {
+      type: "vis"
+    };
     if (itemData.system.art.value !== undefined) {
       updateData["system.art"] = itemData.system.art.value;
     } else if (itemData.system.art == "") {
@@ -69,7 +73,8 @@ export class VisSchema extends foundry.abstract.DataModel {
     return { name: "pawns", qty: this.pawns };
   }
 
-  async studyVis(itemId, actor) {
+  async studyVis(item) {
+    const actor = item.actor;
     let artStats = actor.getArtStats(this.art);
     let amount = Math.max(1, Math.ceil(artStats.derivedScore / 5));
     if (amount > this.pawns) {
@@ -80,7 +85,12 @@ export class VisSchema extends foundry.abstract.DataModel {
     }
     let aura = 0;
     if (actor.system.covenant.linked) {
-      aura = game.actors.get(actor.system.covenant.actorId).system.levelAura;
+      const covenant = game.actors.get(actor.system.covenant.actorId);
+      aura = computeAuraModifier(
+        actor.system.realmAlignment,
+        covenant.system.levelAura,
+        covenant.system.typeAura
+      );
     }
     let dialogData = {
       aura: aura,
@@ -92,10 +102,8 @@ export class VisSchema extends foundry.abstract.DataModel {
     let dataset = {
       roll: "option",
       name: "",
-      option1: aura,
-      txtoption1: 0,
       physicalcondition: false,
-      moredata: { id: itemId, art: this.art, amount: amount }
+      moredata: { id: this.parent._id, art: this.art, amount: amount, diaryId: item._id }
     };
     actor.rollData.init(dataset, actor);
     const html = await renderTemplate("systems/arm5e/templates/generic/vis-study.html", dialogData);
@@ -110,7 +118,7 @@ export class VisSchema extends foundry.abstract.DataModel {
             callback: async (html) => {
               let val = html.find('input[name="aura"]');
               actor.rollData.setGenericField(auraLabel, Number(val.val()), 1, "+");
-              await stressDie(actor, dataset.roll, 0, this.applyResults);
+              await stressDie(actor, dataset.roll, 0, setVisStudyResults);
             }
           }
         },
@@ -125,65 +133,40 @@ export class VisSchema extends foundry.abstract.DataModel {
     ).render(true);
   }
 
-  async applyResults(actor, roll, message, rollData) {
+  async createDiaryEntry(actor) {
     let currentDate = game.settings.get("arm5e", "currentDate");
-    if (roll.botches > 0) {
-      await actor.update({
-        "system.warping.points": actorCaster.system.warping.points + roll.botches
-      });
-      //ui.notifications.info()
-    } else {
-      const xpGain = roll.total + actor.system.bonuses.activities.visStudy;
-      const amount = rollData.additionalData.amount;
-      let item = actor.items.get(rollData.additionalData.id);
-      const entryData = [
-        {
-          name: game.i18n.format("arm5e.activity.title.visStudy", {
-            art: game.i18n.localize(CONFIG.ARM5E.magic.arts[rollData.additionalData.art].label)
-          }),
-          type: "diaryEntry",
-          system: {
-            done: true,
-            cappedGain: false,
-            dates: [
-              { season: currentDate.season, date: "", year: currentDate.year, applied: true }
-            ],
-            sourceQuality: xpGain,
-            activity: "visStudy",
-            progress: {
-              abilities: [],
-              arts: [
-                {
-                  key: rollData.additionalData.art,
-                  maxLevel: 0,
-                  xp: xpGain
-                }
-              ],
-              spells: [],
-              newSpells: []
-            },
-            optionKey: "standard",
-            duration: 1,
-            description: game.i18n.format("arm5e.activity.desc.visStudy", {
-              amount: amount,
-              art: game.i18n.localize(CONFIG.ARM5E.magic.arts[rollData.additionalData.art].label),
-              xp: xpGain
-            }),
-            externalIds: [
-              {
-                actorId: actor.id,
-                itemId: item.id,
-                flags: 1,
-                data: { amountLabel: "pawns", amount: amount }
-              }
-            ]
-          }
+    const entryData = [
+      {
+        name: game.i18n.format("arm5e.activity.title.visStudy", {
+          art: game.i18n.localize(CONFIG.ARM5E.magic.arts[this.art].label)
+        }),
+        type: "diaryEntry",
+        system: {
+          done: false,
+          rollDone: false,
+          cappedGain: false,
+          dates: [{ season: currentDate.season, date: "", year: currentDate.year, applied: true }],
+          sourceQuality: 0,
+          activity: "visStudy",
+          progress: {
+            abilities: [],
+            arts: [],
+            spells: [],
+            newSpells: []
+          },
+          optionKey: "standard",
+          duration: 1,
+          externalIds: [
+            {
+              actorId: actor.id,
+              itemId: this.parent._id,
+              flags: 1
+            }
+          ]
         }
-      ];
-      await actor.changeHermeticArt(rollData.additionalData.art, xpGain);
-      await item.update({ "system.pawns": item.system.pawns - amount });
-      let entry = await actor.createEmbeddedDocuments("Item", entryData, {});
-      entry[0].sheet.render(true);
-    }
+      }
+    ];
+    let entry = await actor.createEmbeddedDocuments("Item", entryData, {});
+    return entry[0];
   }
 }

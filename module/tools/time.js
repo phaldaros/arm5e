@@ -13,6 +13,27 @@ export function nextDate(season, year) {
     return { season: CONFIG.SEASON_ORDER_INV[CONFIG.SEASON_ORDER[season] + 1], year: year };
   }
 }
+
+export function isInThePast(date) {
+  let datetime = game.settings.get("arm5e", "currentDate");
+  if (Number(date.year) < Number(datetime.year)) return true;
+  if (
+    Number(date.year) == Number(datetime.year) &&
+    CONFIG.SEASON_ORDER[date.season] < CONFIG.SEASON_ORDER[datetime.season]
+  ) {
+    return true;
+  }
+  // TODO months and days?
+  return false;
+}
+
+export const SimpleCalendarSeasons = {
+  Spring: "spring",
+  Summer: "summer",
+  Fall: "autumn",
+  Winter: "winter"
+};
+
 export function compareDiaryEntries(e1, e2) {
   if (e1.system.dates[0].year < e2.system.dates[0].year) {
     return 1;

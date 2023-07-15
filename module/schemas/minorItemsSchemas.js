@@ -1,5 +1,6 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
+import { VIRTUESFLAWS_DEFAULT_ICONS } from "../constants/ui.js";
 import { log } from "../tools.js";
 import {
   boolOption,
@@ -42,6 +43,38 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
         { required: false, blank: false, initial: { value: "free" } }
       )
     };
+  }
+
+  static getIcon(item, newValue = null) {
+    if (newValue != null) {
+      if (item.type == "virtue") {
+        let type = newValue == "general" ? "generalVirtue" : newValue;
+        return VIRTUESFLAWS_DEFAULT_ICONS.MONO[type] ?? CONFIG.ARM5E_DEFAULT_ICONS["virtue"];
+      } else {
+        let type = newValue == "general" ? "generalFlaw" : newValue;
+        return VIRTUESFLAWS_DEFAULT_ICONS.MONO[type] ?? CONFIG.ARM5E_DEFAULT_ICONS["flaw"];
+      }
+    } else {
+      if (item.type == "virtue") {
+        let type = item.system.type == "general" ? "generalVirtue" : item.system.type;
+        return VIRTUESFLAWS_DEFAULT_ICONS.MONO[type] ?? CONFIG.ARM5E_DEFAULT_ICONS["virtue"];
+      } else {
+        let type = item.system.type == "general" ? "generalFlaw" : item.system.type;
+        return VIRTUESFLAWS_DEFAULT_ICONS.MONO[type] ?? CONFIG.ARM5E_DEFAULT_ICONS["flaw"];
+      }
+    }
+  }
+
+  static getDefault(itemData) {
+    let res = itemData;
+    if (itemData.system) {
+      if (itemData.system.type == undefined) {
+        res.system.type = "general";
+      }
+    } else {
+      res = { system: { type: "general" } };
+    }
+    return res;
   }
 
   static migrateData(data) {

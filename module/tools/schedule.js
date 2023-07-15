@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { UI } from "../constants/ui.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { debug, getDataset, log } from "../tools.js";
 
@@ -29,6 +30,7 @@ export class Schedule extends FormApplication {
   async getData(options = {}) {
     const data = await super.getData().object;
     let currentDate = game.settings.get("arm5e", "currentDate");
+    let enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
     data.curYear = Number(currentDate.year);
     data.curSeason = currentDate.season;
 
@@ -57,19 +59,45 @@ export class Schedule extends FormApplication {
       let year = {
         year: y,
         seasons: {
-          [CONFIG.SEASON_ORDER_INV[0]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[1]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[2]]: { selected: false, busy: false, others: [] },
-          [CONFIG.SEASON_ORDER_INV[3]]: { selected: false, busy: false, others: [] }
+          [CONFIG.SEASON_ORDER_INV[0]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[1]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[2]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          },
+          [CONFIG.SEASON_ORDER_INV[3]]: {
+            selected: false,
+            conflict: false,
+            future: false,
+            others: []
+          }
         }
       };
       let thisYearSchedule = actorSchedule.filter((e) => {
         return e.year == y;
       });
       for (let s of Object.keys(ARM5E.seasons)) {
+        if (
+          y > data.curYear ||
+          (y == data.curYear && CONFIG.SEASON_ORDER[data.curSeason] < CONFIG.SEASON_ORDER[s])
+        ) {
+          year.seasons[s].future = true;
+        }
         if (thisYearSchedule.length > 0) {
           if (thisYearSchedule[0].seasons[s].length > 0) {
-            year.seasons[s].busy = DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s]);
+            year.seasons[s].conflict = DiaryEntrySchema.hasConflict(thisYearSchedule[0].seasons[s]);
             for (let busy of thisYearSchedule[0].seasons[s]) {
               let tmpStyle = busy.applied ? "" : notAppliedStyle;
               year.seasons[s].others.push({
@@ -103,13 +131,17 @@ export class Schedule extends FormApplication {
     // styling
     for (let y of data.selectedDates) {
       for (let event of Object.values(y.seasons)) {
-        event.edition = false;
+        event.edition = true;
+        event.style = "";
         if (event.others.length > 0) {
-          if (!event.busy) {
-            event.style = 'style="background-color:rgb(0 0 200 / 50%)"';
+          if (!event.conflict) {
+            event.style = UI.STYLES.CALENDAR_BUSY;
           } else {
-            event.style = 'style="background-color:rgb(100 0 200 / 50%)"';
+            event.style = UI.STYLES.CALENDAR_CONFLICT;
           }
+        }
+        if (event.future) {
+          event.style += " future";
         }
       }
     }
@@ -124,8 +156,19 @@ export class Schedule extends FormApplication {
     html.find(".next-step").click(async (event) => this._changeYear(event, 1));
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
+      event.stopPropagation();
+
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
-      if (item) item.sheet.render(true, { focus: true });
+      if (item) {
+        item.apps[this.appId] = this;
+        item.sheet.render(true, { focus: true });
+      }
+    });
+
+    // Add Inventory Item
+    html.find(".item-create").click(async (event) => {
+      await this.object.actor.sheet._onItemCreate(event);
+      this.render();
     });
   }
 

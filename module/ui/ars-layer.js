@@ -1,5 +1,9 @@
 import { log } from "../tools.js";
-import { setAuraValueForAllTokensInScene, clearAuraFromActor } from "../helpers/aura.js";
+import {
+  setAuraValueForAllTokensInScene,
+  clearAuraFromActor,
+  addActiveEffectAuraToActor
+} from "../helpers/aura.js";
 import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
 import { Scriptorium } from "../tools/scriptorium.js";
@@ -12,6 +16,19 @@ export class ArsLayer extends InteractionLayer {
   }
 
   async _draw() {}
+
+  addListenersDialog(html) {
+    html.find('input[name="inputField"]').change((ev) => {
+      let v = parseInt(ev.currentTarget.value);
+      if (v < 1) ev.currentTarget.value = 1;
+      if (v > 20) ev.currentTarget.value = 20;
+    });
+
+    html.find(".resource-focus").focus((ev) => {
+      ev.preventDefault();
+      ev.currentTarget.select();
+    });
+  }
 
   static async clearAura() {
     Dialog.confirm({
@@ -121,13 +138,13 @@ export function addArsButtons(buttons) {
   });
 }
 
-export function onDropOnCanvas(canvas, data) {
+export async function onDropOnCanvas(canvas, data) {
   if (!canvas.scene.active) {
     return;
   }
   const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
   const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
-  const actor = game.actors.get(data.id);
+  const actor = await fromUuid(data.uuid);
   if (actor) {
     if (aura !== undefined && !Number.isNaN(aura) && type !== undefined && !Number.isNaN(type)) {
       addActiveEffectAuraToActor(actor, Number(aura), Number(type));

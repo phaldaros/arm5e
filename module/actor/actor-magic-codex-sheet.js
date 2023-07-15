@@ -5,6 +5,7 @@ import { hermeticFilter, log } from "../tools.js";
 import { labTextToEffect } from "../item/item-converter.js";
 import { ArM5eItem } from "../item/item.js";
 import { HERMETIC_FILTER } from "../constants/userdata.js";
+import { getConfirmation } from "../constants/ui.js";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -125,7 +126,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = ev => this._onDragStart(ev);
+      let handler = (ev) => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
@@ -144,13 +145,10 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     const question = game.i18n.localize("arm5e.dialog.delete-question");
     const li = $(event.currentTarget).parents(".item");
     let itemId = li.data("itemId");
-    await Dialog.confirm({
-      title: `${li[0].dataset.name}`,
-      content: `<p>${question}</p>`,
-      yes: () => this._deleteEffect(itemId, li),
-      no: () => null,
-      rejectClose: true
-    });
+    const confirm = await getConfirmation(li[0].dataset.name, question, "Codex");
+    if (confirm) {
+      this._deleteEffect(itemId, li);
+    }
   }
 
   _deleteEffect(itemId, li) {
@@ -213,7 +211,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
    * @param {Event} event   The originating click event
    * @private
    */
-  _onClickEffect(event) {
+  async _onClickEffect(event) {
     event.preventDefault();
     const li = $(event.currentTarget).parents(".item");
     const itemDataset = li[0].dataset;
@@ -236,22 +234,10 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     const element = event.currentTarget;
     const dataset = element.dataset;
     const question = game.i18n.localize(mnemo);
-    new Dialog({
-      title: `${dataset.name}`,
-      content: `<p>${question}</p>`,
-      buttons: {
-        yes: {
-          icon: "<i class='fas fa-check'></i>",
-          label: game.i18n.localize("arm5e.dialog.button.yes"),
-          callback: () => this._onDesignEffect(itemId, false)
-        },
-        no: {
-          icon: "<i class='fas fa-ban'></i>",
-          label: game.i18n.localize("arm5e.dialog.button.cancel"),
-          callback: null
-        }
-      }
-    }).render(true);
+    const confirm = await getConfirmation(dataset.name, question, "Codex");
+    if (confirm) {
+      this._onDesignEffect(itemId, false);
+    }
   }
 
   async _onDesignEffect(id, alt) {

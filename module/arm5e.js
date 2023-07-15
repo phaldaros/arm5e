@@ -62,7 +62,7 @@ import {
   INHABITANTS_DEFAULT_ICONS
 } from "./constants/ui.js";
 import { InhabitantSchema } from "./schemas/inhabitantSchema.js";
-import { seasonOrder, seasonOrderInv } from "./tools/time.js";
+import { SimpleCalendarSeasons, seasonOrder, seasonOrderInv } from "./tools/time.js";
 
 Hooks.once("init", async function () {
   game.arm5e = {
@@ -76,6 +76,8 @@ Hooks.once("init", async function () {
 
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
+
+  CONFIG.SC = { SEASONS: SimpleCalendarSeasons };
 
   registerSettings();
 
@@ -136,7 +138,8 @@ Hooks.once("init", async function () {
 
   // UI customization
   CONFIG.ui.actors = ArM5eActorsDirectory;
-  CONFIG.Item.sidebarIcon = "fas fa-sack-xmark";
+  CONFIG.Item.sidebarIcon = "icon-Icon_magic-chest";
+  CONFIG.JournalEntry.sidebarIcon = "icon-Tool_Journals";
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
   CONFIG.INHABITANTS_DEFAULT_ICONS =
@@ -152,6 +155,10 @@ Hooks.once("init", async function () {
     CONFIG.SEASON_ORDER_INV = seasonOrderInv.standard;
     CONFIG.ARM5E.seasons = CONFIG.ARM5E.seasonsLabels.standard;
   }
+  //////////////////////
+  // CONFIG DONE!
+  //////////////////////
+  Hooks.callAll("arm5e-config-done", CONFIG);
 
   CONFIG.ARM5E.activities.conflictExclusion = Object.entries(CONFIG.ARM5E.activities.generic)
     .filter((e) => e[1].scheduling.conflict == false)
@@ -213,7 +220,7 @@ Hooks.once("ready", async function () {
   });
 
   Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
-  Hooks.on("dropCanvasData", (canvas, data) => onDropOnCanvas(canvas, data));
+  Hooks.on("dropCanvasData", async (canvas, data) => onDropOnCanvas(canvas, data));
 
   if (game.user.isGM) {
     // Determine whether a system migration is required and feasible
@@ -289,6 +296,26 @@ Hooks.on("quenchReady", (quench) => {
   registerTestSuites(quench);
 });
 
+Hooks.on("simple-calendar-date-time-change", async (data) => {
+  // ignore change of less than an hour
+  if (Math.abs(data.diff) < 3600) return;
+  let current = game.settings.get("arm5e", "currentDate");
+  let newDatetime = {};
+  if (
+    current.year !== Number(data.date.year) ||
+    current.season !== CONFIG.SC.SEASONS[data.date.currentSeason.name]
+  ) {
+    newDatetime = {
+      year: Number(data.date.year),
+      season: CONFIG.SC.SEASONS[data.date.currentSeason.name],
+      date: "",
+      month: data.date.month,
+      day: data.date.day
+    };
+    await game.settings.set("arm5e", "currentDate", newDatetime);
+    Hooks.callAll("arm5e-date-change", newDatetime);
+  }
+});
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
 /* -------------------------------------------- */
@@ -433,6 +460,7 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["habitantHabitants"] = InhabitantSchema;
   CONFIG.Item.systemDataModels["habitantHorses"] = InhabitantSchema;
   CONFIG.Item.systemDataModels["habitantLivestock"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["visStockCovenant"] = VisSchema;
 }
 
 function registerSheets() {
@@ -471,6 +499,10 @@ function registerSheets() {
     makeDefault: true,
     label: "arm5e.sheet.magic-codex"
   });
+
+  // Handlebars.registerHelper("arraySize", function (data) {
+  //   return data.length;
+  // });
 
   // Actors.registerSheet("arm5eCrucible", ArM5eCrucibleSheet, {
   //     types: ["crucible"],

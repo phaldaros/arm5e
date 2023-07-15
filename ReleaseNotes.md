@@ -1,4 +1,45 @@
-## 2.1.0.6, Mercere, first to join
+## 2.1.0.18, Mercere, the Giftless
+
+### Bug fixes
+
+- The realm of the covenant aura is now properly taken into account for lab work and vis study.
+- Fix major bug in xp computation of ability with affinity
+- Characters incapacited can only roll for characteristics
+
+## 2.1.0.17, Mercere, the Magus
+
+### Features & changes
+
+- Overhaul of the aura active effects
+  - auras now impact rolls of supernatural abilities
+- Spell invention activity is now temporary allowed to have duplicates in the same season
+- It is now possible to delete a owned diary entry from its sheet.
+
+### Bug fixes
+
+- [technical] Removed a memory leak in astrolabium lifecycle
+- Characteristic rolls are again impacted by wounds and fatigue penalties
+- Dropping a new token on the canvas now properly apply an aura effect if any
+- Gestures and voice spellcasting stances are now properly computed when under active effect.
+- [technical] refactoring of activity conflict detection + enhanced non-regression tests.
+- Fixed event filters
+
+## 2.1.0.14, Mercere, the Founder
+
+### Features & changes
+
+- Related actors (character,covenant,sanctum) are notified when one is updated.
+- Small cosmetic improvements left and right.
+
+### Bug fixes
+
+- Fixed overflow problem with prosemirror editors left and right
+- Fixed case problem in the intrigue ability default icon
+- It is again possible to edit auras
+- Drag and dropping Items on Covenants, NPCs and Beasts sheet no longer raises an error.
+- Drag and dropping Items with a non-default icon no longer reset them to the default one.
+
+## 2.1.0.12, Mercere, first to join
 
 ### Features & changes
 
@@ -12,6 +53,7 @@
 - Updated French version by orneen
 - Filters for diary entries
 - New custom icons for abilities, activities, vices and virtues (thanks to Nestua)
+  - Updated compendiums accordingly
 - Multi-seasons activities (spell invention)
   - Scheduling
 - Select on focus for input fields
@@ -23,6 +65,7 @@
 - New setting for starting the year in winter.
 - Active effect to change the age a character starts aging (eg: strong faerie blood, curse, spell)
 - New troup schedule dialog to see the activities of a group of characters during the year
+  - With filters
 - [Technical] hundreds of non-regression tests added for scheduling.
 - Updated French version by Orneen
 - Updated Portuguese (BR) version by Ramon Alves
@@ -31,6 +74,23 @@
   - item will be transfered after confirmation
   - If there is more than one item, ask for the quantity to be transferred
   - Previous default behavior is still available using shift.
+- Aging and vis study rolls create instead a diary entry that need to be scheduled
+- Activities with roll (eg: aging) are applied by rolling.
+- Basic Simple-Calendar integration
+- Better confirmation dialogs
+- Armors, weapons, vis and items can now be created/dropped on the covenant sheet.
+- visStockCovenant item type was deprecated and replaced by vis type.
+- Warping added on aging roll if there is a longevity potion effect
+- It is not possible anymore to change the date of an actor to the future.
+- [technical] migration to ProseMirror editor
+- New "rest everyone" button in Astrolabium
+- Calendar is now notified if the world's date changes
+- Quick item's description on right click
+- Prevent activity's application if there one unapplied ending before it.
+- Setting the world date in the past will put the actor's date back to that date if it is now in the future.
+- Added Diedne house to the list of Hermetic Houses
+- Delay rolling and checks for activities validity to when they are applied
+- New active effect to add a flat bonus to xp to supernatural abilities (via Supernatural virtues)
 
 ### Bug fixes
 
@@ -41,7 +101,11 @@
 - Powers are working again:
   - Omitting the roll type will properly use the correct one
   - Spellcasting stances are only for magi.
-- Fixed personality rolls
+- Personality rolls add the personality score properly
+- Fixed aging rollback bug, where characteristic was increased instead of decreased
+- Fixed warping reset bug in some cases
+- Changing the trainer/teacher score will update it in the other tabs
+- Dropping a magus or companion on a covenant sheet will add them properly as members
 
 ### V10 migration (on going)
 

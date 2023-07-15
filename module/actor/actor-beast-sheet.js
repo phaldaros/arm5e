@@ -1,4 +1,4 @@
-import { log } from "../tools.js";
+import { getUuidInfo, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 
 /**

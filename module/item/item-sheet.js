@@ -1,6 +1,7 @@
 import { log } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
-import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
+import { ARM5E_DEFAULT_ICONS, getConfirmation } from "../constants/ui.js";
+import { ArM5eActorSheet } from "../actor/actor-sheet.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -88,7 +89,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.flags = itemData.flags;
     context.ui = { flavor: "Neutral" };
     context.config = CONFIG.ARM5E;
-    if (itemData.type == "weapon" && this.item.isOwned) {
+    if (itemData.type == "weapon" && this.item.isOwned && this.item.actor._isCharacter()) {
       context.system.abilities = this.actor.system.abilities.map((v) => {
         return { id: v._id, name: `${v.name} (${v.system.speciality}) - ${v.system.finalScore}` };
       });
@@ -96,7 +97,7 @@ export class ArM5eItemSheet extends ItemSheet {
         id: "",
         name: "N/A"
       });
-
+      context.canEquip = true;
       //console.log("item-sheet get data weapon")
       //console.log(data)
     } else if (
@@ -131,7 +132,9 @@ export class ArM5eItemSheet extends ItemSheet {
           break;
       }
     }
-
+    if (itemData.type == "armor" && context.isOwned && this.item.actor._isCharacter()) {
+      context.canEquip = true;
+    }
     if (itemData.type == "virtue" || itemData.type == "flaw") {
       if (context.isOwned) {
         context.system.effectCreation = false;
@@ -215,6 +218,8 @@ export class ArM5eItemSheet extends ItemSheet {
       .find(".category-change")
       .change((event) => this._changeInhabitantCategory(this.item, event));
     html.find(".change-abilitykey").change((event) => this._changeAbilitykey(this.item, event));
+    html.find(".change-VFType").change((event) => this._changeVFType(this.item, event));
+
     // Active Effect management
     html
       .find(".effect-control")
@@ -227,18 +232,15 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".item-delete-confirm").click(async () => {
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       let itemId = this.item._id;
-      await Dialog.confirm(
-        {
-          title: this.item.name,
-          content: `<p>${question}</p>`,
-          yes: async () => {
-            itemId = itemId instanceof Array ? itemId : [itemId];
-            await this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-          },
-          no: () => null
-        },
-        { rejectClose: true }
+      let confirm = await getConfirmation(
+        this.item.name,
+        question,
+        ArM5eActorSheet.getFlavor(this.item.actor?.type)
       );
+      if (confirm) {
+        itemId = itemId instanceof Array ? itemId : [itemId];
+        this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+      }
     });
 
     html.find(".resource-focus").focus((ev) => {
@@ -249,44 +251,17 @@ export class ArM5eItemSheet extends ItemSheet {
 
   async _changeAbilitykey(item, event) {
     event.preventDefault();
-
-    if (CONFIG.Item.systemDataModels[this.item.type]?.getIcon) {
-      let currentDefIcon = CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item);
-      // if the current img is the default icon of the previous value, allow change
-      if (
-        this.item.img === currentDefIcon ||
-        this.item.img === ARM5E_DEFAULT_ICONS.MONO[this.item.type] ||
-        this.item.img === ARM5E_DEFAULT_ICONS.COLOR[this.item.type] ||
-        this.item.img === "icons/svg/mystery-man.svg" ||
-        this.item.img === "icons/svg/item-bag.svg"
-      ) {
-        await this.item.update({
-          img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, event.target.value),
-          "system.key": event.target.value
-        });
-      }
-    }
+    await this.item._updateIcon("system.key", event.target.value);
   }
 
   async _changeInhabitantCategory(item, event) {
     event.preventDefault();
+    await this.item._updateIcon("system.category", event.target.value);
+  }
 
-    if (CONFIG.Item.systemDataModels[this.item.type]?.getIcon) {
-      let currentDefIcon = CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item);
-      // if the current img is the default icon of the previous value, allow change
-      if (
-        this.item.img === currentDefIcon ||
-        this.item.img === ARM5E_DEFAULT_ICONS.MONO[this.item.type] ||
-        this.item.img === ARM5E_DEFAULT_ICONS.COLOR[this.item.type] ||
-        this.item.img === "icons/svg/mystery-man.svg" ||
-        this.item.img === "icons/svg/item-bag.svg"
-      ) {
-        await this.item.update({
-          img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, event.target.value),
-          "system.category": event.target.value
-        });
-      }
-    }
+  async _changeVFType(item, event) {
+    event.preventDefault();
+    await this.item._updateIcon("system.type", event.target.value);
   }
 
   async _onSelectDefaultCharacteristic(item, event) {

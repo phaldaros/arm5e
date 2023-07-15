@@ -1,4 +1,4 @@
-import { compareLabTexts, log, hermeticFilter } from "../tools.js";
+import { compareLabTexts, log, hermeticFilter, getUuidInfo } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { HERMETIC_FILTER, TIME_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
 import { effectToLabText, resetOwnerFields } from "../item/item-converter.js";
@@ -154,12 +154,15 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       // case "habitantLivestock":
       case "possessionsCovenant":
       case "visSourcesCovenant":
-      case "visStockCovenant":
+      case "visStockCovenant": // TODO convert and remove
       case "magicalEffect":
       case "calendarCovenant":
       case "incomingSource":
       case "laboratoryText":
       case "enchantment":
+      case "armor":
+      case "weapon":
+      case "item":
         return true;
       default:
         return false;
@@ -243,8 +246,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       const itemData = [
         {
           name: actor.name,
-          type: "habitantMagi",
+          type: "inhabitant",
           system: {
+            category: "magi",
             job:
               actor.system.description.title.value +
               " " +
@@ -274,8 +278,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       const itemData = [
         {
           name: actor.name,
-          type: "habitantCompanion",
+          type: "inhabitant",
           system: {
+            category: "companions",
             job: actor.system.description.title.value,
             points: pts,
             yearBorn: actor.system.description.born.value
@@ -304,8 +309,9 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       const itemData = [
         {
           name: actor.name,
-          type: "habitantHabitants",
+          type: "inhabitant",
           system: {
+            category: "grogs",
             job: actor.system.description.title.value,
             points: pts,
             yearBorn: actor.system.description.born.value

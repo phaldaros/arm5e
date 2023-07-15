@@ -71,6 +71,13 @@
                 class=" icon-Tool_Astrolab"></i></a>
           </div>
         {{/unless}}
+        {{#if isOwned}}
+          <div class="flexrow ">
+            <a class="item-control item-delete-confirm"
+              title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.diary")}}'><i
+                class="icon-Icon_Delete_Hand_Gesture"></i></a>
+          </div>
+        {{/if}}
       </div>
     </div>
   </header>
@@ -94,7 +101,7 @@
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
       <div style="height: 255px">
-        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
     </div>
     {{!-- Advanced Tab --}}

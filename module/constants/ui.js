@@ -10,7 +10,10 @@ UI.STYLES = {
   STANDARD_ABILITY: 'style="border: 0px; height: 40px;"',
   PUISSANT_ABILITY: 'style="box-shadow: 0 0 10px blue"',
   AFFINITY_ABILITY: 'style="box-shadow: 0 0 10px maroon"',
-  COMBO_ABILITY: 'style="box-shadow: 0 0 10px purple"'
+  COMBO_ABILITY: 'style="box-shadow: 0 0 10px purple"',
+  CALENDAR_BUSY: "busy",
+  CALENDAR_CURRENT: "current",
+  CALENDAR_CONFLICT: "conflict"
 };
 
 export const ARM5E_DEFAULT_ICONS = {};
@@ -87,6 +90,7 @@ ARM5E_DEFAULT_ICONS.COLOR = {
   possessionsCovenant: "icons/commodities/currency/coins-plain-pouch-gold.webp",
   visSourcesCovenant: "icons/environment/wilderness/arch-stone.webp",
   visStockCovenant: "icons/commodities/currency/coin-oval-rune-copper.webp",
+  incomingSource: "icons/commodities/currency/coins-plain-pouch-gold.webp",
   laboratoryText: "icons/sundries/documents/blueprint-recipe-alchemical.webp",
   magicalEffect: "icons/sundries/documents/document-symbol-lightning-brown.webp",
   baseEffect: "icons/sundries/scrolls/scroll-symbol-eye-brown.webp",
@@ -168,6 +172,21 @@ export const INHABITANTS_DEFAULT_ICONS = {
   }
 };
 
+export const VIRTUESFLAWS_DEFAULT_ICONS = {
+  MONO: {
+    hermetic: "systems/arm5e/assets/icons/VF/hermetic.svg",
+    supernatural: "systems/arm5e/assets/icons/VF/supernatural.svg",
+    social: "systems/arm5e/assets/icons/VF/social.svg",
+    generalVirtue: "systems/arm5e/assets/icons/VF/generalVirtue.svg",
+    generalFlaw: "systems/arm5e/assets/icons/VF/generalFlaw.svg",
+    personality: "systems/arm5e/assets/icons/VF/personality.svg",
+    story: "systems/arm5e/assets/icons/VF/story.svg",
+    child: "systems/arm5e/assets/icons/VF/child.svg",
+    heroic: "systems/arm5e/assets/icons/VF/heroic.svg",
+    tainted: "systems/arm5e/assets/icons/VF/tainted.svg"
+  }
+};
+
 export const ABILITIES_DEFAULT_ICONS = {
   MONO: {
     animalHandling: "systems/arm5e/assets/icons/abilities/animalHandling.svg",
@@ -234,3 +253,43 @@ export const ABILITIES_DEFAULT_ICONS = {
     cult: "systems/arm5e/assets/icons/abilities/cult.svg"
   }
 };
+
+export async function getConfirmation(title, question, flavor = "Neutral", info1, info2) {
+  const dialogData = {
+    question: question,
+    flavor: flavor,
+    info1: info1,
+    info2: info2
+  };
+  const html = await renderTemplate(
+    "systems/arm5e/templates/generic/confirmation.html",
+    dialogData
+  );
+  return await new Promise((resolve) => {
+    new Dialog(
+      {
+        title: title,
+        content: html,
+        buttons: {
+          yes: {
+            icon: "<i class='fas fa-check'></i>",
+            label: game.i18n.localize("arm5e.dialog.button.yes"),
+            callback: () => resolve(true)
+          },
+          no: {
+            icon: "<i class='fas fa-times'></i>",
+            label: game.i18n.localize("arm5e.dialog.button.no"),
+            callback: () => resolve(false)
+          }
+        },
+        default: "yes",
+        close: () => resolve(false)
+      },
+      {
+        jQuery: true,
+        height: "150px",
+        classes: ["arm5e-dialog", "dialog"]
+      }
+    ).render(true);
+  });
+}

@@ -36,8 +36,8 @@
 
       <div class="flex-group-left backSection padding12">
         <label for="system.sigil" class="smallTitle">{{localize "arm5e.sheet.sigil"}}</label>
-        <div class="flex-group-left marginbot6" style="height: 140px">
-          {{editor system.sigil.value target="system.sigil.value" button=true owner=owner editable=editable}}
+        <div class="flex-group-left marginbot6" style="height: auto; overflow-y: auto;max-height: 210px;">
+          {{editor system.sigil.value target="system.sigil.value" button=true owner=owner engine="prosemirror" editable=editable}}
         </div>
       </div>
     </div>
@@ -62,15 +62,15 @@
       <div class="flexrow">
         <label for="system.warping.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
       </div>
-      <div class="flex-group-left marginbot6" style="height: 150px">
-        {{editor system.warping.effects target="system.warping.effects" button=true owner=owner editable=editable}}
+      <div class="flex-group-left marginbot6" style="height: auto; overflow-y: auto;max-height: 290px;">
+        {{editor system.warping.effects target="system.warping.effects" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
     </div>
 
     <div class="flex-group-left padding12 backSection">
       {{#unless system.pendingCrisis }}
-        <a class="rollable " title="Aging roll" data-roll="aging" data-year="{{system.datetime.year}}"
-          style="font-size: 16pt;">
+        <a class="schedule-aging clickable" title="Aging roll" data-year="{{system.datetime.year}}"
+          data-season="{{system.datetime.season}}" style="font-size: 16pt;">
           <i class="icon-Icon_Aging2"></i>
         </a>
       {{/unless}}
@@ -92,8 +92,8 @@
       <div class="flexrow">
         <label for="system.decrepitude.effects" class="bold">{{localize "arm5e.sheet.effects"}}</label>
       </div>
-      <div class="flex-group-left marginbot6" style="height: 150px">
-        {{editor system.decrepitude.effects target="system.decrepitude.effects" button=true owner=owner
+      <div class="flex-group-left marginbot6" style="height: auto; overflow-y: auto;max-height: 210px;">
+        {{editor system.decrepitude.effects target="system.decrepitude.effects" button=true owner=owner engine="prosemirror"
       editable=editable}}
       </div>
       <div class="flexrow">
@@ -115,7 +115,7 @@
 <div class="flexcol grid grid-2col margintop18">
   <div class="flex-group-left padding12 backSection">
     <label class="smallTitle">{{localize "arm5e.sheet.biography"}}</label>
-    {{editor system.biography target="system.biography" button=true owner=owner editable=editable}}
+    {{editor system.biography target="system.biography" button=true owner=owner engine="prosemirror" editable=editable}}
   </div>
 
   <div>

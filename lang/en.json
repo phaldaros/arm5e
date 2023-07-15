@@ -46,7 +46,9 @@
   "ITEM.TypeMundanebook": "Mundane book (deprecated)",
 
   "arm5e.sheet.player": "Player",
+  "arm5e.sheet.players": "Players",
   "arm5e.sheet.npc": "NPC",
+  "arm5e.sheet.npcs": "NPCs",
   "arm5e.sheet.laboratory": "Laboratory",
 
   "arm5e.sheet.charType": "Type",
@@ -194,7 +196,9 @@
   "arm5e.sheet.magus": "Magus",
   "arm5e.sheet.maguss": "Magi",
   "arm5e.sheet.companion": "Companion",
+  "arm5e.sheet.companions": "Companions",
   "arm5e.sheet.grog": "Grog",
+  "arm5e.sheet.grogs": "Grogs",
   "arm5e.sheet.human": "Human",
   "arm5e.sheet.mundane": "Mundane",
   "arm5e.sheet.entity": "Entity",
@@ -861,13 +865,13 @@
   "arm5e.dialog.powerUse": "Use power",
   "arm5e.dialog.hint.abilityOption": "Only alphanumeric characters.",
   "arm5e.dialog.delete-topic": "Delete topic",
-  "arm5e.dialog.confirmTransfer": "Transfer confirmation.",
   "arm5e.dialog.confirmTransfer-question": "Are you sure you want to transfer the item named \"{name}\"?",
   "arm5e.dialog.confirmTransfer-amount": "Which quantity do you want to transfer? (Max {max})",
-  "arm5e.dialog.confirmTransfer-info": "Use SHIFT to copy items as usual.",
+  "arm5e.dialog.confirmTransfer-info": "Use SHIFT+drag to copy items as usual.",
   "arm5e.dialog.confirmClearAura": "Are you sure you wish to clear the aura from this scene?",
 
   "arm5e.notification.unconscious": "This character is unconscious, no action possible...",
+  "arm5e.notification.incapacited": "This character is gravely wounded, no action possible...",
   "arm5e.notification.pendingCrisis": "This character has a pending aging crisis, no action possible... Resolve the crisis by clicking the skull next to the character name",
   "arm5e.notification.dead": "This character is dead...",
   "arm5e.notification.codex.none": "You don't have a Actor of type 'magicCodex' in your world, some functionality will be disabled/not working, you can import the one in the Magi compendium",
@@ -887,6 +891,7 @@
   "arm5e.notification.noLab": "This character doesn't own a lab.",
   "arm5e.notification.noOwner": "This laboratory doesn't have an owner.",
   "arm5e.notification.noEnoughVis": "{name} doesn't have enough pawns of vis to perform this action.",
+  "arm5e.notification.situationHasChanged": "The situation has changed, applying is no longer possible.",
 
   "arm5e.canvas.buttons.setAura": "Configure Aura",
   "arm5e.canvas.buttons.clearAura": "Clear Aura",
@@ -983,14 +988,14 @@
   "arm5e.sheet.activeEffect.types.generalAbilitiesBonus": "Bonus General abilities",
   "arm5e.sheet.activeEffect.types.martialAbilitiesBonus": "Bonus Martial abilities",
   "arm5e.sheet.activeEffect.types.mysteryAbilitiesBonus": "Bonus Mysteries abilities",
-  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesBonus": "Bonus Supernatural abilities",
+  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesBonus": "Bonus Supernat. abilities",
   "arm5e.sheet.activeEffect.types.academicAbilitiesAffinity": "Affinity Academic abilities (xp)",
   "arm5e.sheet.activeEffect.types.arcaneAbilitiesAffinity": "Affinity Arcane abilities (xp)",
   "arm5e.sheet.activeEffect.types.generalAbilitiesAffinity": "Affinity General abilities (xp)",
   "arm5e.sheet.activeEffect.types.martialAbilitiesAffinity": "Affinity Martial abilities (xp)",
   "arm5e.sheet.activeEffect.types.mysteryAbilitiesAffinity": "Affinity Mysteries abilities (xp)",
-  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernatural abilities (xp)",
-  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesXPBonus": "Bonus to Supernatural abilities XP",
+  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesAffinity": "Affinity Supernat. abil. (xp)",
+  "arm5e.sheet.activeEffect.types.supernaturalAbilitiesXPBonus": "Bonus to Supernat. abilities XP",
   "arm5e.sheet.activeEffect.types.laboratoryAttr": "Laboratory's attributes",
   "arm5e.sheet.activeEffect.types.laboratorySpec": "Laboratory's specialty",
   "arm5e.sheet.activeEffect.types.labActivity": "Laboratory activity",
@@ -1002,7 +1007,10 @@
   "arm5e.sheet.activeEffect.subtypes.woundsTotal": "Wounds total",
   "arm5e.sheet.activeEffect.subtypes.inventSpell": "Invent spell",
   "arm5e.sheet.activeEffect.subtypes.learnSpell": "Learn spell",
-
+  "arm5e.sheet.activeEffect.subtypes.spontDivider": "Spont. magic divider",
+  "arm5e.sheet.activeEffect.subtypes.spontDividerNoFatigue": "Spont. magic divider no fatigue",
+  "arm5e.sheet.activeEffect.subtypes.auraRealm": "Realm of aura",
+  "arm5e.sheet.activeEffect.subtypes.auraLevel": "Aura's level",
   "arm5e.sheet.activeEffect.bonuses.penetration": "Penetration bonus",
 
   "arm5e.sheet.activeEffect.changeMode": "Change Mode",
@@ -1055,13 +1063,14 @@
   "arm5e.aging.result4": "- Gained {num} point(s) of aging in {characteristic}.<br/>",
   "arm5e.aging.result5": "- Lost one point in {characteristic}.<br/>",
   "arm5e.aging.result6": "- Gained {num} point(s) of decrepitude.<br/>",
+  "arm5e.aging.result7": "- Gained {num} point(s) of Warping due to longetivity potion.<br/>",
   "arm5e.aging.rollback.title": "Revert effect of aging roll",
   "arm5e.aging.rollback.confirm": "This action will revert the effect of aging and delete the diary entry. Are you sure?",
   "arm5e.aging.manualEdit": "{name} lost one point in {char} due to aging.",
 
   "arm5e.time.minYear": "Minimum year",
   "arm5e.time.maxYear": "Maximum year",
-  "arm5e.time.troupSchedule": "Troup schedule",
+  "arm5e.time.troupeSchedule": "Troupe schedule",
   "arm5e.activity.current": "Season {current} of {total}",
   "arm5e.activity.eventType": "Type of event",
   "arm5e.activity.activity": "Activity",
@@ -1082,7 +1091,12 @@
   "arm5e.activity.laterLifeMagi": "Year after apprenticeship",
   "arm5e.activity.aging": "Aging",
   "arm5e.activity.visStudy": "Vis study",
+  "arm5e.activity.recovery": "Recovery",
   "arm5e.activity.pawnsNeeded": "Pawns of Vis needed",
+
+  "arm5e.activity.roll.aging": "Roll for aging",
+  "arm5e.activity.roll.visStudy": "Roll for Vis study",
+  "arm5e.activity.roll.recovery": "Roll for recovery",
 
   "arm5e.activity.progress.masteries": "Masteries",
   "arm5e.activity.msg.noAbility": "No ability left",
@@ -1103,6 +1117,9 @@
   "arm5e.activity.msg.noTeacher": "No teacher selected",
   "arm5e.activity.msg.scheduleConflict": "There is a schedule conflict.",
   "arm5e.activity.msg.activityEndsInFuture": "Impossible to apply. This activity ends in the future",
+  "arm5e.activity.msg.agingInWinter": "Aging happens usually in winter unless it is an external effect.",
+  "arm5e.activity.msg.unappliedActivities": "There are still unapplied activities scheduled before this one.",
+  "arm5e.activity.msg.sourceQualityHalved": "Due to wounds recovery, study total is divided by 2",
 
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "No distraction",
@@ -1141,6 +1158,7 @@
 
   "arm5e.astrolab.setWorldDate": "Set world date",
   "arm5e.astrolab.updateActors": "Update actors",
+  "arm5e.astrolab.restAll": "Rest everyone",
 
   "arm5e.scriptorium.index": "Index",
   "arm5e.scriptorium.reader.title": "Reader",
@@ -1163,6 +1181,11 @@
   "arm5e.scriptorium.msg.diaryTopic.spell": "the mastery of the \"{spell}\" spell",
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
+
+  "arm5e.sanatorium.magicalHelp": "Magical help",
+  "arm5e.sanatorium.mundaneHelp": "Mundane help",
+  "arm5e.sanatorium.labHealth": "Sanctum help",
+  "arm5e.sanatorium.recoveryBonus": "Recovery bonus",
 
   "arm5e.book.tableContents": "Table of contents",
   "arm5e.book.summaLong": "Summa of level {level} and quality {quality} about",
@@ -1205,5 +1228,6 @@
   "arm5e.generic.nothing": "Nothing",
   "arm5e.generic.custom": "Custom",
   "arm5e.generic.begins": "Begins",
-  "arm5e.generic.ends": "Ends"
+  "arm5e.generic.ends": "Ends",
+  "arm5e.generic.all": "All"
 }

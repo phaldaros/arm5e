@@ -148,7 +148,7 @@ export function registerSettings() {
     scope: "world",
     config: false,
     type: Object,
-    default: { year: 1220, season: "spring", date: "1220-03-21" }
+    default: { year: 1220, season: "spring", date: "", month: 2, day: 20 }
   });
 
   game.settings.register(ARM5E.SYSTEM_ID, "enforceSchedule", {

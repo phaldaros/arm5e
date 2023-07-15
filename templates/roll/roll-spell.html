@@ -63,13 +63,13 @@
           }})</label>
       </div>
     {{/if}}
-    {{#unless (eq system.roll.bonuses 0) }}
+    {{#unless (eq system.roll.bonusesExtended 0) }}
       <div class="flexrow flex-group-center">
         <label class="resource-label">+</label>
       </div>
       <div class="flexrow flex-group-center clickable">
         <label class="resource-label " data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
-          ({{ system.roll.bonuses
+          ({{ system.roll.bonusesExtended
           }})</label>
       </div>
       <div class="activeEffects hide">

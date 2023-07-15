@@ -136,6 +136,8 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
                 nullable: true,
                 initial: null
               }),
+              key: new fields.StringField({ required: false, blank: true, initial: "" }),
+              option: new fields.StringField({ required: false, blank: true, initial: "" }),
               category: new fields.StringField({ required: true, blank: false }),
               teacherScore: new fields.NumberField({
                 required: false,
@@ -254,10 +256,43 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     return schedule;
   }
 
+  hasUnappliedActivityInThePast(actor) {
+    if (this.activity === "none") {
+      return false;
+    }
+    let year = this.dates[this.dates.length - 1].year;
+    let season = this.dates[this.dates.length - 1].season;
+    // For each diary entry of the actor
+    for (let entry of Object.values(actor.system.diaryEntries)) {
+      // the entry is not the current entry
+      if (entry._id != this.parent._id) {
+        if (entry.system.done || entry.system.activity === "none") {
+          continue;
+        }
+        if (
+          entry.system.dates[entry.system.dates.length - 1].year < year ||
+          (entry.system.dates[entry.system.dates.length - 1] == year &&
+            CONFIG.SEASON_ORDER[entry.system.dates[entry.system.dates.length - 1].season] <
+              CONFIG.SEASON_ORDER[season])
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   static getDefault(itemData) {
     let res = itemData;
     let currentDate = game.settings.get("arm5e", "currentDate");
+
     if (itemData.system) {
+      if (itemData.system.year) {
+        currentDate.year = itemData.system.year;
+      }
+      if (itemData.system.season) {
+        currentDate.season = itemData.system.season;
+      }
       if (itemData.system.dates == undefined) {
         res.system.dates = [
           { year: currentDate.year, season: currentDate.season, date: "", applied: false }
@@ -427,6 +462,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           a.category = "general";
           updateNeeded = true;
         }
+
         if (typeof a.teacherScore != "number") {
           a.teacherScore = convertToNumber(a.teacherScore, 2);
           updateNeeded = true;
@@ -498,27 +534,41 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     }
   }
   // input: list of activities of a season
-  static hasConflict(activities) {
+  static hasConflict(activities, current = undefined) {
+    if (current) {
+      activities.push(current);
+    }
     if (activities.length <= 1) {
       return false;
     }
-    if (
-      activities.filter((a) => {
-        return !ARM5E.activities.conflictExclusion.includes(a.type);
-      }).length > 1
-    ) {
-      return true;
-    }
-    let exposureCount = 0;
     for (let a of activities) {
       if (["none", "adventuring"].includes(a.type)) {
         continue;
       }
-      if (a.type === "exposure") {
-        exposureCount++;
-        if (exposureCount > 1) return true;
+
+      if (ARM5E.activities.duplicateAllowed.includes(a.type)) {
+        if (ARM5E.activities.conflictExclusion.includes(a.type)) {
+          if (activities.filter((e) => e.type != a.type).length > 1) {
+            return true;
+          }
+        }
+      } else {
+        // no duplicate
+        if (ARM5E.activities.conflictExclusion.includes(a.type)) {
+          if (activities.filter((e) => e.type == a.type).length > 1) {
+            return true;
+          }
+        } else {
+          if (
+            activities.filter((e) => !ARM5E.activities.conflictExclusion.includes(e.type)).length >
+            1
+          ) {
+            return true;
+          }
+        }
       }
     }
+    log(false, "NO CONFLICT");
     return false;
   }
 
@@ -539,6 +589,10 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
               return true;
             }
           }
+        }
+        // if conflict with others but not of the same type
+        if (conflicting && duplicateAllowed && this.activity === entry.system.activity) {
+          continue;
         }
 
         if (conflicting && !ARM5E.activities.conflictExclusion.includes(entry.system.activity)) {

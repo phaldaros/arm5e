@@ -3,7 +3,7 @@ import ArM5eActiveEffect from "./active-effects.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { log } from "../tools.js";
 import { getRollTypeProperties, ROLL_MODIFIERS } from "./rollWindow.js";
-import AuraHelper from "./aura-helper.js";
+import { getAuraModifier } from "./aura.js";
 
 export class ArM5eRollData {
   constructor(actor) {
@@ -26,7 +26,7 @@ export class ArM5eRollData {
 
     let rollProperties = getRollTypeProperties(this.type);
 
-    if (rollProperties.MODIFIERS & ROLL_MODIFIERS.PHYSICAL) {
+    if (rollProperties.MODE & ROLL_MODIFIERS.PHYSICAL) {
       this.physicalCondition = true;
     } else {
       this.physicalCondition = false;
@@ -74,6 +74,7 @@ export class ArM5eRollData {
         this.ability.option = ab.system.option;
         this.ability.speciality = ab.system.speciality;
         this.ability.score = ab.system.finalScore;
+        this.ability.realm = ab.system.realm;
         break;
 
       case "power":
@@ -92,7 +93,8 @@ export class ArM5eRollData {
       case "magic":
       case "spont":
         this.useFatigue = true;
-        this.magic.divide = 2;
+
+        this.magic.divide = actor.system.bonuses.arts.spontDivider;
       case "spell":
         this.initPenetrationVariables(actor);
         this.characteristic = "sta";
@@ -148,11 +150,11 @@ export class ArM5eRollData {
         break;
       case "aging":
         this.environment.year = parseInt(dataset.year);
-        this.environment.season = ARM5E.seasons.winter.label;
+        this.environment.season = ARM5E.seasons[dataset.season].label;
         this.label =
           game.i18n.localize("arm5e.aging.roll.label") +
           " " +
-          this.environment.season +
+          game.i18n.localize(ARM5E.seasons[dataset.season].label) +
           " " +
           this.environment.year;
         this.setGenericField(
@@ -219,10 +221,12 @@ export class ArM5eRollData {
     if (dataset.usefatigue != undefined) {
       this.useFatigue = dataset.usefatigue;
     }
-
-    if (dataset.bonusActiveEffects != undefined) {
-      this.activeEffects = this.getSpellcastingModifiers(actor, dataset.bonusActiveEffects);
+    this.activeEffects = [];
+    if (["magic", "power", "spont", "spell"].includes(this.type)) {
+      this.getSpellcastingModifiers(actor);
     }
+    this.bonusesExtended = this.bonuses;
+    this.getAuraModifier(actor);
 
     this.cleanBooleans();
   }
@@ -351,10 +355,10 @@ export class ArM5eRollData {
     };
 
     this.environment = { aura: 0, year: "", season: "", hasAuraBonus: false };
-    this.activeEffects = {};
+    this.activeEffects = [];
 
     this.bonuses = 0;
-
+    this.bonusesExtended = 0;
     this.type = "";
     this.label = "";
     this.details = "";
@@ -375,51 +379,69 @@ export class ArM5eRollData {
     this.additionalData = {};
   }
 
+  getAuraModifier(actor) {
+    const superNatAbility = this.type == "ability" && this.ability.realm != "mundane";
+    const auraApply = superNatAbility || ["spell", "magic", "spont", "power"].includes(this.type);
+    if (auraApply) {
+      let alignment = actor.system.realmAlignment;
+      if (superNatAbility) {
+        alignment = CONFIG.ARM5E.realmsExt[this.ability.realm].value;
+      }
+      const auraMod = getAuraModifier(actor, alignment);
+      if (auraMod != null) {
+        this.environment.hasAuraBonus = true;
+        this.environment.aura = auraMod;
+        this.activeEffects.push({
+          label: game.i18n.localize("arm5e.sheet.magic.aura"),
+          value: auraMod
+        });
+        this.bonusesExtended += auraMod;
+      }
+    }
+  }
+
   getSpellcastingModifiers(actor) {
+    this.bonuses += actor.system.bonuses.arts.spellcasting;
+    log(false, `Bonus spellcasting: ${actor.system.bonuses.arts.spellcasting}`);
+    const activeEffects = actor.effects;
+    let activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
+      activeEffects,
+      "spellcasting"
+    );
+    this.activeEffects.concat(
+      activeEffectsByType.map((activeEffect) => {
+        const label = activeEffect.label;
+        let value = 0;
+
+        activeEffect.changes
+          .filter((c, idx) => {
+            return (
+              c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
+              activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting"
+            );
+          })
+          .forEach((item) => {
+            value += Number(item.value);
+          });
+        return {
+          label,
+          value
+        };
+      })
+    );
+
+    // add label + value for stances
     if (actor._isMagus()) {
-      res.push({
+      this.activeEffects.push({
         label: game.i18n.localize(ARM5E.magic.mod.voice[actor.system.stances.voiceStance].mnemonic),
         value: actor.system.stances.voice[actor.system.stances.voiceStance]
       });
-      res.push({
+      this.activeEffects.push({
         label: game.i18n.localize(
           ARM5E.magic.mod.gestures[actor.system.stances.gesturesStance].mnemonic
         ),
         value: actor.system.stances.gestures[actor.system.stances.gesturesStance]
       });
     }
-
-    return res;
-  }
-
-  getModifiers(actor, bonusActiveEffects) {
-    this.bonuses += Number(actor.system.bonuses.arts[bonusActiveEffects]);
-    const activeEffects = actor.effects;
-    const activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
-      activeEffects,
-      "spellcasting"
-    );
-    return activeEffectsByType.map((activeEffect) => {
-      const label = activeEffect.label;
-      let value = 0;
-      let optional = false;
-      activeEffect.changes
-        .filter((c, idx) => {
-          return (
-            (c.mode == CONST.ACTIVE_EFFECT_MODES.ADD &&
-              activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting") ||
-            (c.mode == CONST.ACTIVE_EFFECT_MODES.OVERRIDE &&
-              activeEffect.getFlag("arm5e", "type")[idx] == "spellcasting")
-          );
-        })
-        .forEach((item) => {
-          value += Number(item.value);
-        });
-      return {
-        label,
-        value,
-        optional
-      };
-    });
   }
 }

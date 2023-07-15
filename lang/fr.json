@@ -444,11 +444,11 @@
   "arm5e.sheet.sanctum": "Sanctum",
   "arm5e.sheet.location": "Lieux",
   "arm5e.sheet.generalQuality": "Qualitée générale",
-  "arm5e.sheet.safety": "Sûreté",
+  "arm5e.sheet.safety": "Sécurité",
   "arm5e.sheet.health": "Santé",
   "arm5e.sheet.refinement": "Raffinement",
   "arm5e.sheet.upkeep": "Entretien",
-  "arm5e.sheet.security": "Sécurité",
+  "arm5e.sheet.security": "**Sécurité**",
   "arm5e.sheet.salubrity": "Salubrité",
   "arm5e.sheet.improvement": "Amélioration",
   "arm5e.sheet.maintenance": "Maintenance",
@@ -482,7 +482,7 @@
   "arm5e.sheet.library": "Bibliothèque",
   "arm5e.sheet.laboratoryTexts": "Textes de laboratoire",
   "arm5e.sheet.vis": "Vis",
-  
+
   "arm5e.sheet.laboratories": "Laboratoires",
   "arm5e.sheet.money": "Argent",
   "arm5e.sheet.initials": "Départ",
@@ -516,7 +516,7 @@
   "arm5e.sheet.wagesSumary": "2 livres pour 10 pts d'Habitant",
   "arm5e.sheet.weaponsSumary": "1 livre pour 320 pts Armes et Armures (50% par artisanat)",
   "arm5e.sheet.writingMaterialsSumary": "1 livre par Magus et spécialiste en écriture (50% par artisanat)",
-  
+
   "arm5e.sheet.laborersSumary": "1 livre par personne",
   "arm5e.sheet.craftsmenCommonSumary": "[1 + (Compétence / 2)] livres par saison",
   "arm5e.sheet.craftsmenRareSumary": "(Compétence) livres par saison",
@@ -857,6 +857,9 @@
   "arm5e.dialog.powerUse": "Pouvoir utilisé",
   "arm5e.dialog.hint.abilityOption": "Seulement des caractères alphanumérique.",
   "arm5e.dialog.delete-topic": "Supprimer le sujet",
+  "arm5e.dialog.confirmTransfer-question": "Êtes-vous sûr de vouloir transférer l'objet nommé \"{name}\" ?",
+  "arm5e.dialog.confirmTransfer-amount": "Quelle quantité voulez-vous transférer ? (Max {max})",
+  "arm5e.dialog.confirmTransfer-info": "Utilisez SHIFT+glisser pour copier des éléments comme d'habitude.",
 
   "arm5e.notification.unconscious": "Ce personnage est inconscient, aucune action possible...",
   "arm5e.notification.pendingCrisis": "Ce personnage a une crise de vieillissement en cours, aucune action possible... Résolvez la crise en cliquant sur le crâne à côté du nom du personnage.",
@@ -1011,7 +1014,7 @@
 
   "arm5e.sheet.freeVirtues": "Vertus gratuites",
   "arm5e.sheet.occupiedSize": "Taille utilisée",
-  "arm5e.sheet.baseSafety": "Sûreté de base",
+  "arm5e.sheet.baseSafety": "Sécurité de base",
   "arm5e.aging.summary": "Résumé du vieillissement",
   "arm5e.aging.roll.label": "Jet de Vieillissement",
   "arm5e.aging.roll.noaging": "Pas de Vieillissement apparent.",
@@ -1043,16 +1046,17 @@
   "arm5e.aging.result1": "{character} a pris 1 an durant l'hiver {year}.<br/>",
   "arm5e.aging.result2": "Son apparence n'a pas changé. <br/>",
   "arm5e.aging.result3": "Cela a entraîné une crise de vieillissement.<br/>",
-  "arm5e.aging.result4": "- Gagner {num} point(s) de vieillissement en {characteristic}.<br/>",
+  "arm5e.aging.result4": "- Gain de {num} point(s) de vieillissement en {characteristic}.<br/>",
   "arm5e.aging.result5": "- Perdre un point en {characteristic}.<br/>",
-  "arm5e.aging.result6": "- Gagner {num} point(s) de décrépitude.<br/>",
+  "arm5e.aging.result6": "- Gain de {num} point(s) de décrépitude.<br/>",
   "arm5e.aging.rollback.title": "Inverser l'effet du jet de vieillissant",
+  "arm5e.aging.result7": "- Gain de {num} point(s) of distorsion à cause du rituel de longévité.<br/>",
   "arm5e.aging.rollback.confirm": "Cette action annulera l'effet du vieillissement et supprimera l'entrée du journal. Êtes-vous sûr ?",
   "arm5e.aging.manualEdit": "{name} perd un point en {char} à cause du vieillissement.",
 
   "arm5e.time.minYear": "Année minimum",
   "arm5e.time.maxYear": "Année maximum",
-  "arm5e.time.troupSchedule": "Calendrier de la troupe",
+  "arm5e.time.troupeSchedule": "Calendrier de la troupe",
   "arm5e.activity.current": "Saison {current} sur {total}",
   "arm5e.activity.eventType": "Type d'événement",
   "arm5e.activity.activity": "Activité",
@@ -1073,7 +1077,12 @@
   "arm5e.activity.laterLifeMagi": "Mage seulement : après l'apprentissage",
   "arm5e.activity.aging": "Vieillissement",
   "arm5e.activity.visStudy": "Etude sur vis",
+  "arm5e.activity.recovery": "Récupération",
   "arm5e.activity.pawnsNeeded": "Pions de vis nécessaire",
+  
+  "arm5e.activity.roll.aging": "Jet de vieillissement",
+  "arm5e.activity.roll.visStudy": "Jet d'étude du virtus",
+  "arm5e.activity.roll.recovery": "Jet de récupération",
 
   "arm5e.activity.progress.masteries": "Maitrise",
   "arm5e.activity.msg.noAbility": "Aucune capacité restante",
@@ -1094,13 +1103,14 @@
   "arm5e.activity.msg.noTeacher": "Aucun enseignant sélectionné",
   "arm5e.activity.msg.scheduleConflict": "Il y a un conflit dans l'agenda.",
   "arm5e.activity.msg.activityEndsInFuture": "Impossible à appliquer. Cette activité finit dans le futur",
+  "arm5e.activity.msg.agingInWinter": "Le vieillissement se produit généralement en hiver, à moins qu'il ne s'agisse d'un effet externe.",
   
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "Pas de distraction",
   "arm5e.lab.distraction.oneMonth": "Un mois",
   "arm5e.lab.distraction.twoMonths": "Deux mois",
   "arm5e.lab.distraction.threeMonths": "Trois mois",
-  
+
   "arm5e.activity.title.adventuring": "Evénement pour {season} {year}",
   "arm5e.activity.title.practice": "Pratique de {skills}",
   "arm5e.activity.title.exposure": "Exposition à {skills}",

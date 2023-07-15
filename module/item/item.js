@@ -5,6 +5,7 @@ import { computeLevel } from "../helpers/magic.js";
 import { resetOwnerFields } from "./item-converter.js";
 import { PersonalityTraitSchema } from "../schemas/minorItemsSchemas.js";
 import { ARM5E } from "../config.js";
+import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -28,7 +29,7 @@ export class ArM5eItem extends Item {
     const system = this.system;
     if (this.isOwned && this.actor.system == undefined) {
       // this is a call from constructor, it will be called again with actor data initialied
-      log(false, `Owned Item : ${this.id} : ${this.name}, actor.data= ${this.actor.data}`);
+      log(false, `Owned Item : ${this.id} : ${this.name}, actor.data= ${this.actor.system}`);
       return;
     }
     const owner = this.actor ? this.actor : {};
@@ -55,6 +56,22 @@ export class ArM5eItem extends Item {
         }
 
         system.abilities = abilitiesSelect;
+      }
+
+      if (this.type == "diaryEntry") {
+        if (!system.done) {
+          for (let a of system.progress.abilities) {
+            if (a.key == "") {
+              let ability = this.actor.items.get(a.id);
+              if (ability) {
+                a.key = ability.system.key;
+                a.option = ability.system.option;
+              } else {
+                log(false, `${this.actor.name} ability doesn't exist : ${a.name} for ${this.name}`);
+              }
+            }
+          }
+        }
       }
 
       // compute mastery score
@@ -160,7 +177,8 @@ export class ArM5eItem extends Item {
             }
             case "reading":
             case "inventSpell":
-            case "learnSpell": {
+            case "learnSpell":
+            case "visStudy": {
               this.system.baseQuality = systemData.sourceQuality;
               break;
             }
@@ -395,21 +413,47 @@ export class ArM5eItem extends Item {
     // weird it did work in 284
     // if (data.img === undefined) {
     let toUpdate = false;
-    if (CONFIG.Item.systemDataModels[data.type]?.getDefault) {
-      data = CONFIG.Item.systemDataModels[data.type].getDefault(data);
+    if (CONFIG.Item.systemDataModels[this.type]?.getDefault) {
+      data = CONFIG.Item.systemDataModels[this.type].getDefault(data);
       toUpdate = true;
     }
 
-    if (CONFIG.Item.systemDataModels[data.type]?.getIcon) {
-      data.img = CONFIG.Item.systemDataModels[data.type].getIcon(data);
+    if (this.needIconUpdate()) {
+      data.img = CONFIG.Item.systemDataModels[this.type].getIcon(data);
       toUpdate = true;
     } else if (data.img === undefined || data.img === "icons/svg/item-bag.svg") {
-      if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
-        data.img = CONFIG.ARM5E_DEFAULT_ICONS[data.type];
+      if (this.type in CONFIG.ARM5E_DEFAULT_ICONS) {
+        data.img = CONFIG.ARM5E_DEFAULT_ICONS[this.type];
         toUpdate = true;
       }
     }
     if (toUpdate) await this.updateSource(data);
+  }
+
+  async _updateIcon(key, value) {
+    if (this.needIconUpdate()) {
+      await this.update({
+        img: CONFIG.Item.systemDataModels[this.type].getIcon(this, value),
+        [key]: value
+      });
+    }
+  }
+
+  needIconUpdate(value) {
+    if (CONFIG.Item.systemDataModels[this.type]?.getIcon) {
+      let currentDefIcon = CONFIG.Item.systemDataModels[this.type].getIcon(this);
+      // if the current img is the default icon of the previous value, allow change
+      if (
+        this.img === currentDefIcon ||
+        this.img === ARM5E_DEFAULT_ICONS.MONO[this.type] ||
+        this.img === ARM5E_DEFAULT_ICONS.COLOR[this.type] ||
+        this.img === "icons/svg/mystery-man.svg" ||
+        this.img === "icons/svg/item-bag.svg"
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 
   isAnEffect() {

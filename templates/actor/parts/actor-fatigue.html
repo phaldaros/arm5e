@@ -34,8 +34,14 @@
   </div>
 
   <div class="flex-group-left backSection padding12">
-    <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
-
+    <div class="flexrow">
+      <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
+      <!-- <img class="clickable recovery-start" src="systems/arm5e/assets/icons/recovery.svg" title="Wounds recovery"
+        style="max-width:30px" /> -->
+      <!-- <a class="recovery-start clickable" title="Wounds recovery" style="text-align: right; font-size: 16pt;">
+        <i class="icon-Icon_Sanatorium"></i>
+      </a> -->
+    </div>
     <div class="flexrow flex-group-left">
       <span class="flex07"><br /></span>
       <span class="bold flex07">{{localize config.character.wounds.labels.number}}</span>
@@ -49,11 +55,12 @@
         <li class="flexrow flex-group-left" data-attribute="{{key}}">
           <div class="flexrow flex-between">
             {{#with (lookup @root.config.character.wounds key)}}
-              <label for="{{label}}" class="flex05" title="{{wounds.range}}">{{localize label}}</label>
+              <label for="{{label}}" class="flex05" title="{{wounds.range}}"
+                style="min-width: 60px;">{{localize label}}</label>
             {{/with}}
             <span class="flex05">
               <input type="text" name="system.wounds.{{key}}.number.value" value="{{wounds.number.value}}"
-                data-dtype="Number" class="resource-focus" />
+                data-dtype="Number" class="resource-focus" style="text-align: center;" />
             </span>
             <span class="flex03">
               <input type="text" name="system.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}"

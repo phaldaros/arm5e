@@ -35,6 +35,7 @@
 }
 .icon-Icon_Aging_crisis:before {
   content: "\0044";
+  font-size: 22pt;
 }
 .icon-Icon_Aging:before {
   content: "\0045";
@@ -90,6 +91,9 @@
   content: "\0057";
   font-size: 19pt;
 }
+.icon-Tool_Journals:before {
+  content: "\0057";
+}
 .icon-Tool_Delete_Perdo2:before {
   content: "\0051";
   font-size: 19pt;
@@ -106,7 +110,8 @@
 }
 .icon-Tool_AstrolabBig:before {
   content: "\0053";
-  font-size: 40pt;
+  padding-top: 16px;
+  font-size: 28pt;
 }
 .icon-Icon_Locked:before {
   content: "\0054";
@@ -130,4 +135,11 @@
 }
 .icon-Icon_Readspell:before {
   content: "\0061";
+}
+.icon-Icon_magic-chest:before {
+  content: "\0062";
+}
+.icon-Icon_Sanatorium:before {
+  content: "\0063";
+  font-size: 40pt;
 }

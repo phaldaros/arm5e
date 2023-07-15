@@ -17,8 +17,18 @@
           data-year="{{displayYear}}" src="systems/arm5e/assets/bRight.png" style="height:20px" />
       </div>
     </div>
-    <div class="flexrow">
-
+    <div class="flex-center">
+      <select name="troupeFilter" class="astrolab troupeFilter"
+        style="max-width:100px; background: rgba(0, 0, 0, 0.15);">
+        {{#select troupeFilter}}
+          <option value="players">{{localize "arm5e.sheet.players"}}</option>
+          <option value="magi">{{localize "arm5e.sheet.maguss"}}</option>
+          <option value="companions">{{localize "arm5e.sheet.companions"}}</option>
+          <option value="grogs">{{localize "arm5e.sheet.grogs"}}</option>
+          <option value="all">{{localize "arm5e.generic.all"}}</option>
+          <option value="npcs">{{localize "arm5e.sheet.npcs"}}</option>
+        {{/select}}
+      </select>
     </div>
     <div>
       {{> "systems/arm5e/templates/generic/group-schedule-grid.html" type="schedule" }}

@@ -1,0 +1,12 @@
+<form class="{{cssClass}} arm5eDialog" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/Thin/{{flavor}}_background.png'); background-size:cover">
+  {{> "systems/arm5e/templates/item/parts/item-thin-header.html" flavor=flavor}}
+  <div class="flexrow padding12">
+    <div class="flex-center">
+      <label style="margin: 10px;">{{question}}</label>
+      <label style="margin: 10px;">{{info1}}</label>
+      <label style="margin: 10px;">{{info2}}</label>
+    </div>
+  </div>
+  {{> "systems/arm5e/templates/item/parts/item-thin-footer.html" flavor=flavor}}
+</form>

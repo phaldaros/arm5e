@@ -18,6 +18,9 @@ export function registerItemCreationTests(quench) {
                   try {
                     let item = await actor.sheet._itemCreate({ type: t, system: {} });
                     assert.ok(item.length == 1);
+                    item[0].sheet.render(true);
+                    await sleep(100);
+                    await item[0].sheet.close();
                   } catch (e) {
                     console.error(`Error with ${e}`);
                     assert.ok(false);

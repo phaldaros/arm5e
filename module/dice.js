@@ -374,7 +374,7 @@ async function getRollFormula(actor) {
       }
     }
 
-    if (rollData.environment.aura != 0) {
+    if (rollData.environment.hasAuraBonus) {
       value = rollData.environment.aura;
       total = parseInt(total) + parseInt(value);
       msg = newLineAdd(msg);

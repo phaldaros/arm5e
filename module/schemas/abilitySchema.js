@@ -40,9 +40,14 @@ export class AbilitySchema extends foundry.abstract.DataModel {
   }
 
   async _increaseScore() {
+    let xpMod = 0;
+    if (this.category == "supernaturalCat" && this.parent.isOwned) {
+      let key = this.option == "" ? this.key : this.key + "_" + this.option;
+      xpMod = this.parent.parent.system.bonuses.skills[key].xpMod;
+    }
     let oldXp = this.xp;
     let newXp = Math.round(
-      ((this.derivedScore + 1) * (this.derivedScore + 2) * 5) / (2 * this.xpCoeff)
+      (((this.derivedScore + 1) * (this.derivedScore + 2) * 5) / 2 - xpMod) / this.xpCoeff
     );
 
     await this.parent.update(
@@ -58,11 +63,21 @@ export class AbilitySchema extends foundry.abstract.DataModel {
   }
 
   async _decreaseScore() {
-    if (this.derivedScore != 0) {
-      let oldXp = this.xp;
-      let newXp = Math.round(
-        ((this.derivedScore - 1) * this.derivedScore * 5) / (2 * this.xpCoeff)
+    let xpMod = 0;
+    if (this.category == "supernaturalCat" && this.parent.isOwned) {
+      let key = this.option == "" ? this.key : this.key + "_" + this.option;
+      xpMod = this.parent.parent.system.bonuses.skills[key].xpMod;
+    }
+    let futureXp = Math.round(
+      ((this.derivedScore - 1) * this.derivedScore * 5) / (2 * this.xpCoeff)
+    );
+    let newXp = 0;
+    if (futureXp >= Math.round(xpMod * this.xpCoeff)) {
+      newXp = Math.round(
+        (((this.derivedScore - 1) * this.derivedScore * 5) / 2 - xpMod) / this.xpCoeff
       );
+    }
+    if (newXp != this.xp) {
       await this.parent.update(
         {
           system: {
@@ -71,8 +86,8 @@ export class AbilitySchema extends foundry.abstract.DataModel {
         },
         {}
       );
-      let delta = newXp - oldXp;
-      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+      let delta = newXp - this.xp;
+      console.log(`Removed ${delta} xps from ${this.xp} to ${newXp} total`);
     }
   }
 

@@ -4,7 +4,7 @@ import { simpleDie, stressDie, noRoll, getFormData, changeMight } from "../dice.
 import { checkTargetAndCalculateResistance, noFatigue } from "./magic.js";
 import { chatFailedCasting } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor.js";
-import { applyAgingEffects, agingCrisis } from "./long-term-activities.js";
+import { setAgingEffects, agingCrisis } from "./long-term-activities.js";
 import { exertSelf } from "./combat.js";
 import { log } from "../tools.js";
 
@@ -70,6 +70,7 @@ const DEFAULT_ROLL_PROPERTIES = {
   },
   CHAR: {
     MODE: 19, // STRESS + SIMPLE + UNCONSCIOUS
+    MODIFIERS: 1,
     TITLE: "arm5e.dialog.title.rolldie"
   },
   SPELL: {
@@ -82,7 +83,7 @@ const DEFAULT_ROLL_PROPERTIES = {
     MODE: 61, // STRESS + NO_BOTCH + NO_CONF + UNCONSCIOUS + PRIVATE
     MODIFIERS: 0,
     TITLE: "arm5e.aging.roll.label",
-    CALLBACK: applyAgingEffects
+    CALLBACK: setAgingEffects
   },
   CRISIS: {
     MODE: 58, // SIMPLE + NO_CONF + UNCONSCIOUS + PRIVATE
@@ -132,7 +133,7 @@ const ALTERNATE_ROLL_PROPERTIES = {
   AGING: {
     MODE: 61, // STRESS + NO_BOTCH + NO_CONF + UNCONSCIOUS + PRIVATE
     TITLE: "arm5e.aging.roll.label",
-    CALLBACK: applyAgingEffects
+    CALLBACK: setAgingEffects
   },
   CRISIS: {
     MODE: 58, // SIMPLE + NO_CONF + UNCONSCIOUS + PRIVATE
@@ -264,7 +265,9 @@ function getDialogData(dataset, html, actor) {
       btns.no = {
         icon: "<i class='fas fa-ban'></i>",
         label: game.i18n.localize("arm5e.dialog.button.cancel"),
-        callback: async (html) => await actor.rollData.reset()
+        callback: async (html) => {
+          await actor.rollData.reset();
+        }
       };
     }
   } else {
@@ -283,7 +286,9 @@ function getDialogData(dataset, html, actor) {
     btns.no = {
       icon: "<i class='fas fa-ban'></i>",
       label: game.i18n.localize("arm5e.dialog.button.cancel"),
-      callback: async (html) => await actor.rollData.reset()
+      callback: async (html) => {
+        await actor.rollData.reset();
+      }
     };
   }
   return {

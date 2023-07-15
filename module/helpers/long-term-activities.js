@@ -1,7 +1,7 @@
-import { log } from "../tools.js";
+import { getDataset, log } from "../tools.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 
-export async function applyAgingEffects(actor, roll, message) {
+export async function setAgingEffects(actor, roll, message) {
   let rtCompendium = game.packs.get("arm5e.rolltables");
   let docs = await rtCompendium.getDocuments();
   const agingTable = docs.filter((rt) => rt.name === "Aging table")[0];
@@ -9,6 +9,7 @@ export async function applyAgingEffects(actor, roll, message) {
   let dialogData = CONFIG.ARM5E.activities.aging[res];
 
   dialogData.year = actor.rollData.environment.year;
+  dialogData.season = actor.rollData.environment.season;
   dialogData.choice = res === "crisis" || res === "anyAgingPt";
   dialogData.chars = CONFIG.ARM5E.character.characteristics;
 
@@ -25,20 +26,19 @@ export async function applyAgingEffects(actor, roll, message) {
         buttons: {
           yes: {
             icon: "<i class='fas fa-check'></i>",
-            label: game.i18n.localize("Apply"),
+            label: game.i18n.localize("arm5e.sheet.action.apply"),
             callback: async (html) => {
-              let char = dialogData.char;
               let find = html.find(".SelectedCharacteristic");
               if (find.length > 0) {
-                char = find[0].value;
+                dialogData.char = find[0].value;
               }
-              resultAging = await actor.addAgingPoints(dialogData.impact, char, dialogData.char2);
+              resultAging = await actor.getAgingEffects(dialogData);
               resolve();
             }
           },
           no: {
             icon: "<i class='fas fa-bomb'></i>",
-            label: game.i18n.localize("Cancel"),
+            label: game.i18n.localize("arm5e.dialog.button.cancel"),
             callback: (html) => {
               resolve();
             }
@@ -52,11 +52,20 @@ export async function applyAgingEffects(actor, roll, message) {
       }
     ).render(true);
   });
-  resultAging.type = "aging";
-  resultAging.year = dialogData.year;
   resultAging.roll = { formula: roll._formula, result: roll.result };
+  resultAging.year = actor.rollData.environment.year;
 
-  createAgingDiaryEntry(actor, resultAging);
+  await updateAgingDiaryEntry(actor, resultAging);
+}
+
+export async function agingRoll(item) {
+  const input = {
+    roll: "aging",
+    year: item.system.dates[0].year,
+    season: item.system.dates[0].season,
+    moredata: { diaryId: item._id }
+  };
+  await item.actor.sheet._onRoll(input);
 }
 
 export async function agingCrisis(actor, roll, message) {
@@ -81,8 +90,10 @@ export async function agingCrisis(actor, roll, message) {
   await actor.update({ system: { pendingCrisis: false } }, {});
 }
 
-async function createAgingDiaryEntry(actor, input) {
+export async function updateAgingDiaryEntry(actor, input) {
+  let item = actor.items.get(actor.rollData.additionalData.diaryId);
   let desc =
+    item.system.description +
     game.i18n.localize("arm5e.aging.result0") +
     "<br/>" +
     game.i18n.format("arm5e.aging.result1", {
@@ -114,7 +125,24 @@ async function createAgingDiaryEntry(actor, input) {
     });
   }
 
+  if (input.warping) {
+    desc += game.i18n.format("arm5e.aging.result7", {
+      num: input.warping.points
+    });
+  }
+
   desc += "<br/>- Roll: " + input.roll.formula + " => " + input.roll.result;
+  let updateData = {
+    _id: item._id,
+    "system.description": desc,
+    "flags.arm5e.effect": input,
+    "system.done": true
+  };
+
+  await actor.updateEmbeddedDocuments("Item", [updateData], {});
+}
+
+export async function createAgingDiaryEntry(actor, input) {
   let diaryEntry = {
     name: game.i18n.format("arm5e.aging.resultTitle", {
       character: actor.name
@@ -122,22 +150,38 @@ async function createAgingDiaryEntry(actor, input) {
     img: "systems/arm5e/assets/icons/Icon_Aging_and_Decrepitude.png",
     type: "diaryEntry",
     system: {
-      dates: [{ year: input.year, season: "winter", applied: true }],
+      dates: [{ year: input.year, season: input.season, applied: false }],
       activity: "aging",
-      description: "<p>" + desc + "</p>",
+      description: "",
       duration: 1,
-      done: true
-    },
-    flags: { arm5e: { effect: input } }
+      done: false,
+      rollDone: false
+    }
   };
-
-  await actor.createEmbeddedDocuments("Item", [diaryEntry], {});
+  return await actor.createEmbeddedDocuments("Item", [diaryEntry], {});
 }
+
 // ********************
 // Progress activities
 // ********************
 
-function genericValidationOfActivity(context) {}
+export function genericValidationOfActivity(context, actor, item) {
+  // check if there are any previous activities not applied.
+  if (context.enforceSchedule && item.system.hasUnappliedActivityInThePast(actor)) {
+    context.system.applyPossible = false;
+    context.system.applyError = "arm5e.activity.msg.unappliedActivities";
+  }
+  // check if it ends in the future
+  let currentDate = game.settings.get("arm5e", "currentDate");
+  if (
+    context.lastSeason.year > currentDate.year ||
+    (context.lastSeason.year == currentDate.year &&
+      CONFIG.SEASON_ORDER[context.lastSeason.season] > CONFIG.SEASON_ORDER[currentDate.season])
+  ) {
+    context.system.applyPossible = false;
+    context.system.applyError = "arm5e.activity.msg.activityEndsInFuture";
+  }
+}
 
 function checkForDuplicates(param, context, array) {
   // look for duplicates
@@ -149,7 +193,7 @@ function checkForDuplicates(param, context, array) {
       return ids.indexOf(e) !== ids.lastIndexOf(e);
     })
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.errorParam = param;
     context.system.applyError = "arm5e.activity.msg.duplicates";
   }
@@ -166,14 +210,14 @@ function checkArtProgressItems(context, item, max) {
       return artsKeys.indexOf(e) !== artsKeys.lastIndexOf(e);
     })
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.applyError = "arm5e.activity.msg.duplicates";
     context.system.errorParam = "arts";
   }
   let res = 0;
   for (const a of artsArr) {
     if (a.xp < 0 || a.xp > max) {
-      context.system.applyPossible = "disabled";
+      context.system.applyPossible = false;
       context.system.applyError = "arm5e.activity.msg.wrongSingleItemXp";
       context.system.errorParam = max;
       return 0;
@@ -188,7 +232,7 @@ function checkMaxXpPerItem(context, array, max) {
   let res = 0;
   for (const ab of array) {
     if (ab.xp < 0 || ab.xp > max) {
-      context.system.applyPossible = "disabled";
+      context.system.applyPossible = false;
       context.system.applyError = "arm5e.activity.msg.wrongSingleItemXp";
       context.system.errorParam = max;
       return 0;
@@ -196,6 +240,13 @@ function checkMaxXpPerItem(context, array, max) {
     res += Number(ab.xp);
   }
   return res;
+}
+
+export function validAging(context, actor, item) {
+  if (context.firstSeason.season !== "winter") {
+    context.system.applyInfo = game.i18n.localize("arm5e.activity.msg.agingInWinter");
+    context.unnaturalAging = true;
+  }
 }
 
 export function validAdventuring(context, actor, item) {
@@ -217,7 +268,7 @@ export function validAdventuring(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -241,7 +292,7 @@ export function validChildhood(context, actor, item) {
   });
 
   if (filteredArray.length != 1) {
-    context.system.applyPossible = "";
+    context.system.applyPossible = true;
     if (context.system.applyError === "")
       context.system.applyError = "arm5e.activity.msg.missingMotherTongue";
   }
@@ -252,7 +303,7 @@ export function validChildhood(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -287,7 +338,7 @@ export function validTotalXp(context, actor, item) {
     context.system.totalXp.masteries +
     context.system.totalXp.spellLevels;
   if (totalXp != context.system.sourceQuality) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam = totalXp;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
@@ -322,7 +373,7 @@ export function validExposure(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -389,8 +440,8 @@ export function validPractice(context, actor, item) {
     }
   }
   if (optionError === true) {
-    context.system.applyPossible = "";
-    // context.system.applyPossible = "disabled";
+    context.system.applyPossible = true;
+    // context.system.applyPossible = false;
     context.system.errorParam = game.i18n.localize(
       activityConfig.bonusOptions[item.system.optionKey].label
     );
@@ -403,7 +454,7 @@ export function validPractice(context, actor, item) {
       context.system.totalXp.masteries !=
     context.system.sourceQuality
   ) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam =
         context.system.totalXp.abilities +
@@ -420,12 +471,12 @@ export function validTraining(context, actor, item) {
   let abilitiesArr = Object.values(item.system.progress.abilities);
   let spellsArr = Object.values(item.system.progress.spells);
   if (abilitiesArr.length + spellsArr.length > 1) {
-    context.system.applyPossible = "";
+    context.system.applyPossible = true;
     context.system.applyError = "arm5e.activity.msg.tooManyItems";
     context.system.errorParam = 1;
     return;
   } else if (abilitiesArr.length + spellsArr.length == 0) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
   }
   context.system.baseQuality = 3;
   if (item.system.teacher.id === null) {
@@ -480,6 +531,12 @@ export function validTraining(context, actor, item) {
     context.system.progress.spells[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.masteries += Number(context.system.sourceQuality);
   }
+
+  if (context.system.cappedGain && context.system.sourceQuality == 0) {
+    context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+    context.system.errorParam = context.system.teacher.name;
+    context.system.applyPossible = false;
+  }
 }
 
 export function validTeaching(context, actor, item) {
@@ -489,12 +546,12 @@ export function validTeaching(context, actor, item) {
   let artsArr = Object.values(item.system.progress.arts);
   let spellsArr = Object.values(item.system.progress.spells);
   if (abilitiesArr.length + spellsArr.length + artsArr.length > 1) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
     context.system.applyError = "arm5e.activity.msg.tooManyItems";
     context.system.errorParam = 1;
     return;
   } else if (abilitiesArr.length + artsArr.length + spellsArr.length == 0) {
-    context.system.applyPossible = "disabled";
+    context.system.applyPossible = false;
   }
   context.system.baseQuality = 3 + item.system.teacher.teaching + item.system.teacher.com;
   if (item.system.teacher.applySpec) {
@@ -503,6 +560,18 @@ export function validTeaching(context, actor, item) {
 
   if (abilitiesArr.length > 0) {
     const teacherScore = Number(item.system.progress.abilities[0].teacherScore);
+    // if for some reason the teacher score was reduced...
+    if (teacherScore < 2) {
+      context.system.canEdit = "readonly";
+      context.system.applyPossible = false;
+      context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+      context.system.errorParam =
+        context.system.teacher.name === ""
+          ? game.i18n.localize("arm5e.activity.teacher.label")
+          : context.system.teacher.name;
+      return;
+    }
+
     let ability = Object.values(actor.system.abilities).find((e) => {
       return e._id === item.system.progress.abilities[0].id;
     });
@@ -531,6 +600,19 @@ export function validTeaching(context, actor, item) {
     context.system.totalXp.abilities += Number(context.system.sourceQuality);
   } else if (spellsArr.length > 0) {
     const teacherScore = Number(item.system.progress.spells[0].teacherScore);
+
+    // if for some reason the teacher score was reduced...
+    if (teacherScore < 2) {
+      context.system.canEdit = "readonly";
+      context.system.applyPossible = false;
+      context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+      context.system.errorParam =
+        context.system.teacher.name === ""
+          ? game.i18n.localize("arm5e.activity.teacher.label")
+          : context.system.teacher.name;
+      return;
+    }
+
     const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
@@ -549,6 +631,18 @@ export function validTeaching(context, actor, item) {
   } else if (artsArr.length > 0) {
     const progressArt = item.system.progress.arts[0];
     const teacherScore = Number(progressArt.teacherScore);
+    // if for some reason the teacher score was reduced...
+    if (teacherScore < 5) {
+      context.system.canEdit = "readonly";
+      context.system.applyPossible = false;
+      context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+      context.system.errorParam =
+        context.system.teacher.name === ""
+          ? game.i18n.localize("arm5e.activity.teacher.label")
+          : context.system.teacher.name;
+      return;
+    }
+
     let artType = "techniques";
     if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(progressArt.key) == -1) {
       artType = "forms";
@@ -566,6 +660,11 @@ export function validTeaching(context, actor, item) {
     }
     context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.arts += Number(context.system.sourceQuality);
+  }
+  if (context.system.cappedGain && context.system.sourceQuality == 0) {
+    context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+    context.system.errorParam = context.system.teacher.name;
+    context.system.applyPossible = false;
   }
 }
 
@@ -652,17 +751,63 @@ export function validReading(context, actor, item) {
     context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
     context.system.totalXp.arts += Number(context.system.sourceQuality);
   }
+
+  if (context.system.cappedGain && context.system.sourceQuality == 0) {
+    context.system.applyError = "arm5e.activity.msg.uselessTeacher";
+    context.system.errorParam = context.system.teacher.name;
+    context.system.applyPossible = false;
+  }
 }
 
 export function validVisStudy(context, actor, item) {
   context.system.totalXp = { abilities: 0, arts: 0, masteries: 0, spellLevels: 0 };
-  const progressArt = item.system.progress.arts[0];
+  // const progressArt = item.system.progress.arts[0];
 
   context.system.totalXp.arts += Number(context.system.sourceQuality);
 }
 
+export async function visStudy(item) {
+  const visEntry = item.actor.items.get(item.system.externalIds[0].itemId);
+  if (!visEntry) {
+    ui.notifications.info(
+      game.i18n.format("arm5e.notification.noEnoughVis", { name: item.actor.name })
+    );
+    return;
+  }
+  await visEntry.system.studyVis(item);
+}
+
 export function computeTotals(context) {
   context.system.totalXp = { abilities: 0, arts: 0, masteries: 0 };
+}
+
+export async function setVisStudyResults(actor, roll, message, rollData) {
+  if (roll.botches > 0) {
+    await actor.update({
+      "system.warping.points": actorCaster.system.warping.points + roll.botches
+    });
+    //ui.notifications.info()
+  } else {
+    let diaryitem = actor.items.get(actor.rollData.additionalData.diaryId);
+    const xpGain = roll.total + actor.system.bonuses.activities.visStudy;
+
+    const updateData = { "system.sourceQuality": xpGain };
+    const progressArts = diaryitem.system.progress.arts;
+
+    progressArts.push({ key: rollData.additionalData.art, maxLevel: 0, xp: xpGain });
+    updateData["system.progress.arts"] = progressArts;
+    const externalIds = diaryitem.system.externalIds;
+    externalIds[0].data = { amountLabel: "pawns", amount: rollData.additionalData.amount };
+    updateData["system.externalIds"] = externalIds;
+    // updateData["system.rollDone"] = true;
+    updateData._id = diaryitem._id;
+
+    //  TODO
+    // "system.description": desc,
+
+    await actor.updateEmbeddedDocuments("Item", [updateData], {});
+    await diaryitem.sheet._onProgressApply();
+  }
 }
 
 // get a new title for a diary entry if it is still the default : "New DiaryEntry"

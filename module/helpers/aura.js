@@ -5,14 +5,19 @@ import { ARM5E } from "../config.js";
 
 const ICON = "icons/magic/defensive/barrier-shield-dome-blue-purple.webp";
 
-function getAuraActiveEffect(numericValue) {
+function createAuraActiveEffect(realm, level) {
   const label = `${game.i18n.localize("arm5e.sheet.levelAura")}`;
 
   const changeData = [
     {
-      key: ACTIVE_EFFECTS_TYPES.spellcasting.subtypes.aura.key,
-      value: numericValue,
-      mode: CONST.ACTIVE_EFFECT_MODES.ADD
+      key: ACTIVE_EFFECTS_TYPES.aura.subtypes.auraLevel.key,
+      value: level,
+      mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE
+    },
+    {
+      key: ACTIVE_EFFECTS_TYPES.aura.subtypes.auraRealm.key,
+      value: realm,
+      mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE
     }
   ];
   const activeEffectData = {
@@ -23,10 +28,9 @@ function getAuraActiveEffect(numericValue) {
     },
     flags: {
       arm5e: {
-        type: ["spellcasting"],
-        subtype: ["aura"],
-        option: [null],
-        value: ["AURA"]
+        type: ["aura", "aura"],
+        subtype: ["auraLevel", "auraRealm"],
+        option: [null, null]
       }
     },
     changes: changeData,
@@ -36,19 +40,25 @@ function getAuraActiveEffect(numericValue) {
   return activeEffectData;
 }
 
-async function addEffect(actor, activeEffectData) {
-  const ae = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(actor.effects, "aura");
-  if (ae.length) {
+async function setAuraEffect(actor, activeEffectData) {
+  const aura = ArM5eActiveEffect.findAllActiveEffectsWithTypeFiltered(actor.effects, "aura");
+
+  if (aura.length > 1) {
+    console.error("Problem: multiple auras on an Actor");
+  }
+  if (aura.length) {
     log(
       false,
-      `AURA_MANAGEMENT Change aura for ${actor.name}, Aura impact: ${activeEffectData.changes[0].value}`
+      `AURA_MANAGEMENT Change aura for ${actor.name}, Aura ${activeEffectData.changes[0].value} ${activeEffectData.changes[1].value}`
     );
-    activeEffectData._id = ae[0]._id;
+    aura[0]._getSourceName();
+    activeEffectData._id = aura[0]._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }
+
   log(
     false,
-    `AURA_MANAGEMENT Add aura for ${actor.name}, Aura impact: ${activeEffectData.changes[0].value}`
+    `AURA_MANAGEMENT Add aura for ${actor.name}, Aura ${activeEffectData.changes[0].value} ${activeEffectData.changes[1].value}`
   );
   return await actor.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
 }
@@ -58,23 +68,19 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
     return;
   }
   if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
-    let activeEffectData = getAuraActiveEffect(value);
+    let activeEffectData = createAuraActiveEffect(type, value);
     activeEffectData.origin = scene.uuid;
 
-    const tokens = scene.tokens.filter(token => token.actor);
+    const tokens = scene.tokens.filter((token) => token.actor);
     for (const token of tokens) {
       if (token.actor._isCharacter()) {
         if (token.isLinked) {
-          const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
           // patch the active effect data
-          activeEffectData.changes[0].value = modifier;
-          await addEffect(token.actor, activeEffectData);
+          await setAuraEffect(token.actor, activeEffectData);
         } else {
-          const modifier = computeAuraModifier(token.actor.system.realmAlignment, value, type);
           // patch the active effect data
-          activeEffectData.changes[0].value = modifier;
           log(false, `Change aura for ${token.name}`);
-          await addEffect(token.actor, activeEffectData);
+          await setAuraEffect(token.actor, activeEffectData);
         }
       }
     }
@@ -83,26 +89,26 @@ async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
 
 async function addActiveEffectAuraToActor(actor, value, type) {
   if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
-    const auraEffect = getAuraActiveEffect(value);
-    const modifier = computeAuraModifier(actor.system.realmAlignment, Number(value), type);
+    const auraEffect = createAuraActiveEffect(type, value);
     // patch the active effect data
-    auraEffect.changes[0].value = modifier;
-    await addEffect(actor, auraEffect);
+    await setAuraEffect(actor, auraEffect);
   }
 }
 
 async function clearAuraFromActor(actor) {
-  const effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(actor.effects, "aura");
+  if (actor == undefined || actor == null) return;
+  log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);
+  const effects = ArM5eActiveEffect.findAllActiveEffectsWithTypeFiltered(actor.effects, "aura");
+  let toDelete = [];
   for (const e of effects) {
-    log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);
-    await actor.deleteEmbeddedDocuments("ActiveEffect", [e.id]);
+    toDelete.push(e._id);
   }
+  await actor.deleteEmbeddedDocuments("ActiveEffect", toDelete);
 }
 
-function computeAuraModifier(alignment, auraVal, type) {
-  const realm = CONFIG.ARM5E.lookupRealm[parseInt(type)];
+function computeAuraModifier(alignment, auraVal, auraRealm) {
   const char = CONFIG.ARM5E.lookupRealm[parseInt(alignment)];
-  const multiplier = CONFIG.ARM5E.realmsExt[realm].influence[parseInt(alignment)];
+  const multiplier = CONFIG.ARM5E.realmsExt[auraRealm].influence[parseInt(alignment)];
   log(
     false,
     "Computed aura :" +
@@ -110,7 +116,7 @@ function computeAuraModifier(alignment, auraVal, type) {
       ", Aura: " +
       auraVal +
       " of type " +
-      realm +
+      auraRealm +
       " = " +
       auraVal * multiplier
   );
@@ -140,7 +146,17 @@ async function resetTokenAuraToSceneAura() {
   }
 }
 
+function getAuraModifier(actor, alignment) {
+  const effects = ArM5eActiveEffect.findAllActiveEffectsWithTypeFiltered(actor.effects, "aura");
+  if (effects.length == 0) return null;
+  const level = effects[0].changes[0].value;
+  const realm = effects[0].changes[1].value;
+  const auraRealm = CONFIG.ARM5E.lookupRealm[parseInt(realm)];
+  return computeAuraModifier(alignment, level, auraRealm);
+}
+
 export {
+  getAuraModifier,
   computeAuraModifier,
   modifyAuraActiveEffectForAllTokensInScene,
   addActiveEffectAuraToActor,
