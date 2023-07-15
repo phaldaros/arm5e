@@ -2696,36 +2696,63 @@ ARM5E.generic.sourcesTypes = {
 };
 
 ARM5E.recovery = {
+  rankMapping: { 0: "healthy", 1: "light", 2: "medium", 3: "heavy", 4: "incap", 5: "dead" },
   wounds: {
+    healthy: {
+      rank: 0,
+      penalty: 0,
+      stability: 0,
+      improvement: 0,
+      interval: 7,
+      icon: "systems/arm5e/assets/icons/recovery/healed2.png",
+      label: "arm5e.sheet.healthy"
+    },
     light: {
+      rank: 1,
+      penalty: -1,
       stability: 4,
       improvement: 10,
-      interval: "week",
-      icon: "systems/arm5e/assets/icons/recovery/light.svg"
+      interval: 7,
+      icon: "systems/arm5e/assets/icons/recovery/light.svg",
+      label: "arm5e.sheet.light"
     },
     medium: {
+      rank: 2,
+      penalty: -3,
       stability: 6,
       improvement: 12,
-      interval: "month",
-      icon: "systems/arm5e/assets/icons/recovery/medium.svg"
+      interval: 30,
+      icon: "systems/arm5e/assets/icons/recovery/medium.svg",
+      label: "arm5e.sheet.medium"
     },
     heavy: {
+      rank: 3,
+      penalty: -5,
       stability: 9,
       improvement: 15,
-      interval: "season",
-      icon: "systems/arm5e/assets/icons/recovery/heavy.svg"
+      interval: 90,
+      icon: "systems/arm5e/assets/icons/recovery/heavy.svg",
+      label: "arm5e.sheet.heavy"
     },
     incap: {
+      rank: 4,
+      penalty: 0,
       stability: 1,
       improvement: 9,
-      interval: "halfday",
-      icon: "systems/arm5e/assets/icons/recovery/incap.svg"
+      interval: 0.5,
+      icon: "systems/arm5e/assets/icons/recovery/incap.svg",
+      label: "arm5e.sheet.incap"
     },
     dead: {
+      rank: 5,
+      penalty: -999,
       stability: 999,
       improvement: 999,
-      interval: "instant",
-      icon: "systems/arm5e/assets/icons/skull.svg"
+      interval: 0,
+      icon: "systems/arm5e/assets/icons/skull.svg",
+      label: "arm5e.sheet.dead"
     }
-  }
+  },
+  daysInSeason: 92,
+  rollMode: 24
 };

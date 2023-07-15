@@ -325,6 +325,18 @@ h4.window-title {
   background-image: none;
 }
 
+.arm5e .sanatorium .improved {
+  box-shadow: 3px 3px 3px rgb(51 120 34 / 50%);
+}
+
+.arm5e .sanatorium .worsened {
+  box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);
+}
+.arm5e .sanatorium .editor {
+  overflow-y: auto;
+  max-height: 300px;
+  font-family: "bookAntiqua";
+}
 .arm5e.button {
   font-family: "blackmoor";
   padding: 10px;

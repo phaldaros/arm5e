@@ -1,3 +1,11 @@
+## 2.1.1.0, Mercere, the Spymaster
+
+### Features & changes
+
+### Bug fixes
+
+- Non-supernatural abilities that had a realm alignment are no longer impacted by aura.
+
 ## 2.1.0.18, Mercere, the Giftless
 
 ### Bug fixes

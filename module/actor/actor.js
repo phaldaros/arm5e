@@ -318,14 +318,7 @@ export class ArM5ePCActor extends Actor {
     }
 
     if (system.wounds) {
-      system.woundsTotal = 0;
-      for (let [key, item] of Object.entries(system.wounds)) {
-        system.woundsTotal = system.woundsTotal + item.number.value * item.penalty.value;
-      }
-      system.woundsTotal =
-        system.woundsTotal + system.bonuses.traits.wounds > 0
-          ? 0
-          : system.woundsTotal + system.bonuses.traits.wounds;
+      system.woundsTotal = this.getWoundPenalty();
     }
 
     //abilities
@@ -1869,5 +1862,15 @@ export class ArM5ePCActor extends Actor {
       }
     }
     return false;
+  }
+
+  getWoundPenalty() {
+    let woundsTotal = 0;
+    for (let [key, item] of Object.entries(this.system.wounds)) {
+      woundsTotal = woundsTotal + item.number.value * item.penalty.value;
+    }
+    return woundsTotal + this.system.bonuses.traits.wounds > 0
+      ? 0
+      : woundsTotal + this.system.bonuses.traits.wounds;
   }
 }

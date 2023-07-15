@@ -65,7 +65,7 @@ export function addChatListeners(message, html, data) {
   let showResults = showRollResults(actor, data.message.flags.arm5e.actorType);
   let rollResult = html.find(".dice-total");
   let rollRes = rollResult.text();
-  log(false, `Roll result: ${rollRes}`);
+  // log(false, `Roll result: ${rollRes}`);
   if (data.message.flags.arm5e.secondaryScore) {
     let newValue = Math.round(
       data.message.flags.arm5e.secondaryScore + Number(message.rolls[0].total)

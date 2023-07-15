@@ -116,6 +116,12 @@
 .icon-Icon_Locked:before {
   content: "\0054";
 }
+
+.icon-Icon_Locked_Small:before {
+  content: "\0054";
+  font-size: 8pt;
+}
+
 .icon-Icon_Unlocked:before {
   content: "\0055";
 }
