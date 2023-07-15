@@ -924,8 +924,8 @@ ARM5E.REALM_TYPES = {
 };
 // influence is the impact the aura has on powers of mundane (ie: none), magic, faery, divine and infernal respectively
 ARM5E.realms = {
-  magical: {
-    label: "arm5e.sheet.realm.magical",
+  magic: {
+    label: "arm5e.sheet.realm.magic",
     value: ARM5E.REALM_TYPES.MAGIC,
     influence: [0, 1, 0.5, 0, -1]
   },

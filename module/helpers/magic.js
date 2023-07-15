@@ -1,7 +1,7 @@
 import { getActorsFromTargetedTokens } from "./tokens.js";
 import { chatContestOfMagic, chatContestOfPower } from "./chat.js";
 import { log } from "../tools.js";
-import { getAuraModifier } from "./aura.js";
+import Aura from "./aura.js";
 
 const VOICE_AND_GESTURES_ICONS = {
   voice: "icons/skills/trades/music-singing-voice-blue.webp",
@@ -360,7 +360,8 @@ function calculateResistance(actor, form) {
   let auraMod = 0;
   // TODO, do a better job for player aligned to a realm
   if (actor._hasMight()) {
-    auraMod = getAuraModifier(actor, actor.system.realmAlignment);
+    let aura = Aura.fromActor(actor);
+    auraMod = aura.computeAuraModifierFor(actor.system.realmAlignment);
     magicResistance += parseInt(auraMod);
   }
 

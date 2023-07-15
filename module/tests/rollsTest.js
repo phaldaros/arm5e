@@ -17,7 +17,6 @@ import {
   weaponItem
 } from "./testData.js";
 import { ArsLayer } from "../ui/ars-layer.js";
-import { setAuraValueForAllTokensInScene } from "../helpers/aura.js";
 import { ARM5E } from "../config.js";
 import { simpleDie, stressDie } from "../dice.js";
 
@@ -124,7 +123,7 @@ export function registerRollTesting(quench) {
           data.actorLink = true;
           magusToken = (await canvas.scene.createEmbeddedDocuments("Token", [data]))[0];
           await magusToken.update({ actorLink: true });
-          await setAuraValueForAllTokensInScene(6, ARM5E.REALM_TYPES.FAERIC);
+          // await setAuraValueForAllTokensInScene(6, ARM5E.REALM_TYPES.FAERIC);
         }
       });
 

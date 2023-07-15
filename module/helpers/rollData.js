@@ -3,7 +3,7 @@ import ArM5eActiveEffect from "./active-effects.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { log } from "../tools.js";
 import { getRollTypeProperties, ROLL_MODIFIERS } from "./rollWindow.js";
-import { getAuraModifier } from "./aura.js";
+import Aura from "./aura.js";
 
 export class ArM5eRollData {
   constructor(actor) {
@@ -387,16 +387,8 @@ export class ArM5eRollData {
       if (superNatAbility) {
         alignment = CONFIG.ARM5E.realmsExt[this.ability.realm].value;
       }
-      const auraMod = getAuraModifier(actor, alignment);
-      if (auraMod != null) {
-        this.environment.hasAuraBonus = true;
-        this.environment.aura = auraMod;
-        this.activeEffects.push({
-          label: game.i18n.localize("arm5e.sheet.magic.aura"),
-          value: auraMod
-        });
-        this.bonusesExtended += auraMod;
-      }
+      this.environment.aura = Aura.fromActor(actor);
+      this.environment.aura.computeAuraModifierFor(alignment);
     }
   }
 

@@ -374,12 +374,12 @@ async function getRollFormula(actor) {
       }
     }
 
-    if (rollData.environment.hasAuraBonus) {
+    if (rollData.environment.aura > 0) {
       value = rollData.environment.aura;
       total = parseInt(total) + parseInt(value);
       msg = newLineAdd(msg);
       msg += "Aura";
-      msg += " (" + value + ")";
+      msg += " (" + value + ")"; // Remove if not visible? Players can still do math...
     }
 
     if (rollData.magic.ritual === true) {

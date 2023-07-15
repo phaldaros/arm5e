@@ -1,9 +1,4 @@
 import { log } from "../tools.js";
-import {
-  setAuraValueForAllTokensInScene,
-  clearAuraFromActor,
-  addActiveEffectAuraToActor
-} from "../helpers/aura.js";
 import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
 import { Scriptorium } from "../tools/scriptorium.js";
@@ -136,22 +131,4 @@ export function addArsButtons(buttons) {
     ],
     activeTool: "aura"
   });
-}
-
-export async function onDropOnCanvas(canvas, data) {
-  if (!canvas.scene.active) {
-    return;
-  }
-  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
-  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
-  const actor = await fromUuid(data.uuid);
-  if (actor) {
-    if (aura !== undefined && !Number.isNaN(aura) && type !== undefined && !Number.isNaN(type)) {
-      addActiveEffectAuraToActor(actor, Number(aura), Number(type));
-    } else {
-      // no aura
-      // => reset aura for actor, if it was in another scene.
-      clearAuraFromActor(actor);
-    }
-  }
 }

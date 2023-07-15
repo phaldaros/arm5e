@@ -1,3 +1,4 @@
+import Aura from "../helpers/aura.js";
 
 export class AuraConfig extends FormApplication {
   /** @override */
@@ -15,14 +16,14 @@ export class AuraConfig extends FormApplication {
     const data = await super.getData();
 
     // Some scenes may have null or empty objects for their aura, so merge with the default aura data structure
-    data.aura = mergeObject((this.object.getFlag("arm5e", "aura") || {}), AuraHelper.defaultAura, {overwrite : false});
+    data.aura = mergeObject((this.object.getFlag("arm5e", "aura") || {}), Aura.defaultAura, {overwrite : false});
     return data;
   }
 
   async _updateObject(event, formData) {
     this.object.setFlag("arm5e", "aura", {
         values : {
-            magical : formData.magical,
+            magic : formData.magic,
             faeric : formData.faeric,
             divine : formData.divine,
             infernal : formData.infernal,
