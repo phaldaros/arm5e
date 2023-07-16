@@ -1093,7 +1093,6 @@
 
   "arm5e.activity.roll.aging": "Roll for aging",
   "arm5e.activity.roll.visStudy": "Roll for Vis study",
-  "arm5e.activity.roll.recovery": "Roll for recovery",
 
   "arm5e.activity.progress.masteries": "Masteries",
   "arm5e.activity.msg.noAbility": "No ability left",
@@ -1136,6 +1135,7 @@
   "arm5e.activity.title.spellLearning": "Learned a spell",
   "arm5e.activity.title.inventSpell": "Invented a spell",
   "arm5e.activity.title.visStudy": "Study of {art} Vis",
+  "arm5e.activity.title.recovery": "Recovering from wounds",
   "arm5e.activity.desc.visStudy": "From the study of {amount} pawn(s) of {art} Vis, {xp} xps were earned.",
   "arm5e.activity.drop.teacher": "Drop an actor here to act as a teacher/trainer.",
   "arm5e.activity.title.labinuse": "Laboratory in use ({activity}) by {user}.",
@@ -1192,7 +1192,7 @@
   "arm5e.sanatorium.msg.logRoll": "Rolled {total} (Stress die + {mod})",
   "arm5e.sanatorium.msg.logWoundBetter": "Wound improvement in {days} days",
   "arm5e.sanatorium.msg.logWoundStable": "Wound stabilized",
-  "arm5e.sanatorium.msg.logWoundWorse": "Wound worsen in {days} days",
+  "arm5e.sanatorium.msg.logWoundWorse": "Wound gets worse in {days} days",
   "arm5e.sanatorium.msg.logDone": "Nothing else can be done this season.",
   "arm5e.sanatorium.msg.logHealed": "Wound completly healed",
   "arm5e.sanatorium.button.recovery": "Roll for recovery",

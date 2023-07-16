@@ -122,7 +122,8 @@ export const ACTIVITIES_DEFAULT_ICONS = {
     visExtraction: "systems/arm5e/assets/icons/activities/VisExtraction.svg",
     lab: "systems/arm5e/assets/icons/activities/Lab.svg",
     aging: "systems/arm5e/assets/icons/activities/Aging.svg",
-    visStudy: "systems/arm5e/assets/icons/activities/VisStudy.svg"
+    visStudy: "systems/arm5e/assets/icons/activities/VisStudy.svg",
+    recovery: "systems/arm5e/assets/icons/recovery/healed.png"
   },
   COLOR: {
     none: "icons/sundries/documents/document-sealed-signatures-red.webp",
@@ -141,7 +142,8 @@ export const ACTIVITIES_DEFAULT_ICONS = {
     visExtraction: "icons/skills/toxins/bottle-open-vapors-pink.webp",
     lab: "icons/tools/laboratory/vials-blue-pink.webp",
     aging: "icons/sundries/misc/hourglass-wood.webp",
-    visStudy: "icons/skills/toxins/bottle-open-vapors-pink.webp"
+    visStudy: "icons/skills/toxins/bottle-open-vapors-pink.webp",
+    recovery: "icons/magic/life/cross-explosion-burst-green.webp"
   }
 };
 

@@ -2322,6 +2322,26 @@ ARM5E.activities.generic = {
       duplicate: false,
       conflict: true
     }
+  },
+  recovery: {
+    label: "arm5e.activity.recovery",
+    display: {
+      tab: false,
+      progress: false,
+      abilities: false,
+      arts: false,
+      masteries: false,
+      spells: false
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: false
+    }
   }
 };
 
@@ -2704,7 +2724,7 @@ ARM5E.recovery = {
       stability: 0,
       improvement: 0,
       interval: 7,
-      icon: "systems/arm5e/assets/icons/recovery/healed2.png",
+      icon: "systems/arm5e/assets/icons/recovery/healed.png",
       label: "arm5e.sheet.healthy"
     },
     light: {
