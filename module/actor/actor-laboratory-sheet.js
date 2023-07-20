@@ -155,23 +155,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       context.planning.modifiers.apprentice = 0;
     }
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
+    
+    context.planning.modifiers.aura = this.actor.system.aura.computeAuraModifierFor(ARM5E.REALM_TYPES.MAGIC);
 
-    // const hasSpecificAuraRealm =
-    //   ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.actor.effects, "auraRealm")
-    //     .length > 0;
-    // const hasSpecificAuraLevel =
-    //   ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.actor.effects, "auraLevel")
-    //     .length > 0;
-    // if (hasSpecificAuraRealm || hasSpecificAuraLevel) {
-    // } else
-    // if (context.system.covenant.linked) {
-    //   context.planning.modifiers.aura = computeAuraModifier(
-    //     context.owner.system.realmAlignment,
-    //     context.covenant.system.levelAura,
-    //     context.covenant.system.typeAura
-    //   );
-    //   // TODO fix covenant date
-    // }
+      // TODO fix covenant date
     if (context.planning.date == undefined)
       context.planning.date = game.settings.get("arm5e", "currentDate");
     else if (context.planning.date.year == null) {

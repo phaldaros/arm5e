@@ -199,6 +199,11 @@ Hooks.once("init", async function () {
     }
     return options.inverse(this);
   });
+
+  Handlebars.registerHelper("isGM", function () {
+    return game.user.isGM;
+  });
+
 });
 
 Hooks.once("ready", async function () {

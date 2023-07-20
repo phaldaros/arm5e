@@ -231,7 +231,7 @@ export function getFormData(html, actor) {
 
   find = html.find(".SelectedAura");
   if (find.length > 0) {
-    actor.rollData.environment.aura = Number(find[0].value) ?? 0;
+    actor.rollData.environment.aura.modifier = Number(find[0].value) ?? 0;
   }
 
   find = html.find(".SelectedLevel");
@@ -374,8 +374,8 @@ async function getRollFormula(actor) {
       }
     }
 
-    if (rollData.environment.aura > 0) {
-      value = rollData.environment.aura;
+    if (rollData.environment.aura.modifier != 0) {
+      value = rollData.environment.aura.modifier;
       total = parseInt(total) + parseInt(value);
       msg = newLineAdd(msg);
       msg += "Aura";

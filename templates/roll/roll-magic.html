@@ -35,13 +35,13 @@
     {{#if system.roll.environment.aura.visible}}
     <div class=" flexrow flex-group-center">
       <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
-      <input type="number" name="system.roll.environment.aura.computed" value="{{system.roll.environment.aura.computed}}" data-dtype="Number"
+      <input type="number" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
         class="SelectedAura flex02 resource-focus" />
     </div>
     {{else}}
     <div class=" flexrow flex-group-center">
       <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
-      <input type="number" style="display: none" name="system.roll.environment.aura.computed" value="{{system.roll.environment.aura.computed}}" data-dtype="Number"
+      <input type="number" style="display: none" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
       class="SelectedAura flex02 resource-focus" />
       ???
     </div>

@@ -30,6 +30,8 @@ export class AuraConfig extends FormApplication {
         },
         visible : formData.visible,
         nightModifier : {
+            magic : formData.magicNightModifier,
+            faeric : formData.faericNightModifier,
             divine : formData.divineNightModifier,
             infernal : formData.infernalNightModifier,
         }

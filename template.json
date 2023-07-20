@@ -698,8 +698,9 @@
       "foundationYear": "",
       "season": "",
       "tribunal": "",
-      "typeAura": "",
-      "levelAura": 0,
+      "scene" : {
+        "id" : ""
+      },
       "levelsRegio": "",
       "modifiersLife": {
         "magi": 1,

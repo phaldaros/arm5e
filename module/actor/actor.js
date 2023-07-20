@@ -17,6 +17,7 @@ import { migrateActorData } from "../migration.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ArM5eRollData } from "../helpers/rollData.js";
 import { compareDiaryEntries, isInThePast } from "../tools/time.js";
+import Aura from "../helpers/aura.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -78,6 +79,10 @@ export class ArM5ePCActor extends Actor {
       this.system.specialty["texts"] = { bonus: 0 };
       this.system.specialty["visExtraction"] = { bonus: 0 };
 
+      // Hopefully this can be reworked to use ID instead of name
+      this.system.covenant.document = game.actors.getName(this.system.covenant.value)
+      this.system.aura = new Aura(this.system.covenant.document?.system?.scene?.document)
+
       return;
     }
     let datetime = game.settings.get("arm5e", "currentDate");
@@ -90,11 +95,6 @@ export class ArM5ePCActor extends Actor {
           day: 21
         };
       }
-    } else if (this.type == "laboratory") {
-      this.system.aura = {
-        value: 0,
-        realm: ARM5E.REALM_TYPES.MUNDANE
-      };
     }
 
     if (this.type != "player" && this.type != "npc" && this.type != "beast") {
@@ -1035,6 +1035,7 @@ export class ArM5ePCActor extends Actor {
     let diaryEntries = [];
     let totalVirtues = 0;
     let totalFlaws = 0;
+    system.scene.document = game.scenes.get(system.scene.id)
 
     for (let [key, item] of this.items.entries()) {
       item.img = item.img || DEFAULT_TOKEN;
