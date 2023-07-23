@@ -742,19 +742,19 @@ export default {
       },
       light: {
         label: "arm5e.sheet.light",
-        key: "system.wounds.light.penalty.value",
+        key: "system.penalties.wounds.light",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       medium: {
         label: "arm5e.sheet.medium",
-        key: "system.wounds.medium.penalty.value",
+        key: "system.penalties.wounds.medium",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       },
       heavy: {
         label: "arm5e.sheet.heavy",
-        key: "system.wounds.heavy.penalty.value",
+        key: "system.penalties.wounds.heavy",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 0
       }

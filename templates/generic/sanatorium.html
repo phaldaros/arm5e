@@ -9,7 +9,7 @@
   </div>
   <div class="flexrow marginsides32" style="margin-right: 16px;">
     {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.stamina" name="sta"
-    attributes="readonly" value=patient.system.characteristics.int.value type="number" dtype="Number" classes="wide"}}
+    attributes="readonly" value=patient.system.characteristics.sta.value type="number" dtype="Number" classes="wide"}}
     {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sanatorium.recoveryBonus"
     name="recoveryBonus" attributes="readonly" value=modifiers.activeEffect type="number" dtype="Number" classes="wide"}}
     {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sanatorium.mundaneHelp" 
@@ -22,7 +22,7 @@
   <div class="flex-center marginsides32 marginbot6 margintop6">
     {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
   </div>
-  <div class="sheet-body backSection marginsides32 " style="height:auto; min-height:219px;">
+  <div class="sheet-body backSection marginsides32 " style=" min-height:367px;">
 
     <div class="flexcol" style="margin:10px">
       <div class="resource-content flexrow">
@@ -39,30 +39,51 @@
           <input type="number" name="curYear" {{dateChange}} value="{{curYear}}" data-dtype="Number"
             class="sanatorium change-year resource-focus" style="
         font-size: 18pt;" />
-
         </div>
       </div>
-
-      <div class="flexcol" style="padding-top: 16px; padding-bottom: 12px;">
-        {{#each wounds }}
-          <div class="flexrow">
-            {{#each this}}
-              <img class="clickable patient" src="{{this.icon}}" title="{{../type}}"
-                style="max-height:48px; max-width:48px" />
-            {{/each}}
-          </div>
-        {{/each}}
+      <div class="flexrow">
+        <div class="flexcol" style="padding-top: 16px; padding-bottom: 12px; max-height: 300px;">
+          {{#each wounds }}
+            <div class="flexrow">
+              {{#each this}}
+                <img class="{{this.style}}" src="{{this.img}}" title="{this.name}} +{{this.bonus}}"
+                  style="max-height:48px; max-width:48px;margin:3px" />
+                {{#if this.locked}}
+                  <a class="" title="Locked" style="position:relative; right:14px;max-width: 0px;">
+                    <i class="icon-Icon_Locked_Small"></i>
+                  </a>
+                {{/if}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+        <div class="margintop18" style="min-height:263px">
+          <label class="smallTitle">{{localize "arm5e.sanatorium.log"}}</label>
+          {{editor log target="log" button=false owner=owner engine="prosemirror" editable=false}}
+        </div>
       </div>
     </div>
-    <div class="flex-center marginsides10">
-      <label>{{daysLeft}} days left</label>
-      <input class="days-left" type="range" name="daysLeft" data-dtype="Number" value="{{daysLeft}}" min="0" max="92"
-        step="1">
+    <div class="flexrow">
+      <div class="flex-center" style="max-width: 100px; margin:3px">
+        <label for="availableDays" class="smallTitle"
+          style="font-size:14pt">{{localize "arm5e.sanatorium.daysAvailbable"}}</label>
+        <input type="number" name="availableDays" {{dateChange}} value="{{availableDays}}" data-dtype="Number"
+          class="sanatorium change-available-days resource-focus" style="
+        font-size: 14pt;" />
+      </div>
+      <div class="flex-center marginsides10">
+        <label>{{daysLeftLabel}}</label>
+        <input class="days-left" type="range" disabled data-dtype="Number" value="{{nextRecoveryPeriod}}" min="0"
+          max="{{availableDays}}" step="0.5">
+      </div>
     </div>
   </div>
   <div class="flexrow marginsides32">
-    <button class="sanatorium button recovery-roll" style="font-size:16pt">
-      Roll for recovery
+    <button class="sanatorium button recovery-roll" style="font-size:16pt" {{canRoll}}>
+      {{localize "arm5e.sanatorium.button.recovery"}}
+    </button>
+    <button class="sanatorium button diary-entry" style="font-size:16pt" {{diary}}>
+      {{localize "arm5e.sanatorium.button.endSeason"}}
     </button>
   </div>
 

@@ -17,7 +17,7 @@
   </div>
 
   <div class="flex-group-center padding6">
-    <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
+    <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.penalties.wounds.total }})</label>
     {{#each system.wounds as |wounds key|}}
       <div class="flexrow">
         <div class="flex-left flex01" style="padding-top: 10px; padding-left: 6px;">

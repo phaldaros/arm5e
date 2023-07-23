@@ -325,6 +325,18 @@ h4.window-title {
   background-image: none;
 }
 
+.arm5e .sanatorium .improved {
+  box-shadow: 3px 3px 3px rgb(51 120 34 / 50%);
+}
+
+.arm5e .sanatorium .worsened {
+  box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);
+}
+.arm5e .sanatorium .editor {
+  overflow-y: auto;
+  max-height: 300px;
+  font-family: "bookAntiqua";
+}
 .arm5e.button {
   font-family: "blackmoor";
   padding: 10px;
@@ -1183,6 +1195,14 @@ input[type="time"] {
   margin-bottom: 16px;
   object-fit: contain;
 }
+.arm5e .sheet-header .item-small-img {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 64px;
+  flex: 0 0 64px;
+  height: 64px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
 
 .arm5e .sheet-header .header-fields {
   -webkit-box-flex: 1;
@@ -1705,6 +1725,11 @@ img.art-icon {
   margin: 2px;
 }
 
+.arm5e .wound-field {
+  max-width: 50px;
+  min-width: 50px;
+}
+
 .arm5e .items-list .item img {
   display: block;
 }
@@ -1845,6 +1870,7 @@ img.art-icon {
 
 .arm5e .smallBackSection.wide {
   min-width: 98px;
+  max-height: 60px;
 }
 
 .arm5e .smallBackSection.editable {

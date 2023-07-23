@@ -35,41 +35,50 @@
 
   <div class="flex-group-left backSection padding12">
     <div class="flexrow">
-      <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
+      <div class="flexcol">
+        <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.penalties.wounds.total }})</label>
+        <label
+          class="smallTitle clickable view-med-history"><i>{{localize "arm5e.sanatorium.medicalHistory"}}</i></label>
+      </div>
       <!-- <img class="clickable recovery-start" src="systems/arm5e/assets/icons/recovery.svg" title="Wounds recovery"
         style="max-width:30px" /> -->
-      <!-- <a class="recovery-start clickable" title="Wounds recovery" style="text-align: right; font-size: 16pt;">
+      <a class="recovery-start clickable" title="Wounds recovery" style="text-align: right; font-size: 16pt;">
         <i class="icon-Icon_Sanatorium"></i>
-      </a> -->
+      </a>
     </div>
     <div class="flexrow flex-group-left">
-      <span class="flex07"><br /></span>
-      <span class="bold flex07">{{localize config.character.wounds.labels.number}}</span>
-      <span class="bold">{{localize config.character.wounds.labels.penalty}}</span>
-      <span class="bold width15">{{localize config.character.wounds.labels.notes}}</span>
+      <div style="min-width: 215px;"></div>
+      <div class="wound-field">{{localize config.character.wounds.labels.number}}</div>
+      <div class="wound-field">{{localize config.character.wounds.labels.penalty}}</div>
     </div>
 
     <ol>
-      {{#each system.wounds as |wounds key|}}
+      {{#each health as |wounds key|}}
 
         <li class="flexrow flex-group-left" data-attribute="{{key}}">
           <div class="flexrow flex-between">
+            <div style="position: relative; right: 25px; max-width: 0px;top: 6px;">
+              <a class="item-control add-wound" title="Add wound" data-type="{{key}}"> <i
+                  class="fas fa-plus fa-lg"></i></a>
+            </div>
             {{#with (lookup @root.config.character.wounds key)}}
               <label for="{{label}}" class="flex05" title="{{wounds.range}}"
-                style="min-width: 60px;">{{localize label}}</label>
+                style="display: flex;align-items: center;">{{localize label}}</label>
             {{/with}}
-            <span class="flex05">
-              <input type="text" name="system.wounds.{{key}}.number.value" value="{{wounds.number.value}}"
-                data-dtype="Number" class="resource-focus" style="text-align: center;" />
-            </span>
-            <span class="flex03">
-              <input type="text" name="system.wounds.{{key}}.penalty.value" value="{{wounds.penalty.value}}"
-                data-dtype="Number" readonly />
-            </span>
-            <span class="width2">
-              <input type="text" name="system.wounds.{{key}}.notes.value" value="{{wounds.notes.value}}"
-                data-dtype="String" placeholder="Notes" />
-            </span>
+            <div class="flexrow" style="width:230px">
+              {{#each wounds}}
+                <img class="item wound-edit flexrow vignette" data-id="{{this._id}}" src="{{this.img}}"
+                  title="{{this.name}}">
+              {{/each }}
+            </div>
+            <div class="wound-field">
+              <input type="text" name="" value="{{wounds.length}}" data-dtype="Number" class="resource-focus"
+                style="text-align: center;" readonly />
+            </div>
+            <div class="wound-field">
+              <input type="text" value="{{lookup ../system.penalties.wounds key}}" data-dtype="Number" readonly
+                style="text-align: center;" />
+            </div>
           </div>
         </li>
 

@@ -102,7 +102,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];
 
     // legacy diary or just a simple recounting of events
-    if (actType == "none") {
+    if (actType == "none" || actType == "recovery") {
       context.ui.showTab = false;
       return context;
     }
@@ -116,7 +116,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
     let hasTeacher = actType == "training" || actType == "teaching";
     context.system.sourceBonus = 0;
-    context.ui.showTab = true;
+    context.ui.showTab = activityConfig.display.tab;
     context.ui.showProgress = activityConfig.display.progress;
     context.ui.showAbilities = activityConfig.display.abilities && !context.rollNeeded;
     context.ui.showArts = activityConfig.display.arts && !context.rollNeeded;
@@ -980,9 +980,25 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       return;
     }
 
+    const question = game.i18n.localize("arm5e.dialog.rollback-question");
+    let itemId = this.item._id;
+    let confirm = await getConfirmation(
+      this.item.name,
+      question,
+      ArM5eActorSheet.getFlavor(this.item.actor?.type)
+    );
+    if (!confirm) {
+      return;
+    }
+
     const actor = this.actor;
     let updateData = [];
     switch (this.item.system.activity) {
+      case "recovery":
+        // delete the diary entry
+        await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
+        return;
+
       case "learnSpell":
       case "inventSpell":
       case "visExtraction":
@@ -1016,7 +1032,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "hermeticApp":
       case "childhood":
       case "laterLife":
-
       case "laterLifeMagi": {
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // check that ability still exists

@@ -75,6 +75,7 @@ export class ArM5eRollData {
         this.ability.speciality = ab.system.speciality;
         this.ability.score = ab.system.finalScore;
         this.ability.realm = ab.system.realm;
+        this.ability.category = ab.system.category;
         break;
 
       case "power":
@@ -380,7 +381,10 @@ export class ArM5eRollData {
   }
 
   getAuraModifier(actor) {
-    const superNatAbility = this.type == "ability" && this.ability.realm != "mundane";
+    const superNatAbility =
+      this.type == "ability" &&
+      this.ability.category == "supernaturalCat" &&
+      this.ability.realm != "mundane";
     const auraApply = superNatAbility || ["spell", "magic", "spont", "power"].includes(this.type);
     if (auraApply) {
       let alignment = actor.system.realmAlignment;

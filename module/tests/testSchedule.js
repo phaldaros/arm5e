@@ -30,7 +30,8 @@ const results = {
     visExtraction: false,
     lab: false,
     aging: false,
-    visStudy: false
+    visStudy: false,
+    recovery: false
   },
   adventuring: {
     none: false,
@@ -49,7 +50,8 @@ const results = {
     visExtraction: false,
     lab: false,
     aging: false,
-    visStudy: false
+    visStudy: false,
+    recovery: false
   },
   exposure: {
     none: false,
@@ -68,7 +70,8 @@ const results = {
     visExtraction: false,
     lab: false,
     aging: false,
-    visStudy: false
+    visStudy: false,
+    recovery: false
   },
   practice: {
     none: false,
@@ -87,7 +90,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   training: {
     none: false,
@@ -106,7 +110,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   teaching: {
     none: false,
@@ -125,7 +130,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   hermeticApp: {
     none: false,
@@ -144,7 +150,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   childhood: {
     none: false,
@@ -163,7 +170,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   laterLife: {
     none: false,
@@ -182,7 +190,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   laterLifeMagi: {
     none: false,
@@ -201,7 +210,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   reading: {
     none: false,
@@ -220,7 +230,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   learnSpell: {
     none: false,
@@ -239,7 +250,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   inventSpell: {
     none: false,
@@ -258,7 +270,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   visExtraction: {
     none: false,
@@ -277,7 +290,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   lab: {
     none: false,
@@ -296,7 +310,8 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
   },
   aging: {
     none: false,
@@ -315,7 +330,8 @@ const results = {
     visExtraction: false,
     lab: false,
     aging: false,
-    visStudy: false
+    visStudy: false,
+    recovery: false
   },
   visStudy: {
     none: false,
@@ -334,7 +350,28 @@ const results = {
     visExtraction: true,
     lab: true,
     aging: false,
-    visStudy: true
+    visStudy: true,
+    recovery: false
+  },
+  recovery: {
+    none: false,
+    adventuring: false,
+    exposure: false,
+    practice: false,
+    training: false,
+    teaching: false,
+    hermeticApp: false,
+    childhood: false,
+    laterLife: false,
+    laterLifeMagi: false,
+    reading: false,
+    learnSpell: false,
+    inventSpell: false,
+    visExtraction: false,
+    lab: false,
+    aging: false,
+    visStudy: false,
+    recovery: false
   }
 };
 export function registerDiaryTesting(quench) {
@@ -594,6 +631,7 @@ export function registerDiaryTesting(quench) {
                 "There should be no conflict"
               );
               await entry[0].sheet._onProgressApply();
+              await sleep(100);
               await entry[0].sheet.close();
               tmpDate = nextDate(tmpDate.season, tmpDate.year);
             });
