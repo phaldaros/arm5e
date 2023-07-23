@@ -135,66 +135,6 @@
         }
       },
       "datetime": { "datetime": null },
-      "wounds": {
-        "woundsTotal": 0,
-        "wounds": {
-          "light": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": -1
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "medium": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": -3
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "heavy": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": -5
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "incap": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": 0
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "dead": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": 0
-            },
-            "notes": {
-              "value": ""
-            }
-          }
-        }
-      },
       "fatigue": {
         "fatigueTotal": 0,
         "fatigueCurrent": 0,
@@ -567,7 +507,6 @@
         "base",
         "npcbase",
         "datetime",
-        "wounds",
         "fatigue",
         "arts",
         "familiar",
@@ -609,16 +548,7 @@
       }
     },
     "npc": {
-      "templates": [
-        "base",
-        "npcbase",
-        "datetime",
-        "wounds",
-        "familiar",
-        "laboratoryPC",
-        "fatigue",
-        "arts"
-      ],
+      "templates": ["base", "npcbase", "datetime", "familiar", "laboratoryPC", "fatigue", "arts"],
       "charType": {
         "value": "mundane",
         "label": "Char. Type"
@@ -878,7 +808,7 @@
       "mundaneBooks": []
     },
     "beast": {
-      "templates": ["base", "wounds", "fatigue", "datetime"],
+      "templates": ["base", "fatigue", "datetime"],
       "characteristics": {
         "cun": {
           "value": 0
@@ -966,7 +896,8 @@
       "labCovenant",
       "mundaneBook",
       "personality",
-      "personalityTrait"
+      "personalityTrait",
+      "wound"
     ],
     "templates": {
       "base": {

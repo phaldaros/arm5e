@@ -47,7 +47,6 @@ export class ArM5ePCActor extends Actor {
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
-    // log(false, `${this.name}'s system ${JSON.stringify(this.system)}`);
     if (!this.flags.arm5e) {
       this.flags.arm5e = { filters: {} };
     }
@@ -97,6 +96,8 @@ export class ArM5ePCActor extends Actor {
       };
     }
 
+    // NOT LAB or COVENANT from here
+
     if (this.type != "player" && this.type != "npc" && this.type != "beast") {
       return;
     }
@@ -109,6 +110,15 @@ export class ArM5ePCActor extends Actor {
         day: 21
       };
     }
+
+    this.system.wounds = {
+      healthy: [],
+      light: [],
+      medium: [],
+      heavy: [],
+      incap: [],
+      dead: []
+    };
 
     this.system.bonuses = {};
 
@@ -164,7 +174,14 @@ export class ArM5ePCActor extends Actor {
     }
     this.system.penalties = {
       activityDivider: 1,
-      activityBlocker: false
+      activityBlocker: false,
+      wounds: {
+        light: CONFIG.ARM5E.recovery.wounds.light.penalty,
+        medium: CONFIG.ARM5E.recovery.wounds.medium.penalty,
+        heavy: CONFIG.ARM5E.recovery.wounds.heavy.penalty,
+        incap: CONFIG.ARM5E.recovery.wounds.incap.penalty,
+        dead: 0
+      }
     };
 
     this.system.bonuses.traits = {
@@ -315,10 +332,6 @@ export class ArM5ePCActor extends Actor {
         value: system.might.points,
         max: system.might.value
       };
-    }
-
-    if (system.wounds) {
-      system.woundsTotal = this.getWoundPenalty();
     }
 
     //abilities
@@ -624,6 +637,8 @@ export class ArM5ePCActor extends Actor {
         system.personalities.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
+      } else if (item.type === "wound") {
+        system.wounds[item.system.gravity].push(item);
       }
     }
 
@@ -679,7 +694,7 @@ export class ArM5ePCActor extends Actor {
           2 -
         system.decrepitude.points;
     }
-
+    system.penalties.wounds.total = this.getWoundPenalty();
     // Assign and return
     system.totalXPAbilities = totalXPAbilities;
     system.totalXPArts = totalXPArts;
@@ -1366,31 +1381,46 @@ export class ArM5ePCActor extends Actor {
       updateData["system.fatigueCurrent"] = tmp;
     }
 
-    if (wound) {
+    if (wound && overflow > 0) {
       // fatigue overflow
+      let wType;
       switch (overflow) {
-        case 0:
-          break;
         case 1:
-          updateData["system.wounds.light.number.value"] =
-            this.system.wounds.light.number.value + 1;
+          woundType = light;
           break;
         case 2:
-          updateData["system.wounds.medium.number.value"] =
-            this.system.wounds.medium.number.value + 1;
+          woundType = medium;
           break;
         case 3:
-          updateData["system.wounds.heavy.number.value"] =
-            this.system.wounds.heavy.number.value + 1;
+          woundType = heavy;
           break;
         case 4:
-          updateData["system.wounds.incap.number.value"] =
-            this.system.wounds.incap.number.value + 1;
+          woundType = incap;
           break;
         default:
-          updateData["system.wounds.dead.number.value"] = this.system.wounds.dead.number.value + 1;
+          woundType = dead;
           break;
       }
+      let woundData = {
+        name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
+          "arm5e.sheet.wound.label"
+        )}`,
+        type: "wound",
+        system: {
+          inflictedDate: {
+            year: this.system.datetime.year,
+            season: this.system.datetime.year
+          },
+          healedDate: null,
+          gravity: wtype,
+          originalGravity: wtype,
+          trend: 0,
+          bonus: 0,
+          nextRoll: 0,
+          description: `Fatigue loss overflow`
+        }
+      };
+      await this.createEmbeddedDocuments("Item", [woundData]);
     }
     await this.update(updateData, {});
   }
@@ -1448,22 +1478,34 @@ export class ArM5ePCActor extends Actor {
   //   return;
   // }
 
-  async changeWound(amount, type) {
-    if (!this._isCharacter() || (amount < 0 && this.system.wounds[type].number.value == 0)) {
+  async changeWound(amount, wtype) {
+    if (!this._isCharacter() || (amount < 0 && this.system.wounds[type].length == 0)) {
       return;
     }
-    let updateData = {
-      system: {
-        wounds: {
-          [type]: {
-            number: {
-              value: this.system.wounds[type].number.value + amount
-            }
-          }
+    let wounds = [];
+    for (let ii = 0; ii < amount; ii++) {
+      let woundData = {
+        name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
+          "arm5e.sheet.wound.label"
+        )}`,
+        type: "wound",
+        system: {
+          inflictedDate: {
+            year: this.system.datetime.year,
+            season: this.system.datetime.season
+          },
+          healedDate: null,
+          gravity: wtype,
+          originalGravity: wtype,
+          trend: 0,
+          bonus: 0,
+          nextRoll: 0,
+          description: ``
         }
-      }
-    };
-    await this.update(updateData);
+      };
+      wounds.push(woundData);
+    }
+    await this.createEmbeddedDocuments("Item", wounds);
   }
 
   // Used by Quick magic dialog
@@ -1867,7 +1909,10 @@ export class ArM5ePCActor extends Actor {
   getWoundPenalty() {
     let woundsTotal = 0;
     for (let [key, item] of Object.entries(this.system.wounds)) {
-      woundsTotal = woundsTotal + item.number.value * item.penalty.value;
+      if (key == "healthy") continue;
+      if (item.length > 0) {
+        woundsTotal = woundsTotal + item.length * this.system.penalties.wounds[key];
+      }
     }
     return woundsTotal + this.system.bonuses.traits.wounds > 0
       ? 0

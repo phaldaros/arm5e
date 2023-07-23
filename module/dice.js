@@ -78,6 +78,7 @@ async function simpleDie(actor, type = "OPTION", callBack) {
 // 4 => Aging roll
 // 8 => non-interactive
 // 16 => no confidence
+// 32 => no chat message
 async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined, botchNum = 0) {
   mult = 1;
   actor = await getRollFormula(actor);
@@ -165,28 +166,31 @@ async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined
   ) {
     rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
   }
-
-  const message = await dieRoll.toMessage(
-    {
-      flavor: chatTitle + flavorTxt + details,
-      speaker: ChatMessage.getSpeaker({
-        actor: actor
-      }),
-      whisper: ChatMessage.getWhisperRecipients("gm"),
-      flags: {
-        arm5e: {
-          roll: { type: type, img: rollData.img, name: rollData.name, id: rollData.itemId },
-          type: "confidence",
-          divide: rollData.magic.divide,
-          actorType: actor.type, // for if the actor is deleted
-          confScore: confAllowed,
-          botchCheck: botchCheck,
-          secondaryScore: rollData.secondaryScore
+  let message;
+  if (!(modes & 32)) {
+    message = await dieRoll.toMessage(
+      {
+        flavor: chatTitle + flavorTxt + details,
+        speaker: ChatMessage.getSpeaker({
+          actor: actor
+        }),
+        whisper: ChatMessage.getWhisperRecipients("gm"),
+        flags: {
+          arm5e: {
+            roll: { type: type, img: rollData.img, name: rollData.name, id: rollData.itemId },
+            type: "confidence",
+            divide: rollData.magic.divide,
+            actorType: actor.type, // for if the actor is deleted
+            confScore: confAllowed,
+            botchCheck: botchCheck,
+            secondaryScore: rollData.secondaryScore
+          }
         }
-      }
-    },
-    { rollMode: rollMode }
-  );
+      },
+      { rollMode: rollMode }
+    );
+  }
+
   if (callBack) {
     await callBack(actor, dieRoll, message, rollData);
   }
@@ -487,11 +491,11 @@ async function getRollFormula(actor) {
         msg += game.i18n.localize("arm5e.sheet.fatigue");
         msg += " (" + actorSystemData.fatigueTotal + ")";
       }
-      if (actorSystemData.woundsTotal != 0) {
-        total += actorSystemData.woundsTotal;
+      if (actorSystemData.penalties.wounds.total != 0) {
+        total += actorSystemData.penalties.wounds.total;
         msg = newLineAdd(msg);
         msg += game.i18n.localize("arm5e.sheet.wounds");
-        msg += " (" + actorSystemData.woundsTotal + ")";
+        msg += " (" + actorSystemData.penalties.wounds.total + ")";
       }
     }
 

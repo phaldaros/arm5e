@@ -2078,7 +2078,7 @@ ARM5E.activities.generic = {
   teaching: {
     label: "arm5e.activity.teaching",
     display: {
-      tab: false,
+      tab: true,
       progress: true,
       abilities: true,
       arts: true,
@@ -2283,7 +2283,7 @@ ARM5E.activities.generic = {
   aging: {
     label: "arm5e.activity.aging",
     display: {
-      tab: false,
+      tab: true,
       progress: false,
       abilities: false,
       arts: false,
@@ -2339,7 +2339,7 @@ ARM5E.activities.generic = {
     validation: null,
     secondaryFilter: null,
     scheduling: {
-      duplicate: false,
+      duplicate: true,
       conflict: false
     }
   }
@@ -2774,5 +2774,5 @@ ARM5E.recovery = {
     }
   },
   daysInSeason: 92,
-  rollMode: 24
+  rollMode: 56
 };

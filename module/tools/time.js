@@ -8,9 +8,9 @@ export const seasonOrderInv = {
 };
 export function nextDate(season, year) {
   if (season == CONFIG.SEASON_ORDER_INV[3]) {
-    return { season: CONFIG.SEASON_ORDER_INV[0], year: year + 1 };
+    return { season: CONFIG.SEASON_ORDER_INV[0], year: Number(year) + 1 };
   } else {
-    return { season: CONFIG.SEASON_ORDER_INV[CONFIG.SEASON_ORDER[season] + 1], year: year };
+    return { season: CONFIG.SEASON_ORDER_INV[CONFIG.SEASON_ORDER[season] + 1], year: Number(year) };
   }
 }
 
@@ -25,6 +25,16 @@ export function isInThePast(date) {
   }
   // TODO months and days?
   return false;
+}
+
+// Return the number of seasons between two dates
+// positive result means date2 further in the future
+export function seasonsDelta(date1, date2) {
+  return (
+    4 * (date2.year - date1.year) +
+    CONFIG.SEASON_ORDER[date2.season] -
+    CONFIG.SEASON_ORDER[date1.season]
+  );
 }
 
 export const SimpleCalendarSeasons = {

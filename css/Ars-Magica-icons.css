@@ -71,6 +71,12 @@
 .icon-Icon_Edit:before {
   content: "\004e";
 }
+
+.icon-Icon_Delete_Big_Hand_Gesture:before {
+  content: "\004f";
+  font-size: 30pt;
+}
+
 .icon-Icon_Delete_Hand_Gesture:before {
   content: "\004f";
 }
@@ -147,5 +153,9 @@
 }
 .icon-Icon_Sanatorium:before {
   content: "\0063";
-  font-size: 40pt;
+  font-size: 36pt;
+}
+.icon-Icon_Sanatorium2:before {
+  content: "\0064";
+  font-size: 36pt;
 }

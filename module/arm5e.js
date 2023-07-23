@@ -63,6 +63,8 @@ import {
 } from "./constants/ui.js";
 import { InhabitantSchema } from "./schemas/inhabitantSchema.js";
 import { SimpleCalendarSeasons, seasonOrder, seasonOrderInv } from "./tools/time.js";
+import { WoundSchema } from "./schemas/woundSchema.js";
+import { ArM5eSmallSheet } from "./item/item-small-sheet.js";
 
 Hooks.once("init", async function () {
   game.arm5e = {
@@ -448,6 +450,7 @@ function setSystemDatamodels() {
   CONFIG.Item.systemDataModels["armor"] = ArmorSchema;
   CONFIG.Item.systemDataModels["weapon"] = WeaponSchema;
   CONFIG.Item.systemDataModels["inhabitant"] = InhabitantSchema;
+  CONFIG.Item.systemDataModels["wound"] = WoundSchema;
   //Actors
   CONFIG.Actor.systemDataModels["laboratory"] = LabSchema;
   CONFIG.Actor.systemDataModels["magicCodex"] = CodexSchema;
@@ -527,6 +530,11 @@ function registerSheets() {
   });
   Items.registerSheet("arm5e", ArM5eBookSheet, {
     types: ["book"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("arm5e", ArM5eSmallSheet, {
+    types: ["wound"],
     makeDefault: true
   });
 

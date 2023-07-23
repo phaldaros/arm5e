@@ -226,9 +226,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           points: result.waste
         }
       )}`;
-      if (context.owner.system.woundsTotal != 0) {
+      if (context.owner.system.penalties.wounds.total != 0) {
         context.planning.message += `<br/> ${game.i18n.format("arm5e.lab.planning.msg.wounded", {
-          penalty: context.owner.system.woundsTotal
+          penalty: context.owner.system.penalties.wounds.total
         })}`;
       }
     }

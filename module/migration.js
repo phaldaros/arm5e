@@ -257,7 +257,8 @@ export const migrateSceneData = async function (scene, migrationData) {
       } else if (!t.actorLink) {
         const actorData = duplicate(t.actorData);
         actorData.type = token.actor?.type;
-
+        actorData.synthetic = true;
+        actorData.name = token.name;
         if (actorData.system) {
           actorData.system.charType = { value: token.actor?.system?.charType?.value };
         }
@@ -278,16 +279,7 @@ export const migrateSceneData = async function (scene, migrationData) {
       return t;
     })
   );
-  // let updateData = {};
-  // if (scene?.flags?.world) {
-  //   const aura = scene.flags.world[`aura_${scene._id}`];
-  //   const type = scene.flags.world[`aura_type_${scene._id}`];
-  //   if (aura && !type) {
-  //     log(false, "Missing aura type");
-  //     // TODOV10 check where flags are for scenes
-  //     updateData[`flags.world.aura_type_${scene._id}`] = 1;
-  //   }
-  // }
+
   return { tokens };
 };
 
@@ -430,6 +422,69 @@ export const migrateActorData = async function (actorDoc, actorItems) {
       });
       updateData["system.-=pendingXP"] = null;
     }
+    let wounds = [];
+    let sendMsg = false;
+    let syntheticWoundsMsg = `<b>MIGRATION NOTIFICATION</b><br/>The character ${actorDoc.name}'s token was unable to migrate his/her wounds.<ul>`;
+    for (let wtype of Object.keys(CONFIG.ARM5E.recovery.wounds)) {
+      if (wtype == "healthy") continue;
+      if (actor.system.wounds && actor.system.wounds[wtype]?.number != undefined) {
+        if (actorDoc.synthetic) {
+          syntheticWoundsMsg += `<li>${actor.system.wounds[wtype]?.number.value} ${wtype} wounds</li>`;
+          sendMsg = true;
+          updateData[`system.wounds.${wtype}.-=number`] = null;
+          updateData[`system.wounds.${wtype}.-=penalty`] = null;
+          updateData[`system.wounds.${wtype}.-=notes`] = null;
+        } else {
+          if (actorDoc instanceof ArM5ePCActor) {
+            for (let ii = 0; ii < actor.system.wounds[wtype].number.value; ii++) {
+              let woundData = {
+                name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
+                  "arm5e.sheet.wound.label"
+                )}`,
+                type: "wound",
+                system: {
+                  inflictedDate: {
+                    year: actor.system.datetime.year,
+                    season: actor.system.datetime.season
+                  },
+                  healedDate: null,
+                  gravity: wtype,
+                  originalGravity: wtype,
+                  trend: 0,
+                  bonus: 0,
+                  nextRoll: 0,
+                  description: `Migrated: notes = ${actor.system.wounds[wtype].notes.value}`
+                }
+              };
+              wounds.push(woundData);
+            }
+            updateData[`system.wounds.${wtype}.-=number`] = null;
+            updateData[`system.wounds.${wtype}.-=penalty`] = null;
+            updateData[`system.wounds.${wtype}.-=notes`] = null;
+          } else {
+            sendMsg = true;
+          }
+        }
+      }
+    }
+
+    if (sendMsg && actorDoc.synthetic) {
+      syntheticWoundsMsg += "</ul><br/>You will have to add them manually.";
+
+      ChatMessage.create({
+        content: syntheticWoundsMsg
+      });
+    } else if (wounds.length > 0 && !actorDoc.synthetic) {
+      log(false, `${wounds.length} wound items created`);
+      await actorDoc.createEmbeddedDocuments("Item", wounds);
+    } else if (sendMsg) {
+      ChatMessage.create({
+        content:
+          "<b>MIGRATION NOTIFICATION</b><br/>" +
+          `The character ${actor.name} was unable to migrate his/her wounds. Triggering a new migration will fix it (See FAQ)`
+      });
+    }
+
     if (actor.system.reputation) {
       if (actorDoc instanceof ArM5ePCActor) {
         for (let rep of Object.values(actor.system.reputation)) {
@@ -817,6 +872,15 @@ export const migrateActiveEffectData = async function (effectData) {
         ch.key = "system.bonuses.skills.law_Common.bonus";
         options[idx] = "Common";
         subtypes[idx] = "law";
+        needUpdate = true;
+      } else if (ch.key === "system.wounds.light.penalty.value") {
+        ch.key = "system.penalties.wounds.light";
+        needUpdate = true;
+      } else if (ch.key === "system.wounds.medium.penalty.value") {
+        ch.key = "system.penalties.wounds.medium";
+        needUpdate = true;
+      } else if (ch.key === "system.wounds.heavy.penalty.value") {
+        ch.key = "system.penalties.wounds.heavy";
         needUpdate = true;
       } else if (
         ch.key === "system.bonuses.arts.voice" ||

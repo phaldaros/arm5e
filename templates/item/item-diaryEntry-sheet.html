@@ -89,11 +89,13 @@
       <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.description"}}
     </a>
-    <a class="item posRelative" data-tab="advanced" data-group="primary">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.advanced"}}
-    </a>
+    {{#if ui.showTab}}
+      <a class="item posRelative" data-tab="advanced" data-group="primary">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.advanced"}}
+      </a>
+    {{/if}}
   </nav>
 
   {{!-- Sheet Body --}}
@@ -104,12 +106,12 @@
         {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
     </div>
-    {{!-- Advanced Tab --}}
-    <div class="tab" data-group="primary" data-tab="advanced">
-      {{#if ui.showTab}}
+    {{#if ui.showTab}}
+      {{!-- Advanced Tab --}}
+      <div class="tab" data-group="primary" data-tab="advanced">
         {{> "systems/arm5e/templates/item/parts/seasonal-activity.html" }}
-      {{/if}}
-    </div>
+      </div>
+    {{/if}}
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

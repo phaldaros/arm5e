@@ -1,10 +1,15 @@
-## 2.1.1.0, Mercere, the Spymaster
+## 2.1.1.2, Mercere, the Spymaster
 
 ### Features & changes
+
+- New sanatorium dialog for wounds recovery (assets by @Sylph).
+- Wound are now items.
 
 ### Bug fixes
 
 - Non-supernatural abilities that had a realm alignment are no longer impacted by aura.
+- New French and Italian version by @Orneen and @N0Br41nZ
+- Fixed some schedule conflict issues
 
 ## 2.1.0.18, Mercere, the Giftless
 

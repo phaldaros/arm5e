@@ -180,4 +180,19 @@ export class AbilitySchema extends foundry.abstract.DataModel {
 
     return updateData;
   }
+
+  static getAbilityXp(score) {
+    return ((score * (score + 1)) / 2) * 5;
+  }
+
+  // get the score given an amount of xp
+  static getAbilityScoreFromXp(xpAmount) {
+    let xp = Math.floor(xpAmount / 5);
+    let res = 0;
+    while (xp > res) {
+      res++;
+      xp = xp - res;
+    }
+    return res;
+  }
 }
