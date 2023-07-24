@@ -1,4 +1,4 @@
-## 2.1.1.2, Mercere, the Spymaster
+## 2.1.1.3, Mercere, the Spymaster
 
 ### Features & changes
 
@@ -8,8 +8,9 @@
 ### Bug fixes
 
 - Non-supernatural abilities that had a realm alignment are no longer impacted by aura.
-- New French and Italian version by @Orneen and @N0Br41nZ
+- New French, Spanish and Italian versions by @Orneen, @Teotimus and @N0Br41nZ
 - Fixed some schedule conflict issues
+- It is now possible to enable magical focus when learning spells
 
 ## 2.1.0.18, Mercere, the Giftless
 

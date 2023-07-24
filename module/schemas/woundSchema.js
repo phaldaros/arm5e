@@ -108,12 +108,23 @@ export class WoundSchema extends foundry.abstract.DataModel {
     }
   }
 
-  hasBeenTreatedThisSeason(season, year) {
+  canBeTreatedThisSeason(season, year) {
     if (this.recoveryTime == 0) {
+      return true;
+    }
+
+    if (year < this.inflictedDate.year) return false;
+
+    // if recovery time is not 0, wound has already been treated
+    if (season == this.inflictedDate.season && year == this.inflictedDate.year) {
       return false;
     }
-    if (season == this.inflictedDate.season && year == this.inflictedDate.year) {
-      return true;
+
+    if (
+      year == this.inflictedDate.year &&
+      CONFIG.SEASON_ORDER[season] < CONFIG.SEASON_ORDER[this.inflictedDate.season]
+    ) {
+      return false;
     }
     const delta = seasonsDelta(
       { season: this.inflictedDate.season, year: this.inflictedDate.year },
@@ -121,12 +132,16 @@ export class WoundSchema extends foundry.abstract.DataModel {
     );
     log(
       false,
-      `Delta ${delta} -1 x days : ${(delta - 1) * CONFIG.ARM5E.recovery.daysInSeason} versus ${
+      `Delta ${delta} +1 x days : ${(delta + 1) * CONFIG.ARM5E.recovery.daysInSeason} versus ${
         this.recoveryTime
       }`
     );
-    if (delta * CONFIG.ARM5E.recovery.daysInSeason > this.recoveryTime) {
+    if (
+      delta * CONFIG.ARM5E.recovery.daysInSeason < this.recoveryTime &&
+      (delta + 1) * CONFIG.ARM5E.recovery.daysInSeason > this.recoveryTime
+    ) {
       return true;
     }
+    return false;
   }
 }

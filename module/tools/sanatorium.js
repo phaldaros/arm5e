@@ -1,5 +1,5 @@
 import { stressDie } from "../dice.js";
-import { debug, getDataset, log } from "../tools.js";
+import { debug, getDataset, log, sleep } from "../tools.js";
 import { GroupSchedule } from "./group-schedule.js";
 import { nextDate } from "./time.js";
 
@@ -58,7 +58,7 @@ export class Sanatorium extends FormApplication {
     const patient = this.patient;
     context.patient = patient;
     context.canRoll = "";
-    context.diary = "";
+    context.diary = "disabled";
     context.modifiers.activeEffect = patient.system.bonuses.traits.recovery;
     context.config = CONFIG;
     if (patient.system.sanctum.linked) {
@@ -93,12 +93,20 @@ export class Sanatorium extends FormApplication {
       );
     }
     if (!context.hasWounds) {
+      if (context.daysLeft == 0) {
+        // season finished
+        context.diary = "";
+      } else if (context.daysLeft == context.availableDays) {
+        // season started
+        context.log += await TextEditor.enrichHTML(
+          `<br/><p><b>${game.i18n.localize("arm5e.sanatorium.msg.logDone")}</b></p>`,
+          { async: true }
+        );
+      }
       context.canRoll = "disabled";
-      context.diary = "disabled";
     }
-
-    log(false, `Sanatorium: ${JSON.stringify(context.wounds)}`);
-    log(false, `Sanatorium: ${context.daysLeft}`);
+    // log(false, `Sanatorium: ${JSON.stringify(context.wounds)}`);
+    // log(false, `Sanatorium: ${context.daysLeft}`);
     return context;
   }
 
@@ -115,6 +123,7 @@ export class Sanatorium extends FormApplication {
 
     html.find(".change-year").change(async (ev) => {
       this.object.curYear = Number(ev.currentTarget.value);
+      this.object.log = "";
       this.prepareWounds();
       await this.submit({
         preventClose: true,
@@ -124,6 +133,7 @@ export class Sanatorium extends FormApplication {
 
     html.find(".change-season").change(async (ev) => {
       this.object.curSeason = ev.currentTarget.value;
+      this.object.log = "";
       this.prepareWounds();
       await this.submit({
         preventClose: true,
@@ -172,18 +182,20 @@ export class Sanatorium extends FormApplication {
         description: this.object.log
       }
     };
+
     let entry = await this.patient.createEmbeddedDocuments("Item", [entryData], {});
     entry[0].sheet.render(true);
     delete this.patient.apps[this.appId];
-    let newDate = nextDate(this.object.curSeason, this.object.curYear);
-    await this.submit({
-      preventClose: false,
-      updateData: {
-        dateChange: "",
-        curSeason: newDate.season,
-        curYear: newDate.year
-      }
-    });
+    await sleep(100);
+    // let newDate = nextDate(this.object.curSeason, this.object.curYear);
+    // await this.submit({
+    //   preventClose: false,
+    //   updateData: {
+    //     dateChange: "",
+    //     curSeason: newDate.season,
+    //     curYear: newDate.year
+    //   }
+    // });
     await this.close();
   }
 
@@ -221,6 +233,7 @@ export class Sanatorium extends FormApplication {
     let tmpPeriod = 1000;
     let incapacited = false;
     let logDayAdded = false;
+    this.object.hasWounds = false;
     // Incapacitating wound special treatment
     if (this.object.wounds["incap"] && this.object.wounds["incap"].length > 0) {
       for (let incap of this.object.wounds["incap"]) {
@@ -307,6 +320,7 @@ export class Sanatorium extends FormApplication {
           newWound.nextRoll -= this.object.availableDays;
           newWound.locked = true;
         } else {
+          this.object.hasWounds = true;
           tmpPeriod = tmpPeriod < newWound.nextRoll ? tmpPeriod : newWound.nextRoll;
           log(false, `New Period: ${tmpPeriod}`);
         }
@@ -419,6 +433,7 @@ export class Sanatorium extends FormApplication {
               newWound.nextRoll -= this.object.availableDays;
               newWound.locked = true;
             } else {
+              this.object.hasWounds = true;
               tmpPeriod = tmpPeriod < newWound.nextRoll ? tmpPeriod : newWound.nextRoll;
               log(false, `New Period: ${tmpPeriod}`);
             }
@@ -456,7 +471,7 @@ export class Sanatorium extends FormApplication {
           w.name = wound.name;
           w.img = wound.img;
           // if the wound has already been treated this season, lock it
-          if (wound.system.hasBeenTreatedThisSeason(this.object.curSeason, this.object.curYear)) {
+          if (!wound.system.canBeTreatedThisSeason(this.object.curSeason, this.object.curYear)) {
             w.locked = true;
           } else {
             w.locked = false;
