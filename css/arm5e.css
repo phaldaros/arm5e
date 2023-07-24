@@ -337,6 +337,12 @@ h4.window-title {
   max-height: 300px;
   font-family: "bookAntiqua";
 }
+
+.arm5e .wound .sheet-body .editor {
+  overflow-y: auto;
+  max-height: 160px;
+}
+
 .arm5e.button {
   font-family: "blackmoor";
   padding: 10px;
@@ -1868,7 +1874,7 @@ img.art-icon {
 
 .arm5e .smallBackSection.wide {
   min-width: 98px;
-  max-height: 60px;
+  /* max-height: 60px; */
 }
 
 .arm5e .smallBackSection.editable {
@@ -1882,7 +1888,7 @@ img.art-icon {
   box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
   margin-right: 10px;
   margin-bottom: 5px;
-  max-height: 54px;
+  /* max-height: 54px; */
 }
 
 .arm5e .padding12 {
