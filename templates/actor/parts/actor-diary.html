@@ -12,9 +12,11 @@
       </div>
     </div>
   {{/if}}
-  <div class="resource">
-    <a class="character-schedule flex0" style="width:50px"><i class="icon-Tool_AstrolabBig"></i></a>
-  </div>
+  {{#if system.isCharacter}}
+    <div class="resource">
+      <a class="character-schedule flex0" style="width:50px"><i class="icon-Tool_AstrolabBig"></i></a>
+    </div>
+  {{/if}}
 </div>
 
 <ol class="items-list backSection margintop18">

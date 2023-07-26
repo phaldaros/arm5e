@@ -120,16 +120,11 @@ export class WoundSchema extends foundry.abstract.DataModel {
       return false;
     }
 
-    if (
-      year == this.inflictedDate.year &&
-      CONFIG.SEASON_ORDER[season] < CONFIG.SEASON_ORDER[this.inflictedDate.season]
-    ) {
-      return false;
-    }
     const delta = seasonsDelta(
       { season: this.inflictedDate.season, year: this.inflictedDate.year },
       { season: season, year: year }
     );
+    if (delta < 0) return; // trying to heal in the past
     log(
       false,
       `Delta ${delta} +1 x days : ${(delta + 1) * CONFIG.ARM5E.recovery.daysInSeason} versus ${

@@ -2116,6 +2116,7 @@ ARM5E.activities.generic = {
     validation: validTotalXp,
     secondaryFilter: null,
     duration: 60,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2136,6 +2137,8 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: validChildhood,
     secondaryFilter: null,
+    duration: 20,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2157,6 +2160,7 @@ ARM5E.activities.generic = {
     validation: validTotalXp,
     secondaryFilter: null,
     duration: 4,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2178,6 +2182,7 @@ ARM5E.activities.generic = {
     validation: validTotalXp,
     secondaryFilter: null,
     duration: 4,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2192,7 +2197,7 @@ ARM5E.activities.generic = {
       arts: true,
       masteries: true,
       spells: false,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2213,7 +2218,7 @@ ARM5E.activities.generic = {
       arts: false,
       masteries: false,
       spells: true,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2234,7 +2239,7 @@ ARM5E.activities.generic = {
       arts: false,
       masteries: false,
       spells: true,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2255,7 +2260,7 @@ ARM5E.activities.generic = {
       arts: false,
       masteries: false,
       spells: false,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2288,7 +2293,8 @@ ARM5E.activities.generic = {
       abilities: false,
       arts: false,
       masteries: false,
-      spells: false
+      spells: false,
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2310,7 +2316,7 @@ ARM5E.activities.generic = {
       arts: true,
       masteries: false,
       spells: false,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2331,7 +2337,8 @@ ARM5E.activities.generic = {
       abilities: false,
       arts: false,
       masteries: false,
-      spells: false
+      spells: false,
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,

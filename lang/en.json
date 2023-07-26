@@ -1154,6 +1154,7 @@
   "arm5e.activity.teacher.name": "Teacher's name",
   "arm5e.activity.teacher.score": "Teacher's score",
   "arm5e.activity.book.title": "Title",
+  "arm5e.activity.schedule.label": "Activity schedule",
 
   "arm5e.astrolab.setWorldDate": "Set world date",
   "arm5e.astrolab.updateActors": "Update actors",
@@ -1208,7 +1209,7 @@
   "arm5e.sheet.wound.gravity": "Gravity",
   "arm5e.sheet.wound.recovery": "Recovery time",
   "arm5e.sheet.wound.fresh": "Treatment not started",
-
+  "arm5e.sheet.wound.inrecovery": "In recovery",
   "arm5e.book.tableContents": "Table of contents",
   "arm5e.book.summaLong": "Summa of level {level} and quality {quality} about",
   "arm5e.book.tractLong": "Tractatus of quality {quality} about",

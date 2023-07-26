@@ -1,9 +1,11 @@
-## 2.1.1.3, Mercere, the Spymaster
+## 2.1.1.4, Mercere, the Spymaster
 
 ### Features & changes
 
 - New sanatorium dialog for wounds recovery (assets by @Sylph).
 - Wound are now items.
+- Calendar scrollbar state is memorized between changes
+- It is possible to edit the duration of some activities
 
 ### Bug fixes
 
@@ -11,6 +13,10 @@
 - New French, Spanish and Italian versions by @Orneen, @Teotimus and @N0Br41nZ
 - Fixed some schedule conflict issues
 - It is now possible to enable magical focus when learning spells
+- Empty aura field results in aura of 0
+- Seasonal activities not created directly (eg: aging, recovery, lab work) are now hidden in diary sheet's activity type selection
+- non applied activities get back their red aura in the schedule dialog.
+- changing the activity type to a shorter duration remove the extra scheduled dates
 
 ## 2.1.0.18, Mercere, the Giftless
 
