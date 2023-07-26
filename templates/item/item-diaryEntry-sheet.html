@@ -54,7 +54,7 @@
             {{@root.system.disabled}}>
             {{#select system.activity}} {{#each config.activities.generic as |activity key|}}
 
-                <option value="{{key}}" {{activity.display.choosable}}>{{localize activity.label}}</option>
+                <option value="{{key}}" {{activity.display.attribute}}>{{localize activity.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
@@ -62,8 +62,8 @@
 
       <div class="flexrow">
         <div class="flex01">
-          <label>{{localize "arm5e.sheet.duration"}}</label> <input type="number" name="system.duration"
-            value="{{system.duration}}" data-dtype="Number" readonly />
+          <label>{{localize "arm5e.sheet.duration"}}</label> <input type="number" class="duration"
+            name="system.duration" value="{{system.duration}}" data-dtype="Number" {{ui.editDuration}} />
         </div>
         {{#unless system.done}}
           <div class="resource">

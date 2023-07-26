@@ -34,8 +34,11 @@
             </select>
             <input type="number" name="system.healedDate.year" value="{{system.healedDate.year}}" data-dtype="Number" />
           {{else}}
-
-            {{localize "arm5e.sheet.wound.fresh"}}
+            {{#if system.recoveryTime}}
+              {{localize "arm5e.sheet.wound.inrecovery"}}
+            {{else}}
+              {{localize "arm5e.sheet.wound.fresh"}}
+            {{/if}}
           {{/if}}
         </div>
       </div>

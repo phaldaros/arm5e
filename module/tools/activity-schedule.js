@@ -24,6 +24,7 @@ export class ActivitySchedule extends FormApplication {
       template: "systems/arm5e/templates/generic/activity-schedule.html",
       width: "600",
       height: "790",
+      scrollY: [".years"],
       submitOnChange: false,
       closeOnSubmit: false
     });
@@ -37,7 +38,7 @@ export class ActivitySchedule extends FormApplication {
     let dates = data.dates;
     data.duration = data.activity.system.duration;
     data.activityName = `${data.actor.name} : ${data.activity.name}`;
-    data.title = game.i18n.localize("arm5e.lab.planning.label");
+    data.title = game.i18n.localize("arm5e.activity.schedule.label");
     if (dates.length == 0) {
       // all season unselected, use current date
       data.firstYear = data.curYear;

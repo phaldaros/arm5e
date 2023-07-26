@@ -87,6 +87,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (context.system.duration > 1) {
       context.ui.editDate = "disabled";
     }
+
+    context.ui.editDuration = "readonly";
+
     if (this.actor == null || this.actor.type == "covenant" || this.actor.type == "laboratory") {
       context.ui.showTab = false;
       context.system.disabled = "disabled";
@@ -100,6 +103,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     // }
 
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];
+
+    if (activityConfig.durationEdit == true) {
+      context.ui.editDuration = "";
+    }
 
     // legacy diary or just a simple recounting of events
     if (actType == "none" || actType == "recovery") {
@@ -674,7 +681,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".progress-rollback").click(this._onProgressRollback.bind(this));
     html.find(".progress-activity").change(this._setActivity.bind(this));
     html.find(".progress-refresh").click(this._refresh.bind(this));
-
+    html.find(".duration").change(this._setDuration.bind(this));
     html.find(".progress-xp").change(this._setXp.bind(this));
     html.find(".break-link").click(this._resetTeacher.bind(this));
     html.find(".score-teacher").change(this._changeTeacherScore.bind(this));
@@ -682,6 +689,21 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".select-dates").click(this.displayCalendar.bind(this));
     html.find(".roll-activity").click(async (event) => await this.rollActivity());
     // html.find(".select-year").click(this._selectYear.bind(this));
+  }
+
+  async _setDuration(event) {
+    event.preventDefault();
+    const target = event.currentTarget;
+    const newDuration = Number($(target).val());
+    if (!Number.isNumeric(newDuration) || newDuration < 1) newDuration = 1;
+    let updateData = {};
+    updateData["system.duration"] = newDuration;
+    updateData["system.dates"] = DiaryEntrySchema.buildSchedule(
+      newDuration,
+      this.item.system.dates[0].year,
+      this.item.system.dates[0].season
+    );
+    this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
   }
 
   async _refresh(event) {
@@ -1447,6 +1469,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const expanded = expandObject(formData);
     const source = this.object.toObject();
     const abilities = expanded?.system?.progress?.abilities;
+    let options = {};
     if (abilities) {
       expanded.system.progress.abilities = mergeObject(source.system.progress.abilities, abilities);
     }
@@ -1467,11 +1490,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     const dates = expanded?.system?.dates;
-    if (dates) {
-      expanded.system.dates = mergeObject(source.system.dates, dates);
-    }
+    // if (dates) {
+    // expanded.system.dates = mergeObject(source.system.dates, dates);
+    // options.diff = false;
+    // options.recursive = true;
+    // }
 
     // log(false, `Update object: ${JSON.stringify(expanded)}`);
-    await this.object.update(expanded);
+    await this.object.update(expanded, options);
   }
 }

@@ -8,7 +8,7 @@
 <div style="margin-left:-10px; margin-right: -16px;">
   {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
 </div>
-<div class="{{type}}-years flexcol">
+<div class="years flexcol">
   {{#each selectedDates }}
     <div class="backSection calendar-year flex-center flex-between">
       <label for="year" class="smallTitle" style="font-size:16pt">{{this.year}}</label>
@@ -17,7 +17,8 @@
           <div class="calendar-season {{this.style}} flexrow">
             <div class="flexrow">
               {{#each this.others}}
-                <div class="vignette" data-id="{{this.id}}"><img src="{{this.img}}" title="{{this.name}}" /> </div>
+                <div class="vignette" data-id="{{this.id}}"><img src="{{this.img}}" title="{{this.name}}"
+                    {{{this.style}}} /> </div>
               {{/each}}
             </div>
             {{#if this.edition}}

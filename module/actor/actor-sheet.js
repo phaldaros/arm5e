@@ -269,7 +269,7 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     context.system.isCharacter = this.actor._isCharacter();
-    if (this.actor._isCharacter()) {
+    if (context.system.isCharacter) {
       for (let [key, v] of Object.entries(context.system.vitals)) {
         v.label = game.i18n.localize(CONFIG.ARM5E.character.vitals[key].label);
       }
@@ -384,7 +384,7 @@ export class ArM5eActorSheet extends ActorSheet {
             }
           }
         } else {
-          if (context.system.labtotal.aura === undefined) {
+          if (!Number.isNumeric(context.system.labtotal.aura)) {
             context.system.labtotal.aura = 0;
           }
         }

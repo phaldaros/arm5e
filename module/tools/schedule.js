@@ -16,6 +16,7 @@ export class Schedule extends FormApplication {
       template: "systems/arm5e/templates/generic/character-schedule.html",
       width: "600",
       height: "790",
+      scrollY: [".years"],
       submitOnChange: false,
       closeOnSubmit: false
     });
