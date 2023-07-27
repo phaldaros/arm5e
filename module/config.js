@@ -1938,7 +1938,19 @@ ARM5E.magic.penetration = {
   },
   sympathy: {
     low: { label: "arm5e.magic.sympathy.weak", bonus: 1 },
-    high: { label: "arm5e.magic.sympathy.strong", bonus: 2 }
+    high: { label: "arm5e.magic.sympathy.strong", bonus: 2 },
+    high2: { label: "arm5e.magic.sympathy.strong1", bonus: 3 },
+    high3: { label: "arm5e.magic.sympathy.strong2", bonus: 4 },
+    high4: { label: "arm5e.magic.sympathy.strong3", bonus: 5 },
+    high5: { label: "arm5e.magic.sympathy.strong4", bonus: 6 },
+    high6: { label: "arm5e.magic.sympathy.strong5", bonus: 7 },
+    high7: { label: "arm5e.magic.sympathy.strong6", bonus: 8 },
+    high8: { label: "arm5e.magic.sympathy.strong8", bonus: 9 },
+    high9: { label: "arm5e.magic.sympathy.strong9", bonus: 10 },
+    high10: { label: "arm5e.magic.sympathy.strong10", bonus: 11 },
+    high11: { label: "arm5e.magic.sympathy.strong11", bonus: 12 },
+    high12: { label: "arm5e.magic.sympathy.strong12", bonus: 13 },
+    high13: { label: "arm5e.magic.sympathy.strong13", bonus: 14 }
   }
 };
 

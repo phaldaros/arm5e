@@ -447,7 +447,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
                     year: actor.system.datetime.year,
                     season: actor.system.datetime.season
                   },
-                  healedDate: null,
+                  healedDate: { year: null, season: "spring" },
                   gravity: wtype,
                   originalGravity: wtype,
                   trend: 0,

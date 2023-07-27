@@ -1411,7 +1411,7 @@ export class ArM5ePCActor extends Actor {
             year: this.system.datetime.year,
             season: this.system.datetime.year
           },
-          healedDate: null,
+          healedDate: { year: null, season: "spring" },
           gravity: wtype,
           originalGravity: wtype,
           trend: 0,
@@ -1494,7 +1494,7 @@ export class ArM5ePCActor extends Actor {
             year: this.system.datetime.year,
             season: this.system.datetime.season
           },
-          healedDate: null,
+          healedDate: { year: null, season: "spring" },
           gravity: wtype,
           originalGravity: wtype,
           trend: 0,

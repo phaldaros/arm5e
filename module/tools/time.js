@@ -72,12 +72,8 @@ export function compareDiaryEntries(e1, e2) {
 }
 
 // used in the calendar
-export function compareEvents(e1, e2) {
-  if (e1.year < e2.year) {
-    return -1;
-  } else if (e1.year > e2.year) {
-    return 1;
-  } else {
+export function compareDates(e1, e2) {
+  if (e1.year == e2.year) {
     if (CONFIG.SEASON_ORDER[e1.season] < CONFIG.SEASON_ORDER[e2.season]) {
       return -1;
     } else if (CONFIG.SEASON_ORDER[e1.season] > CONFIG.SEASON_ORDER[e2.season]) {
@@ -85,5 +81,10 @@ export function compareEvents(e1, e2) {
     } else {
       return 0;
     }
+  } else if (e1.year < e2.year) {
+    return -1;
+  } else {
+    //e1.year > e2.year
+    return 1;
   }
 }

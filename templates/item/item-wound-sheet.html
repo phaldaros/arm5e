@@ -25,7 +25,7 @@
             data-dtype="Number" />
         </div>
         <div class="resource flexrow">
-          {{#if system.healedDate}}
+          {{#if system.healedDate.year}}
             <label for="system.season" class="header-label">{{localize "arm5e.sheet.wound.healed"}}</label>
             <select name="system.healedDate.season" data-type="String">
               {{#select system.healedDate.season}} {{#each config.seasons as |season key|}}

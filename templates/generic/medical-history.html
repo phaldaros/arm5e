@@ -1,0 +1,49 @@
+<form class="{{cssClass}} sanatorium sanatorium-sheet flexcol" autocomplete="off" style="background-size:contain">
+    <div class="sanatorium header-background" style="width:inherit; margin: 0px;">
+        <img src="systems/arm5e/assets/sanatorium/Header_Sanatorium.png"
+            style="width:400px; margin: 0px; background-size: contain" />
+    </div>
+    <div class="flexrow marginsides32">
+        <h1 class="medhistory-title width: 100%;" text-align="center">{{title}}</h1>
+        <div class="item-controls" style="max-width: 50px;">
+            <a class="item-control clear-history" title='Clear history'><i
+                    class="icon-Icon_Delete_Big_Hand_Gesture"></i></a>
+        </div>
+    </div>
+    <div class="sheet-body marginsides32">
+        <div class=" backSection flexrow" style="font-size: 9pt;align-items: center;text-align: center;">
+            <label style="min-width: 80px;">{{localize "arm5e.sheet.name"}}</label>
+            <label class="label-light">{{localize "arm5e.sheet.wound.gravity"}}</label>
+            <label class="label-light">{{localize "arm5e.sheet.wound.inflicted"}}</label>
+            <label class="label-light">{{localize "arm5e.sheet.wound.healed"}}</label>
+            <label class="label-light">{{localize "arm5e.sheet.wound.recovery"}}</label>
+        </div>
+        <div style="margin-top: 10px;">
+            {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
+        </div>
+        <div class="years flexcol" style="min-height: 210px; overflow-y: auto;">
+            {{#each scars }}
+                <div class="backSection wound-edit flexrow clickable" data-item-id="{{this.id}}"
+                    style="align-items: center;text-align: center;">
+                    <div class="vignette" data-id="{{this.id}}"><img src="{{this.img}}" title="{{this.name}}"
+                            {{{this.style}}} /> </div>
+                    <label style="min-width: 110px;">{{this.name}}</label>
+                    <label class="label-light">{{this.gravity}}</label>
+                    <label class="label-light" style="font-family: bookAntiqua;">{{this.inflicted}}</label>
+                    <label class="label-light" style="font-family: bookAntiqua;">{{this.healed}}</label>
+                    <label class="label-light"
+                        style="font-family: bookAntiqua; max-width: 40px;">{{this.recoveryTime}}</label>
+                    <!-- <div class="item-controls" style="max-width: 22px;">
+                        <a class="item-control wound-delete"
+                            title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.wound")}}'><i
+                                class="icon-Icon_Delete_Hand_Gesture"></i></a>
+                    </div> -->
+                </div>
+            {{/each}}
+        </div>
+
+    </div>
+    <div class="sanatorium footer-background" style="width:inherit; margin: 0px;">
+        <img src="systems/arm5e/assets/sanatorium/Footer_Sanatorium.png" />
+    </div>
+</form>
