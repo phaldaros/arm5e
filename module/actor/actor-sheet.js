@@ -42,6 +42,7 @@ import { UI, getConfirmation } from "../constants/ui.js";
 import { Schedule } from "../tools/schedule.js";
 import { createAgingDiaryEntry } from "../helpers/long-term-activities.js";
 import { Sanatorium } from "../tools/sanatorium.js";
+import { MedicalHistory } from "../tools/med-history.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -282,6 +283,7 @@ export class ArM5eActorSheet extends ActorSheet {
           dead: context.system.wounds.dead
         };
       }
+      context.isDead = this.actor.system.wounds.dead.length > 0;
       context.system.isMagus = this.actor._isMagus();
 
       context.system.world = {};
@@ -809,13 +811,7 @@ export class ArM5eActorSheet extends ActorSheet {
     });
 
     html.find(".view-med-history").click(async (ev) => {
-      // TODO: put in another place for release
-      const items = this.actor.items
-        .filter((e) => e.type == "wound" && e.system.gravity == "healthy")
-        .map((e) => e._id);
-      const cnt = await this.actor.deleteEmbeddedDocuments("Item", items);
-
-      log(false, `Deleted ${cnt.length} healthy wounds`);
+      await MedicalHistory.createDialog(this.actor);
     });
 
     html.find(".planning-item").click(async (ev) => {

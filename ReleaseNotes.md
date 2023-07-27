@@ -1,4 +1,4 @@
-## 2.1.1.4, Mercere, the Spymaster
+## 2.1.1.5, Mercere, the Spymaster
 
 ### Features & changes
 
@@ -6,6 +6,8 @@
 - Wound are now items.
 - Calendar scrollbar state is memorized between changes
 - It is possible to edit the duration of some activities
+- New medical history dialog
+- It now possible to cummulate higher sympathic link bonuses for penetration
 
 ### Bug fixes
 

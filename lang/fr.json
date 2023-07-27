@@ -1091,7 +1091,7 @@
   "arm5e.activity.visStudy": "Etude sur vis",
   "arm5e.activity.recovery": "Récupération",
   "arm5e.activity.pawnsNeeded": "Pions de vis nécessaire",
-  
+
   "arm5e.activity.roll.aging": "Jet de vieillissement",
   "arm5e.activity.roll.visStudy": "Jet d'étude du virtus",
   "arm5e.activity.roll.recovery": "Jet de récupération",
@@ -1117,7 +1117,7 @@
   "arm5e.activity.msg.activityEndsInFuture": "Impossible à appliquer. Cette activité finit dans le futur",
   "arm5e.activity.msg.agingInWinter": "Le vieillissement se produit généralement en hiver, à moins qu'il ne s'agisse d'un effet externe.",
   "arm5e.activity.msg.unappliedActivities": "Il y a encore des activités non appliquées prévues avant celle-ci.",
-  
+
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "Pas de distraction",
   "arm5e.lab.distraction.oneMonth": "Un mois",
@@ -1179,14 +1179,15 @@
   "arm5e.scriptorium.msg.diaryTopic.spell": "la maîtrise du sort \"{sort}\"",
   "arm5e.scriptorium.msg.notMagus": "Le lecteur n'est pas un mage.",
   "arm5e.scriptorium.reading.activity": "Lecture {title}",
-  
+
   "arm5e.sanatorium.magicalHelp": "Aide magique",
   "arm5e.sanatorium.mundaneHelp": "Aide vulgaire",
   "arm5e.sanatorium.labHealth": "Aide du Sanctum",
   "arm5e.sanatorium.recoveryBonus": "Bonus de récupération",
   "arm5e.sanatorium.daysLeft": "{days} jours restants avant le prochain jet de récupération",
   "arm5e.sanatorium.daysAvailbable": "Jours disponibles",
-  "arm5e.sanatorium.medicalHistory": "Consulter les antécédents médicaux",
+  "arm5e.sanatorium.medicalHistory": "Antécédents médicaux",
+  "arm5e.sanatorium.viewMedicalHistory": "Consulter les antécédents médicaux",
   "arm5e.sanatorium.log": "Dossier du patient",
   "arm5e.sanatorium.msg.patientHealthy": "Le patient est en bonne santé !",
   "arm5e.sanatorium.msg.patientDead": "Le patient est mort !",
@@ -1201,7 +1202,7 @@
   "arm5e.sanatorium.msg.logHealed": "Blessure complétement guérie en {days} jours",
   "arm5e.sanatorium.button.recovery": "Jet de récupération",
   "arm5e.sanatorium.button.endSeason": "Fin de la saison",
-  
+
   "arm5e.sheet.wound.inflicted": "Infligé",
   "arm5e.sheet.wound.healed": "Guérison",
   "arm5e.sheet.wound.gravity": "Gravité",

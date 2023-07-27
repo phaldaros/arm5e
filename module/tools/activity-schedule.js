@@ -2,7 +2,7 @@ import { ARM5E } from "../config.js";
 import { UI } from "../constants/ui.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { debug, getDataset, log } from "../tools.js";
-import { compareEvents } from "./time.js";
+import { compareDates } from "./time.js";
 
 export class ActivitySchedule extends FormApplication {
   constructor(data, options) {
@@ -272,7 +272,7 @@ export class ActivitySchedule extends FormApplication {
         date: "",
         applied: false
       });
-      newDates = newDates.sort(compareEvents);
+      newDates = newDates.sort(compareDates);
     }
     await this.submit({
       preventClose: true,

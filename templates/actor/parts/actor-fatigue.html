@@ -38,13 +38,15 @@
       <div class="flexcol">
         <label class="smallTitle">{{localize "arm5e.sheet.wounds"}} ({{ system.penalties.wounds.total }})</label>
         <label
-          class="smallTitle clickable view-med-history"><i>{{localize "arm5e.sanatorium.medicalHistory"}}</i></label>
+          class="smallTitle clickable view-med-history"><i>{{localize "arm5e.sanatorium.viewMedicalHistory"}}</i></label>
       </div>
       <!-- <img class="clickable recovery-start" src="systems/arm5e/assets/icons/recovery.svg" title="Wounds recovery"
         style="max-width:30px" /> -->
-      <a class="recovery-start clickable" title="Wounds recovery" style="text-align: right; font-size: 16pt;">
-        <i class="icon-Icon_Sanatorium2"></i>
-      </a>
+      {{#unless isDead}}
+        <a class="recovery-start clickable" title="Wounds recovery" style="text-align: right; font-size: 16pt;">
+          <i class="icon-Icon_Sanatorium2"></i>
+        </a>
+      {{/unless}}
     </div>
     <div class="flexrow flex-group-left">
       <div style="min-width: 215px;"></div>

@@ -1,7 +1,7 @@
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
 import { seasonOrder, seasonsDelta } from "../tools/time.js";
-import { baseDescription, itemBase, OptionalSchemaField, SeasonField } from "./commonSchemas.js";
+import { baseDescription, itemBase, NullableSchemaField, SeasonField } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 
 export class WoundSchema extends foundry.abstract.DataModel {
@@ -21,18 +21,18 @@ export class WoundSchema extends foundry.abstract.DataModel {
           step: 1
         })
       }),
-      healedDate: new OptionalSchemaField(
+      healedDate: new NullableSchemaField(
         {
           season: SeasonField(),
           year: new fields.NumberField({
             required: true,
-            nullable: false,
+            nullable: true,
             integer: true,
-            initial: 1220,
+            initial: null,
             step: 1
           })
         },
-        { required: false, nullable: true, initial: undefined }
+        { required: false, nullable: true, initial: {} }
       ),
       originalGravity: new fields.StringField({
         required: true,

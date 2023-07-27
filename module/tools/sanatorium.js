@@ -1,7 +1,5 @@
 import { stressDie } from "../dice.js";
-import { debug, getDataset, log, sleep } from "../tools.js";
-import { GroupSchedule } from "./group-schedule.js";
-import { nextDate } from "./time.js";
+import { log, sleep } from "../tools.js";
 
 export class Sanatorium extends FormApplication {
   constructor(patient, data, options) {
@@ -77,7 +75,7 @@ export class Sanatorium extends FormApplication {
         { async: true }
       );
       context.canRoll = "disabled";
-      context.diary = "disabled";
+      context.diary = "";
     } else if (
       Object.entries(context.wounds).filter(
         (e) => CONFIG.ARM5E.recovery.wounds[e[0]].rank > 0 && e[1] != []
@@ -144,24 +142,26 @@ export class Sanatorium extends FormApplication {
     event.preventDefault();
 
     let updatePatientWounds = [];
-
+    const dateHeasder = `<h3>${game.i18n.localize(
+      CONFIG.ARM5E.seasons[this.object.curSeason].label
+    )} ${this.object.curYear}</h3><br/>`;
     // Update the patient wounds
     for (let [type, wounds] of Object.entries(this.object.wounds)) {
       for (let wound of wounds) {
+        let currentWound = this.object.patient.items.get(wound._id);
         let data = {};
         data.system = wound;
         data.system.gravity = type;
-        data.system.description =
-          `<h3>${game.i18n.localize(CONFIG.ARM5E.seasons[this.object.curSeason].label)} ${
-            this.object.curYear
-          }</h3><br/>` + data.system.description;
+        data.system.description = currentWound.system.description + dateHeasder + wound.description;
         data.name = wound.name;
         data.img = wound.img;
         data._id = wound._id;
         updatePatientWounds.push(data);
       }
     }
-    let updatedWounds = await this.patient.updateEmbeddedDocuments("Item", updatePatientWounds);
+    let updatedWounds = await this.patient.updateEmbeddedDocuments("Item", updatePatientWounds, {
+      recursive: true
+    });
 
     const entryData = {
       name: game.i18n.localize("arm5e.activity.title.recovery"),
@@ -189,15 +189,6 @@ export class Sanatorium extends FormApplication {
     entry[0].sheet.render(true);
     delete this.patient.apps[this.appId];
     await sleep(100);
-    // let newDate = nextDate(this.object.curSeason, this.object.curYear);
-    // await this.submit({
-    //   preventClose: false,
-    //   updateData: {
-    //     dateChange: "",
-    //     curSeason: newDate.season,
-    //     curYear: newDate.year
-    //   }
-    // });
     await this.close();
   }
 
@@ -254,6 +245,8 @@ export class Sanatorium extends FormApplication {
         let newType = "incap";
         if (incap.trend == -1) {
           newType = "heavy";
+        } else if (incap.trend == 1) {
+          newType = "dead";
         } else {
           incapacited = true;
         }
@@ -306,15 +299,20 @@ export class Sanatorium extends FormApplication {
           newWound.trend = 1;
           newWound.bonus = 0;
           newWound.style = "worsened";
-
-          // newType =
-          //   CONFIG.ARM5E.recovery.rankMapping[CONFIG.ARM5E.recovery.wounds[newType].rank + 1];
         }
         woundPeriodDescription += "<br/></li>";
         newWound.img = CONFIG.ARM5E.recovery.wounds[newType].icon;
-        newWound.name = `${game.i18n.localize(
-          CONFIG.ARM5E.recovery.wounds[newType].label
+
+        // keep the old name if it was custom
+        let oldName = `${game.i18n.localize(
+          CONFIG.ARM5E.recovery.wounds["incap"].label
         )} ${game.i18n.localize("arm5e.sheet.wound.label")}`;
+
+        if (newWound.name == oldName) {
+          newWound.name = `${game.i18n.localize(
+            CONFIG.ARM5E.recovery.wounds[newType].label
+          )} ${game.i18n.localize("arm5e.sheet.wound.label")}`;
+        }
 
         newWound.nextRoll = incap.nextRoll + CONFIG.ARM5E.recovery.wounds[newType].interval;
         newWound.recoveryTime += CONFIG.ARM5E.recovery.wounds[newType].interval;
@@ -329,9 +327,7 @@ export class Sanatorium extends FormApplication {
           tmpPeriod = tmpPeriod < newWound.nextRoll ? tmpPeriod : newWound.nextRoll;
           log(false, `New Period: ${tmpPeriod}`);
         }
-
         newWound.description += woundPeriodDescription + "</ul>";
-
         newWounds[newType].push(newWound);
       }
     }
@@ -341,7 +337,18 @@ export class Sanatorium extends FormApplication {
         continue;
       } else if (type == "healthy") {
         for (let wound of this.object.wounds[type] ?? []) {
+          wound.locked = true;
           newWounds[type].push(wound);
+        }
+      } else if (type == "dead") {
+        for (let wound of this.object.wounds[type] ?? []) {
+          wound.locked = true;
+          newWounds[type].push(wound);
+          recoverylog += await TextEditor.enrichHTML(
+            `<br/><p><b>${game.i18n.localize("arm5e.sanatorium.msg.patientDied")}</b></p>`,
+            { async: true }
+          );
+          break;
         }
       } else {
         for (let wound of this.object.wounds[type] ?? []) {
@@ -355,7 +362,7 @@ export class Sanatorium extends FormApplication {
             continue;
           } else if (incapacited) {
             wound.nextRoll += 0.5;
-            wound.recoveryTime += 0.5;
+            // wound.recoveryTime += 0.5;
             tmpPeriod = tmpPeriod < wound.nextRoll ? tmpPeriod : wound.nextRoll;
             newWounds[type].push(wound);
           } else {
@@ -382,11 +389,28 @@ export class Sanatorium extends FormApplication {
               })}<br/>`;
 
               recoverylog += woundPeriodDescription;
-              newWound.description += woundPeriodDescription;
+              // woundPeriodDescription =
+              //   `<h3>${game.i18n.localize(CONFIG.ARM5E.seasons[this.object.curSeason].label)} ${
+              //     this.object.curYear
+              //   }</h3><br/>` +
+              //   woundPeriodDescription +
+              //   "</ul>";
+              // newWound.description += woundPeriodDescription;
+              newWound.description += woundPeriodDescription + "</ul>";
+
               newWound.img = CONFIG.ARM5E.recovery.wounds[newType].icon;
-              newWound.name = `${game.i18n.localize(
-                CONFIG.ARM5E.recovery.wounds[newType].label
+
+              let oldName = `${game.i18n.localize(
+                CONFIG.ARM5E.recovery.wounds[type].label
               )} ${game.i18n.localize("arm5e.sheet.wound.label")}`;
+
+              if (newWound.name == oldName) {
+                newWound.name = `${game.i18n.localize(
+                  CONFIG.ARM5E.recovery.wounds[newType].label
+                )} ${game.i18n.localize("arm5e.sheet.wound.label")}`;
+              }
+
+              newWound.healedDate = { year: this.object.curYear, season: this.object.curSeason };
               wound.nextRoll = 0;
               newWounds[newType].push(newWound);
               continue;
@@ -436,9 +460,16 @@ export class Sanatorium extends FormApplication {
             }
             woundPeriodDescription += "<br/></li>";
             newWound.img = CONFIG.ARM5E.recovery.wounds[newType].icon;
-            newWound.name = `${game.i18n.localize(
-              CONFIG.ARM5E.recovery.wounds[newType].label
+
+            let oldName = `${game.i18n.localize(
+              CONFIG.ARM5E.recovery.wounds[type].label
             )} ${game.i18n.localize("arm5e.sheet.wound.label")}`;
+
+            if (newWound.name == oldName) {
+              newWound.name = `${game.i18n.localize(
+                CONFIG.ARM5E.recovery.wounds[newType].label
+              )} ${game.i18n.localize("arm5e.sheet.wound.label")}`;
+            }
 
             recoverylog += woundPeriodDescription;
 
@@ -488,6 +519,7 @@ export class Sanatorium extends FormApplication {
           w._id = wound._id;
           w.name = wound.name;
           w.img = wound.img;
+          w.description = "";
           // if the wound has already been treated this season, lock it
           if (!wound.system.canBeTreatedThisSeason(this.object.curSeason, this.object.curYear)) {
             w.locked = true;
