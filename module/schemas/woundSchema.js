@@ -1,6 +1,6 @@
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
-import { seasonOrder, seasonsDelta } from "../tools/time.js";
+import { getShiftedDate, seasonOrder, seasonsDelta } from "../tools/time.js";
 import { baseDescription, itemBase, NullableSchemaField, SeasonField } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 
@@ -109,34 +109,28 @@ export class WoundSchema extends foundry.abstract.DataModel {
   }
 
   canBeTreatedThisSeason(season, year) {
+    let currentDate = game.settings.get("arm5e", "currentDate");
+    if (seasonsDelta(currentDate, this.inflictedDate) > 0) return false;
     if (this.recoveryTime == 0) {
       return true;
     }
 
     if (year < this.inflictedDate.year) return false;
 
-    // if recovery time is not 0, wound has already been treated
-    if (season == this.inflictedDate.season && year == this.inflictedDate.year) {
+    // if recovery time is not 0, wound has already been treated or started mid-season
+    if (
+      season == this.inflictedDate.season &&
+      year == this.inflictedDate.year &&
+      this.nextRoll > CONFIG.ARM5E.recovery.daysInSeason
+    ) {
       return false;
     }
+    let offset = Math.ceil(this.recoveryTime / CONFIG.ARM5E.recovery.daysInSeason);
+    let nextRollDate = getShiftedDate(this.inflictedDate, offset);
 
-    const delta = seasonsDelta(
-      { season: this.inflictedDate.season, year: this.inflictedDate.year },
-      { season: season, year: year }
-    );
-    if (delta < 0) return; // trying to heal in the past
-    log(
-      false,
-      `Delta ${delta} +1 x days : ${(delta + 1) * CONFIG.ARM5E.recovery.daysInSeason} versus ${
-        this.recoveryTime
-      }`
-    );
-    if (
-      delta * CONFIG.ARM5E.recovery.daysInSeason < this.recoveryTime &&
-      (delta + 1) * CONFIG.ARM5E.recovery.daysInSeason > this.recoveryTime
-    ) {
-      return true;
-    }
+    const delta = seasonsDelta(nextRollDate, { season: season, year: year });
+    if (delta == 0) return true;
+
     return false;
   }
 }

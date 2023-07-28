@@ -88,3 +88,21 @@ export function compareDates(e1, e2) {
     return 1;
   }
 }
+
+// get a date shifted by offset seasons
+export function getShiftedDate(date, offset) {
+  let res = {};
+
+  if (offset == 0) return { year: date.year, season: date.season };
+
+  let yearOffset = Math.floor(offset / 4);
+  let seasonOffset = offset % 4;
+
+  res.season = CONFIG.SEASON_ORDER_INV[(offset + CONFIG.SEASON_ORDER[date.season]) % 4];
+  if (seasonOffset + CONFIG.SEASON_ORDER[date.season] > 3) {
+    yearOffset++;
+  }
+
+  res.year = date.year + yearOffset;
+  return res;
+}

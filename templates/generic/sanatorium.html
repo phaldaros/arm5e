@@ -28,15 +28,18 @@
       <div class="resource-content flexrow">
         <div class="resource-content flexrow flex-center flex-between margintop6">
           <label for="curSeason" class="smallTitle" style="font-size:16pt">{{localize "arm5e.sheet.season"}}</label>
-          <select name="curSeason" {{dateChange}} data-type="String" class="change-season flex0 sanatorium">
+          <input type="text" name="curSeason" readonly value="{{curSeasonLabel}}" data-dtype="String"
+            class="sanatorium change-season resource-focus" style="
+      font-size: 18pt;" />
+          <!-- <select name="curSeason" disabled data-type="String" class="change-season flex0 sanatorium">
             {{#select curSeason}} {{#each seasons as |season key|}}
                 <option value="{{key}}">{{localize season.label}}</option>
               {{/each}} {{/select}}
-          </select>
+          </select> -->
         </div>
         <div class="resource-content flexrow flex-center flex-between margintop6">
           <label for="curYear" class="smallTitle" style="font-size:16pt">{{localize "arm5e.sheet.year"}}</label>
-          <input type="number" name="curYear" {{dateChange}} value="{{curYear}}" data-dtype="Number"
+          <input type="number" name="curYear" readonly value="{{curYear}}" data-dtype="Number"
             class="sanatorium change-year resource-focus" style="
         font-size: 18pt;" />
         </div>
@@ -67,14 +70,16 @@
       <div class="flex-center" style="max-width: 100px; margin:3px">
         <label for="availableDays" class="smallTitle"
           style="font-size:14pt">{{localize "arm5e.sanatorium.daysAvailbable"}}</label>
+
         <input type="number" name="availableDays" {{dateChange}} value="{{availableDays}}" data-dtype="Number"
           class="sanatorium change-available-days resource-focus" style="
         font-size: 14pt;" />
       </div>
       <div class="flex-center marginsides10">
         <label>{{daysLeftLabel}}</label>
-        <input class="days-left" type="range" disabled data-dtype="Number" value="{{nextRecoveryPeriod}}" min="0"
-          max="{{availableDays}}" step="0.5">
+        <div class="progressbar">
+          <div class="progressbar-inner" {{{progressbarStyle}}}></div>
+        </div>
       </div>
     </div>
   </div>

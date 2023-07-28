@@ -740,6 +740,40 @@ h4.window-title {
   color: rgb(135 38 22 / 100%);
 }
 
+.arm5e .sanatorium .progressbar {
+  width: 400px;
+  height: 16px;
+  margin: 0 auto 20px auto;
+  padding: 0px;
+  background-image: url("../assets/SmallGoldenEngravedBar.png");
+  background-size: 400px 16px;
+  /* background: #cfcfcf; */
+  border-width: 1px;
+  border-style: solid;
+  border-color: #aaa #bbb #fff #bbb;
+  box-shadow: inset 0px 2px 3px #bbb;
+}
+
+.arm5e .sanatorium .progressbar,
+.arm5e .sanatorium .progressbar-inner {
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+.arm5e .sanatorium .progressbar-inner {
+  height: 100%;
+  background: #999 80%;
+  background-size: 18px 18px;
+  background-color: rgb(135 38 22 / 100%);
+  box-shadow: inset 0px 2px 8px rgba(255, 255, 255, 0.5), inset -1px -1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.arm5e .sanatorium .progressbar-red .progressbar-inner {
+  background-color: #f67;
+  width: 30%;
+}
+
 .arm5e .medhistory-title {
   text-align: center;
   font-family: "blackmoor";
