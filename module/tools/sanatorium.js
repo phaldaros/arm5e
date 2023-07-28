@@ -1,5 +1,6 @@
 import { stressDie } from "../dice.js";
 import { log, sleep } from "../tools.js";
+import { getShiftedDate, seasonsDelta } from "./time.js";
 
 export class Sanatorium extends FormApplication {
   constructor(patient, data, options) {
@@ -19,7 +20,10 @@ export class Sanatorium extends FormApplication {
     this.object.log = "";
     this.object.wounds = {};
     this.object.woundPenalty = patient.system.penalties.wounds.total;
-    this.object.health = "good"; // ["good"."wounded","incap"]
+    this.object.health = {
+      wounded: 0,
+      incap: 0
+    };
     this.object.availableDays = CONFIG.ARM5E.recovery.daysInSeason;
     this.object.hasWounds = false;
     this.object.nextRecoveryPeriod = 0;
@@ -65,7 +69,13 @@ export class Sanatorium extends FormApplication {
         context.modifiers.labHealth = lab.system.health.total;
       }
     }
+
+    context.curSeasonLabel = game.i18n.localize(CONFIG.ARM5E.seasons[context.curSeason].label);
     context.daysLeft = context.availableDays - context.nextRecoveryPeriod;
+
+    context.progressbarStyle = `style="width:${Math.round(
+      (context.nextRecoveryPeriod / context.availableDays) * 100
+    )}%;"`;
     context.daysLeftLabel = game.i18n.format("arm5e.sanatorium.daysLeft", {
       days: context.daysLeft
     });
@@ -116,26 +126,6 @@ export class Sanatorium extends FormApplication {
     html.find(".recovery-roll").click(this._recoveryRoll.bind(this));
 
     html.find(".diary-entry").click(this._createDiaryEntry.bind(this));
-
-    html.find(".change-year").change(async (ev) => {
-      this.object.curYear = Number(ev.currentTarget.value);
-      this.object.log = "";
-      this.prepareWounds();
-      await this.submit({
-        preventClose: true,
-        updateData: { datechange: "", curYear: ev.currentTarget.value }
-      });
-    });
-
-    html.find(".change-season").change(async (ev) => {
-      this.object.curSeason = ev.currentTarget.value;
-      this.object.log = "";
-      this.prepareWounds();
-      await this.submit({
-        preventClose: true,
-        updateData: { datechange: "", curSeason: ev.currentTarget.value }
-      });
-    });
   }
 
   async _createDiaryEntry(event) {
@@ -198,7 +188,7 @@ export class Sanatorium extends FormApplication {
     let recoverylog = this.object.log;
     // it is no longer possible to change date or days available
     let dateChange = "disabled";
-
+    let currentPenalty = patient._getWoundPenalty(this.object.wounds);
     let newWounds = {
       healthy: [],
       light: [],
@@ -263,7 +253,9 @@ export class Sanatorium extends FormApplication {
         if (!logDayAdded) {
           woundPeriodDescription += `<h4>${game.i18n.format("arm5e.sanatorium.msg.logDay", {
             day: this.object.nextRecoveryPeriod + 1
-          })}</h4><ul>`;
+          })} (${this.patient._getWoundPenalty(this.object.wounds)} ${game.i18n.localize(
+            "arm5e.sheet.penalty"
+          )})</h4><ul>`;
           logDayAdded = true;
         }
         woundPeriodDescription +=
@@ -376,7 +368,9 @@ export class Sanatorium extends FormApplication {
             if (!logDayAdded) {
               woundPeriodDescription += `<h4>${game.i18n.format("arm5e.sanatorium.msg.logDay", {
                 day: this.object.nextRecoveryPeriod + 1
-              })}</h4><ul>`;
+              })} (${this.patient._getWoundPenalty(this.object.wounds)} ${game.i18n.localize(
+                "arm5e.sheet.penalty"
+              )})</h4><ul>`;
               logDayAdded = true;
             }
             if (newType == "healthy") {
@@ -441,7 +435,6 @@ export class Sanatorium extends FormApplication {
               newWound.bonus = 0;
               newWound.trend = -1;
               newWound.style = "improved";
-              // if (newWound.nextRoll >)
             } else if (roll.total >= CONFIG.ARM5E.recovery.wounds[newType].stability) {
               log(false, "Wound stable");
               woundPeriodDescription += `${game.i18n.localize(
@@ -509,6 +502,26 @@ export class Sanatorium extends FormApplication {
   }
 
   prepareWounds() {
+    // first find the appropriate date
+    let currentTime = game.settings.get("arm5e", "currentDate");
+    for (let [type, wounds] of Object.entries(this.patient.system.wounds)) {
+      if (type == "healthy") continue;
+      if (wounds.length > 0) {
+        for (let wound of wounds) {
+          let woundInflicted = wound.system.inflictedDate;
+          if (wound.system.recoveryTime > 0) {
+            let offset = Math.ceil(wound.system.recoveryTime / CONFIG.ARM5E.recovery.daysInSeason);
+            woundInflicted = getShiftedDate(woundInflicted, offset);
+          }
+          if (seasonsDelta(woundInflicted, currentTime) > 0) {
+            currentTime = woundInflicted;
+          }
+        }
+      }
+    }
+    this.object.curSeason = currentTime.season;
+    this.object.curYear = currentTime.year;
+
     let minNextRoll = 1000;
     for (let [type, wounds] of Object.entries(this.patient.system.wounds)) {
       if (type == "healthy") continue;

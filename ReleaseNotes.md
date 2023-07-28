@@ -1,9 +1,10 @@
-## 2.1.1.5, Mercere, the Spymaster
+## 2.1.1.6, Mercere, the Spymaster
 
 ### Features & changes
 
 - New sanatorium dialog for wounds recovery (assets by @Sylph).
-- Wound are now items.
+  - Wound are now items.
+  - Recovery date is picked automaticaly as the oldest treatable wound which is not in the future
 - Calendar scrollbar state is memorized between changes
 - It is possible to edit the duration of some activities
 - New medical history dialog
