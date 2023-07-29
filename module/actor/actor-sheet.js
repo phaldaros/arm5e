@@ -1547,7 +1547,6 @@ export class ArM5eActorSheet extends ActorSheet {
    */
   async _onRoll(event) {
     const dataset = getDataset(event);
-
     if (this.actor.system.wounds.dead.length > 0) {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
         permanent: true

@@ -127,11 +127,11 @@ export class QuickVitals extends FormApplication {
   async getData(options = {}) {
     const context = {
       name: this.object.name,
-      system: this.object.actor.system,
+      actor: this.object.actor,
       woundCfg: CONFIG.ARM5E.character.wounds,
       conscious: this.object.actor.system.fatigueCurrent < this.object.actor.system.fatigueMaxLevel
     };
-    log(false, `Vitals: ${context}, Fatigue: ${context.system.fatigueCurrent}`);
+    log(false, `Vitals: ${context}, Fatigue: ${context.actor.system.fatigueCurrent}`);
     return context;
   }
 
@@ -155,10 +155,10 @@ export class QuickVitals extends FormApplication {
       await this.object.actor.changeWound(1, dataset.type);
       this.render();
     });
-    html.find(".removeWound").click(async event => {
+    html.find(".recovery").click(async event => {
       event.preventDefault();
       const dataset = event.currentTarget.dataset;
-      await this.object.actor.changeWound(-1, dataset.type);
+      await this.object.actor.sheet.render(true);
       this.render();
     });
   }

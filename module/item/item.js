@@ -195,6 +195,12 @@ export class ArM5eItem extends Item {
           }
         }
       }
+    } else if (this.type == "wound") {
+      this.system.title = `${this.name}`;
+      if (this.system.recoveryTime == 0) {
+        this.system.title += ` (${game.i18n.localize("arm5e.sheet.wound.fresh")})`
+        this.system.ui  =  {style : 'style="box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);"'}
+      }
     }
   }
 

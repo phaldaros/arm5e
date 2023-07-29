@@ -25,7 +25,7 @@ export class WoundSchema extends foundry.abstract.DataModel {
         {
           season: SeasonField(),
           year: new fields.NumberField({
-            required: true,
+            required: false,
             nullable: true,
             integer: true,
             initial: null,

@@ -253,9 +253,7 @@ export class Sanatorium extends FormApplication {
         if (!logDayAdded) {
           woundPeriodDescription += `<h4>${game.i18n.format("arm5e.sanatorium.msg.logDay", {
             day: this.object.nextRecoveryPeriod + 1
-          })} (${this.patient._getWoundPenalty(this.object.wounds)} ${game.i18n.localize(
-            "arm5e.sheet.penalty"
-          )})</h4><ul>`;
+          })}</h4><ul>`;
           logDayAdded = true;
         }
         woundPeriodDescription +=
@@ -368,9 +366,7 @@ export class Sanatorium extends FormApplication {
             if (!logDayAdded) {
               woundPeriodDescription += `<h4>${game.i18n.format("arm5e.sanatorium.msg.logDay", {
                 day: this.object.nextRecoveryPeriod + 1
-              })} (${this.patient._getWoundPenalty(this.object.wounds)} ${game.i18n.localize(
-                "arm5e.sheet.penalty"
-              )})</h4><ul>`;
+              })}</h4><ul>`;
               logDayAdded = true;
             }
             if (newType == "healthy") {
@@ -484,7 +480,9 @@ export class Sanatorium extends FormApplication {
         }
       }
     }
-    recoverylog += "</u>";
+    recoverylog += `</u><br/><i>${this.patient._getWoundPenalty(
+      this.object.wounds
+    )} ${game.i18n.localize("arm5e.sheet.penalty")}</i>`;
     if (tmpPeriod == 1000) {
       tmpPeriod = this.object.availableDays;
       recoverylog += `<p>${game.i18n.localize("arm5e.sanatorium.msg.logDone")}</p>`;

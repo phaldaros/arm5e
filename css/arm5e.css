@@ -743,7 +743,7 @@ h4.window-title {
 .arm5e .sanatorium .progressbar {
   width: 400px;
   height: 16px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 10px auto;
   padding: 0px;
   background-image: url("../assets/SmallGoldenEngravedBar.png");
   background-size: 400px 16px;
