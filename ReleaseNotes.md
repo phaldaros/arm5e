@@ -1,4 +1,4 @@
-## 2.1.1.7, Mercere, the Spymaster
+## 2.1.1.8, Mercere, the Spymaster
 
 ### Features & changes
 

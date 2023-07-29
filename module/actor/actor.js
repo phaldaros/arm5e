@@ -702,8 +702,10 @@ export class ArM5ePCActor extends Actor {
     system.totalFlaws = totalFlaws;
     system.totalXPSpells = totalXPSpells;
     system.pendingXps = pendingXps;
+   
     if (system.weapons) {
       system.weapons = weapons;
+      // TODO: check why putting in there?
       system.combat = combat;
     }
     if (system.armor) {

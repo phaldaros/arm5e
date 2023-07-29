@@ -12,7 +12,6 @@ async function simpleDie(actor, type = "OPTION", callBack) {
   const rollData = actor.rollData;
 
   //console.log('simple die');
-  //console.log(actorData);
   let flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.simpledie")}:</p>`;
   let details = putInFoldableLinkWithAnimation(
     "arm5e.sheet.label.details",
@@ -33,7 +32,6 @@ async function simpleDie(actor, type = "OPTION", callBack) {
     async: true
   });
 
-  // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
   let rollMode = game.settings.get("core", "rollMode");
   // let showRolls = game.settings.get("arm5e", "showRolls");
   if (
