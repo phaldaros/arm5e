@@ -410,8 +410,7 @@ async function castSpell(actorCaster, roll, message) {
     //   targets: game.user.targets,
     //   actorId: actorCaster._id
     // };
-      
-  
+
     // Hooks.callAll("arm5e:spellcasting", data, {user : game.user.id});
   } else {
     // Magic effect

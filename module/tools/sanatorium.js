@@ -63,7 +63,7 @@ export class Sanatorium extends FormApplication {
     context.diary = "disabled";
     context.modifiers.activeEffect = patient.system.bonuses.traits.recovery;
     context.config = CONFIG;
-    if (patient.system.sanctum.linked) {
+    if (patient.system.isMagus && patient.system.sanctum.linked) {
       const lab = game.actors.get(patient.system.sanctum.actorId);
       if (lab) {
         context.modifiers.labHealth = lab.system.health.total;

@@ -47,7 +47,7 @@ export class Schedule extends FormApplication {
     const MIN_YEAR = data.displayYear - YEARS_BACK;
     const MAX_YEAR = data.displayYear + YEARS_FORWARD;
     const actorSchedule = data.actor.getSchedule(MIN_YEAR, MAX_YEAR, [], []);
-    const born = Number(data.actor.system.description.born.value);
+    let born = Number(data.actor.system.description?.born.value) ?? data.curYear;
     const agingStart = 35 + data.actor.system.bonuses.traits.agingStart;
     data.message = "";
     const notAppliedStyle =

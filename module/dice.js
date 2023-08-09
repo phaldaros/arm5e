@@ -690,7 +690,8 @@ async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
                     resolve();
                   }
                 }
-              }
+              },
+              default: "yes"
             },
             {
               classes: ["arm5e-dialog", "dialog"],
