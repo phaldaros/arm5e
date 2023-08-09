@@ -43,7 +43,6 @@
         </div>
       {{/if}}
       <div class="grid grid-col">
-
         <div class="resource">
           <label>{{localize "arm5e.sheet.date"}}<input type="text" name="system.dates.0.date"
               value="{{firstSeason.date}}" data-dtype="String" /></label>
@@ -81,7 +80,6 @@
       </div>
     </div>
   </header>
-  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Tab Navigation --}}
   <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
     <a class="item posRelative" data-tab="description" data-group="primary">
@@ -97,7 +95,9 @@
       </a>
     {{/if}}
   </nav>
-
+  <div>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html"  }}
+  </div>
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Description Tab --}}

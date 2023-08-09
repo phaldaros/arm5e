@@ -1,4 +1,4 @@
-## 2.1.1.8, Mercere, the Spymaster
+## 2.1.1.9, Mercere, the Spymaster
 
 ### Features & changes
 
@@ -20,6 +20,8 @@
 - Seasonal activities not created directly (eg: aging, recovery, lab work) are now hidden in diary sheet's activity type selection
 - non applied activities get back their red aura in the schedule dialog.
 - changing the activity type to a shorter duration remove the extra scheduled dates
+- It is again possible to access the schedule of beast Actors
+- Using <Enter> key after entering the number of botches will no longer raise an error and instead submit it properly.
 
 ## 2.1.0.18, Mercere, the Giftless
 

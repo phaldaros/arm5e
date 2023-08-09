@@ -49,7 +49,7 @@ As you can see below, it is possible to increase or decrease your fatigue levels
 
 ![](systems/arm5e/assets/userguide/Fatigue.png)
 
-**Wounds:** You can manually add wounds to a character here.
+**Wounds:** You can manually add wounds to a character here. Each wound is individually represented by an icon and fresh wounds have a red aura around them.
 
 The penalties for wounds and fatigue are automatically taken into account for rolls.
 

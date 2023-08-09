@@ -153,6 +153,8 @@ Those activities are not available directly, you must schedule them from a labor
 Apprenticeship, Early childhood, Later life and Year after apprenticeship
 
 -   Editable source quality: yes
+
+-   Editable duration: yes
     
 -   Progress items available: Abilities, Arts, Spell masteries
     
