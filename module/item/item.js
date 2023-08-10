@@ -6,6 +6,7 @@ import { resetOwnerFields } from "./item-converter.js";
 import { PersonalityTraitSchema } from "../schemas/minorItemsSchemas.js";
 import { ARM5E } from "../config.js";
 import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
+import { ItemDataModels } from "../arm5e.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -198,8 +199,8 @@ export class ArM5eItem extends Item {
     } else if (this.type == "wound") {
       this.system.title = `${this.name}`;
       if (this.system.recoveryTime == 0) {
-        this.system.title += ` (${game.i18n.localize("arm5e.sheet.wound.fresh")})`
-        this.system.ui  =  {style : 'style="box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);"'}
+        this.system.title += ` (${game.i18n.localize("arm5e.sheet.wound.fresh")})`;
+        this.system.ui = { style: 'style="box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);"' };
       }
     }
   }
@@ -419,13 +420,13 @@ export class ArM5eItem extends Item {
     // weird it did work in 284
     // if (data.img === undefined) {
     let toUpdate = false;
-    if (CONFIG.Item.systemDataModels[this.type]?.getDefault) {
-      data = CONFIG.Item.systemDataModels[this.type].getDefault(data);
+    if (ItemDataModels[this.type]?.getDefault) {
+      data = ItemDataModels[this.type].getDefault(data);
       toUpdate = true;
     }
 
     if (this.needIconUpdate()) {
-      data.img = CONFIG.Item.systemDataModels[this.type].getIcon(data);
+      data.img = ItemDataModels[this.type].getIcon(data);
       toUpdate = true;
     } else if (data.img === undefined || data.img === "icons/svg/item-bag.svg") {
       if (this.type in CONFIG.ARM5E_DEFAULT_ICONS) {
@@ -439,15 +440,15 @@ export class ArM5eItem extends Item {
   async _updateIcon(key, value) {
     if (this.needIconUpdate()) {
       await this.update({
-        img: CONFIG.Item.systemDataModels[this.type].getIcon(this, value),
+        img: ItemDataModels[this.type].getIcon(this, value),
         [key]: value
       });
     }
   }
 
   needIconUpdate(value) {
-    if (CONFIG.Item.systemDataModels[this.type]?.getIcon) {
-      let currentDefIcon = CONFIG.Item.systemDataModels[this.type].getIcon(this);
+    if (ItemDataModels[this.type]?.getIcon) {
+      let currentDefIcon = ItemDataModels[this.type].getIcon(this);
       // if the current img is the default icon of the previous value, allow change
       if (
         this.img === currentDefIcon ||

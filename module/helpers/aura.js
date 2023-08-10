@@ -51,7 +51,7 @@ async function setAuraEffect(actor, activeEffectData) {
       false,
       `AURA_MANAGEMENT Change aura for ${actor.name}, Aura ${activeEffectData.changes[0].value} ${activeEffectData.changes[1].value}`
     );
-    aura[0]._getSourceName();
+    if (CONFIG.ISV10) aura[0]._getSourceName();
     activeEffectData._id = aura[0]._id;
     return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
   }

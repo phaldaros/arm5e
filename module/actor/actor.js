@@ -17,6 +17,7 @@ import { migrateActorData } from "../migration.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ArM5eRollData } from "../helpers/rollData.js";
 import { compareDiaryEntries, isInThePast } from "../tools/time.js";
+import { ActorDataModels } from "../arm5e.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -702,7 +703,7 @@ export class ArM5ePCActor extends Actor {
     system.totalFlaws = totalFlaws;
     system.totalXPSpells = totalXPSpells;
     system.pendingXps = pendingXps;
-   
+
     if (system.weapons) {
       system.weapons = weapons;
       // TODO: check why putting in there?
@@ -1571,13 +1572,13 @@ export class ArM5ePCActor extends Actor {
     await super._preCreate(data, options, userId);
     log(false, `_preCreate: _id = ${this._id}`);
     let toUpdate = false;
-    if (CONFIG.Actor.systemDataModels[data.type]?.getDefault) {
-      data = CONFIG.Actor.systemDataModels[data.type].getDefault(data);
+    if (ActorDataModels[data.type]?.getDefault) {
+      data = ActorDataModels[data.type].getDefault(data);
       toUpdate = true;
     }
 
-    if (CONFIG.Actor.systemDataModels[data.type]?.getIcon) {
-      data.img = CONFIG.Actor.systemDataModels[data.type].getIcon(data);
+    if (ActorDataModels[data.type]?.getIcon) {
+      data.img = ActorDataModels[data.type].getIcon(data);
       toUpdate = true;
     } else if (data.img === undefined || data.img === "icons/svg/mystery-man.svg") {
       if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {

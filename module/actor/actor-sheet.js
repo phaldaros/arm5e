@@ -1308,8 +1308,8 @@ export class ArM5eActorSheet extends ActorSheet {
     delete itemData[0].system["type"];
 
     // default fields for some Item types
-    // if (CONFIG.Item.systemDataModels[type]?.getDefault) {
-    //   itemDate = CONFIG.Item.systemDataModels[type].getDefault(itemData[0]);
+    // if (ItemDataModels[type]?.getDefault) {
+    //   itemDate = ItemDataModels[type].getDefault(itemData[0]);
     // }
 
     return await this.actor.createEmbeddedDocuments("Item", itemData, {});

@@ -1,3 +1,34 @@
+## 2.2.0.0, Nicomedmus
+
+### Features & changes
+
+- V11 compatibility
+
+### Bug fixes
+
+### V10 datamodels migration (on going)
+
+- Data models activated
+
+  - Abilities
+  - Books
+  - Virtues & Flaws
+  - Mundane items
+  - Vis
+  - Base effects
+  - Spontaneous effets
+  - Spells
+  - Laboratory Texts
+  - Magical effects
+  - Diary entry
+  - Laboratory
+  - Magic Codex
+  - Reputation
+  - Personality trait
+  - Armor
+  - Weapon
+  - Covenant inhabitants
+
 ## 2.1.1.9, Mercere, the Spymaster
 
 ### Features & changes

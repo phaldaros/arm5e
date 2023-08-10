@@ -102,7 +102,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
 
     // Iterate over active effects, classifying them into categories
     for (let e of effects) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getsourceName(); // Trigger a lookup for the source name
 
       e.descr = e.buildActiveEffectDescription();
       // let effectTypes = e.getFlag("arm5e", "type");
@@ -121,7 +121,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   static findAllActiveEffectsWithType(effects, type) {
     const activeEffects = [];
     for (let e of effects) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       if (!e.disabled && e?.getFlag("arm5e", "type")?.includes(type)) {
         activeEffects.push(e);
       }
@@ -133,7 +133,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     const activeEffects = [];
     let filtered = effects.filter((e) => !e.disabled && e.getFlag("arm5e", "type").includes(type));
     for (let e of filtered) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       let idx = 0;
       let filteredChanges = [];
       for (let ch of e.changes) {
@@ -151,7 +151,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   static findAllActiveEffectsWithSubtype(effects, subtype) {
     let res = [];
     for (let e of effects) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       if (!e.disabled && e?.getFlag("arm5e", "subtype")?.includes(subtype)) {
         res.push(e);
       }
@@ -166,7 +166,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     );
 
     for (let e of filtered) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       let idx = 0;
       let filteredChanges = [];
       for (let ch of e.changes) {
