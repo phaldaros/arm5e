@@ -1,3 +1,9 @@
+## 2.1.1.10, Mercere, the Legend
+
+### Bug fixes
+
+- Setting the world's date back in time when actors are already in the present doesn't currupt activities anymore.
+
 ## 2.1.1.9, Mercere, the Spymaster
 
 ### Features & changes
