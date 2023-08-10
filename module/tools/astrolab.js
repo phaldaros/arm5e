@@ -1,3 +1,4 @@
+import { convertToNumber } from "../schemas/commonSchemas.js";
 import { debug, log } from "../tools.js";
 import { GroupSchedule } from "./group-schedule.js";
 
@@ -71,32 +72,34 @@ export class Astrolab extends FormApplication {
   async setDate(event) {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
+    const year = convertToNumber(dataset.year, 1220);
     ui.notifications.info(
       game.i18n.format("arm5e.notification.setDate", {
-        year: dataset.year,
+        year: year,
         season: game.i18n.localize(CONFIG.ARM5E.seasons[dataset.season].label)
       })
     );
     await game.settings.set("arm5e", "currentDate", {
-      year: dataset.year,
+      year: year,
       season: dataset.season
     });
-    Hooks.callAll("arm5e-date-change", { year: dataset.year, season: dataset.season });
+    Hooks.callAll("arm5e-date-change", { year: year, season: dataset.season });
     this.render();
   }
 
   async updateActors(event) {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
+    const year = convertToNumber(dataset.year, 1220);
     const updateData = {
-      system: { datetime: { season: dataset.season, year: dataset.year } }
+      system: { datetime: { season: dataset.season, year: year } }
     };
     await game.actors.updateAll(updateData, (e) => {
       return e.type === "player" || e.type === "npc" || e.type === "covenant";
     });
     ui.notifications.info(
       game.i18n.format("arm5e.notification.synchActors", {
-        year: dataset.year,
+        year: year,
         season: game.i18n.localize(CONFIG.ARM5E.seasons[dataset.season].label)
       })
     );
