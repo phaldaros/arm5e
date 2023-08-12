@@ -23,7 +23,9 @@ export class Astrolab extends FormApplication {
       title: "Astrolab",
       template: "systems/arm5e/templates/generic/astrolab.html",
       width: "600",
-      height: "auto"
+      height: "auto",
+      submitOnChange: true,
+      closeOnSubmit: false
     });
   }
   async getData(options = {}) {
@@ -43,8 +45,6 @@ export class Astrolab extends FormApplication {
     html.find(".set-date").click(this.setDate.bind(this));
     html.find(".update-actors").click(this.updateActors.bind(this));
     html.find(".rest-all").click(this.restEveryone.bind(this));
-    html.find(".change-season").change(this._changeSeason.bind(this));
-    html.find(".change-year").change(this._changeYear.bind(this));
     html.find(".group-schedule").click(this.displaySchedule.bind(this));
     html.find(".show-calendar").click((e) => {
       SimpleCalendar.api.showCalendar(null, true);
@@ -54,19 +54,6 @@ export class Astrolab extends FormApplication {
     event.preventDefault();
     const schedule = new GroupSchedule();
     const res = await schedule.render(true);
-  }
-  async _changeSeason(event) {
-    await this.submit({
-      preventClose: true,
-      updateData: { season: event.currentTarget.value }
-    });
-  }
-
-  async _changeYear(event) {
-    await this.submit({
-      preventClose: true,
-      updateData: { year: event.currentTarget.value }
-    });
   }
 
   async setDate(event) {

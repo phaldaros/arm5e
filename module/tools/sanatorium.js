@@ -27,6 +27,7 @@ export class Sanatorium extends FormApplication {
     this.object.availableDays = CONFIG.ARM5E.recovery.daysInSeason;
     this.object.hasWounds = false;
     this.object.nextRecoveryPeriod = 0;
+    this.object.dateChange = "disabled"
     this.prepareWounds();
   }
 
@@ -124,8 +125,8 @@ export class Sanatorium extends FormApplication {
     });
 
     html.find(".recovery-roll").click(this._recoveryRoll.bind(this));
-
     html.find(".diary-entry").click(this._createDiaryEntry.bind(this));
+    
   }
 
   async _createDiaryEntry(event) {
@@ -138,6 +139,7 @@ export class Sanatorium extends FormApplication {
     // Update the patient wounds
     for (let [type, wounds] of Object.entries(this.object.wounds)) {
       for (let wound of wounds) {
+
         let currentWound = this.object.patient.items.get(wound._id);
         let data = {};
         data.system = wound;
@@ -305,6 +307,10 @@ export class Sanatorium extends FormApplication {
         }
 
         newWound.nextRoll = incap.nextRoll + CONFIG.ARM5E.recovery.wounds[newType].interval;
+        // if it is the first time the wound is treated, store the number of availble days the first season.
+        if (newWound.recoveryTime == 0) {
+          newWound.daysFirstSeason = this.object.availableDays;
+        }
         newWound.recoveryTime += CONFIG.ARM5E.recovery.wounds[newType].interval;
         recoverylog += woundPeriodDescription;
         log(false, `Next roll: ${newWound.nextRoll}`);
@@ -463,6 +469,10 @@ export class Sanatorium extends FormApplication {
             recoverylog += woundPeriodDescription;
 
             newWound.nextRoll = wound.nextRoll + CONFIG.ARM5E.recovery.wounds[newType].interval;
+            // if it is the first time the wound is treated, store the number of availble days the first season.
+            if (newWound.recoveryTime == 0) {
+              newWound.daysFirstSeason = this.object.availableDays;
+            }
             newWound.recoveryTime += CONFIG.ARM5E.recovery.wounds[newType].interval;
             log(false, `Next roll: ${newWound.nextRoll}`);
             if (newWound.nextRoll > this.object.availableDays) {
@@ -508,9 +518,13 @@ export class Sanatorium extends FormApplication {
         for (let wound of wounds) {
           let woundInflicted = wound.system.inflictedDate;
           if (wound.system.recoveryTime > 0) {
-            let offset = Math.ceil(wound.system.recoveryTime / CONFIG.ARM5E.recovery.daysInSeason);
+            let offset = Math.floor((wound.system.recoveryTime -wound.system.daysFirstSeason + CONFIG.ARM5E.recovery.daysInSeason) / CONFIG.ARM5E.recovery.daysInSeason);
             woundInflicted = getShiftedDate(woundInflicted, offset);
           }
+          else {
+            this.object.dateChange = "";
+          }
+
           if (seasonsDelta(woundInflicted, currentTime) > 0) {
             currentTime = woundInflicted;
           }

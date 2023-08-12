@@ -1,3 +1,15 @@
+## 2.1.1.11, Mercere, the Legacy
+
+### Features & changes
+
+- Added missing effect for recovery rolls to appropriate virtues and flaws.
+
+### Bug fixes
+
+- Changed incapacitated penalty to -99 instead of 0 for consistency
+- Date for next recovery is now computed properly
+
+
 ## 2.1.1.10, Mercere, the Legend
 
 ### Bug fixes

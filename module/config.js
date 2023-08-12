@@ -2775,7 +2775,7 @@ ARM5E.recovery = {
     },
     incap: {
       rank: 4,
-      penalty: 0,
+      penalty: -99,
       stability: 1,
       improvement: 9,
       interval: 0.5,
