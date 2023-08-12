@@ -6,6 +6,8 @@
 
 ### Bug fixes
 
+- Fixed bug when changing the world date back in time
+
 ### V10 datamodels migration (on going)
 
 - Data models activated

@@ -579,7 +579,6 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         }
       }
     }
-    log(false, "NO CONFLICT");
     return false;
   }
 
