@@ -76,6 +76,13 @@ export class WoundSchema extends foundry.abstract.DataModel {
         initial: 0,
         step: 0.5
       }),
+      daysFirstSeason: new fields.NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        initial: ARM5E.recovery.daysInSeason,
+        step: 1
+      }),
       location: baseDescription()
     };
   }
@@ -85,7 +92,11 @@ export class WoundSchema extends foundry.abstract.DataModel {
   }
 
   static migrate(data) {
-    return {};
+    const updateData = {};
+    if (data.system.daysFirstSeason === undefined) {
+      updateData["system.daysFirstSeason"] = ARM5E.recovery.daysInSeason;
+    }
+    return updateData;
   }
 
   static getDefault(itemData) {
@@ -125,7 +136,7 @@ export class WoundSchema extends foundry.abstract.DataModel {
     ) {
       return false;
     }
-    let offset = Math.ceil(this.recoveryTime / CONFIG.ARM5E.recovery.daysInSeason);
+    let offset = Math.floor((this.recoveryTime - this.daysFirstSeason + CONFIG.ARM5E.recovery.daysInSeason)/ CONFIG.ARM5E.recovery.daysInSeason);
     let nextRollDate = getShiftedDate(this.inflictedDate, offset);
 
     const delta = seasonsDelta(nextRollDate, { season: season, year: year });
