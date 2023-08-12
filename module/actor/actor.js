@@ -1911,16 +1911,7 @@ export class ArM5ePCActor extends Actor {
 
   getWoundPenalty() {
     return this._getWoundPenalty(this.system.wounds);
-    // let woundsTotal = 0;
-    // for (let [key, item] of Object.entries(this.system.wounds)) {
-    //   if (key == "healthy") continue;
-    //   if (item.length > 0) {
-    //     woundsTotal = woundsTotal + item.length * this.system.penalties.wounds[key];
-    //   }
-    // }
-    // return woundsTotal + this.system.bonuses.traits.wounds > 0
-    //   ? 0
-    //   : woundsTotal + this.system.bonuses.traits.wounds;
+   
   }
 
   // same as above but with temporary wounds

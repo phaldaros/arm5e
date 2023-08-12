@@ -1,35 +1,20 @@
-## 2.2.0.0, Nicomedmus
+## 2.1.1.11, Mercere, the Legacy
 
 ### Features & changes
 
-- V11 compatibility
+- Added missing effect for recovery rolls to appropriate virtues and flaws.
 
 ### Bug fixes
 
-- Fixed bug when changing the world date back in time
+- Changed incapacitated penalty to -99 instead of 0 for consistency
+- Date for next recovery is now computed properly
 
-### V10 datamodels migration (on going)
 
-- Data models activated
+## 2.1.1.10, Mercere, the Legend
 
-  - Abilities
-  - Books
-  - Virtues & Flaws
-  - Mundane items
-  - Vis
-  - Base effects
-  - Spontaneous effets
-  - Spells
-  - Laboratory Texts
-  - Magical effects
-  - Diary entry
-  - Laboratory
-  - Magic Codex
-  - Reputation
-  - Personality trait
-  - Armor
-  - Weapon
-  - Covenant inhabitants
+### Bug fixes
+
+- Setting the world's date back in time when actors are already in the present doesn't currupt activities anymore.
 
 ## 2.1.1.9, Mercere, the Spymaster
 
