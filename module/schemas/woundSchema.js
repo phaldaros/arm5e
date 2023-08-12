@@ -77,7 +77,7 @@ export class WoundSchema extends foundry.abstract.DataModel {
         step: 0.5
       }),
       daysFirstSeason: new fields.NumberField({
-        required: true,
+        required: false,
         nullable: false,
         integer: true,
         initial: ARM5E.recovery.daysInSeason,
