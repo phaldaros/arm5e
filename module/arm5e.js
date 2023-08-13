@@ -79,6 +79,13 @@ Hooks.once("init", async function () {
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
 
+  CONFIG.ARM5E.ItemDataModels = CONFIG.ISV10
+    ? CONFIG.Item.systemDataModels
+    : CONFIG.Item.dataModels;
+  CONFIG.ARM5E.ActorDataModels = CONFIG.ISV10
+    ? CONFIG.Actor.systemDataModels
+    : CONFIG.Actor.dataModels;
+
   CONFIG.SC = { SEASONS: SimpleCalendarSeasons };
 
   registerSettings();
@@ -433,41 +440,37 @@ Hooks.on("renderPause", function () {
   $("#pause.paused img").css({ opacity: opacity, "--fa-animation-duration": "20s" });
 });
 
-export const ItemDataModels = CONFIG.ISV10 ? CONFIG.Item.systemDataModels : CONFIG.Item.dataModels;
-export const ActorDataModels = CONFIG.ISV10
-  ? CONFIG.Actor.systemDataModels
-  : CONFIG.Actor.dataModels;
 function setDatamodels() {
-  ItemDataModels["ability"] = AbilitySchema;
-  ItemDataModels["book"] = BookSchema;
-  ItemDataModels["virtue"] = VirtueFlawSchema;
-  ItemDataModels["flaw"] = VirtueFlawSchema;
-  ItemDataModels["item"] = ItemSchema;
-  ItemDataModels["vis"] = VisSchema;
-  ItemDataModels["baseEffect"] = BaseEffectSchema;
-  ItemDataModels["magicalEffect"] = MagicalEffectSchema;
-  ItemDataModels["spell"] = SpellSchema;
-  ItemDataModels["laboratoryText"] = LabTextSchema;
-  ItemDataModels["diaryEntry"] = DiaryEntrySchema;
-  ItemDataModels["personalityTrait"] = PersonalityTraitSchema;
-  ItemDataModels["reputation"] = ReputationSchema;
-  ItemDataModels["armor"] = ArmorSchema;
-  ItemDataModels["weapon"] = WeaponSchema;
-  ItemDataModels["inhabitant"] = InhabitantSchema;
-  ItemDataModels["wound"] = WoundSchema;
+  CONFIG.ARM5E.ItemDataModels["ability"] = AbilitySchema;
+  CONFIG.ARM5E.ItemDataModels["book"] = BookSchema;
+  CONFIG.ARM5E.ItemDataModels["virtue"] = VirtueFlawSchema;
+  CONFIG.ARM5E.ItemDataModels["flaw"] = VirtueFlawSchema;
+  CONFIG.ARM5E.ItemDataModels["item"] = ItemSchema;
+  CONFIG.ARM5E.ItemDataModels["vis"] = VisSchema;
+  CONFIG.ARM5E.ItemDataModels["baseEffect"] = BaseEffectSchema;
+  CONFIG.ARM5E.ItemDataModels["magicalEffect"] = MagicalEffectSchema;
+  CONFIG.ARM5E.ItemDataModels["spell"] = SpellSchema;
+  CONFIG.ARM5E.ItemDataModels["laboratoryText"] = LabTextSchema;
+  CONFIG.ARM5E.ItemDataModels["diaryEntry"] = DiaryEntrySchema;
+  CONFIG.ARM5E.ItemDataModels["personalityTrait"] = PersonalityTraitSchema;
+  CONFIG.ARM5E.ItemDataModels["reputation"] = ReputationSchema;
+  CONFIG.ARM5E.ItemDataModels["armor"] = ArmorSchema;
+  CONFIG.ARM5E.ItemDataModels["weapon"] = WeaponSchema;
+  CONFIG.ARM5E.ItemDataModels["inhabitant"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["wound"] = WoundSchema;
   //Actors
-  ActorDataModels["laboratory"] = LabSchema;
-  ActorDataModels["magicCodex"] = CodexSchema;
+  CONFIG.ARM5E.ActorDataModels["laboratory"] = LabSchema;
+  CONFIG.ARM5E.ActorDataModels["magicCodex"] = CodexSchema;
 
   // Deprecated types
 
-  ItemDataModels["habitantMagi"] = InhabitantSchema;
-  ItemDataModels["habitantCompanion"] = InhabitantSchema;
-  ItemDataModels["habitantSpecialists"] = InhabitantSchema;
-  ItemDataModels["habitantHabitants"] = InhabitantSchema;
-  ItemDataModels["habitantHorses"] = InhabitantSchema;
-  ItemDataModels["habitantLivestock"] = InhabitantSchema;
-  ItemDataModels["visStockCovenant"] = VisSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantMagi"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantCompanion"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantSpecialists"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantHabitants"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantHorses"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantLivestock"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["visStockCovenant"] = VisSchema;
 }
 
 function registerSheets() {
