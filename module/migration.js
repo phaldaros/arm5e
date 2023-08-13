@@ -1,4 +1,5 @@
 import { ArM5ePCActor } from "./actor/actor.js";
+import { ActorDataModels, ItemDataModels } from "./arm5e.js";
 import { error, log } from "./tools.js";
 
 const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
@@ -249,13 +250,11 @@ export const migrateSceneData = async function (scene, migrationData) {
     scene.tokens.map(async (token) => {
       const t = token instanceof foundry.abstract.DataModel ? token.toObject() : token;
       const update = {};
+      if (!game.actors.has(t.actorId)) t.actorId = null;
       if (!t.actorId || t.actorLink) {
         t.actorData = {};
-      } else if (!game.actors.has(t.actorId)) {
-        t.actorId = null;
-        t.actorData = {};
       } else if (!t.actorLink) {
-        const actorData = duplicate(t.actorData);
+        const actorData = token.delta?.toObject() ?? foundry.utils.deepClone(t.actorData);
         actorData.type = token.actor?.type;
         actorData.synthetic = true;
         actorData.name = token.name;
@@ -264,17 +263,20 @@ export const migrateSceneData = async function (scene, migrationData) {
         }
 
         const update = await migrateActorData(actorData, actorData.items);
-        ["items", "effects"].forEach((embeddedName) => {
-          if (!update[embeddedName]?.length) return;
-          const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
-          t.actorData[embeddedName].forEach((original) => {
-            const update = updates.get(original._id);
-            if (update) foundry.utils.mergeObject(original, update);
+        if (CONFIG.ISV10) {
+          ["items", "effects"].forEach((embeddedName) => {
+            if (!update[embeddedName]?.length) return;
+            const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
+            t.actorData[embeddedName].forEach((original) => {
+              const update = updates.get(original._id);
+              if (update) foundry.utils.mergeObject(original, update);
+            });
+            delete update[embeddedName];
           });
-          delete update[embeddedName];
-        });
-
-        foundry.utils.mergeObject(t.actorData, update);
+          foundry.utils.mergeObject(t.actorData, update);
+        } else {
+          t.delta = update;
+        }
       }
       return t;
     })
@@ -315,11 +317,8 @@ export const migrateActorData = async function (actorDoc, actorItems) {
   } else {
     actor = actorDoc;
   }
-  if (CONFIG.Actor.systemDataModels[actor.type]) {
-    updateData = CONFIG.Actor.systemDataModels[actor.type].migrate(
-      actor,
-      actorDoc.items ? actorDoc.items : []
-    );
+  if (ActorDataModels[actor.type]) {
+    updateData = ActorDataModels[actor.type].migrate(actor, actorDoc.items ? actorDoc.items : []);
   }
 
   if (!actor?.flags?.arm5e) {
@@ -919,8 +918,8 @@ export const migrateItemData = async function (item) {
   } else {
     itemData = item;
   }
-  if (CONFIG.Item.systemDataModels[item.type]) {
-    return CONFIG.Item.systemDataModels[item.type].migrate(itemData);
+  if (ItemDataModels[item.type]) {
+    return ItemDataModels[item.type].migrate(itemData);
   }
   const updateData = {};
   if (_isMagicalItem(itemData)) {

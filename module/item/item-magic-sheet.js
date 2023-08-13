@@ -3,6 +3,7 @@ import { log } from "../tools.js";
 import { ARM5E } from "../config.js";
 import { ArM5eItem } from "./item.js";
 import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
+import { ItemDataModels } from "../arm5e.js";
 /**
  * Extend the basic ArM5eItemSheet with some very simple modifications
  * @extends {ArM5eItemSheet}
@@ -114,8 +115,8 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     html.find(".select-form").change(async (evt) => {
       evt.preventDefault();
 
-      if (CONFIG.Item.systemDataModels[this.item.type]?.getIcon) {
-        let currentDefIcon = CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item);
+      if (ItemDataModels[this.item.type]?.getIcon) {
+        let currentDefIcon = ItemDataModels[this.item.type].getIcon(this.item);
         // if the current img is the default icon of the previous value, allow change
         if (
           this.item.img === currentDefIcon ||
@@ -125,7 +126,7 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
           this.item.img === "icons/svg/item-bag.svg"
         ) {
           await this.item.update({
-            img: CONFIG.Item.systemDataModels[this.item.type].getIcon(this.item, evt.target.value),
+            img: ItemDataModels[this.item.type].getIcon(this.item, evt.target.value),
             "system.form.value": evt.target.value
           });
         }

@@ -48,24 +48,28 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
     switch (a.dataset.action) {
       case "create":
-        return await owner.createEmbeddedDocuments("ActiveEffect", [
-          {
-            label: "New Effect",
-            icon: "icons/svg/aura.svg",
-            origin: owner.uuid,
-            "duration.rounds": li.dataset.effectType === "temporary" ? 1 : undefined,
-            disabled: li.dataset.effectType === "inactive",
-            tint: "#000000",
-            changes: [],
-            flags: {
-              arm5e: {
-                type: [],
-                subtype: [],
-                option: []
-              }
+        const data = {
+          origin: owner.uuid,
+          "duration.rounds": li.dataset.effectType === "temporary" ? 1 : undefined,
+          disabled: li.dataset.effectType === "inactive",
+          tint: "#000000",
+          changes: [],
+          flags: {
+            arm5e: {
+              type: [],
+              subtype: [],
+              option: []
             }
           }
-        ]);
+        };
+        if (CONFIG.ISV10) {
+          data.label = "New Effect";
+          data.icon = "icons/svg/aura.svg";
+        } else {
+          data.name = "New Effect";
+          data.img = "icons/svg/aura.svg";
+        }
+        return await owner.createEmbeddedDocuments("ActiveEffect", [data]);
       case "edit":
         return effect.sheet.render(true);
       case "delete":
@@ -102,7 +106,11 @@ export default class ArM5eActiveEffect extends ActiveEffect {
 
     // Iterate over active effects, classifying them into categories
     for (let e of effects) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) {
+        e._getsourceName(); // Trigger a lookup for the source name
+        e.name = e.label;
+        e.img = e.icon;
+      }
 
       e.descr = e.buildActiveEffectDescription();
       // let effectTypes = e.getFlag("arm5e", "type");
@@ -121,7 +129,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   static findAllActiveEffectsWithType(effects, type) {
     const activeEffects = [];
     for (let e of effects) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       if (!e.disabled && e?.getFlag("arm5e", "type")?.includes(type)) {
         activeEffects.push(e);
       }
@@ -133,7 +141,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     const activeEffects = [];
     let filtered = effects.filter((e) => !e.disabled && e.getFlag("arm5e", "type").includes(type));
     for (let e of filtered) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       let idx = 0;
       let filteredChanges = [];
       for (let ch of e.changes) {
@@ -151,7 +159,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   static findAllActiveEffectsWithSubtype(effects, subtype) {
     let res = [];
     for (let e of effects) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       if (!e.disabled && e?.getFlag("arm5e", "subtype")?.includes(subtype)) {
         res.push(e);
       }
@@ -166,7 +174,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     );
 
     for (let e of filtered) {
-      e._getSourceName(); // Trigger a lookup for the source name
+      if (CONFIG.ISV10) e._getSourceName(); // Trigger a lookup for the source name
       let idx = 0;
       let filteredChanges = [];
       for (let ch of e.changes) {

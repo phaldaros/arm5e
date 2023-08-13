@@ -6,6 +6,7 @@ export function registerItemCreationTests(quench) {
     (context) => {
       const { describe, it, assert, after, before } = context;
       for (let a of CONFIG.Actor.documentClass.TYPES) {
+        if (["base"].includes(a)) continue;
         describe(`${a} Sheet`, function () {
           let actor;
           before(async function () {

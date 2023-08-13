@@ -17,6 +17,7 @@ import { migrateActorData } from "../migration.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ArM5eRollData } from "../helpers/rollData.js";
 import { compareDiaryEntries, isInThePast } from "../tools/time.js";
+import { ActorDataModels } from "../arm5e.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -702,7 +703,7 @@ export class ArM5ePCActor extends Actor {
     system.totalFlaws = totalFlaws;
     system.totalXPSpells = totalXPSpells;
     system.pendingXps = pendingXps;
-   
+
     if (system.weapons) {
       system.weapons = weapons;
       // TODO: check why putting in there?
@@ -1429,34 +1430,38 @@ export class ArM5ePCActor extends Actor {
   async addActiveEffect(name, type, subtype, value, option = null, icon) {
     if (Object.keys(ACTIVE_EFFECTS_TYPES).includes(type)) {
       if (Object.keys(ACTIVE_EFFECTS_TYPES[type].subtypes).includes(subtype)) {
-        const activeEffectData = [
-          {
-            label: name,
-            icon: icon ?? "icons/svg/aura.svg",
-            origin: this.uuid,
-            duration: {
-              rounds: undefined
-            },
-            flags: {
-              arm5e: {
-                noEdit: false,
-                type: [type],
-                subtype: [subtype],
-                option: [null]
-              }
-            },
-            changes: [
-              {
-                label: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].label,
-                key: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key,
-                mode: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].mode,
-                value: value ?? ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default
-              }
-            ],
-            tint: "#000000"
-          }
-        ];
-        return await this.createEmbeddedDocuments("ActiveEffect", activeEffectData);
+        const activeEffectData = {
+          origin: this.uuid,
+          duration: {
+            rounds: undefined
+          },
+          flags: {
+            arm5e: {
+              noEdit: false,
+              type: [type],
+              subtype: [subtype],
+              option: [null]
+            }
+          },
+          changes: [
+            {
+              label: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].label,
+              key: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key,
+              mode: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].mode,
+              value: value ?? ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default
+            }
+          ],
+          tint: "#000000"
+        };
+        if (CONFIG.ISV10) {
+          activeEffectData.label = name;
+          activeEffectData.icon = icon ?? "icons/svg/aura.svg";
+        } else {
+          activeEffectData.name = name;
+          activeEffectData.img = icon ?? "icons/svg/aura.svg";
+        }
+
+        return await this.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
       } else {
         log(false, "Unknown subtype");
       }
@@ -1571,13 +1576,13 @@ export class ArM5ePCActor extends Actor {
     await super._preCreate(data, options, userId);
     log(false, `_preCreate: _id = ${this._id}`);
     let toUpdate = false;
-    if (CONFIG.Actor.systemDataModels[data.type]?.getDefault) {
-      data = CONFIG.Actor.systemDataModels[data.type].getDefault(data);
+    if (ActorDataModels[data.type]?.getDefault) {
+      data = ActorDataModels[data.type].getDefault(data);
       toUpdate = true;
     }
 
-    if (CONFIG.Actor.systemDataModels[data.type]?.getIcon) {
-      data.img = CONFIG.Actor.systemDataModels[data.type].getIcon(data);
+    if (ActorDataModels[data.type]?.getIcon) {
+      data.img = ActorDataModels[data.type].getIcon(data);
       toUpdate = true;
     } else if (data.img === undefined || data.img === "icons/svg/mystery-man.svg") {
       if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
@@ -1593,9 +1598,7 @@ export class ArM5ePCActor extends Actor {
       var baseSafetyEffect = this.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
       if (!baseSafetyEffect) {
         // TODO put that data structure elsewhere (during lab activities implementation)
-        effectsData.push({
-          label: game.i18n.localize("arm5e.sheet.baseSafety"),
-          icon: "icons/svg/aura.svg",
+        const effect = {
           origin: this.uuid,
           tint: "#000000",
           changes: [
@@ -1615,7 +1618,15 @@ export class ArM5ePCActor extends Actor {
               option: [null]
             }
           }
-        });
+        };
+        if (CONFIG.ISV10) {
+          effect.label = game.i18n.localize("arm5e.sheet.baseSafety");
+          effect.icon = "icons/svg/aura.svg";
+        } else {
+          effect.name = game.i18n.localize("arm5e.sheet.baseSafety");
+          effect.img = "icons/svg/aura.svg";
+        }
+        effectsData.push(effect);
         const res = await this.effects.update(effectsData);
         log(false, res);
       }
@@ -1910,7 +1921,6 @@ export class ArM5ePCActor extends Actor {
 
   getWoundPenalty() {
     return this._getWoundPenalty(this.system.wounds);
-   
   }
 
   // same as above but with temporary wounds

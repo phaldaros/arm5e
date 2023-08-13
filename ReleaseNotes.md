@@ -1,3 +1,18 @@
+## 2.2.2.0, Nicodemus the apprentice
+
+### Features & changes
+
+- V11 compatibility
+  - localization strings
+  - Active effect label and icon fields
+  - Token delta instead of actorData
+- Visual hint that a spell is mastered.
+
+### Bug fixes
+
+- Tractatus no longer have a level of 1 by default, preventing readers with a score to read them
+- Changing a book from summae to tractatus reset the level to 0.
+
 ## 2.1.1.11, Mercere, the Legacy
 
 ### Features & changes
@@ -8,7 +23,6 @@
 
 - Changed incapacitated penalty to -99 instead of 0 for consistency
 - Date for next recovery is now computed properly
-
 
 ## 2.1.1.10, Mercere, the Legend
 

@@ -771,6 +771,12 @@ export class ArM5eActorSheet extends ActorSheet {
       for (let spell of actorData.system.spells) {
         spell.TechReq = spellTechniqueLabel(spell.system);
         spell.FormReq = spellFormLabel(spell.system);
+        spell.masteryHint =
+          spell.system.mastery > 0
+            ? `<i title="${game.i18n.localize("arm5e.spell.masteryHint")} ${
+                spell.system.mastery
+              }" class="icon-Icon_Effects-small"></i>`
+            : "";
       }
 
       for (let effect of actorData.system.magicalEffects) {
@@ -1308,8 +1314,8 @@ export class ArM5eActorSheet extends ActorSheet {
     delete itemData[0].system["type"];
 
     // default fields for some Item types
-    // if (CONFIG.Item.systemDataModels[type]?.getDefault) {
-    //   itemDate = CONFIG.Item.systemDataModels[type].getDefault(itemData[0]);
+    // if (ItemDataModels[type]?.getDefault) {
+    //   itemDate = ItemDataModels[type].getDefault(itemData[0]);
     // }
 
     return await this.actor.createEmbeddedDocuments("Item", itemData, {});

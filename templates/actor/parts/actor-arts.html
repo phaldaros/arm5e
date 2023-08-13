@@ -125,6 +125,7 @@
         data-attribute="{{id}}">
         <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
         <div class="flexrow flex-center">
+          <div class="flex0">{{{masteryHint}}}</div>
           <span class="flexrow item-title width4 rollable" data-roll="spell" data-id="{{item._id}}" name="item.name">
             {{item.name}} ( {{item.TechReq}} {{item.FormReq }} - {{item.system.level}})
             {{#if (eq item.system.ritual true )}} , {{localize "arm5e.sheet.ritual"}} {{/if}}
