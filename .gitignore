@@ -12,7 +12,7 @@ test.js
 .npmignore
 TODO.txt
 foundry.js
-packs/enchantments.db
+packs/*
 .eslintrc.json
 website/UserGuide/.obsidian
 arm5e.lock
