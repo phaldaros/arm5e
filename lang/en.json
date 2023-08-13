@@ -756,6 +756,7 @@
   "arm5e.spell.targets.baseSize.me": "A mind is a mind, no size",
   "arm5e.spell.targets.baseSize.te": "Depend on material, from 10 cubic paces (sand, dirt) to 1 cubic inch (gem)",
   "arm5e.spell.targets.baseSize.vi": "A spell or depend on the effect",
+  "arm5e.spell.masteryHint": "Mastered",
 
   "arm5e.spell.targets.subcats.intMagic": "Intellego magic",
 

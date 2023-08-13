@@ -52,7 +52,7 @@ export class BookSchema extends foundry.abstract.DataModel {
             nullable: true,
             integer: true,
             min: 0,
-            initial: 1,
+            initial: 0,
             step: 1
           }),
           type: new fields.StringField({
@@ -253,6 +253,10 @@ export class BookSchema extends foundry.abstract.DataModel {
           } else {
             topics[idx].type = data.type.value;
           }
+        }
+
+        if (t.type === "Tractatus" && t.level > 0) {
+          topics[idx].level = 0;
         }
 
         if (t.category === "labText") {

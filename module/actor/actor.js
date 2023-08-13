@@ -1430,34 +1430,38 @@ export class ArM5ePCActor extends Actor {
   async addActiveEffect(name, type, subtype, value, option = null, icon) {
     if (Object.keys(ACTIVE_EFFECTS_TYPES).includes(type)) {
       if (Object.keys(ACTIVE_EFFECTS_TYPES[type].subtypes).includes(subtype)) {
-        const activeEffectData = [
-          {
-            label: name,
-            icon: icon ?? "icons/svg/aura.svg",
-            origin: this.uuid,
-            duration: {
-              rounds: undefined
-            },
-            flags: {
-              arm5e: {
-                noEdit: false,
-                type: [type],
-                subtype: [subtype],
-                option: [null]
-              }
-            },
-            changes: [
-              {
-                label: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].label,
-                key: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key,
-                mode: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].mode,
-                value: value ?? ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default
-              }
-            ],
-            tint: "#000000"
-          }
-        ];
-        return await this.createEmbeddedDocuments("ActiveEffect", activeEffectData);
+        const activeEffectData = {
+          origin: this.uuid,
+          duration: {
+            rounds: undefined
+          },
+          flags: {
+            arm5e: {
+              noEdit: false,
+              type: [type],
+              subtype: [subtype],
+              option: [null]
+            }
+          },
+          changes: [
+            {
+              label: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].label,
+              key: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key,
+              mode: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].mode,
+              value: value ?? ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default
+            }
+          ],
+          tint: "#000000"
+        };
+        if (CONFIG.ISV10) {
+          activeEffectData.label = name;
+          activeEffectData.icon = icon ?? "icons/svg/aura.svg";
+        } else {
+          activeEffectData.name = name;
+          activeEffectData.img = icon ?? "icons/svg/aura.svg";
+        }
+
+        return await this.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
       } else {
         log(false, "Unknown subtype");
       }
@@ -1594,9 +1598,7 @@ export class ArM5ePCActor extends Actor {
       var baseSafetyEffect = this.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
       if (!baseSafetyEffect) {
         // TODO put that data structure elsewhere (during lab activities implementation)
-        effectsData.push({
-          label: game.i18n.localize("arm5e.sheet.baseSafety"),
-          icon: "icons/svg/aura.svg",
+        const effect = {
           origin: this.uuid,
           tint: "#000000",
           changes: [
@@ -1616,7 +1618,15 @@ export class ArM5ePCActor extends Actor {
               option: [null]
             }
           }
-        });
+        };
+        if (CONFIG.ISV10) {
+          effect.label = game.i18n.localize("arm5e.sheet.baseSafety");
+          effect.icon = "icons/svg/aura.svg";
+        } else {
+          effect.name = game.i18n.localize("arm5e.sheet.baseSafety");
+          effect.img = "icons/svg/aura.svg";
+        }
+        effectsData.push(effect);
         const res = await this.effects.update(effectsData);
         log(false, res);
       }
@@ -1911,7 +1921,6 @@ export class ArM5ePCActor extends Actor {
 
   getWoundPenalty() {
     return this._getWoundPenalty(this.system.wounds);
-   
   }
 
   // same as above but with temporary wounds

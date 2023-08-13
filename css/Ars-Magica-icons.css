@@ -33,6 +33,12 @@
 .icon-Icon_Effects:before {
   content: "\0043";
 }
+.icon-Icon_Effects-small:before {
+  content: "\0043";
+  font-size: 14pt;
+  width: fit-content;
+}
+
 .icon-Icon_Aging_crisis:before {
   content: "\0044";
   font-size: 22pt;
@@ -74,7 +80,7 @@
 
 .icon-Icon_Delete_Big_Hand_Gesture:before {
   content: "\004f";
-  font-size: 30pt;
+  font-size: 28pt;
 }
 
 .icon-Icon_Delete_Hand_Gesture:before {
