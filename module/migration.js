@@ -1,5 +1,4 @@
 import { ArM5ePCActor } from "./actor/actor.js";
-import { CONFIG.ActorDataModels, CONFIG.ItemDataModels } from "./arm5e.js";
 import { error, log } from "./tools.js";
 
 const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
@@ -317,8 +316,11 @@ export const migrateActorData = async function (actorDoc, actorItems) {
   } else {
     actor = actorDoc;
   }
-  if (CONFIG.ActorDataModels[actor.type]) {
-    updateData = CONFIG.ActorDataModels[actor.type].migrate(actor, actorDoc.items ? actorDoc.items : []);
+  if (CONFIG.ARM5E.ActorDataModels[actor.type]) {
+    updateData = CONFIG.ARM5E.ActorDataModels[actor.type].migrate(
+      actor,
+      actorDoc.items ? actorDoc.items : []
+    );
   }
 
   if (!actor?.flags?.arm5e) {
@@ -918,8 +920,8 @@ export const migrateItemData = async function (item) {
   } else {
     itemData = item;
   }
-  if (CONFIG.ItemDataModels[item.type]) {
-    return CONFIG.ItemDataModels[item.type].migrate(itemData);
+  if (CONFIG.ARM5E.ItemDataModels[item.type]) {
+    return CONFIG.ARM5E.ItemDataModels[item.type].migrate(itemData);
   }
   const updateData = {};
   if (_isMagicalItem(itemData)) {

@@ -6,7 +6,6 @@ import { resetOwnerFields } from "./item-converter.js";
 import { PersonalityTraitSchema } from "../schemas/minorItemsSchemas.js";
 import { ARM5E } from "../config.js";
 import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
-import { CONFIG.ItemDataModels } from "../arm5e.js";
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -420,13 +419,13 @@ export class ArM5eItem extends Item {
     // weird it did work in 284
     // if (data.img === undefined) {
     let toUpdate = false;
-    if (CONFIG.ItemDataModels[this.type]?.getDefault) {
-      data = CONFIG.ItemDataModels[this.type].getDefault(data);
+    if (CONFIG.ARM5E.ItemDataModels[this.type]?.getDefault) {
+      data = CONFIG.ARM5E.ItemDataModels[this.type].getDefault(data);
       toUpdate = true;
     }
 
     if (this.needIconUpdate()) {
-      data.img = CONFIG.ItemDataModels[this.type].getIcon(data);
+      data.img = CONFIG.ARM5E.ItemDataModels[this.type].getIcon(data);
       toUpdate = true;
     } else if (data.img === undefined || data.img === "icons/svg/item-bag.svg") {
       if (this.type in CONFIG.ARM5E_DEFAULT_ICONS) {
@@ -440,15 +439,15 @@ export class ArM5eItem extends Item {
   async _updateIcon(key, value) {
     if (this.needIconUpdate()) {
       await this.update({
-        img: CONFIG.ItemDataModels[this.type].getIcon(this, value),
+        img: CONFIG.ARM5E.ItemDataModels[this.type].getIcon(this, value),
         [key]: value
       });
     }
   }
 
   needIconUpdate(value) {
-    if (CONFIG.ItemDataModels[this.type]?.getIcon) {
-      let currentDefIcon = CONFIG.ItemDataModels[this.type].getIcon(this);
+    if (CONFIG.ARM5E.ItemDataModels[this.type]?.getIcon) {
+      let currentDefIcon = CONFIG.ARM5E.ItemDataModels[this.type].getIcon(this);
       // if the current img is the default icon of the previous value, allow change
       if (
         this.img === currentDefIcon ||

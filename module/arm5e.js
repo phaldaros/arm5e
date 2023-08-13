@@ -76,11 +76,15 @@ Hooks.once("init", async function () {
   // Flag to manage V11 backward compatibility
   CONFIG.ISV10 = foundry.utils.isNewerVersion(11, game.version);
 
-  CONFIG.ItemDataModels = CONFIG.ISV10 ? CONFIG.Item.systemDataModels : CONFIG.Item.dataModels;
-  CONFIG.ActorDataModels = CONFIG.ISV10 ? CONFIG.Actor.systemDataModels : CONFIG.Actor.dataModels;
-
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
+
+  CONFIG.ARM5E.ItemDataModels = CONFIG.ISV10
+    ? CONFIG.Item.systemDataModels
+    : CONFIG.Item.dataModels;
+  CONFIG.ARM5E.ActorDataModels = CONFIG.ISV10
+    ? CONFIG.Actor.systemDataModels
+    : CONFIG.Actor.dataModels;
 
   CONFIG.SC = { SEASONS: SimpleCalendarSeasons };
 
@@ -437,36 +441,36 @@ Hooks.on("renderPause", function () {
 });
 
 function setDatamodels() {
-  CONFIG.ItemDataModels["ability"] = AbilitySchema;
-  CONFIG.ItemDataModels["book"] = BookSchema;
-  CONFIG.ItemDataModels["virtue"] = VirtueFlawSchema;
-  CONFIG.ItemDataModels["flaw"] = VirtueFlawSchema;
-  CONFIG.ItemDataModels["item"] = ItemSchema;
-  CONFIG.ItemDataModels["vis"] = VisSchema;
-  CONFIG.ItemDataModels["baseEffect"] = BaseEffectSchema;
-  CONFIG.ItemDataModels["magicalEffect"] = MagicalEffectSchema;
-  CONFIG.ItemDataModels["spell"] = SpellSchema;
-  CONFIG.ItemDataModels["laboratoryText"] = LabTextSchema;
-  CONFIG.ItemDataModels["diaryEntry"] = DiaryEntrySchema;
-  CONFIG.ItemDataModels["personalityTrait"] = PersonalityTraitSchema;
-  CONFIG.ItemDataModels["reputation"] = ReputationSchema;
-  CONFIG.ItemDataModels["armor"] = ArmorSchema;
-  CONFIG.ItemDataModels["weapon"] = WeaponSchema;
-  CONFIG.ItemDataModels["inhabitant"] = InhabitantSchema;
-  CONFIG.ItemDataModels["wound"] = WoundSchema;
+  CONFIG.ARM5E.ItemDataModels["ability"] = AbilitySchema;
+  CONFIG.ARM5E.ItemDataModels["book"] = BookSchema;
+  CONFIG.ARM5E.ItemDataModels["virtue"] = VirtueFlawSchema;
+  CONFIG.ARM5E.ItemDataModels["flaw"] = VirtueFlawSchema;
+  CONFIG.ARM5E.ItemDataModels["item"] = ItemSchema;
+  CONFIG.ARM5E.ItemDataModels["vis"] = VisSchema;
+  CONFIG.ARM5E.ItemDataModels["baseEffect"] = BaseEffectSchema;
+  CONFIG.ARM5E.ItemDataModels["magicalEffect"] = MagicalEffectSchema;
+  CONFIG.ARM5E.ItemDataModels["spell"] = SpellSchema;
+  CONFIG.ARM5E.ItemDataModels["laboratoryText"] = LabTextSchema;
+  CONFIG.ARM5E.ItemDataModels["diaryEntry"] = DiaryEntrySchema;
+  CONFIG.ARM5E.ItemDataModels["personalityTrait"] = PersonalityTraitSchema;
+  CONFIG.ARM5E.ItemDataModels["reputation"] = ReputationSchema;
+  CONFIG.ARM5E.ItemDataModels["armor"] = ArmorSchema;
+  CONFIG.ARM5E.ItemDataModels["weapon"] = WeaponSchema;
+  CONFIG.ARM5E.ItemDataModels["inhabitant"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["wound"] = WoundSchema;
   //Actors
-  CONFIG.ActorDataModels["laboratory"] = LabSchema;
-  CONFIG.ActorDataModels["magicCodex"] = CodexSchema;
+  CONFIG.ARM5E.ActorDataModels["laboratory"] = LabSchema;
+  CONFIG.ARM5E.ActorDataModels["magicCodex"] = CodexSchema;
 
   // Deprecated types
 
-  CONFIG.ItemDataModels["habitantMagi"] = InhabitantSchema;
-  CONFIG.ItemDataModels["habitantCompanion"] = InhabitantSchema;
-  CONFIG.ItemDataModels["habitantSpecialists"] = InhabitantSchema;
-  CONFIG.ItemDataModels["habitantHabitants"] = InhabitantSchema;
-  CONFIG.ItemDataModels["habitantHorses"] = InhabitantSchema;
-  CONFIG.ItemDataModels["habitantLivestock"] = InhabitantSchema;
-  CONFIG.ItemDataModels["visStockCovenant"] = VisSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantMagi"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantCompanion"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantSpecialists"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantHabitants"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantHorses"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantLivestock"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["visStockCovenant"] = VisSchema;
 }
 
 function registerSheets() {

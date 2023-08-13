@@ -12,7 +12,9 @@ test.js
 .npmignore
 TODO.txt
 foundry.js
-packs/*
+packs/abilities/**
+packs/spells/**
+packs/virtues/**
 .eslintrc.json
 website/UserGuide/.obsidian
 arm5e.lock
