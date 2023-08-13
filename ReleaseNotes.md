@@ -1,4 +1,10 @@
-## 2.2.2.0, Nicodemus the apprentice
+## 2.2.0.1, Nicodemus ex Jerbiton
+
+### Bug fixes
+
+- Fix typo for V10 compatibility
+
+## 2.2.0.0, Nicodemus the apprentice
 
 ### Features & changes
 

@@ -433,7 +433,7 @@ Hooks.on("renderPause", function () {
   $("#pause.paused img").css({ opacity: opacity, "--fa-animation-duration": "20s" });
 });
 
-export const ItemDataModels = CONFIG.ISV10 ? ItemDataModels : CONFIG.Item.dataModels;
+export const ItemDataModels = CONFIG.ISV10 ? CONFIG.Item.systemDataModels : CONFIG.Item.dataModels;
 export const ActorDataModels = CONFIG.ISV10
   ? CONFIG.Actor.systemDataModels
   : CONFIG.Actor.dataModels;
