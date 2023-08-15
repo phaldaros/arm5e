@@ -1,9 +1,9 @@
-## 2.2.0.3, Nicodemus ex Miscelanea
+## 2.2.1.0, Nicodemus
 
 ### Bug fixes
 
+- Removed V11 database files
 - Some migrations issues in book schemas and diary schemas were fixed
-
 
 ## 2.2.0.2, Nicodemus ex Jerbiton
 
