@@ -406,15 +406,36 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       }
       updateData["system.-=date"] = null;
       updateData["system.dates"] = itemData.system.dates;
-    } else if (itemData.system.dates instanceof Array && itemData.system.dates.length == 0) {
-      updateData["system.dates"] = [
-        {
-          year: Number(currentDate.year),
-          season: currentDate.season,
-          date: itemData.system.date ?? "",
-          applied: itemData.system.applied ?? false
+    } else if (itemData.system.dates instanceof Array  ) {
+      if (itemData.system.dates.length == 0) {
+        updateData["system.dates"] = [
+          {
+            year: Number(currentDate.year),
+            season: currentDate.season,
+            date: itemData.system.date ?? "",
+            applied: itemData.system.applied ?? false
+          }
+        ];
+      } else {
+        let newDates = itemData.system.dates;
+        let update = false;
+        for (let d of newDates) {
+          if (d.year == null || Number.isNaN(d.year)) {
+            d.year = Number(currentDate.year);
+            update = true;
+          } else if (typeof d.year === "string") {
+            if (!Number.isNumeric(d.year)) {
+              d.year  = Number(currentDate.year);
+            } else {
+              d.year  = Number(d.year);
+            }
+            update = true;
+          }
         }
-      ];
+        if (update) {
+          updateData["system.dates"] = newDates;
+        }
+      }
     } else {
       let update = false;
       for (let d of itemData.system.dates) {

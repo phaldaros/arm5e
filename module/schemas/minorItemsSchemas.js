@@ -101,6 +101,10 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
       updateData["system.description"] = "";
     }
 
+    if (itemData.system.impact.value === "") {
+      updateData["system.impact.value"] = "free";
+    }
+
     // special cases
     if (itemData.system.type === "Social Status") {
       updateData["system.type"] = "social";
