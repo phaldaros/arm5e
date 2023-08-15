@@ -1,3 +1,10 @@
+## 2.2.0.3, Nicodemus ex Miscelanea
+
+### Bug fixes
+
+- Some migrations issues in book schemas and diary schemas were fixed
+
+
 ## 2.2.0.2, Nicodemus ex Jerbiton
 
 ### Bug fixes

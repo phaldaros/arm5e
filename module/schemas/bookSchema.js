@@ -282,6 +282,15 @@ export class BookSchema extends foundry.abstract.DataModel {
         updateData["system.year"] = Number(itemData.system.year);
       }
     }
+
+    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+        updateData["system.season"] =  itemData.system.season.toLowerCase();
+      } else {
+        updateData["system.season"] = "spring";
+      }
+    } 
+    
     if (itemData.system.description == null) {
       updateData["system.description"] = "";
     }
