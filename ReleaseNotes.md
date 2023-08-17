@@ -1,3 +1,17 @@
+## 2.2.2.0, Nicodemus crippled by Twilight
+
+### Features & changes
+
+- Actors no longer have an individual date, only the world's date is the reference.
+- As a GM it is now possible to edit the dates of an applied activity
+- Age is now computed using the birth year (or default to 20)
+- New active effect to change the effective age
+
+### Bug fixes
+
+- Aura manually entered for a casting is no longer ignored
+- Fixed a typo to a \_getSourceName() call in V10 when displaying character sheet
+
 ## 2.2.1.0, Nicodemus
 
 ### Bug fixes

@@ -43,7 +43,6 @@ export class Astrolab extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".set-date").click(this.setDate.bind(this));
-    html.find(".update-actors").click(this.updateActors.bind(this));
     html.find(".rest-all").click(this.restEveryone.bind(this));
     html.find(".group-schedule").click(this.displaySchedule.bind(this));
     html.find(".show-calendar").click((e) => {
@@ -72,24 +71,6 @@ export class Astrolab extends FormApplication {
     });
     Hooks.callAll("arm5e-date-change", { year: year, season: dataset.season });
     this.render();
-  }
-
-  async updateActors(event) {
-    event.preventDefault();
-    const dataset = event.currentTarget.dataset;
-    const year = convertToNumber(dataset.year, 1220);
-    const updateData = {
-      system: { datetime: { season: dataset.season, year: year } }
-    };
-    await game.actors.updateAll(updateData, (e) => {
-      return e.type === "player" || e.type === "npc" || e.type === "covenant";
-    });
-    ui.notifications.info(
-      game.i18n.format("arm5e.notification.synchActors", {
-        year: year,
-        season: game.i18n.localize(CONFIG.ARM5E.seasons[dataset.season].label)
-      })
-    );
   }
 
   async restEveryone(event) {

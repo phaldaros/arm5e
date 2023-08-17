@@ -31,11 +31,8 @@ export class ArM5ePCActor extends Actor {
     super(data, context);
     this.rollData = new ArM5eRollData(this);
     Hooks.on("arm5e-date-change", async (date) => {
-      if (this._hasDate() && !isInThePast(this.system.datetime)) {
-        await this.update({
-          "system.datetime.year": date.year,
-          "system.datetime.season": date.season
-        });
+      if (this._hasDate()) {
+        this.sheet.render();
       }
     });
   }
@@ -79,17 +76,7 @@ export class ArM5ePCActor extends Actor {
 
       return;
     }
-    let datetime = game.settings.get("arm5e", "currentDate");
-    if (this.type == "covenant") {
-      if (this.system.datetime === null) {
-        this.system.datetime = {
-          year: datetime.year,
-          season: datetime.season,
-          month: "mar",
-          day: 21
-        };
-      }
-    } else if (this.type == "laboratory") {
+    if (this.type == "laboratory") {
       this.system.aura = {
         value: 0,
         realm: ARM5E.REALM_TYPES.MUNDANE
@@ -101,15 +88,10 @@ export class ArM5ePCActor extends Actor {
     if (this.type != "player" && this.type != "npc" && this.type != "beast") {
       return;
     }
-
-    if (this.system.datetime === null) {
-      this.system.datetime = {
-        year: datetime.year,
-        season: datetime.season,
-        month: "mar",
-        day: 21
-      };
-    }
+    const datetime = (context.datetime = game.settings.get("arm5e", "currentDate"));
+    this.system.age.value = this.system.description?.born?.value
+      ? Number(datetime.year) - this.system.description.born.value
+      : 20;
 
     this.system.wounds = {
       healthy: [],
@@ -1403,6 +1385,7 @@ export class ArM5ePCActor extends Actor {
           woundType = dead;
           break;
       }
+      const datetime = game.settings.get("arm5e", "currentDate");
       let woundData = {
         name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
           "arm5e.sheet.wound.label"
@@ -1410,8 +1393,8 @@ export class ArM5ePCActor extends Actor {
         type: "wound",
         system: {
           inflictedDate: {
-            year: this.system.datetime.year,
-            season: this.system.datetime.year
+            year: datetime.year,
+            season: datetime.year
           },
           healedDate: { year: null, season: "spring" },
           gravity: wtype,
@@ -1489,6 +1472,7 @@ export class ArM5ePCActor extends Actor {
       return;
     }
     let wounds = [];
+    const datetime = game.settings.get("arm5e", "currentDate");
     for (let ii = 0; ii < amount; ii++) {
       let woundData = {
         name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
@@ -1497,8 +1481,8 @@ export class ArM5ePCActor extends Actor {
         type: "wound",
         system: {
           inflictedDate: {
-            year: this.system.datetime.year,
-            season: this.system.datetime.season
+            year: datetime.year,
+            season: datetime.season
           },
           healedDate: { year: null, season: "spring" },
           gravity: wtype,
@@ -1642,7 +1626,6 @@ export class ArM5ePCActor extends Actor {
     let naturalAging = agingData.season == "winter";
     let updateData = {};
     let result = { crisis: false, apparent: 1, charac: {} };
-    updateData["system.age.value"] = this.system.age.value + 1;
     switch (amount) {
       case 0:
         updateData["system.apparent.value"] = this.system.apparent.value + 1;

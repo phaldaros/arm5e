@@ -64,12 +64,12 @@
           <label>{{localize "arm5e.sheet.duration"}}</label> <input type="number" class="duration"
             name="system.duration" value="{{system.duration}}" data-dtype="Number" {{ui.editDuration}} />
         </div>
-        {{#unless system.done}}
+        {{#if ui.schedule}}
           <div class="resource">
             <a class="select-dates flex0" style="width:50px"><i {{{astrolabIconStyle}}}
                 class=" icon-Tool_Astrolab"></i></a>
           </div>
-        {{/unless}}
+        {{/if}}
         {{#if isOwned}}
           <div class="flexrow ">
             <a class="item-control item-delete-confirm"

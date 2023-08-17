@@ -134,7 +134,6 @@
           "effects": "Warping effects"
         }
       },
-      "datetime": { "datetime": null },
       "fatigue": {
         "fatigueTotal": 0,
         "fatigueCurrent": 0,
@@ -503,16 +502,7 @@
       }
     },
     "player": {
-      "templates": [
-        "base",
-        "npcbase",
-        "datetime",
-        "fatigue",
-        "arts",
-        "familiar",
-        "laboratoryPC",
-        "apprentice"
-      ],
+      "templates": ["base", "npcbase", "fatigue", "arts", "familiar", "laboratoryPC", "apprentice"],
       "charType": {
         "value": "magus",
         "label": "Char. Type"
@@ -548,7 +538,7 @@
       }
     },
     "npc": {
-      "templates": ["base", "npcbase", "datetime", "familiar", "laboratoryPC", "fatigue", "arts"],
+      "templates": ["base", "npcbase", "familiar", "laboratoryPC", "fatigue", "arts"],
       "charType": {
         "value": "mundane",
         "label": "Char. Type"
@@ -572,7 +562,7 @@
       "powers": []
     },
     "laboratory": {
-      "templates": ["base", "datetime"],
+      "templates": ["base"],
       "covenant": {
         "value": "Covenant Name"
       },
@@ -620,7 +610,7 @@
       "rawVis": []
     },
     "covenant": {
-      "templates": ["base", "visRegistry", "datetime"],
+      "templates": ["base", "visRegistry"],
       "description": "",
       "narrator": "",
       "saga": "",
@@ -808,7 +798,7 @@
       "mundaneBooks": []
     },
     "beast": {
-      "templates": ["base", "fatigue", "datetime"],
+      "templates": ["base", "fatigue"],
       "characteristics": {
         "cun": {
           "value": 0
@@ -850,6 +840,11 @@
         "label": "Confidence ",
         "score": 0,
         "points": 0
+      },
+      "description": {
+        "born": {
+          "value": 1200
+        }
       },
       "abilities": [],
       "weapons": [],

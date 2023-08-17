@@ -246,6 +246,7 @@ export function getFormData(html, actor) {
   find = html.find(".SelectedAura");
   if (find.length > 0) {
     actor.rollData.environment.aura = Number(find[0].value) ?? 0;
+    actor.rollData.environment.hasAuraBonus = true;
   }
 
   find = html.find(".SelectedLevel");

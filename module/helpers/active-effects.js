@@ -107,7 +107,7 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     // Iterate over active effects, classifying them into categories
     for (let e of effects) {
       if (CONFIG.ISV10) {
-        e._getsourceName(); // Trigger a lookup for the source name
+        e._getSourceName(); // Trigger a lookup for the source name
         e.name = e.label;
         e.img = e.icon;
       }
