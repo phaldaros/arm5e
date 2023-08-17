@@ -5,12 +5,12 @@ import { getShiftedDate, seasonsDelta } from "./time.js";
 export class Sanatorium extends FormApplication {
   constructor(patient, data, options) {
     super(data, options);
-
+    const datetime = game.settings.get("arm5e", "currentDate");
     this.patient = patient;
     // this.object.daysLeft = CONFIG.ARM5E.recovery.daysInSeason;
     this.object.seasons = CONFIG.ARM5E.seasons;
-    this.object.curYear = this.patient.system.datetime.year;
-    this.object.curSeason = this.patient.system.datetime.season;
+    this.object.curYear = datetime.year;
+    this.object.curSeason = datetime.season;
     this.object.modifiers = {
       mundaneHelp: 0,
       magicalHelp: 0,
@@ -27,7 +27,7 @@ export class Sanatorium extends FormApplication {
     this.object.availableDays = CONFIG.ARM5E.recovery.daysInSeason;
     this.object.hasWounds = false;
     this.object.nextRecoveryPeriod = 0;
-    this.object.dateChange = "disabled"
+    this.object.dateChange = "disabled";
     this.prepareWounds();
   }
 
@@ -126,7 +126,6 @@ export class Sanatorium extends FormApplication {
 
     html.find(".recovery-roll").click(this._recoveryRoll.bind(this));
     html.find(".diary-entry").click(this._createDiaryEntry.bind(this));
-    
   }
 
   async _createDiaryEntry(event) {
@@ -139,7 +138,6 @@ export class Sanatorium extends FormApplication {
     // Update the patient wounds
     for (let [type, wounds] of Object.entries(this.object.wounds)) {
       for (let wound of wounds) {
-
         let currentWound = this.object.patient.items.get(wound._id);
         let data = {};
         data.system = wound;
@@ -518,10 +516,14 @@ export class Sanatorium extends FormApplication {
         for (let wound of wounds) {
           let woundInflicted = wound.system.inflictedDate;
           if (wound.system.recoveryTime > 0) {
-            let offset = Math.floor((wound.system.recoveryTime -wound.system.daysFirstSeason + CONFIG.ARM5E.recovery.daysInSeason) / CONFIG.ARM5E.recovery.daysInSeason);
+            let offset = Math.floor(
+              (wound.system.recoveryTime -
+                wound.system.daysFirstSeason +
+                CONFIG.ARM5E.recovery.daysInSeason) /
+                CONFIG.ARM5E.recovery.daysInSeason
+            );
             woundInflicted = getShiftedDate(woundInflicted, offset);
-          }
-          else {
+          } else {
             this.object.dateChange = "";
           }
 

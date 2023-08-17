@@ -194,6 +194,11 @@ export class ArM5eActorSheet extends ActorSheet {
     // }
 
     // Allow effect creation
+    context.datetime = context.datetime = game.settings.get("arm5e", "currentDate");
+    context.datetime.seasonLabel = game.i18n.localize(
+      CONFIG.ARM5E.seasons[context.datetime.season].label
+    );
+
     actorData.system.effectCreation = game.user.isGM;
 
     context.userData = this.getUserCache();
@@ -1136,28 +1141,6 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".migrate").click((event) => this.actor.migrate());
 
     html.find(".plan-reading").click(async (ev) => this._readBook(ev));
-
-    html.find(".set-year").change(async (ev) => {
-      ev.preventDefault();
-      const dataset = getDataset(ev);
-      let currentDate = game.settings.get("arm5e", "currentDate");
-      let newYear = Number(ev.currentTarget.value);
-      if (newYear > currentDate.year) {
-        newYear = Number(currentDate.year);
-      }
-      await this.actor.update({ "system.datetime.year": newYear });
-    });
-
-    html.find(".set-season").change(async (ev) => {
-      ev.preventDefault();
-      const dataset = getDataset(ev);
-      let currentDate = game.settings.get("arm5e", "currentDate");
-      let newSeason = ev.currentTarget.value;
-      if (CONFIG.SEASON_ORDER[newSeason] > CONFIG.SEASON_ORDER[currentDate.season]) {
-        newSeason = currentDate.season;
-      }
-      await this.actor.update({ "system.datetime.season": newSeason });
-    });
   }
 
   async _readBook(ev) {

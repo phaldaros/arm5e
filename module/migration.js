@@ -336,8 +336,6 @@ export const migrateActorData = async function (actorDoc, actorItems) {
 
   if (actor.type == "covenant") {
     if (actor.system.currentYear != undefined) {
-      updateData["system.datetime.year"] = actor.system.currentYear;
-      updateData["system.datetime.season"] = "spring";
       updateData["system.-=currentYear"] = null;
     }
   }
@@ -363,17 +361,24 @@ export const migrateActorData = async function (actorDoc, actorItems) {
       updateData["system.-=size"] = null;
     }
 
+    // for beasts
+    if (actor.system.description == undefined) {
+      updateData["system.description"] = { born: { value: 1200 } };
+    }
+
     // remove redundant data
     if (actor.system.houses != undefined) {
       updateData["system.-=houses"] = null;
     }
 
     if (actor.system.year?.value != undefined) {
-      updateData["system.datetime.year"] = actor.system.year.value;
       updateData["system.-=year"] = null;
     }
+    if (actor.system.datetime != undefined) {
+      updateData["system.-=datetime"] = null;
+    }
+
     if (actor.system.season?.value != undefined) {
-      updateData["system.datetime.season"] = actor.system?.season.value ?? "spring";
       updateData["system.-=season"] = null;
     }
 
@@ -437,6 +442,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
           updateData[`system.wounds.${wtype}.-=notes`] = null;
         } else {
           if (actorDoc instanceof ArM5ePCActor) {
+            let datetime = game.settings.get("arm5e", "currentDate");
             for (let ii = 0; ii < actor.system.wounds[wtype].number.value; ii++) {
               let woundData = {
                 name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
@@ -445,8 +451,8 @@ export const migrateActorData = async function (actorDoc, actorItems) {
                 type: "wound",
                 system: {
                   inflictedDate: {
-                    year: actor.system.datetime.year,
-                    season: actor.system.datetime.season
+                    year: datetime.year,
+                    season: datetime.season
                   },
                   healedDate: { year: null, season: "spring" },
                   gravity: wtype,

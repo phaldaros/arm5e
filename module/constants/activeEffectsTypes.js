@@ -593,6 +593,12 @@ export default {
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 3
       },
+      age: {
+        label: "arm5e.sheet.age",
+        key: "system.age.value",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
+      },
       aging: {
         label: "arm5e.sheet.aging",
         key: "system.bonuses.traits.aging",

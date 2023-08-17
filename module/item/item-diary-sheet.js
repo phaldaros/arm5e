@@ -96,12 +96,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       return context;
     }
 
-    // if (context.system.year == "") {
-    //   // supposedly the first time a diary entry is created
-    //   context.system.year = this.actor.system.datetime.year;
-    //   context.system.season = this.actor.system.datetime.season;
-    // }
-
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];
 
     if (activityConfig.durationEdit == true) {
@@ -211,12 +205,18 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       // context.system.canEditBook = "readonly";
       // context.system.disabledBook = "disabled";
       context.system.disabled = "disabled";
-      context.ui.editDate = "disabled";
+      if (!game.user.isGM) {
+        context.ui.editDate = "disabled";
+      }
     }
     if (actType === "reading") {
       context.system.disabled = "disabled";
       context.system.canEdit = "readonly";
       context.ui.showBaseQuality = true;
+    }
+
+    if (game.user.isGM || !context.system.done) {
+      context.ui.schedule = true;
     }
 
     if (!context.system.cappedGain) {
@@ -324,7 +324,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     log(false, "ITEM-DIARY-sheet get data");
-    log(false, context);
+    log(true, context);
     return context;
   }
 
@@ -1128,7 +1128,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         );
         if (!confirmed) return;
         let actorUpdate = {
-          system: { age: { value: actor.system.age.value - 1 }, pendingCrisis: false }
+          system: { pendingCrisis: false }
         };
 
         let effects = this.item.getFlag("arm5e", "effect");
