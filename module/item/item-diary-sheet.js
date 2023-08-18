@@ -664,6 +664,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     return position;
   }
 
+  _canDragDrop(selector) {
+    return this.isEditable;
+  }
+
   /* -------------------------------------------- */
 
   /** @override */

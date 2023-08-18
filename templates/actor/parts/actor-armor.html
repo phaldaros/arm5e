@@ -15,10 +15,10 @@
             <div class="flexrow flex-center">
                 <span class="flexrow item-title">{{item.name}}</span>
                 <label><span class="bold">{{localize "arm5e.sheet.protection"}}:</span> {{item.system.prot}}
-                    {{#if canEquip}}(+{{
+                    {{#if system.canEquip}}(+{{
                         ../system.characteristics.sta.value }}){{/if}}</label>
                 <label><span class="bold">{{localize "arm5e.sheet.load"}}:</span> {{item.system.load}}</label>
-                {{#if canEquip}}
+                {{#if system.canEquip}}
                     <span class="bold">
                         <label>{{localize "arm5e.sheet.equipped"}}:</label>
                         <input type="checkbox" class="quick-edit" name="equipped" {{checked system.equipped}}
