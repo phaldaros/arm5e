@@ -245,6 +245,7 @@ export const migrateCompendium = async function (pack) {
  * @returns {object}                The updateData to apply
  */
 export const migrateSceneData = async function (scene, migrationData) {
+  const updateData = {};
   const tokens = await Promise.all(
     scene.tokens.map(async (token) => {
       const t = token instanceof foundry.abstract.DataModel ? token.toObject() : token;
@@ -281,7 +282,26 @@ export const migrateSceneData = async function (scene, migrationData) {
     })
   );
 
-  return { tokens };
+  updateData.tokens = tokens;
+
+  let aura = scene.flags.world?.[`aura_${scene.id}`];
+  let auraType = scene.flags.world?.[`aura_type_${scene.id}`]
+
+  if (Number.isNumeric(aura) || Number.isNumeric(auraType))
+  {
+    updateData["flags.-=world"] = null;
+
+    let newAuraData = {aura : {
+      visible : false,
+      nightModifier : {magic: 0, faeric: 0, divine: 0, infernal: 0},
+      values : {magic: 0, faeric: 0, divine: 0, infernal: 0}
+    }}
+    newAuraData.aura.values[CONFIG.ARM5E.lookupRealm[auraType]] = aura;
+
+    updateData["flags.arm5e"] = newAuraData
+  }
+
+  return updateData;
 };
 
 const isEffectObsolete = function (effect) {
