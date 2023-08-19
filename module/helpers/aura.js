@@ -27,11 +27,13 @@ export default class Aura {
         return mergeObject((this.scene?.getFlag("arm5e", "aura") || {}), this.constructor.defaultAura, {overwrite: false});
     }
 
-    refresh()
-    {
-        // If auraData from scene is empty or null, fill it in with defaultAura
-    }
-
+    /**
+     * Takes an alignment number of a power and computes how the current aura will modify
+     * that power being used. e.g. how much a faerie power is penalized in a divine aura
+     * 
+     * @param {Number} alignment Number representing alignment of power being used
+     * @returns 
+     */
     computeAuraModifierFor(alignment) {
         let dominantRealm = this.dominantRealm || "mundane"
         const multiplier = CONFIG.ARM5E.realmsExt[dominantRealm].influence[alignment];
@@ -39,6 +41,10 @@ export default class Aura {
         return this.modifier;
     }
 
+    /**
+     * Retrieve the realm that has the current highest value in the aura
+     * The highest value is computed with the night modifier, if it is present and active
+     */
     get dominantRealm()
     {
         let dominantRealm;
@@ -56,6 +62,13 @@ export default class Aura {
     }
 
 
+    /**
+     * Auras can have multiple realms, this retrieves the value of some realm in the aura, 
+     * including the night modifier if it is present
+     * 
+     * @param {String} realm Realm string, such as "magic" or "divine"
+     * @returns 
+     */
     auraValueFor(realm)
     {
         return (this.values[realm] || 0) + this._nightModifier(realm)
@@ -76,9 +89,16 @@ export default class Aura {
         else return 0;
     }
 
+    /**
+     * Create an aura object from an actor and the scene they are associated with
+     * If no token is on the map, juts use viewed scene
+     * 
+     * @param {Actor} actor 
+     * @returns 
+     */
     static fromActor(actor)
     {
-        let token = actor.isToken ? actor.token : actor.getActiveTokens()[0] // In v11 only need to use getActiveTokens()[0]
+        let token = actor.getActiveTokens()[0]
         let scene
         if (token)
         {

@@ -25,13 +25,20 @@ export class ArsLayer extends InteractionLayer {
     });
   }
 
-  static async clearAura() {
-    Dialog.confirm({
-      title : game.i18n.localize("arm5e.canvas.buttons.clearAura"),
-      content : game.i18n.localize("arm5e.dialog.confirmClearAura"),
-      yes : () => {canvas.scene.setFlag("arm5e", "aura", null)},
-      no : () => {}
-    })
+  static async clearAura(bypassDialog=false) {
+    if (bypassDialog)
+    {
+      canvas.scene.setFlag("arm5e", "aura", null)
+    }
+    else 
+    {
+      Dialog.confirm({
+        title : game.i18n.localize("arm5e.canvas.buttons.clearAura"),
+        content : game.i18n.localize("arm5e.dialog.confirmClearAura"),
+        yes : () => {canvas.scene.setFlag("arm5e", "aura", null)},
+        no : () => {}
+      })
+    }
   }
   static async openAstrolab() {
     let formData = {

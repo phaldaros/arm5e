@@ -421,13 +421,6 @@ Hooks.on("renderChatMessage", (message, html, data) =>
   Arm5eChatMessage.addChatListeners(message, html, data)
 );
 
-Hooks.on("deleteToken", (token, options, userId) => {
-  // if the token is linked to an actor, remove the aura
-  if (token.isLinked) {
-    clearAuraFromActor(token.actor);
-  }
-});
-
 // On Apply an ActiveEffect that uses a CUSTOM application mode.
 Hooks.on("applyActiveEffect", (actor, change, current, delta, changes) => {
   ArM5eActiveEffect.applyCustomEffect(actor, change, current, delta, changes);
