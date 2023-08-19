@@ -1,3 +1,4 @@
+import { convertToNumber } from "../schemas/commonSchemas.js";
 import { debug, log } from "../tools.js";
 import { GroupSchedule } from "./group-schedule.js";
 
@@ -22,7 +23,9 @@ export class Astrolab extends FormApplication {
       title: "Astrolab",
       template: "systems/arm5e/templates/generic/astrolab.html",
       width: "600",
-      height: "auto"
+      height: "auto",
+      submitOnChange: true,
+      closeOnSubmit: false
     });
   }
   async getData(options = {}) {
@@ -40,10 +43,7 @@ export class Astrolab extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".set-date").click(this.setDate.bind(this));
-    html.find(".update-actors").click(this.updateActors.bind(this));
     html.find(".rest-all").click(this.restEveryone.bind(this));
-    html.find(".change-season").change(this._changeSeason.bind(this));
-    html.find(".change-year").change(this._changeYear.bind(this));
     html.find(".group-schedule").click(this.displaySchedule.bind(this));
     html.find(".show-calendar").click((e) => {
       SimpleCalendar.api.showCalendar(null, true);
@@ -54,52 +54,23 @@ export class Astrolab extends FormApplication {
     const schedule = new GroupSchedule();
     const res = await schedule.render(true);
   }
-  async _changeSeason(event) {
-    await this.submit({
-      preventClose: true,
-      updateData: { season: event.currentTarget.value }
-    });
-  }
-
-  async _changeYear(event) {
-    await this.submit({
-      preventClose: true,
-      updateData: { year: event.currentTarget.value }
-    });
-  }
 
   async setDate(event) {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
+    const year = convertToNumber(dataset.year, 1220);
     ui.notifications.info(
       game.i18n.format("arm5e.notification.setDate", {
-        year: dataset.year,
+        year: year,
         season: game.i18n.localize(CONFIG.ARM5E.seasons[dataset.season].label)
       })
     );
     await game.settings.set("arm5e", "currentDate", {
-      year: dataset.year,
+      year: year,
       season: dataset.season
     });
-    Hooks.callAll("arm5e-date-change", { year: dataset.year, season: dataset.season });
+    Hooks.callAll("arm5e-date-change", { year: year, season: dataset.season });
     this.render();
-  }
-
-  async updateActors(event) {
-    event.preventDefault();
-    const dataset = event.currentTarget.dataset;
-    const updateData = {
-      system: { datetime: { season: dataset.season, year: dataset.year } }
-    };
-    await game.actors.updateAll(updateData, (e) => {
-      return e.type === "player" || e.type === "npc" || e.type === "covenant";
-    });
-    ui.notifications.info(
-      game.i18n.format("arm5e.notification.synchActors", {
-        year: dataset.year,
-        season: game.i18n.localize(CONFIG.ARM5E.seasons[dataset.season].label)
-      })
-    );
   }
 
   async restEveryone(event) {

@@ -42,7 +42,7 @@ export class ArM5eItem extends Item {
           name: "N/A"
         };
         abilitiesSelect["a0"] = temp;
-
+        this.system.canEquip = true;
         // find the actor abilities and create the select
         for (let [key, i] of Object.entries(owner.items)) {
           if (i.type === "ability") {
@@ -56,6 +56,8 @@ export class ArM5eItem extends Item {
         }
 
         system.abilities = abilitiesSelect;
+      } else if (this.type == "armor" && this.actor != null) {
+        this.system.canEquip = true;
       }
 
       if (this.type == "diaryEntry") {
@@ -178,7 +180,8 @@ export class ArM5eItem extends Item {
             case "reading":
             case "inventSpell":
             case "learnSpell":
-            case "visStudy": {
+            case "visStudy":
+            case "visExtraction": {
               this.system.baseQuality = systemData.sourceQuality;
               break;
             }
@@ -194,6 +197,12 @@ export class ArM5eItem extends Item {
               break;
           }
         }
+      }
+    } else if (this.type == "wound") {
+      this.system.title = `${this.name}`;
+      if (this.system.recoveryTime == 0) {
+        this.system.title += ` (${game.i18n.localize("arm5e.sheet.wound.fresh")})`;
+        this.system.ui = { style: 'style="box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);"' };
       }
     }
   }
@@ -413,13 +422,13 @@ export class ArM5eItem extends Item {
     // weird it did work in 284
     // if (data.img === undefined) {
     let toUpdate = false;
-    if (CONFIG.Item.systemDataModels[this.type]?.getDefault) {
-      data = CONFIG.Item.systemDataModels[this.type].getDefault(data);
+    if (CONFIG.ARM5E.ItemDataModels[this.type]?.getDefault) {
+      data = CONFIG.ARM5E.ItemDataModels[this.type].getDefault(data);
       toUpdate = true;
     }
 
     if (this.needIconUpdate()) {
-      data.img = CONFIG.Item.systemDataModels[this.type].getIcon(data);
+      data.img = CONFIG.ARM5E.ItemDataModels[this.type].getIcon(data);
       toUpdate = true;
     } else if (data.img === undefined || data.img === "icons/svg/item-bag.svg") {
       if (this.type in CONFIG.ARM5E_DEFAULT_ICONS) {
@@ -433,15 +442,15 @@ export class ArM5eItem extends Item {
   async _updateIcon(key, value) {
     if (this.needIconUpdate()) {
       await this.update({
-        img: CONFIG.Item.systemDataModels[this.type].getIcon(this, value),
+        img: CONFIG.ARM5E.ItemDataModels[this.type].getIcon(this, value),
         [key]: value
       });
     }
   }
 
   needIconUpdate(value) {
-    if (CONFIG.Item.systemDataModels[this.type]?.getIcon) {
-      let currentDefIcon = CONFIG.Item.systemDataModels[this.type].getIcon(this);
+    if (CONFIG.ARM5E.ItemDataModels[this.type]?.getIcon) {
+      let currentDefIcon = CONFIG.ARM5E.ItemDataModels[this.type].getIcon(this);
       // if the current img is the default icon of the previous value, allow change
       if (
         this.img === currentDefIcon ||

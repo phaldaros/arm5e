@@ -16,7 +16,7 @@
   font-weight: normal;
   font-size: 16pt;
   line-height: 1;
-  padding-top: 6px;
+  padding-top: 9px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -33,6 +33,12 @@
 .icon-Icon_Effects:before {
   content: "\0043";
 }
+.icon-Icon_Effects-small:before {
+  content: "\0043";
+  font-size: 14pt;
+  width: fit-content;
+}
+
 .icon-Icon_Aging_crisis:before {
   content: "\0044";
   font-size: 22pt;
@@ -71,6 +77,12 @@
 .icon-Icon_Edit:before {
   content: "\004e";
 }
+
+.icon-Icon_Delete_Big_Hand_Gesture:before {
+  content: "\004f";
+  font-size: 28pt;
+}
+
 .icon-Icon_Delete_Hand_Gesture:before {
   content: "\004f";
 }
@@ -94,6 +106,11 @@
 .icon-Tool_Journals:before {
   content: "\0057";
 }
+
+.icon-Tool_Journals_sidebar:before {
+  content: "\0057";
+  padding-top: 6px;
+}
 .icon-Tool_Delete_Perdo2:before {
   content: "\0051";
   font-size: 19pt;
@@ -116,6 +133,12 @@
 .icon-Icon_Locked:before {
   content: "\0054";
 }
+
+.icon-Icon_Locked_Small:before {
+  content: "\0054";
+  font-size: 8pt;
+}
+
 .icon-Icon_Unlocked:before {
   content: "\0055";
 }
@@ -138,8 +161,13 @@
 }
 .icon-Icon_magic-chest:before {
   content: "\0062";
+  padding-top: 6px;
 }
 .icon-Icon_Sanatorium:before {
   content: "\0063";
-  font-size: 40pt;
+  font-size: 36pt;
+}
+.icon-Icon_Sanatorium2:before {
+  content: "\0064";
+  font-size: 28pt;
 }

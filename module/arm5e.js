@@ -61,6 +61,8 @@ import {
 } from "./constants/ui.js";
 import { InhabitantSchema } from "./schemas/inhabitantSchema.js";
 import { SimpleCalendarSeasons, seasonOrder, seasonOrderInv } from "./tools/time.js";
+import { WoundSchema } from "./schemas/woundSchema.js";
+import { ArM5eSmallSheet } from "./item/item-small-sheet.js";
 
 Hooks.once("init", async function () {
   game.arm5e = {
@@ -74,6 +76,13 @@ Hooks.once("init", async function () {
 
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
+
+  CONFIG.ARM5E.ItemDataModels = CONFIG.ISV10
+    ? CONFIG.Item.systemDataModels
+    : CONFIG.Item.dataModels;
+  CONFIG.ARM5E.ActorDataModels = CONFIG.ISV10
+    ? CONFIG.Actor.systemDataModels
+    : CONFIG.Actor.dataModels;
 
   CONFIG.SC = { SEASONS: SimpleCalendarSeasons };
 
@@ -137,7 +146,7 @@ Hooks.once("init", async function () {
   // UI customization
   CONFIG.ui.actors = ArM5eActorsDirectory;
   CONFIG.Item.sidebarIcon = "icon-Icon_magic-chest";
-  CONFIG.JournalEntry.sidebarIcon = "icon-Tool_Journals";
+  CONFIG.JournalEntry.sidebarIcon = "icon-Tool_Journals_sidebar";
 
   CONFIG.ARM5E_DEFAULT_ICONS = ARM5E_DEFAULT_ICONS[game.settings.get("arm5e", "defaultIconStyle")];
   CONFIG.INHABITANTS_DEFAULT_ICONS =
@@ -153,6 +162,9 @@ Hooks.once("init", async function () {
     CONFIG.SEASON_ORDER_INV = seasonOrderInv.standard;
     CONFIG.ARM5E.seasons = CONFIG.ARM5E.seasonsLabels.standard;
   }
+
+  CONFIG.ActiveEffect.legacyTransferral = false;
+
   //////////////////////
   // CONFIG DONE!
   //////////////////////
@@ -171,7 +183,7 @@ Hooks.once("init", async function () {
   CONFIG.ActiveEffect.documentClass = ArM5eActiveEffect;
 
   // Define datamodel schemas
-  setSystemDatamodels();
+  setDatamodels();
 
   // Register sheet application classes
   registerSheets();
@@ -433,36 +445,37 @@ Hooks.on("renderPause", function () {
   $("#pause.paused img").css({ opacity: opacity, "--fa-animation-duration": "20s" });
 });
 
-function setSystemDatamodels() {
-  CONFIG.Item.systemDataModels["ability"] = AbilitySchema;
-  CONFIG.Item.systemDataModels["book"] = BookSchema;
-  CONFIG.Item.systemDataModels["virtue"] = VirtueFlawSchema;
-  CONFIG.Item.systemDataModels["flaw"] = VirtueFlawSchema;
-  CONFIG.Item.systemDataModels["item"] = ItemSchema;
-  CONFIG.Item.systemDataModels["vis"] = VisSchema;
-  CONFIG.Item.systemDataModels["baseEffect"] = BaseEffectSchema;
-  CONFIG.Item.systemDataModels["magicalEffect"] = MagicalEffectSchema;
-  CONFIG.Item.systemDataModels["spell"] = SpellSchema;
-  CONFIG.Item.systemDataModels["laboratoryText"] = LabTextSchema;
-  CONFIG.Item.systemDataModels["diaryEntry"] = DiaryEntrySchema;
-  CONFIG.Item.systemDataModels["personalityTrait"] = PersonalityTraitSchema;
-  CONFIG.Item.systemDataModels["reputation"] = ReputationSchema;
-  CONFIG.Item.systemDataModels["armor"] = ArmorSchema;
-  CONFIG.Item.systemDataModels["weapon"] = WeaponSchema;
-  CONFIG.Item.systemDataModels["inhabitant"] = InhabitantSchema;
+function setDatamodels() {
+  CONFIG.ARM5E.ItemDataModels["ability"] = AbilitySchema;
+  CONFIG.ARM5E.ItemDataModels["book"] = BookSchema;
+  CONFIG.ARM5E.ItemDataModels["virtue"] = VirtueFlawSchema;
+  CONFIG.ARM5E.ItemDataModels["flaw"] = VirtueFlawSchema;
+  CONFIG.ARM5E.ItemDataModels["item"] = ItemSchema;
+  CONFIG.ARM5E.ItemDataModels["vis"] = VisSchema;
+  CONFIG.ARM5E.ItemDataModels["baseEffect"] = BaseEffectSchema;
+  CONFIG.ARM5E.ItemDataModels["magicalEffect"] = MagicalEffectSchema;
+  CONFIG.ARM5E.ItemDataModels["spell"] = SpellSchema;
+  CONFIG.ARM5E.ItemDataModels["laboratoryText"] = LabTextSchema;
+  CONFIG.ARM5E.ItemDataModels["diaryEntry"] = DiaryEntrySchema;
+  CONFIG.ARM5E.ItemDataModels["personalityTrait"] = PersonalityTraitSchema;
+  CONFIG.ARM5E.ItemDataModels["reputation"] = ReputationSchema;
+  CONFIG.ARM5E.ItemDataModels["armor"] = ArmorSchema;
+  CONFIG.ARM5E.ItemDataModels["weapon"] = WeaponSchema;
+  CONFIG.ARM5E.ItemDataModels["inhabitant"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["wound"] = WoundSchema;
   //Actors
-  CONFIG.Actor.systemDataModels["laboratory"] = LabSchema;
-  CONFIG.Actor.systemDataModels["magicCodex"] = CodexSchema;
+  CONFIG.ARM5E.ActorDataModels["laboratory"] = LabSchema;
+  CONFIG.ARM5E.ActorDataModels["magicCodex"] = CodexSchema;
 
   // Deprecated types
 
-  CONFIG.Item.systemDataModels["habitantMagi"] = InhabitantSchema;
-  CONFIG.Item.systemDataModels["habitantCompanion"] = InhabitantSchema;
-  CONFIG.Item.systemDataModels["habitantSpecialists"] = InhabitantSchema;
-  CONFIG.Item.systemDataModels["habitantHabitants"] = InhabitantSchema;
-  CONFIG.Item.systemDataModels["habitantHorses"] = InhabitantSchema;
-  CONFIG.Item.systemDataModels["habitantLivestock"] = InhabitantSchema;
-  CONFIG.Item.systemDataModels["visStockCovenant"] = VisSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantMagi"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantCompanion"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantSpecialists"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantHabitants"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantHorses"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["habitantLivestock"] = InhabitantSchema;
+  CONFIG.ARM5E.ItemDataModels["visStockCovenant"] = VisSchema;
 }
 
 function registerSheets() {
@@ -529,6 +542,11 @@ function registerSheets() {
   });
   Items.registerSheet("arm5e", ArM5eBookSheet, {
     types: ["book"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("arm5e", ArM5eSmallSheet, {
+    types: ["wound"],
     makeDefault: true
   });
 

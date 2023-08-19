@@ -5,7 +5,7 @@
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
-      {{#if canEquip}}
+      {{#if system.canEquip}}
         <div class="resource flexcol flexrow">
           <label for="system.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
           <select name="system.ability" data-type="String" class="ability-key">
@@ -16,7 +16,7 @@
         </div>
       {{/if}}
       <div class="grid grid-2col">
-        {{#if canEquip}}
+        {{#if system.canEquip}}
           <div class="resource">
             <label class="header-label">{{localize "arm5e.sheet.equipped"}}</label>
             <input type="checkbox" name="system.equipped" class="toggle" data-item-id="{{item.id}}" data-attr="equipped"

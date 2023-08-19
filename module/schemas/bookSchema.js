@@ -52,7 +52,7 @@ export class BookSchema extends foundry.abstract.DataModel {
             nullable: true,
             integer: true,
             min: 0,
-            initial: 1,
+            initial: 0,
             step: 1
           }),
           type: new fields.StringField({
@@ -255,6 +255,10 @@ export class BookSchema extends foundry.abstract.DataModel {
           }
         }
 
+        if (t.type === "Tractatus" && t.level > 0) {
+          topics[idx].level = 0;
+        }
+
         if (t.category === "labText") {
           if (t.labtext === undefined || t.labtext === null) {
             topics[idx].labtext = { type: "spell" };
@@ -278,6 +282,15 @@ export class BookSchema extends foundry.abstract.DataModel {
         updateData["system.year"] = Number(itemData.system.year);
       }
     }
+
+    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+        updateData["system.season"] =  itemData.system.season.toLowerCase();
+      } else {
+        updateData["system.season"] = "spring";
+      }
+    } 
+    
     if (itemData.system.description == null) {
       updateData["system.description"] = "";
     }

@@ -35,6 +35,19 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
     const context = await super.getData();
     context.types = ACTIVE_EFFECTS_TYPES;
 
+    // backward compatibility with V10
+    if (CONFIG.ISV10) {
+      context.data.ui = {
+        name: context.data.label,
+        img: context.data.icon
+      };
+    } else {
+      context.data.ui = {
+        name: context.data.name,
+        img: context.data.icon
+      };
+    }
+
     // first effect created, add null effect type and subtype (still needed?)
     context.selectedTypes = this.object.getFlag("arm5e", "type");
     if (context.data.changes.length > 0 && context.selectedTypes == null) {

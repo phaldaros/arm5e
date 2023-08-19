@@ -427,7 +427,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.mu.finalScore +
               magus.system.arts.forms.co.finalScore +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               3;
             assert.equal(roll.modifier(), tot);
@@ -459,7 +459,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.pe.finalScore +
               magus.system.arts.forms.co.finalScore +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               1 +
               3;
@@ -490,7 +490,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.cr.finalScore +
               magus.system.arts.forms.ig.finalScore +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               2 +
               3;
@@ -522,7 +522,7 @@ export function registerRollTesting(quench) {
               // magus.system.arts.techniques.cr.finalScore +
               // magus.system.arts.forms.ig.finalScore +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               3;
             assert.equal(roll.modifier(), tot);
@@ -555,7 +555,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.mu.finalScore +
               magus.system.arts.forms.an.finalScore * 2 +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               3;
             assert.equal(roll.modifier(), tot);
@@ -588,7 +588,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.mu.finalScore +
               magus.system.arts.forms.im.finalScore +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               Sp1.system.mastery +
               Sp1.system.bonus +
@@ -623,7 +623,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.mu.finalScore +
               magus.system.arts.forms.co.finalScore * 2 +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               Sp2.system.mastery +
               Sp2.system.bonus +
@@ -662,7 +662,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.mu.finalScore +
               magus.system.arts.forms.co.finalScore * 2 +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               Sp2.system.mastery +
               Sp2.system.bonus +
@@ -697,7 +697,7 @@ export function registerRollTesting(quench) {
               magus.system.arts.techniques.mu.finalScore +
               magus.system.arts.forms.vi.finalScore +
               magus.system.characteristics.sta.value +
-              magus.system.woundsTotal +
+              magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
               Sp3.system.mastery +
               Sp3.system.bonus +

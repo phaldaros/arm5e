@@ -11,7 +11,7 @@
         <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
           {{#if system.pendingCrisis}}
             <div class="flex0 padding10" style="width:36px"><a class="rollable" data-roll="crisis"
-                data-year="{{system.datetime.year}}" title="Resolve aging crisis" style="font-size: 20pt;"><i
+                data-year="{{datetime.year}}" title="Resolve aging crisis" style="font-size: 20pt;"><i
                   class="icon-Icon_Aging_crisis"></i></a>
             </div>
           {{/if}}
@@ -54,7 +54,7 @@
         <div class="resource flex-group-center backSection">
           <label for="system.age.value" class="smallTitle marginbot6">{{localize "arm5e.sheet.age"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="text" name="system.age.value" value="{{system.age.value}}" data-dtype="Number"
+            <input type="text" name="system.age.value" value="{{system.age.value}}" data-dtype="Number" readonly
               style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
             (<input type="text" name="system.apparent.value" value="{{system.apparent.value}}" data-dtype="Number"
               style="flex: 0.6" />)
@@ -62,20 +62,16 @@
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="system.datetime.season" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
+          <label for="datetime.seasonLabel" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <select name="season" class="set-season" data-type="String" style="width: 100%">
-              {{#select system.datetime.season}} {{#each config.seasons as |season key|}}
-                  <option value="{{key}}">{{localize season.label}}</option>
-                {{/each}} {{/select}}
-            </select>
+            <input type="text" value="{{datetime.seasonLabel}}" readonly data-dtype="String" />
           </div>
         </div>
 
         <div class="resource flex-group-center backSection">
-          <label for="system.datetime.year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
+          <label for="datetime.year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
           <div class="resource-content flexrow flex-center flex-between margintop6">
-            <input type="number" value="{{system.datetime.year}}" class="set-year resource-focus" data-dtype="String" />
+            <input type="number" value="{{datetime.year}}" readonly data-dtype="Number" />
           </div>
         </div>
         {{#if (ne system.charType.value "grog")}}

@@ -11,6 +11,7 @@ import {
   XpField
 } from "./commonSchemas.js";
 import { SpellSchema, baseLevel } from "./magicSchemas.js";
+import { WoundSchema } from "./woundSchema.js";
 const fields = foundry.data.fields;
 
 export class DiaryEntrySchema extends foundry.abstract.DataModel {
@@ -114,6 +115,10 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         new fields.SchemaField({
           actorId: new NullableDocumentIdField(),
           itemId: new NullableDocumentIdField(),
+          // Flags:
+          // 1 : update an amount
+          // 2 : update a schedule
+          // 4 : update id
           flags: new fields.NumberField({
             required: false,
             nullable: false,
@@ -401,15 +406,36 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       }
       updateData["system.-=date"] = null;
       updateData["system.dates"] = itemData.system.dates;
-    } else if (itemData.system.dates instanceof Array && itemData.system.dates.length == 0) {
-      updateData["system.dates"] = [
-        {
-          year: Number(currentDate.year),
-          season: currentDate.season,
-          date: itemData.system.date ?? "",
-          applied: itemData.system.applied ?? false
+    } else if (itemData.system.dates instanceof Array  ) {
+      if (itemData.system.dates.length == 0) {
+        updateData["system.dates"] = [
+          {
+            year: Number(currentDate.year),
+            season: currentDate.season,
+            date: itemData.system.date ?? "",
+            applied: itemData.system.applied ?? false
+          }
+        ];
+      } else {
+        let newDates = itemData.system.dates;
+        let update = false;
+        for (let d of newDates) {
+          if (d.year == null || Number.isNaN(d.year)) {
+            d.year = Number(currentDate.year);
+            update = true;
+          } else if (typeof d.year === "string") {
+            if (!Number.isNumeric(d.year)) {
+              d.year  = Number(currentDate.year);
+            } else {
+              d.year  = Number(d.year);
+            }
+            update = true;
+          }
         }
-      ];
+        if (update) {
+          updateData["system.dates"] = newDates;
+        }
+      }
     } else {
       let update = false;
       for (let d of itemData.system.dates) {
@@ -542,13 +568,19 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       return false;
     }
     for (let a of activities) {
-      if (["none", "adventuring"].includes(a.type)) {
+      // TODO: merge the two arrays
+      if (["none", "adventuring", "recovery"].includes(a.type)) {
         continue;
       }
 
       if (ARM5E.activities.duplicateAllowed.includes(a.type)) {
-        if (ARM5E.activities.conflictExclusion.includes(a.type)) {
-          if (activities.filter((e) => e.type != a.type).length > 1) {
+        if (!ARM5E.activities.conflictExclusion.includes(a.type)) {
+          // do not conflict with itself but with other types that conflict
+          if (
+            activities.filter(
+              (e) => e.type != a.type && !ARM5E.activities.conflictExclusion.includes(e.type)
+            ).length > 1
+          ) {
             return true;
           }
         }
@@ -568,7 +600,6 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         }
       }
     }
-    log(false, "NO CONFLICT");
     return false;
   }
 

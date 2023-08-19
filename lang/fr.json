@@ -46,7 +46,9 @@
   "ITEM.TypeMundanebook": "Livre ordinaire (Obsolète)",
 
   "arm5e.sheet.player": "Joueur",
-  "arm5e.sheet.npc": "PNJ",
+  "arm5e.sheet.players": "Joueurs",
+  "arm5e.sheet.npc": "Pnj",
+  "arm5e.sheet.npcs": "Pnjs",
   "arm5e.sheet.laboratory": "Laboratoire",
 
   "arm5e.sheet.charType": "Type",
@@ -87,6 +89,7 @@
   "arm5e.sheet.effect": "Effet",
   "arm5e.sheet.fatigue": "Fatigue",
   "arm5e.sheet.wounds": "Blessures",
+  "arm5e.sheet.wound.label": "Blessure",
   "arm5e.sheet.vitals": "Vitaux",
   "arm5e.sheet.biography": "Biographie",
   "arm5e.sheet.personality": "Traits de Personnalité",
@@ -194,7 +197,9 @@
   "arm5e.sheet.magus": "Magus",
   "arm5e.sheet.maguss": "Magi",
   "arm5e.sheet.companion": "Compagnon",
+  "arm5e.sheet.companions": "Compagnons",
   "arm5e.sheet.grog": "Servant",
+  "arm5e.sheet.grogs": "Servants",
   "arm5e.sheet.human": "Humain",
   "arm5e.sheet.mundane": "Vulgaire",
   "arm5e.sheet.entity": "Entitée",
@@ -241,6 +246,7 @@
   "arm5e.sheet.dazedLvl": "Niveaux Hagards",
   "arm5e.sheet.unconscious": "Inconscient",
 
+  "arm5e.sheet.healthy": "En bonne santé",
   "arm5e.sheet.light": "Légère",
   "arm5e.sheet.medium": "Moyenne",
   "arm5e.sheet.heavy": "Grave",
@@ -691,15 +697,15 @@
   "arm5e.sheet.page": "Page",
   "arm5e.spell.effect.levelOffset": "Ajustement du niveau",
   "arm5e.spell.targets.baseSize.label": "Taille de Base",
-  "arm5e.spell.targets.baseSize.an": "Taille : +1 (poney)",
-  "arm5e.spell.targets.baseSize.aq": "5 pas de long, 2 pas de profondeur pour de l'eau",
-  "arm5e.spell.targets.baseSize.au": "Zone de 100 pas de diamètre",
+  "arm5e.spell.targets.baseSize.an": "Animal de taille : +1 ou inf. (ex: Poney)",
+  "arm5e.spell.targets.baseSize.aq": "4m de long, 1,2m de profondeur pour de l'eau",
+  "arm5e.spell.targets.baseSize.au": "Zone de 60m de large",
   "arm5e.spell.targets.baseSize.co": "Adulte humain, taille max +1",
-  "arm5e.spell.targets.baseSize.he": "Plante d'environ 1 pas de rayon et de hauteur",
+  "arm5e.spell.targets.baseSize.he": "Plante d'environ 2m de large et de haut",
   "arm5e.spell.targets.baseSize.ig": "Un grand feu de camp ou de cheminée",
   "arm5e.spell.targets.baseSize.im": "L'équivalent d'un humain adulte (illusion visuelle de cette taille ou illusion auditive aussi bruyante etc.)",
   "arm5e.spell.targets.baseSize.me": "Un esprit est un esprit, pas de taille",
-  "arm5e.spell.targets.baseSize.te": "10 m3 de matière pour le sable, la terre, la boue, l'argile etc. ; 1 m3 pour la pierre ; 30 cm3 pour les métaux ordinaires ; 3 cm3 pour les métaux précieux et les pierres précieuses",
+  "arm5e.spell.targets.baseSize.te": "10m3 de matière pour le sable, la terre, la boue, l'argile etc. ; 1m3 pour la pierre ; 0.3m3 pour les métaux ordinaires ; 0.03m3 pour les métaux précieux et 16cm3 pour les pierres précieuses",
   "arm5e.spell.targets.baseSize.vi": "Un sortilège, un objet ou une personne",
 
   "arm5e.spell.targets.subcats.intMagic": "Magie Intellego",
@@ -744,7 +750,7 @@
   "arm5e.lab.planning.msg.insufficientLabTotal": "Total de laboratoire en {arts} insuffisant pour extraire du vis.",
   "arm5e.lab.planning.button.refresh": "Rafraîchir",
   "arm5e.lab.planning.button.reset": "Remise à zéro",
-  "arm5e.lab.planning.button.schedule": "Calendrier",
+  "arm5e.lab.planning.button.schedule": "Planifier",
 
   "arm5e.lab.usage.label": "Utilisation",
   "arm5e.lab.usage.light": "Légère (1 saison ou moins)",
@@ -836,6 +842,7 @@
   "arm5e.dialog.design-spell-question": "Voulez-vous concevoir un sort basé sur cet effet ?",
   "arm5e.dialog.design-enchantment-question": "Voulez-vous concevoir un enchantement basé sur cet effet ?",
   "arm5e.dialog.delete-question": "Êtes-vous sûr de vouloir supprimer cet objet ?",
+  "arm5e.dialog.rollback-question": "Êtes-vous sûr de vouloir annuler cette activité ?",
   "arm5e.dialog.title.rolldie": "Jet de Dé",
   "arm5e.dialog.botch.title": "Test pour les Désastres",
   "arm5e.dialog.roll.explodingroll": "Dé explose, relancez !",
@@ -862,6 +869,7 @@
   "arm5e.dialog.confirmTransfer-info": "Utilisez SHIFT+glisser pour copier des éléments comme d'habitude.",
 
   "arm5e.notification.unconscious": "Ce personnage est inconscient, aucune action possible...",
+  "arm5e.notification.incapacited": "Ce personnage est gravement blessé, aucune action possible...",
   "arm5e.notification.pendingCrisis": "Ce personnage a une crise de vieillissement en cours, aucune action possible... Résolvez la crise en cliquant sur le crâne à côté du nom du personnage.",
   "arm5e.notification.dead": "Ce personnage est mort...",
   "arm5e.notification.codex.none": "Vous n'avez pas d'Actor de Type 'MagicCodex' dans votre monde, certaines fonctionnalités seront désactivées/non fonctionnelles, vous pouvez importer celui qui est dans le Compendium 'Magi'",
@@ -881,6 +889,7 @@
   "arm5e.notification.noLab": "Ce personnage ne possède pas de laboratoire.",
   "arm5e.notification.noOwner": "Ce laboratoire n'a pas de propriétaire.",
   "arm5e.notification.noEnoughVis": "{name} n'a pas assez de pion de vis pour faire cette action.",
+  "arm5e.notification.situationHasChanged": "La situation a changé, l'application n'est plus possible.",
 
   "arm5e.canvas.buttons.setAura": "Configure l'Aura",
   "arm5e.canvas.buttons.clearAura": "Réinitialisé l'Aura",
@@ -996,7 +1005,10 @@
   "arm5e.sheet.activeEffect.subtypes.woundsTotal": "Total de Blessures",
   "arm5e.sheet.activeEffect.subtypes.inventSpell": "Invention de sort",
   "arm5e.sheet.activeEffect.subtypes.learnSpell": "Apprentissage de sort",
-
+  "arm5e.sheet.activeEffect.subtypes.spontDivider": "Diviseur de magie spontanée",
+  "arm5e.sheet.activeEffect.subtypes.spontDividerNoFatigue": "Diviseur de magie spontanée sans fatigue",
+  "arm5e.sheet.activeEffect.subtypes.auraRealm": "Domaine de l'aura",
+  "arm5e.sheet.activeEffect.subtypes.auraLevel": "Niveau de l'aura",
   "arm5e.sheet.activeEffect.bonuses.penetration": "Bonus de Pénétration",
 
   "arm5e.sheet.activeEffect.changeMode": "Mode",
@@ -1079,7 +1091,7 @@
   "arm5e.activity.visStudy": "Etude sur vis",
   "arm5e.activity.recovery": "Récupération",
   "arm5e.activity.pawnsNeeded": "Pions de vis nécessaire",
-  
+
   "arm5e.activity.roll.aging": "Jet de vieillissement",
   "arm5e.activity.roll.visStudy": "Jet d'étude du virtus",
   "arm5e.activity.roll.recovery": "Jet de récupération",
@@ -1104,7 +1116,8 @@
   "arm5e.activity.msg.scheduleConflict": "Il y a un conflit dans l'agenda.",
   "arm5e.activity.msg.activityEndsInFuture": "Impossible à appliquer. Cette activité finit dans le futur",
   "arm5e.activity.msg.agingInWinter": "Le vieillissement se produit généralement en hiver, à moins qu'il ne s'agisse d'un effet externe.",
-  
+  "arm5e.activity.msg.unappliedActivities": "Il y a encore des activités non appliquées prévues avant celle-ci.",
+
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "Pas de distraction",
   "arm5e.lab.distraction.oneMonth": "Un mois",
@@ -1123,6 +1136,7 @@
   "arm5e.activity.title.spellLearning": "Apprendre le sort",
   "arm5e.activity.title.inventSpell": "Inventer un sort",
   "arm5e.activity.title.visStudy": "Etude du virtus {art}",
+  "arm5e.activity.title.recovery": "Se remettre de ses blessures",
   "arm5e.activity.desc.visStudy": "L'étude sur {amount} pion(s) de virtus {art}, a rapporté {xp} xps.",
   "arm5e.activity.drop.teacher": "Déposez ici un personnage pour faire office de professeur/entraineur.",
   "arm5e.activity.title.labinuse": "Laboratoire utilisé pour ({activity}) par {user}.",
@@ -1142,6 +1156,7 @@
 
   "arm5e.astrolab.setWorldDate": "Définir la date du monde",
   "arm5e.astrolab.updateActors": "Mise à jours des acteurs",
+  "arm5e.astrolab.restAll": "Reposez tout le monde",
 
   "arm5e.scriptorium.index": "Index",
   "arm5e.scriptorium.reader.title": "Lecteur",
@@ -1164,6 +1179,35 @@
   "arm5e.scriptorium.msg.diaryTopic.spell": "la maîtrise du sort \"{sort}\"",
   "arm5e.scriptorium.msg.notMagus": "Le lecteur n'est pas un mage.",
   "arm5e.scriptorium.reading.activity": "Lecture {title}",
+
+  "arm5e.sanatorium.magicalHelp": "Aide magique",
+  "arm5e.sanatorium.mundaneHelp": "Aide vulgaire",
+  "arm5e.sanatorium.labHealth": "Aide du Sanctum",
+  "arm5e.sanatorium.recoveryBonus": "Bonus de récupération",
+  "arm5e.sanatorium.daysLeft": "{days} jours restants avant le prochain jet de récupération",
+  "arm5e.sanatorium.daysAvailbable": "Jours disponibles",
+  "arm5e.sanatorium.medicalHistory": "Antécédents médicaux",
+  "arm5e.sanatorium.viewMedicalHistory": "Consulter les antécédents médicaux",
+  "arm5e.sanatorium.log": "Dossier du patient",
+  "arm5e.sanatorium.msg.patientHealthy": "Le patient est en bonne santé !",
+  "arm5e.sanatorium.msg.patientDead": "Le patient est mort !",
+  "arm5e.sanatorium.msg.patientDied": "Le patient est mourrant !",
+  "arm5e.sanatorium.msg.logDay": "Période de récupération, {day} jours",
+  "arm5e.sanatorium.msg.logWound": "Blessure {type} : ",
+  "arm5e.sanatorium.msg.logRoll": "Total {total} (dé de stress + {mod})",
+  "arm5e.sanatorium.msg.logWoundBetter": "Amélioration de la blessure en {days} jours",
+  "arm5e.sanatorium.msg.logWoundStable": "Blessure stabilisée",
+  "arm5e.sanatorium.msg.logWoundWorse": "La blessure s'aggrave au bout de {days} jours",
+  "arm5e.sanatorium.msg.logDone": "Rien d'autre ne peut être fait cette saison.",
+  "arm5e.sanatorium.msg.logHealed": "Blessure complétement guérie en {days} jours",
+  "arm5e.sanatorium.button.recovery": "Jet de récupération",
+  "arm5e.sanatorium.button.endSeason": "Fin de la saison",
+
+  "arm5e.sheet.wound.inflicted": "Infligé",
+  "arm5e.sheet.wound.healed": "Guérison",
+  "arm5e.sheet.wound.gravity": "Gravité",
+  "arm5e.sheet.wound.recovery": "Temps de récupération",
+  "arm5e.sheet.wound.fresh": "Traitement non commencé",
 
   "arm5e.book.tableContents": "Table des matières",
   "arm5e.book.summaLong": "Summa de niveau {level} et de qualité {quality} sur",
@@ -1206,5 +1250,6 @@
   "arm5e.generic.nothing": "Rien",
   "arm5e.generic.custom": "Personnalisé",
   "arm5e.generic.begins": "Débuts",
-  "arm5e.generic.ends": "Fins"
+  "arm5e.generic.ends": "Fins",
+  "arm5e.generic.all": "Tous"
 }

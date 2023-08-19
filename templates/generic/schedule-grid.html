@@ -18,7 +18,8 @@
             data-year="{{../this.year}}" data-season="{{@key}}" title="Create activity">
             <div class="flexrow">
               {{#each this.others}}
-                <div class="vignette" data-id="{{this.id}}"><img src="{{this.img}}" title="{{this.name}}" /> </div>
+                <div class="vignette" data-id="{{this.id}}"><img src="{{this.img}}" title="{{this.name}}"
+                    {{{this.style}}} /> </div>
               {{/each}}
               <div style="max-width: 25px; max-height: 25px; height: 25px; width: 25px;">
               </div>

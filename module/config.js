@@ -22,7 +22,7 @@ export const ARM5E = {};
 
 /**
  * The set of metadata used within the sytem that will
- * probably not change
+ * probably not change during play
  * @type {Object}
  */
 ARM5E.SYSTEM_ID = "arm5e";
@@ -82,6 +82,9 @@ ARM5E.character.characteristics = {
     short: "arm5e.sheet.qik"
   }
 };
+
+// Adding/Changing/removing houses
+
 ARM5E.character.houses = {
   "n-a": {
     label: "N/A"
@@ -129,6 +132,7 @@ ARM5E.character.houses = {
     label: "Diedne"
   }
 };
+
 ARM5E.character.description = {
   born: {
     label: "arm5e.sheet.yearBorn"
@@ -1938,7 +1942,19 @@ ARM5E.magic.penetration = {
   },
   sympathy: {
     low: { label: "arm5e.magic.sympathy.weak", bonus: 1 },
-    high: { label: "arm5e.magic.sympathy.strong", bonus: 2 }
+    high: { label: "arm5e.magic.sympathy.strong", bonus: 2 },
+    high2: { label: "arm5e.magic.sympathy.strong1", bonus: 3 },
+    high3: { label: "arm5e.magic.sympathy.strong2", bonus: 4 },
+    high4: { label: "arm5e.magic.sympathy.strong3", bonus: 5 },
+    high5: { label: "arm5e.magic.sympathy.strong4", bonus: 6 },
+    high6: { label: "arm5e.magic.sympathy.strong5", bonus: 7 },
+    high7: { label: "arm5e.magic.sympathy.strong6", bonus: 8 },
+    high8: { label: "arm5e.magic.sympathy.strong8", bonus: 9 },
+    high9: { label: "arm5e.magic.sympathy.strong9", bonus: 10 },
+    high10: { label: "arm5e.magic.sympathy.strong10", bonus: 11 },
+    high11: { label: "arm5e.magic.sympathy.strong11", bonus: 12 },
+    high12: { label: "arm5e.magic.sympathy.strong12", bonus: 13 },
+    high13: { label: "arm5e.magic.sympathy.strong13", bonus: 14 }
   }
 };
 
@@ -2078,7 +2094,7 @@ ARM5E.activities.generic = {
   teaching: {
     label: "arm5e.activity.teaching",
     display: {
-      tab: false,
+      tab: true,
       progress: true,
       abilities: true,
       arts: true,
@@ -2116,6 +2132,7 @@ ARM5E.activities.generic = {
     validation: validTotalXp,
     secondaryFilter: null,
     duration: 60,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2136,6 +2153,8 @@ ARM5E.activities.generic = {
     bonusOptions: null,
     validation: validChildhood,
     secondaryFilter: null,
+    duration: 20,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2157,6 +2176,7 @@ ARM5E.activities.generic = {
     validation: validTotalXp,
     secondaryFilter: null,
     duration: 4,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2178,6 +2198,7 @@ ARM5E.activities.generic = {
     validation: validTotalXp,
     secondaryFilter: null,
     duration: 4,
+    durationEdit: true,
     scheduling: {
       duplicate: false,
       conflict: true
@@ -2192,7 +2213,7 @@ ARM5E.activities.generic = {
       arts: true,
       masteries: true,
       spells: false,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2213,7 +2234,7 @@ ARM5E.activities.generic = {
       arts: false,
       masteries: false,
       spells: true,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2234,7 +2255,7 @@ ARM5E.activities.generic = {
       arts: false,
       masteries: false,
       spells: true,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2255,7 +2276,7 @@ ARM5E.activities.generic = {
       arts: false,
       masteries: false,
       spells: false,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2283,12 +2304,13 @@ ARM5E.activities.generic = {
   aging: {
     label: "arm5e.activity.aging",
     display: {
-      tab: false,
+      tab: true,
       progress: false,
       abilities: false,
       arts: false,
       masteries: false,
-      spells: false
+      spells: false,
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2310,7 +2332,7 @@ ARM5E.activities.generic = {
       arts: true,
       masteries: false,
       spells: false,
-      choosable: "disabled"
+      attribute: "hidden"
     },
     source: { default: 0, readonly: true },
     maxXp: 0,
@@ -2321,6 +2343,27 @@ ARM5E.activities.generic = {
     scheduling: {
       duplicate: false,
       conflict: true
+    }
+  },
+  recovery: {
+    label: "arm5e.activity.recovery",
+    display: {
+      tab: false,
+      progress: false,
+      abilities: false,
+      arts: false,
+      masteries: false,
+      spells: false,
+      attribute: "hidden"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: true,
+      conflict: false
     }
   }
 };
@@ -2696,36 +2739,63 @@ ARM5E.generic.sourcesTypes = {
 };
 
 ARM5E.recovery = {
+  rankMapping: { 0: "healthy", 1: "light", 2: "medium", 3: "heavy", 4: "incap", 5: "dead" },
   wounds: {
+    healthy: {
+      rank: 0,
+      penalty: 0,
+      stability: 0,
+      improvement: 0,
+      interval: 7,
+      icon: "systems/arm5e/assets/icons/recovery/healed.png",
+      label: "arm5e.sheet.healthy"
+    },
     light: {
+      rank: 1,
+      penalty: -1,
       stability: 4,
       improvement: 10,
-      interval: "week",
-      icon: "systems/arm5e/assets/icons/recovery/light.svg"
+      interval: 7,
+      icon: "systems/arm5e/assets/icons/recovery/light.svg",
+      label: "arm5e.sheet.light"
     },
     medium: {
+      rank: 2,
+      penalty: -3,
       stability: 6,
       improvement: 12,
-      interval: "month",
-      icon: "systems/arm5e/assets/icons/recovery/medium.svg"
+      interval: 30,
+      icon: "systems/arm5e/assets/icons/recovery/medium.svg",
+      label: "arm5e.sheet.medium"
     },
     heavy: {
+      rank: 3,
+      penalty: -5,
       stability: 9,
       improvement: 15,
-      interval: "season",
-      icon: "systems/arm5e/assets/icons/recovery/heavy.svg"
+      interval: 90,
+      icon: "systems/arm5e/assets/icons/recovery/heavy.svg",
+      label: "arm5e.sheet.heavy"
     },
     incap: {
+      rank: 4,
+      penalty: -99,
       stability: 1,
       improvement: 9,
-      interval: "halfday",
-      icon: "systems/arm5e/assets/icons/recovery/incap.svg"
+      interval: 0.5,
+      icon: "systems/arm5e/assets/icons/recovery/incap.svg",
+      label: "arm5e.sheet.incap"
     },
     dead: {
+      rank: 5,
+      penalty: -999,
       stability: 999,
       improvement: 999,
-      interval: "instant",
-      icon: "systems/arm5e/assets/icons/skull.svg"
+      interval: 0,
+      icon: "systems/arm5e/assets/icons/skull.svg",
+      label: "arm5e.sheet.dead"
     }
-  }
+  },
+  daysInSeason: 92,
+  rollMode: 56
 };

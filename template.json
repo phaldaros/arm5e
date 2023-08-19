@@ -11,7 +11,6 @@
       },
       "npcbase": {
         "age": {
-          "dtype": "Number",
           "value": 25
         },
         "apparent": {
@@ -132,67 +131,6 @@
         "warping": {
           "points": 0,
           "effects": "Warping effects"
-        }
-      },
-      "datetime": { "datetime": null },
-      "wounds": {
-        "woundsTotal": 0,
-        "wounds": {
-          "light": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": -1
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "medium": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": -3
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "heavy": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": -5
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "incap": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": 0
-            },
-            "notes": {
-              "value": ""
-            }
-          },
-          "dead": {
-            "number": {
-              "value": 0
-            },
-            "penalty": {
-              "value": 0
-            },
-            "notes": {
-              "value": ""
-            }
-          }
         }
       },
       "fatigue": {
@@ -563,17 +501,7 @@
       }
     },
     "player": {
-      "templates": [
-        "base",
-        "npcbase",
-        "datetime",
-        "wounds",
-        "fatigue",
-        "arts",
-        "familiar",
-        "laboratoryPC",
-        "apprentice"
-      ],
+      "templates": ["base", "npcbase", "fatigue", "arts", "familiar", "laboratoryPC", "apprentice"],
       "charType": {
         "value": "magus",
         "label": "Char. Type"
@@ -609,16 +537,7 @@
       }
     },
     "npc": {
-      "templates": [
-        "base",
-        "npcbase",
-        "datetime",
-        "wounds",
-        "familiar",
-        "laboratoryPC",
-        "fatigue",
-        "arts"
-      ],
+      "templates": ["base", "npcbase", "familiar", "laboratoryPC", "fatigue", "arts"],
       "charType": {
         "value": "mundane",
         "label": "Char. Type"
@@ -642,7 +561,7 @@
       "powers": []
     },
     "laboratory": {
-      "templates": ["base", "datetime"],
+      "templates": ["base"],
       "covenant": {
         "value": "Covenant Name"
       },
@@ -690,7 +609,7 @@
       "rawVis": []
     },
     "covenant": {
-      "templates": ["base", "visRegistry", "datetime"],
+      "templates": ["base", "visRegistry"],
       "description": "",
       "narrator": "",
       "saga": "",
@@ -879,7 +798,10 @@
       "mundaneBooks": []
     },
     "beast": {
-      "templates": ["base", "wounds", "fatigue", "datetime"],
+      "templates": ["base", "fatigue"],
+      "age": {
+        "value": 20
+      },
       "characteristics": {
         "cun": {
           "value": 0
@@ -921,6 +843,11 @@
         "label": "Confidence ",
         "score": 0,
         "points": 0
+      },
+      "description": {
+        "born": {
+          "value": 1200
+        }
       },
       "abilities": [],
       "weapons": [],
@@ -967,7 +894,8 @@
       "labCovenant",
       "mundaneBook",
       "personality",
-      "personalityTrait"
+      "personalityTrait",
+      "wound"
     ],
     "templates": {
       "base": {

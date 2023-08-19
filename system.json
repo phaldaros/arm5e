@@ -3,11 +3,11 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "2.1.0.18",
+  "version": "2.2.2.2",
   "minimumCoreVersion": "10.290",
   "compatibility": {
     "minimum": "10.290",
-    "verified": "10.303"
+    "verified": "11.307"
   },
   "authors": [
     { "name": "xzotl", "contribution": "Dev and official maintainer" },
@@ -30,91 +30,106 @@
       "name": "magi",
       "label": "Magi",
       "path": "packs/magi.db",
-      "type": "Actor"
+      "type": "Actor",
+      "system": "arm5e"
     },
     {
       "name": "companions",
       "label": "Companions",
       "path": "packs/companions.db",
-      "type": "Actor"
+      "type": "Actor",
+      "system": "arm5e"
     },
     {
       "name": "grogs",
       "label": "Grogs",
       "path": "packs/grogs.db",
-      "type": "Actor"
+      "type": "Actor",
+      "system": "arm5e"
     },
     {
       "name": "spells",
       "label": "Spells",
       "path": "packs/spells.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "items",
       "label": "Equipment",
       "path": "packs/items.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "enchantments",
       "label": "Enchantments",
       "path": "packs/enchantments.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "virtues",
       "label": "Virtues",
       "path": "packs/virtues.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "flaws",
       "label": "Flaws",
       "path": "packs/flaws.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "lab-virtues",
       "label": "Laboratory Virtues",
       "path": "packs/lab-virtues.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "lab-flaws",
       "label": "Laboratory Flaws",
       "path": "packs/lab-flaws.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "abilities",
       "label": "Abilities",
       "path": "packs/abilities.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "scenes",
       "label": "Scenes",
       "path": "packs/scenes.db",
-      "type": "Scene"
+      "type": "Scene",
+      "system": "arm5e"
     },
     {
       "name": "macros",
       "label": "Macros",
       "path": "packs/macros.db",
-      "type": "Macro"
+      "type": "Macro",
+      "system": "arm5e"
     },
     {
       "name": "journals",
       "label": "Journals",
       "path": "packs/journals.db",
-      "type": "JournalEntry"
+      "type": "JournalEntry",
+      "system": "arm5e"
     },
     {
       "name": "rolltables",
       "label": "Rolltables",
       "path": "packs/rolltables.db",
-      "type": "RollTable"
+      "type": "RollTable",
+      "system": "arm5e"
     }
   ],
   "languages": [
@@ -147,6 +162,13 @@
       "lang": "pt-BR",
       "name": "Portuguese (Brazil)",
       "path": "lang/pt-BR.json"
+    }
+  ],
+  "media": [
+    {
+      "type": "setup",
+      "url": "systems/arm5e/assets/thumbnails/ArM5logo.webp",
+      "thumbnail": "systems/arm5e/assets/thumbnails/ArM5logo.webp"
     }
   ],
   "gridDistance": 5,

@@ -404,6 +404,14 @@ async function castSpell(actorCaster, roll, message) {
         return false;
       }
     }
+    // Uncomment when A-A integration is ready
+    // let data = {
+    //   itemId: actorCaster.rollData.itemId,
+    //   targets: game.user.targets,
+    //   actorId: actorCaster._id
+    // };
+
+    // Hooks.callAll("arm5e:spellcasting", data, {user : game.user.id});
   } else {
     // Magic effect
     if (totalOfSpell < levelOfSpell) {

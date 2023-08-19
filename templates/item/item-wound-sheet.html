@@ -1,0 +1,82 @@
+<form class="{{cssClass}} wound flexcol mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+  <header class="sheet-header">
+
+    <div class="header-fields">
+      <div class="flexrow"><img class="item-small-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+        {{#if isOwned}}
+          <div style="max-width: 50px;"><a class="item-control item-delete-confirm"
+              title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.wound.label")}}'><i
+                class="icon-Icon_Delete_Big_Hand_Gesture"></i></a>
+          </div>
+        {{/if}}
+      </div>
+      <div class="flexcol">
+        <div class="resource flexrow">
+          <label for="system.season" class="header-label">{{localize "arm5e.sheet.wound.inflicted"}}</label>
+          <select name="system.inflictedDate.season" data-type="String">
+            {{#select system.inflictedDate.season}} {{#each config.seasons as |season key|}}
+                <option value="{{key}}">{{localize season.label}}</option>
+              {{/each}} {{/select}}
+          </select>
+          <input type="number" name="system.inflictedDate.year" value="{{system.inflictedDate.year}}"
+            data-dtype="Number" />
+        </div>
+        <div class="resource flexrow">
+          {{#if system.healedDate.year}}
+            <label for="system.season" class="header-label">{{localize "arm5e.sheet.wound.healed"}}</label>
+            <select name="system.healedDate.season" data-type="String">
+              {{#select system.healedDate.season}} {{#each config.seasons as |season key|}}
+                  <option value="{{key}}">{{localize season.label}}</option>
+                {{/each}} {{/select}}
+            </select>
+            <input type="number" name="system.healedDate.year" value="{{system.healedDate.year}}" data-dtype="Number" />
+          {{else}}
+            {{#if system.recoveryTime}}
+              {{localize "arm5e.sheet.wound.inrecovery"}}
+            {{else}}
+              {{localize "arm5e.sheet.wound.fresh"}}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="flexrow">
+        <div class="resource flexcol">
+          <label for="system.gravity" class="header-label">{{localize "arm5e.sheet.wound.gravity"}}</label>
+          <select class="change-gravity" name="system.gravity" data-type="String">
+            {{#select system.gravity}} {{#each config.recovery.wounds as |wound key|}}
+                <option value="{{key}}">{{localize wound.label}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.bonus.label"}}</label>
+          <input type="number" name="system.bonus" value="{{system.bonus}}" data-dtype="Number" readonly />
+        </div>
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.wound.recovery"}}</label>
+          <input type="number" name="system.recoveryTime" value="{{system.recoveryTime}}" data-dtype="Number"
+            readonly />
+        </div>
+      </div>
+      <div class="resource">
+        <label class="header-label">{{localize "arm5e.sheet.location"}}</label>
+        <input type="text" name="system.location" value="{{system.location}}" data-dtype="String" />
+      </div>
+    </div>
+  </header>
+
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <label for="system.description" class="header-label">{{localize "arm5e.sheet.description"}}</label>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+    <div style="height: 160px;">
+      {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+    </div>
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+</form>

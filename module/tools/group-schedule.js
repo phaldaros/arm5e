@@ -17,6 +17,7 @@ export class GroupSchedule extends FormApplication {
       template: "systems/arm5e/templates/generic/group-schedule.html",
       width: "600",
       height: "790",
+      scrollY: [".years"],
       submitOnChange: false,
       closeOnSubmit: false
     });

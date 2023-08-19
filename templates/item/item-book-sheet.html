@@ -107,8 +107,8 @@
           <div class="resource flexcol flexrow">
             <label for="system.topics.{{topicIdx}}.type"
               class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
-            <select name="system.topics.{{topicIdx}}.type" data-type="String" {{lookup (lookup topicsUi
-              topicIdx) "bookTypeEdit" }}>
+            <select name="system.topics.{{topicIdx}}.type" class="book-type" data-type="String" {{lookup (lookup
+              topicsUi topicIdx) "bookTypeEdit" }} data-index="{{topicIdx}}">
               {{#select currentTopic.type}} {{#each @root.config.books.types }}
                   <option value="{{this}}">{{this}}</option>
                 {{/each}} {{/select}}

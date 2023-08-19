@@ -42,7 +42,8 @@
       </div>
     </div>
   </div>
-{{/if}} {{#if (or (eq actor.type "player") (eq actor.type "npc"))}}
+{{/if}}
+{{#if system.isCharacter}}
   <div class="flexcol grid grid-2col">
     <div class="flex-group-left padding12 backSection">
       <label class="smallTitle">
@@ -69,8 +70,8 @@
 
     <div class="flex-group-left padding12 backSection">
       {{#unless system.pendingCrisis }}
-        <a class="schedule-aging clickable" title="Aging roll" data-year="{{system.datetime.year}}"
-          data-season="{{system.datetime.season}}" style="font-size: 16pt;">
+        <a class="schedule-aging clickable" title="Aging roll" data-year="{{datetime.year}}"
+          data-season="{{datetime.season}}" style="font-size: 16pt;">
           <i class="icon-Icon_Aging2"></i>
         </a>
       {{/unless}}

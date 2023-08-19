@@ -43,7 +43,6 @@
         </div>
       {{/if}}
       <div class="grid grid-col">
-
         <div class="resource">
           <label>{{localize "arm5e.sheet.date"}}<input type="text" name="system.dates.0.date"
               value="{{firstSeason.date}}" data-dtype="String" /></label>
@@ -54,7 +53,7 @@
             {{@root.system.disabled}}>
             {{#select system.activity}} {{#each config.activities.generic as |activity key|}}
 
-                <option value="{{key}}" {{activity.display.choosable}}>{{localize activity.label}}</option>
+                <option value="{{key}}" {{activity.display.attribute}}>{{localize activity.label}}</option>
               {{/each}} {{/select}}
           </select>
         </div>
@@ -62,15 +61,15 @@
 
       <div class="flexrow">
         <div class="flex01">
-          <label>{{localize "arm5e.sheet.duration"}}</label> <input type="number" name="system.duration"
-            value="{{system.duration}}" data-dtype="Number" readonly />
+          <label>{{localize "arm5e.sheet.duration"}}</label> <input type="number" class="duration"
+            name="system.duration" value="{{system.duration}}" data-dtype="Number" {{ui.editDuration}} />
         </div>
-        {{#unless system.done}}
+        {{#if ui.schedule}}
           <div class="resource">
             <a class="select-dates flex0" style="width:50px"><i {{{astrolabIconStyle}}}
                 class=" icon-Tool_Astrolab"></i></a>
           </div>
-        {{/unless}}
+        {{/if}}
         {{#if isOwned}}
           <div class="flexrow ">
             <a class="item-control item-delete-confirm"
@@ -81,7 +80,6 @@
       </div>
     </div>
   </header>
-  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Tab Navigation --}}
   <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
     <a class="item posRelative" data-tab="description" data-group="primary">
@@ -89,13 +87,17 @@
       <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.description"}}
     </a>
-    <a class="item posRelative" data-tab="advanced" data-group="primary">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.advanced"}}
-    </a>
+    {{#if ui.showTab}}
+      <a class="item posRelative" data-tab="advanced" data-group="primary">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.advanced"}}
+      </a>
+    {{/if}}
   </nav>
-
+  <div>
+    {{> "systems/arm5e/templates/generic/metalic-bar.html"  }}
+  </div>
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Description Tab --}}
@@ -104,12 +106,12 @@
         {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
     </div>
-    {{!-- Advanced Tab --}}
-    <div class="tab" data-group="primary" data-tab="advanced">
-      {{#if ui.showTab}}
+    {{#if ui.showTab}}
+      {{!-- Advanced Tab --}}
+      <div class="tab" data-group="primary" data-tab="advanced">
         {{> "systems/arm5e/templates/item/parts/seasonal-activity.html" }}
-      {{/if}}
-    </div>
+      </div>
+    {{/if}}
   </section>
   {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

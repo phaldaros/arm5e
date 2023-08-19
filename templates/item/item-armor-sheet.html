@@ -14,7 +14,7 @@
           <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
           <input type="text" name="system.load" value="{{system.load}}" class="resource-focus" data-dtype="Number" />
         </div>
-        {{#if canEquip}}
+        {{#if system.canEquip}}
           <div class="resource">
             <label class="header-label">{{localize "arm5e.sheet.equipped"}}</label>
             <input type="checkbox" name="system.equipped" {{checked system.equipped}} />

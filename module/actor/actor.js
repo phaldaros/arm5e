@@ -32,11 +32,8 @@ export class ArM5ePCActor extends Actor {
     super(data, context);
     this.rollData = new ArM5eRollData(this);
     Hooks.on("arm5e-date-change", async (date) => {
-      if (this._hasDate() && !isInThePast(this.system.datetime)) {
-        await this.update({
-          "system.datetime.year": date.year,
-          "system.datetime.season": date.season
-        });
+      if (this._hasDate()) {
+        this.sheet.render();
       }
     });
   }
@@ -48,7 +45,6 @@ export class ArM5ePCActor extends Actor {
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
-    // log(false, `${this.name}'s system ${JSON.stringify(this.system)}`);
     if (!this.flags.arm5e) {
       this.flags.arm5e = { filters: {} };
     }
@@ -85,30 +81,31 @@ export class ArM5ePCActor extends Actor {
 
       return;
     }
-    let datetime = game.settings.get("arm5e", "currentDate");
-    if (this.type == "covenant") {
-      if (this.system.datetime === null) {
-        this.system.datetime = {
-          year: datetime.year,
-          season: datetime.season,
-          month: "mar",
-          day: 21
-        };
-      }
+    if (this.type == "laboratory") {
+      this.system.aura = {
+        value: 0,
+        realm: ARM5E.REALM_TYPES.MUNDANE
+      };
     }
+
+    // NOT LAB or COVENANT from here
 
     if (this.type != "player" && this.type != "npc" && this.type != "beast") {
       return;
     }
+    const datetime = (context.datetime = game.settings.get("arm5e", "currentDate"));
+    this.system.age.value = this.system.description?.born?.value
+      ? Number(datetime.year) - this.system.description.born.value
+      : 20;
 
-    if (this.system.datetime === null) {
-      this.system.datetime = {
-        year: datetime.year,
-        season: datetime.season,
-        month: "mar",
-        day: 21
-      };
-    }
+    this.system.wounds = {
+      healthy: [],
+      light: [],
+      medium: [],
+      heavy: [],
+      incap: [],
+      dead: []
+    };
 
     this.system.bonuses = {};
 
@@ -164,7 +161,14 @@ export class ArM5ePCActor extends Actor {
     }
     this.system.penalties = {
       activityDivider: 1,
-      activityBlocker: false
+      activityBlocker: false,
+      wounds: {
+        light: CONFIG.ARM5E.recovery.wounds.light.penalty,
+        medium: CONFIG.ARM5E.recovery.wounds.medium.penalty,
+        heavy: CONFIG.ARM5E.recovery.wounds.heavy.penalty,
+        incap: CONFIG.ARM5E.recovery.wounds.incap.penalty,
+        dead: 0
+      }
     };
 
     this.system.bonuses.traits = {
@@ -210,6 +214,8 @@ export class ArM5ePCActor extends Actor {
       return this._prepareLabData();
     } else if (this.type == "crucible") {
       return this._prepareCrucibleData();
+    } else if (this.type == "base") {
+      return {};
     } else {
       return this._prepareCharacterData();
     }
@@ -315,17 +321,6 @@ export class ArM5ePCActor extends Actor {
         value: system.might.points,
         max: system.might.value
       };
-    }
-
-    if (system.wounds) {
-      system.woundsTotal = 0;
-      for (let [key, item] of Object.entries(system.wounds)) {
-        system.woundsTotal = system.woundsTotal + item.number.value * item.penalty.value;
-      }
-      system.woundsTotal =
-        system.woundsTotal + system.bonuses.traits.wounds > 0
-          ? 0
-          : system.woundsTotal + system.bonuses.traits.wounds;
     }
 
     //abilities
@@ -631,6 +626,8 @@ export class ArM5ePCActor extends Actor {
         system.personalities.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
+      } else if (item.type === "wound") {
+        system.wounds[item.system.gravity].push(item);
       }
     }
 
@@ -686,7 +683,7 @@ export class ArM5ePCActor extends Actor {
           2 -
         system.decrepitude.points;
     }
-
+    system.penalties.wounds.total = this.getWoundPenalty();
     // Assign and return
     system.totalXPAbilities = totalXPAbilities;
     system.totalXPArts = totalXPArts;
@@ -694,8 +691,10 @@ export class ArM5ePCActor extends Actor {
     system.totalFlaws = totalFlaws;
     system.totalXPSpells = totalXPSpells;
     system.pendingXps = pendingXps;
+
     if (system.weapons) {
       system.weapons = weapons;
+      // TODO: check why putting in there?
       system.combat = combat;
     }
     if (system.armor) {
@@ -1374,65 +1373,85 @@ export class ArM5ePCActor extends Actor {
       updateData["system.fatigueCurrent"] = tmp;
     }
 
-    if (wound) {
+    if (wound && overflow > 0) {
       // fatigue overflow
+      let wType;
       switch (overflow) {
-        case 0:
-          break;
         case 1:
-          updateData["system.wounds.light.number.value"] =
-            this.system.wounds.light.number.value + 1;
+          woundType = light;
           break;
         case 2:
-          updateData["system.wounds.medium.number.value"] =
-            this.system.wounds.medium.number.value + 1;
+          woundType = medium;
           break;
         case 3:
-          updateData["system.wounds.heavy.number.value"] =
-            this.system.wounds.heavy.number.value + 1;
+          woundType = heavy;
           break;
         case 4:
-          updateData["system.wounds.incap.number.value"] =
-            this.system.wounds.incap.number.value + 1;
+          woundType = incap;
           break;
         default:
-          updateData["system.wounds.dead.number.value"] = this.system.wounds.dead.number.value + 1;
+          woundType = dead;
           break;
       }
+      const datetime = game.settings.get("arm5e", "currentDate");
+      let woundData = {
+        name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
+          "arm5e.sheet.wound.label"
+        )}`,
+        type: "wound",
+        system: {
+          inflictedDate: {
+            year: datetime.year,
+            season: datetime.year
+          },
+          healedDate: { year: null, season: "spring" },
+          gravity: wtype,
+          originalGravity: wtype,
+          trend: 0,
+          bonus: 0,
+          nextRoll: 0,
+          description: `Fatigue loss overflow`
+        }
+      };
+      await this.createEmbeddedDocuments("Item", [woundData]);
     }
     await this.update(updateData, {});
   }
   async addActiveEffect(name, type, subtype, value, option = null, icon) {
     if (Object.keys(ACTIVE_EFFECTS_TYPES).includes(type)) {
       if (Object.keys(ACTIVE_EFFECTS_TYPES[type].subtypes).includes(subtype)) {
-        const activeEffectData = [
-          {
-            label: name,
-            icon: icon ?? "icons/svg/aura.svg",
-            origin: this.uuid,
-            duration: {
-              rounds: undefined
-            },
-            flags: {
-              arm5e: {
-                noEdit: false,
-                type: [type],
-                subtype: [subtype],
-                option: [null]
-              }
-            },
-            changes: [
-              {
-                label: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].label,
-                key: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key,
-                mode: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].mode,
-                value: value ?? ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default
-              }
-            ],
-            tint: "#000000"
-          }
-        ];
-        return await this.createEmbeddedDocuments("ActiveEffect", activeEffectData);
+        const activeEffectData = {
+          origin: this.uuid,
+          duration: {
+            rounds: undefined
+          },
+          flags: {
+            arm5e: {
+              noEdit: false,
+              type: [type],
+              subtype: [subtype],
+              option: [null]
+            }
+          },
+          changes: [
+            {
+              label: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].label,
+              key: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key,
+              mode: ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].mode,
+              value: value ?? ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default
+            }
+          ],
+          tint: "#000000"
+        };
+        if (CONFIG.ISV10) {
+          activeEffectData.label = name;
+          activeEffectData.icon = icon ?? "icons/svg/aura.svg";
+        } else {
+          activeEffectData.name = name;
+          activeEffectData.img = icon ?? "icons/svg/aura.svg";
+        }
+
+        return await this.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
       } else {
         log(false, "Unknown subtype");
       }
@@ -1456,22 +1475,35 @@ export class ArM5ePCActor extends Actor {
   //   return;
   // }
 
-  async changeWound(amount, type) {
-    if (!this._isCharacter() || (amount < 0 && this.system.wounds[type].number.value == 0)) {
+  async changeWound(amount, wtype) {
+    if (!this._isCharacter() || (amount < 0 && this.system.wounds[type].length == 0)) {
       return;
     }
-    let updateData = {
-      system: {
-        wounds: {
-          [type]: {
-            number: {
-              value: this.system.wounds[type].number.value + amount
-            }
-          }
+    let wounds = [];
+    const datetime = game.settings.get("arm5e", "currentDate");
+    for (let ii = 0; ii < amount; ii++) {
+      let woundData = {
+        name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
+          "arm5e.sheet.wound.label"
+        )}`,
+        type: "wound",
+        system: {
+          inflictedDate: {
+            year: datetime.year,
+            season: datetime.season
+          },
+          healedDate: { year: null, season: "spring" },
+          gravity: wtype,
+          originalGravity: wtype,
+          trend: 0,
+          bonus: 0,
+          nextRoll: 0,
+          description: ``
         }
-      }
-    };
-    await this.update(updateData);
+      };
+      wounds.push(woundData);
+    }
+    await this.createEmbeddedDocuments("Item", wounds);
   }
 
   // Used by Quick magic dialog
@@ -1535,13 +1567,13 @@ export class ArM5ePCActor extends Actor {
     await super._preCreate(data, options, userId);
     log(false, `_preCreate: _id = ${this._id}`);
     let toUpdate = false;
-    if (CONFIG.Actor.systemDataModels[data.type]?.getDefault) {
-      data = CONFIG.Actor.systemDataModels[data.type].getDefault(data);
+    if (CONFIG.ARM5E.ActorDataModels[data.type]?.getDefault) {
+      data = CONFIG.ARM5E.ActorDataModels[data.type].getDefault(data);
       toUpdate = true;
     }
 
-    if (CONFIG.Actor.systemDataModels[data.type]?.getIcon) {
-      data.img = CONFIG.Actor.systemDataModels[data.type].getIcon(data);
+    if (CONFIG.ARM5E.ActorDataModels[data.type]?.getIcon) {
+      data.img = CONFIG.ARM5E.ActorDataModels[data.type].getIcon(data);
       toUpdate = true;
     } else if (data.img === undefined || data.img === "icons/svg/mystery-man.svg") {
       if (data.type in CONFIG.ARM5E_DEFAULT_ICONS) {
@@ -1557,9 +1589,7 @@ export class ArM5ePCActor extends Actor {
       var baseSafetyEffect = this.effects.find((e) => e.getFlag("arm5e", "baseSafetyEffect"));
       if (!baseSafetyEffect) {
         // TODO put that data structure elsewhere (during lab activities implementation)
-        effectsData.push({
-          label: game.i18n.localize("arm5e.sheet.baseSafety"),
-          icon: "icons/svg/aura.svg",
+        const effect = {
           origin: this.uuid,
           tint: "#000000",
           changes: [
@@ -1579,7 +1609,15 @@ export class ArM5ePCActor extends Actor {
               option: [null]
             }
           }
-        });
+        };
+        if (CONFIG.ISV10) {
+          effect.label = game.i18n.localize("arm5e.sheet.baseSafety");
+          effect.icon = "icons/svg/aura.svg";
+        } else {
+          effect.name = game.i18n.localize("arm5e.sheet.baseSafety");
+          effect.img = "icons/svg/aura.svg";
+        }
+        effectsData.push(effect);
         const res = await this.effects.update(effectsData);
         log(false, res);
       }
@@ -1596,7 +1634,6 @@ export class ArM5ePCActor extends Actor {
     let naturalAging = agingData.season == "winter";
     let updateData = {};
     let result = { crisis: false, apparent: 1, charac: {} };
-    updateData["system.age.value"] = this.system.age.value + 1;
     switch (amount) {
       case 0:
         updateData["system.apparent.value"] = this.system.apparent.value + 1;
@@ -1870,5 +1907,24 @@ export class ArM5ePCActor extends Actor {
       }
     }
     return false;
+  }
+
+  getWoundPenalty() {
+    return this._getWoundPenalty(this.system.wounds);
+  }
+
+  // same as above but with temporary wounds
+
+  _getWoundPenalty(wounds) {
+    let woundsTotal = 0;
+    for (let [key, item] of Object.entries(wounds)) {
+      if (key == "healthy") continue;
+      if (item.length > 0) {
+        woundsTotal = woundsTotal + item.length * this.system.penalties.wounds[key];
+      }
+    }
+    return woundsTotal + this.system.bonuses.traits.wounds > 0
+      ? 0
+      : woundsTotal + this.system.bonuses.traits.wounds;
   }
 }

@@ -118,6 +118,8 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
 
     // books
     html.find(".book-category").change((event) => this._changeTopicCategory(this.item, event));
+    html.find(".book-type").change((event) => this._changeBookType(this.item, event));
+
     html
       .find(".table-contents")
       .click(async (event) => this._createTableOfContent(this.item, event));
@@ -154,7 +156,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
       spellName: null,
       category: "art",
       quality: 1,
-      level: 1,
+      level: 0,
       mastery: false,
       labtext: null,
       labtextTitle: ""
@@ -189,6 +191,25 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
         "flags.arm5e.currentBookTopic": Math.max(0, Math.min(idx - 1, topics.length))
       });
     }
+  }
+
+  async _changeBookType(item, event) {
+    event.preventDefault();
+    // let tmp = $(".book-category");
+    let index = Number(getDataset(event).index);
+    const topics = item.system.topics;
+    let bookType = topics[index].type;
+
+    let chosenType = $(".book-type").find("option:selected")[0].value;
+    let topic = topics[index];
+    topic.type = chosenType;
+    if (chosenType === "Tractatus") {
+      topic.level = 0;
+    }
+    topics[index] = topic;
+    let updateData = {};
+    updateData[`system.topics`] = topics;
+    this.submit({ preventClose: true, updateData: updateData });
   }
 
   async _changeTopicCategory(item, event) {
@@ -226,6 +247,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
       topic.art = null;
       topic.key = null;
       topic.option = null;
+      topic.level = 0;
       topic.spellName = "Mastered spell";
       topic.category = "mastery";
       topic.labtext = null;

@@ -87,22 +87,23 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (context.system.duration > 1) {
       context.ui.editDate = "disabled";
     }
+
+    context.ui.editDuration = "readonly";
+
     if (this.actor == null || this.actor.type == "covenant" || this.actor.type == "laboratory") {
       context.ui.showTab = false;
       context.system.disabled = "disabled";
       return context;
     }
 
-    // if (context.system.year == "") {
-    //   // supposedly the first time a diary entry is created
-    //   context.system.year = this.actor.system.datetime.year;
-    //   context.system.season = this.actor.system.datetime.season;
-    // }
-
     const activityConfig = CONFIG.ARM5E.activities.generic[actType];
 
+    if (activityConfig.durationEdit == true) {
+      context.ui.editDuration = "";
+    }
+
     // legacy diary or just a simple recounting of events
-    if (actType == "none") {
+    if (actType == "none" || actType == "recovery") {
       context.ui.showTab = false;
       return context;
     }
@@ -116,7 +117,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.enforceSchedule = game.settings.get("arm5e", "enforceSchedule");
     let hasTeacher = actType == "training" || actType == "teaching";
     context.system.sourceBonus = 0;
-    context.ui.showTab = true;
+    context.ui.showTab = activityConfig.display.tab;
     context.ui.showProgress = activityConfig.display.progress;
     context.ui.showAbilities = activityConfig.display.abilities && !context.rollNeeded;
     context.ui.showArts = activityConfig.display.arts && !context.rollNeeded;
@@ -204,12 +205,18 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       // context.system.canEditBook = "readonly";
       // context.system.disabledBook = "disabled";
       context.system.disabled = "disabled";
-      context.ui.editDate = "disabled";
+      if (!game.user.isGM) {
+        context.ui.editDate = "disabled";
+      }
     }
     if (actType === "reading") {
       context.system.disabled = "disabled";
       context.system.canEdit = "readonly";
       context.ui.showBaseQuality = true;
+    }
+
+    if (game.user.isGM || !context.system.done) {
+      context.ui.schedule = true;
     }
 
     if (!context.system.cappedGain) {
@@ -317,7 +324,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     log(false, "ITEM-DIARY-sheet get data");
-    log(false, context);
+    log(true, context);
     return context;
   }
 
@@ -657,6 +664,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     return position;
   }
 
+  _canDragDrop(selector) {
+    return this.isEditable;
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -674,7 +685,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".progress-rollback").click(this._onProgressRollback.bind(this));
     html.find(".progress-activity").change(this._setActivity.bind(this));
     html.find(".progress-refresh").click(this._refresh.bind(this));
-
+    html.find(".duration").change(this._setDuration.bind(this));
     html.find(".progress-xp").change(this._setXp.bind(this));
     html.find(".break-link").click(this._resetTeacher.bind(this));
     html.find(".score-teacher").change(this._changeTeacherScore.bind(this));
@@ -682,6 +693,21 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".select-dates").click(this.displayCalendar.bind(this));
     html.find(".roll-activity").click(async (event) => await this.rollActivity());
     // html.find(".select-year").click(this._selectYear.bind(this));
+  }
+
+  async _setDuration(event) {
+    event.preventDefault();
+    const target = event.currentTarget;
+    const newDuration = Number($(target).val());
+    if (!Number.isNumeric(newDuration) || newDuration < 1) newDuration = 1;
+    let updateData = {};
+    updateData["system.duration"] = newDuration;
+    updateData["system.dates"] = DiaryEntrySchema.buildSchedule(
+      newDuration,
+      this.item.system.dates[0].year,
+      this.item.system.dates[0].season
+    );
+    this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
   }
 
   async _refresh(event) {
@@ -980,9 +1006,25 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       return;
     }
 
+    const question = game.i18n.localize("arm5e.dialog.rollback-question");
+    let itemId = this.item._id;
+    let confirm = await getConfirmation(
+      this.item.name,
+      question,
+      ArM5eActorSheet.getFlavor(this.item.actor?.type)
+    );
+    if (!confirm) {
+      return;
+    }
+
     const actor = this.actor;
     let updateData = [];
     switch (this.item.system.activity) {
+      case "recovery":
+        // delete the diary entry
+        await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
+        return;
+
       case "learnSpell":
       case "inventSpell":
       case "visExtraction":
@@ -1016,7 +1058,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "hermeticApp":
       case "childhood":
       case "laterLife":
-
       case "laterLifeMagi": {
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // check that ability still exists
@@ -1091,7 +1132,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         );
         if (!confirmed) return;
         let actorUpdate = {
-          system: { age: { value: actor.system.age.value - 1 }, pendingCrisis: false }
+          system: { pendingCrisis: false }
         };
 
         let effects = this.item.getFlag("arm5e", "effect");
@@ -1432,6 +1473,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const expanded = expandObject(formData);
     const source = this.object.toObject();
     const abilities = expanded?.system?.progress?.abilities;
+    let options = {};
     if (abilities) {
       expanded.system.progress.abilities = mergeObject(source.system.progress.abilities, abilities);
     }
@@ -1452,11 +1494,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     const dates = expanded?.system?.dates;
-    if (dates) {
-      expanded.system.dates = mergeObject(source.system.dates, dates);
-    }
+    // if (dates) {
+    // expanded.system.dates = mergeObject(source.system.dates, dates);
+    // options.diff = false;
+    // options.recursive = true;
+    // }
 
     // log(false, `Update object: ${JSON.stringify(expanded)}`);
-    await this.object.update(expanded);
+    await this.object.update(expanded, options);
   }
 }

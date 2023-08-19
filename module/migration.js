@@ -249,45 +249,38 @@ export const migrateSceneData = async function (scene, migrationData) {
     scene.tokens.map(async (token) => {
       const t = token instanceof foundry.abstract.DataModel ? token.toObject() : token;
       const update = {};
+      if (!game.actors.has(t.actorId)) t.actorId = null;
       if (!t.actorId || t.actorLink) {
         t.actorData = {};
-      } else if (!game.actors.has(t.actorId)) {
-        t.actorId = null;
-        t.actorData = {};
       } else if (!t.actorLink) {
-        const actorData = duplicate(t.actorData);
+        const actorData = token.delta?.toObject() ?? foundry.utils.deepClone(t.actorData);
         actorData.type = token.actor?.type;
-
+        actorData.synthetic = true;
+        actorData.name = token.name;
         if (actorData.system) {
           actorData.system.charType = { value: token.actor?.system?.charType?.value };
         }
 
         const update = await migrateActorData(actorData, actorData.items);
-        ["items", "effects"].forEach((embeddedName) => {
-          if (!update[embeddedName]?.length) return;
-          const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
-          t.actorData[embeddedName].forEach((original) => {
-            const update = updates.get(original._id);
-            if (update) foundry.utils.mergeObject(original, update);
+        if (CONFIG.ISV10) {
+          ["items", "effects"].forEach((embeddedName) => {
+            if (!update[embeddedName]?.length) return;
+            const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
+            t.actorData[embeddedName].forEach((original) => {
+              const update = updates.get(original._id);
+              if (update) foundry.utils.mergeObject(original, update);
+            });
+            delete update[embeddedName];
           });
-          delete update[embeddedName];
-        });
-
-        foundry.utils.mergeObject(t.actorData, update);
+          foundry.utils.mergeObject(t.actorData, update);
+        } else {
+          t.delta = update;
+        }
       }
       return t;
     })
   );
-  // let updateData = {};
-  // if (scene?.flags?.world) {
-  //   const aura = scene.flags.world[`aura_${scene._id}`];
-  //   const type = scene.flags.world[`aura_type_${scene._id}`];
-  //   if (aura && !type) {
-  //     log(false, "Missing aura type");
-  //     // TODOV10 check where flags are for scenes
-  //     updateData[`flags.world.aura_type_${scene._id}`] = 1;
-  //   }
-  // }
+
   return { tokens };
 };
 
@@ -323,8 +316,8 @@ export const migrateActorData = async function (actorDoc, actorItems) {
   } else {
     actor = actorDoc;
   }
-  if (CONFIG.Actor.systemDataModels[actor.type]) {
-    updateData = CONFIG.Actor.systemDataModels[actor.type].migrate(
+  if (CONFIG.ARM5E.ActorDataModels[actor.type]) {
+    updateData = CONFIG.ARM5E.ActorDataModels[actor.type].migrate(
       actor,
       actorDoc.items ? actorDoc.items : []
     );
@@ -343,8 +336,6 @@ export const migrateActorData = async function (actorDoc, actorItems) {
 
   if (actor.type == "covenant") {
     if (actor.system.currentYear != undefined) {
-      updateData["system.datetime.year"] = actor.system.currentYear;
-      updateData["system.datetime.season"] = "spring";
       updateData["system.-=currentYear"] = null;
     }
   }
@@ -370,17 +361,24 @@ export const migrateActorData = async function (actorDoc, actorItems) {
       updateData["system.-=size"] = null;
     }
 
+    // for beasts
+    if (actor.system.description == undefined) {
+      updateData["system.description"] = { born: { value: 1200 } };
+    }
+
     // remove redundant data
     if (actor.system.houses != undefined) {
       updateData["system.-=houses"] = null;
     }
 
     if (actor.system.year?.value != undefined) {
-      updateData["system.datetime.year"] = actor.system.year.value;
       updateData["system.-=year"] = null;
     }
+    if (actor.system.datetime != undefined) {
+      updateData["system.-=datetime"] = null;
+    }
+
     if (actor.system.season?.value != undefined) {
-      updateData["system.datetime.season"] = actor.system?.season.value ?? "spring";
       updateData["system.-=season"] = null;
     }
 
@@ -430,6 +428,70 @@ export const migrateActorData = async function (actorDoc, actorItems) {
       });
       updateData["system.-=pendingXP"] = null;
     }
+    let wounds = [];
+    let sendMsg = false;
+    let syntheticWoundsMsg = `<b>MIGRATION NOTIFICATION</b><br/>The character ${actorDoc.name}'s token was unable to migrate his/her wounds.<ul>`;
+    for (let wtype of Object.keys(CONFIG.ARM5E.recovery.wounds)) {
+      if (wtype == "healthy") continue;
+      if (actor.system.wounds && actor.system.wounds[wtype]?.number != undefined) {
+        if (actorDoc.synthetic) {
+          syntheticWoundsMsg += `<li>${actor.system.wounds[wtype]?.number.value} ${wtype} wounds</li>`;
+          sendMsg = true;
+          updateData[`system.wounds.${wtype}.-=number`] = null;
+          updateData[`system.wounds.${wtype}.-=penalty`] = null;
+          updateData[`system.wounds.${wtype}.-=notes`] = null;
+        } else {
+          if (actorDoc instanceof ArM5ePCActor) {
+            let datetime = game.settings.get("arm5e", "currentDate");
+            for (let ii = 0; ii < actor.system.wounds[wtype].number.value; ii++) {
+              let woundData = {
+                name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
+                  "arm5e.sheet.wound.label"
+                )}`,
+                type: "wound",
+                system: {
+                  inflictedDate: {
+                    year: datetime.year,
+                    season: datetime.season
+                  },
+                  healedDate: { year: null, season: "spring" },
+                  gravity: wtype,
+                  originalGravity: wtype,
+                  trend: 0,
+                  bonus: 0,
+                  nextRoll: 0,
+                  description: `Migrated: notes = ${actor.system.wounds[wtype].notes.value}`
+                }
+              };
+              wounds.push(woundData);
+            }
+            updateData[`system.wounds.${wtype}.-=number`] = null;
+            updateData[`system.wounds.${wtype}.-=penalty`] = null;
+            updateData[`system.wounds.${wtype}.-=notes`] = null;
+          } else {
+            sendMsg = true;
+          }
+        }
+      }
+    }
+
+    if (sendMsg && actorDoc.synthetic) {
+      syntheticWoundsMsg += "</ul><br/>You will have to add them manually.";
+
+      ChatMessage.create({
+        content: syntheticWoundsMsg
+      });
+    } else if (wounds.length > 0 && !actorDoc.synthetic) {
+      log(false, `${wounds.length} wound items created`);
+      await actorDoc.createEmbeddedDocuments("Item", wounds);
+    } else if (sendMsg) {
+      ChatMessage.create({
+        content:
+          "<b>MIGRATION NOTIFICATION</b><br/>" +
+          `The character ${actor.name} was unable to migrate his/her wounds. Triggering a new migration will fix it (See FAQ)`
+      });
+    }
+
     if (actor.system.reputation) {
       if (actorDoc instanceof ArM5ePCActor) {
         for (let rep of Object.values(actor.system.reputation)) {
@@ -638,43 +700,86 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     actor.type == "beast" ||
     actor.type == "laboratory"
   ) {
-    if (actor.effects && actor.effects.length > 0) {
-      log(false, `Migrating effects of ${actor.name}`);
-      // Migrate effects
-      let effects = [];
-      let toDelete = [];
-      for (let e of actor.effects) {
-        if (isEffectObsolete(e)) {
-          if (actorDoc instanceof ArM5ePCActor) {
-            toDelete.push(e._id);
-            continue;
+    if (CONFIG.ISV10) {
+      if (actor.effects && actor.effects.length > 0) {
+        log(false, `Migrating effects of ${actor.name}`);
+        // Migrate effects
+        let effects = [];
+        let toDelete = [];
+        for (let e of actor.effects) {
+          if (isEffectObsolete(e)) {
+            if (actorDoc instanceof ArM5ePCActor) {
+              toDelete.push(e._id);
+              continue;
+            }
+          }
+          const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
+
+          let effectUpdate = await migrateActiveEffectData(effectData);
+          if (!isEmpty(effectUpdate)) {
+            // Update the effect
+            effectUpdate._id = effectData._id;
+            effects.push(expandObject(effectUpdate));
           }
         }
-        const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
 
-        let effectUpdate = await migrateActiveEffectData(effectData);
-        if (!isEmpty(effectUpdate)) {
-          // Update the effect
-          effectUpdate._id = effectData._id;
-          effects.push(expandObject(effectUpdate));
+        if (toDelete.length > 0) {
+          if (actorDoc instanceof ArM5ePCActor) {
+            await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+          } else {
+            ChatMessage.create({
+              content:
+                "<b>MIGRATION NOTIFICATION</b><br/>" +
+                `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
+            });
+          }
+        }
+
+        if (effects.length > 0) {
+          log(false, effects);
+          updateData.effects = effects;
         }
       }
+    } else {
+      const applied = actorDoc.appliedEffects;
+      if (applied && applied.length > 0) {
+        let effects = [];
+        let toDelete = [];
+        for (let e of applied) {
+          // if effect comes from an item, no need to migrate it.
+          if (e.transfer == true) continue;
+          if (isEffectObsolete(e)) {
+            if (actorDoc instanceof ArM5ePCActor) {
+              toDelete.push(e._id);
+              continue;
+            }
+          }
+          const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
 
-      if (toDelete.length > 0) {
-        if (actorDoc instanceof ArM5ePCActor) {
-          await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
-        } else {
-          ChatMessage.create({
-            content:
-              "<b>MIGRATION NOTIFICATION</b><br/>" +
-              `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
-          });
+          let effectUpdate = await migrateActiveEffectData(effectData);
+          if (!isEmpty(effectUpdate)) {
+            // Update the effect
+            effectUpdate._id = effectData._id;
+            effects.push(expandObject(effectUpdate));
+          }
         }
-      }
 
-      if (effects.length > 0) {
-        log(false, effects);
-        updateData.effects = effects;
+        if (toDelete.length > 0) {
+          if (actorDoc instanceof ArM5ePCActor) {
+            await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+          } else {
+            ChatMessage.create({
+              content:
+                "<b>MIGRATION NOTIFICATION</b><br/>" +
+                `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
+            });
+          }
+        }
+
+        if (effects.length > 0) {
+          log(false, effects);
+          updateData.effects = effects;
+        }
       }
     }
   }
@@ -818,6 +923,15 @@ export const migrateActiveEffectData = async function (effectData) {
         options[idx] = "Common";
         subtypes[idx] = "law";
         needUpdate = true;
+      } else if (ch.key === "system.wounds.light.penalty.value") {
+        ch.key = "system.penalties.wounds.light";
+        needUpdate = true;
+      } else if (ch.key === "system.wounds.medium.penalty.value") {
+        ch.key = "system.penalties.wounds.medium";
+        needUpdate = true;
+      } else if (ch.key === "system.wounds.heavy.penalty.value") {
+        ch.key = "system.penalties.wounds.heavy";
+        needUpdate = true;
       } else if (
         ch.key === "system.bonuses.arts.voice" ||
         ch.key === "system.bonuses.arts.gestures" ||
@@ -855,8 +969,8 @@ export const migrateItemData = async function (item) {
   } else {
     itemData = item;
   }
-  if (CONFIG.Item.systemDataModels[item.type]) {
-    return CONFIG.Item.systemDataModels[item.type].migrate(itemData);
+  if (CONFIG.ARM5E.ItemDataModels[item.type]) {
+    return CONFIG.ARM5E.ItemDataModels[item.type].migrate(itemData);
   }
   const updateData = {};
   if (_isMagicalItem(itemData)) {

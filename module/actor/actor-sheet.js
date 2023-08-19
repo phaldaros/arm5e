@@ -42,6 +42,7 @@ import { UI, getConfirmation } from "../constants/ui.js";
 import { Schedule } from "../tools/schedule.js";
 import { createAgingDiaryEntry } from "../helpers/long-term-activities.js";
 import { Sanatorium } from "../tools/sanatorium.js";
+import { MedicalHistory } from "../tools/med-history.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   // /** @override */
@@ -193,7 +194,12 @@ export class ArM5eActorSheet extends ActorSheet {
     // }
 
     // Allow effect creation
-    actorData.system.effectCreation = game.user.isGM;
+    context.datetime = context.datetime = game.settings.get("arm5e", "currentDate");
+    context.datetime.seasonLabel = game.i18n.localize(
+      CONFIG.ARM5E.seasons[context.datetime.season].label
+    );
+
+    actorData.system.effectCreation = game.user.isTrusted;
 
     context.userData = this.getUserCache();
 
@@ -269,12 +275,22 @@ export class ArM5eActorSheet extends ActorSheet {
     }
 
     context.system.isCharacter = this.actor._isCharacter();
-    if (this.actor._isCharacter()) {
+    if (context.system.isCharacter) {
       for (let [key, v] of Object.entries(context.system.vitals)) {
         v.label = game.i18n.localize(CONFIG.ARM5E.character.vitals[key].label);
       }
-
+      if (context.system.wounds) {
+        context.health = {
+          light: context.system.wounds.light,
+          medium: context.system.wounds.medium,
+          heavy: context.system.wounds.heavy,
+          incap: context.system.wounds.incap,
+          dead: context.system.wounds.dead
+        };
+      }
+      context.isDead = this.actor.system.wounds.dead.length > 0;
       context.system.isMagus = this.actor._isMagus();
+
       context.system.world = {};
 
       // check whether the character is linked to an existing covenant
@@ -375,7 +391,7 @@ export class ArM5eActorSheet extends ActorSheet {
             }
           }
         } else {
-          if (context.system.labtotal.aura === undefined) {
+          if (!Number.isNumeric(context.system.labtotal.aura)) {
             context.system.labtotal.aura = 0;
           }
         }
@@ -760,6 +776,12 @@ export class ArM5eActorSheet extends ActorSheet {
       for (let spell of actorData.system.spells) {
         spell.TechReq = spellTechniqueLabel(spell.system);
         spell.FormReq = spellFormLabel(spell.system);
+        spell.masteryHint =
+          spell.system.mastery > 0
+            ? `<i title="${game.i18n.localize("arm5e.spell.masteryHint")} ${
+                spell.system.mastery
+              }" class="icon-Icon_Effects-small"></i>`
+            : "";
       }
 
       for (let effect of actorData.system.magicalEffects) {
@@ -797,6 +819,10 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".book-topic").click(async (ev) => {
       const category = $(ev.currentTarget).data("topic");
       document.getElementById(category).classList.toggle("hide");
+    });
+
+    html.find(".view-med-history").click(async (ev) => {
+      await MedicalHistory.createDialog(this.actor);
     });
 
     html.find(".planning-item").click(async (ev) => {
@@ -957,6 +983,11 @@ export class ArM5eActorSheet extends ActorSheet {
       item.sheet.render(true, { focus: true });
     });
 
+    html.find(".wound-edit").click((ev) => {
+      const item = this.actor.getEmbeddedDocument("Item", $(ev.currentTarget).data("id"));
+      item.sheet.render(true, { focus: true });
+    });
+
     html.find(".item").contextmenu((ev) => {
       let li = ev.currentTarget;
       let item = this.document.items.get(li.dataset.itemId);
@@ -1085,8 +1116,12 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
     html.find(".power-use").click(this._onUsePower.bind(this));
-    html.find(".addFatigue").click((event) => this.actor._changeFatigueLevel(1));
-    html.find(".removeFatigue").click((event) => this.actor._changeFatigueLevel(-1));
+    html.find(".addFatigue").click(async (event) => this.actor._changeFatigueLevel(1));
+    html.find(".removeFatigue").click(async (event) => this.actor._changeFatigueLevel(-1));
+    html.find(".add-wound").click(async (event) => {
+      const dataset = getDataset(event);
+      await this.actor.changeWound(1, dataset.type);
+    });
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -1106,28 +1141,6 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".migrate").click((event) => this.actor.migrate());
 
     html.find(".plan-reading").click(async (ev) => this._readBook(ev));
-
-    html.find(".set-year").change(async (ev) => {
-      ev.preventDefault();
-      const dataset = getDataset(ev);
-      let currentDate = game.settings.get("arm5e", "currentDate");
-      let newYear = Number(ev.currentTarget.value);
-      if (newYear > currentDate.year) {
-        newYear = Number(currentDate.year);
-      }
-      await this.actor.update({ "system.datetime.year": newYear });
-    });
-
-    html.find(".set-season").change(async (ev) => {
-      ev.preventDefault();
-      const dataset = getDataset(ev);
-      let currentDate = game.settings.get("arm5e", "currentDate");
-      let newSeason = Number(ev.currentTarget.value);
-      if (CONFIG.SEASON_ORDER[newSeason] > CONFIG.SEASON_ORDER[currentDate.season]) {
-        newSeason = Number(currentDate.season);
-      }
-      await this.actor.update({ "system.datetime.season": newSeason });
-    });
   }
 
   async _readBook(ev) {
@@ -1284,8 +1297,8 @@ export class ArM5eActorSheet extends ActorSheet {
     delete itemData[0].system["type"];
 
     // default fields for some Item types
-    // if (CONFIG.Item.systemDataModels[type]?.getDefault) {
-    //   itemDate = CONFIG.Item.systemDataModels[type].getDefault(itemData[0]);
+    // if (CONFIG.ARM5E.ItemDataModels[type]?.getDefault) {
+    //   itemDate = CONFIG.ARM5E.ItemDataModels[type].getDefault(itemData[0]);
     // }
 
     return await this.actor.createEmbeddedDocuments("Item", itemData, {});
@@ -1523,8 +1536,7 @@ export class ArM5eActorSheet extends ActorSheet {
    */
   async _onRoll(event) {
     const dataset = getDataset(event);
-
-    if (this.actor.system.wounds.dead.number.value > 0) {
+    if (this.actor.system.wounds.dead.length > 0) {
       ui.notifications.info(game.i18n.localize("arm5e.notification.dead"), {
         permanent: true
       });
@@ -1539,7 +1551,7 @@ export class ArM5eActorSheet extends ActorSheet {
         return false;
       }
 
-      if (this.actor.system.wounds.incap.number.value > 1) {
+      if (this.actor.system.wounds.incap.length > 0) {
         ui.notifications.info(game.i18n.localize("arm5e.notification.incapacited"), {
           permanent: true
         });

@@ -141,13 +141,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     }
 
-    // // tmp TODO remove
-    // if (context.planning.modifiers == undefined) {
-    //   context.planning.modifiers = {};
-    // }
-    // if (context.planning.modifiers.generic == undefined) {
-    //   context.planning.modifiers.generic = 0;
-    // }
     if (context.owner.system.apprentice?.magicTheory ?? 0 > 0) {
       context.planning.modifiers.apprentice =
         (context.owner.system.apprentice?.int ?? 0) + context.owner.system.apprentice?.magicTheory;
@@ -159,6 +152,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     context.planning.modifiers.aura = this.actor.system.aura.computeAuraModifierFor(ARM5E.REALM_TYPES.MAGIC);
 
       // TODO fix covenant date
+    if (context.system.covenant.linked) {
+      context.planning.modifiers.aura = computeAuraModifier(
+        context.owner.system.realmAlignment,
+        context.covenant.system.levelAura,
+        context.covenant.system.typeAura
+      );
+    }
     if (context.planning.date == undefined)
       context.planning.date = game.settings.get("arm5e", "currentDate");
     else if (context.planning.date.year == null) {
@@ -213,9 +213,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           points: result.waste
         }
       )}`;
-      if (context.owner.system.woundsTotal != 0) {
+      if (context.owner.system.penalties.wounds.total != 0) {
         context.planning.message += `<br/> ${game.i18n.format("arm5e.lab.planning.msg.wounded", {
-          penalty: context.owner.system.woundsTotal
+          penalty: context.owner.system.penalties.wounds.total
         })}`;
       }
     }
@@ -489,8 +489,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             }
           }
         ];
-        let vis = await owner.createEmbeddedDocuments("Item", visEntry, {});
-        externalIds.push({ actorId: owner._id, itemId: vis[0]._id });
+        let vis = await this.actor.createEmbeddedDocuments("Item", visEntry, {});
+        externalIds.push({ actorId: this.actor._id, itemId: vis[0]._id });
         break;
     }
 

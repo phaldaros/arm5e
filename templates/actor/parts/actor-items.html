@@ -12,7 +12,8 @@
     {{#each system.items as |item id|}}
         <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item.id}}">
             <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
-            <h4 class="item-title">{{item.name}}</h4>
+            <h4 class="item-title">{{item.name}} - {{localize "arm5e.sheet.quantity"}} : {{item.system.quantity}}
+            </h4>
             <div class="item-controls">
                 <a class="item-control item-edit"
                     title='{{localize "arm5e.hints.edit" item=(localize "ITEM.TypeItem")}}'><i

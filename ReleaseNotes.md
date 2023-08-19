@@ -1,3 +1,96 @@
+## 2.2.2.2, Nicodemus crippled by Twilight
+
+### Features & changes
+
+- Actors no longer have an individual date, only the world's date is the reference.
+- As a GM it is now possible to edit the dates of an applied activity
+- Age is now computed using the birth year (or default to 20)
+- New active effect to change the effective age
+- Added quantity of items in inventory tab.
+- Edition of transferred active effect (eg: from a virtue or flaw) is now possible (V11 only)
+- Vis extracted from aura is now dropped in the lab inventory
+- Trusted players can now edit and create active effects
+- new logo for Ars Magica system and worlds
+
+### Bug fixes
+
+- Aura manually entered for a casting is no longer ignored
+- Fixed a typo to a \_getSourceName() call in V10 when displaying character sheet
+- Checkbox to equip / take off weapons and armors from the character sheet is back
+- It is again possible for players to drop teachers on a Teaching activity sheet
+- Fixed typo in Good Teacher virtue active effect
+
+## 2.2.1.0, Nicodemus
+
+### Bug fixes
+
+- Removed V11 database files
+- Some migrations issues in book schemas and diary schemas were fixed
+
+## 2.2.0.2, Nicodemus ex Jerbiton
+
+### Bug fixes
+
+- Fix typo for V10 compatibility
+- Fix corrupted png files
+
+## 2.2.0.0, Nicodemus the apprentice
+
+### Features & changes
+
+- V11 compatibility
+  - localization strings
+  - Active effect label and icon fields
+  - Token delta instead of actorData
+- Visual hint that a spell is mastered.
+
+### Bug fixes
+
+- Tractatus no longer have a level of 1 by default, preventing readers with a score to read them
+- Changing a book from summae to tractatus reset the level to 0.
+
+## 2.1.1.11, Mercere, the Legacy
+
+### Features & changes
+
+- Added missing effect for recovery rolls to appropriate virtues and flaws.
+
+### Bug fixes
+
+- Changed incapacitated penalty to -99 instead of 0 for consistency
+- Date for next recovery is now computed properly
+
+## 2.1.1.10, Mercere, the Legend
+
+### Bug fixes
+
+- Setting the world's date back in time when actors are already in the present doesn't currupt activities anymore.
+
+## 2.1.1.9, Mercere, the Spymaster
+
+### Features & changes
+
+- New sanatorium dialog for wounds recovery (assets by @Sylph).
+  - Wound are now items.
+  - Recovery date is picked automaticaly as the oldest treatable wound which is not in the future
+- Calendar scrollbar state is memorized between changes
+- It is possible to edit the duration of some activities
+- New medical history dialog
+- It now possible to cummulate higher sympathic link bonuses for penetration
+
+### Bug fixes
+
+- Non-supernatural abilities that had a realm alignment are no longer impacted by aura.
+- New French, Spanish and Italian versions by @Orneen, @Teotimus and @N0Br41nZ
+- Fixed some schedule conflict issues
+- It is now possible to enable magical focus when learning spells
+- Empty aura field results in aura of 0
+- Seasonal activities not created directly (eg: aging, recovery, lab work) are now hidden in diary sheet's activity type selection
+- non applied activities get back their red aura in the schedule dialog.
+- changing the activity type to a shorter duration remove the extra scheduled dates
+- It is again possible to access the schedule of beast Actors
+- Using <Enter> key after entering the number of botches will no longer raise an error and instead submit it properly.
+
 ## 2.1.0.18, Mercere, the Giftless
 
 ### Bug fixes

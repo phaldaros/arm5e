@@ -21,6 +21,32 @@ export class NullableEmbeddedDataField extends fields.EmbeddedDataField {
   }
 }
 
+export class NullableSchemaField extends fields.SchemaField {
+  /**
+   * @param {typeof DataModel} model          The class of DataModel which should be embedded in this field
+   * @param {DataFieldOptions} options        Options which configure the behavior of the field
+   */
+  constructor(fields, options = {}) {
+    super(fields, options);
+  }
+
+  /** @inheritdoc */
+  static get _defaults() {
+    return mergeObject(super._defaults, {
+      required: false,
+      nullable: true,
+      initial: null
+    });
+  }
+
+  toObject(value) {
+    if (value != null) {
+      return super.toObject(value);
+    }
+    return null;
+  }
+}
+
 export class NullableDocumentIdField extends fields.DocumentIdField {
   /** @inheritdoc */
   static get _defaults() {

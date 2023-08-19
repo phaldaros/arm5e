@@ -105,9 +105,10 @@
           <label class="resource-label">+ {{localize "arm5e.sheet.fatigue"}} ({{ system.fatigueTotal }})</label>
         </div>
       {{/unless}}
-      {{#unless (eq system.woundsTotal 0) }}
+      {{#unless (eq system.penalties.wounds.total  0) }}
         <div class="flexrow flex-group-center">
-          <label class="resource-label">+ {{localize "arm5e.sheet.wounds"}} ({{ system.woundsTotal }})</label>
+          <label class="resource-label">+ {{localize "arm5e.sheet.wounds"}} ({{ system.penalties.wounds.total
+            }})</label>
         </div>
       {{/unless}}
       {{#unless (eq system.combat.overload 0) }}
