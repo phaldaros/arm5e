@@ -741,8 +741,8 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         }
       }
     } else {
-      const applied = actor.appliedEffects();
-      if (applied.length > 0) {
+      const applied = actorDoc.appliedEffects;
+      if (applied && applied.length > 0) {
         let effects = [];
         let toDelete = [];
         for (let e of applied) {
