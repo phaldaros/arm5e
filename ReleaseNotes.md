@@ -1,4 +1,4 @@
-## 2.2.2.1, Nicodemus crippled by Twilight
+## 2.2.2.2, Nicodemus crippled by Twilight
 
 ### Features & changes
 
@@ -9,6 +9,8 @@
 - Added quantity of items in inventory tab.
 - Edition of transferred active effect (eg: from a virtue or flaw) is now possible (V11 only)
 - Vis extracted from aura is now dropped in the lab inventory
+- Trusted players can now edit and create active effects
+- new logo for Ars Magica system and worlds
 
 ### Bug fixes
 
@@ -16,6 +18,7 @@
 - Fixed a typo to a \_getSourceName() call in V10 when displaying character sheet
 - Checkbox to equip / take off weapons and armors from the character sheet is back
 - It is again possible for players to drop teachers on a Teaching activity sheet
+- Fixed typo in Good Teacher virtue active effect
 
 ## 2.2.1.0, Nicodemus
 
