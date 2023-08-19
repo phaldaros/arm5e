@@ -700,43 +700,86 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     actor.type == "beast" ||
     actor.type == "laboratory"
   ) {
-    if (actor.effects && actor.effects.length > 0) {
-      log(false, `Migrating effects of ${actor.name}`);
-      // Migrate effects
-      let effects = [];
-      let toDelete = [];
-      for (let e of actor.effects) {
-        if (isEffectObsolete(e)) {
-          if (actorDoc instanceof ArM5ePCActor) {
-            toDelete.push(e._id);
-            continue;
+    if (CONFIG.ISV10) {
+      if (actor.effects && actor.effects.length > 0) {
+        log(false, `Migrating effects of ${actor.name}`);
+        // Migrate effects
+        let effects = [];
+        let toDelete = [];
+        for (let e of actor.effects) {
+          if (isEffectObsolete(e)) {
+            if (actorDoc instanceof ArM5ePCActor) {
+              toDelete.push(e._id);
+              continue;
+            }
+          }
+          const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
+
+          let effectUpdate = await migrateActiveEffectData(effectData);
+          if (!isEmpty(effectUpdate)) {
+            // Update the effect
+            effectUpdate._id = effectData._id;
+            effects.push(expandObject(effectUpdate));
           }
         }
-        const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
 
-        let effectUpdate = await migrateActiveEffectData(effectData);
-        if (!isEmpty(effectUpdate)) {
-          // Update the effect
-          effectUpdate._id = effectData._id;
-          effects.push(expandObject(effectUpdate));
+        if (toDelete.length > 0) {
+          if (actorDoc instanceof ArM5ePCActor) {
+            await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+          } else {
+            ChatMessage.create({
+              content:
+                "<b>MIGRATION NOTIFICATION</b><br/>" +
+                `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
+            });
+          }
+        }
+
+        if (effects.length > 0) {
+          log(false, effects);
+          updateData.effects = effects;
         }
       }
+    } else {
+      const applied = actorDoc.appliedEffects;
+      if (applied && applied.length > 0) {
+        let effects = [];
+        let toDelete = [];
+        for (let e of applied) {
+          // if effect comes from an item, no need to migrate it.
+          if (e.transfer == true) continue;
+          if (isEffectObsolete(e)) {
+            if (actorDoc instanceof ArM5ePCActor) {
+              toDelete.push(e._id);
+              continue;
+            }
+          }
+          const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
 
-      if (toDelete.length > 0) {
-        if (actorDoc instanceof ArM5ePCActor) {
-          await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
-        } else {
-          ChatMessage.create({
-            content:
-              "<b>MIGRATION NOTIFICATION</b><br/>" +
-              `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
-          });
+          let effectUpdate = await migrateActiveEffectData(effectData);
+          if (!isEmpty(effectUpdate)) {
+            // Update the effect
+            effectUpdate._id = effectData._id;
+            effects.push(expandObject(effectUpdate));
+          }
         }
-      }
 
-      if (effects.length > 0) {
-        log(false, effects);
-        updateData.effects = effects;
+        if (toDelete.length > 0) {
+          if (actorDoc instanceof ArM5ePCActor) {
+            await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+          } else {
+            ChatMessage.create({
+              content:
+                "<b>MIGRATION NOTIFICATION</b><br/>" +
+                `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
+            });
+          }
+        }
+
+        if (effects.length > 0) {
+          log(false, effects);
+          updateData.effects = effects;
+        }
       }
     }
   }

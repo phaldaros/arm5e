@@ -209,6 +209,8 @@ export class ArM5ePCActor extends Actor {
       return this._prepareLabData();
     } else if (this.type == "crucible") {
       return this._prepareCrucibleData();
+    } else if (this.type == "base") {
+      return {};
     } else {
       return this._prepareCharacterData();
     }

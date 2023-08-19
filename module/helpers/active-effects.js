@@ -16,11 +16,12 @@ export default class ArM5eActiveEffect extends ActiveEffect {
   }
 
   prepareDerivedData() {
-    // if the effect is from an Item (virtue, etc) and is owned, prevent edition
+    // In V10, if the effect is from an Item (virtue, etc) and is owned, prevent edition
     this.noEdit =
       !game.user.isGM ||
-      (this.parent.documentName === "Item" && this.parent.isOwned == true) ||
-      (this.parent.documentName === "Actor" && this.origin?.includes("Item")) ||
+      (CONFIG.ISV10 &&
+        ((this.parent.documentName === "Item" && this.parent.isOwned == true) ||
+          (this.parent.documentName === "Actor" && this.origin?.includes("Item")))) ||
       this.getFlag("arm5e", "noEdit");
   }
 
@@ -67,7 +68,9 @@ export default class ArM5eActiveEffect extends ActiveEffect {
           data.icon = "icons/svg/aura.svg";
         } else {
           data.name = "New Effect";
-          data.img = "icons/svg/aura.svg";
+          // TODO when deprecated
+          data.icon = "icons/svg/aura.svg";
+          //data.img = "icons/svg/aura.svg";
         }
         return await owner.createEmbeddedDocuments("ActiveEffect", [data]);
       case "edit":

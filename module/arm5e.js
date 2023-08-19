@@ -164,6 +164,9 @@ Hooks.once("init", async function () {
     CONFIG.SEASON_ORDER_INV = seasonOrderInv.standard;
     CONFIG.ARM5E.seasons = CONFIG.ARM5E.seasonsLabels.standard;
   }
+
+  CONFIG.ActiveEffect.legacyTransferral = false;
+
   //////////////////////
   // CONFIG DONE!
   //////////////////////

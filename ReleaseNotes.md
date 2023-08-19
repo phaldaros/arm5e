@@ -1,4 +1,4 @@
-## 2.2.2.0, Nicodemus crippled by Twilight
+## 2.2.2.1, Nicodemus crippled by Twilight
 
 ### Features & changes
 
@@ -6,11 +6,16 @@
 - As a GM it is now possible to edit the dates of an applied activity
 - Age is now computed using the birth year (or default to 20)
 - New active effect to change the effective age
+- Added quantity of items in inventory tab.
+- Edition of transferred active effect (eg: from a virtue or flaw) is now possible (V11 only)
+- Vis extracted from aura is now dropped in the lab inventory
 
 ### Bug fixes
 
 - Aura manually entered for a casting is no longer ignored
 - Fixed a typo to a \_getSourceName() call in V10 when displaying character sheet
+- Checkbox to equip / take off weapons and armors from the character sheet is back
+- It is again possible for players to drop teachers on a Teaching activity sheet
 
 ## 2.2.1.0, Nicodemus
 

@@ -97,7 +97,6 @@ export class ArM5eItemSheet extends ItemSheet {
         id: "",
         name: "N/A"
       });
-      context.canEquip = true;
       //console.log("item-sheet get data weapon")
       //console.log(data)
     } else if (
@@ -132,12 +131,10 @@ export class ArM5eItemSheet extends ItemSheet {
           break;
       }
     }
-    if (itemData.type == "armor" && context.isOwned && this.item.actor._isCharacter()) {
-      context.canEquip = true;
-    }
+
     if (itemData.type == "virtue" || itemData.type == "flaw") {
       if (context.isOwned) {
-        context.system.effectCreation = false;
+        context.system.effectCreation = CONFIG.ISV10 ? false : true;
         switch (context.item.parent.type) {
           case "laboratory":
             context.config.virtueFlawTypes.available = {

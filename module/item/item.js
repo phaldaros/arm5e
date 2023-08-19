@@ -42,7 +42,7 @@ export class ArM5eItem extends Item {
           name: "N/A"
         };
         abilitiesSelect["a0"] = temp;
-
+        this.system.canEquip = true;
         // find the actor abilities and create the select
         for (let [key, i] of Object.entries(owner.items)) {
           if (i.type === "ability") {
@@ -56,6 +56,8 @@ export class ArM5eItem extends Item {
         }
 
         system.abilities = abilitiesSelect;
+      } else if (this.type == "armor" && this.actor != null) {
+        this.system.canEquip = true;
       }
 
       if (this.type == "diaryEntry") {
@@ -178,7 +180,8 @@ export class ArM5eItem extends Item {
             case "reading":
             case "inventSpell":
             case "learnSpell":
-            case "visStudy": {
+            case "visStudy":
+            case "visExtraction": {
               this.system.baseQuality = systemData.sourceQuality;
               break;
             }

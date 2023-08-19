@@ -22,7 +22,7 @@ export const ARM5E = {};
 
 /**
  * The set of metadata used within the sytem that will
- * probably not change
+ * probably not change during play
  * @type {Object}
  */
 ARM5E.SYSTEM_ID = "arm5e";
@@ -82,6 +82,9 @@ ARM5E.character.characteristics = {
     short: "arm5e.sheet.qik"
   }
 };
+
+// Adding/Changing/removing houses
+
 ARM5E.character.houses = {
   "n-a": {
     label: "N/A"
@@ -129,6 +132,7 @@ ARM5E.character.houses = {
     label: "Diedne"
   }
 };
+
 ARM5E.character.description = {
   born: {
     label: "arm5e.sheet.yearBorn"

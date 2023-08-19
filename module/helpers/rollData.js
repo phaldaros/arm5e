@@ -414,7 +414,7 @@ export class ArM5eRollData {
     );
     this.activeEffects.concat(
       activeEffectsByType.map((activeEffect) => {
-        const label = activeEffect.label;
+        const label = CONFIG.ISV10 ? activeEffect.label : activeEffect.name;
         let value = 0;
 
         activeEffect.changes

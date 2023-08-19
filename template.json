@@ -11,7 +11,6 @@
       },
       "npcbase": {
         "age": {
-          "dtype": "Number",
           "value": 25
         },
         "apparent": {
@@ -799,6 +798,9 @@
     },
     "beast": {
       "templates": ["base", "fatigue"],
+      "age": {
+        "value": 20
+      },
       "characteristics": {
         "cun": {
           "value": 0

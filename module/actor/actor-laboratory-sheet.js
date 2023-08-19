@@ -141,13 +141,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     }
 
-    // // tmp TODO remove
-    // if (context.planning.modifiers == undefined) {
-    //   context.planning.modifiers = {};
-    // }
-    // if (context.planning.modifiers.generic == undefined) {
-    //   context.planning.modifiers.generic = 0;
-    // }
     if (context.owner.system.apprentice?.magicTheory ?? 0 > 0) {
       context.planning.modifiers.apprentice =
         (context.owner.system.apprentice?.int ?? 0) + context.owner.system.apprentice?.magicTheory;
@@ -156,21 +149,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     }
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
 
-    // const hasSpecificAuraRealm =
-    //   ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.actor.effects, "auraRealm")
-    //     .length > 0;
-    // const hasSpecificAuraLevel =
-    //   ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(this.actor.effects, "auraLevel")
-    //     .length > 0;
-    // if (hasSpecificAuraRealm || hasSpecificAuraLevel) {
-    // } else
     if (context.system.covenant.linked) {
       context.planning.modifiers.aura = computeAuraModifier(
         context.owner.system.realmAlignment,
         context.covenant.system.levelAura,
         context.covenant.system.typeAura
       );
-      // TODO fix covenant date
     }
     if (context.planning.date == undefined)
       context.planning.date = game.settings.get("arm5e", "currentDate");
@@ -502,8 +486,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             }
           }
         ];
-        let vis = await owner.createEmbeddedDocuments("Item", visEntry, {});
-        externalIds.push({ actorId: owner._id, itemId: vis[0]._id });
+        let vis = await this.actor.createEmbeddedDocuments("Item", visEntry, {});
+        externalIds.push({ actorId: this.actor._id, itemId: vis[0]._id });
         break;
     }
 

@@ -23,11 +23,12 @@
                 <label><span class="bold">{{localize "arm5e.sheet.initiative"}}:</span> {{item.system.init}}</label>
                 <label><span class="bold">{{localize "arm5e.sheet.attack"}}:</span> {{item.system.atk}}</label>
                 <label><span class="bold">{{localize "arm5e.sheet.defense"}}:</span> {{item.system.dfn}}</label>
-                <label><span class="bold">{{localize "arm5e.sheet.damage"}}:</span> {{item.system.dam}} {{#if canEquip}}
+                <label><span class="bold">{{localize "arm5e.sheet.damage"}}:</span> {{item.system.dam}}
+                    {{#if system.canEquip}}
                         (+{{
                         ../system.characteristics.str.value }}) {{/if}}</label>
 
-                {{#if canEquip}}
+                {{#if system.canEquip}}
                     <span class="bold">
                         <label>{{localize "arm5e.sheet.equipped"}}:</label>
                         <input type="checkbox" class="quick-edit" name="equipped" {{checked system.equipped}}
