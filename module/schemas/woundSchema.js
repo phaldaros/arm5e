@@ -100,13 +100,20 @@ export class WoundSchema extends foundry.abstract.DataModel {
   }
 
   static getDefault(itemData) {
+    let currentDate = game.settings.get("arm5e", "currentDate");
     let res = itemData;
     if (itemData.system) {
       if (itemData.system.gravity == undefined) {
         res.system.gravity = "light";
+        res.system.inflictedDate = { year: Number(currentDate.year), season: currentDate.season };
       }
     } else {
-      res = { system: { gravity: "light" } };
+      res = {
+        system: {
+          gravity: "light",
+          inflictedDate: { year: Number(currentDate.year), season: currentDate.season }
+        }
+      };
     }
     return res;
   }
