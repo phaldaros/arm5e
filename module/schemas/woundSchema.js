@@ -14,7 +14,7 @@ export class WoundSchema extends foundry.abstract.DataModel {
       inflictedDate: new fields.SchemaField({
         season: SeasonField(),
         year: new fields.NumberField({
-          required: true,
+          required: false,
           nullable: false,
           integer: true,
           initial: 1220,
@@ -35,7 +35,7 @@ export class WoundSchema extends foundry.abstract.DataModel {
         { required: false, nullable: true, initial: {} }
       ),
       originalGravity: new fields.StringField({
-        required: true,
+        required: false,
         blank: false,
         initial: "light",
         choices: Object.keys(ARM5E.recovery.wounds)
@@ -47,7 +47,7 @@ export class WoundSchema extends foundry.abstract.DataModel {
         choices: Object.keys(ARM5E.recovery.wounds)
       }),
       trend: new fields.NumberField({
-        required: true,
+        required: false,
         nullable: false,
         integer: true,
         initial: 0,
@@ -56,21 +56,21 @@ export class WoundSchema extends foundry.abstract.DataModel {
         max: 1
       }),
       bonus: new fields.NumberField({
-        required: true,
+        required: false,
         nullable: false,
         integer: true,
         initial: 0,
         step: 1
       }),
       nextRoll: new fields.NumberField({
-        required: true,
+        required: false,
         nullable: false,
         integer: true,
         initial: 0,
         step: 0.5
       }),
       recoveryTime: new fields.NumberField({
-        required: true,
+        required: false,
         nullable: false,
         integer: true,
         initial: 0,
@@ -136,7 +136,10 @@ export class WoundSchema extends foundry.abstract.DataModel {
     ) {
       return false;
     }
-    let offset = Math.floor((this.recoveryTime - this.daysFirstSeason + CONFIG.ARM5E.recovery.daysInSeason)/ CONFIG.ARM5E.recovery.daysInSeason);
+    let offset = Math.floor(
+      (this.recoveryTime - this.daysFirstSeason + CONFIG.ARM5E.recovery.daysInSeason) /
+        CONFIG.ARM5E.recovery.daysInSeason
+    );
     let nextRollDate = getShiftedDate(this.inflictedDate, offset);
 
     const delta = seasonsDelta(nextRollDate, { season: season, year: year });
