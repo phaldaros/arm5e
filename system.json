@@ -3,7 +3,7 @@
   "name": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "2.2.2.1",
+  "version": "2.2.2.2",
   "minimumCoreVersion": "10.290",
   "compatibility": {
     "minimum": "10.290",
@@ -162,6 +162,13 @@
       "lang": "pt-BR",
       "name": "Portuguese (Brazil)",
       "path": "lang/pt-BR.json"
+    }
+  ],
+  "media": [
+    {
+      "type": "setup",
+      "url": "systems/arm5e/assets/thumbnails/ArM5logo.webp",
+      "thumbnail": "systems/arm5e/assets/thumbnails/ArM5logo.webp"
     }
   ],
   "gridDistance": 5,

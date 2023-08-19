@@ -199,7 +199,7 @@ export class ArM5eActorSheet extends ActorSheet {
       CONFIG.ARM5E.seasons[context.datetime.season].label
     );
 
-    actorData.system.effectCreation = game.user.isGM;
+    actorData.system.effectCreation = game.user.isTrusted;
 
     context.userData = this.getUserCache();
 
