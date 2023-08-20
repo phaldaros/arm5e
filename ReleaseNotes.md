@@ -1,3 +1,12 @@
+## 2.2.2.3, Nicodemus Ex Miscellanea
+
+### Bug fixes
+
+- Ritual magic now adds the proper number of fatigue levels
+- Fixed bug with Dice So Nice integration where rolling for botch always seemed to result in one.
+- Spontaneous casting without casting now displays its chat message respecting the roll mode instead of always private.
+- Fixed migration bug in V11 where effects coming from Items were kept duplicated.
+
 ## 2.2.2.2, Nicodemus crippled by Twilight
 
 ### Features & changes

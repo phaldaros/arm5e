@@ -392,10 +392,10 @@ async function castSpell(actorCaster, roll, message) {
     });
   }
   if (actorCaster.rollData.type == "spell") {
-    if (totalOfSpell < levelOfSpell) {
+    if (totalOfSpell < levelOfSpell || actorCaster.rollData.magic.ritual) {
       let fatigue = 1;
       if (actorCaster.rollData.magic.ritual) {
-        fatigue = Math.ceil((levelOfSpell - totalOfSpell) / 5);
+        fatigue = Math.max(Math.ceil((levelOfSpell - totalOfSpell) / 5), 1);
       }
       // lose fatigue levels
       await actorCaster.loseFatigueLevel(fatigue);
