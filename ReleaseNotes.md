@@ -1,4 +1,4 @@
-## 2.2.2.3, Nicodemus Ex Miscellanea
+## 2.2.2.4, Nicodemus Ex Miscellanea
 
 ### Bug fixes
 
