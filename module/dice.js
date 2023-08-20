@@ -154,9 +154,6 @@ async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined
     botchCheck = 1;
   }
 
-  //
-  // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
-
   let rollMode = game.settings.get("core", "rollMode");
   if (
     getRollTypeProperties(type).MODE & ROLL_MODES.PRIVATE &&
@@ -579,13 +576,13 @@ async function CheckBotch(botchDice) {
     async: true
   });
   botchRoll.botches = botchRoll.total;
+  botchRoll.botchDice = botchDice;
   return botchRoll;
   // return botchRoll.terms[0].total;
 }
 
 async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
   let dieRoll;
-  // if (modes === 0 || modes === 4) {
   dieRoll = await createRoll(
     actorData.rollData.formula,
     mult,
@@ -596,7 +593,7 @@ async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
   //
   // explode mode
 
-  const diceResult = dieRoll.dice[0].results[0].result;
+  let diceResult = dieRoll.dice[0].results[0].result;
   log(false, `Dice result: ${diceResult}`);
   if (diceResult === 1) {
     if (game.modules.get("dice-so-nice")?.active) {
@@ -688,6 +685,7 @@ async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
                         actor: actorData
                       })
                     });
+                    botchRoll = 0;
                     resolve();
                   }
                 }
@@ -703,10 +701,15 @@ async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
       } else {
         botchRoll = await CheckBotch(botchNum);
       }
-      if (botchRoll.botches > 0) {
+      if (botchRoll) {
+        if (botchRoll.botches == 0) {
+          botchRoll._total = dieRoll.total;
+          botchRoll._formula = dieRoll._formula;
+        }
         dieRoll = botchRoll;
+      } else {
+        dieRoll.botchDice = 0;
       }
-      dieRoll.botchDice = botchNum;
     }
   }
 
@@ -755,11 +758,15 @@ async function noRoll(actor, mode, callback, roll) {
     }
   };
   let formula = `${rollData.formula}`;
-  // let rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
+
   let rollMode = game.settings.get("core", "rollMode");
-  // if (actor.type != "player") {
-  rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
-  // }
+  if (
+    getRollTypeProperties(rollData.type).MODE & ROLL_MODES.PRIVATE &&
+    rollMode != CONST.DICE_ROLL_MODES.BLIND
+  ) {
+    rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
+  }
+
   if (rollData.magic.divide > 1) {
     formula += ` / ${rollData.magic.divide}`;
   }

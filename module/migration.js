@@ -747,7 +747,18 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         let toDelete = [];
         for (let e of applied) {
           // if effect comes from an item, no need to migrate it.
-          if (e.transfer == true) continue;
+          if (e.transfer == true) {
+            continue;
+          } else {
+            const [actorPrefix, actorId, itemPrefix, itemId] = e.origin?.split(".") ?? [];
+            if (itemPrefix && actorDoc.items.has(itemId)) {
+              if (actorDoc instanceof ArM5ePCActor) {
+                toDelete.push(e._id);
+                continue;
+              }
+            }
+          }
+
           if (isEffectObsolete(e)) {
             if (actorDoc instanceof ArM5ePCActor) {
               toDelete.push(e._id);
