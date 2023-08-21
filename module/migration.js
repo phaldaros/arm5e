@@ -741,7 +741,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         }
       }
     } else {
-      const applied = actorDoc.appliedEffects;
+      const applied = Array.from(actorDoc.allApplicableEffects());
       if (applied && applied.length > 0) {
         let effects = [];
         let toDelete = [];
@@ -750,6 +750,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
           if (e.transfer == true) {
             continue;
           } else {
+            // Effect is a remnant of V10 coming from an item
             const [actorPrefix, actorId, itemPrefix, itemId] = e.origin?.split(".") ?? [];
             if (itemPrefix && actorDoc.items.has(itemId)) {
               if (actorDoc instanceof ArM5ePCActor) {

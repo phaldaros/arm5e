@@ -46,7 +46,13 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     event.preventDefault();
     const a = event.currentTarget;
     const li = a.closest("li");
-    const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+    let effect;
+    if (CONFIG.ISV10) {
+      effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+    } else {
+      let effects = Array.from(owner.allApplicableEffects());
+      effect = effects.find((e) => e._id == li.dataset.effectId);
+    }
     switch (a.dataset.action) {
       case "create":
         const data = {
