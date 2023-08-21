@@ -733,7 +733,9 @@ export class ArM5eActorSheet extends ActorSheet {
     context.rollData = context.actor.getRollData();
 
     // Prepare active effects
-    context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(this.actor.appliedEffects);
+    context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(
+      this.actor.allApplicableEffects()
+    );
     this._prepareCharacterItems(context);
 
     return context;
