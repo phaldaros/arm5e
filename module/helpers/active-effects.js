@@ -1,4 +1,6 @@
+import { ArM5ePCActor } from "../actor/actor.js";
 import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
+// import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
@@ -23,6 +25,10 @@ export default class ArM5eActiveEffect extends ActiveEffect {
         ((this.parent.documentName === "Item" && this.parent.isOwned == true) ||
           (this.parent.documentName === "Actor" && this.origin?.includes("Item")))) ||
       this.getFlag("arm5e", "noEdit");
+    this.noDelete =
+      // (CONFIG.ISV10 && this.noEdit) ||
+      (this.parent.documentName === "Item" && this.parent.isOwned == true) ||
+      (this.parent.documentName === "Actor" && this.origin?.includes("Item"));
   }
 
   /** @inheritdoc */
@@ -47,12 +53,13 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     const a = event.currentTarget;
     const li = a.closest("li");
     let effect;
-    if (CONFIG.ISV10) {
+    if (CONFIG.ISV10 || !owner.allApplicableEffects) {
       effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
     } else {
       let effects = Array.from(owner.allApplicableEffects());
       effect = effects.find((e) => e._id == li.dataset.effectId);
     }
+
     switch (a.dataset.action) {
       case "create":
         const data = {

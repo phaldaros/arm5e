@@ -734,7 +734,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Prepare active effects
     context.effects = ArM5eActiveEffect.prepareActiveEffectCategories(
-      this.actor.allApplicableEffects()
+      CONFIG.ISV10 ? this.actor.effects : Array.from(this.actor.allApplicableEffects())
     );
     this._prepareCharacterItems(context);
 
@@ -1191,7 +1191,7 @@ export class ArM5eActorSheet extends ActorSheet {
           if (Number.isNumeric(input.val())) {
             newVal = Number(input.val());
           }
-          const updateData = [];
+          const updateData = {};
           if (newVal > Math.abs(score)) {
             newVal = 0;
             updateData[`system.characteristics.${dataset.characteristic}.value`] =

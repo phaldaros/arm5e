@@ -1,4 +1,4 @@
-## 2.2.2.5, Nicodemus Ex Miscellanea
+## 2.2.2.6, Nicodemus Ex Miscellanea
 
 ### Bug fixes
 
@@ -6,6 +6,10 @@
 - Fixed bug with Dice So Nice integration where rolling for botch always seemed to result in one.
 - Spontaneous casting without casting now displays its chat message respecting the roll mode instead of always private.
 - Fixed migration bug in V11 where effects coming from Items were kept duplicated.
+- Improved migration for unlinked tokens
+- Effect tab displays all applicable effects
+- Changing aging point no longer raises an error.
+- It is not possible anymore to delete active effects belonging to Items on the actor sheet.
 
 ## 2.2.2.2, Nicodemus crippled by Twilight
 

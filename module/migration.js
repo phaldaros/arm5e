@@ -511,11 +511,15 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         }
         updateData["system.-=reputation"] = null;
       } else {
-        ChatMessage.create({
-          content:
-            "<b>MIGRATION NOTIFICATION</b><br/>" +
-            `The character ${actor.name} was unable to migrate his/her reputations. Triggering a new migration will fix it (See FAQ)`
-        });
+        if (actorDoc.synthetic) {
+          updateData["system.-=reputation"] = null;
+        } else {
+          ChatMessage.create({
+            content:
+              "<b>MIGRATION NOTIFICATION</b><br/>" +
+              `The character ${actor.name} was unable to migrate his/her reputations. Triggering a new migration will fix it (See FAQ)`
+          });
+        }
       }
     }
 
@@ -539,11 +543,15 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         }
         updateData["system.-=personality"] = null;
       } else {
-        ChatMessage.create({
-          content:
-            "<b>MIGRATION NOTIFICATION</b><br/>" +
-            `The character ${actor.name} was unable to migrate his/her personality traits. Triggering a new migration will fix it (See FAQ)`
-        });
+        if (actorDoc.synthetic) {
+          updateData["system.-=personality"] = null;
+        } else {
+          ChatMessage.create({
+            content:
+              "<b>MIGRATION NOTIFICATION</b><br/>" +
+              `The character ${actor.name} was unable to migrate his/her personality traits. Triggering a new migration will fix it (See FAQ)`
+          });
+        }
       }
     }
   } else {
@@ -741,7 +749,10 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         }
       }
     } else {
-      const applied = Array.from(actorDoc.allApplicableEffects());
+      let applied = actorDoc.effects;
+      if (actorDoc instanceof ArM5ePCActor) {
+        applied = Array.from(actorDoc.allApplicableEffects());
+      }
       if (applied && applied.length > 0) {
         let effects = [];
         let toDelete = [];
@@ -754,6 +765,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
             const [actorPrefix, actorId, itemPrefix, itemId] = e.origin?.split(".") ?? [];
             if (itemPrefix && actorDoc.items.has(itemId)) {
               if (actorDoc instanceof ArM5ePCActor) {
+                console.log(`DEBUG: Found duplicate effect of origin: "${e.origin}", delete it.`);
                 toDelete.push(e._id);
                 continue;
               }
