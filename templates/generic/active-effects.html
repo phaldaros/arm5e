@@ -14,6 +14,7 @@
     </li>
 
     <ol class="item-list">
+
       {{#each section.effects as |effect|}}
         <li class="item effect flexrow" data-effect-id="{{effect.id}}">
           <div class="item-name effect-name flexrow">
@@ -34,6 +35,8 @@
               <a class="effect-control" data-action="edit" title="{{localize 'arm5e.sheet.effectsEdit'}}">
                 <i class="icon-Icon_Edit"></i>
               </a>
+            {{/unless}}
+            {{#unless (and effect.noDelete (eq ../../mode "actor"))}}
               <a class="effect-control" data-action="delete" title="{{localize 'arm5e.sheet.effectsDelete'}}">
                 <i class="icon-Icon_Delete_Hand_Gesture"></i>
               </a>
