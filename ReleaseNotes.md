@@ -1,3 +1,9 @@
+## 2.2.2.7, Nicodemus
+
+### Features & changes
+
+- Players can now toggle effects
+
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 
 ### Bug fixes
