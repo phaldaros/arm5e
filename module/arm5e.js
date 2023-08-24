@@ -17,16 +17,14 @@ import { ArM5eItemDiarySheet } from "./item/item-diary-sheet.js";
 import { ArM5eItemVisSheet } from "./item/item-vis-sheet.js";
 import ArM5eActiveEffect from "./helpers/active-effects.js";
 
-import { ArM5eScene } from "./ui/ars-scene.js";
 import { prepareDatasetByTypeOfItem } from "./helpers/items-helpers.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./helpers/chat.js";
 
-import { clearAuraFromActor } from "./helpers/aura.js";
 
 // experiment
-import { ArsLayer, addArsButtons, onDropOnCanvas } from "./ui/ars-layer.js";
+import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 
 import { migration } from "./migration.js";
 import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
@@ -183,7 +181,6 @@ Hooks.once("init", async function () {
   CONFIG.Actor.documentClass = ArM5ePCActor;
   CONFIG.Item.documentClass = ArM5eItem;
   CONFIG.ActiveEffect.documentClass = ArM5eActiveEffect;
-  CONFIG.Scene.documentClass = ArM5eScene;
 
   // Define datamodel schemas
   setDatamodels();
@@ -214,6 +211,11 @@ Hooks.once("init", async function () {
     }
     return options.inverse(this);
   });
+
+  Handlebars.registerHelper("isGM", function () {
+    return game.user.isGM;
+  });
+
 });
 
 Hooks.once("ready", async function () {
@@ -418,13 +420,6 @@ function rollItemMacro(itemId, actorId) {
 Hooks.on("renderChatMessage", (message, html, data) =>
   Arm5eChatMessage.addChatListeners(message, html, data)
 );
-
-Hooks.on("deleteToken", (token, options, userId) => {
-  // if the token is linked to an actor, remove the aura
-  if (token.isLinked) {
-    clearAuraFromActor(token.actor);
-  }
-});
 
 // On Apply an ActiveEffect that uses a CUSTOM application mode.
 Hooks.on("applyActiveEffect", (actor, change, current, delta, changes) => {

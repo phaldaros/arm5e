@@ -120,7 +120,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         }
       }
     }
-
+    context.scenes = game.scenes.contents;
     return context;
   }
 

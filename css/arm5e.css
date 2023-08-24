@@ -330,6 +330,15 @@ h4.window-title {
   background-image: none;
 }
 
+.arm5e.aura-config form > div {
+  margin: 10px 30px;
+}
+
+.arm5e.aura-config input[type="number"] {
+  text-align: center;
+  flex: 0 0 60px;
+}
+
 .arm5e .sanatorium .improved {
   box-shadow: 3px 3px 3px rgb(51 120 34 / 50%);
 }

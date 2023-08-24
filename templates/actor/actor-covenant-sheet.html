@@ -88,19 +88,16 @@
 
       <div class="resources flexrow flex-between">
         <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.typeAura" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.typeAura"}}</label>
-          <select name="system.typeAura" data-type="String" style="flex: 0 0 60px">
-            {{#select system.typeAura}} {{#each config.realmsExt as |realm key|}}
-                <option value="{{key}}">{{localize realm.label}}</option>
-              {{/each}} {{/select}}
+          <label for="system.scene.id" class="header-label"
+            style="padding-top: 4px; padding-left: 24px">Scene</label>
+          <select name="system.scene.id" data-type="String" style="flex: 0 0 60px" {{#unless (isGM)}}disabled{{/unless}}>
+            {{#select system.scene.id}}
+              <option value=""></option>
+              {{#each scenes}}
+                  <option value="{{this.id}}">{{this.name}}</option>
+              {{/each}} 
+            {{/select}}
           </select>
-        </span>
-        <span class="covenantname flexrow">
-          <label for="system.levelAura" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.levelAura"}}</label>
-          <input class="flex04 resource-focus" name="system.levelAura" type="number" value="{{system.levelAura}}"
-            data-dtype="Number" style="flex: 0 0 40px" />
         </span>
         <span class="covenantname flexrow" style="padding-top: 4px">
           <label for="system.levelsRegio" class="header-label"

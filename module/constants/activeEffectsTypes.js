@@ -12,33 +12,6 @@ export default {
       }
     }
   },
-  aura: {
-    category: "magic",
-    type: "aura",
-    label: "arm5e.sheet.magic.aura",
-    subtypes: {
-      auraRealm: {
-        label: "arm5e.sheet.activeEffect.subtypes.auraRealm",
-        key: "system.aura.realm",
-        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-        default: 1,
-        choice: {
-          1: "arm5e.sheet.realm.magical",
-          2: "arm5e.sheet.realm.faeric",
-          3: "arm5e.sheet.realm.divine",
-          4: "arm5e.sheet.realm.infernal"
-        },
-        internal: true
-      },
-      auraLevel: {
-        label: "arm5e.sheet.activeEffect.subtypes.auraLevel",
-        key: "system.aura.level",
-        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-        default: 3,
-        internal: true
-      }
-    }
-  },
   spellcasting: {
     category: "magic",
     type: "spellcasting",
@@ -118,25 +91,6 @@ export default {
       //   default: 0,
       //   optional: true
       // }
-    }
-  },
-  realm: {
-    category: "magic",
-    type: "realm",
-    label: "arm5e.sheet.activeEffect.types.realmAlignment",
-    subtypes: {
-      magic: {
-        label: "arm5e.sheet.realm.label",
-        key: "system.realmAlignment",
-        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-        default: 1,
-        choice: {
-          1: "arm5e.sheet.realm.magical",
-          2: "arm5e.sheet.realm.faeric",
-          3: "arm5e.sheet.realm.divine",
-          4: "arm5e.sheet.realm.infernal"
-        }
-      }
     }
   },
   activities: {

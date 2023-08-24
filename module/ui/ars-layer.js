@@ -1,12 +1,8 @@
 import { log } from "../tools.js";
-import {
-  setAuraValueForAllTokensInScene,
-  clearAuraFromActor,
-  addActiveEffectAuraToActor
-} from "../helpers/aura.js";
 import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
 import { Scriptorium } from "../tools/scriptorium.js";
+import { AuraConfig } from "./aura-config.js";
 
 export class ArsLayer extends InteractionLayer {
   async draw() {
@@ -29,61 +25,19 @@ export class ArsLayer extends InteractionLayer {
     });
   }
 
-  static async selectAura() {
-    const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
-    const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
-    let currentAura = game.i18n.localize("arm5e.generic.none");
-    if (aura !== undefined && !Number.isNaN(aura) && type !== undefined && !Number.isNaN(type)) {
-      currentAura = `${game.i18n.localize("arm5e.generic.current")} : +${Number(
-        aura
-      )} ${game.i18n.localize(CONFIG.ARM5E.realms[CONFIG.ARM5E.lookupRealm[type]].label)}`;
+  static async clearAura(bypassDialog=false) {
+    if (bypassDialog)
+    {
+      canvas.scene.setFlag("arm5e", "aura", null)
     }
-
-    let dialogData = {
-      fieldName: "arm5e.sheet.aura",
-      placeholder: "0",
-      value: "",
-      current: currentAura,
-      realms: CONFIG.ARM5E.realms
-    };
-    const html = await renderTemplate("systems/arm5e/templates/generic/auraInput.html", dialogData);
-    const dialog = new Dialog(
-      {
-        title: game.i18n.localize("arm5e.sheet.aura"),
-        content: html,
-        render: this.addListenersDialog,
-        buttons: {
-          yes: {
-            icon: "<i class='fas fa-check'></i>",
-            label: game.i18n.localize("arm5e.sheet.action.apply")
-          }
-        },
-        default: "yes",
-        close: async (html) => {
-          let val = html.find('input[name="inputField"]');
-
-          if (val.val() !== "") {
-            const aura = Number(val.val());
-            const type = Number(html.find(".aura-type")[0].value);
-            await setAuraValueForAllTokensInScene(aura, type);
-          }
-        }
-      },
-      {
-        jQuery: true,
-        height: "140px",
-        classes: ["arm5e-dialog", "dialog"]
-      }
-    );
-    dialog.render(true);
-  }
-
-  static async clearAura() {
-    await game.scenes.viewed.unsetFlag("world", "aura_" + game.scenes.viewed._id);
-    await game.scenes.viewed.unsetFlag("world", "aura_type_" + game.scenes.viewed._id);
-    const tokens = canvas.tokens.placeables.filter((token) => token.actor);
-    for (const token of tokens) {
-      await clearAuraFromActor(token.actor);
+    else 
+    {
+      Dialog.confirm({
+        title : game.i18n.localize("arm5e.canvas.buttons.clearAura"),
+        content : game.i18n.localize("arm5e.dialog.confirmClearAura"),
+        yes : () => {canvas.scene.setFlag("arm5e", "aura", null)},
+        no : () => {}
+      })
     }
   }
   static async openAstrolab() {
@@ -155,7 +109,7 @@ export function addArsButtons(buttons) {
         icon: "icon-Tool_Auras",
         visible: game.user.isGM,
         button: true,
-        onClick: () => ArsLayer.selectAura()
+        onClick: () => new AuraConfig(canvas.scene).render(true)
       },
       {
         name: "clearAura",
@@ -184,22 +138,4 @@ export function addArsButtons(buttons) {
     ],
     activeTool: "aura"
   });
-}
-
-export async function onDropOnCanvas(canvas, data) {
-  if (!canvas.scene.active) {
-    return;
-  }
-  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
-  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
-  const actor = await fromUuid(data.uuid);
-  if (actor) {
-    if (aura !== undefined && !Number.isNaN(aura) && type !== undefined && !Number.isNaN(type)) {
-      addActiveEffectAuraToActor(actor, Number(aura), Number(type));
-    } else {
-      // no aura
-      // => reset aura for actor, if it was in another scene.
-      clearAuraFromActor(actor);
-    }
-  }
 }
