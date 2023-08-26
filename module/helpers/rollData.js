@@ -355,7 +355,7 @@ export class ArM5eRollData {
       operatorOpt: ["+", "+", "+", "+", "+"]
     };
 
-    this.environment = { aura: 0, year: "", season: "", hasAuraBonus: false };
+    this.environment = { aura: 0, year: "", season: "" };
     this.activeEffects = [];
 
     this.bonuses = 0;

@@ -4,6 +4,13 @@
 
 - Players can now toggle effects
 
+### Bug fixes
+
+- Obsolete active effects are now properly deleted from synthetic actors (unlinked) - V11 only
+- Duplicate V11 effects are now deleted properly
+- Wounds of synthetic actors are now migrated properly
+- Casting total is now rounded before checking for failure.
+
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 
 ### Bug fixes

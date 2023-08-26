@@ -16,7 +16,7 @@
         system.roll.power.penetrationPenalty decimals=0 sign=true }})</label>
     </div>
 
-    {{#unless system.roll.environment.hasAuraBonus}}
+    {{#unless system.roll.environment.aura}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">+</label>
       </div>
@@ -37,7 +37,7 @@
       <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center clickable">
-      <label class="resource-label " data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
+      <label class="resource-label" data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
         ({{ system.roll.bonuses
         }})</label>
     </div>
