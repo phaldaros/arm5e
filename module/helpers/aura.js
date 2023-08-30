@@ -73,7 +73,7 @@ export default class Aura {
    */
   _nightModifier(realm) {
     realm = realm || this.dominantRealm;
-    if (this.scene.darkness == 1) {
+    if (this.scene?.darkness == 1) {
       // Probably not the most accurate check
       return this.nightModifier[realm] || 0;
     } else return 0;

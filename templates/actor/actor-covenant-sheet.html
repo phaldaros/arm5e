@@ -1,183 +1,185 @@
-<form class="{{cssClass}} flexcol mainCovenant" autocomplete="off">
+<div class="{{cssClass}} flexcol mainCovenant">
   <div class="header-background">
     <img src="systems/arm5e/assets/covenant/header150.png" />
   </div>
+  <form class="sheet-content flexcol" autocomplete="off">
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+      <div class="header-fields">
+        <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
 
-  {{!-- Sheet Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
+        <div class="resources flexrow flex-between">
+          <span class="covenantname flexrow">
+            <label for="system.saga" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.saga"}}</label>
+            <input name="system.saga" type="text" value="{{system.saga}}" data-dtype="String" style="flex: 0 0 120px" />
+          </span>
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.narrator" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.narrator"}}</label>
+            <input name="system.narrator" type="text" value="{{system.narrator}}" data-dtype="String"
+              style="flex: 0 0 100px" />
+          </span>
+        </div>
 
-      <div class="resources flexrow flex-between">
-        <span class="covenantname flexrow">
-          <label for="system.saga" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.saga"}}</label>
-          <input name="system.saga" type="text" value="{{system.saga}}" data-dtype="String" style="flex: 0 0 120px" />
-        </span>
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.narrator" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.narrator"}}</label>
-          <input name="system.narrator" type="text" value="{{system.narrator}}" data-dtype="String"
-            style="flex: 0 0 100px" />
-        </span>
-      </div>
+        <div class="resources flexrow flex-between">
+          <span class="covenantname flexrow">
+            <label for="system.tribunal" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.tribunal"}}</label>
+            <input name="system.tribunal" type="text" value="{{system.tribunal}}" data-dtype="String"
+              style="flex: 0 0 120px" />
+          </span>
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.aegisCovenant" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.aegisCovenant"}}</label>
+            <input name="system.aegisCovenant" type="text" value="{{system.aegisCovenant}}" data-dtype="String"
+              style="flex: 0 0 100px" />
+          </span>
+        </div>
 
-      <div class="resources flexrow flex-between">
-        <span class="covenantname flexrow">
-          <label for="system.tribunal" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.tribunal"}}</label>
-          <input name="system.tribunal" type="text" value="{{system.tribunal}}" data-dtype="String"
-            style="flex: 0 0 120px" />
-        </span>
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.aegisCovenant" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.aegisCovenant"}}</label>
-          <input name="system.aegisCovenant" type="text" value="{{system.aegisCovenant}}" data-dtype="String"
-            style="flex: 0 0 100px" />
-        </span>
-      </div>
+        <div class="resources flexrow flex-between">
+          <span class="covenantname flexrow">
+            <label for="system.sagaType" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.sagaType"}}</label>
+            <input name="system.sagaType" type="text" value="{{system.sagaType}}" data-dtype="String"
+              style="flex: 0 0 120px" />
+          </span>
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.foundationYear" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.foundationYear"}}</label>
+            <input class="flex08" name="system.foundationYear" type="text" value="{{system.foundationYear}}"
+              data-dtype="String" style="flex: 0 0 100px" />
+          </span>
+        </div>
 
-      <div class="resources flexrow flex-between">
-        <span class="covenantname flexrow">
-          <label for="system.sagaType" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.sagaType"}}</label>
-          <input name="system.sagaType" type="text" value="{{system.sagaType}}" data-dtype="String"
-            style="flex: 0 0 120px" />
-        </span>
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.foundationYear" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.foundationYear"}}</label>
-          <input class="flex08" name="system.foundationYear" type="text" value="{{system.foundationYear}}"
-            data-dtype="String" style="flex: 0 0 100px" />
-        </span>
-      </div>
+        <div class="resources flexrow flex-between">
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.datetime.year" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.currentYear"}}</label>
+            <input class="flex08" name="year" type="text" value="{{datetime.year}}" readonly data-dtype="String"
+              style="flex: 0 0 120px" />
+          </span>
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.season" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.season"}}</label>
+            <select name="system.season" data-type="String" style="flex: 0 0 100px">
+              {{#select system.season}} {{#each config.seasons as |season key|}}
+                  <option value="{{key}}">{{localize season.label}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </span>
+        </div>
 
-      <div class="resources flexrow flex-between">
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.datetime.year" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.currentYear"}}</label>
-          <input class="flex08" name="year" type="text" value="{{datetime.year}}" readonly data-dtype="String"
-            style="flex: 0 0 120px" />
-        </span>
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.season" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.season"}}</label>
-          <select name="system.season" data-type="String" style="flex: 0 0 100px">
-            {{#select system.season}} {{#each config.seasons as |season key|}}
-                <option value="{{key}}">{{localize season.label}}</option>
-              {{/each}} {{/select}}
-          </select>
-        </span>
-      </div>
+        <div class="resources flexrow flex-between">
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.modifiersLife.magi" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.modifiersLifeMagi"}}</label>
+            <input class="flex04 resource-focus" name="system.modifiersLife.magi" type="text"
+              value="{{system.modifiersLife.magi}}" data-dtype="Number" />
+          </span>
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.modifiersLife.mundane" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.modifiersLifeMundane"}}</label>
+            <input class="flex04 resource-focus" name="system.modifiersLife.mundane" type="text"
+              value="{{system.modifiersLife.mundane}}" data-dtype="Number" />
+          </span>
+        </div>
 
-      <div class="resources flexrow flex-between">
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.modifiersLife.magi" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.modifiersLifeMagi"}}</label>
-          <input class="flex04 resource-focus" name="system.modifiersLife.magi" type="text"
-            value="{{system.modifiersLife.magi}}" data-dtype="Number" />
-        </span>
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.modifiersLife.mundane" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.modifiersLifeMundane"}}</label>
-          <input class="flex04 resource-focus" name="system.modifiersLife.mundane" type="text"
-            value="{{system.modifiersLife.mundane}}" data-dtype="Number" />
-        </span>
-      </div>
-
-      <div class="resources flexrow flex-between">
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.scene.id" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">Scene</label>
-          <select name="system.scene.id" data-type="String" style="flex: 0 0 60px" {{#unless (isGM)}}disabled{{/unless}}>
-            {{#select system.scene.id}}
-              <option value=""></option>
-              {{#each scenes}}
+        <div class="resources flexrow flex-between">
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.scene.id" class="header-label" style="padding-top: 4px; padding-left: 24px">Scene</label>
+            <select name="system.scene.id" data-type="String" style="flex: 0 0 60px" {{#unless
+              (isGM)}}disabled{{/unless}}>
+              {{#select system.scene.id}}
+                <option value=""></option>
+                {{#each scenes}}
                   <option value="{{this.id}}">{{this.name}}</option>
-              {{/each}} 
-            {{/select}}
-          </select>
-        </span>
-        <span class="covenantname flexrow" style="padding-top: 4px">
-          <label for="system.levelsRegio" class="header-label"
-            style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.levelsRegio"}}</label>
-          <input class="flex04 resource-focus" name="system.levelsRegio" type="text" value="{{system.levelsRegio}}"
-            data-dtype="String" style="flex: 0 0 40px" />
-        </span>
+                {{/each}}
+              {{/select}}
+            </select>
+          </span>
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.levelsRegio" class="header-label"
+              style="padding-top: 4px; padding-left: 24px">{{localize "arm5e.sheet.levelsRegio"}}</label>
+            <input class="flex04 resource-focus" name="system.levelsRegio" type="text" value="{{system.levelsRegio}}"
+              data-dtype="String" style="flex: 0 0 40px" />
+          </span>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="arm5eTabs arm5eTabsCOV sheet-tabs tabs" data-group="primary">
-    <a class="item posRelative" data-tab="attributes">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.attributes"}}
-    </a>
-    <a class="item posRelative" data-tab="habitants">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.habitants"}}
-    </a>
-    <a class="item posRelative" data-tab="posessions">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.possessions"}}
-    </a>
-    <a class="item posRelative" data-tab="economics">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.economics"}}
-    </a>
-    <a class="item posRelative" data-tab="library">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.library"}}
-    </a>
-    <a class="item posRelative" data-tab="diary">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.diary"}}
-    </a>
-  </nav>
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="arm5eTabs arm5eTabsCOV sheet-tabs tabs" data-group="primary">
+      <a class="item posRelative" data-tab="attributes">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.attributes"}}
+      </a>
+      <a class="item posRelative" data-tab="habitants">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.habitants"}}
+      </a>
+      <a class="item posRelative" data-tab="posessions">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.possessions"}}
+      </a>
+      <a class="item posRelative" data-tab="economics">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.economics"}}
+      </a>
+      <a class="item posRelative" data-tab="library">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.library"}}
+      </a>
+      <a class="item posRelative" data-tab="diary">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.diary"}}
+      </a>
+    </nav>
 
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-    {{!-- attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
-      {{> "systems/arm5e/templates/actor/parts/actor-covenantAttributes.html" }}
-    </div>
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+      {{!-- attributes Tab --}}
+      <div class="tab attributes" data-group="primary" data-tab="attributes">
+        {{> "systems/arm5e/templates/actor/parts/actor-covenantAttributes.html" }}
+      </div>
 
-    {{!-- habitants Tab --}}
-    <div class="tab habitants" data-group="primary" data-tab="habitants">
-      {{> "systems/arm5e/templates/actor/parts/actor-covenantHabitants.html" }}
-    </div>
+      {{!-- habitants Tab --}}
+      <div class="tab habitants" data-group="primary" data-tab="habitants">
+        {{> "systems/arm5e/templates/actor/parts/actor-covenantHabitants.html" }}
+      </div>
 
-    {{!-- posessions Tab --}}
-    <div class="tab posessions" data-group="primary" data-tab="posessions">
-      {{> "systems/arm5e/templates/actor/parts/actor-covenantPosessions.html" }}
-    </div>
+      {{!-- posessions Tab --}}
+      <div class="tab posessions" data-group="primary" data-tab="posessions">
+        {{> "systems/arm5e/templates/actor/parts/actor-covenantPosessions.html" }}
+      </div>
 
-    {{!-- economics Tab --}}
-    <div class="tab economics" data-group="primary" data-tab="economics">
-      {{> "systems/arm5e/templates/actor/parts/actor-covenantEconomics.html" }}
-    </div>
+      {{!-- economics Tab --}}
+      <div class="tab economics" data-group="primary" data-tab="economics">
+        {{> "systems/arm5e/templates/actor/parts/actor-covenantEconomics.html" }}
+      </div>
 
-    {{!-- library Tab --}}
-    <div class="tab library" data-group="primary" data-tab="library">
-      {{> "systems/arm5e/templates/actor/parts/actor-library.html" }}
-    </div>
+      {{!-- library Tab --}}
+      <div class="tab library" data-group="primary" data-tab="library">
+        {{> "systems/arm5e/templates/actor/parts/actor-library.html" }}
+      </div>
 
-    {{!-- Diary Tab --}}
-    <div class="tab diary" data-group="primary" data-tab="diary">
-      {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }} {{>
+      {{!-- Diary Tab --}}
+      <div class="tab diary" data-group="primary" data-tab="diary">
+        {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }} {{>
       "systems/arm5e/templates/actor/parts/actor-covenantCalendar.html" }}
-    </div>
-  </section>
+      </div>
+    </section>
 
+
+  </form>
   <div class="footer-background">
     <img src="systems/arm5e/assets/covenant/footer.png" />
   </div>
-</form>
+</div>

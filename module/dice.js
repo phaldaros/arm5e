@@ -201,10 +201,30 @@ export function getFormData(html, actor) {
   find = html.find(".SelectedAbility");
   if (find.length > 0) {
     if (find[0].value == "None") {
-      actor.rollData.ability.score = 0;
+      const dataset = {
+        name: actor.rollData.name,
+        roll: "char",
+        characteristic: actor.rollData.characteristic,
+        modifier: actor.rollData.modifier
+      };
+      actor.rollData.init(dataset, actor);
+      // actor.rollData.ability.score = 0;
+      // actor.rollData.ability.name = "";
+      // actor.rollData.type = "char";
     } else {
-      actor.items.get(find[0].value);
-      actor.rollData.ability.score = actor.items.get(find[0].value).system.finalScore;
+      const dataset = {
+        name: actor.rollData.name,
+        roll: "ability",
+        ability: find[0].value,
+        defaultcharacteristic: actor.rollData.characteristic,
+        modifier: actor.rollData.modifier
+      };
+      actor.rollData.init(dataset, actor);
+
+      // const ability = actor.items.get(find[0].value);
+      // actor.rollData.ability.score = ability.system.finalScore;
+      // actor.rollData.ability.name = ability.name;
+      // actor.rollData.type = "ability";
     }
   }
 

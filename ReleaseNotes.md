@@ -1,8 +1,11 @@
-## 2.2.2.7, Nicodemus
+## 2.2.2.8, Nicodemus
 
 ### Features & changes
 
+- New aura management
 - Players can now toggle effects
+- New French version (by Orneen)
+- [technical] CSS refactoring and cosmetic improvements
 
 ### Bug fixes
 
@@ -10,6 +13,8 @@
 - Duplicate V11 effects are now deleted properly
 - Wounds of synthetic actors are now migrated properly
 - Casting total is now rounded before checking for failure.
+- Effects coming from the same duplicated Item (eg: dragged from Compendium) are now properly distinguished in Actor sheet.
+- Changing the type of roll from characteristic to ability computes totals properly
 
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 

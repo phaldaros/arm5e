@@ -7,12 +7,13 @@ import Aura from "./aura.js";
 
 export class ArM5eRollData {
   constructor(actor) {
+    this._actor = actor;
     this.reset();
   }
 
-  init(dataset, actor) {
+  init(dataset) {
     this.reset();
-    const actorSystemData = actor.system;
+    const actorSystemData = this._actor.system;
     this.type = dataset.roll;
 
     if (dataset.name) {
@@ -63,7 +64,7 @@ export class ArM5eRollData {
           this.characteristic = dataset.defaultcharacteristic;
         }
 
-        const ab = actor.items.get(dataset.ability);
+        const ab = this._actor.items.get(dataset.ability);
         if (this.img === "") this.img = ab.img;
         this.itemId = ab.id;
         this.name = ab.name;
@@ -80,7 +81,7 @@ export class ArM5eRollData {
 
       case "power":
         if (dataset.id) {
-          let power = actor.items.get(dataset.id);
+          let power = this._actor.items.get(dataset.id);
           this.label += ` (${ARM5E.magic.arts[power.system.form].short})`;
           if (this.img === "") this.img = power.img;
           this.itemId = power.id;
@@ -88,31 +89,31 @@ export class ArM5eRollData {
           this.power.penetrationPenalty = this.power.cost * 5;
           this.power.form = power.system.form;
         }
-        this.initPenetrationVariables(actor);
+        this.initPenetrationVariables();
         break;
 
       case "magic":
       case "spont":
         this.useFatigue = true;
 
-        this.magic.divide = actor.system.bonuses.arts.spontDivider;
+        this.magic.divide = this._actor.system.bonuses.arts.spontDivider;
       case "spell":
-        this.initPenetrationVariables(actor);
+        this.initPenetrationVariables();
         this.characteristic = "sta";
         if (dataset.id) {
-          let spell = actor.items.get(dataset.id);
+          let spell = this._actor.items.get(dataset.id);
           if (this.label === "") {
             this.label = spell.name;
           }
           this.label += " (" + spell.system.level + ")";
           if (this.img === "") this.img = spell.img;
           this.itemId = spell.id;
-          let techData = spell._getTechniqueData(actor.system);
+          let techData = spell._getTechniqueData(this._actor.system);
           this.magic.technique = spell.system.technique.value;
           this.magic.techniqueLabel = techData[0];
           this.magic.techniqueScore = techData[1];
           this.magic.techDeficiency = techData[2];
-          let formData = spell._getFormData(actor.system);
+          let formData = spell._getFormData(this._actor.system);
           this.magic.formLabel = formData[0];
           this.magic.formScore = formData[1];
           this.magic.formDeficiency = formData[2];
@@ -166,7 +167,7 @@ export class ArM5eRollData {
         let livingMod = 0;
         if (actorSystemData.covenant.linked) {
           let cov = game.actors.get(actorSystemData.covenant.actorId);
-          if (ArM5ePCActor.isMagus(actor.type, actorSystemData.charType.value)) {
+          if (ArM5ePCActor.isMagus(this._actor.type, actorSystemData.charType.value)) {
             livingMod = cov.system.modifiersLife.magi ?? 0;
           } else {
             livingMod = cov.system.modifiersLife.mundane ?? 0;
@@ -224,16 +225,16 @@ export class ArM5eRollData {
     }
     this.activeEffects = [];
     if (["magic", "power", "spont", "spell"].includes(this.type)) {
-      this.getSpellcastingModifiers(actor);
+      this.getSpellcastingModifiers();
     }
     this.bonusesExtended = this.bonuses;
-    this.getAuraModifier(actor);
+    this.getAuraModifier();
 
     this.cleanBooleans();
   }
 
-  initPenetrationVariables(actor) {
-    this.penetration = actor.getAbilityStats("penetration");
+  initPenetrationVariables() {
+    this.penetration = this._actor.getAbilityStats("penetration");
     this.penetration.multiplier = 1;
     this.penetration.specApply = false;
     this.penetration.penetrationMastery = false;
@@ -380,26 +381,26 @@ export class ArM5eRollData {
     this.additionalData = {};
   }
 
-  getAuraModifier(actor) {
+  getAuraModifier() {
     const superNatAbility =
       this.type == "ability" &&
       this.ability.category == "supernaturalCat" &&
       this.ability.realm != "mundane";
     const auraApply = superNatAbility || ["spell", "magic", "spont", "power"].includes(this.type);
     if (auraApply) {
-      let alignment = actor.system.realmAlignment;
+      let alignment = this._actor.system.realmAlignment;
       if (superNatAbility) {
         alignment = CONFIG.ARM5E.realmsExt[this.ability.realm].value;
       }
-      this.environment.aura = Aura.fromActor(actor);
+      this.environment.aura = Aura.fromActor(this._actor);
       this.environment.aura.computeAuraModifierFor(alignment);
     }
   }
 
-  getSpellcastingModifiers(actor) {
-    this.bonuses += actor.system.bonuses.arts.spellcasting;
-    log(false, `Bonus spellcasting: ${actor.system.bonuses.arts.spellcasting}`);
-    const activeEffects = actor.effects;
+  getSpellcastingModifiers() {
+    this.bonuses += this._actor.system.bonuses.arts.spellcasting;
+    log(false, `Bonus spellcasting: ${this._actor.system.bonuses.arts.spellcasting}`);
+    const activeEffects = this._actor.appliedEffects;
     let activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
       activeEffects,
       "spellcasting"
@@ -427,16 +428,18 @@ export class ArM5eRollData {
     );
 
     // add label + value for stances
-    if (actor._isMagus()) {
+    if (this._actor._isMagus()) {
       this.activeEffects.push({
-        label: game.i18n.localize(ARM5E.magic.mod.voice[actor.system.stances.voiceStance].mnemonic),
-        value: actor.system.stances.voice[actor.system.stances.voiceStance]
+        label: game.i18n.localize(
+          ARM5E.magic.mod.voice[this._actor.system.stances.voiceStance].mnemonic
+        ),
+        value: this._actor.system.stances.voice[this._actor.system.stances.voiceStance]
       });
       this.activeEffects.push({
         label: game.i18n.localize(
-          ARM5E.magic.mod.gestures[actor.system.stances.gesturesStance].mnemonic
+          ARM5E.magic.mod.gestures[this._actor.system.stances.gesturesStance].mnemonic
         ),
-        value: actor.system.stances.gestures[actor.system.stances.gesturesStance]
+        value: this._actor.system.stances.gestures[this._actor.system.stances.gesturesStance]
       });
     }
   }

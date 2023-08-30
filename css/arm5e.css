@@ -330,11 +330,11 @@ h4.window-title {
   background-image: none;
 }
 
-.arm5e.aura-config form > div {
+/* .arm5e-dialog.aura-config form > div {
   margin: 10px 30px;
-}
+} */
 
-.arm5e.aura-config input[type="number"] {
+.arm5e-dialog.aura-config input[type="number"] {
   text-align: center;
   flex: 0 0 60px;
 }
@@ -690,16 +690,11 @@ h4.window-title {
   padding-right: 32px;
 }
 
-.arm5eInfo .footer-background,
+/* .arm5eInfo .footer-background,
 .arm5eEffect .footer-background,
 .arm5eChooser .footer-background {
   height: 50px;
-}
-
-.marginsides32 {
-  margin-left: 32px;
-  margin-right: 36px;
-}
+} */
 
 .arm5eChooser .header-background img,
 .arm5eChooser .footer-background img,
@@ -714,7 +709,7 @@ h4.window-title {
   font-size: 10pt;
   background-image: url("../assets/dialog/Dialog_Background.png");
   background-repeat: repeat-y;
-  background-size: cover;
+  background-size: contain;
   font-family: "bookAntiquaBold";
 }
 
@@ -927,7 +922,7 @@ h4.window-title {
 .arm5e-dialog .footer-background {
   /* margin-top: -27px; */
   width: 100%;
-  height: 50px;
+  height: auto;
   border: 0px;
   padding-left: 0px;
   padding-right: 0px;
@@ -1073,54 +1068,41 @@ input[type="time"] {
   font-family: "bookAntiqua";
 }
 
+.arm5e .sheet-content {
+  padding-left: 32px;
+  padding-right: 32px;
+  font-family: "bookAntiquaBold";
+  font-size: 9pt;
+}
+
 .arm5e .mainPlayer {
   background-image: url("../assets/PC/background.png");
   background-repeat: repeat-y;
   background-size: contain;
-  font-family: "bookAntiquaBold";
-  padding-left: 32px;
-  padding-right: 32px;
-  font-size: 9pt;
 }
 
 .arm5e .mainNPC {
   background-image: url("../assets/NPC/background.png");
   background-repeat: repeat-y;
   background-size: contain;
-  font-family: "bookAntiquaBold";
-  padding-left: 32px;
-  padding-right: 32px;
-  font-size: 9pt;
 }
 
 .arm5e .mainLaboratory {
   background-image: url("../assets/Lab/background.png");
   background-repeat: repeat-y;
   background-size: contain;
-  font-family: "bookAntiquaBold";
-  padding-left: 32px;
-  padding-right: 32px;
-  font-size: 9pt;
 }
 
 .arm5e .mainCodex {
   background-image: url("../assets/Codex/background.png");
   background-repeat: repeat-y;
   background-size: contain;
-  font-family: "bookAntiquaBold";
-  padding-left: 32px;
-  padding-right: 32px;
-  font-size: 9pt;
 }
 
 .arm5e .mainCovenant {
   background-image: url("../assets/Covenant/background.png");
   background-repeat: repeat-y;
   background-size: contain;
-  font-family: "bookAntiquaBold";
-  padding-left: 32px;
-  padding-right: 32px;
-  font-size: 9pt;
 }
 
 .arm5e .mainItem {

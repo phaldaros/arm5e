@@ -1,23 +1,23 @@
-<form class="{{cssClass}} flexcol mainNPC limited-sheet" autocomplete="off">
+<div class="{{cssClass}}  mainNPC">
   <div class="header-background">
     <img src="systems/arm5e/assets/NPC/header150.png" />
   </div>
-
-  {{!-- Sheet Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
-    <div class="header-fields">
-      <h1 class="charname">
-        <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+  <form class="sheet-content flexcol limited-sheet" autocomplete="off">
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+      <div class="header-fields">
+        <h1 class="charname">
+          <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+          </div>
+        </h1>
+        <div class="flex-group-left padding12 backSection" style="height: 418px;">
+          <label class="smallTitle">{{localize "arm5e.sheet.biography"}}</label>
+          {{editor system.biography target="system.biography" button=true owner=owner engine="prosemirror" editable=editable}}
         </div>
-      </h1>
-      <div class="flex-group-left padding12 backSection" style="height: 418px;">
-        <label class="smallTitle">{{localize "arm5e.sheet.biography"}}</label>
-        {{editor system.biography target="system.biography" button=true owner=owner engine="prosemirror" editable=editable}}
-      </div>
-  </header>
-
+    </header>
+  </form>
   <div class="footer-background">
     <img src="systems/arm5e/assets/NPC/footer.png" />
   </div>
-</form>
+</div>
