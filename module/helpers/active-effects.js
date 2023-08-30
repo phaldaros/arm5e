@@ -53,11 +53,10 @@ export default class ArM5eActiveEffect extends ActiveEffect {
     const a = event.currentTarget;
     const li = a.closest("li");
     let effect;
-    if (CONFIG.ISV10 || !owner.allApplicableEffects) {
+    if (CONFIG.ISV10) {
       effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
     } else {
-      let effects = Array.from(owner.allApplicableEffects());
-      effect = effects.find((e) => e._id == li.dataset.effectId);
+      effect = await fromUuid(li.dataset.effectId);
     }
 
     switch (a.dataset.action) {
@@ -127,7 +126,8 @@ export default class ArM5eActiveEffect extends ActiveEffect {
         e.name = e.label;
         e.img = e.icon;
       }
-
+      e.UUID = e.uuid;
+      // TODO V11 use description field
       e.descr = e.buildActiveEffectDescription();
       // let effectTypes = e.getFlag("arm5e", "type");
       // let effectSubtypes = e.getFlag("arm5e", "subtype");

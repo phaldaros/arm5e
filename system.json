@@ -9,7 +9,7 @@
     "verified": "11.307"
   },
   "authors": [
-    { "name": "xzotl", "contribution": "Dev and official maintainer" },
+    { "name": "xzotl", "contribution": "Main dev and official maintainer" },
     { "name": "ialbiol", "contribution": "Dev" },
     { "name": "phaldaros", "contribution": "Original dev" },
     { "name": "Teotimus", "contribution": "Spanish version" },
@@ -20,7 +20,8 @@
     { "name": "Orneen", "contribution": "French version, compendium content" },
     { "name": "N0Br41nZ", "contribution": "Italian version" },
     { "name": "Ramon Alves", "contribution": "Portuguese (BR) version" },
-    { "name": "jaircunhavianna", "contribution": "Compendium content" }
+    { "name": "jaircunhavianna", "contribution": "Compendium content" },
+    { "name": "Moo Man", "contribution": "dev" }
   ],
   "esmodules": ["module/arm5e.js"],
   "styles": ["css/arm5e.css", "css/Ars-Magica-icons.css"],

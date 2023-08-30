@@ -201,10 +201,30 @@ export function getFormData(html, actor) {
   find = html.find(".SelectedAbility");
   if (find.length > 0) {
     if (find[0].value == "None") {
-      actor.rollData.ability.score = 0;
+      const dataset = {
+        name: actor.rollData.name,
+        roll: "char",
+        characteristic: actor.rollData.characteristic,
+        modifier: actor.rollData.modifier
+      };
+      actor.rollData.init(dataset, actor);
+      // actor.rollData.ability.score = 0;
+      // actor.rollData.ability.name = "";
+      // actor.rollData.type = "char";
     } else {
-      actor.items.get(find[0].value);
-      actor.rollData.ability.score = actor.items.get(find[0].value).system.finalScore;
+      const dataset = {
+        name: actor.rollData.name,
+        roll: "ability",
+        ability: find[0].value,
+        defaultcharacteristic: actor.rollData.characteristic,
+        modifier: actor.rollData.modifier
+      };
+      actor.rollData.init(dataset, actor);
+
+      // const ability = actor.items.get(find[0].value);
+      // actor.rollData.ability.score = ability.system.finalScore;
+      // actor.rollData.ability.name = ability.name;
+      // actor.rollData.type = "ability";
     }
   }
 
@@ -242,8 +262,7 @@ export function getFormData(html, actor) {
 
   find = html.find(".SelectedAura");
   if (find.length > 0) {
-    actor.rollData.environment.aura = Number(find[0].value) ?? 0;
-    actor.rollData.environment.hasAuraBonus = true;
+    actor.rollData.environment.aura.modifier = Number(find[0].value) ?? 0;
   }
 
   find = html.find(".SelectedLevel");
@@ -386,12 +405,12 @@ async function getRollFormula(actor) {
       }
     }
 
-    if (rollData.environment.hasAuraBonus) {
-      value = rollData.environment.aura;
+    if (rollData.environment.aura) {
+      value = rollData.environment.aura.modifier;
       total = parseInt(total) + parseInt(value);
       msg = newLineAdd(msg);
       msg += "Aura";
-      msg += " (" + value + ")";
+      msg += " (" + value + ")"; // Remove if not visible? Players can still do math...
     }
 
     if (rollData.magic.ritual === true) {

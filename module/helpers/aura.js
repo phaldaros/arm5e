@@ -1,167 +1,117 @@
-import ACTIVE_EFFECTS_TYPES from "../constants/activeEffectsTypes.js";
-import ArM5eActiveEffect from "./active-effects.js";
-import { log } from "../tools.js";
-import { ARM5E } from "../config.js";
+export default class Aura {
+  constructor(scene) {
+    this.scene = scene;
+    this.modifier = 0; // Modifier can be changed (if the user changes it in the dialog)
+  }
 
-const ICON = "icons/magic/defensive/barrier-shield-dome-blue-purple.webp";
+  get values() {
+    return this._sceneData.values;
+  }
 
-function createAuraActiveEffect(realm, level) {
-  const label = `${game.i18n.localize("arm5e.sheet.levelAura")}`;
+  get nightModifier() {
+    return this._sceneData.nightModifier;
+  }
 
-  const changeData = [
-    {
-      key: ACTIVE_EFFECTS_TYPES.aura.subtypes.auraLevel.key,
-      value: level,
-      mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE
-    },
-    {
-      key: ACTIVE_EFFECTS_TYPES.aura.subtypes.auraRealm.key,
-      value: realm,
-      mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE
-    }
-  ];
-  const activeEffectData = {
-    label: label,
-    icon: ICON,
-    duration: {
-      rounds: undefined
-    },
-    flags: {
-      arm5e: {
-        type: ["aura", "aura"],
-        subtype: ["auraLevel", "auraRealm"],
-        option: [null, null]
+  get visible() {
+    return this._sceneData.visible;
+  }
+
+  // Scene may have been updated, so constantly retrieve scene flag data for aura values
+  get _sceneData() {
+    // If scene doesn't specify aura data, merge with defaultAura to always have correct structure
+    return mergeObject(this.scene?.getFlag("arm5e", "aura") || {}, this.constructor.defaultAura, {
+      overwrite: false
+    });
+  }
+
+  /**
+   * Takes an alignment number of a power and computes how the current aura will modify
+   * that power being used. e.g. how much a faerie power is penalized in a divine aura
+   *
+   * @param {Number} alignment Number representing alignment of power being used
+   * @returns
+   */
+  computeAuraModifierFor(alignment) {
+    let dominantRealm = this.dominantRealm || "mundane";
+    const multiplier = CONFIG.ARM5E.realmsExt[dominantRealm].influence[alignment];
+    this.modifier = this.auraValueFor(dominantRealm) * multiplier;
+    return this.modifier;
+  }
+
+  /**
+   * Retrieve the realm that has the current highest value in the aura
+   * The highest value is computed with the night modifier, if it is present and active
+   */
+  get dominantRealm() {
+    let dominantRealm;
+    let dominantRealmValue = 0;
+    for (let realm in this.values) {
+      if (this.auraValueFor(realm) > dominantRealmValue) {
+        dominantRealmValue = this.values[realm];
+        dominantRealm = realm;
       }
+    }
+    return dominantRealm;
+    // TODO: What if two realms are the same value?
+  }
+
+  /**
+   * Auras can have multiple realms, this retrieves the value of some realm in the aura,
+   * including the night modifier if it is present
+   *
+   * @param {String} realm Realm string, such as "magic" or "divine"
+   * @returns
+   */
+  auraValueFor(realm) {
+    return (this.values[realm] || 0) + this._nightModifier(realm);
+  }
+
+  /**
+   *
+   * @param {String} realm Realm to calculate night modifier for, optional, if not provided use dominant realm
+   * @returns
+   */
+  _nightModifier(realm) {
+    realm = realm || this.dominantRealm;
+    if (this.scene?.darkness == 1) {
+      // Probably not the most accurate check
+      return this.nightModifier[realm] || 0;
+    } else return 0;
+  }
+
+  /**
+   * Create an aura object from an actor and the scene they are associated with
+   * If no token is on the map, juts use viewed scene
+   *
+   * @param {Actor} actor
+   * @returns
+   */
+  static fromActor(actor) {
+    let token = actor.getActiveTokens()[0];
+    let scene;
+    if (token) {
+      scene = token.scene;
+    } // no token on the map, just use viewed scene
+    else {
+      scene = canvas?.scene;
+    }
+    return new this(scene);
+  }
+
+  // Mundane is added here to easily compute cases with no aura
+  static defaultAura = {
+    values: {
+      magic: 0,
+      faeric: 0,
+      divine: 0,
+      infernal: 0
     },
-    changes: changeData,
-    tint: "#000000"
+    visible: false,
+    nightModifier: {
+      magic: 0,
+      faeric: 0,
+      divine: 0,
+      infernal: 0
+    }
   };
-
-  return activeEffectData;
 }
-
-async function setAuraEffect(actor, activeEffectData) {
-  const aura = ArM5eActiveEffect.findAllActiveEffectsWithTypeFiltered(actor.effects, "aura");
-
-  if (aura.length > 1) {
-    console.error("Problem: multiple auras on an Actor");
-  }
-  if (aura.length) {
-    log(
-      false,
-      `AURA_MANAGEMENT Change aura for ${actor.name}, Aura ${activeEffectData.changes[0].value} ${activeEffectData.changes[1].value}`
-    );
-    if (CONFIG.ISV10) aura[0]._getSourceName();
-    activeEffectData._id = aura[0]._id;
-    return await actor.updateEmbeddedDocuments("ActiveEffect", [activeEffectData]);
-  }
-
-  log(
-    false,
-    `AURA_MANAGEMENT Add aura for ${actor.name}, Aura ${activeEffectData.changes[0].value} ${activeEffectData.changes[1].value}`
-  );
-  return await actor.createEmbeddedDocuments("ActiveEffect", [activeEffectData]);
-}
-
-async function modifyAuraActiveEffectForAllTokensInScene(scene, value, type) {
-  if (!scene.active) {
-    return;
-  }
-  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
-    let activeEffectData = createAuraActiveEffect(type, value);
-    activeEffectData.origin = scene.uuid;
-
-    const tokens = scene.tokens.filter((token) => token.actor);
-    for (const token of tokens) {
-      if (token.actor._isCharacter()) {
-        if (token.isLinked) {
-          // patch the active effect data
-          await setAuraEffect(token.actor, activeEffectData);
-        } else {
-          // patch the active effect data
-          log(false, `Change aura for ${token.name}`);
-          await setAuraEffect(token.actor, activeEffectData);
-        }
-      }
-    }
-  }
-}
-
-async function addActiveEffectAuraToActor(actor, value, type) {
-  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
-    const auraEffect = createAuraActiveEffect(type, value);
-    // patch the active effect data
-    await setAuraEffect(actor, auraEffect);
-  }
-}
-
-async function clearAuraFromActor(actor) {
-  if (actor == undefined || actor == null) return;
-  log(false, `AURA_MANAGEMENT: clear effect for ${actor.name}`);
-  const effects = ArM5eActiveEffect.findAllActiveEffectsWithTypeFiltered(actor.effects, "aura");
-  let toDelete = [];
-  for (const e of effects) {
-    toDelete.push(e._id);
-  }
-  await actor.deleteEmbeddedDocuments("ActiveEffect", toDelete);
-}
-
-function computeAuraModifier(alignment, auraVal, auraRealm) {
-  const char = CONFIG.ARM5E.lookupRealm[parseInt(alignment)];
-  const multiplier = CONFIG.ARM5E.realmsExt[auraRealm].influence[parseInt(alignment)];
-  log(
-    false,
-    "Computed aura :" +
-      char +
-      ", Aura: " +
-      auraVal +
-      " of type " +
-      auraRealm +
-      " = " +
-      auraVal * multiplier
-  );
-  return auraVal * multiplier;
-}
-
-async function setAuraValueForAllTokensInScene(value, type) {
-  if (Object.values(ARM5E.REALM_TYPES).includes(Number(type))) {
-    // Store a flag with the current aura
-    await game.scenes.viewed.setFlag("world", "aura_" + game.scenes.viewed._id, Number(value));
-    await game.scenes.viewed.setFlag("world", "aura_type_" + game.scenes.viewed._id, Number(type));
-    modifyAuraActiveEffectForAllTokensInScene(game.scenes.viewed, value, type);
-  }
-}
-
-async function setAuraValueForToken(value, type) {
-  if (Object.values(ARM5E.REALM_TYPES).includes(type)) {
-    await addActiveEffectAuraToActor(this, Number(value), Number(type));
-  }
-}
-
-async function resetTokenAuraToSceneAura() {
-  const aura = game.scenes.viewed.getFlag("world", "aura_" + game.scenes.viewed._id);
-  const type = game.scenes.viewed.getFlag("world", "aura_type_" + game.scenes.viewed._id);
-  if (aura !== undefined && !Number.isNaN(aura) && type !== undefined && !Number.isNaN(type)) {
-    await addActiveEffectAuraToActor(this, Number(aura), Number(type));
-  }
-}
-
-function getAuraModifier(actor, alignment) {
-  const effects = ArM5eActiveEffect.findAllActiveEffectsWithTypeFiltered(actor.effects, "aura");
-  if (effects.length == 0) return null;
-  const level = effects[0].changes[0].value;
-  const realm = effects[0].changes[1].value;
-  const auraRealm = CONFIG.ARM5E.lookupRealm[parseInt(realm)];
-  return computeAuraModifier(alignment, level, auraRealm);
-}
-
-export {
-  getAuraModifier,
-  computeAuraModifier,
-  modifyAuraActiveEffectForAllTokensInScene,
-  addActiveEffectAuraToActor,
-  clearAuraFromActor,
-  setAuraValueForAllTokensInScene,
-  setAuraValueForToken,
-  resetTokenAuraToSceneAura
-};

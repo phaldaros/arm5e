@@ -245,6 +245,7 @@ export const migrateCompendium = async function (pack) {
  * @returns {object}                The updateData to apply
  */
 export const migrateSceneData = async function (scene, migrationData) {
+  const updateData = {};
   const tokens = await Promise.all(
     scene.tokens.map(async (token) => {
       const t = token instanceof foundry.abstract.DataModel ? token.toObject() : token;
@@ -253,15 +254,7 @@ export const migrateSceneData = async function (scene, migrationData) {
       if (!t.actorId || t.actorLink) {
         t.actorData = {};
       } else if (!t.actorLink) {
-        const actorData = token.delta?.toObject() ?? foundry.utils.deepClone(t.actorData);
-        actorData.type = token.actor?.type;
-        actorData.synthetic = true;
-        actorData.name = token.name;
-        if (actorData.system) {
-          actorData.system.charType = { value: token.actor?.system?.charType?.value };
-        }
-
-        const update = await migrateActorData(actorData, actorData.items);
+        const update = await migrateActorData(token, undefined);
         if (CONFIG.ISV10) {
           ["items", "effects"].forEach((embeddedName) => {
             if (!update[embeddedName]?.length) return;
@@ -281,7 +274,27 @@ export const migrateSceneData = async function (scene, migrationData) {
     })
   );
 
-  return { tokens };
+  updateData.tokens = tokens;
+
+  let aura = scene.flags.world?.[`aura_${scene.id}`];
+  let auraType = scene.flags.world?.[`aura_type_${scene.id}`];
+
+  if (Number.isNumeric(aura) || Number.isNumeric(auraType)) {
+    updateData["flags.-=world"] = null;
+
+    let newAuraData = {
+      aura: {
+        visible: false,
+        nightModifier: { magic: 0, faeric: 0, divine: 0, infernal: 0 },
+        values: { magic: 0, faeric: 0, divine: 0, infernal: 0 }
+      }
+    };
+    newAuraData.aura.values[CONFIG.ARM5E.lookupRealm[auraType]] = aura;
+
+    updateData["flags.arm5e"] = newAuraData;
+  }
+
+  return updateData;
 };
 
 const isEffectObsolete = function (effect) {
@@ -294,6 +307,8 @@ const isEffectObsolete = function (effect) {
       if (effect.flags.arm5e.value) {
         return true;
       }
+    } else if (effect.flags.arm5e?.type && effect.flags.arm5e.type[0] === "aura") {
+      return true;
     }
     return false;
   } catch {
@@ -313,6 +328,15 @@ export const migrateActorData = async function (actorDoc, actorItems) {
   let updateData = {};
   if (actorDoc instanceof CONFIG.Actor.documentClass) {
     actor = actorDoc._source;
+  } else if (actorDoc instanceof CONFIG.Token.documentClass) {
+    actor = actorDoc.delta?.toObject() ?? foundry.utils.deepClone(actorDoc.actorData);
+    actor.type = actorDoc.actor?.type;
+    actor.synthetic = true;
+    actor.name = actorDoc.name;
+    actorItems = actor.items;
+    if (actor.system) {
+      actor.system.charType = { value: actorDoc.actor?.system?.charType?.value };
+    }
   } else {
     actor = actorDoc;
   }
@@ -434,56 +458,64 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     for (let wtype of Object.keys(CONFIG.ARM5E.recovery.wounds)) {
       if (wtype == "healthy") continue;
       if (actor.system.wounds && actor.system.wounds[wtype]?.number != undefined) {
-        if (actorDoc.synthetic) {
-          syntheticWoundsMsg += `<li>${actor.system.wounds[wtype]?.number.value} ${wtype} wounds</li>`;
-          sendMsg = true;
+        // if (actor.synthetic) {
+        //   syntheticWoundsMsg += `<li>${actor.system.wounds[wtype]?.number.value} ${wtype} wounds</li>`;
+        //   sendMsg = true;
+
+        //   await actorDoc.delta.update({ "system.-=wounds": null });
+        //   break;
+        //   // updateData[`system.wounds.${wtype}.-=number`] = null;
+        //   // updateData[`system.wounds.${wtype}.-=penalty`] = null;
+        //   // updateData[`system.wounds.${wtype}.-=notes`] = null;
+        // } else {
+        if (actorDoc instanceof ArM5ePCActor || actor.synthetic) {
+          let datetime = game.settings.get("arm5e", "currentDate");
+          for (let ii = 0; ii < actor.system.wounds[wtype].number.value; ii++) {
+            let woundData = {
+              name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
+                "arm5e.sheet.wound.label"
+              )}`,
+              type: "wound",
+              system: {
+                inflictedDate: {
+                  year: datetime.year,
+                  season: datetime.season
+                },
+                healedDate: { year: null, season: "spring" },
+                gravity: wtype,
+                originalGravity: wtype,
+                trend: 0,
+                bonus: 0,
+                nextRoll: 0,
+                description: `Migrated: notes = ${actor.system.wounds[wtype].notes.value}`
+              }
+            };
+            wounds.push(woundData);
+          }
           updateData[`system.wounds.${wtype}.-=number`] = null;
           updateData[`system.wounds.${wtype}.-=penalty`] = null;
           updateData[`system.wounds.${wtype}.-=notes`] = null;
         } else {
-          if (actorDoc instanceof ArM5ePCActor) {
-            let datetime = game.settings.get("arm5e", "currentDate");
-            for (let ii = 0; ii < actor.system.wounds[wtype].number.value; ii++) {
-              let woundData = {
-                name: `${game.i18n.localize(`arm5e.sheet.${wtype}`)} ${game.i18n.localize(
-                  "arm5e.sheet.wound.label"
-                )}`,
-                type: "wound",
-                system: {
-                  inflictedDate: {
-                    year: datetime.year,
-                    season: datetime.season
-                  },
-                  healedDate: { year: null, season: "spring" },
-                  gravity: wtype,
-                  originalGravity: wtype,
-                  trend: 0,
-                  bonus: 0,
-                  nextRoll: 0,
-                  description: `Migrated: notes = ${actor.system.wounds[wtype].notes.value}`
-                }
-              };
-              wounds.push(woundData);
-            }
-            updateData[`system.wounds.${wtype}.-=number`] = null;
-            updateData[`system.wounds.${wtype}.-=penalty`] = null;
-            updateData[`system.wounds.${wtype}.-=notes`] = null;
-          } else {
-            sendMsg = true;
-          }
+          sendMsg = true;
         }
+        // }
       }
     }
 
-    if (sendMsg && actorDoc.synthetic) {
-      syntheticWoundsMsg += "</ul><br/>You will have to add them manually.";
+    // if (sendMsg && actorDoc.synthetic) {
+    //   syntheticWoundsMsg += "</ul><br/>You will have to add them manually.";
 
-      ChatMessage.create({
-        content: syntheticWoundsMsg
-      });
-    } else if (wounds.length > 0 && !actorDoc.synthetic) {
+    //   ChatMessage.create({
+    //     content: syntheticWoundsMsg
+    //   });
+    // } else
+    if (wounds.length > 0) {
       log(false, `${wounds.length} wound items created`);
-      await actorDoc.createEmbeddedDocuments("Item", wounds);
+      if (actorDoc instanceof ArM5ePCActor) {
+        await actorDoc.createEmbeddedDocuments("Item", wounds);
+      } else if (actor.synthetic) {
+        await actorDoc.delta.createEmbeddedDocuments("Item", wounds);
+      }
     } else if (sendMsg) {
       ChatMessage.create({
         content:
@@ -511,7 +543,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         }
         updateData["system.-=reputation"] = null;
       } else {
-        if (actorDoc.synthetic) {
+        if (actor.synthetic) {
           updateData["system.-=reputation"] = null;
         } else {
           ChatMessage.create({
@@ -543,7 +575,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         }
         updateData["system.-=personality"] = null;
       } else {
-        if (actorDoc.synthetic) {
+        if (actor.synthetic) {
           updateData["system.-=personality"] = null;
         } else {
           ChatMessage.create({
@@ -752,6 +784,8 @@ export const migrateActorData = async function (actorDoc, actorItems) {
       let applied = actorDoc.effects;
       if (actorDoc instanceof ArM5ePCActor) {
         applied = Array.from(actorDoc.allApplicableEffects());
+      } else if (actor.synthetic) {
+        applied = actor.effects;
       }
       if (applied && applied.length > 0) {
         let effects = [];
@@ -764,7 +798,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
             // Effect is a remnant of V10 coming from an item
             const [actorPrefix, actorId, itemPrefix, itemId] = e.origin?.split(".") ?? [];
             if (itemPrefix && actorDoc.items.has(itemId)) {
-              if (actorDoc instanceof ArM5ePCActor) {
+              if (actorDoc instanceof ArM5ePCActor || actor.synthetic) {
                 console.log(`DEBUG: Found duplicate effect of origin: "${e.origin}", delete it.`);
                 toDelete.push(e._id);
                 continue;
@@ -773,7 +807,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
           }
 
           if (isEffectObsolete(e)) {
-            if (actorDoc instanceof ArM5ePCActor) {
+            if (actorDoc instanceof ArM5ePCActor || actor.synthetic) {
               toDelete.push(e._id);
               continue;
             }
@@ -791,6 +825,8 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         if (toDelete.length > 0) {
           if (actorDoc instanceof ArM5ePCActor) {
             await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+          } else if (actor.synthetic) {
+            await actorDoc.delta.deleteEmbeddedDocuments("ActiveEffect", toDelete);
           } else {
             ChatMessage.create({
               content:

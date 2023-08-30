@@ -1,6 +1,6 @@
 import { ARM5E } from "../config.js";
 import { stressDie } from "../dice.js";
-import { computeAuraModifier } from "../helpers/aura.js";
+import Aura from "../helpers/aura.js";
 import { setVisStudyResults } from "../helpers/long-term-activities.js";
 import { log } from "../tools.js";
 import {
@@ -86,11 +86,8 @@ export class VisSchema extends foundry.abstract.DataModel {
     let aura = 0;
     if (actor.system.covenant.linked) {
       const covenant = game.actors.get(actor.system.covenant.actorId);
-      aura = computeAuraModifier(
-        actor.system.realmAlignment,
-        covenant.system.levelAura,
-        covenant.system.typeAura
-      );
+      let aura = new Aura(covenant.system.scene.document);
+      aura.computeAuraModifierFor(actor.system.realmAlignment)
     }
     let dialogData = {
       aura: aura,

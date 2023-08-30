@@ -384,7 +384,7 @@ async function renderRollTemplate(dataset, template, actor) {
 async function castSpell(actorCaster, roll, message) {
   // first check that the spell succeeds
   const levelOfSpell = actorCaster.rollData.magic.level;
-  const totalOfSpell = roll._total;
+  const totalOfSpell = Math.round(roll._total);
 
   if (roll.botches > 0) {
     await actorCaster.update({
@@ -413,6 +413,7 @@ async function castSpell(actorCaster, roll, message) {
 
     // Hooks.callAll("arm5e:spellcasting", data, {user : game.user.id});
   } else {
+    log(false, `Casting total: ${totalOfSpell}`);
     // Magic effect
     if (totalOfSpell < levelOfSpell) {
       await chatFailedCasting(actorCaster, roll, message, 0);

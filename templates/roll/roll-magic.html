@@ -32,16 +32,24 @@
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
-    {{#unless system.roll.environment.hasAuraBonus}}
-      <div class="flexrow flex-group-center">
-        <label class="resource-label">{{localize "arm5e.sheet.levelAura"}}</label>
-        <input type="number" name="system.roll.aura" value="{{system.roll.aura}}" data-dtype="Number"
-          class="SelectedAura" />
-      </div>
+    {{#if system.roll.environment.aura.visible}}
+    <div class=" flexrow flex-group-center">
+      <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+      <input type="number" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
+        class="SelectedAura flex02 resource-focus" />
+    </div>
+    {{else}}
+    <div class=" flexrow flex-group-center">
+      <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+      <input type="number" style="display: none" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
+      class="SelectedAura flex02 resource-focus" />
+      ???
+    </div>
+    {{/if}}
       <div class="flexrow flex-group-center">
         <label class="resource-label">+</label>
       </div>
-    {{/unless}}
+
     <div class="resource">
       <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
       <input type="checkbox" name="system.applyFocus" {{checked system.roll.focus}} class="SelectedFocus" />
