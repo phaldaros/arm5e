@@ -1,4 +1,4 @@
-## 2.2.2.8, Nicodemus
+## 2.2.2.9, Nicodemus
 
 ### Features & changes
 
@@ -16,6 +16,7 @@
 - Effects coming from the same duplicated Item (eg: dragged from Compendium) are now properly distinguished in Actor sheet.
 - Changing the type of roll from characteristic to ability computes totals properly
 - Fixed source and page of Virtues Items in the system compendium
+- Changing ability in a teaching activity computes the teacher score properly
 
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 

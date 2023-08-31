@@ -16,10 +16,10 @@
 
   <!-- Details Tab -->
   {{!-- Sheet Body --}}
-  <section class="sheet-body effect-options" style="height: auto">
+  <section class="sheet-body effect-options" style="height: auto; min-height: 115px;">
     <section class="tab" data-tab="details">
       <div class="form-group">
-        <label>{{ localize "EFFECT.Label" }}</label>
+        <label>{{ localize "EFFECT.Name" }}</label>
         <div class="form-fields">
           <input type="text" name="label" value="{{ data.ui.name }}" class="resource-focus" />
         </div>
