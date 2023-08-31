@@ -1411,6 +1411,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       name: selectedAbility.name,
       category: selectedAbility.system.category,
       currentXp: selectedAbility.system.xp,
+      key: selectedAbility.system.key,
+      option: selectedAbility.system.option,
       xpNextLevel: selectedAbility.system.experienceNextLevel,
       xp: 0,
       teacherScore: teacherScore
