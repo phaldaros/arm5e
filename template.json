@@ -26,7 +26,12 @@
           "dtype": "String",
           "value": "Covenant Name"
         },
-        "realmAlignment": 0,
+        "realms": {
+          "magic": { "aligned": false },
+          "faeric": { "aligned": false },
+          "divine": { "aligned": false },
+          "infernal": { "aligned": false }
+        },
         "pendingCrisis": false,
         "biography": "Character biography, notes, &c.",
         "characteristics": {
@@ -617,8 +622,8 @@
       "foundationYear": "",
       "season": "",
       "tribunal": "",
-      "scene" : {
-        "id" : ""
+      "scene": {
+        "id": ""
       },
       "levelsRegio": "",
       "modifiersLife": {

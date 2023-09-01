@@ -1,3 +1,6 @@
+import { ARM5E } from "../config.js";
+import { log } from "../tools.js";
+
 export default class Aura {
   constructor(scene) {
     this.scene = scene;
@@ -33,8 +36,30 @@ export default class Aura {
    */
   computeAuraModifierFor(alignment) {
     let dominantRealm = this.dominantRealm || "mundane";
-    const multiplier = CONFIG.ARM5E.realmsExt[dominantRealm].influence[alignment];
+    const multiplier = ARM5E.realmsExt[dominantRealm].influence[alignment];
     this.modifier = this.auraValueFor(dominantRealm) * multiplier;
+    return this.modifier;
+  }
+
+  /**
+   * Take the realms object of an actor and computes how the current aura will modify
+   * that power/spell being used. This is used when a character has multiple alignments
+   * the most benefiting modifier is returned
+   *
+   * @param {Object} realms actor field representing alignments (amd in the future, vulnerabilities)
+   * @returns
+   */
+  computeMaxAuraModifier(realms) {
+    let res = -9999;
+    for (const [realm, properties] of Object.entries(realms)) {
+      if (properties.aligned) {
+        res = Math.max(res, this.computeAuraModifierFor(ARM5E.lookupRealm.indexOf(realm)));
+      }
+    }
+
+    if (res == -9999) this.modifier = 0;
+    else this.modifier = res;
+    log(false, `Max aura mod : ${this.modifier}`);
     return this.modifier;
   }
 
@@ -96,6 +121,18 @@ export default class Aura {
       scene = canvas?.scene;
     }
     return new this(scene);
+  }
+
+  // Utility function for tests, it works incrementaly
+
+  async set(realm, value, nightMod = 0) {
+    if (value < 0 || !CONFIG.ARM5E.lookupRealm.includes(realm) || realm == "mundane") {
+      return;
+    }
+    let currentAura = this.scene?.getFlag("arm5e", "aura") ?? this.constructor.defaultAura;
+    currentAura.values[realm] = value;
+    currentAura.nightModifier[realm] = nightMod;
+    await this.scene.setFlag("arm5e", "aura", currentAura);
   }
 
   // Mundane is added here to easily compute cases with no aura

@@ -76,8 +76,8 @@ export class ArM5ePCActor extends Actor {
       this.system.specialty["visExtraction"] = { bonus: 0 };
 
       // Hopefully this can be reworked to use ID instead of name
-      this.system.covenant.document = game.actors.getName(this.system.covenant.value)
-      this.system.aura = new Aura(this.system.covenant.document?.system?.scene?.document)
+      this.system.covenant.document = game.actors.getName(this.system.covenant.value);
+      this.system.aura = new Aura(this.system.covenant.document?.system?.scene?.document);
 
       return;
     }
@@ -111,9 +111,8 @@ export class ArM5ePCActor extends Actor {
 
     if (this._isMagus()) {
       // hack, if the active effect for magus is not setup
-      if (this.system.realmAlignment == 0) {
-        this.system.realmAlignment = 1;
-      }
+      this.system.realms.magic.aligned = true;
+
       for (let key of Object.keys(this.system.arts.techniques)) {
         this.system.arts.techniques[key].bonus = 0;
         this.system.arts.techniques[key].xpCoeff = 1.0;
@@ -1034,7 +1033,7 @@ export class ArM5ePCActor extends Actor {
     let diaryEntries = [];
     let totalVirtues = 0;
     let totalFlaws = 0;
-    system.scene.document = game.scenes.get(system.scene.id)
+    system.scene.document = game.scenes.get(system.scene.id);
 
     for (let [key, item] of this.items.entries()) {
       item.img = item.img || DEFAULT_TOKEN;

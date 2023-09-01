@@ -87,7 +87,7 @@ export class VisSchema extends foundry.abstract.DataModel {
     if (actor.system.covenant.linked) {
       const covenant = game.actors.get(actor.system.covenant.actorId);
       let aura = new Aura(covenant.system.scene.document);
-      aura.computeAuraModifierFor(actor.system.realmAlignment)
+      aura.computeMaxAuraModifier(actor.system.realms);
     }
     let dialogData = {
       aura: aura,

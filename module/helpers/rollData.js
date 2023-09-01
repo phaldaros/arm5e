@@ -388,12 +388,14 @@ export class ArM5eRollData {
       this.ability.realm != "mundane";
     const auraApply = superNatAbility || ["spell", "magic", "spont", "power"].includes(this.type);
     if (auraApply) {
-      let alignment = this._actor.system.realmAlignment;
-      if (superNatAbility) {
-        alignment = CONFIG.ARM5E.realmsExt[this.ability.realm].value;
-      }
       this.environment.aura = Aura.fromActor(this._actor);
-      this.environment.aura.computeAuraModifierFor(alignment);
+      if (superNatAbility) {
+        this.environment.aura.computeAuraModifierFor(
+          CONFIG.ARM5E.realmsExt[this.ability.realm].value
+        );
+      } else {
+        this.environment.aura.computeMaxAuraModifier(this._actor.system.realms);
+      }
     }
   }
 

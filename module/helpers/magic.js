@@ -361,7 +361,7 @@ function calculateResistance(actor, form) {
   // TODO, do a better job for player aligned to a realm
   if (actor._hasMight()) {
     let aura = Aura.fromActor(actor);
-    auraMod = aura.computeAuraModifierFor(actor.system.realmAlignment);
+    auraMod = aura.computeMaxAuraModifierFor(actor.system.realms);
     magicResistance += parseInt(auraMod);
   }
 

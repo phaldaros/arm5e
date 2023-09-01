@@ -1,4 +1,4 @@
-import { getUuidInfo, log } from "../tools.js";
+import { getDataset, getUuidInfo, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 
 /**
@@ -115,6 +115,25 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
       default:
         return false;
     }
+  }
+
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html);
+    html.find(".change-realm").change(async (event) => {
+      event.preventDefault();
+      let chosenRealm = $(".change-realm").find("option:selected")[0].value;
+      let currentRealm = getDataset(event).realm;
+      let updateData = {};
+      if (chosenRealm != "mundane") {
+        updateData[`system.realms.${chosenRealm}.aligned`] = true;
+      }
+      if (currentRealm != "mundane") {
+        updateData[`system.realms.${currentRealm}.aligned`] = false;
+      }
+
+      this.submit({ preventClose: true, updateData: updateData });
+    });
   }
 
   async _bindActor(actor) {

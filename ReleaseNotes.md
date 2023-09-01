@@ -1,4 +1,4 @@
-## 2.2.2.9, Nicodemus
+## 2.2.2.10, Nicodemus
 
 ### Features & changes
 
@@ -6,6 +6,8 @@
 - Players can now toggle effects
 - New French version (by Orneen)
 - [technical] CSS refactoring and cosmetic improvements
+- Multi-realms aligments with updated Active Effect
+- [technical] Verified for Foundry V11.308
 
 ### Bug fixes
 
@@ -17,6 +19,7 @@
 - Changing the type of roll from characteristic to ability computes totals properly
 - Fixed source and page of Virtues Items in the system compendium
 - Changing ability in a teaching activity computes the teacher score properly
+- Fixed typo in "writting" activity bonus in existing active effects
 
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 
