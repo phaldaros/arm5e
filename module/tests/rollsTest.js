@@ -19,6 +19,7 @@ import {
 import { ArsLayer } from "../ui/ars-layer.js";
 import { ARM5E } from "../config.js";
 import { simpleDie, stressDie } from "../dice.js";
+import Aura from "../helpers/aura.js";
 
 export function registerRollTesting(quench) {
   quench.registerBatch(
@@ -34,6 +35,7 @@ export function registerRollTesting(quench) {
       let Sp2;
       let Sp3;
       let magusToken;
+      let aura;
 
       if (game.modules.get("dice-so-nice")?.active) {
         ui.notifications.warn("Disable dice-so-nice to test dice rolls");
@@ -123,6 +125,8 @@ export function registerRollTesting(quench) {
           data.actorLink = true;
           magusToken = (await canvas.scene.createEmbeddedDocuments("Token", [data]))[0];
           await magusToken.update({ actorLink: true });
+          aura = new Aura(canvas.scene);
+          await aura.set("faeric", 6);
         }
       });
 

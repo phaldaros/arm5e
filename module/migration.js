@@ -1,4 +1,5 @@
 import { ArM5ePCActor } from "./actor/actor.js";
+import { ARM5E } from "./config.js";
 import { error, log } from "./tools.js";
 
 const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
@@ -430,9 +431,6 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     //   updateData["system.warping"] = {};
     // }
 
-    if (actor.system.realmAlignment == undefined) {
-      updateData["system.realmAlignment"] = 0;
-    }
     // remove garbage stuff if it exists
     if (actor.system.str) updateData["system.-=str"] = null;
     if (actor.system.sta) updateData["system.-=sta"] = null;
@@ -593,6 +591,16 @@ export const migrateActorData = async function (actorDoc, actorItems) {
   }
 
   if (actor.type == "player" || actor.type == "npc") {
+    let realms = {
+      magic: { aligned: false },
+      faeric: { aligned: false },
+      divine: { aligned: false },
+      infernal: { aligned: false }
+    };
+    let realmsUpdate = false;
+    if (actor.system.realms === undefined) {
+      realmsUpdate = true;
+    }
     if (actor.system.charType.value !== "entity") {
       if (actor.system.decrepitude?.score != undefined) {
         let exp = (actor.system.decrepitude.score * (actor.system.decrepitude.score + 1) * 5) / 2;
@@ -620,29 +628,42 @@ export const migrateActorData = async function (actorDoc, actorItems) {
       }
     } else {
       // entity
-      // migrate might type to realm Alignment
+      // migrate might type to realms Alignment
       if (actor.system?.might?.realm != undefined) {
-        updateData["system.realmAlignment"] =
-          CONFIG.ARM5E.realmsExt[actor.system.might.realm].value;
+        realmsUpdate = true;
+        realms[actor.system.might.realm].aligned = true;
         updateData["system.might.-=realm"] = null;
         updateData["system.might.-=type"] = null;
       } else if (actor.system?.might?.type != undefined) {
-        updateData["system.realmAlignment"] = CONFIG.ARM5E.realmsExt[actor.system.might.type].value;
+        realmsUpdate = true;
+        realms[actor.system.might.type].aligned = true;
         updateData["system.might.-=realm"] = null;
         updateData["system.might.-=type"] = null;
       }
     }
 
-    // if (actor.system.realmAlignment && typeof actor.system.realmAlignment === "string") {
-    if (actor.system.realmAlignment && Number.isNaN(actor.system.realmAlignment)) {
-      updateData["system.realmAlignment"] =
-        CONFIG.ARM5E.realmsExt[actor.system.realmAlignment].value;
+    if (actor.system?.realmAlignment != undefined) {
+      realmsUpdate = true;
+      if (Number.isNaN(actor.system.realmAlignment)) {
+        if (ARM5E.lookupRealm.indexOf(actor.system.realmAlignment) != -1) {
+          realms[actor.system.realmAlignment].aligned = true;
+        }
+      } else {
+        if (actor.system.realmAlignment > 0) {
+          realms[ARM5E.lookupRealm[actor.system.realmAlignment]].aligned = true;
+        } else if (["magus", "magusNPC"].includes(actor.system.charType.value)) {
+          realms["magic"].aligned = true;
+        }
+      }
+      updateData["system.-=realmAlignment"] = null;
     }
 
-    if (actor.system.charType.value == "magus" || actor.system.charType.value == "magusNPC") {
-      if (actor.system.realmAlignment === undefined)
-        updateData["system.realmAlignment"] = CONFIG.ARM5E.realmsExt.magic.value;
-
+    if (["magus", "magusNPC"].includes(actor.system.charType.value)) {
+      if (actor.system.realms === undefined) {
+        realms["magic"].aligned = true;
+        realmsUpdate = true;
+        updateData["system.-=realmAlignment"] = null;
+      }
       if (actor.system?.sanctum?.value === undefined) {
         let sanctum = {
           value: actor.system.sanctum
@@ -731,6 +752,9 @@ export const migrateActorData = async function (actorDoc, actorItems) {
           }
         }
       }
+    }
+    if (realmsUpdate == true) {
+      updateData["system.realms"] = realms;
     }
   }
 
@@ -992,6 +1016,43 @@ export const migrateActiveEffectData = async function (effectData) {
       } else if (ch.key === "system.wounds.heavy.penalty.value") {
         ch.key = "system.penalties.wounds.heavy";
         needUpdate = true;
+      } else if (ch.key == "system.bonuses.activities.writing") {
+        // fix "writting" typo
+        if (types[idx] == "writting") {
+          types[idx] == "writing";
+          needUpdate = true;
+        }
+      } else if (ch.key === "system.realmAlignment") {
+        switch (ch.value) {
+          case "1":
+            ch.key = "system.realms.magic.aligned";
+            ch.value = true;
+            subtypes[idx] = "magic";
+            needUpdate = true;
+            break;
+          case "2":
+            ch.key = "system.realms.faeric.aligned";
+            ch.value = true;
+            subtypes[idx] = "faeric";
+            needUpdate = true;
+            break;
+          case "3":
+            ch.key = "system.realms.divine.aligned";
+            ch.value = true;
+            subtypes[idx] = "divine";
+            needUpdate = true;
+            break;
+          case "4":
+            ch.key = "system.realms.infernal.aligned";
+            ch.value = true;
+            subtypes[idx] = "infernal";
+            needUpdate = true;
+            break;
+          default:
+            // not possible
+
+            break;
+        }
       } else if (
         ch.key === "system.bonuses.arts.voice" ||
         ch.key === "system.bonuses.arts.gestures" ||

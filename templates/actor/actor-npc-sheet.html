@@ -46,9 +46,9 @@
                   style="width: 40px; text-align: center; " class="resource-focus" />
               </div>
               <div style="padding-top: 15px; padding-left: 5px;">
-                <select name="system.realmAlignment" data-type="Number">
-                  {{#select system.realmAlignment}} {{#each config.realmsExt as |realm key|}}
-                      <option value="{{realm.value}}">{{localize realm.label}}</option>
+                <select class="change-realm" name="" data-type="String" data-realm="{{system.realm}}">
+                  {{#select system.realm}} {{#each config.realmsExt as |realm key|}}
+                      <option value="{{key}}">{{localize realm.label}}</option>
                     {{/each}} {{/select}}
                 </select>
               </div>

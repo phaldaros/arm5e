@@ -726,15 +726,31 @@ export default {
     label: "arm5e.sheet.activeEffect.types.realmAlignment",
     subtypes: {
       magic: {
-        label: "arm5e.sheet.realm.label",
-        key: "system.realmAlignment",
+        label: "arm5e.sheet.realm.magic",
+        key: "system.realms.magic.aligned",
         mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-        default: 1,
+        default: true
+      },
+      faeric: {
+        label: "arm5e.sheet.realm.faeric",
+        key: "system.realms.faeric.aligned",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true
+      },
+      divine: {
+        label: "arm5e.sheet.realm.divine",
+        key: "system.realms.divine.aligned",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true
+      },
+      infernal: {
+        label: "arm5e.sheet.realm.infernal",
+        key: "system.realms.infernal.aligned",
+        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+        default: true,
         choice: {
-          1: "arm5e.sheet.realm.magic",
-          2: "arm5e.sheet.realm.faeric",
-          3: "arm5e.sheet.realm.divine",
-          4: "arm5e.sheet.realm.infernal"
+          true: "arm5e.generic.yes",
+          false: "arm5e.generic.no"
         }
       }
     }

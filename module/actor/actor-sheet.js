@@ -276,6 +276,10 @@ export class ArM5eActorSheet extends ActorSheet {
 
     context.system.isCharacter = this.actor._isCharacter();
     if (context.system.isCharacter) {
+      if (context.system.charType?.value === "entity") {
+        let value = Object.entries(context.system.realms).find((e) => e[1].aligned == true);
+        context.system.realm = value ? value[0] : "mundane";
+      }
       for (let [key, v] of Object.entries(context.system.vitals)) {
         v.label = game.i18n.localize(CONFIG.ARM5E.character.vitals[key].label);
       }
