@@ -15,16 +15,6 @@ export const actorBase = () => {
       initial: 0,
       min: 0,
       step: 1
-    }),
-    date: new fields.SchemaField({
-      season: SeasonField(),
-      year: new fields.NumberField({
-        required: true,
-        nullable: false,
-        integer: true,
-        initial: 1220,
-        step: 1
-      })
     })
   };
 };

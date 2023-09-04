@@ -401,7 +401,7 @@ export class ArM5eRollData {
 
   getSpellcastingModifiers() {
     this.bonuses += this._actor.system.bonuses.arts.spellcasting;
-    log(false, `Bonus spellcasting: ${this._actor.system.bonuses.arts.spellcasting}`);
+    // log(false, `Bonus spellcasting: ${this._actor.system.bonuses.arts.spellcasting}`);
     const activeEffects = this._actor.appliedEffects;
     let activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
       activeEffects,
