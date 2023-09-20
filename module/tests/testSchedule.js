@@ -630,7 +630,7 @@ export function registerDiaryTesting(quench) {
                 false,
                 "There should be no conflict"
               );
-              await entry[0].sheet._onProgressApply();
+              await entry[0].sheet._onProgressApply({}, false);
               await sleep(100);
               await entry[0].sheet.close();
               tmpDate = nextDate(tmpDate.season, tmpDate.year);

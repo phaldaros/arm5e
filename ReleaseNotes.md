@@ -1,4 +1,4 @@
-## 2.2.2.11, Nicodemus
+## 2.2.2.12, Nicodemus
 
 ### Features & changes
 
@@ -8,6 +8,10 @@
 - [technical] CSS refactoring and cosmetic improvements
 - Multi-realms alignments with updated Active Effect
 - [technical] Verified for Foundry V11.308
+- Improved spell design dialog
+- Affinities are taken into account for seasonal activities (xp is multiplied before being added)
+- New active effects for "Flawless magic" virtue
+- [technical] Added lot of test coverage to the diary entries, code factorization and simplification.
 
 ### Bug fixes
 
@@ -21,6 +25,9 @@
 - Changing ability in a teaching activity computes the teacher score properly
 - Fixed typo in "writting" activity bonus in existing active effects
 - Active effects on Items are now migrated properly
+- Spells learned through seasonal activities are now cleared of their mastery level and bonuses.
+- Fixed icon size problem in Codex
+- Added missing Soak bonus, if any, in the combat tab.
 
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 

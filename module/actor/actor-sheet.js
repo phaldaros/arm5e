@@ -783,9 +783,9 @@ export class ArM5eActorSheet extends ActorSheet {
         spell.TechReq = spellTechniqueLabel(spell.system);
         spell.FormReq = spellFormLabel(spell.system);
         spell.masteryHint =
-          spell.system.mastery > 0
+          spell.system.finalScore > 0
             ? `<i title="${game.i18n.localize("arm5e.spell.masteryHint")} ${
-                spell.system.mastery
+                spell.system.finalScore
               }" class="icon-Icon_Effects-small"></i>`
             : "";
       }

@@ -1,21 +1,5 @@
 import { log } from "../tools.js";
-import {
-  armorItem,
-  combatSkill,
-  companionData,
-  heavyCombatSkill,
-  languageSkill,
-  magicalEffect1,
-  magicalEffect2,
-  magicalEffect3,
-  magusData,
-  penetrationSkill,
-  readingSkill,
-  spellData1,
-  spellData2,
-  spellData3,
-  weaponItem
-} from "./testData.js";
+import { getCompanion, getMagus } from "./testData.js";
 import { ArsLayer } from "../ui/ars-layer.js";
 import { ARM5E } from "../config.js";
 import { simpleDie, stressDie } from "../dice.js";
@@ -47,75 +31,15 @@ export function registerRollTesting(quench) {
       }
 
       before(async function () {
-        actor = await Actor.create({
-          name: `BobTheCompanion`,
-          type: "player",
-          system: companionData
-        });
+        actor = await getCompanion(`BobTheCompanion`);
         ArsLayer.clearAura(true);
-        await actor.sheet._itemCreate({ name: "sword", type: "ability", ...combatSkill });
-        await actor.sheet._itemCreate({ name: "poleaxe", type: "ability", ...heavyCombatSkill });
-        await actor.sheet._itemCreate({ type: "weapon", ...weaponItem });
-        await actor.sheet._itemCreate({ type: "armor", ...armorItem });
-
-        magus = await Actor.create({
-          name: `MerlinTheMagus`,
-          type: "player",
-          system: magusData
-        });
-        await magus.sheet._itemCreate({
-          name: "Penetration",
-          type: "ability",
-          ...penetrationSkill
-        });
-        await magus.sheet._itemCreate({
-          name: "Artes liberales",
-          type: "ability",
-          ...readingSkill
-        });
-        await magus.sheet._itemCreate({ name: "Gaelic", type: "ability", ...languageSkill });
-        ME1 = (
-          await magus.sheet._itemCreate({
-            name: "Standard effect",
-            type: "magicalEffect",
-            ...magicalEffect1
-          })
-        )[0];
-        ME2 = (
-          await magus.sheet._itemCreate({
-            name: "All req effect",
-            type: "magicalEffect",
-            ...magicalEffect2
-          })
-        )[0];
-        ME3 = (
-          await magus.sheet._itemCreate({
-            name: "Effect with focus",
-            type: "magicalEffect",
-            ...magicalEffect3
-          })
-        )[0];
-        Sp1 = (
-          await magus.sheet._itemCreate({
-            name: "Standard spell",
-            type: "spell",
-            ...spellData1
-          })
-        )[0];
-        Sp2 = (
-          await magus.sheet._itemCreate({
-            name: "Spell with focus",
-            type: "spell",
-            ...spellData2
-          })
-        )[0];
-        Sp3 = (
-          await magus.sheet._itemCreate({
-            name: "Ritual spell",
-            type: "spell",
-            ...spellData3
-          })
-        )[0];
+        magus = await getMagus("Tiberius");
+        ME1 = magus.items.getName("Standard effect");
+        ME2 = magus.items.getName("All req effect");
+        ME3 = magus.items.getName("Effect with focus");
+        Sp1 = magus.items.getName("Standard spell");
+        Sp2 = magus.items.getName("Spell with focus");
+        Sp3 = magus.items.getName("Ritual spell");
 
         await magus.addActiveEffect("Affinity Corpus", "affinity", "co", 2, null);
         await magus.addActiveEffect("Puissant Muto", "art", "mu", 3, null);
@@ -593,7 +517,7 @@ export function registerRollTesting(quench) {
               magus.system.characteristics.sta.value +
               magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
-              Sp1.system.mastery +
+              Sp1.system.finalScore +
               Sp1.system.bonus +
               3;
             assert.equal(roll.modifier(), tot);
@@ -628,7 +552,7 @@ export function registerRollTesting(quench) {
               magus.system.characteristics.sta.value +
               magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
-              Sp2.system.mastery +
+              Sp2.system.finalScore +
               Sp2.system.bonus +
               3;
             assert.equal(roll.modifier(), tot);
@@ -667,7 +591,7 @@ export function registerRollTesting(quench) {
               magus.system.characteristics.sta.value +
               magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
-              Sp2.system.mastery +
+              Sp2.system.finalScore +
               Sp2.system.bonus +
               3;
             assert.equal(roll.modifier(), tot);
@@ -694,15 +618,13 @@ export function registerRollTesting(quench) {
               return;
             }
 
-            // assert.equal(Sp1.system.masteryScore, magus.rollData.magic.mastery);
-            // assert.equal(Sp1.system.bonus, magus.rollData.magic.bonus);
             let tot =
               magus.system.arts.techniques.mu.finalScore +
               magus.system.arts.forms.vi.finalScore +
               magus.system.characteristics.sta.value +
               magus.system.penalties.wounds.total +
               magus.system.fatigueTotal +
-              Sp3.system.mastery +
+              Sp3.system.finalScore +
               Sp3.system.bonus +
               3;
             assert.equal(roll.modifier(), tot);

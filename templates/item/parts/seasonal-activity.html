@@ -1,5 +1,8 @@
 {{#if ui.showProgress}}
   <div>
+    <div style="position: absolute; right: -2300px">
+      <input type="hidden" name="system.sourceModifier" value="{{system.sourceModifier}}" data-dtype="Number" />
+    </div>
     <div class="resource">
       <label class="header-label">{{localize "arm5e.sheet.sourceQuality"}} : </label>
       {{#if ui.editSource}}
@@ -7,37 +10,37 @@
           {{system.canEdit}} style="max-width: 50px;" />
       {{else}}
         {{#if system.done}}
-          <label class="header-label"><b>{{system.baseQuality}}</b></label>
+          <label class="header-label"><b>{{system.sourceQuality}}</b></label>
         {{else}}
           {{#if ui.showBaseQuality}}
-            <label class="header-label"> {{localize "arm5e.generic.base"}} ({{system.baseQuality}})</label>
+            <label class="header-label"> {{localize "arm5e.generic.base"}} ({{system.sourceQuality}})</label>
           {{else}}
             <label class="header-label"> : {{localize "arm5e.generic.default"}} ({{system.sourceDefault}}) </label>
           {{/if}}
-          {{#if ui.bonusOptions}}
-            <label class="header-label"> + </label>
-            <select class="progress-bonus" name="system.optionKey" data-dtype="String" {{@root.system.disabled}}>
-              {{#select system.optionKey}} {{#each bonusOptions as |option key|}}
-                  <option value="{{key}}">{{localize option.label}} ({{option.modifier}})</option>
-                {{/each}} {{/select}}
-            </select>
-          {{/if}}
-          {{#unless (or (eq system.aeBonus 0) system.cappedGain)}}
-            <label class="header-label"> + </label>
-            <label class="header-label"> {{localize "arm5e.sheet.bonus.activeEffects"}} ({{system.aeBonus}})</label>
-          {{/unless}}
-          {{#unless system.cappedGain}}
-            <label class="header-label"> = <b>{{system.sourceQuality}}</b></label>
-          {{else}}
-            <label class="header-label"> => <b>{{system.sourceQuality}} *</b></label>
-          {{/unless}}
         {{/if}}
       {{/if}}
+      {{#if ui.bonusOptions}}
+        <label class="header-label"> + </label>
+        <select class="progress-bonus" name="system.optionKey" data-dtype="String" {{@root.system.disabled}}>
+          {{#select system.optionKey}} {{#each bonusOptions as |option key|}}
+              <option value="{{key}}">{{localize option.label}} ({{option.modifier}})</option>
+            {{/each}} {{/select}}
+        </select>
+      {{/if}}
+      {{#unless (or (eq system.sourceModifier 0) system.cappedGain)}}
+        <label class="header-label"> + </label>
+        <label class="header-label"> {{localize "arm5e.sheet.bonus.activeEffects"}}
+          ({{system.sourceModifier}})</label>
+      {{/unless}}
+      {{#unless system.cappedGain}}
+        <label class="header-label"> = <b>{{totalQuality }}</b></label>
+      {{else}}
+        <label class="header-label"> => <b>{{system.sourceQuality}} *</b></label>
+      {{/unless}}
     </div>
   </div>
-  <div class="grid grid-2col">
-  </div>
   {{> "systems/arm5e/templates/item/parts/activities.html" }}
+
 {{/if}}
 <div class="flexrow">
   <div class="flexrow">
@@ -45,8 +48,9 @@
       {{#if rollNeeded}}
         <button class="arm5e flex03 roll-activity" style="font-family: bookAntika">{{localize rollLabel}}</button>
       {{else}}
-        <button class="arm5e flex02 progress-apply"
-          style="font-family: bookAntika">{{localize "arm5e.sheet.action.apply"}}</button>
+        <button class="arm5e flex02 progress-apply" style="font-family: bookAntika"
+          data-qualitymod="{{system.sourceModifier}}">{{localize "arm5e.sheet.action.apply"}}
+        </button>
       {{/if}}
     {{else}}
       {{#unless system.done}}

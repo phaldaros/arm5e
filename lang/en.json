@@ -1067,6 +1067,7 @@
   "arm5e.sheet.activeEffect.types.labActivity": "Laboratory activity",
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",
   "arm5e.sheet.activeEffect.types.optional": "Optional bonus",
+  "arm5e.sheet.activeEffect.types.spellmastery": "Spell mastery",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
   "arm5e.sheet.activeEffect.subtypes.fatigueTotal": "Fatigue total",
@@ -1077,6 +1078,8 @@
   "arm5e.sheet.activeEffect.subtypes.spontDividerNoFatigue": "Spont. magic divider no fatigue",
   "arm5e.sheet.activeEffect.subtypes.auraRealm": "Realm of aura",
   "arm5e.sheet.activeEffect.subtypes.auraLevel": "Aura's level",
+  "arm5e.sheet.activeEffect.subtypes.xpcoeff": "Xp multiplier",
+  "arm5e.sheet.activeEffect.subtypes.xpmod": "Xp bonus",
   "arm5e.sheet.activeEffect.bonuses.penetration": "Penetration bonus",
 
   "arm5e.sheet.activeEffect.changeMode": "Change Mode",
@@ -1176,6 +1179,7 @@
   "arm5e.activity.msg.wrongOption": "The option chosen ({param}) is not valid with current progress items.",
   "arm5e.activity.msg.selfTeaching": "A character cannot teach him/herself!",
   "arm5e.activity.msg.uselessTeacher": "{param} has nothing to teach to this character.",
+  "arm5e.activity.msg.noProgressItems": "No progress items selected.",
   "arm5e.activity.msg.tooManyItems": "Too many progress items, maximum is {param}.",
   "arm5e.activity.msg.gainCapped": "The experience gain has been capped to {param}, the student will equal the master.",
   "arm5e.activity.msg.noTrainer": "No trainer selected",

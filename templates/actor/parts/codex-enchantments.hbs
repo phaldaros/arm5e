@@ -8,7 +8,7 @@
 {{#each system.filteredEnchantments as |enchantment id|}}
   <li class="item spell-value flexrow flex-center" data-name="{{enchantment.name}}" data-item-id="{{enchantment.id}}"
     data-item-type="{{enchantment.type}}">
-    <div class="item-image item-control item-edit"><img src="{{enchantment.img}}" title="{{enchantment.name}}" /></div>
+    <div class="item-image item-control item-edit"><img src="{{enchantment.img}}" title="{{enchantment.name}}" style="max-height:50px"/></div>
     <div class="flexrow flex-center">
       <span class="flexrow spell-title design" data-name="{{enchantment.name}}">
         <!-- data-level="{{enchantment.system.baseLevel}}" data-technique="{{enchantment.system.technique.value}}" data-form="{{enchantment.system.form.value}}"-->

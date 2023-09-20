@@ -67,10 +67,11 @@
         {{/unless}}
       </div>
       <div class="flexcol" style="text-align: center;">
-        <label style="padding: 15px;">{{localize "arm5e.activity.drop.teacher"}}</label>
-        {{#unless (eq system.teacher.id null)}}
+        {{#if (eq system.teacher.id null)}}
+          <label style="padding: 15px;">{{localize "arm5e.activity.drop.teacher"}}</label>
+        {{else}}
           <a class="break-link" title="Break link to teacher"><i class="fas fa-link" style="font-size: 18pt;"></i></a>
-        {{/unless}}
+        {{/if}}
       </div>
     </section>
   </div>
@@ -153,7 +154,7 @@
           {{localize "arm5e.activity.msg.noArt"}}
         {{else}}
           <a class="progress-control" data-action="add" data-type="arts" data-default="{{system.defaultArt}}"
-            data-teacherscore="{{system.teacherScore}}"><i class="fas fa-plus"></i></a>
+            data-teacherscore="{{system.teacher.score}}"><i class="fas fa-plus"></i></a>
         {{/unless}}
       </div>
 
@@ -208,7 +209,7 @@
         {{#unless system.canProgress.spells}}
           {{localize "arm5e.activity.msg.noSpell"}}
         {{else}}
-          <a class="progress-control" data-action="add" data-type="spells" data-teacherscore="{{system.teacherScore}}"
+          <a class="progress-control" data-action="add" data-type="spells" data-teacherscore="{{system.teacher.score}}"
             data-default="{{system.defaultSpellMastery}}"><i class="fas fa-plus"></i></a>
         {{/unless}}
       </div>

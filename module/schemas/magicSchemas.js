@@ -315,8 +315,11 @@ export class SpellSchema extends foundry.abstract.DataModel {
   }
 
   async _increaseScore() {
+    let xpMod = this.parent.parent.system.bonuses.arts.masteryXpMod;
     let oldXp = this.xp;
-    let newXp = Math.round(((this.mastery + 1) * (this.mastery + 2) * 5) / 2);
+    let newXp = Math.round(
+      (((this.derivedScore + 1) * (this.derivedScore + 2) * 5) / 2 - xpMod) / this.xpCoeff
+    );
 
     await this.parent.update(
       {
@@ -330,9 +333,17 @@ export class SpellSchema extends foundry.abstract.DataModel {
     console.log(`Added ${delta} xps from ${oldXp} to ${newXp}`);
   }
   async _decreaseScore(item) {
-    if (this.mastery != 0) {
-      let oldXp = this.xp;
-      let newXp = Math.round(((this.mastery - 1) * this.mastery * 5) / 2);
+    let xpMod = this.parent.parent.system.bonuses.arts.masteryXpMod;
+    let futureXp = Math.round(
+      ((this.derivedScore - 1) * this.derivedScore * 5) / (2 * this.xpCoeff)
+    );
+    let newXp = 0;
+    if (futureXp >= Math.round(xpMod * this.xpCoeff)) {
+      newXp = Math.round(
+        (((this.derivedScore - 1) * this.derivedScore * 5) / 2 - xpMod) / this.xpCoeff
+      );
+    }
+    if (newXp != this.xp) {
       await this.parent.update(
         {
           system: {
@@ -341,8 +352,8 @@ export class SpellSchema extends foundry.abstract.DataModel {
         },
         {}
       );
-      let delta = newXp - oldXp;
-      console.log(`Removed ${delta} xps from ${oldXp} to ${newXp} total`);
+      let delta = newXp - this.xp;
+      console.log(`Removed ${delta} xps from ${this.xp} to ${newXp} total`);
     }
   }
 

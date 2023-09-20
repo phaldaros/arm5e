@@ -292,13 +292,13 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     let currentDate = game.settings.get("arm5e", "currentDate");
 
     if (itemData.system) {
-      if (itemData.system.year) {
-        currentDate.year = itemData.system.year;
-      }
-      if (itemData.system.season) {
-        currentDate.season = itemData.system.season;
-      }
-      if (itemData.system.dates == undefined) {
+      // if (itemData.system.year) {
+      //   currentDate.year = itemData.system.year;
+      // }
+      // if (itemData.system.season) {
+      //   currentDate.season = itemData.system.season;
+      // }
+      if (itemData.system.dates == undefined || foundry.utils.isEmpty(itemData.system.dates)) {
         res.system.dates = [
           { year: currentDate.year, season: currentDate.season, date: "", applied: false }
         ];
@@ -350,7 +350,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     }
 
     let currentDate = game.settings.get("arm5e", "currentDate");
-    if (itemData.system.year !== undefined && itemData.system.season !== undefined) {
+    if (itemData.system.year !== undefined || itemData.system.season !== undefined) {
       let theYear;
       if (itemData.system.year === "" || itemData.system.year === null) {
         theYear = Number(currentDate.year);
@@ -406,7 +406,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
       }
       updateData["system.-=date"] = null;
       updateData["system.dates"] = itemData.system.dates;
-    } else if (itemData.system.dates instanceof Array  ) {
+    } else if (itemData.system.dates instanceof Array) {
       if (itemData.system.dates.length == 0) {
         updateData["system.dates"] = [
           {
@@ -425,9 +425,9 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
             update = true;
           } else if (typeof d.year === "string") {
             if (!Number.isNumeric(d.year)) {
-              d.year  = Number(currentDate.year);
+              d.year = Number(currentDate.year);
             } else {
-              d.year  = Number(d.year);
+              d.year = Number(d.year);
             }
             update = true;
           }
@@ -546,7 +546,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         updateNeeded = false;
       }
     }
-    log(false, "Diary migration: " + updateData);
+    log(false, "Diary migration: " + JSON.stringify(updateData));
     return updateData;
   }
   static getIcon(item, newValue = null) {

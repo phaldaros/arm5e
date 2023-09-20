@@ -37,7 +37,7 @@ ARM5E_DEFAULT_ICONS.MONO = {
   distinctive: "icons/svg/target.svg",
   sanctumRoom: "icons/svg/temple.svg",
   magicItem: "icons/svg/mage-shield.svg",
-  personalityTrait: "icons/svg/personality.svg",
+  personalityTrait: "icons/svg/aura.svg",
   reputation: "icons/svg/angel.svg",
   inhabitant: "icons/svg/city.svg",
   habitantMagi: "icons/svg/mountain.svg",

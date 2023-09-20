@@ -215,6 +215,17 @@
           value="{{numberFormat system.combat.prot decimals=0 sign=true}}" data-dtype="Number" disabled
           style="max-width: 70px;" />
       </div>
+      {{#unless (eq system.bonuses.traits.soak 0)}}
+        <div class="flex0 flex-group-center">
+          <label>+</label>
+        </div>
+        <div class="flexcol flex-group-center">
+          <label>{{localize "arm5e.sheet.bonus.label"}}</label>
+          <input type="text" name="system.combat.prot" readonly
+            value="{{numberFormat system.bonuses.traits.soak decimals=0 sign=true}}" data-dtype="Number" disabled
+            style="max-width: 70px;" />
+        </div>
+      {{/unless}}
       <div class="flex0 flex-group-center">
         <label>=</label>
       </div>
