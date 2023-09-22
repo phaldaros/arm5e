@@ -397,7 +397,7 @@ export function validPractice(context, actor, item) {
   context.system.totalXp.abilities = checkMaxXpPerItem(
     context,
     abilitiesArr,
-    context.system.sourceQuality + context.system.sourceModifier
+    context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus
   );
 
   let spellsArr = Object.values(item.system.progress.spells);
@@ -405,7 +405,7 @@ export function validPractice(context, actor, item) {
   context.system.totalXp.masteries = checkMaxXpPerItem(
     context,
     spellsArr,
-    context.system.sourceQuality + context.system.sourceModifier
+    context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus
   );
   let optionError = false;
   if (item.system.optionKey == "language") {
@@ -456,7 +456,7 @@ export function validPractice(context, actor, item) {
     context.system.totalXp.abilities +
       context.system.totalXp.arts +
       context.system.totalXp.masteries !=
-    context.system.sourceQuality + context.system.sourceModifier
+    context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus
   ) {
     context.system.applyPossible = false;
     if (context.system.applyError === "") {
@@ -471,12 +471,17 @@ export function validPractice(context, actor, item) {
 
 function checkIfCapped(context, teacherScore, coeff, progressItem) {
   let newXp =
-    (context.system.sourceQuality + context.system.sourceModifier + progressItem.system.xp) * coeff;
+    (context.system.sourceQuality +
+      context.system.sourceModifier +
+      context.system.sourceBonus +
+      progressItem.system.xp) *
+    coeff;
   let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
   // TODO check/review
   if (newXp > teacherXp) {
     let newSource = teacherXp / coeff - progressItem.system.xp; //- context.system.sourceModifier;
-    context.system.theoriticalSource = context.system.sourceQuality + context.system.sourceModifier;
+    context.system.theoriticalSource =
+      context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus;
     context.system.sourceQuality = newSource > 0 ? newSource : 0;
     context.system.errorParam = context.system.sourceQuality;
     context.system.applyError = "arm5e.activity.msg.gainCapped";

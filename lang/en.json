@@ -94,6 +94,7 @@
   "TYPES.Item.wound": "Wound",
 
   "arm5e.sheet.player": "Player",
+  "arm5e.sheet.playername": "Player's name",
   "arm5e.sheet.players": "Players",
   "arm5e.sheet.npc": "NPC",
   "arm5e.sheet.npcs": "NPCs",
@@ -101,6 +102,7 @@
 
   "arm5e.sheet.charType": "Type",
   "arm5e.sheet.age": "Age",
+  "arm5e.sheet.apparentAge": "Apparent age",
   "arm5e.sheet.season": "Season",
   "arm5e.sheet.seasons": "seasons",
   "arm5e.sheet.year": "Year",

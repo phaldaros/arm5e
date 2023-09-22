@@ -7,11 +7,12 @@
 - New French version (by Orneen)
 - [technical] CSS refactoring and cosmetic improvements
 - Multi-realms alignments with updated Active Effect
-- [technical] Verified for Foundry V11.308
+- [technical] Verified for Foundry V11.309
 - Improved spell design dialog
-- Affinities are taken into account for seasonal activities (xp is multiplied before being added)
 - New active effects for "Flawless magic" virtue
 - [technical] Added lot of test coverage to the diary entries, code factorization and simplification.
+- Added apparent age in the limited actor sheet
+- Added a new "Player's name" field on actor sheet
 
 ### Bug fixes
 
@@ -28,6 +29,7 @@
 - Spells learned through seasonal activities are now cleared of their mastery level and bonuses.
 - Fixed icon size problem in Codex
 - Added missing Soak bonus, if any, in the combat tab.
+- Affinities are taken into account when checking if the student will overcome the teacher
 
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 

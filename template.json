@@ -511,6 +511,7 @@
         "value": "magus",
         "label": "Char. Type"
       },
+      "playername": "",
       "house": {
         "value": "n-a",
         "label": "House"

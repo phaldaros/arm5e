@@ -1761,6 +1761,16 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 }
 
+// Hooks.on("renderActorSheet", (app, html, data) => {
+//   if (app.actor.hasPlayerOwner) {
+//     let owners = game.users.players.filter((user) =>
+//       app.actor.testUserPermission(user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+//     );
+//     log(false, `Owner name: ${owners[0].name}`);
+//   }
+//   log(false, "TEST");
+// });
+
 export async function setCovenant(selector, actor) {
   let actorUpdate = {};
   let found = selector.find(".SelectedItem");
