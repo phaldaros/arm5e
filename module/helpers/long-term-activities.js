@@ -266,7 +266,7 @@ export function validAdventuring(context, actor, item) {
     context.system.totalXp.abilities +
       context.system.totalXp.arts +
       context.system.totalXp.masteries !=
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier
   ) {
     context.system.applyPossible = false;
     if (context.system.applyError === "") {
@@ -301,7 +301,7 @@ export function validChildhood(context, actor, item) {
     context.system.totalXp.abilities +
       context.system.totalXp.arts +
       context.system.totalXp.masteries !=
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier
   ) {
     context.system.applyPossible = false;
     if (context.system.applyError === "") {
@@ -337,7 +337,7 @@ export function validTotalXp(context, actor, item) {
     context.system.totalXp.arts +
     context.system.totalXp.masteries +
     context.system.totalXp.spellLevels;
-  if (totalXp != context.system.sourceQuality) {
+  if (totalXp != context.system.sourceQuality + context.system.sourceModifier) {
     context.system.applyPossible = false;
     if (context.system.applyError === "") {
       context.system.errorParam = totalXp;
@@ -354,24 +354,28 @@ export function validExposure(context, actor, item) {
   context.system.totalXp.abilities = checkMaxXpPerItem(
     context,
     abilitiesArr,
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier
   );
 
-  context.system.totalXp.arts += checkArtProgressItems(context, item, context.system.sourceQuality);
+  context.system.totalXp.arts += checkArtProgressItems(
+    context,
+    item,
+    context.system.sourceQuality + context.system.sourceModifier
+  );
 
   let spellsArr = Object.values(item.system.progress.spells);
   checkForDuplicates("spells", context, spellsArr);
   context.system.totalXp.masteries = checkMaxXpPerItem(
     context,
     spellsArr,
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier
   );
 
   if (
     context.system.totalXp.abilities +
       context.system.totalXp.arts +
       context.system.totalXp.masteries !=
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier
   ) {
     context.system.applyPossible = false;
     if (context.system.applyError === "") {
@@ -393,7 +397,7 @@ export function validPractice(context, actor, item) {
   context.system.totalXp.abilities = checkMaxXpPerItem(
     context,
     abilitiesArr,
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus
   );
 
   let spellsArr = Object.values(item.system.progress.spells);
@@ -401,7 +405,7 @@ export function validPractice(context, actor, item) {
   context.system.totalXp.masteries = checkMaxXpPerItem(
     context,
     spellsArr,
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus
   );
   let optionError = false;
   if (item.system.optionKey == "language") {
@@ -452,7 +456,7 @@ export function validPractice(context, actor, item) {
     context.system.totalXp.abilities +
       context.system.totalXp.arts +
       context.system.totalXp.masteries !=
-    context.system.sourceQuality
+    context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus
   ) {
     context.system.applyPossible = false;
     if (context.system.applyError === "") {
@@ -462,6 +466,26 @@ export function validPractice(context, actor, item) {
         context.system.totalXp.masteries;
       context.system.applyError = "arm5e.activity.msg.wrongTotalXp";
     }
+  }
+}
+
+function checkIfCapped(context, teacherScore, coeff, progressItem) {
+  let newXp =
+    (context.system.sourceQuality +
+      context.system.sourceModifier +
+      context.system.sourceBonus +
+      progressItem.system.xp) *
+    coeff;
+  let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
+  // TODO check/review
+  if (newXp > teacherXp) {
+    let newSource = teacherXp / coeff - progressItem.system.xp; //- context.system.sourceModifier;
+    context.system.theoriticalSource =
+      context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus;
+    context.system.sourceQuality = newSource > 0 ? newSource : 0;
+    context.system.errorParam = context.system.sourceQuality;
+    context.system.applyError = "arm5e.activity.msg.gainCapped";
+    context.system.cappedGain = true;
   }
 }
 
@@ -477,15 +501,16 @@ export function validTraining(context, actor, item) {
     return;
   } else if (abilitiesArr.length + spellsArr.length == 0) {
     context.system.applyPossible = false;
+    context.system.applyError = "arm5e.activity.msg.noProgressItems";
   }
-  context.system.baseQuality = 3;
+  context.system.sourceQuality = 3;
   if (item.system.teacher.id === null) {
-    context.system.baseQuality += item.system.teacher.score;
+    context.system.sourceQuality += item.system.teacher.score;
   }
 
   if (abilitiesArr.length > 0) {
     const teacherScore = Number(item.system.progress.abilities[0].teacherScore);
-    context.system.baseQuality = teacherScore + 3;
+    context.system.sourceQuality = teacherScore + 3;
     let ability = Object.values(actor.system.abilities).find((e) => {
       return e._id === item.system.progress.abilities[0].id;
     });
@@ -500,36 +525,35 @@ export function validTraining(context, actor, item) {
       }
     }
     const coeff = actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
-    let newXp = (context.system.sourceQuality + ability.system.xp) * coeff;
-    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
-    if (newXp > teacherXp && !context.system.applied) {
-      let newSource = teacherXp / coeff - ability.system.xp;
-      context.system.theoriticalSource = context.system.sourceQuality;
-      context.system.sourceQuality = newSource > 0 ? newSource : 0;
-      context.system.errorParam = context.system.sourceQuality;
-      context.system.applyError = "arm5e.activity.msg.gainCapped";
-      context.system.cappedGain = true;
-    }
-    context.system.progress.abilities[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.abilities += Number(context.system.sourceQuality);
+    checkIfCapped(context, teacherScore, coeff, ability);
+
+    context.system.progress.abilities[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier;
+    context.system.totalXp.abilities += context.system.progress.abilities[0].xp;
   } else if (spellsArr.length > 0) {
     const teacherScore = Number(item.system.progress.spells[0].teacherScore);
-    context.system.baseQuality = teacherScore + 3;
+    context.system.sourceQuality = teacherScore + 3;
     const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
-    let newXp = context.system.sourceQuality + spell.system.xp;
-    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
-    if (newXp > teacherXp) {
-      let newSource = teacherXp - spell.system.xp;
-      context.system.theoriticalSource = context.system.sourceQuality;
-      context.system.sourceQuality = newSource > 0 ? newSource : 0;
-      context.system.errorParam = context.system.sourceQuality;
-      context.system.applyError = "arm5e.activity.msg.gainCapped";
-      context.system.cappedGain = true;
+
+    if (spell === undefined) {
+      // either the spell is no longer teachable or it has been deleted
+      spell = actor.items.get(item.system.progress.spells[0].id);
+
+      if (spell === undefined) {
+        // ability deleted
+        // what should be done here?
+        return;
+      }
     }
-    context.system.progress.spells[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.masteries += Number(context.system.sourceQuality);
+    checkIfCapped(context, teacherScore, spell.system.xpCoeff, spell);
+
+    context.system.progress.spells[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier;
+    context.system.totalXp.masteries += context.system.progress.spells[0].xp;
   }
 
   if (context.system.cappedGain && context.system.sourceQuality == 0) {
@@ -551,11 +575,12 @@ export function validTeaching(context, actor, item) {
     context.system.errorParam = 1;
     return;
   } else if (abilitiesArr.length + artsArr.length + spellsArr.length == 0) {
+    context.system.applyError = "arm5e.activity.msg.noProgressItems";
     context.system.applyPossible = false;
   }
-  context.system.baseQuality = 3 + item.system.teacher.teaching + item.system.teacher.com;
+  context.system.sourceQuality = 3 + item.system.teacher.teaching + item.system.teacher.com;
   if (item.system.teacher.applySpec) {
-    context.system.baseQuality++;
+    context.system.sourceQuality++;
   }
 
   if (abilitiesArr.length > 0) {
@@ -586,18 +611,12 @@ export function validTeaching(context, actor, item) {
       }
     }
     const coeff = actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
-    let newXp = (context.system.sourceQuality + ability.system.xp) * coeff;
-    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
-    if (newXp > teacherXp && !context.system.applied) {
-      let newSource = teacherXp / coeff - ability.system.xp;
-      context.system.theoriticalSource = context.system.sourceQuality;
-      context.system.sourceQuality = newSource > 0 ? newSource : 0;
-      context.system.errorParam = context.system.sourceQuality;
-      context.system.applyError = "arm5e.activity.msg.gainCapped";
-      context.system.cappedGain = true;
-    }
-    context.system.progress.abilities[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.abilities += Number(context.system.sourceQuality);
+    checkIfCapped(context, teacherScore, coeff, ability);
+
+    context.system.progress.abilities[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus;
+    context.system.totalXp.abilities += context.system.progress.abilities[0].xp;
   } else if (spellsArr.length > 0) {
     const teacherScore = Number(item.system.progress.spells[0].teacherScore);
 
@@ -616,18 +635,12 @@ export function validTeaching(context, actor, item) {
     const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
-    let newXp = context.system.sourceQuality + spell.system.xp;
-    let teacherXp = ArM5ePCActor.getAbilityXp(teacherScore);
-    if (newXp > teacherXp) {
-      let newSource = teacherXp - spell.system.xp;
-      context.system.theoriticalSource = context.system.sourceQuality;
-      context.system.sourceQuality = newSource > 0 ? newSource : 0;
-      context.system.errorParam = context.system.sourceQuality;
-      context.system.applyError = "arm5e.activity.msg.gainCapped";
-      context.system.cappedGain = true;
-    }
-    context.system.progress.spells[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.masteries += Number(context.system.sourceQuality);
+    checkIfCapped(context, teacherScore, 1, spell);
+
+    context.system.progress.spells[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus;
+    context.system.totalXp.masteries += context.system.progress.spells[0].xp;
   } else if (artsArr.length > 0) {
     const progressArt = item.system.progress.arts[0];
     const teacherScore = Number(progressArt.teacherScore);
@@ -648,6 +661,7 @@ export function validTeaching(context, actor, item) {
       artType = "forms";
     }
     const art = actor.system.arts[artType][progressArt.key];
+    // checkIfCapped(context, teacherScore, 1, spell);
     let newXp = context.system.sourceQuality + art.xp;
     let teacherXp = ArM5ePCActor.getArtXp(teacherScore);
     if (newXp > teacherXp) {
@@ -658,8 +672,10 @@ export function validTeaching(context, actor, item) {
       context.system.applyError = "arm5e.activity.msg.gainCapped";
       context.system.cappedGain = true;
     }
-    context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.arts += Number(context.system.sourceQuality);
+    context.system.progress.arts[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier + context.system.sourceBonus;
+    context.system.totalXp.arts += context.system.progress.arts[0].xp;
   }
   if (context.system.cappedGain && context.system.sourceQuality == 0) {
     context.system.applyError = "arm5e.activity.msg.uselessTeacher";
@@ -697,18 +713,21 @@ export function validReading(context, actor, item) {
       }
     }
     const coeff = actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
-    let newXp = (context.system.sourceQuality + ability.system.xp) * coeff;
-    let maxXp = ArM5ePCActor.getAbilityXp(maxLevel);
-    if (newXp > maxXp && !context.system.applied) {
-      let newSource = maxXp / coeff - ability.system.xp;
-      context.system.theoriticalSource = context.system.sourceQuality;
-      context.system.sourceQuality = newSource > 0 ? newSource : 0;
-      context.system.errorParam = context.system.sourceQuality;
-      context.system.applyError = "arm5e.activity.msg.gainCapped";
-      context.system.cappedGain = true;
-    }
-    context.system.progress.abilities[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.abilities += Number(context.system.sourceQuality);
+    checkIfCapped(context, maxLevel, coeff, ability);
+    // let newXp = (context.system.sourceQuality + ability.system.xp) * coeff;
+    // let maxXp = ArM5ePCActor.getAbilityXp(maxLevel);
+    // if (newXp > maxXp && !context.system.applied) {
+    //   let newSource = maxXp / coeff - ability.system.xp;
+    //   context.system.theoriticalSource = context.system.sourceQuality;
+    //   context.system.sourceQuality = newSource > 0 ? newSource : 0;
+    //   context.system.errorParam = context.system.sourceQuality;
+    //   context.system.applyError = "arm5e.activity.msg.gainCapped";
+    //   context.system.cappedGain = true;
+    // }
+    context.system.progress.abilities[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier;
+    context.system.totalXp.abilities += context.system.progress.abilities[0].xp;
   } else if (spellsArr.length > 0) {
     const maxLevel =
       Number(item.system.progress.spells[0].maxLevel) == 0
@@ -718,18 +737,21 @@ export function validReading(context, actor, item) {
     const spell = Object.values(actor.system.spells).find((e) => {
       return e._id === item.system.progress.spells[0].id;
     });
-    let newXp = context.system.sourceQuality + spell.system.xp;
-    let maxXp = ArM5ePCActor.getAbilityXp(maxLevel);
-    if (newXp > maxXp) {
-      let newSource = maxXp - spell.system.xp;
-      context.system.theoriticalSource = context.system.sourceQuality;
-      context.system.sourceQuality = newSource > 0 ? newSource : 0;
-      context.system.errorParam = context.system.sourceQuality;
-      context.system.applyError = "arm5e.activity.msg.gainCapped";
-      context.system.cappedGain = true;
-    }
-    context.system.progress.spells[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.masteries += Number(context.system.sourceQuality);
+    checkIfCapped(context, maxLevel, coeff, spell);
+    // let newXp = context.system.sourceQuality + spell.system.xp;
+    // let maxXp = ArM5ePCActor.getAbilityXp(maxLevel);
+    // if (newXp > maxXp) {
+    //   let newSource = maxXp - spell.system.xp;
+    //   context.system.theoriticalSource = context.system.sourceQuality;
+    //   context.system.sourceQuality = newSource > 0 ? newSource : 0;
+    //   context.system.errorParam = context.system.sourceQuality;
+    //   context.system.applyError = "arm5e.activity.msg.gainCapped";
+    //   context.system.cappedGain = true;
+    // }
+    context.system.progress.spells[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier;
+    context.system.totalXp.masteries += context.system.progress.spells[0].xp;
   } else if (artsArr.length > 0) {
     const progressArt = item.system.progress.arts[0];
     const maxLevel = Number(progressArt.maxLevel) == 0 ? 100 : Number(progressArt.maxLevel);
@@ -748,8 +770,10 @@ export function validReading(context, actor, item) {
       context.system.applyError = "arm5e.activity.msg.gainCapped";
       context.system.cappedGain = true;
     }
-    context.system.progress.arts[0].xp = Number(context.system.sourceQuality);
-    context.system.totalXp.arts += Number(context.system.sourceQuality);
+    context.system.progress.arts[0].xp = context.system.cappedGain
+      ? context.system.sourceQuality
+      : context.system.sourceQuality + context.system.sourceModifier;
+    context.system.totalXp.arts += context.system.progress.arts[0].xp;
   }
 
   if (context.system.cappedGain && context.system.sourceQuality == 0) {
@@ -763,7 +787,8 @@ export function validVisStudy(context, actor, item) {
   context.system.totalXp = { abilities: 0, arts: 0, masteries: 0, spellLevels: 0 };
   // const progressArt = item.system.progress.arts[0];
 
-  context.system.totalXp.arts += Number(context.system.sourceQuality);
+  context.system.totalXp.arts +=
+    Number(context.system.sourceQuality) + context.system.sourceModifier;
 }
 
 export async function visStudy(item) {

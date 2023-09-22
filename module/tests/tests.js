@@ -4,7 +4,13 @@ import { StressDieInternal } from "../helpers/stressdie.js";
 import { log, sleep } from "../tools.js";
 import { nextDate } from "../tools/time.js";
 import { registerAbilityScoresTesting } from "./abilityScoreTesting.js";
+import { registerAdventuringTesting } from "./diaryAdventuringTest.js";
+import { registerApprenticeshipTesting } from "./diaryCharCreationTest.js";
+import { registerExposureTesting } from "./diaryExposureTest.js";
+import { registerTeachingTesting } from "./diaryTeachingTest.js";
+import { registerTrainingTesting } from "./diaryTrainingTest.js";
 import { registerItemCreationTests } from "./itemCreationTests.js";
+import { registerOnRollTesting } from "./onRollTest.js";
 import { registerRollTesting } from "./rollsTest.js";
 import { registerSheetDisplayTests } from "./sheetDisplayTests.js";
 import { registerStressDieTesting } from "./stressDieTesting.js";
@@ -27,4 +33,9 @@ export function registerTestSuites(quench) {
   registerRollTesting(quench);
   registerSheetDisplayTests(quench);
   registerItemCreationTests(quench);
+  registerAdventuringTesting(quench);
+  registerApprenticeshipTesting(quench);
+  registerTrainingTesting(quench);
+  registerTeachingTesting(quench);
+  registerExposureTesting(quench);
 }

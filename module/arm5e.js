@@ -22,7 +22,6 @@ import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./helpers/chat.js";
 
-
 // experiment
 import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 
@@ -215,7 +214,6 @@ Hooks.once("init", async function () {
   Handlebars.registerHelper("isGM", function () {
     return game.user.isGM;
   });
-
 });
 
 Hooks.once("ready", async function () {
@@ -234,7 +232,7 @@ Hooks.once("ready", async function () {
   });
 
   Hooks.on("dropActorSheetData", (actor, sheet, data) => onDropActorSheetData(actor, sheet, data));
-  Hooks.on("dropCanvasData", async (canvas, data) => onDropOnCanvas(canvas, data));
+  // Hooks.on("dropCanvasData", async (canvas, data) => onDropOnCanvas(canvas, data));
 
   if (game.user.isGM) {
     // Determine whether a system migration is required and feasible

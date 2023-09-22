@@ -127,7 +127,7 @@ export class ArM5eRollData {
           }
           this.magic.ritual = spell.system.ritual ?? false;
           this.magic.level = spell.system.level;
-          this.magic.masteryScore = spell.system.mastery ?? 0;
+          this.magic.masteryScore = spell.system.finalScore ?? 0;
           this.bonuses = this.magic.bonus;
         } else {
           if (dataset.technique) {
@@ -318,7 +318,7 @@ export class ArM5eRollData {
       masteryScore: 0,
       ritual: false,
       focus: false,
-      mastery: 0,
+      masteryScore: 0,
       divide: 1,
       level: 0,
       techDeficiency: false,
@@ -401,7 +401,7 @@ export class ArM5eRollData {
 
   getSpellcastingModifiers() {
     this.bonuses += this._actor.system.bonuses.arts.spellcasting;
-    log(false, `Bonus spellcasting: ${this._actor.system.bonuses.arts.spellcasting}`);
+    // log(false, `Bonus spellcasting: ${this._actor.system.bonuses.arts.spellcasting}`);
     const activeEffects = this._actor.appliedEffects;
     let activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithType(
       activeEffects,

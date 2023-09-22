@@ -277,6 +277,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
         name: topic.labtextTitle,
         type: "laboratoryText",
         ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER },
+        editable: false,
         system: topic.labtext
       },
       { temporary: true }

@@ -107,6 +107,17 @@ export class ArM5ePCActor extends Actor {
       dead: []
     };
 
+    this.system.combat = {
+      load: 0,
+      overload: 0,
+      init: 0,
+      atk: 0,
+      dfn: 0,
+      dam: 0,
+      prot: 0,
+      ability: 0
+    };
+
     this.system.bonuses = {};
 
     if (this._isMagus()) {
@@ -139,7 +150,9 @@ export class ArM5ePCActor extends Actor {
       laboratory: 0,
       magicResistance: null,
       spontDivider: 2,
-      spontDividerNoFatigue: 5
+      spontDividerNoFatigue: 5,
+      masteryXpCoeff: 1.0,
+      masteryXpMod: 0
     };
 
     this.system.bonuses.skills = {};
@@ -412,6 +425,23 @@ export class ArM5ePCActor extends Actor {
             }
           }
         }
+      } else if (item.type == "spell") {
+        item.system.xpCoeff = this.system.bonuses.arts.masteryXpCoeff;
+        item.system.xpBonus = this.system.bonuses.arts.masteryXpMod;
+        item.system.derivedScore = ArM5ePCActor.getAbilityScoreFromXp(
+          Math.round((item.system.xp + item.system.xpBonus) * item.system.xpCoeff)
+        );
+        item.system.xpNextLevel = Math.round(
+          5 * item.system.derivedScore + 5 / item.system.xpCoeff
+        );
+        item.system.remainingXp =
+          item.system.xp -
+          Math.round(
+            ArM5ePCActor.getAbilityXp(item.system.derivedScore / item.system.xpCoeff) -
+              item.system.xpBonus
+          );
+
+        item.system.finalScore = item.system.derivedScore;
       }
     }
 
@@ -439,7 +469,7 @@ export class ArM5ePCActor extends Actor {
       this.system.bonuses.arts.spellcasting +=
         (this.system.stances.voice[system.stances.voiceStance] || 0) +
         (this.system.stances.gestures[system.stances.gesturesStance] || 0);
-      log(false, `Bonus spellcasting: ${this.system.bonuses.arts.spellcasting}`);
+      // log(false, `Bonus spellcasting: ${this.system.bonuses.arts.spellcasting}`);
       if (system.laboratory === undefined) {
         system.laboratory = {};
       }
@@ -610,7 +640,20 @@ export class ArM5ePCActor extends Actor {
         }
       } else if (item.type === "diaryEntry") {
         if (!item.system.done) {
-          pendingXps += item.system.sourceQuality;
+          pendingXps +=
+            item.system.sourceQuality +
+            item.system.progress.abilities.reduce((previous, current, i) => {
+              return previous + current.xp;
+            }, 0) +
+            item.system.progress.arts.reduce((previous, current, i) => {
+              return previous + current.xp;
+            }, 0);
+          item.system.progress.spells.reduce((previous, current, i) => {
+            return previous + current.xp;
+          }, 0);
+          item.system.progress.newSpells.reduce((previous, current, i) => {
+            return previous + current.xp;
+          }, 0);
         }
         diaryEntries.push(item);
       } else if (item.type === "abilityFamiliar") {
@@ -1777,16 +1820,26 @@ export class ArM5ePCActor extends Actor {
     return { score: 0, speciality: "" };
   }
 
+  getSimilarSpell(level, technique, form) {
+    return this.system.spells.find(
+      (e) =>
+        e.system.level == level &&
+        e.system.technique.value == technique &&
+        e.system.form.value == form
+    );
+  }
+
   getSpellMasteryStats(spellId) {
-    const spell = this.system.spell.find((e) => e.id == spellId);
+    const spell = this.system.spells.find((e) => e.id == spellId);
     if (spell) {
       return {
         score: spell.system.mastery,
         xp: spell.system.xp,
-        xpCoeff: spell.system.xpCoeff
+        xpCoeff: spell.system.xpCoeff,
+        xpBonus: spell.system.xpBonus
       };
     }
-    return { score: 0, xp: 0, xpCoeff };
+    return { score: 0, xp: 0, xpCoeff: 1, xpBonus: 0 };
   }
 
   getArtStats(key) {

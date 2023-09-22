@@ -783,9 +783,9 @@ export class ArM5eActorSheet extends ActorSheet {
         spell.TechReq = spellTechniqueLabel(spell.system);
         spell.FormReq = spellFormLabel(spell.system);
         spell.masteryHint =
-          spell.system.mastery > 0
+          spell.system.finalScore > 0
             ? `<i title="${game.i18n.localize("arm5e.spell.masteryHint")} ${
-                spell.system.mastery
+                spell.system.finalScore
               }" class="icon-Icon_Effects-small"></i>`
             : "";
       }
@@ -1760,6 +1760,16 @@ export class ArM5eActorSheet extends ActorSheet {
     return false;
   }
 }
+
+// Hooks.on("renderActorSheet", (app, html, data) => {
+//   if (app.actor.hasPlayerOwner) {
+//     let owners = game.users.players.filter((user) =>
+//       app.actor.testUserPermission(user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+//     );
+//     log(false, `Owner name: ${owners[0].name}`);
+//   }
+//   log(false, "TEST");
+// });
 
 export async function setCovenant(selector, actor) {
   let actorUpdate = {};

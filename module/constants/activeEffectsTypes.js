@@ -155,6 +155,25 @@ export default {
       }
     }
   },
+  spellmastery: {
+    category: "magic",
+    type: "spellmastery",
+    label: "arm5e.sheet.activeEffect.types.spellmastery",
+    subtypes: {
+      xpCoeff: {
+        label: "arm5e.sheet.activeEffect.subtypes.xpcoeff",
+        key: "system.bonuses.arts.masteryXpCoeff",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        default: 2.0
+      },
+      xpMod: {
+        label: "arm5e.sheet.activeEffect.subtypes.xpmod",
+        key: "system.bonuses.arts.masteryXpMod",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 5
+      }
+    }
+  },
   art: {
     category: "magic",
     type: "art",

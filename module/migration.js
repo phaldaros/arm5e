@@ -671,42 +671,6 @@ export const migrateActorData = async function (actorDoc, actorItems) {
         updateData["system.sanctum"] = sanctum;
       }
 
-      // if (actor.system?.laboratory != undefined) {
-      //   updateData["system.laboratory.longevityRitual.labTotal"] = 0;
-      //   updateData["system.laboratory.longevityRitual.modifier"] = 0;
-      //   updateData["system.laboratory.longevityRitual.twilightScars"] = "";
-      // }
-
-      // TO CHECK: still useful?
-      // let charFam = actor.system?.familiar?.characteristicsFam
-      // if (charFam != undefined) {
-      //   if (charFam.int.value)
-      //   updateData["system.familiar.characteristicsFam.int"] = {
-      //     value: actor.system.familiar.characteristicsFam.int.value
-      //   };
-      //   if (charFam.int.value)
-      //   updateData["system.familiar.characteristicsFam.per"] = {
-      //     value: actor.system.familiar.characteristicsFam.per.value
-      //   };
-      //   updateData["system.familiar.characteristicsFam.str"] = {
-      //     value: actor.system.familiar.characteristicsFam.str.value
-      //   };
-      //   updateData["system.familiar.characteristicsFam.sta"] = {
-      //     value: actor.system.familiar.characteristicsFam.sta.value
-      //   };
-      //   updateData["system.familiar.characteristicsFam.pre"] = {
-      //     value: actor.system.familiar.characteristicsFam.pre.value
-      //   };
-      //   updateData["system.familiar.characteristicsFam.com"] = {
-      //     value: actor.system.familiar.characteristicsFam.com.value
-      //   };
-      //   updateData["system.familiar.characteristicsFam.dex"] = {
-      //     value: actor.system.familiar.characteristicsFam.dex.value
-      //   };
-      //   updateData["system.familiar.characteristicsFam.qik"] = {
-      //     value: actor.system.familiar.characteristicsFam.qik.value
-      //   };
-      // }
       //
       // migrate arts xp
       //
@@ -765,7 +729,7 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     actor.type == "laboratory"
   ) {
     if (CONFIG.ISV10) {
-      if (actor.effects && actor.effects.length > 0) {
+      if (actor.effects && (actor.effects.length > 0 || actor.effects.size > 0)) {
         log(false, `Migrating effects of ${actor.name}`);
         // Migrate effects
         let effects = [];
@@ -1085,225 +1049,173 @@ export const migrateActiveEffectData = async function (effectData) {
 
 export const migrateItemData = async function (item) {
   let itemData = {};
+  const updateData = {};
   if (item instanceof CONFIG.Item.documentClass) {
     itemData = item._source;
   } else {
     itemData = item;
   }
   if (CONFIG.ARM5E.ItemDataModels[item.type]) {
-    return CONFIG.ARM5E.ItemDataModels[item.type].migrate(itemData);
-  }
-  const updateData = {};
-  if (_isMagicalItem(itemData)) {
-    if (itemData.type != "baseEffect") {
-      if (
-        itemData.system.duration.value === undefined ||
-        CONFIG.ARM5E.magic.durations[itemData.system.duration.value] === undefined
-      ) {
-        // console.log(`Guessing duration: ${itemData.system.duration}`);
-        updateData["system.duration.value"] = _guessDuration(
-          itemData.name,
-          itemData.system.duration
-        );
-      }
-      if (itemData.type == "laboratoryText") {
-        // fixing season key
-        if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
-          if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-            updateData["system.season"] = itemData.system.season.toLowerCase();
-          } else {
-            updateData["system.season"] = "spring";
+    itemData = CONFIG.ARM5E.ItemDataModels[item.type].migrate(itemData);
+  } else {
+    if (_isMagicalItem(itemData)) {
+      if (itemData.type != "baseEffect") {
+        if (
+          itemData.system.duration.value === undefined ||
+          CONFIG.ARM5E.magic.durations[itemData.system.duration.value] === undefined
+        ) {
+          // console.log(`Guessing duration: ${itemData.system.duration}`);
+          updateData["system.duration.value"] = _guessDuration(
+            itemData.name,
+            itemData.system.duration
+          );
+        }
+        if (itemData.type == "laboratoryText") {
+          // fixing season key
+          if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+            if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+              updateData["system.season"] = itemData.system.season.toLowerCase();
+            } else {
+              updateData["system.season"] = "spring";
+            }
           }
         }
-      }
-      if (
-        itemData.system.range.value === undefined ||
-        CONFIG.ARM5E.magic.ranges[itemData.system.range.value] === undefined
-      ) {
-        // console.log(`Guessing range: ${itemData.system.range}`);
-        updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range);
-      }
-      if (
-        itemData.system.target.value === undefined ||
-        CONFIG.ARM5E.magic.targets[itemData.system.target.value] === undefined
-      ) {
-        // console.log(`Guessing target: ${itemData.system.target}`);
-        updateData["system.target.value"] = _guessTarget(itemData.name, itemData.system.target);
-      }
-    }
-
-    if (itemData.system.technique.value === "") {
-      updateData["system.technique.value"] = "cr";
-    }
-    if (itemData.system.form.value === "") {
-      updateData["system.form.value"] = "an";
-    }
-    // remove redundant data
-    if (itemData.system.techniques != undefined) {
-      updateData["system.-=techniques"] = null;
-    }
-    if (itemData.system.forms != undefined) {
-      updateData["system.-=forms"] = null;
-    }
-    if (itemData.system["technique-requisites"] != undefined) {
-      updateData["system.-=technique-requisites"] = null;
-    }
-    if (itemData.system["form-requisites"] != undefined) {
-      updateData["system.-=form-requisites"] = null;
-    }
-    if (itemData.system["technique-requisite"] != undefined) {
-      if (
-        itemData.system["technique-requisite"].value != "n-a" &&
-        itemData.system["technique-requisite"].value != ""
-      ) {
-        updateData["system.technique-req." + itemData.system["technique-requisite"].value] = true;
-      }
-      updateData["system.-=technique-requisite"] = null;
-    }
-
-    if (itemData.system["form-requisite"] != undefined) {
-      if (
-        itemData.system["form-requisite"].value != "n-a" &&
-        itemData.system["form-requisite"].value != ""
-      ) {
-        updateData["system.form-req." + itemData.system["form-requisite"].value] = true;
-      }
-      updateData["system.-=form-requisite"] = null;
-    }
-
-    // temporary : removal of authorship in spell, it will only be present in lab texts
-    if (itemData.type == "spell") {
-      if (itemData.system.author) {
-        updateData["system.-=author"] = null;
-      }
-      if (itemData.system.year) {
-        updateData["system.-=year"] = null;
-      }
-      if (itemData.system.season) {
-        updateData["system.-=season"] = null;
-      }
-      if (itemData.system.language) {
-        updateData["system.-=language"] = null;
-      }
-      if (itemData.system.exp) {
-        let exp = ((itemData.system.mastery * (itemData.system.mastery + 1)) / 2) * 5;
-        if (itemData.system.exp >= exp) {
-          updateData["system.xp"] = itemData.system.exp;
-        } else if (itemData.system.exp >= (itemData.system.mastery + 1) * 5) {
-          // if the experience is bigger than the neeeded for next level, ignore it
-          updateData["system.xp"] = exp;
-        } else {
-          // compute normally
-          updateData["system.xp"] = exp + itemData.system.exp;
+        if (
+          itemData.system.range.value === undefined ||
+          CONFIG.ARM5E.magic.ranges[itemData.system.range.value] === undefined
+        ) {
+          // console.log(`Guessing range: ${itemData.system.range}`);
+          updateData["system.range.value"] = _guessRange(itemData.name, itemData.system.range);
         }
-        // TODO: to be uncommented when we are sure the new system works
-        // updateData["system.-=mastery"] = null;
-        updateData["system.-=exp"] = null;
+        if (
+          itemData.system.target.value === undefined ||
+          CONFIG.ARM5E.magic.targets[itemData.system.target.value] === undefined
+        ) {
+          // console.log(`Guessing target: ${itemData.system.target}`);
+          updateData["system.target.value"] = _guessTarget(itemData.name, itemData.system.target);
+        }
+      }
+
+      if (itemData.system.technique.value === "") {
+        updateData["system.technique.value"] = "cr";
+      }
+      if (itemData.system.form.value === "") {
+        updateData["system.form.value"] = "an";
+      }
+      // remove redundant data
+      if (itemData.system.techniques != undefined) {
+        updateData["system.-=techniques"] = null;
+      }
+      if (itemData.system.forms != undefined) {
+        updateData["system.-=forms"] = null;
+      }
+      if (itemData.system["technique-requisites"] != undefined) {
+        updateData["system.-=technique-requisites"] = null;
+      }
+      if (itemData.system["form-requisites"] != undefined) {
+        updateData["system.-=form-requisites"] = null;
+      }
+      if (itemData.system["technique-requisite"] != undefined) {
+        if (
+          itemData.system["technique-requisite"].value != "n-a" &&
+          itemData.system["technique-requisite"].value != ""
+        ) {
+          updateData["system.technique-req." + itemData.system["technique-requisite"].value] = true;
+        }
+        updateData["system.-=technique-requisite"] = null;
+      }
+
+      if (itemData.system["form-requisite"] != undefined) {
+        if (
+          itemData.system["form-requisite"].value != "n-a" &&
+          itemData.system["form-requisite"].value != ""
+        ) {
+          updateData["system.form-req." + itemData.system["form-requisite"].value] = true;
+        }
+        updateData["system.-=form-requisite"] = null;
+      }
+
+      // temporary : removal of authorship in spell, it will only be present in lab texts
+      if (itemData.type == "spell") {
+        if (itemData.system.author) {
+          updateData["system.-=author"] = null;
+        }
+        if (itemData.system.year) {
+          updateData["system.-=year"] = null;
+        }
+        if (itemData.system.season) {
+          updateData["system.-=season"] = null;
+        }
+        if (itemData.system.language) {
+          updateData["system.-=language"] = null;
+        }
+        if (itemData.system.exp) {
+          let exp = ((itemData.system.mastery * (itemData.system.mastery + 1)) / 2) * 5;
+          if (itemData.system.exp >= exp) {
+            updateData["system.xp"] = itemData.system.exp;
+          } else if (itemData.system.exp >= (itemData.system.mastery + 1) * 5) {
+            // if the experience is bigger than the neeeded for next level, ignore it
+            updateData["system.xp"] = exp;
+          } else {
+            // compute normally
+            updateData["system.xp"] = exp + itemData.system.exp;
+          }
+          // TODO: to be uncommented when we are sure the new system works
+          // updateData["system.-=mastery"] = null;
+          updateData["system.-=exp"] = null;
+        }
       }
     }
-  }
-  // Fix type of Item
-  if (itemData.type == "visSourcesCovenant" || itemData.type == "visStockCovenant") {
-    // V10 datamodel cleanup (2.0.0)
-    if (itemData.system.art.value !== undefined) {
-      updateData["system.art"] = itemData.system.art.value;
-    }
-
-    // get ride of form of vis field
-    if (itemData.type == "vis") {
-      if (
-        itemData.system.form != undefined &&
-        itemData.system.form !== "Physical form of the raw vis." &&
-        itemData.system.form !== ""
-      ) {
-        updateData["system.description"] = itemData.system.description + itemData.system.form;
-        updateData["system.-=form"] = null;
+    // Fix type of Item
+    if (itemData.type == "visSourcesCovenant" || itemData.type == "visStockCovenant") {
+      // V10 datamodel cleanup (2.0.0)
+      if (itemData.system.art.value !== undefined) {
+        updateData["system.art"] = itemData.system.art.value;
       }
+
+      // get ride of form of vis field
+      if (itemData.type == "vis") {
+        if (
+          itemData.system.form != undefined &&
+          itemData.system.form !== "Physical form of the raw vis." &&
+          itemData.system.form !== ""
+        ) {
+          updateData["system.description"] = itemData.system.description + itemData.system.form;
+          updateData["system.-=form"] = null;
+        }
+      }
+    } else if (itemData.type == "mundaneBook") {
+      updateData["type"] = "book";
+      updateData["name"] = itemData.name;
+      if (itemData.system.ability != undefined) {
+        // the field ability is no longer used,
+        // appending the value to the description.
+        updateData["system.description"] =
+          itemData.system.description +
+          `<p>MIGRATION: value of ability field: ${itemData.system.ability}</p>`;
+        // updateData["system.-=ability"] = null;
+      }
+      if (itemData.system.types) {
+        updateData["system.-=types"] = null;
+      }
+    } else if (itemData.type == "might") {
+      updateData["type"] = "power";
     }
-  } else if (itemData.type == "mundaneBook") {
-    updateData["type"] = "book";
-    updateData["name"] = itemData.name;
 
-    // if (itemData.system.topic === undefined) {
-    //   let topic = {};
-    //   if (itemData.system.key) {
-    //     topic.art = null;
-    //     topic.key = itemData.system.key;
-    //     topic.option = itemData.system.option;
-    //     topic.spellName = null;
-    //     topic.category = "ability";
-    //   } else {
-    //     // missing data, reset to default
-    //     topic.art = null;
-    //     topic.key = "awareness";
-    //     topic.option = "";
-    //     topic.spellName = null;
-    //     topic.category = "ability";
-    //   }
-
-    //   if (itemData.system.type.value !== undefined) {
-    //     if (itemData.system.type.value == "summa") {
-    //       topic.type = "Summa";
-    //     } else if (itemData.system.type.value == "tract") {
-    //       topic.type = "Tractatus";
-    //     } else {
-    //       topic.type = itemData.system.type.value;
-    //     }
-    //   } else {
-    //     if (itemData.system.type == "summa") {
-    //       topic.type = "Summa";
-    //     } else if (itemData.system.type == "tract") {
-    //       topic.type = "Tractatus";
-    //     }
-    //   }
-
-    //   updateData["system.topic"] = topic;
-    // } else {
-    //   let topic = {
-    //     art: null,
-    //     key: "awareness",
-    //     option: "",
-    //     spellName: null,
-    //     category: "ability",
-    //     type: "Summa"
-    //   };
-    //   updateData["system.topic"] = topic;
-    // }
-    // // V10 datamodel cleanup (2.0.0)
-
-    // if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
-    //   if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-    //     updateData["system.season"] = itemData.system.season.toLowerCase();
-    //   } else {
-    //     updateData["system.season"] = "spring";
-    //   }
-    // }
-    if (itemData.system.ability != undefined) {
-      // the field ability is no longer used,
-      // appending the value to the description.
-      updateData["system.description"] =
-        itemData.system.description +
-        `<p>MIGRATION: value of ability field: ${itemData.system.ability}</p>`;
-      // updateData["system.-=ability"] = null;
+    if (itemData.type == "mightFamiliar") {
+      updateData["type"] = "powerFamiliar";
     }
-    if (itemData.system.types) {
-      updateData["system.-=types"] = null;
-    }
-  } else if (itemData.type == "might") {
-    updateData["type"] = "power";
   }
-
-  if (itemData.type == "mightFamiliar") {
-    updateData["type"] = "powerFamiliar";
-  }
-
-  if (itemData.effects.length > 0) {
-    log(false, `Migrating effects of ${itemData.name}`);
+  // either an array or an embedded collection
+  if (item.effects.length > 0 || item.effects.size) {
+    log(false, `Migrating effects of ${item.name}`);
+    let effects = [];
     let toDelete = [];
-    const effects = itemData.effects.reduce(async (arr, e) => {
+
+    for (let e of item.effects) {
       if (isEffectObsolete(e)) {
         toDelete.push(e._id);
-        return arr;
+        continue;
       }
       // Migrate effects
       const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
@@ -1311,18 +1223,17 @@ export const migrateItemData = async function (item) {
       if (!isEmpty(effectUpdate)) {
         // Update the effect
         effectUpdate._id = effectData._id;
-        arr.push(expandObject(effectUpdate));
+        effects.push(expandObject(effectUpdate));
       }
-      return arr;
-    }, []);
+    }
     if (toDelete.length > 0) {
-      if (actorDoc instanceof ArM5ePCActor) {
-        await actorDoc.deleteEmbeddedDocuments("ActiveEffect", toDelete);
+      if (item instanceof CONFIG.Item.documentClass) {
+        await item.deleteEmbeddedDocuments("ActiveEffect", toDelete);
       } else {
         ChatMessage.create({
           content:
             "<b>MIGRATION NOTIFICATION</b><br/>" +
-            `The character ${actorDoc.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
+            `The item ${item.name} was unable to clean up obsolete active effects. Triggering a new migration will fix it (See FAQ)`
         });
       }
     }

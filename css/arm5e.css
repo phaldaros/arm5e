@@ -1597,7 +1597,8 @@ input[type="time"] {
 input[type="text"].magic-total,
 input[type="text"].combat-total,
 input[type="text"].wound-level,
-input[type="number"].art-score {
+input[type="number"].art-score,
+input[type="number"].design-level {
   font-size: 13pt;
   text-align: center;
   background: rgba(0, 0, 0, 0.15);

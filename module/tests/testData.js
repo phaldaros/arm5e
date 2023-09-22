@@ -24,25 +24,6 @@ export const companionData = {
     eyes: { value: "grey" },
     title: { value: "Knight" },
     handed: { value: "left" }
-  },
-  reputation: {
-    rep1: { label: "Dead", type: "awda", score: 1 }
-  },
-  stances: {
-    voiceStance: "firm",
-    voice: {
-      loud: 1,
-      firm: 0,
-      quiet: -5,
-      silent: -10
-    },
-    gesturesStance: "bold",
-    gestures: {
-      exaggerated: 1,
-      bold: 0,
-      subtle: -2,
-      motionless: -5
-    }
   }
 };
 
@@ -65,6 +46,16 @@ export const readingSkill = {
   speciality: "latin",
   xp: 75,
   key: "artesLib"
+};
+
+export const teachingSkill = {
+  description: "",
+  source: "ArM5",
+  page: 66,
+  defaultChaAb: "com",
+  speciality: "creo",
+  xp: 75,
+  key: "teaching"
 };
 
 export const combatSkill = {
@@ -349,7 +340,7 @@ export const spellData1 = {
   ritual: false,
   bonus: 4,
   bonusDesc: "Talisman",
-  xp: 30,
+  xp: 0,
   masteryAbilities: ""
 };
 
@@ -457,6 +448,60 @@ export const spellData3 = {
   xp: 30,
   masteryAbilities: ""
 };
+
+export const newSpell1 = {
+  description: "",
+  source: "custom",
+  page: 0,
+  technique: {
+    value: "cr"
+  },
+  "technique-req": {
+    cr: false,
+    in: false,
+    mu: false,
+    pe: false,
+    re: false
+  },
+  form: {
+    value: "co"
+  },
+  "form-req": {
+    an: false,
+    aq: false,
+    au: false,
+    co: false,
+    he: false,
+    ig: false,
+    im: false,
+    me: false,
+    te: false,
+    vi: false
+  },
+  range: {
+    value: "touch"
+  },
+  duration: {
+    value: "sun"
+  },
+  target: {
+    value: "ind"
+  },
+  targetSize: 0,
+  complexity: 0,
+  enhancingRequisite: 0,
+  general: true,
+  levelOffset: 3,
+  baseLevel: 4,
+  baseEffectDescription: "",
+  applyFocus: false,
+  ritual: false,
+  bonus: 3,
+  bonusDesc: "Talisman",
+  xp: 30,
+  masteryAbilities: ""
+};
+
 export const magusData = {
   biography: "Character biography, notes, &c.",
   characteristics: {
@@ -552,6 +597,85 @@ export const magusData = {
     }
   }
 };
+export const magusData2 = {
+  biography: "Character biography, notes, &c.",
+  characteristics: {
+    int: { value: 4, aging: 1 },
+    per: { value: 0, aging: 0 },
+    str: { value: 0, aging: 0 },
+    sta: { value: 1, aging: 0 },
+    pre: { value: -1, aging: 0 },
+    com: { value: 3, aging: 0 },
+    dex: { value: -2, aging: 0 },
+    qik: { value: -3, aging: 2 }
+  },
+  description: {
+    born: { value: "1150" },
+    apprentice: { value: "10" },
+    birthname: { value: "" },
+    birthplace: { value: "Aix" },
+    nationality: { value: "Roman" },
+    religion: { value: "Christian" },
+    height: { value: "175" },
+    weight: { value: "" },
+    gender: { value: "male" },
+    hair: { value: "black" },
+    eyes: { value: "grey" },
+    title: { value: "Magus" },
+    handed: { value: "right" }
+  },
+  arts: {
+    techniques: {
+      cr: {
+        xp: 115
+      },
+      in: {
+        xp: 6
+      },
+      mu: {
+        xp: 87
+      },
+      pe: {
+        xp: 0
+      },
+      re: {
+        xp: 23
+      }
+    },
+    forms: {
+      an: {
+        xp: 21
+      },
+      aq: {
+        xp: 20
+      },
+      au: {
+        xp: 10
+      },
+      co: {
+        xp: 220
+      },
+      he: {
+        xp: 0
+      },
+      ig: {
+        xp: 30
+      },
+      im: {
+        xp: 30
+      },
+      me: {
+        xp: 30
+      },
+      te: {
+        xp: 130
+      },
+      vi: {
+        xp: 6
+      }
+    }
+  }
+};
 
 export const spell1 = {
   description: "",
@@ -605,3 +729,143 @@ export const spell1 = {
   xp: 0,
   masteryAbilities: ""
 };
+
+export async function getCompanion(name = "Bob") {
+  let character = await Actor.create({
+    name: name,
+    type: "player",
+    system: companionData
+  });
+  let items = [
+    { name: "sword", type: "ability", system: combatSkill },
+    { name: "poleaxe", type: "ability", system: heavyCombatSkill },
+    { name: "sword", type: "weapon", system: weaponItem },
+    { name: "haubert", type: "armor", system: armorItem }
+  ];
+  await character.createEmbeddedDocuments("Item", items, {});
+  return character;
+}
+
+export async function getMagus(magusName = "MerlinTheMagus", items = [], override = {}) {
+  let character = await Actor.create({
+    name: magusName,
+    type: "player",
+    system: magusData
+  });
+
+  items.push({
+    name: "Penetration",
+    type: "ability",
+    system: penetrationSkill
+  });
+  items.push({
+    name: "Artes liberales",
+    type: "ability",
+    system: readingSkill
+  });
+  let skillData = duplicate(magicTheorySkill);
+  skillData.xp = 30;
+  items.push({ name: "Magic theory", type: "ability", system: skillData });
+  items.push({ name: "Gaelic", type: "ability", system: languageSkill });
+
+  items.push({
+    name: "Standard effect",
+    type: "magicalEffect",
+    system: magicalEffect1
+  });
+  items.push({
+    name: "All req effect",
+    type: "magicalEffect",
+    system: magicalEffect2
+  });
+  items.push({
+    name: "Effect with focus",
+    type: "magicalEffect",
+    system: magicalEffect3
+  });
+  items.push({
+    name: "Standard spell",
+    type: "spell",
+    system: spellData1
+  });
+  items.push({
+    name: "Spell with focus",
+    type: "spell",
+    system: spellData2
+  });
+  items.push({
+    name: "Ritual spell",
+    type: "spell",
+    system: spellData3
+  });
+
+  await character.createEmbeddedDocuments("Item", items, {});
+
+  return character;
+}
+
+export async function getTeacher(magusName = "Master", items = [], override = {}) {
+  let newData = duplicate(magusData);
+  mergeObject(newData, foundry.utils.expandObject(override));
+  let character = await Actor.create({
+    name: magusName,
+    type: "player",
+    system: newData
+  });
+
+  items.push({
+    name: "Penetration",
+    type: "ability",
+    system: penetrationSkill
+  });
+  items.push({
+    name: "Artes liberales",
+    type: "ability",
+    system: readingSkill
+  });
+  items.push({ name: "Gaelic", type: "ability", system: languageSkill });
+  items.push({ name: "Teaching", type: "ability", system: teachingSkill });
+  items.push({ name: "Magic theory", type: "ability", system: magicTheorySkill });
+
+  items.push({
+    name: "Standard effect",
+    type: "magicalEffect",
+    system: magicalEffect1
+  });
+  items.push({
+    name: "All req effect",
+    type: "magicalEffect",
+    system: magicalEffect2
+  });
+  items.push({
+    name: "Effect with focus",
+    type: "magicalEffect",
+    system: magicalEffect3
+  });
+  let spellData = duplicate(spellData1);
+  spellData.xp = 75;
+  items.push({
+    name: "Standard spell",
+    type: "spell",
+    system: spellData
+  });
+  items.push({
+    name: "Spell with focus",
+    type: "spell",
+    system: spellData2
+  });
+  items.push({
+    name: "Ritual spell",
+    type: "spell",
+    system: spellData3
+  });
+  items.push({
+    name: "Teached spell",
+    type: "spell",
+    system: newSpell1
+  });
+
+  await character.createEmbeddedDocuments("Item", items, {});
+
+  return character;
+}

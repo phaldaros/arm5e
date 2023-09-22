@@ -113,7 +113,7 @@
           <div class="flexrow">
             <div class="flexrow">
               <label class="header-label flex0">{{localize "arm5e.sheet.mastery"}}
-                <input type="number" class="flex01" name="system.mastery" value="{{system.mastery}}" data-dtype="Number"
+                <input type="number" class="flex01" name="" value="{{system.finalScore}}" data-dtype="Number"
                   readonly /></label>
               <div class="ressource flex0" style="padding-top: 8px; padding-left: 8px; padding-right: 8px;">
                 <a class="item-control increase-score" title="Increase mastery"><i class="fas fa-plus"></i></a>
@@ -121,7 +121,7 @@
               </div>
               <label class="flex01 resource-focus">{{localize "arm5e.sheet.experience"}}<input type="number"
                   name="system.xp" value="{{system.xp}}" data-dtype="Number" /></label>
-              <label style="padding-top: 16px;"> / {{ system.experienceNextLevel }} </label>
+              <label style="padding-top: 16px;"> / {{ system.xpNextLevel }} </label>
             </div>
             <div class="ressource">
               <label class="header-label">{{localize "arm5e.sheet.masteryAbilities"}}</label>

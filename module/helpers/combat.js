@@ -30,7 +30,10 @@ export function computeCombatStats(actor) {
       actor.system.combat.ability +
       actor.system.characteristics.qik.value,
     damage: actor.system.combat.dam + actor.system.characteristics.str.value,
-    soak: actor.system.combat.prot + actor.system.characteristics.sta.value
+    soak:
+      actor.system.combat.prot +
+      actor.system.characteristics.sta.value +
+      actor.system.bonuses.traits.soak
   };
 }
 
@@ -76,13 +79,13 @@ export class QuickCombat extends FormApplication {
 
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".rollable").click(async event => await this.object.actor.sheet._onRoll(event));
+    html.find(".rollable").click(async (event) => await this.object.actor.sheet._onRoll(event));
     html
       .find(".soak-damage")
-      .click(async event => await this.object.actor.sheet._onSoakDamage(event));
+      .click(async (event) => await this.object.actor.sheet._onSoakDamage(event));
     html
       .find(".damage")
-      .click(async event => await this.object.actor.sheet._onCalculateDamage(event));
+      .click(async (event) => await this.object.actor.sheet._onCalculateDamage(event));
   }
 }
 export async function quickCombat(tokenName, actor) {
@@ -149,13 +152,13 @@ export class QuickVitals extends FormApplication {
       await this.object.actor._changeFatigueLevel(-1, false);
       this.render();
     });
-    html.find(".addWound").click(async event => {
+    html.find(".addWound").click(async (event) => {
       event.preventDefault();
       const dataset = event.currentTarget.dataset;
       await this.object.actor.changeWound(1, dataset.type);
       this.render();
     });
-    html.find(".recovery").click(async event => {
+    html.find(".recovery").click(async (event) => {
       event.preventDefault();
       const dataset = event.currentTarget.dataset;
       await this.object.actor.sheet.render(true);

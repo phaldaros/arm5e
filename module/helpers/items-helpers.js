@@ -48,7 +48,7 @@ function getDatasetForSpell(item, noCheck) {
     technique: item.system.technique.value,
     form: item.system.form.value,
     bonus: item.system.bonus,
-    mastery: item.system.mastery,
+    finalScore: item.system.finalScore,
     name: item.name,
     img: item.img
   };

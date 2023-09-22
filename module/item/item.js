@@ -75,13 +75,6 @@ export class ArM5eItem extends Item {
           }
         }
       }
-
-      // compute mastery score
-      if (this.type == "spell") {
-        this.system.mastery = ArM5ePCActor.getAbilityScoreFromXp(this.system.xp);
-        this.system.experienceNextLevel =
-          ((parseInt(this.system.mastery) + 1) * (parseInt(this.system.mastery) + 2) * 5) / 2;
-      }
     }
     // compute reputation score
     if (this.type == "reputation") {
@@ -130,74 +123,84 @@ export class ArM5eItem extends Item {
       if (systemData.optionKey == undefined) {
         systemData.optionKey = "standard";
       }
-      if (this.actor !== null) {
-        const activityConfig = CONFIG.ARM5E.activities.generic[systemData.activity];
-
-        if (this.system.done) {
-          // keep the existing quality at the time of applying
-          // log(false, `Use source quality (${systemData.sourceQuality}) as base for ${this.name}`);
-          this.system.baseQuality = systemData.sourceQuality;
-        } else {
-          // only recompute source quality if the entry is not applied yet
-          switch (systemData.activity) {
-            case "training": {
-              if (systemData.teacher.id === null) {
-                this.system.baseQuality = Number(systemData.teacher.score) + 3;
-              } else {
-                this.system.baseQuality = 0;
-                if (
-                  Object.values(systemData.progress.abilities).length +
-                    Object.values(systemData.progress.spells).length ===
-                  1
-                ) {
-                  if (Object.values(systemData.progress.abilities).length > 0) {
-                    this.system.baseQuality =
-                      Number(systemData.progress.abilities[0].teacherScore) + 3;
-                  } else {
-                    this.system.baseQuality =
-                      Number(systemData.progress.spells[0].teacherScore) + 3;
-                  }
-                }
-              }
-              break;
-            }
-            case "teaching": {
-              this.system.baseQuality = systemData.teacher.teaching + systemData.teacher.com + 3;
-              if (systemData.teacher.applySpec) {
-                this.system.baseQuality++;
-              }
-              break;
-            }
-            case "practice":
-            case "exposure": {
-              this.system.baseQuality = activityConfig.source.default;
-              break;
-            }
-            case "adventuring": {
-              this.system.baseQuality = systemData.sourceQuality;
-              break;
-            }
-            case "reading":
-            case "inventSpell":
-            case "learnSpell":
-            case "visStudy":
-            case "visExtraction": {
-              this.system.baseQuality = systemData.sourceQuality;
-              break;
-            }
-            case "hermeticApp":
-            case "childhood":
-            case "laterLife":
-            case "laterLifeMagi":
-              {
-                this.system.baseQuality = activityConfig.source.default; //systemData.sourceQuality;
-              }
-              break;
-            default:
-              break;
-          }
-        }
-      }
+      // if (this.actor !== null) {
+      //   const activityConfig = CONFIG.ARM5E.activities.generic[systemData.activity];
+      //   let hasTeacher = ["training", "teaching"].includes(systemData.activity);
+      //   systemData.sourceModifier = this.actor.system.bonuses?.activities[systemData.activity] ?? 0;
+      //   log(false, `DEBUG: source mod: ${systemData.sourceModifier}`);
+      //   if (hasTeacher) {
+      //     if (systemData.teacher.id != null) {
+      //       let teacher = game.actors.get(systemData.teacher.id);
+      //       if (teacher) {
+      //         systemData.sourceModifier += teacher.system.bonuses.activities.teacher;
+      //       }
+      //     }
+      //   }
+      // if (this.system.done) {
+      //   // keep the existing quality at the time of applying
+      //   // log(false, `Use source quality (${systemData.sourceQuality}) as base for ${this.name}`);
+      //   this.system.baseQuality = systemData.sourceQuality + systemData.sourceModifier;
+      // } else {
+      //   // only recompute source quality if the entry is not applied yet
+      //   switch (systemData.activity) {
+      //     case "training": {
+      //       if (systemData.teacher.id === null) {
+      //         this.system.baseQuality = Number(systemData.teacher.score) + 3;
+      //       } else {
+      //         this.system.baseQuality = 0;
+      //         if (
+      //           Object.values(systemData.progress.abilities).length +
+      //             Object.values(systemData.progress.spells).length ===
+      //           1
+      //         ) {
+      //           if (Object.values(systemData.progress.abilities).length > 0) {
+      //             this.system.baseQuality =
+      //               Number(systemData.progress.abilities[0].teacherScore) + 3;
+      //           } else {
+      //             this.system.baseQuality =
+      //               Number(systemData.progress.spells[0].teacherScore) + 3;
+      //           }
+      //         }
+      //       }
+      //       break;
+      //     }
+      //     case "teaching": {
+      //       this.system.baseQuality = systemData.teacher.teaching + systemData.teacher.com + 3;
+      //       if (systemData.teacher.applySpec) {
+      //         this.system.baseQuality++;
+      //       }
+      //       break;
+      //     }
+      //     case "practice":
+      //     case "exposure": {
+      //       this.system.baseQuality = activityConfig.source.default;
+      //       break;
+      //     }
+      //     case "adventuring": {
+      //       this.system.baseQuality = systemData.sourceQuality;
+      //       break;
+      //     }
+      //     case "reading":
+      //     case "inventSpell":
+      //     case "learnSpell":
+      //     case "visStudy":
+      //     case "visExtraction": {
+      //       this.system.baseQuality = systemData.sourceQuality;
+      //       break;
+      //     }
+      //     case "hermeticApp":
+      //     case "childhood":
+      //     case "laterLife":
+      //     case "laterLifeMagi":
+      //       {
+      //         this.system.baseQuality = systemData.sourceQuality; //systemData.sourceQuality;
+      //       }
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
+      // }
     } else if (this.type == "wound") {
       this.system.title = `${this.name}`;
       if (this.system.recoveryTime == 0) {
@@ -405,8 +408,8 @@ export class ArM5eItem extends Item {
     } else {
       res += tech + form;
     }
-    if (this.system.mastery) {
-      res += this.system.mastery;
+    if (this.system.finalScore) {
+      res += this.system.finalScore;
     }
     if (deficientTech && deficientForm) {
       deficiencyDivider = 4;
