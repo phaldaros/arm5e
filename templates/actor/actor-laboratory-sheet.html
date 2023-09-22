@@ -1,132 +1,257 @@
-<form class="{{cssClass}} flexcol main" autocomplete="off">
-    <div class="header-background">
-        <img src="/systems/arm5e/assets/header.png">
-    </div>
-
+<div class="{{cssClass}} mainLaboratory">
+  <div class="header-background">
+    <img src="systems/arm5e/assets/Lab/header150.png" />
+  </div>
+  <form class="sheet-content flexcol" autocomplete="off">
     {{!-- Sheet Header --}}
     <header class="sheet-header sheet-header-lab">
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+      <div class="header-fields">
+        <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
 
-            <div class="resources flexrow flex-between" style="margin-top: 8px;">
-                <span class="covenantname flexrow">
-                    <label for="data.owner" class="bold" style="padding-top: 4px; padding-left: 24px; flex: 0.4;">{{localize "arm5e.sheet.owner"}}</label>
-                    <input name="data.owner" type="text" value="{{data.owner}}" data-dtype="String" />
-                </span>
-                <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.sanctum" class="bold" style="padding-top: 4px; padding-left: 24px; flex: 0.4;">{{localize "arm5e.sheet.sanctum"}}</label>
-                    <input name="data.sanctum" type="text" value="{{data.sanctum}}" data-dtype="String" />
-                </span>
+        <div class="resources flexrow flex-between" style="margin-top: 8px">
+          <span class="covenantname flexrow">
+            <label for="system.owner.value" class="bold"
+              style="padding-top: 4px; padding-left: 24px; flex: 0.4">{{localize "arm5e.sheet.owner"}}</label>
+            <div>
+              <input name="system.owner.value" type="text" value="{{system.owner.value}}" data-dtype="String" />
+              {{#if (eq system.owner.linked true)}}
+                <a class="flexrow0 actor-link" title="Linked to magus" data-actorid="{{system.owner.actorId}}"><i
+                    class="fas fa-link fa-sm"></i></a>
+              {{else}}
+                <a class="flexrow0" title="Not linked to magus"><i class="fas fa-unlink fa-sm"></i></a>
+              {{/if}}
             </div>
-
-            <div class="resources flexrow flex-between" style="margin-top: 8px;">
-                <span class="covenantname flexrow width4">
-                    <label for="data.location" class="bold" style="padding-top: 4px; padding-left: 24px; flex: 0.2;">{{localize "arm5e.sheet.location"}}</label>
-                    <input name="data.location" type="text" value="{{data.location}}" data-dtype="String" />
-                </span>
-                <span class="covenantname flexrow" style="padding-top:4px;">
-                    <label for="data.points" class="bold" style="padding-top: 4px; padding-left: 24px; flex: 0.6;">{{localize "arm5e.sheet.points"}}</label>
-                    <input name="data.points" type="text" value="{{data.points}}" data-dtype="Number" style="flex:0.3;" />
-                </span>
+          </span>
+          <span class="covenantname flexrow">
+            <label for=" system.covenant.value" class="bold"
+              style="padding-top: 4px; padding-left: 24px; flex: 0.4">{{localize "arm5e.sheet.covenant"}}</label>
+            <div>
+              <input name="system.covenant.value" type="text" value="{{system.covenant.value}}" data-dtype="String" />
+              {{#if (eq system.covenant.linked true)}}
+                <a class="flexrow0 actor-link" title="Linked to covenant" data-actorid="{{system.covenant.actorId}}"><i
+                    class="fas fa-link fa-sm"></i></a>
+              {{else}}
+                <a class="flexrow0" title="Not linked to covenant"><i class="fas fa-unlink fa-sm"></i></a>
+              {{/if}}
             </div>
-
-            <div class="resources grid grid-2col backSection" style=" grid-row-gap: 0px; padding-top: 8px; padding-bottom: 8px;">
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.size"}}</label>
-                    <input type="text" name="data.size.description" value="{{data.size.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.size.value" value="{{numberFormat data.size.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.generalQuality"}}</label>
-                    <input type="text" name="data.generalQuality.description" value="{{data.generalQuality.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.generalQuality.value" value="{{numberFormat data.generalQuality.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.security"}}</label>
-                    <input type="text" name="data.security.description" value="{{data.security.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.security.value" value="{{numberFormat data.security.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.salubrity"}}</label>
-                    <input type="text" name="data.salubrity.description" value="{{data.salubrity.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.salubrity.value" value="{{numberFormat data.salubrity.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.improvement"}}</label>
-                    <input type="text" name="data.improvement.description" value="{{data.improvement.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.improvement.value" value="{{numberFormat data.improvement.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.maintenance"}}</label>
-                    <input type="text" name="data.maintenance.description" value="{{data.maintenance.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.maintenance.value" value="{{numberFormat data.maintenance.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.warping"}}</label>
-                    <input type="text" name="data.warping.description" value="{{data.warping.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.warping.value" value="{{numberFormat data.warping.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-                <div class="flexrow flex-group-center">
-                    <label class="bold" >{{localize "arm5e.sheet.aesthetics"}}</label>
-                    <input type="text" name="data.aesthetics.description" value="{{data.aesthetics.description}}" data-dtype="String" />
-                    <input class="flex04" type="text" name="data.aesthetics.value" value="{{numberFormat data.aesthetics.value decimals=0 sign=true}}" data-dtype="Number" />
-                </div>
-            </div>
+          </span>
         </div>
+        <div class="resources flexrow flex-between" style="margin-top: 8px">
+          <span class="covenantname flexrow width4">
+            <label for="system.location" class="bold"
+              style="padding-top: 4px; padding-left: 24px; flex: 0.2">{{localize "arm5e.sheet.location"}}</label>
+            <input name="system.location" type="text" value="{{system.location}}" data-dtype="String" />
+          </span>
+          <span class="covenantname flexrow" style="padding-top: 4px">
+            <label for="system.points" class="bold"
+              style="padding-top: 4px; padding-left: 24px; flex: 0.6">{{localize "arm5e.sheet.points"}}</label>
+            <input name="system.points" type="text" value="{{system.points}}" data-dtype="Number" style="flex: 0.3" />
+          </span>
+        </div>
+
+        <div class="resources grid grid-2col backSection"
+          style="grid-row-gap: 0px; padding-top: 8px; padding-bottom: 8px">
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.size"}}</label>
+            <input type="text" name="system.size.description" value="{{system.size.description}}" data-dtype="String" />
+            <input class="flex04" type="text" name="system.size.value"
+              value="{{numberFormat system.size.total decimals=0 sign=true}}" data-dtype="Number" />
+            <span
+              class="flex06">{{numberFormat system.size.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
+              system.size.total decimals=0}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.generalQuality"}}</label>
+            <input type="text" name="system.generalQuality.description" value="{{system.generalQuality.description}}"
+              data-dtype="String" />
+            <input class="flex04" type="text" name="system.generalQuality.value"
+              value="{{numberFormat system.generalQuality.value decimals=0 sign=true}}" data-dtype="Number" />
+            <span class="flex06">{{numberFormat system.generalQuality.bonus decimals=0
+            sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat system.generalQuality.total
+              decimals=0}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.safety"}}</label>
+            <input type="text" name="system.safety.description" value="{{system.safety.description}}"
+              data-dtype="String" />
+            <input class="flex04" type="text" name="system.safety.value"
+              value="{{numberFormat system.safety.value decimals=0 sign=true}}" data-dtype="Number" />
+            <span
+              class="flex06">{{numberFormat system.safety.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
+              system.safety.total decimals=0}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.health"}}</label>
+            <input type="text" name="system.health.description" value="{{system.health.description}}"
+              data-dtype="String" />
+            <input class="flex04" type="text" name="system.health.value"
+              value="{{numberFormat system.health.value decimals=0 sign=true}}" data-dtype="Number" />
+            <span
+              class="flex06">{{numberFormat system.health.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
+              system.health.total decimals=0}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.refinement"}}</label>
+            <input type="text" name="system.refinement.description" value="{{system.refinement.description}}"
+              data-dtype="String" />
+            <input class="flex04" type="text" name="system.refinement.value"
+              value="{{numberFormat system.refinement.value decimals=0 sign=true}}" data-dtype="Number" />
+            <span class="flex06">{{numberFormat system.refinement.bonus decimals=0
+            sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat system.refinement.total decimals=0}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.upkeep"}}</label>
+            <input type="text" name="system.upkeep.description" value="{{system.upkeep.description}}"
+              data-dtype="String" />
+            <input class="flex04" type="text" name="system.upkeep.value"
+              value="{{numberFormat system.upkeep.value decimals=0 sign=true}}" data-dtype="Number" />
+            <span
+              class="flex06">{{numberFormat system.upkeep.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
+              system.upkeep.total decimals=0}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.warping"}}</label>
+            <input type="text" name="system.warping.description" value="{{system.warping.description}}"
+              data-dtype="String" />
+            <input class="flex04" type="text" name="system.warping.value"
+              value="{{numberFormat system.warping.value decimals=0 sign=true}}" data-dtype="Number" />
+            <span
+              class="flex06">{{numberFormat system.warping.bonus decimals=0 sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
+              system.warping.total decimals=0}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.aesthetics"}}</label>
+            <input type="text" name="system.aesthetics.description" value="{{system.aesthetics.description}}"
+              data-dtype="String" />
+            <input class="flex04" type="text" name="system.aesthetics.value"
+              value="{{numberFormat system.aesthetics.value decimals=0 sign=true}}" data-dtype="Number" />
+            <!-- UGLY, but temporary-->
+            {{#if (eq system.aesthetics.max 999)}}
+              <span class="flex06">{{numberFormat system.aesthetics.bonus decimals=0
+            sign=true}}&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat system.aesthetics.total decimals=0}}</span>
+            {{else}}
+              <span
+                class="flex06">&NonBreakingSpace;max({{system.aesthetics.max}})&NonBreakingSpace;=&NonBreakingSpace;{{numberFormat
+                system.aesthetics.total decimals=0}}</span>
+            {{/if}}
+          </div>
+        </div>
+        <div class="resources grid grid-3col backSection"
+          style="grid-row-gap: 0px; padding-top: 8px; padding-bottom: 8px">
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.occupiedSize"}}</label>
+            <span class="flex02">{{numberFormat system.occupiedSize}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.freeVirtues"}}</label>
+            <span class="flex02">{{numberFormat system.freeVirtues}}</span>
+          </div>
+          <div class="flexrow flex-group-center">
+            <label class="bold">{{localize "arm5e.sheet.baseSafety"}}</label>
+            <span class="flex02">{{numberFormat system.baseSafety}}</span>
+          </div>
+        </div>
+      </div>
     </header>
 
     {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="virtues">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            {{localize "arm5e.sheet.virtuesFlaws"}}
+    <nav class="arm5eTabs arm5eTabsLAB sheet-tabs tabs" data-group="primary">
+      <a class="item posRelative" data-tab="planning">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.lab.planning.label"}}
+      </a>
+      <a class="item posRelative" data-tab="virtues">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.virtuesFlaws"}}
+      </a>
+      <a class="item posRelative" data-tab="attributes">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.attributes"}}
+      </a>
+      <a class="item posRelative" data-tab="inventory">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.inventory"}}
+      </a>
+      <a class="item posRelative" data-tab="diary">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.diary"}}
+      </a>
+      {{#if isGM}}
+        <a class="item posRelative" data-tab="effects">
+          <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.effects"}}
         </a>
-        <a class="item posRelative" data-tab="attributes">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            {{localize "arm5e.sheet.attributes"}}
-        </a>
-        <a class="item posRelative" data-tab="inventory">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            {{localize "arm5e.sheet.inventory"}}
-        </a>
-        <a class="item posRelative" data-tab="dairy">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            {{localize "arm5e.sheet.dairy"}}
-        </a>
+      {{/if}}
     </nav>
 
     {{!-- Sheet Body --}}
     <section class="sheet-body">
-
-        {{!-- Virtues & Flaws Tab --}}
-        <div class="tab virtues" data-group="primary" data-tab="virtues">
-            {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
+      {{!-- Planning Tab --}}
+      <div class="tab planning" data-group="primary" data-tab="planning">
+        {{#if (ne system.owner.linked true)}}
+          <label class="bold">{{localize "arm5e.lab.planning.msg.noOwner"}}</label>
+        {{else}}
+          {{> "systems/arm5e/templates/actor/parts/actor-lab-workbench.html"}}
+        {{/if}}
+      </div>
+      {{!-- Virtues & Flaws Tab --}}
+      <div class="tab virtues" data-group="primary" data-tab="virtues">
+        <div class="backSection margintop18" style="min-height: 150px;">
+          <label class="smallTitle padding12" style="height: 32px;">{{localize "arm5e.sheet.description"}}</label>
+          {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+          <div class="flexrow padding12" style="border: 0px; ">
+            {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+          </div>
         </div>
+        {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
+      </div>
 
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            {{> "systems/arm5e/templates/actor/parts/actor-atributesLaboratory.html" }}
-        </div>
+      {{!-- Attributes Tab --}}
+      <div class="tab attributes" data-group="primary" data-tab="attributes">
+        {{> "systems/arm5e/templates/actor/parts/actor-attributesLaboratory.html" }}
+      </div>
 
-        {{!-- Inventory Tab --}}
-        <div class="tab inventory" data-group="primary" data-tab="inventory">
+      {{!-- Inventory Tab --}}
+      <div class="tab inventory" data-group="primary" data-tab="inventory">
+        <nav class="arm5eSubTabs inventory-tabs tabs" data-group="inventory-secondary">
+          <a class="item posRelative" data-tab="inventory" data-group="inventory-secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.inventory"}}
+          </a>
+          <a class="item posRelative" data-tab="library" data-group="inventory-secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.library"}}
+          </a>
+        </nav>
+        <section class="inventory-body">
+          <div class="tab" data-group="inventory-secondary" data-tab="inventory">
             {{> "systems/arm5e/templates/actor/parts/actor-inventoryLaboratory.html" }}
-        </div>
-
-        {{!-- Diary Tab --}}
-        <div class="tab dairy" data-group="primary" data-tab="dairy">
-            {{> "systems/arm5e/templates/actor/parts/actor-dairy.html" }}
-        </div>
-
+          </div>
+          <div class="tab" data-group="inventory-secondary" data-tab="library">
+            {{> "systems/arm5e/templates/actor/parts/actor-library.html"}}
+          </div>
+        </section>
+      </div>
+      {{!-- Diary Tab --}}
+      <div class="tab diary" data-group="primary" data-tab="diary">
+        {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }}
+      </div>
+      {{!-- Effects Tab --}}
+      <div class="tab effects" data-group="primary" data-tab="effects">
+        {{> "systems/arm5e/templates/generic/active-effects.html"  mode="actor" }}
+      </div>
     </section>
-
-    <div class="footer-background">
-        <img src="/systems/arm5e/assets/footer.png">
-    </div>
-</form>
-
+  </form>
+  <div class="footer-background">
+    <img src="systems/arm5e/assets/Lab/footer.png" />
+  </div>
+</div>

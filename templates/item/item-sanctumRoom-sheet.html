@@ -1,32 +1,34 @@
-<form class="{{cssClass}} main" autocomplete="off">
-    <header class="sheet-header">
-
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name"/></h1>
-            <div class="grid grid-col">
-                <div class="resource">
-                    <label>{{localize "arm5e.sheet.size"}}<input type="text" name="data.size"  value="{{data.size}}"  data-dtype="String" /></label>
-                </div>
-            </div>
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
+      <div class="grid grid-col">
+        <div class="resource">
+          <label>{{localize "arm5e.sheet.size"}}<input type="text" name="system.size" value="{{system.size}}"
+              data-dtype="String" /></label>
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="description">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            {{localize "arm5e.sheet.description"}}
-        </a>
-    </nav>
-
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-        </div>
-
-    </section>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+  </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+    </div>
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

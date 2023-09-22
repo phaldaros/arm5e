@@ -1,0 +1,67 @@
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname" style="margin-top: 36px">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+      </h1>
+
+      <div class="resource flexcol" style="margin-top: 8px">
+        <label class="bold">{{localize "arm5e.sheet.owner"}}</label>
+        <input type="text" name="system.owner" value="{{system.owner}}" data-dtype="String" />
+      </div>
+
+      <div class="resource flexcol" style="margin-top: 8px">
+        <label class="bold">{{localize "arm5e.sheet.location"}}</label>
+        <input type="text" name="system.location" value="{{system.location}}" data-dtype="String" />
+      </div>
+
+      <div class="grid grid-2col" style="margin-top: 8px">
+        <div class="resource flexcol flexrow">
+          <label for="system.quality" class="bold">{{localize "arm5e.sheet.quality"}}</label>
+          <input type="text" name="system.quality" value="{{system.quality}}" data-dtype="Number" />
+        </div>
+        <div class="resource flexcol flexrow">
+          <label for="system.score" class="bold">{{localize "arm5e.lab.upkeep"}}</label>
+          <input type="text" name="system.upkeep" value="{{system.upkeep}}" data-dtype="Number" />
+        </div>
+      </div>
+
+      <div class="grid grid-2col" style="margin-top: 8px">
+        <div class="resource" style="margin-top: 8px">
+          <label class="bold">{{localize "arm5e.lab.usage.label"}}</label>
+          <select name="system.usage" data-type="String">
+            {{#select system.usage}} {{#each config.lab.usage as |usage key|}}
+                <option value="{{key}}">{{localize usage.label}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+
+        <div class="resource" style="margin-top: 8px">
+          <label class="bold">{{localize "arm5e.sheet.points"}}</label>
+          <input type="text" readonly name="system.points" value="{{system.points}}" data-dtype="Number" />
+        </div>
+      </div>
+    </div>
+  </header>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+    </div>
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+</form>

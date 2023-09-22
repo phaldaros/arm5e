@@ -1,49 +1,116 @@
-<form class="{{cssClass}} arm5e arm5eMain" autocomplete="off">
-    <input type="hidden" name="data.roll.Divide" value="2" data-dtype="Number" class="Divide"/>
+<form class="{{cssClass}} arm5eRoll" autocomplete="off">
+  {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Rolls"}}
+  <div class="roll-options">
+    <!-- <input type="hidden" name="system.roll.divide" value="2" data-dtype="Number" class="divide" /> -->
+    <div class="flexrow flex-group-center" style=" position: relative;
+    top: -15px;">
+      <label class="resource-label flex03" style="font-size: 13pt;">{{localize "arm5e.sheet.targetLevel" }}</label>
+      <input type="number" name="system.roll.magic.level" value="{{system.roll.magic.level}}" data-dtype="Number"
+        class="SelectedLevel resource-focus" style="max-width: 100px;" />
+    </div>
+    <div class="flexrow flex-group-center">
+      <select name="system.roll.technique" data-dtype="String" class="SelectedTechnique">
+        {{#select system.roll.magic.technique}} {{#each system.arts.techniques as |item key|}}
+            <option value="{{key}}"><b>{{ item.label }}</b> ({{ item.finalScore }})</option>
+          {{/each}} {{/select}}
+      </select>
+      <label class="resource-label">+</label>
+      <select name="system.roll.form" data-dtype="String" class="SelectedForm">
+        {{#select system.roll.magic.form}} {{#each system.arts.forms as |item key|}}
+            <option value="{{ key }}"><b>{{ item.label }}</b> ({{ item.finalScore }})</option>
+          {{/each}} {{/select}}
+      </select>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">+</label>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="resource-label flex02" style="padding-right: 10px;">{{localize "arm5e.sheet.modifier" }} </label>
+      <input type="number" name="system.roll.modifier" value="{{system.roll.modifier}}" data-dtype="Number"
+        class="SelectedModifier flex02 resource-focus" style="width: 80px;" />
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">+</label>
+    </div>
+    {{#if system.roll.environment.aura.visible}}
+    <div class=" flexrow flex-group-center">
+      <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+      <input type="number" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
+        class="SelectedAura flex02 resource-focus" />
+    </div>
+    {{else}}
+    <div class=" flexrow flex-group-center">
+      <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+      <input type="number" style="display: none" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
+      class="SelectedAura flex02 resource-focus" />
+      ???
+    </div>
+    {{/if}}
+      <div class="flexrow flex-group-center">
+        <label class="resource-label">+</label>
+      </div>
+
+    <div class="resource">
+      <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+      <input type="checkbox" name="system.applyFocus" {{checked system.roll.focus}} class="SelectedFocus" />
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="resource-label">+</label>
+    </div>
+    <div class="flexrow flex-group-center clickable">
+      <label class="resource-label" data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
+        ({{ system.roll.bonusesExtended
+        }})</label>
+    </div>
+    <div class="activeEffects hide">
+      {{#unless (eq system.roll.magic.bonus 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+</label>
+        </div>
+        <div class="flexrow flex-group-center sub">
+          <label class="resource-label">{{ system.roll.magic.bonusDesc }} : {{ system.roll.magic.bonus }}</label>
+        </div>
+      {{/unless}}
+      {{#each system.roll.activeEffects as |item id|}}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+</label>
+        </div>
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">{{ item.label }} {{ item.value }}</label>
+        </div>
+      {{/each}}
+    </div>
 
     <div class="flexrow flex-group-center">
-        <label class="resource-label">{{localize "arm5e.sheet.technique"}}</label>
-        <select name="data.roll.technique"  data-type="String" class="SelectedTechnique">
-            {{#select data.roll.technique}}
-            {{#each data.arts.techniques as |item key|}}
-            <option value="{{key}}">{{ item.label }} ({{ item.score }})</option> {{/each}} {{/select}}
-        </select>
+      <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
+      <label class="resource-label">{{localize "arm5e.sheet.stamina" }} ({{ system.characteristics.sta.value
+        }})</label>
     </div>
     <div class="flexrow flex-group-center">
-        <label class="resource-label">{{localize "arm5e.sheet.form"}}</label>
-        <select name="data.roll.form"  data-type="String" class="SelectedForm">
-            {{#select data.roll.form}}
-            {{#each data.arts.forms as |item key|}}
-            <option value="{{ key }}">{{ item.label }} ({{ item.score }})</option> {{/each}} {{/select}}
-        </select>
+      {{#unless (eq system.fatigueTotal 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+ {{localize "arm5e.sheet.fatigue"}} ({{ system.fatigueTotal }})</label>
+        </div>
+      {{/unless}}
+      {{#unless (eq system.penalties.wounds.total 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">+ {{localize "arm5e.sheet.wounds"}} ({{ system.penalties.wounds.total
+            }})</label>
+        </div>
+      {{/unless}}
+      {{#unless (eq system.combat.overload 0) }}
+        <div class="flexrow flex-group-center">
+          <label class="resource-label">- {{localize "arm5e.sheet.encumbrance"}} ({{ system.combat.overload }})</label>
+        </div>
+      {{/unless}}
     </div>
     <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
+      <label class="resource-label"><img src="systems/arm5e/assets/icons/Icon_Details_option1.png" title="Penetration"
+          width="24" height="24" style="border :0px" /></label>
     </div>
-    <div class="flexrow flex-group-center">
-        <label class="resource-label">{{localize "arm5e.sheet.levelAura"}}</label>
-        <input type="text" name="data.roll.aura" value="{{data.roll.aura}}" data-dtype="Number" class="SelectedAura"/>
-    </div>
-    <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-        <label class="resource-label">{{ data.characteristics.sta.label }} ({{ data.characteristics.sta.value }})</label>
-    </div>
-
-    <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-        <label class="resource-label">{{localize "arm5e.sheet.fatigue"}} ({{ data.fatigueTotal }})</label>
-    </div>
-    <div class="flexrow flex-group-center">
-        <label class="resource-label">+</label>
-    </div>
-    <div class="flexrow flex-group-center">
-        <label class="resource-label">{{localize "arm5e.sheet.wounds"}} ({{ data.woundsTotal }})</label>
-    </div>
+    {{> "systems/arm5e/templates/roll/parts/penetration-options.html" }}
+  </div>
+  {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Rolls"}}
 </form>

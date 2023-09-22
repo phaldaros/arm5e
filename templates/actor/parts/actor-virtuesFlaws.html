@@ -1,66 +1,64 @@
 <div class="flexrow grid grid-2col margintop18">
   <div>
-    <ol class="items-list backSection ">
+    <ol class="items-list backSection">
       <li class="item flexrow item-header">
-        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-
         <div class="item-image"></div>
         <div>
           <span class="item-name">
-            <a class="link" href="/systems/arm5e/pdf/virtues.pdf" target="_blank">
-              {{localize "arm5e.sheet.virtues"}}
+            <a class="link" href="systems/arm5e/pdf/virtues.pdf" target="_blank">
+              {{localize bonuses}}
             </a>
           </span>
-          <span> ({{ data.totalVirtues }}xp)</span></div>
+          <span> ( {{system.totalVirtues }} {{localize "arm5e.sheet.pointsShort"}} )</span>
+        </div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add virtue" data-type="virtue"><i class="fas fa-plus"></i></a>
         </div>
       </li>
+      {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
 
-      {{#each actor.data.virtues as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}">
-            <div  class="flexrow flex-center">
-              <span class="flexrow item-title">{{item.name}}</span>
-            </div>
-            <div class="item-controls">
-                <a class="item-control item-edit" title="Edit virtue"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" title="Delete virtue"><i class="fas fa-trash"></i></a>
-            </div>
+      {{#each system.virtues as |item id|}}
+        <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
+          <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
+          <div class="flexrow flex-center">
+            <span class="flexrow item-title" {{{item.system.ui.style}}}>{{item.name}}</span>
+          </div>
+          <div class="item-controls">
+            <a class="item-control item-edit" title="Edit virtue"><i class="icon-Icon_Edit"></i></a>
+            <a class="item-control item-delete" title="Delete virtue"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+          </div>
         </li>
       {{/each}}
-
     </ol>
   </div>
 
   <div>
     <ol class="items-list backSection">
       <li class="item flexrow item-header">
-        <div class="item-right-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
-        <div class="item-left-ball"><img src="/systems/arm5e/assets/ballSilver.png" /></div>
 
         <div class="item-image"></div>
         <div>
           <span class="item-name">
-            <a class="link" href="/systems/arm5e/pdf/flaws.pdf" target="_blank">
-              {{localize "arm5e.sheet.flaws"}}
-            </a>
+            <a class="link" href="systems/arm5e/pdf/flaws.pdf" target="_blank"> {{localize penalties}} </a>
           </span>
-          <span> ({{ data.totalFlaws }}xp)</span></div>
+          <span> ( {{ system.totalFlaws }} {{localize "arm5e.sheet.pointsShort"}} )</span>
+        </div>
         <div class="item-controls">
           <a class="item-control item-create" title="Add flaw" data-type="flaw"><i class="fas fa-plus"></i></a>
         </div>
       </li>
+      {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
 
-      {{#each actor.data.flaws as |item id|}}
-        <li class="item item-value flexrow" data-item-id="{{item._id}}">
-          <div  class="flexrow flex-center">
-            <span class="flexrow item-title">{{item.name}}</span>
+      {{#each system.flaws as |item id|}}
+        <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
+          <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
+          <div class="flexrow flex-center">
+            <span class="flexrow item-title" {{{item.system.ui.style}}}>{{item.name}} </span>
           </div>
-            <div class="item-controls">
-                <a class="item-control item-edit" title="Edit flaw"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" title="Delete flaw"><i class="fas fa-trash"></i></a>
-            </div>
+          <div class="item-controls">
+            <a class="item-control item-edit" title="Edit flaw"><i class="icon-Icon_Edit"></i></a>
+            <a class="item-control item-delete" title="Delete flaw"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+          </div>
         </li>
       {{/each}}
     </ol>

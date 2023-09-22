@@ -1,0 +1,60 @@
+<div class="characteristics grid backSection margintop18">
+  <header class="arts-total-header grid-6col flexrow flex-group-center">
+    <div class="techLabel ">{{localize "arm5e.sheet.castingTotals"}}</div>
+    {{#each system.arts.techniques as |technique key|}}
+      <div class="techLabel flexcol"><img src="systems/arm5e/assets/magic/{{key}}.png" class="art-icon"
+          {{{technique.ui.style}}} /><label>{{label}}</label>
+      </div>
+
+    {{/each}}
+  </header>
+  <ol class="form-list grid-6col">
+    {{#each system.arts.forms as |form key|}}
+
+      <li class="flexrow flex-group-center" style="padding-right: 10px; padding-left: 10px">
+
+        <div class="formLabel flexcol"><img src="systems/arm5e/assets/magic/{{key}}.png" class="art-icon"
+            {{{form.ui.style}}} /><label>{{label}}</label>
+        </div>
+        {{#each ../system.arts.techniques as |technique k2|}}
+          <div class="arts-total flexrow flex-group-center">{{lookup ( lookup @root.system.castingTotals key) k2}}</div>
+        {{/each}}
+      </li>
+    {{/each}}
+  </ol>
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+      <input type="checkbox" name="system.castingtotal.applyFocus" {{checked system.castingtotal.applyFocus}} />
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.aura" }}</label>
+      {{numberInput system.castingtotal.aura name="system.castingtotal.aura" step=1 class="resource-focus"}}
+      <!-- <input
+        type="number"
+        name="system.castingtotal.aura"
+        value="{{numberFormat system.castingtotal.aura decimals=0 sign=true }}"
+      /> -->
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.divider"}}</label>
+      <select name="system.castingtotal.divider" data-type="number" class="divider">
+        {{#select system.castingtotal.divider}}
+          <option value="1">{{localize "arm5e.messages.die.divideBy"}}1</option>
+          <option value="2">{{localize "arm5e.messages.die.divideBy"}}2</option>
+          <option value="5">{{localize "arm5e.messages.die.divideBy"}}5</option>
+        {{/select}}
+      </select>
+
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="header-label">{{localize "arm5e.sheet.modifier" }}</label>
+      {{numberInput system.castingtotal.modifier name="system.castingtotal.modifier" step=1 class="resource-focus"}}
+      <!-- <input
+        type="number"
+        name="system.castingtotal.modifier"
+        value="{{numberFormat system.castingtotal.modifier decimals=0 sign=true }}"
+      /> -->
+    </div>
+  </div>
+</div>

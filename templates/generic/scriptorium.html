@@ -1,0 +1,254 @@
+<form class="{{cssClass}} scriptorium scriptorium-sheet flexcol" autocomplete="off">
+  <div class="scriptorium flex0">
+    <img src="systems/arm5e/assets/scriptorium/Scriptorium_Header.png" style="border: 0px;" />
+  </div>
+  <h1 class="scriptorium-title width: 100%;" text-align="center">Scriptorium</h1>
+  <header class="scriptorium-header flex0">
+    <div class="flexrow" style="margin-left: 32px; margin-right: 57px;">
+      <div class="resource-content flexrow flex-center flex-between margintop6">
+        <label for="season" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
+        <select name="season" data-type="String" class="change-season flex0 scriptorium">
+          {{#select season}} {{#each seasons as |season key|}}
+              <option value="{{key}}">{{localize season.label}}</option>
+            {{/each}} {{/select}}
+        </select>
+      </div>
+      <div class="resource-content flexrow flex-center flex-between margintop6">
+        <label for="year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
+        <input type="number" name="year" value="{{year}}" data-dtype="Number"
+          class="scriptorium change-year resource-focus" />
+      </div>
+    </div>
+  </header>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="reading" data-group="primary">
+      <div class="navItem-right-ball" style="padding-top: 4px;"><img src="systems/arm5e/assets/bLeft.png"
+          style="padding-top: 12px;" /></div>
+      <div class="navItem-left-ball" style="padding-top: 4px;"><img src="systems/arm5e/assets/bRight.png"
+          style="padding-top: 12px;" /></div>
+      {{localize "arm5e.activity.reading"}}
+    </a>
+    <!-- <a class="item posRelative" data-tab="writing" data-group="primary">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" style="padding-top: 4px;" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" style="padding-top: 4px;" /></div>
+      {{localize "arm5e.activity.writing"}}
+    </a>
+    <a class="item posRelative" data-tab="other" data-group="primary">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" style="padding-top: 4px;" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" style="padding-top: 4px;" /></div>
+      {{localize "arm5e.generic.other"}}
+    </a>
+    <a class="item posRelative" data-tab="index" data-group="primary">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" style="padding-top: 4px;" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" style="padding-top: 4px;" /></div>
+      {{localize "arm5e.scriptorium.index"}}
+    </a> -->
+
+  </nav>
+  <div class="marginsides32">
+    {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
+  </div>
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    <div class="tab" data-group="primary" data-tab="reading">
+      <div class="flexrow marginsides32">
+        <div class="scriptorium backSection padding10 resource flexcol">
+          {{#if (eq reading.book.uuid null)}}
+            <div class="resource drop-box drop-book" data-drop="book">
+              <label>{{localize "arm5e.scriptorium.msg.dropBook"}}</label>
+            </div>
+          {{else}}
+            <div class="scriptorium item-header resource flexrow" style="width: 100%;">
+              <div class="item-image"></div>
+              <label>{{localize "arm5e.sheet.book"}}</label>
+              <a class="unlink-read-book" title="Break link to book" data-index="{{topicIndex}}"><i class="fas fa-link"
+                  style="font-size: 12pt;"></i></a>
+            </div>
+            {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px" }}
+          {{/if}}
+
+          <label class="header-label">{{localize "arm5e.activity.book.title"}}</label>
+          <input type="text" name="reading.book.name" value="{{reading.book.name}}" data-dtype="String"
+            {{ui.canEditBook}}>
+          <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
+          <input type="text" name="reading.book.system.language" value="{{reading.book.system.language}}"
+            data-dtype="String" {{ui.canEditBook}}>
+          <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
+          <input type="text" name="reading.book.system.author" value="{{reading.book.system.author}}"
+            data-dtype="String" {{ui.canEditBook}}>
+          <div class="resource flexcol flexrow">
+            <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
+            <select class="book-topic" name="reading.book.system.topics.{{topicIndex}}.category"
+              data-index="{{topicIndex}}" data-dtype="String" {{ui.disabledBook}}>
+              {{#select reading.book.currentTopic.category}}
+                {{#each bookTopics as |book key|}}
+                  <option value="{{key}}">{{localize book}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+            <label for="reading.book.system.topics.{{topicIndex}}.type"
+              class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
+            <select name="reading.book.system.topics.{{topicIndex}}.type" data-type="String" data-index="{{topicIndex}}"
+              {{ui.disabledBook}} {{ui.disableType}}>
+              {{#select reading.book.currentTopic.type}} {{#each @root.bookTypes }}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </div>
+          {{#if (eq reading.book.currentTopic.category "art")}}
+            <div class="resource" style="width: 220px; padding-top: 5px;">
+              <label for="reading.book.system.topics.{{topicIndex}}.art"
+                class="header-label">{{localize "arm5e.sheet.art"}}</label>
+              <select name="reading.book.system.topics.{{topicIndex}}.art" data-type="String" {{ui.disabledBook}}>
+                {{#select reading.book.currentTopic.art}} {{#each arts as |art key|}}
+                    <option value="{{key}}">{{art.label}}</option>
+                  {{/each}} {{/select}}
+              </select>
+            </div>
+          {{/if}}
+          {{#if (eq reading.book.currentTopic.category "ability")}}
+            <div class="scriptorium resource">
+              <label for="reading.book.system.topics.{{topicIndex}}.key"
+                class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
+              <select name="reading.book.system.topics.{{topicIndex}}.key" data-dtype="String" class="ability-key"
+                {{ui.disabledBook}}>
+                {{#select reading.book.currentTopic.key}}
+                  {{#each abilityKeysList as |item key|}}
+                    <option value="{{key}}" {{item.selection}}>{{item.label}}</option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="scriptorium resource" style="width: 220px; padding-top: 5px;padding-bottom: 15px;">
+              {{#if (lookup (lookup abilityKeysList reading.book.currentTopic.key) "option")}}
+                <label for="reading.book.system.topics.{{topicIndex}}.option"
+                  class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+                <input type="text" class="ability-option" name="reading.book.system.topics.{{topicIndex}}.option"
+                  value='{{reading.book.currentTopic.option}}' {{ui.canEditBook}} />
+              {{else}}
+                <label for="reading.book.system.topics.{{topicIndex}}.option" class="header-label"
+                  style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+                <input type="text" name="reading.book.system.topics.{{topicIndex}}.option" data-dtype="String" value=""
+                  readonly />
+              {{/if}}
+            </div>
+          {{/if}}
+          {{#if (eq reading.book.currentTopic.category "mastery")}}
+            <div class="scriptorium resource">
+              <label for="reading.book.system.topics.{{topicIndex}}.spellName"
+                class="header-label">{{localize "arm5e.sheet.spell"}}</label>
+              <input type="text" name="reading.book.system.topics.{{topicIndex}}.spellName"
+                value='{{reading.book.currentTopic.spellName}}' {{ui.canEditBook}} />
+            </div>
+            <div class="scriptorium resource">
+              <select name="reading.book.system.topics.{{topicIndex}}.spellTech" data-type="String" {{ui.disabledBook}}>
+                {{#select reading.book.currentTopic.spellTech}} {{#each techs as |tech key|}}
+                    <option value="{{key}}">{{tech.label}}</option>
+                  {{/each}} {{/select}}
+              </select>
+              <select name="reading.book.system.topics.{{topicIndex}}.spellForm" data-type="String" {{ui.disabledBook}}>
+                {{#select reading.book.currentTopic.spellForm}} {{#each forms as |form key|}}
+                    <option value="{{key}}">{{form.label}}</option>
+                  {{/each}} {{/select}}
+              </select>
+            </div>
+          {{/if}}
+          <div class="grid-2col">
+            {{#if (eq reading.book.currentTopic.type "Summa")}}
+              <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
+              <input type="number" name="reading.book.system.topics.{{topicIndex}}.level"
+                value='{{reading.book.currentTopic.level}}' data-dtype="Number" style="max-width: 50px;"
+                {{ui.canEditBook}}>
+            {{/if}}
+            <label class="header-label">{{localize "arm5e.sheet.quality"}}</label>
+            <input type="number" name="reading.book.system.topics.{{topicIndex}}.quality"
+              value='{{reading.book.currentTopic.quality}}' data-dtype="Number" style="max-width: 50px;"
+              {{ui.canEditBook}}>
+          </div>
+        </div>
+        <div class="scriptorium backSection padding10 resource flexcol" style="margin-left: 5px;">
+          {{#if (eq reading.reader.id null)}}
+            <div class="resource drop-box drop-reader" data-drop="reader">
+              <label>{{localize "arm5e.scriptorium.msg.dropCharacter"}}</label>
+            </div>
+          {{else}}
+            <div class="scriptorium item-header resource flexrow" style="width: 100%; max-height: 32px;">
+              <div class="item-image"></div>
+              <label>{{localize "arm5e.scriptorium.reader.title"}}</label>
+              <a class="unlink-reader" title="Break link to reader"><i class="fas fa-link"
+                  style="font-size: 12pt;"></i></a>
+            </div>
+            {{> "systems/arm5e/templates/generic/metalic-bar.html" topoffset="-7px"}}
+          {{/if}}
+          {{#unless (eq reading.reader.id null)}}
+            <div class="scriptorium resource">
+              <label class="header-label">{{localize "arm5e.scriptorium.reader.name"}}</label>
+              <input type="text" name="reading.reader.name" value="{{reading.reader.name}}" data-dtype="String"
+                style="max-width: 220px;" readonly>
+            </div>
+            <div class="scriptorium resource">
+              <label for="reading.reader.language"
+                class="header-label">{{localize "arm5e.scriptorium.reader.languages"}}</label>
+              <select name="reading.reader.language" data-dtype="String" class="ability-key">
+                {{#select reading.reader.language}}
+                  {{#each reading.reader.languages }}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="scriptorium resource"></div>
+            <div class="scriptorium resource"></div>
+            {{#if (eq reading.book.currentTopic.category "ability")}}
+              <div class="scriptorium resource">
+                <label for="reading.reader.ability" class="header-label">{{localize "arm5e.sheet.abilities"}}</label>
+                <select name="reading.reader.ability" data-dtype="String" class="ability-key" {{ui.editItem}}>
+                  {{#select reading.reader.ability}}
+                    {{#each reading.reader.abilities }}
+                      <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                  {{/select}}
+                </select>
+              </div>
+
+              <div class="scriptorium resource"></div>
+            {{/if}}
+            {{#if (eq reading.book.currentTopic.category "mastery")}}
+              <div class="scriptorium resource">
+                <label for="reading.reader.spell" class="header-label">{{localize "arm5e.sheet.spells"}}</label>
+                <select name="reading.reader.spell" data-dtype="String" class="ability-key" {{ui.editItem}}>
+                  {{#select reading.reader.spell}}
+                    {{#each reading.reader.spells }}
+                      <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                  {{/select}}
+                </select>
+              </div>
+            {{/if}}
+            <div class="scriptorium resource"><label class="header-label"
+                style="color:red; padding: 10px; text-align: center;">{{localize ui.warning item=ui.warningParam}}</label>
+            </div>
+            <div class="scriptorium resource">
+              <button class="arm5e flex02 create-activity" style="font-family: bookAntika" data-index="{{topicIndex}}"
+                data-ability-id="{{reading.reader.ability}}" data-spell-id="{{reading.reader.spell}}"
+                {{ui.createPossible}}>{{localize "arm5e.scriptorium.button"}}</button>
+            </div>
+          {{/unless}}
+
+        </div>
+      </div>
+    </div>
+    <!-- <div class="tab marginsides32" data-group="primary" data-tab="writing">
+      <div class="flexrow"><label>Work in progress</label>
+      </div>
+    </div>
+    <div class="tab marginsides32" data-group="primary" data-tab="other">
+      <label>WIP</label>
+    </div> -->
+  </section>
+
+  <div class="footer-background flex0">
+    <img src="systems/arm5e/assets/scriptorium/Scriptorium_Footer.png" />
+  </div>
+</form>

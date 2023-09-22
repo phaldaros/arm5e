@@ -1,140 +1,281 @@
-<form class="{{cssClass}} flexcol main" autocomplete="off">
+<div class="{{cssClass}} flexcol mainNPC">
   <div class="header-background">
-    <img src="/systems/arm5e/assets/header.png">
+    <img src="systems/arm5e/assets/NPC/header150.png" />
   </div>
 
-  {{!-- Sheet Header --}}
-  <header class="sheet-header">
-      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-      <div class="header-fields">
-          <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+  <form class="sheet-content flexcol" autocomplete="off">
 
-          <div class="resources flexrow flex-between">
-            <h2 class="covenantname flexrow width2"><input name="data.covenant.value" type="text" value="{{data.covenant.value}}" data-dtype="String" /></h2>
-            <span class="covenantname flexrow" style="padding-top:4px;">
-              <label for="data.charType.value" class="header-label" style="padding-top: 4px; padding-left: 24px;">{{localize "arm5e.sheet.charType"}}</label>
-              <select name="data.charType.value"  data-type="String">
-                {{#select actor.data.charType.value}}
-                {{#each actor.data.charTypes as |data key|}}
-                <option value="{{key}}">{{localize data.label}}</option> {{/each}} {{/select}}
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+      <div class="header-fields">
+        <h1 class="charname">
+          <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+            {{#if system.pendingCrisis}}
+              <div class="flex0 padding10" style="width:24px"><a class="rollable" data-roll="crisis"
+                  data-year="{{datetime.year}}" title="Resolve aging crisis"><i class="icon-Icon_Aging_crisis"></i></a>
+              </div>
+            {{/if}}
+            {{#if devMode}}
+              <div class="flex0 padding10" style="width:24px"><a class="migrate" title="Migrate actor"><i
+                    class="fas fa-arrow-up"></i></a></div>
+            {{/if}}
+          </div>
+        </h1>
+
+        <div class="flexrow">
+          <span class="flex0" style="padding-top: 4px">
+            <label for="system.charType.value" class="header-label"
+              style="padding-top: 4px">{{localize "arm5e.sheet.charType"}}</label>
+            <select name="system.charType.value" data-type="String">
+              {{#select system.charType.value}} {{#each config.npc.types as |type key|}}
+                  <option value="{{key}}">{{localize type.label}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </span>
+          {{#if (eq system.charType.value "entity")}}
+            <div class="flexrow">
+
+              <label for="system.might.value" class="header-label flex0"
+                style="font-size: 13pt; font-family:blackmoor;  padding-top: 15px; padding-left: 5px;padding-right: 5px;">{{localize "arm5e.sheet.might"}}</label>
+              <div style="padding-top: 15px">
+                <input type="number" name="system.might.points" value="{{system.might.points}}" data-dtype="Number"
+                  style="width: 36px; text-align: center;" class="resource-focus" />
+                {{localize "arm5e.sheet.pointsShort"}} /
+                <input type="number" name="system.might.value" value="{{system.might.value}}" data-dtype="Number"
+                  style="width: 40px; text-align: center; " class="resource-focus" />
+              </div>
+              <div style="padding-top: 15px; padding-left: 5px;">
+                <select class="change-realm" name="" data-type="String" data-realm="{{system.realm}}">
+                  {{#select system.realm}} {{#each config.realmsExt as |realm key|}}
+                      <option value="{{key}}">{{localize realm.label}}</option>
+                    {{/each}} {{/select}}
+                </select>
+              </div>
+              <div style="padding-top: 15px">
+                <select name="system.might.form" data-type="String">
+                  {{#select system.might.form}} {{#each config.magic.forms as |forms key|}}
+                      <option value="{{key}}">{{forms.label}}</option>
+                    {{/each}} {{/select}}
+                </select>
+              </div>
+            </div>
+          {{else}}
+            <h2 class="covenantname flexrow">
+              <input name="system.covenant.value" type="text" value="{{system.covenant.value}}" data-dtype="String"
+                style="margin-left: 8px" />
+            </h2>
+          {{/if}} {{#if (eq system.charType.value "magusNPC")}}
+            <span class="covenantname flexrow" style="padding-top: 4px">
+              <label for="system.house.value" class="bold flex0"
+                style="padding-left: 5px; padding-top: 4px; padding-right: 5px;">{{localize "arm5e.sheet.house"}}</label>
+              <select name="system.house.value" data-type="String" style="width: 100%">
+                {{#select system.house.value}} {{#each config.character.houses as |house key|}}
+                    <option value="{{key}}">{{house.label}}</option>
+                  {{/each}} {{/select}}
               </select>
             </span>
+          {{/if}}
+        </div>
+
+        <div class="resources grid grid-4col">
+          <div class="resource flex-group-center backSection">
+            <label for="system.age.value" class="smallTitle">{{localize "arm5e.sheet.age"}}</label>
+            <div class="resource-content flexrow flex-center flex-between margintop6">
+              <input type="number" name="system.age.value" value="{{system.age.value}}" data-dtype="Number"
+                class="resource-focus" readonly />
+              <span> ( </span>
+              <input type="number" name="system.apparent.value" value="{{system.apparent.value}}" data-dtype="Number"
+                class="resource-focus" />
+              <span> ) </span>
+            </div>
           </div>
 
-          <div class="resources grid grid-4col">
-            <div class="resource flex-group-center">
-              <label  for="data.age.value" class="header-label">{{localize "arm5e.sheet.age"}}</label>
-              <div class="resource-content flexrow flex-center flex-between">
-                <input type="text" name="data.age.value" value="{{data.age.value}}" data-dtype="Number"/>
-                <span> ( </span>
-                <input type="text" name="data.apparent.value" value="{{data.apparent.value}}" data-dtype="Number"/>
-                <span> ) </span>
-              </div>
+          <div class="resource flex-group-center backSection">
+            <label for="system.vitals.siz.value" class="smallTitle">{{localize "arm5e.sheet.size"}}</label>
+            <div class="resource-content flexrow flex-center flex-between margintop6">
+              <input type="number" name="system.vitals.siz.value" value="{{system.vitals.siz.value}}"
+                data-dtype="Number" />
             </div>
-
-            <div class="resource flex-group-center">
-              <label  for="data.size.value" class="header-label">{{localize "arm5e.sheet.size"}}</label>
-              <div class="resource-content flexrow flex-center flex-between">
-                <input type="text" name="data.size.value" value="{{data.size.value}}" data-dtype="Number"/>
-              </div>
-            </div>
-
-            <div class="resource flex-group-center">
-              <label  for="data.soak.value" class="header-label">{{localize "arm5e.sheet.soak"}}</label>
-              <div class="resource-content flexrow flex-center flex-between">
-                <input type="text" name="data.soak.value" value="{{data.soak.value}}" data-dtype="Number"/>
-              </div>
-            </div>
-
-            <div class="resource flex-group-center">
-              <label  for="data.might.value" class="header-label">{{localize "arm5e.sheet.might"}}</label>
-              <div class="resource-content flexrow flex-center flex-between">
-                <input type="text" name="data.might.value" value="{{data.might.value}}" data-dtype="Number"/>
-              </div>
-            </div>
-
           </div>
 
-          {{> "systems/arm5e/templates/actor/parts/actor-characteristics.html" }}
+          <div class="resource flex-group-center backSection">
+            <label for="system.vitals.soa.value" class="smallTitle">{{localize "arm5e.sheet.soak"}}</label>
+            <div class="resource-content flexrow flex-center flex-between">
+              <input type="number" name="system.vitals.soa.value" value="{{system.vitals.soa.value}}"
+                data-dtype="Number" readonly />
+            </div>
+          </div>
+          <div class="resource flex-group-center backSection">
+            <label for="system.con.score" class="smallTitle">{{localize "arm5e.sheet.confidence"}}</label>
+            <div class="resource-content flexrow flex-center flex-between margintop6">
+              <input type="number" name="system.con.score" value="{{system.con.score}}" data-dtype="Number"
+                style="flex: 0.6; margin-left: 8px; margin-right: 24px" />
+              (<input type="number" name="system.con.points" value="{{system.con.points}}" data-dtype="Number"
+                style="flex: 0.6" />)
+            </div>
+          </div>
+        </div>
 
+        {{> "systems/arm5e/templates/actor/parts/actor-characteristics.html" }}
       </div>
-  </header>
+    </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="arm5eTabs arm5eTabsNPC sheet-tabs tabs" data-group="primary">
       <a class="item posRelative" data-tab="description">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.description"}}
       </a>
       <a class="item posRelative" data-tab="abilities">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.abilities"}}
       </a>
-      <a class="item posRelative" data-tab="virtues">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        {{localize "arm5e.sheet.virtuesFlaws"}}
-      </a>
-    {{#if (eq data.charType.value "entity")}}
-      <a class="item posRelative" data-tab="arts">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        {{localize "arm5e.sheet.arts"}}
-      </a>
-    {{/if}}
+      {{#if (eq system.charType.value "entity")}}
+        <a class="item posRelative" data-tab="arts">
+          <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.powers"}}
+        </a>
+      {{/if}} {{#if (eq system.charType.value "magusNPC")}}
+        <a class="item posRelative" data-tab="arts">
+          <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.arts"}}
+        </a>
+        <a class="item posRelative" data-tab="laboratory">
+          <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.laboratory"}}
+        </a>
+      {{/if}}
       <a class="item posRelative" data-tab="inventory">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.inventory"}}
       </a>
-      <a class="item posRelative" data-tab="dairy">
-        <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-        {{localize "arm5e.sheet.dairy"}}
+      <a class="item posRelative" data-tab="diary">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.diary"}}
       </a>
-  </nav>
+      {{#if isGM}}
+        <a class="item posRelative" data-tab="effects">
+          <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+          <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+          {{localize "arm5e.sheet.effects"}}
+        </a>
+      {{/if}}
+    </nav>
 
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
       {{!-- Description Tab --}}
       <div class="tab description" data-group="primary" data-tab="description">
-        {{> "systems/arm5e/templates/actor/parts/actor-description.html" }}
+        <nav class="arm5eSubTabs desc-tabs tabs" data-group="desc-secondary">
+          <a class="item posRelative" data-tab="desc" data-group="desc-secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.description"}}
+          </a>
+          <a class="item posRelative" data-tab="wounds" data-group="desc-secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.vitals"}} & {{localize "arm5e.sheet.combat"}}
+          </a>
+        </nav>
+        <section class="desc-body">
+          <div class="tab" data-group="desc-secondary" data-tab="desc">
+            {{> "systems/arm5e/templates/actor/parts/actor-description.html" }}
+          </div>
+          <div class="tab" data-group="desc-secondary" data-tab="wounds">
+            {{> "systems/arm5e/templates/actor/parts/actor-fatigue.html" }}
+            {{> "systems/arm5e/templates/actor/parts/actor-combat.html" }}
+            {{> "systems/arm5e/templates/actor/parts/actor-weapons.html" }}
+            {{> "systems/arm5e/templates/actor/parts/actor-armor.html" }}
+          </div>
+        </section>
       </div>
 
       {{!-- Abilities Tab --}}
       <div class="tab abilities" data-group="primary" data-tab="abilities">
-        {{> "systems/arm5e/templates/actor/parts/actor-abilities.html" }}
-      </div>
+        {{!-- Sheet Tab Navigation --}}
+        <nav class="arm5eSubTabs abilities-tabs tabs" data-group="abilities-secondary">
+          <a class="item posRelative" data-tab="abilities" data-group="secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.abilities"}}
+          </a>
+          <a class="item posRelative" data-tab="vandf" data-group="abilities-secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.virtues"}} & {{localize "arm5e.sheet.flaws"}}
+          </a>
+        </nav>
+        <section class="abilities-body">
+          <div class="tab" data-group="abilities-secondary" data-tab="abilities">
+            {{> "systems/arm5e/templates/actor/parts/actor-abilities.html" }}
+          </div>
 
-      {{!-- Virtues & Flaws Tab --}}
-      <div class="tab virtues" data-group="primary" data-tab="virtues">
-        {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" }}
+          {{!-- Virtues & Flaws subtab --}}
+          <div class="tab" data-group="abilities-secondary" data-tab="vandf">
+            {{> "systems/arm5e/templates/actor/parts/actor-virtuesFlaws.html" bonuses="arm5e.sheet.virtues" penalties="arm5e.sheet.flaws"}}
+          </div>
+        </section>
       </div>
+      {{#if (eq system.charType.value "entity")}} {{!-- Arts Tab --}}
+        <div class="tab arts" data-group="primary" data-tab="arts">
+          {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+        </div>
+      {{/if}} {{#if (eq system.charType.value "magusNPC")}} {{!-- Arts Tab --}}
+        <div class="tab arts" data-group="primary" data-tab="arts">
+          {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
+        </div>
 
-    {{#if (eq data.charType.value "entity")}}
-      {{!-- Arts Tab --}}
-      <div class="tab arts" data-group="primary" data-tab="arts">
-        {{> "systems/arm5e/templates/actor/parts/actor-arts.html" }}
-      </div>
-    {{/if}}
-
-      {{!-- Inventory Tab --}}
+        {{!-- Laboratory Tab --}}
+        <div class="tab laboratory" data-group="primary" data-tab="laboratory">
+          <nav class="arm5eSubTabs lab-tabs tabs" data-group="lab-secondary">
+            <a class="item posRelative" data-tab="lab" data-group="secondary">
+              <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+              <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+              {{localize "arm5e.sheet.laboratory"}}
+            </a>
+            <a class="item posRelative" data-tab="lab-total" data-group="lab-secondary">
+              <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+              <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+              {{localize "arm5e.sheet.labTotal"}}
+            </a>
+          </nav>
+          <section class="lab-body">
+            <div class="tab" data-group="lab-secondary" data-tab="lab">
+              {{> "systems/arm5e/templates/actor/parts/actor-laboratory.html" }}
+              {{> "systems/arm5e/templates/actor/parts/actor-familiar.html" }}
+            </div>
+            <div class="tab" data-group="lab-secondary" data-tab="lab-total">
+              {{> "systems/arm5e/templates/actor/parts/actor-laboratoryTotals.html" show="laboratory" }}
+            </div>
+          </section>
+        </div>
+      {{/if}} {{!-- Inventory Tab --}}
       <div class="tab inventory" data-group="primary" data-tab="inventory">
         {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}
       </div>
 
-      {{!-- Dairy Tab --}}
-      <div class="tab dairy" data-group="primary" data-tab="dairy">
-        {{> "systems/arm5e/templates/actor/parts/actor-dairy.html" }}
+      {{!-- Diary Tab --}}
+      <div class="tab diary" data-group="primary" data-tab="diary">
+        {{> "systems/arm5e/templates/actor/parts/actor-diary.html" }}
       </div>
+      {{!-- Effects Tab --}}
+      <div class="tab effects" data-group="primary" data-tab="effects">
+        {{> "systems/arm5e/templates/generic/active-effects.html"  mode="actor" }}
+      </div>
+    </section>
 
-  </section>
+  </form>
 
   <div class="footer-background">
-    <img src="/systems/arm5e/assets/footer.png">
+    <img src="systems/arm5e/assets/NPC/footer.png" />
   </div>
-</form>
-
+</div>

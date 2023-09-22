@@ -1,38 +1,97 @@
-<form class="{{cssClass}} main" autocomplete="off">
-    <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-            <div class="grid grid-col">
-                <div class="resource">
-                    <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="data.speciality"  value="{{data.speciality}}"  data-dtype="String" /></label>
-                </div>
-                <div class="resource">
-                    <label>{{localize "arm5e.sheet.score"}}<input type="text" name="data.score"  value="{{data.score}}"  data-dtype="Number" /></label>
-                </div>
-                <div class="resource">
-                    <label>{{localize "arm5e.sheet.experience"}}<input type="text" name="data.experience"  value="{{data.experience}}"  data-dtype="Number" /></label>
-                </div>
-            </div>
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor }}
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+
+      <div class="resource">
+        <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="system.speciality"
+            value="{{system.speciality}}" data-dtype="String" /></label>
+      </div>
+      {{#if item.isOwned }}
+        <div class="flexrow" style="padding-top:5px">
+          <label class="flex01" style="padding-right: 10px;">{{localize "arm5e.sheet.score"}} </label>
+          <input class="flex02" type="number" name="system.finalScore" value="{{system.finalScore}}" data-dtype="Number"
+            readonly />
+          <div class="flex02" style="padding-top:4px; padding-left: 10px;">
+            <a class="item-control increase-score flex0" title="Increase score"><i class="fas fa-plus"></i></a>
+            <a class="item-control decrease-score flex0" title="Decrease score"><i class="fas fa-minus"></i></a>
+          </div>
+          <div class="flexrow">
+            <label style="padding-right: 10px;" class="flex01">{{localize "arm5e.sheet.experience"}}</label>
+            <input style="min-width: 60px;" class="resource-focus flex02" type="number" name="system.xp"
+              value="{{system.xp}}" data-dtype="Number" />
+            <label style="padding-left: 10px; padding-top:4px; " class="flex02">{{#if (ne system.xpBonus 0) }}
+                {{numberFormat system.xpBonus decimals=0 sign=true}}{{/if}}</label>
+          </div>
         </div>
-    </header>
+      {{/if}}
+      <div class="resource flexrow">
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="description">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            {{localize "arm5e.sheet.description"}}
-        </a>
-    </nav>
-
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+        <div class="flexcol">
+          <label>{{localize "arm5e.sheet.defaultCharacteristicForAbility"}}</label>
+          <select name="system.defaultChaAb" data-type="String" class="default-characteristic">
+            {{#select system.defaultChaAb}} {{#each config.character.characteristics as |item key|}}
+                <option value="{{key}}">{{localize label}}</option>
+              {{/each}} {{/select}}
+          </select>
         </div>
+        {{#if (eq system.category "supernaturalCat") }}
+          <div class="flexcol " style="padding-left:5px">
+            <label class>{{localize "arm5e.sheet.realm.label"}}</label>
+            <select name="system.realm" data-type="String">
+              {{#select system.realm}} {{#each config.realmsExt as |r key|}}
+                  <option value="{{key}}">{{localize r.label}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </header>
 
-    </section>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+  </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab">
+      <div class="resource flexrow">
+        <label for="system.key" class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
+        <select class="change-abilitykey" name="system.key" data-dtype="String" class="ability-key">
+          {{#select system.key}}
+            {{#each abilityKeysList as |item key|}}
+              <option value="{{key}}" {{item.selection}}>{{item.label}}</option>
+            {{/each}}
+          {{/select}}
+        </select>
+        {{#if (lookup (lookup abilityKeysList system.key) "option")}}
+          <label for="system.option" class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+          <input type="text" class="ability-option" name="system.option" value="{{system.option}}"
+            style="width: 150px" />
+        {{else}}
+          <label for="system.option" class="header-label"
+            style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+          <input type="text" name="system.option" data-dtype="String" value="" readonly style="width: 150px" />
+        {{/if}}
+      </div>
+      <div class="tab editor" data-group="primary" data-tab="description" style="height:70%;">
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+
+      </div>
+      {{#if metagame}}
+        {{> "systems/arm5e/templates/generic/source.html" }}
+      {{/if}}
+    </div>
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

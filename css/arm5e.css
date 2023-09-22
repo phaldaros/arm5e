@@ -1,29 +1,174 @@
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 
-
-@font-face{
+@font-face {
   font-family: "Goudy Text MT";
   src: url("../assets/fonts/goudy-text-mt.ttf");
 }
 
-@font-face{
+@font-face {
   font-family: "vinque";
   src: url("../assets/fonts/vinque_rg.ttf");
 }
 
-@font-face{
+@font-face {
   font-family: "bookAntiqua";
-  src: url("../assets/fonts/book-antiqua.ttf");
+  src: url("../assets/fonts/book-antiqua.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }
 
-@font-face{
+@font-face {
+  font-family: "bookAntiqua";
+  src: url("../assets/fonts/book-antiqua-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "bookAntiquaBold";
   src: url("../assets/fonts/book-antiqua-bold.ttf");
 }
 
-@font-face{
+@font-face {
   font-family: "blackmoor";
-  src: url("../assets/fonts/BlackmoorLetPlain.ttf") format('truetype');
+  src: url("../assets/fonts/BlackmoorLetPlain.ttf") format("truetype");
+}
+
+/* Intro chat fonts */
+
+p.nue {
+  font-family: bookAntiqua;
+}
+
+h3.nue {
+  font-family: Blackmoor;
+  font-size: 18px;
+}
+
+h4.message-sender {
+  font-family: bookAntiquaBold;
+}
+
+h4 {
+  font-family: bookAntiqua;
+}
+
+h4.sound-name {
+  font-family: bookAntiqua;
+}
+/* Pop-up windows fonts */
+
+a.header-button.configure-sheet {
+  font-family: bookAntiqua;
+  font-size: 15px;
+}
+
+a.header-button.configure-token {
+  font-family: bookAntiqua;
+  font-size: 15px;
+}
+
+a.header-button.close {
+  font-family: bookAntiqua;
+  font-size: 15px;
+}
+
+/* General settings fonts */
+
+button {
+  font-family: bookAntiqua;
+}
+
+button.create-folder {
+  font-family: Blackmoor;
+}
+
+button.create-document {
+  font-family: Blackmoor;
+}
+
+.directory .action-buttons button {
+  display: flex;
+  align-items: center;
+}
+
+button.create-compendium {
+  font-family: Blackmoor;
+}
+
+a.item {
+  font-family: Blackmoor;
+  font-size: 18px;
+}
+
+label {
+  font-family: bookAntiquaBold;
+  font-size: 14px;
+}
+
+.label-light {
+  font-family: bookAntiqua;
+  font-size: 9pt;
+}
+
+p.notes {
+  font-family: bookAntiqua;
+  font-size: 12px;
+}
+
+h2.module-header {
+  font-family: Blackmoor;
+}
+
+h2 {
+  font-family: Blackmoor;
+  font-size: 18px;
+}
+
+h3 {
+  font-family: Blackmoor;
+  font-size: 18px;
+}
+
+li.build {
+  font-family: bookAntiqua;
+}
+
+li.version {
+  font-family: bookAntiqua;
+}
+
+li.system {
+  font-family: bookAntiqua;
+}
+
+li.modules {
+  font-family: bookAntiqua;
+}
+
+li.macro.inactive {
+  font-family: Blackmoor;
+}
+
+a {
+  font-family: bookAntiqua;
+}
+
+span.document-type {
+  font-family: bookAntiqua;
+}
+
+input {
+  font-family: bookAntiqua;
+}
+
+a.scene-name {
+  font-family: Blackmoor;
+  font-size: 18px;
+}
+
+span.player-name {
+  font-family: bookAntiqua;
 }
 
 /* Global styles */
@@ -35,12 +180,319 @@
   font-family: "Roboto", sans-serif;
 }
 
-.rollable:hover, .rollable:focus {
+.arm5e .window-content {
+  padding: 0px;
+  border: 2px solid #6f6c66;
+}
+
+.arm5e-dialog .window-content {
+  padding: 0px;
+  border: 2px solid #6f6c66;
+}
+
+.arm5e-dialog .dialog-buttons,
+.arm5e .dialog-buttons {
+  background-color: rgb(169 159 134 / 50%);
+}
+
+.arm5e .art-score input[type="number"] {
+  font-size: 14pt;
+  text-align: center;
+}
+
+.arm5e .drop-box {
+  text-align: center;
+  padding: 25px;
+  margin: 5px;
+  border: 3px;
+  border-style: dashed;
+  border-radius: 14px;
+  border-color: rgb(161, 154, 154);
+}
+.window-app .window-content {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  background: url(../assets/compendium/parchment.png) repeat;
+  /* padding: 8px; */
+  color: var(--color-text-dark-primary);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/*journal stuff */
+
+.sheet.journal-entry .journal-entry-content {
+  flex: 1;
+  height: 100%;
+  background: url(../assets/compendium/parchment.png) repeat;
+  border: 2px solid #000;
+  border-radius: 6px 0 0 0;
+}
+
+.journal-sheet .journal-header .title {
+  margin: 0;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: var(--font-size-32);
+  font-family: Blackmoor;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 4px;
+}
+
+.journal-entry-page h1 {
+  font-family: bookAntiqua;
+}
+
+.journal-entry-page h2 {
+  font-family: bookAntiqua;
+}
+
+.journal-entry-page h3 {
+  font-family: bookAntiqua;
+  font-size: 16px;
+}
+
+.journal-entry-page p {
+  font-family: bookAntiqua;
+}
+
+a.content-link,
+.arm5e .journal-entry-page a.content-link {
+  border-radius: 2px;
+  white-space: nowrap;
+  word-break: break-all;
+  text-decoration: underline;
+  color: #6e98db;
+  border-bottom: 1px dotted blue;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  padding: 0px;
+}
+
+.arm5e a.content-link.broken,
+.arm5e .journal-entry-page a.content-link.broken {
+  border-radius: 2px;
+  white-space: nowrap;
+  word-break: break-all;
+  text-decoration: underline;
+  border-bottom: 1px dotted blue;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  padding: 0px;
+  color: #f05959;
+}
+
+a.content-link i.fa-file-lines {
+  display: none;
+}
+
+a.content-link i.fa-book-open {
+  display: none;
+}
+
+.scriptorium.resource {
+  /* width: 220px; */
+  padding-top: 5px;
+}
+
+.scriptorium .drop-box {
+  text-align: center;
+  padding: 5px;
+  margin: 5px;
+  border: 3px;
+  border-style: dashed;
+  border-radius: 14px;
+  border-color: rgb(161, 154, 154);
+}
+
+.arm5e .window-app .window-content {
+  display: flex;
+}
+
+.arm5e {
+  --color-shadow-primary: rgb(200, 0, 0);
+}
+
+h4.window-title {
+  font-family: Blackmoor;
+  font-size: 20px;
+}
+.arm5e .sanatorium.button,
+.arm5e .astrolab.button {
+  font-family: "blackmoor";
+  font-size: 13pt;
+  padding: 5px;
+  width: 140px;
+  margin: 5px;
+  background-image: none;
+}
+
+/* .arm5e-dialog.aura-config form > div {
+  margin: 10px 30px;
+} */
+
+.arm5e-dialog.aura-config input[type="number"] {
+  text-align: center;
+  flex: 0 0 60px;
+}
+
+.arm5e .sanatorium .improved {
+  box-shadow: 3px 3px 3px rgb(51 120 34 / 50%);
+}
+
+.arm5e .sanatorium .worsened {
+  box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);
+}
+.arm5e .sanatorium .editor {
+  overflow-y: auto;
+  max-height: 300px;
+  font-family: "bookAntiqua";
+}
+
+.arm5e .wound .sheet-body .editor {
+  overflow-y: auto;
+  max-height: 160px;
+}
+
+.arm5e.button {
+  font-family: "blackmoor";
+  padding: 10px;
+}
+
+.arm5e.button.ui {
+  font-family: "blackmoor";
+  padding: 5px;
+}
+
+.arm5e .item-control {
+  padding-top: 4px;
+  text-align: center;
+}
+
+.hideme {
+  display: none;
+}
+
+.show-on-hover:hover + .hideme {
+  display: block;
+}
+
+.rollable-aging:hover,
+.rollable-aging:focus,
+.rollable:hover,
+.rollable:focus {
   color: #000;
-  text-shadow: 0 0 10px red;
+  text-shadow: 0 0 10px rgb(200, 0, 0);
   cursor: pointer;
 }
 
+.hidden {
+  display: none;
+}
+
+.nav-arrow.clickable:hover,
+.clickable:hover,
+.clickable:focus {
+  color: #000;
+  text-shadow: 0 0 10px rgb(200, 0, 0);
+  cursor: pointer;
+}
+
+.book-topic:hover,
+.design:hover,
+.design:focus {
+  color: #000;
+  text-shadow: 0 0 10px rgb(200, 0, 0);
+  cursor: pointer;
+}
+
+.system-arm5e .chat-message {
+  margin: 3px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 14px;
+  color: #191813;
+  background-image: url("../assets/chat/background.png");
+  /* --color-shadow-primary: #003487; */
+  background-repeat: repeat;
+  background-size: cover;
+  border: 2px solid #6f6c66;
+  border-radius: 0px;
+}
+.system-arm5e .dice-msg {
+  font-family: bookAntika;
+  border-bottom: 0px;
+  text-align: center;
+}
+
+.system-arm5e .chat-button {
+  width: 22px;
+  height: 22px;
+  font-size: 10px;
+  line-height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.chat-message .message-header {
+  font-family: "bookAntiqua";
+}
+
+.chat-message .message-content {
+  overflow-wrap: break-word;
+}
+
+.ars-chat-title {
+  font-family: "blackmoor";
+  border-bottom: 1px solid #8e7759;
+  line-height: 20px;
+  color: var(--color-text-dark-secondary);
+}
+
+.chat-message .message-content .dice-total {
+  flex: 0;
+  /*font-size: var(--font-size-20);*/
+  font-weight: bold;
+  position: relative;
+  margin: 0;
+  line-height: 24px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  word-break: break-all;
+}
+
+.chat-message .message-header .ars-chat-title {
+  font-family: "blackmoor";
+  border-bottom: 1px solid #8e7759;
+}
+.arts-total-header {
+  height: 57px;
+  margin-left: 17px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-tertiary);
+  font-weight: bold;
+}
+.lab-total-char,
+.arts-total {
+  height: 28px;
+  background: rgba(0, 0, 0, 0.05);
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid var(--color-border-light-tertiary);
+  font-weight: bold;
+}
 .grid,
 .grid-2col {
   display: grid;
@@ -145,50 +597,563 @@
   justify-content: space-between;
 }
 
-.arm5eMain{
-  background-image: url("../assets/background.jpg");
+.arm5eMain {
+  background-image: url("../assets/background.png");
   background-repeat: repeat-y;
-  background-size: contain;
+  background-size: 100%;
   font-family: "bookAntiquaBold";
   padding: 32px;
 }
 
-/* Styles limited to arm5e sheets */
+.arm5eInfo {
+  background-image: url("../assets/dialog/Dialog_Background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  font-size: 12pt;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
 
-.arm5e .main{
-  background-image: url("../assets/background.jpg");
+.arm5eInfo img {
+  border: 0px;
+}
+
+/* .arm5e .section */
+
+.arm5e .calendar-sheet .sheet-body,
+.astrolab-sheet .sheet-body {
+  padding: 40px;
+  padding-top: 20px;
+  padding-bottom: 0px;
+}
+
+.calendar-sheet .schedule-years {
+  height: 424px;
+  overflow-y: scroll;
+}
+
+.calendar-sheet .calendar-years {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.calendar-season {
+  border: 1px solid #444;
+  margin: 2px;
+}
+
+.calendar-season.conflict {
+  background-color: rgb(135 38 22 / 50%);
+}
+
+.calendar-season.current {
+  background-color: rgb(51 120 34 / 50%);
+}
+
+.calendar-season.busy {
+  background-color: rgb(20 55 175/ 50%);
+}
+
+.calendar-season.busy.future,
+.calendar-season.conflict.future,
+.calendar-season.current.future,
+.calendar-season.future {
+  border: 1px dashed #bbb;
+}
+
+.schedule-update:disabled {
+  background: rgba(95, 95, 95, 0.25);
+}
+
+.calendar-field {
+  background: rgba(67, 49, 0, 0.25);
+  text-align: center;
+  margin: 12px;
+}
+
+.calendar-year {
+  /* background-color: rgb(236 222 187 / 60%); */
+  margin-top: 5px;
+  height: auto;
+}
+
+.arm5eEffect .sheet-body {
+  height: auto;
+  background-image: url("../assets/dialog/Dialog_Background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  font-size: 12pt;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+/* .arm5eInfo .footer-background,
+.arm5eEffect .footer-background,
+.arm5eChooser .footer-background {
+  height: 50px;
+} */
+
+.arm5eChooser .header-background img,
+.arm5eChooser .footer-background img,
+.arm5eEffect .header-background img {
+  width: 100%;
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  background-size: cover;
+}
+.arm5eChooser {
+  font-size: 10pt;
+  background-image: url("../assets/dialog/Dialog_Background.png");
   background-repeat: repeat-y;
   background-size: contain;
   font-family: "bookAntiquaBold";
+}
+
+.scriptorium.scriptorium-sheet {
+  background-image: url("../assets/scriptorium/Scriptorium_background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+.tab-header {
+  border: 0px !important;
+  /* background-image: url("../assets/bSilver.png"); */
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  min-height: 32px;
+  margin-bottom: 12px !important;
+  position: relative;
+}
+
+.arm5e .sanatorium.sanatorium-sheet {
+  background-image: url("../assets/sanatorium/Background_Sanatorium.png");
+  background-repeat: repeat-y;
+}
+
+.arm5e .sanatorium-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 32pt;
+  height: 35px;
+  border: none;
+  margin-left: -64px;
+  color: rgb(135 38 22 / 100%);
+}
+
+.arm5e .sanatorium .progressbar {
+  width: 400px;
+  height: 16px;
+  margin: 0 auto 10px auto;
+  padding: 0px;
+  background-image: url("../assets/SmallGoldenEngravedBar.png");
+  background-size: 400px 16px;
+  /* background: #cfcfcf; */
+  border-width: 1px;
+  border-style: solid;
+  border-color: #aaa #bbb #fff #bbb;
+  box-shadow: inset 0px 2px 3px #bbb;
+}
+
+.arm5e .sanatorium .progressbar,
+.arm5e .sanatorium .progressbar-inner {
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+.arm5e .sanatorium .progressbar-inner {
+  height: 100%;
+  background: #999 80%;
+  background-size: 18px 18px;
+  background-color: rgb(135 38 22 / 100%);
+  box-shadow: inset 0px 2px 8px rgba(255, 255, 255, 0.5), inset -1px -1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.arm5e .sanatorium .progressbar-red .progressbar-inner {
+  background-color: #f67;
+  width: 30%;
+}
+
+.arm5e .medhistory-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 24pt;
+  height: 35px;
+  border: none;
+  margin-left: -64px;
+  color: rgb(135 38 22 / 100%);
+}
+
+.arm5e .calendar.calendar-sheet,
+.arm5e .astrolab.astrolab-sheet {
+  background-image: url("../assets/astrolab/Astrolab_Background.png");
+  background-repeat: repeat-y;
+}
+
+.arm5e .astrolab.header-background img {
+  border: 0px;
+}
+
+.arm5e .astrolab .header-background {
+  height: 120px;
+  width: 600px;
+  margin: 0px;
+}
+
+.arm5e .astrolab .footer-background img {
+  border: 0px;
+}
+
+.arm5e .astrolab .footer-background {
+  height: 75px;
+  width: 600px;
+  margin: 0px;
+  background-image: none;
+}
+.arm5e .scriptorium-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 32pt;
+  height: 45px;
+  border: none;
+  color: #30512d;
+}
+
+.arm5e .astrolab-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 32pt;
+  height: 35px;
+  border: none;
+  color: #2d3b51;
+}
+
+.arm5eRequisite {
+  font-size: 10pt;
+  background-image: url("../assets/item/background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  width: 410px;
+}
+
+.arm5eRequisite .header-background img {
+  border: 0px;
+}
+
+.arm5eRequisite .footer-background img {
+  border: 0px;
+}
+
+.arm5eRequisite .footer-background {
+  height: 45px;
+}
+
+.read-book {
+  padding-right: 16px;
+  padding-left: 16px;
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+.arm5ActiveEffect {
+  background-image: url("../assets/dialog/LargeDialog_Background.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: "bookAntiquaBold";
+  /* font-size: 12pt; */
+}
+
+.arm5ActiveEffect .effect-options {
+  font-family: "bookAntiquaBold";
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
+.arm5e .arm5ActiveEffect .header-background {
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 0px;
+  width: 100%;
+}
+.arm5e .arm5ActiveEffect .footer-background {
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 0px;
+  height: 87px;
+  width: 100%;
+}
+.arm5e .arm5ActiveEffect .header-background img {
+  border: 0px;
+}
+
+.arm5eRoll {
+  background-image: url("../assets/dialog/Dialog_Background.png");
+  background-repeat: repeat-y;
+  background-size: 100%;
+  font-family: "bookAntiquaBold";
+  font-size: 12pt;
+  width: 420px;
+}
+
+.arm5eRoll .roll-options {
+  font-family: "bookAntiquaBold";
   padding-left: 32px;
   padding-right: 32px;
-  
+  background-size: cover;
 }
-.arm5e .header-background{
-  margin-left: -32px;
-  /*margin-top: -32px;*/
-  width: calc(100% + 64px);
+
+.arm5eRoll .roll-options .sub {
+  font-size: 14px;
 }
-.arm5e .footer-background{
-  margin-left: -32px;
-  margin-top: 16px;
-  width: calc(100% + 64px);
-}
-.arm5e .header-background img{
+
+.arm5eRoll .header-background img {
   width: 100%;
   border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
-.arm5e .footer-background img{
+.arm5e-dialog .footer-background {
+  /* margin-top: -27px; */
+  width: 100%;
+  height: auto;
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.arm5e-dialog .footer-background img {
+  width: 100%;
+  border: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+/* Styles limited to arm5e sheets */
+
+/* Ranges style */
+.arm5e input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/***** Track Styles *****/
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+.arm5e input[type="range"]::-webkit-slider-runnable-track {
+  background: rgba(194, 183, 154, 0.8);
+  height: 0.5rem;
+}
+
+/******** Firefox ********/
+.arm5e input[type="range"]::-moz-range-track {
+  background: rgba(194, 183, 154, 0.8);
+  height: 0.5rem;
+}
+
+/***** Thumb Styles *****/
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+.arm5e input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  border: none;
+  border-radius: 10px;
+  appearance: none;
+  outline: transparent;
+  outline-offset: 0;
+  /* Centers thumb on the track */
+  margin-top: -8px;
+  background-color: transparent;
+  background-image: url("../assets/ballSilver.png");
+  height: 20px;
+  width: 20px;
+}
+
+.arm5e input[type="range"]:focus::-webkit-slider-thumb {
+  border: 0px;
+  outline: transparent;
+  outline-offset: 0;
+}
+
+/***** Thumb Styles *****/
+/***** Firefox *****/
+.arm5e input[type="range"]::-moz-range-thumb {
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: 10px; /*Removes default border-radius that FF applies*/
+  /* background-color: #5cd5eb; */
+  background-color: transparent;
+  background-image: url("../assets/ballBronze.png");
+  outline: transparent;
+  outline-offset: 0;
+  height: 20px;
+  width: 20px;
+}
+
+.arm5e input[type="range"]:focus::-moz-range-thumb {
+  border: 0px;
+  outline: transparent;
+  outline-offset: 0;
+}
+
+.arm5e input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="time"] {
+  width: calc(100% - 2px);
+  min-width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 3px;
+  margin: 0;
+  color: #191813;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: inherit;
+  line-height: inherit;
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.arm5e .sanatorium input[type="number"],
+.arm5e .sanatorium input[type="text"],
+.arm5e .calendar input[type="number"],
+.arm5e .calendar input[type="text"],
+.arm5e .astrolab input[type="text"],
+.arm5e .astrolab input[type="number"] {
+  font-family: "bookAntiqua";
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.15);
+  height: 25px;
+  background-image: none;
+}
+
+.arm5e .scriptorium input[type="text"],
+.arm5e .scriptorium input[type="number"] {
+  font-family: "bookAntiqua";
+  font-weight: normal;
+  height: 13pt;
+  background-image: none;
+  max-width: 220px;
+}
+.arm5eRoll select,
+.arm5e select {
+  height: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  font-family: inherit;
+  padding: 0 3px;
+  text-overflow: ellipsis;
+  font-size: 11pt;
+}
+.arm5e .scriptorium select {
+  font-family: "bookAntiqua";
+  max-width: 220px;
+}
+.arm5e .sanatorium select,
+.arm5e .astrolab select {
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.15);
+  height: 25px;
+  font-family: "bookAntiqua";
+}
+
+.arm5e .sheet-content {
+  padding-left: 32px;
+  padding-right: 32px;
+  font-family: "bookAntiquaBold";
+  font-size: 9pt;
+}
+
+.arm5e .mainPlayer {
+  background-image: url("../assets/PC/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+.arm5e .mainNPC {
+  background-image: url("../assets/NPC/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+.arm5e .mainLaboratory {
+  background-image: url("../assets/Lab/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+.arm5e .mainCodex {
+  background-image: url("../assets/Codex/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+.arm5e .mainCovenant {
+  background-image: url("../assets/Covenant/background.png");
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+.arm5e .mainItem {
+  background-repeat: repeat-y;
+  background-size: 100%;
+  font-family: "bookAntiquaBold";
+  padding-left: 34px;
+  padding-right: 34px;
+  font-size: 9pt;
+  max-width: 800px;
+}
+/* 
+.arm5e .mainItem .sheet-body {
+  height: auto;
+} */
+
+.arm5e .mainItem .header-background {
+  margin-left: -34px;
+  text-align: center;
+  margin-top: 0px;
+}
+.arm5e .header-background {
+  margin-left: -32px;
+  width: calc(100% + 64px);
+}
+.arm5e .mainItem .footer-background {
+  text-align: center;
+  margin-left: -34px;
+  margin-top: 0px;
+}
+.arm5e .footer-background {
+  margin-left: -32px;
+  margin-top: auto;
+  width: calc(100% + 64px);
+}
+
+.arm5e .header-background img {
   width: 100%;
   border: 0px;
 }
 
-
-.arm5e .sheet-header {
+.arm5e .footer-background img {
+  width: 100%;
+  border: 0px;
+  height: inherit;
+}
+.arm5e .header.scriptorium-header {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 280px;
-  flex: 0 0 280px;
-  overflow: hidden;
+  -ms-flex: 0 0 120px;
+  flex: 0 0 120px;
+  /*overflow: hidden;*/
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -203,27 +1168,86 @@
   justify-content: flex-start;
   margin-bottom: 10px;
 }
+.arm5e .sheet-header {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 240px;
+  flex: 0 0 240px;
+  /*overflow: hidden;*/
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  /* margin-bottom: 5px; */
+}
+
+/* .arm5e .mainItem .sheet-header {
+  margin-top: 100px;
+} */
 
 .arm5e .sheet-header-lab {
   -ms-flex: 0 0 315px;
   flex: 0 0 315px;
 }
 
+.arm5e .sheet-header-codex {
+  -ms-flex: 0 0 80px;
+  flex: 0 0 80px;
+  font-family: "blackmoor";
+  font-size: 18px;
+}
+
+.arm5e .codex-title {
+  text-align: center;
+  font-family: "blackmoor";
+  font-size: 35px;
+  height: 45px;
+  color: #581845;
+}
+
 .arm5e .sheet-header .profile-img {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 270px;
-  flex: 0 0 270px;
-  height: 270px;
+  -ms-flex: 0 0 230px;
+  flex: 0 0 230px;
+  height: 236px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-.arm5e .sheet-header .item-img{
+
+.arm5e .profile-img {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100px;
+  flex: 0 0 100px;
+  height: 100px;
+  width: 100px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  object-fit: contain;
+}
+
+.arm5e .sheet-header .item-img {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 200px;
   flex: 0 0 200px;
   height: 200px;
   margin-right: 16px;
   margin-bottom: 16px;
+  object-fit: contain;
+}
+.arm5e .sheet-header .item-small-img {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 64px;
+  flex: 0 0 64px;
+  height: 64px;
+  margin-right: 8px;
+  margin-bottom: 8px;
 }
 
 .arm5e .sheet-header .header-fields {
@@ -234,6 +1258,13 @@
 
 .arm5e .sheet-header h1.charname {
   height: 50px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+
+.arm5e .sheet-header h1.spellname {
+  height: 60px;
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
@@ -265,6 +1296,170 @@
   /*letter-spacing: 1px;*/
 }
 
+.arm5e .sheet-header h2.codexname {
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+
+.arm5e .sheet-header h2.codexname input {
+  width: 100%;
+  margin: 0;
+  /*padding-top: 25px;
+  line-height: 50;*/
+  /*font-family: "vinque";*/
+  font-family: "blackmoor";
+  /*letter-spacing: 1px;*/
+}
+
+.arm5e .diary-tabs {
+  font-family: "bookAntiqua";
+  font-size: 10pt;
+  text-align: center;
+  /* background-image: url("../assets/player/bar.png"); */
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.arm5e .spell-attribute option:disabled,
+.arm5e .ability-key option:disabled {
+  font-size: 11pt;
+  color: black;
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: overline;
+}
+
+.arm5e .spell-attribute {
+  max-width: 165px;
+}
+.arm5eRoll .ability-key,
+.arm5e .ability-key {
+  max-width: 250px;
+}
+
+.arm5e .ability-key-slim {
+  max-width: 200px;
+}
+
+.arm5e .ability-category {
+  font-size: 14pt;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
+  margin-left: 10px;
+  border-bottom: 2px solid #4a4a48;
+}
+
+.arm5e .sheet header.sheet-header .img-container img,
+.arm5e .img-container img {
+  display: block;
+  height: 12px;
+  justify-content: center;
+}
+
+.arm5e .nav-arrow {
+  height: 20px;
+  width: 30px;
+  border: 0px;
+}
+
+.toggle-collapse {
+  max-height: 5180px;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.activeEffects {
+  max-height: 480px;
+  transition-property: all;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+.penetration {
+  max-height: 480px;
+  transition-property: all;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+.planning-item {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1px 4px;
+  border: 1px solid var(--color-border-dark-tertiary);
+  border-radius: 2px;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.planning-options,
+.planning-attributes,
+.planning-description,
+.details {
+  opacity: 1;
+  max-height: 480px;
+  transition-property: opacity, max-height;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+.planning-options.hide,
+.planning-attributes.hide,
+.activeEffects.hide,
+.penetration.hide,
+.details.hide,
+.toggle-collapse.hide {
+  max-height: 0px;
+  opacity: 0;
+  overflow: hidden;
+}
+.planning-description.hide {
+  max-height: 0px;
+  min-height: 60px;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.topic.toggle-collapse.hide {
+  max-height: 0px;
+  min-height: 190px;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.arm5e .resource {
+  padding: 4px;
+}
+
+.lab-total.backSection {
+  margin-right: 10px;
+  margin-bottom: 5px;
+  max-height: 80px;
+  max-width: 100px;
+  font-size: 14pt;
+  background-color: rgb(236 222 187 / 50%);
+  border: 0px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
+}
+
+.arm5e .progresses-list {
+  list-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.arm5e .diary-progress {
+  align-items: center;
+  padding: 3px 1px;
+  border-bottom: 1px solid var(--color-border-light-primary);
+}
+
 .arm5e .sheet-tabs {
   -webkit-box-flex: 0;
   -ms-flex: 0;
@@ -272,9 +1467,27 @@
 }
 
 .arm5e .sheet-body,
-.arm5e .sheet-body .tab,
+.arm5e .sheet-body .tab {
+  /* height: 90%; */
+  height: auto;
+}
+
 .arm5e .sheet-body .tab .editor {
-  height: 100%;
+  height: 90%;
+  min-height: 200px;
+  overflow-y: auto;
+}
+
+/* .arm5e .sheet-body .tab .editor-edit {
+  height: 90%;
+  min-height: 200px;
+  overflow-y: auto;
+} */
+
+.arm5e .diary-body {
+  padding-top: 7px;
+  height: 200px;
+  overflow-y: auto;
 }
 
 .arm5e .tox .tox-editor-container {
@@ -290,26 +1503,87 @@
   text-transform: uppercase;
 }
 
-.arm5eTabs{
-  border:0px !important;
+.arm5eTabs {
+  border: 0px !important;
+  /*
   background-image: url("../assets/bBronce.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
-  min-height: 40px;
+  */
+  min-height: 36px;
   margin-bottom: 12px !important;
 }
 
+.mainItem .arm5eTabs {
+  min-height: 36px;
+  margin-bottom: 0px !important;
+}
+
+.arm5eSubTabs {
+  border: 0px !important;
+  /*
+  background-image: url("../assets/bBronce.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  */
+  height: 20px;
+}
+
+.techLabel {
+  font-family: "blackmoor";
+  font-size: 14pt;
+  font-weight: normal;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.formLabel {
+  font-family: "blackmoor";
+  font-size: 14pt;
+  font-weight: normal;
+  align-items: center;
+}
+.arm5eTabsPC {
+  background-image: url("../assets/PC/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.arm5eTabsNPC {
+  background-image: url("../assets/NPC/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.arm5eTabsLAB {
+  background-image: url("../assets/Lab/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.arm5eTabsCOV {
+  background-image: url("../assets/Covenant/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.arm5eTabsCOD {
+  background-image: url("../assets/Codex/bar.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
 .arm5e .tabs {
-  height: 40px;
-  border-top: 1px solid #AAA;
-  border-bottom: 1px solid #AAA;
+  height: 32px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
 }
 
 .arm5e .tabs .item {
   /*line-height: 60px;*/
   /*font-family: "vinque";*/
   font-family: "blackmoor";
-  font-size: 16pt;
+  font-size: 14pt;
 }
 
 .arm5e .tabs .item.active {
@@ -317,35 +1591,71 @@
   text-shadow: none;
 }
 
-.posRelative{
+.posRelative {
   position: relative;
 }
-.navItem-right-ball{
+input[type="text"].magic-total,
+input[type="text"].combat-total,
+input[type="text"].wound-level,
+input[type="number"].art-score,
+input[type="number"].design-level {
+  font-size: 13pt;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.15);
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
+}
+
+.navItem-right-ball {
   position: absolute;
   border: 0px;
   top: 0px;
-  left: -1px;
+  left: -15px;
   text-decoration: none;
 }
-.navItem-right-ball img{
+
+img.art-icon {
+  display: block;
+  height: 24px;
+  width: 24px;
+}
+
+.navItem-right-ball img {
+  padding-top: 15px;
   border: 0px;
   width: 14px;
 }
-.navItem-left-ball{
+
+.arm5eSubTabs .navItem-right-ball img {
+  padding-top: 0px;
+  border: 0px;
+  width: 14px;
+}
+
+.navItem-left-ball {
   position: absolute;
   border: 0px;
   top: 0px;
-  left: calc(100% - 14px);
+  right: -15px;
   text-decoration: none;
 }
-.navItem-left-ball img{
+
+.navItem-left-ball img {
+  padding-top: 15px;
   border: 0px;
   width: 14px;
 }
-.posRelative div{
+
+.arm5eSubTabs .navItem-left-ball img {
+  padding-top: 0px;
+  border: 0px;
+  width: 14px;
+}
+
+.posRelative div {
   display: none;
 }
-.posRelative.active div{
+
+.posRelative.active div {
   display: block;
 }
 
@@ -357,54 +1667,91 @@
   min-height: 200px;
 }
 
-.arm5e .items-list .item-header {
-  font-weight: bold;
+.filter-item {
+  background-image: unset;
+  border-bottom: 1px solid #232322;
 }
 
-.item-header{
-  border:0px !important;
-  background-image: url("../assets/bSilver.png");
+/* .arm5e .items-list .item-header {
+  font-weight: bold;
+} */
+
+.metalic-bar {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.item-header {
+  border: 0px !important;
   background-repeat: repeat-x;
   background-position-y: bottom;
-  min-height: 40px;
-  margin-bottom: 12px !important;
+  /* min-height: 40px; */
+  /* margin-bottom: 12px !important; */
   position: relative;
 }
 
-.item-right-ball{
+.item-right-ball {
   position: absolute;
   border: 0px;
-  top: 33px;
-  left: -1px;
-  text-decoration: none;
-}
-.item-right-ball img{
-  border: 0px;
-  width: 10px;
-}
-
-.item-left-ball{
-  position: absolute;
-  border: 0px;
-  top: 33px;
+  top: -4px;
   left: calc(100% - 10px);
   text-decoration: none;
 }
-.item-left-ball img{
+
+.right-ball {
+  position: absolute;
+  border: 0px;
+  top: 21px;
+  left: -1px;
+  text-decoration: none;
+}
+
+.left-ball {
+  /* position: absolute; */
+  border: 0px;
+  top: 21px;
+  left: 10px;
+  text-decoration: none;
+}
+
+.right-ball img,
+.item-right-ball img {
   border: 0px;
   width: 10px;
 }
 
-.arm5e .item-name{
+.item-left-ball {
+  position: absolute;
+  /* left: 10px; */
+  border: 0px;
+  top: -4px;
+  text-decoration: none;
+}
+
+.left-ball img,
+.item-left-ball img {
+  border: 0px;
+  width: 10px;
+}
+
+.arm5e .item-name {
   /*font-family: "vinque";*/
   font-family: "blackmoor";
+  margin-bottom: 4px;
+  font-size: 12pt;
+  /*font-weight: bold;*/
+}
+
+.arm5e .codex-name {
+  font-family: "blackmoor";
   margin-bottom: 6px;
-  font-size: 18px;
-  font-weight: bold;
+  padding-top: 5px;
+  font-size: 13pt;
+  text-align: center;
 }
 
 .arm5e .items-list .item {
-  height: 30px;
+  /*height: 30px;*/
   line-height: 24px;
   padding: 3px 0;
   /*border-bottom: 1px solid #BBB;*/
@@ -413,8 +1760,21 @@
 .arm5e .items-list .item .item-image {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 24px;
-  flex: 0 0 24px;
+  flex: 0 0 45px;
   margin-right: 5px;
+}
+
+.arm5e .vignette {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  max-height: 25px;
+  margin: 2px;
+}
+
+.arm5e .wound-field {
+  max-width: 50px;
+  min-width: 50px;
 }
 
 .arm5e .items-list .item img {
@@ -433,21 +1793,67 @@
   margin-right: 8px;
 }
 
-.arm5e .item-value{
+.arm5e .items-list .item-controlsFam {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 43px;
+  flex: 0 0 43px;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.arm5e .item-value {
+  min-height: 56px;
+  height: auto;
+  border-bottom: 1px solid #bebcb8;
+  /* 2px solid #cba44b;*/
+}
+
+.arm5e .item-title {
+  /*font-weight: bold;*/
+  /*font-size: 1.0vw;*/
+  padding-left: 20px;
+}
+
+.arm5e .spell-list .item img {
+  display: block;
+}
+
+.arm5e .spell-list {
+  margin: 0;
+}
+
+.arm5e .spell-list .item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.arm5e .spell-value {
   min-height: 56px;
   border-bottom: 2px solid #cba44b;
 }
-.arm5e .item-title{
-  font-weight: bold;
-  font-size: 17px;
+
+.arm5e .spell-title {
+  /*font-weight: bold;*/
+  font-size: 10pt;
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+.arm5e .spell-desc {
+  font-size: 10px;
   padding-left: 20px;
 }
-.arm5e .link{
+
+.arm5e .link {
   color: #000;
   cursor: pointer;
   text-decoration: none;
 }
-.arm5e .link:hover .link:focus{
+
+.arm5e .link:hover .link:focus {
   color: #000;
   text-shadow: 0 0 10px red;
   cursor: pointer;
@@ -456,65 +1862,169 @@
 .width4 {
   flex-grow: 4;
 }
-.width3{
+
+.width3 {
   flex-grow: 3;
 }
-.width2{
+
+.width2 {
   flex-grow: 2;
 }
-.width15{
+
+.width15 {
   flex-grow: 1.5;
 }
-.flex01{
+
+.flex01 {
   flex: 0.1;
 }
-.flex02{
+
+.flex02 {
   flex: 0.2;
 }
-.flex03{
+
+.flex03 {
   flex: 0.3;
 }
-.flex04{
+
+.flex04 {
   flex: 0.4;
 }
-.flex05{
+
+.flex05 {
   flex: 0.5;
 }
-.flex06{
+
+.flex06 {
   flex: 0.6;
 }
-.flex07{
+
+.flex07 {
   flex: 0.7;
 }
-.flex08{
+
+.flex08 {
   flex: 0.8;
 }
 
-.arm5e .backSection{
-  background-color: rgb(226 199 130 / 50%);
+.arm5e .backSection {
+  background-color: rgb(236 222 187 / 50%);
+  /* rgb(226 199 130 / 50%); */
   border: 0px;
   border-radius: 4px;
   box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
 }
-.arm5e .padding12{
+
+.arm5e .smallBackSection.wide {
+  min-width: 98px;
+  /* max-height: 60px; */
+}
+
+.arm5e .smallBackSection.editable {
+  background-color: rgb(208 182 130 / 50%);
+}
+.arm5e .smallBackSection {
+  background-color: rgb(236 222 187 / 50%);
+  /* rgb(226 199 130 / 50%); */
+  border: 0px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
+  margin-right: 10px;
+  margin-bottom: 5px;
+  /* max-height: 54px; */
+}
+
+.arm5e .padding12 {
   padding: 12px;
 }
-.arm5e .margintop6{
+
+.arm5e .padding12x5 {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+.arm5e .padding4 {
+  padding: 4px;
+}
+
+.arm5e .padding6 {
+  padding: 6px;
+}
+
+.arm5e .padding10 {
+  padding: 10px;
+}
+
+.arm5e .margintop6 {
   margin-top: 6px;
 }
-.arm5e .marginbot6{
-  margin-bottom: 6px;
+.arm5e .margintop10 {
+  margin-top: 10px;
 }
-.arm5e .margintop18{
+
+.arm5e .marginbot4 {
+  margin-bottom: 4px;
+}
+
+.arm5e .marginbot6 {
+  margin-bottom: 8px;
+}
+
+.arm5e .marginbot12 {
+  margin-bottom: 12px;
+}
+
+.arm5e .margintop18 {
   margin-top: 18px;
 }
-.arm5e .smallTitle{
+
+.marginsides6 {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.marginsides10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.marginsides32 {
+  margin-left: 32px;
+  margin-right: 32px;
+}
+
+.arm5e .smallTitle {
   /*font-family: "vinque";*/
   font-family: "blackmoor";
-  margin-bottom: 6px;
-  font-size: 18px;
+  margin-bottom: 0px;
+  font-size: 12pt;
+  /*font-weight: bold;*/
+}
+
+.arm5e .bold {
   font-weight: bold;
 }
-.arm5e .bold{
-  font-weight: bold;
+
+.arm5e .marginRight8 {
+  margin-right: 8px;
+}
+
+.arm5e .marginSide8 {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.arm5e .paddingSide18 {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+
+.arm5e .fontSize10 {
+  font-size: 10pt;
+}
+
+.arm5e .fontSize8 {
+  font-size: 8pt;
 }

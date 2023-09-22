@@ -1,85 +1,223 @@
-<form class="{{cssClass}} main" autocomplete="off">
-    <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-            <div class="grid grid-2col">
-                <div class="resource flexcol flexrow">
-                    <label for="data.art.value" class="header-label">{{localize "arm5e.sheet.art"}}</label>
-                        <select name="data.art.value"  data-type="String">
-                            {{#select item.data.art.value}}
-                            {{#each item.data.arts as |techniques key|}}
-                        <option value="{{key}}">{{techniques.label}}</option> {{/each}} {{/select}}
-                        </select>
-                </div>
-                <div class="resource flexcol flexrow">
-                    <label for="data.type.value" class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
-                        <select name="data.type.value"  data-type="String">
-                            {{#select item.data.type.value}}
-                            {{#each item.data.types as |type key|}}
-                        <option value="{{key}}">{{type.label}}</option> {{/each}} {{/select}}
-                        </select>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-                    <input type="text" name="data.level" value="{{item.data.level}}" data-dtype="Number"/>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.quality"}}</label>
-                    <input type="text" name="data.quality" value="{{item.data.quality}}" data-dtype="Number"/>
-                </div>
-            </div>
-
-            <div class="grid grid-2col">
-
-            </div>
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields flexcol">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+        <div class="flex0 padding10" style="width:24px">
+          {{#if devMode}}
+            <a class="migrate" title="Migrate Item"><i class="fas fa-arrow-up"></i></a>
+          {{/if}}
+          <a class="item-control table-contents"
+            title='{{localize "arm5e.hints.create"  item=(localize "arm5e.book.tableContents")}}'><i
+              class="icon-Icon_Edit"></i></a>
         </div>
-    </header>
+      </h1>
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="description">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.description"}}
-        </a>
-        <a class="item posRelative" data-tab="attributes">
-          <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-          {{localize "arm5e.sheet.attributes"}}
-        </a>
-    </nav>
+      {{> "systems/arm5e/templates/item/parts/authorship.html" }}
+      <label style="margin-left: 5px;">{{localize "arm5e.sheet.bookTopics"}}: {{topicNum}}</label>
+    </div>
+  </header>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs tab-header" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+    <a class="item posRelative" data-tab="topics">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.bookTopics"}}
+    </a>
 
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
+    <!-- <a class="item posRelative" data-tab="authorship">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.authorship.label"}}
+    </a> -->
+  </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
 
-        {{!-- Attributes Tab --}}
-        <div class="tab attributes" data-group="primary" data-tab="attributes">
-            <div class="grid grid-2col">
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.creator"}}</label>
-                    <input type="text" name="data.creator" value="{{item.data.creator}}" data-dtype="Number"/>
-                </div>
-                <div class="resource">
-                    <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-                    <input type="text" name="data.year" value="{{item.data.year}}" data-dtype="Number"/>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "arm5e.sheet.quantity"}}</label>
-                    <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number"/>
-                </div>
-                <div class="resource">
-                    <label class="resource-label">{{localize "arm5e.sheet.weight"}}</label>
-                    <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number"/>
-                </div>
+      <div style="height: 200px">
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+      </div>
+      {{#if (eq metagame true)}}
+        {{> "systems/arm5e/templates/generic/source.html" }}
+      {{/if}}
+    </div>
+    {{!-- Topics tab --}}
+    <div class="tab" data-group="primary" data-tab="topics">
+      <div class="flexrow">
+        <div class="img-container"><img class="nav-arrow previous-topic clickable" data-index="{{topicIdx}}"
+            src="systems/arm5e/assets/bLeft.png" />
+        </div>
+        <div style="text-align: center;">
+          <label>{{localize "arm5e.sheet.topics.current" current=currentTopicNumber total=topicNum}}</label>
+        </div>
+        <div class="img-container"><img class="nav-arrow next-topic clickable" data-index="{{topicIdx}}"
+            src="systems/arm5e/assets/bRight.png" /></div>
+        <div class="flexrow" style="text-align:center;">
+          <div style="padding-top: 15px;">
+            <a class="item-control new-topic" title="Add topic" data-index="{{topicIdx}}"><i class="fas fa-plus fa-xl">
+              </i></a>
+          </div>
+          {{#unless (eq topicNum 1)}}
+            <a class="item-control delete-topic" title="Delete topic" data-index="{{topicIdx}}"
+              style="padding-left: 5px; padding-bottom: 5px;"><i class="
+            icon-Icon_Delete_Hand_Gesture"></i></a>
+          {{/unless}}
+          {{#unless (eq currentTopic.category "labText")}}
+            <a class="plan-reading" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
+              style="padding-left: 5px; padding-top: 5px;" data-index="{{topicIdx}}"><i
+                class="icon-Icon_Readspell"></i></a>
+          {{else}}
+            {{#if isOwned}}
+              <a class="study-labtext" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
+                style="padding-left: 5px; padding-top: 5px;" data-index="{{topicIdx}}"><i
+                  class="icon-Icon_Readspell"></i></a>
+            {{/if}}
+          {{/unless}}
+        </div>
+      </div>
+      <br />
+      <div class="resource flexrow" style="width: 320px;">
+        <div style="padding-top: 5px;">
+          <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
+          <select class="book-category" name="system.topics.{{topicIdx}}.category" data-index="{{topicIdx}}"
+            data-dtype="String">
+            {{#select currentTopic.category}}
+              {{#each config.books.categories as |cat key|}}
+                <option value="{{key}}">{{localize cat}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        <div>
+
+        </div>
+      </div>
+      {{#unless (eq currentTopic.category "labText") }}
+        <div class="grid grid-3col">
+          <div class="resource flexcol flexrow">
+            <label for="system.topics.{{topicIdx}}.type"
+              class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
+            <select name="system.topics.{{topicIdx}}.type" class="book-type" data-type="String" {{lookup (lookup
+              topicsUi topicIdx) "bookTypeEdit" }} data-index="{{topicIdx}}">
+              {{#select currentTopic.type}} {{#each @root.config.books.types }}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </div>
+
+          {{#if (eq currentTopic.type "Summa")}}
+            <div class="resource">
+              <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
+              <input type="text" name="system.topics.{{topicIdx}}.level" value='{{currentTopic.level}}'
+                class="resource-focus" data-dtype="Number" />
             </div>
+          {{/if}}
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.sheet.quality"}}</label>
+            <input type="text" name="system.topics.{{topicIdx}}.quality" value='{{currentTopic.quality}}'
+              class="resource-focus" data-dtype="Number" />
+          </div>
         </div>
-
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+      {{/unless}}
+      {{#if (eq currentTopic.category "art")}}
+        <div class="resource" style="width: 220px; padding-top: 5px;">
+          <label for="system.topics.{{topicIdx}}.art" class="header-label">{{localize "arm5e.sheet.art"}}</label>
+          <select name="system.topics.{{topicIdx}}.art" data-type="String">
+            {{#select currentTopic.art}} {{#each config.magic.arts as |art key|}}
+                <option value="{{key}}">{{art.label}}</option>
+              {{/each}} {{/select}}
+          </select>
         </div>
+      {{/if}}
+      {{#if (eq currentTopic.category "ability")}}
+        <div class="resource" style="width: 220px; padding-top: 5px;">
+          <label for="system.topics.{{topicIdx}}.key"
+            class="header-label">{{localize "arm5e.sheet.skill.abilityKey"}}</label>
+          <select name="system.topics.{{topicIdx}}.key" data-dtype="String" class="ability-key">
+            {{#select currentTopic.key}}
+              {{#each abilityKeysList as |item key|}}
+                <option value="{{key}}" {{item.selection}}>{{item.label}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        <div class="resource" style="width: 220px; padding-top: 5px;">
+          {{#if (lookup (lookup abilityKeysList currentTopic.key) "option")}}
+            <label for="system.topics.{{topicIdx}}.option"
+              class="header-label">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+            <input type="text" class="ability-option" name="system.topics.{{topicIdx}}.option"
+              value='{{currentTopic.option}}' />
+          {{else}}
+            <label for="system.topics.{{topicIdx}}.option" class="header-label"
+              style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+            <input type="text" name="system.topics.{{topicIdx}}.option" data-dtype="String" value="" readonly />
+          {{/if}}
+        </div>
+      {{/if}}
+      {{#if (eq currentTopic.category "mastery")}}
+        <div class="resource flexrow">
+          <div class="resource" style="width: 220px; padding-top: 5px;">
+            <label for="system.topics.{{topicIdx}}.spellName"
+              class="header-label">{{localize "arm5e.sheet.spell"}}</label>
+            <input type="text" name="system.topics.{{topicIdx}}.spellName" value='{{currentTopic.spellName}}' />
+          </div>
+
+          <div class="resource flexcol flex0">
+            <label for="system.topics.{{topicIdx}}.spellTech"
+              class="header-label">{{localize "arm5e.sheet.technique"}}</label>
+            <select name="system.topics.{{topicIdx}}.spellTech" data-type="String">
+              {{#select currentTopic.spellTech}}
+                {{#each config.magic.techniques as |technique key|}}
+                  <option value="{{key}}">{{technique.label}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </div>
+          <div class="resource flexcol flex0">
+            <label for="system.topics.{{topicIdx}}.spellForm"
+              class="header-label">{{localize "arm5e.sheet.form"}}</label>
+            <select name="system.topics.{{topicIdx}}.spellForm" data-type="String">
+              {{#select currentTopic.spellForm}}
+                {{#each config.magic.forms as |form key|}}
+                  <option value="{{key}}">{{form.label}}</option>
+                {{/each}} {{/select}}
+            </select>
+          </div>
+        </div>
+      {{/if}}
+      {{#if (eq currentTopic.category "labText")}}
+        {{#if (eq currentTopic.labtextTitle "")}}
+          <div class="resource drop-box drop-labtext flexcol" data-drop="labtext" data-index="{{topicIdx}}"
+            style="height: 120px; padding-top: 5px;">
+            <label for="system.topics.{{topicIdx}}.spellName"
+              class="flex03">{{localize "arm5e.book.dropLabtext"}}</label>
+          </div>
+        {{else}}
+          <div class="resource flexrow">
+            <label for="system.topics.{{topicIdx}}.labtextTitle"
+              class="header-label">{{currentTopic.labtext.summary}}</label>
+            <a class="item-control show-details flex0" title='{{localize "arm5e.generic.details"}}'
+              data-index="{{topicIdx}}" style="padding-left: 5px; padding-bottom: 5px;"><i
+                class="icon-Icon_Read"></i></a>
+
+          </div>
+          {{editor currentTopic.labtext.description target="currentTopic.labtext.description" button=false owner=owner editable=false}}
+        {{/if}}
 
 
-    </section>
+      {{/if}}
+    </div>
+
+
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

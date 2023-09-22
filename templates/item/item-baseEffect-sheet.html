@@ -1,0 +1,59 @@
+<form class="{{cssClass}} mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+      <div class="grid grid-2col">
+        <div class="resource flexcol flexrow">
+          <label for="system.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
+          <select name="system.technique.value" data-type="String">
+            {{#select system.technique.value}} {{#each config.magic.techniques as |techniques key|}}
+                <option value="{{key}}">{{techniques.label}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+        <div class="resource flexcol flexrow">
+          <label for="system.form.value" class="header-label">{{localize "arm5e.sheet.form"}}</label>
+          <select name="system.form.value" data-type="String">
+            {{#select system.form.value}} {{#each config.magic.forms as |forms key|}}
+                <option value="{{key}}">{{forms.label}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+        <div class="grid grid-2col">
+          <div class="resource flexcol flex-center">
+            <label class="header-label">{{localize "arm5e.sheet.Requisites"}}</label>
+            <a class="item-control advanced-req" title="Advanced Requistes" data-flavor="{{ui.flavor}}"><i
+                class="fas fa-gavel fa-lg"></i></a>
+          </div>
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.spell.effect.baseLevel"}}</label>
+            <input type="text" name="system.baseLevel" value="{{system.baseLevel}}" class="resource-focus"
+              data-dtype="Number" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{editor system.baseEffectDescription target="system.baseEffectDescription" button=true owner=owner
+      editable=editable}} {{#if (eq metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
+    </div>
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+</form>

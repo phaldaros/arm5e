@@ -1,43 +1,57 @@
-<form class="{{cssClass}} main" autocomplete="off">
-    <header class="sheet-header">
-        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-            <div class="grid grid-2col">
-              <div class="resource">
-                  <label for="data.type.value" class="header-label">{{localize data.type.label}}</label>
-                  <select name="data.type.value"  data-type="String">
-                    {{#select item.data.type.value}}
-                    {{#each item.data.types as |type key|}}
-                    <option value="{{key}}">{{localize type.label}}</option> {{/each}} {{/select}}
-                  </select>
-                  <label for="data.impact.value" class="header-label">{{localize data.impact.label}}</label>
-                  <select name="data.impact.value"  data-type="String">
-                    {{#select item.data.impact.value}}
-                    {{#each item.data.impacts as |impact key|}}
-                    <option value="{{key}}">{{localize impact.label}}</option> {{/each}} {{/select}}
-                  </select>
-              </div>
-            </div>
+<form class="{{cssClass}} flexcol mainItem" autocomplete="off"
+  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
+  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+      <div class="grid grid-2col">
+        <div class="resource">
+          <label for="system.type" class="header-label">{{localize "arm5e.sheet.type"}}</label>
+          <select name="system.type" data-type="String" class="change-VFType">
+            {{#select system.type}} {{#each config.virtueFlawTypes.available as |type key|}}
+                <option value="{{key}}">{{localize label}}</option>
+              {{/each}} {{/select}}
+          </select>
+          <label for="system.impact.value" class="header-label">{{localize system.impact.label}}</label>
+          <select name="system.impact.value" data-type="String">
+            {{#select system.impact.value}} {{#each config.impacts as |impact key|}}
+                <option value="{{key}}">{{localize impact.label}}</option>
+              {{/each}} {{/select}}
+          </select>
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 
-    {{!-- Sheet Tab Navigation --}}
-    <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
-        <a class="item posRelative" data-tab="description">
-            <div class="navItem-right-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            <div class="navItem-left-ball"><img src="/systems/arm5e/assets/ballBronce.png" /></div>
-            {{localize "arm5e.sheet.description"}}
-        </a>
-    </nav>
-
-    {{!-- Sheet Body --}}
-    <section class="sheet-body">
-
-        {{!-- Description Tab --}}
-        <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-        </div>
-
-    </section>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item posRelative" data-tab="description">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+    </a>
+    <a class="item posRelative" data-tab="effects">
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      {{localize "arm5e.sheet.effects"}}
+    </a>
+  </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      <div style="height: inherit">
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+      </div>
+      {{#if (eq
+      metagame true)}} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
+    </div>
+    {{!-- Effects Tab --}}
+    <div class="tab effects" data-group="primary" data-tab="effects" style="overflow-y: scroll">
+      {{> "systems/arm5e/templates/generic/active-effects.html" }}
+    </div>
+  </section>
+  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

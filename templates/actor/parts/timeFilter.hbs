@@ -1,0 +1,65 @@
+<div class="backSection {{list}} {{visibility}}">
+  <li class="filter-item toggle-display flexrow" draggable="false" style="padding-bottom: 8px;">
+    <!--style=" {{lookup display list}}"-->
+    <div class="header-fields">
+      <div class="resources flexrow flex-between padding12x5">
+        <span class="flex06">
+          <label for="typeFilter" class="header-label flex01" style="padding-left: 10px">{{localize
+              "arm5e.activity.eventType"
+            }}</label>
+          <select
+            id="typeFilter"
+            name="typeFilter"
+            data-type="String"
+            style="flex: 0 0 90px"
+            class="type-filter"
+            data-list="{{list}}"
+            data-category="events"
+          >
+            {{#with (lookup userData.filters.events list)}}
+              {{#select typeFilter}}
+                <option value=""></option>
+                {{#each @root.config.activities.generic as |activity key|}}
+                  <option value="{{key}}">{{localize activity.label}}</option>
+                {{/each}}
+              {{/select}}
+            {{/with}}
+          </select>
+        </span>
+
+        <span class="flex03">
+          <label for="system.minYearFilter" class="header-label">
+            {{localize "arm5e.time.minYear"}}</label>
+          {{#with (lookup userData.filters.events list)}}
+            <input
+              type="number"
+              name="minYearFilter"
+              value="{{minYearFilter}}"
+              data-dtype="Number"
+              style="margin-right: 4px; max-width:40px"
+              class="minyear-filter resource-focus"
+              data-list="{{../list}}"
+              data-category="events"
+            />
+          {{/with}}
+        </span>
+        <span class="flex03">
+          <label for="system.maxYearFilter" class="header-label">
+            {{localize "arm5e.time.maxYear"}}</label>
+          {{#with (lookup userData.filters.events list)}}
+            <input
+              type="number"
+              name="maxYearFilter"
+              value="{{maxYearFilter}}"
+              data-dtype="Number"
+              style="margin-right: 4px; max-width:40px"
+              class="maxyear-filter resource-focus"
+              data-list="{{../list}}"
+              data-category="events"
+            />
+          {{/with}}
+        </span>
+      </div>
+    </div>
+  </li>
+</div>

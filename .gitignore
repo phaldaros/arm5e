@@ -1,7 +1,33 @@
 # IDE
 .idea/
 .vs/
+externalV10/*
 
 # Node Modules
+package*.json
 node_modules/
 npm-debug.log
+jsconfig.json
+test.js
+.npmignore
+TODO.txt
+foundry.js
+packs/abilities/**
+packs/companions/**
+packs/enchantments/**
+packs/flaws/**
+packs/grogs/**
+packs/items/**
+packs/journals/**
+packs/lab-flaws/**
+packs/lab-virtues/**
+packs/macros/**
+packs/magi/**
+packs/rolltables/**
+packs/scenes/**
+packs/spells/**
+packs/virtues/**
+.eslintrc.json
+website/UserGuide/.obsidian
+arm5e.lock
+

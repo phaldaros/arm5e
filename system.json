@@ -1,62 +1,135 @@
 {
-  "name": "arm5e",
+  "id": "arm5e",
   "title": "Ars Magica 5th Edition",
   "description": "Ars Magica 5e for Foundry VTT",
-  "version": "1.0.0",
-  "minimumCoreVersion": "0.6.5",
-  "compatibleCoreVersion": "0.7.9",
-  "templateVersion": 2,
-  "author": "ialbiol, phaldaros, sylph",
+  "version": "2.2.2.12",
+  "minimumCoreVersion": "10.290",
+  "compatibility": {
+    "minimum": "10.290",
+    "verified": "11.309"
+  },
+  "authors": [
+    { "name": "xzotl", "contribution": "Main dev and official maintainer" },
+    { "name": "ialbiol", "contribution": "Dev" },
+    { "name": "phaldaros", "contribution": "Original dev" },
+    { "name": "Teotimus", "contribution": "Spanish version" },
+    { "name": "sylph", "contribution": "Graphical design" },
+    { "name": "Ludo.Bermejo", "contribution": "Dev" },
+    { "name": "jupotter", "contribution": "Dev, French version" },
+    { "name": "Lanneval", "contribution": "French version" },
+    { "name": "Orneen", "contribution": "French version, compendium content" },
+    { "name": "N0Br41nZ", "contribution": "Italian version" },
+    { "name": "Ramon Alves", "contribution": "Portuguese (BR) version" },
+    { "name": "jaircunhavianna", "contribution": "Compendium content" },
+    { "name": "Moo Man", "contribution": "Dev" }
+  ],
   "esmodules": ["module/arm5e.js"],
-  "styles": ["css/arm5e.css"],
+  "styles": ["css/arm5e.css", "css/Ars-Magica-icons.css"],
   "packs": [
     {
       "name": "magi",
       "label": "Magi",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/magi.db",
-      "entity": "Actor"
+      "type": "Actor",
+      "system": "arm5e"
     },
     {
       "name": "companions",
       "label": "Companions",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/companions.db",
-      "entity": "Actor"
+      "type": "Actor",
+      "system": "arm5e"
     },
     {
       "name": "grogs",
       "label": "Grogs",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/grogs.db",
-      "entity": "Actor"
+      "type": "Actor",
+      "system": "arm5e"
     },
     {
       "name": "spells",
       "label": "Spells",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/spells.db",
-      "entity": "Item"
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "items",
-      "label": "Items",
-      "system": "arm5e",
-      "module": "arm5e",
+      "label": "Equipment",
       "path": "packs/items.db",
-      "entity": "Item"
+      "type": "Item",
+      "system": "arm5e"
+    },
+    {
+      "name": "enchantments",
+      "label": "Enchantments",
+      "path": "packs/enchantments.db",
+      "type": "Item",
+      "system": "arm5e"
+    },
+    {
+      "name": "virtues",
+      "label": "Virtues",
+      "path": "packs/virtues.db",
+      "type": "Item",
+      "system": "arm5e"
+    },
+    {
+      "name": "flaws",
+      "label": "Flaws",
+      "path": "packs/flaws.db",
+      "type": "Item",
+      "system": "arm5e"
+    },
+    {
+      "name": "lab-virtues",
+      "label": "Laboratory Virtues",
+      "path": "packs/lab-virtues.db",
+      "type": "Item",
+      "system": "arm5e"
+    },
+    {
+      "name": "lab-flaws",
+      "label": "Laboratory Flaws",
+      "path": "packs/lab-flaws.db",
+      "type": "Item",
+      "system": "arm5e"
+    },
+    {
+      "name": "abilities",
+      "label": "Abilities",
+      "path": "packs/abilities.db",
+      "type": "Item",
+      "system": "arm5e"
     },
     {
       "name": "scenes",
       "label": "Scenes",
-      "system": "arm5e",
-      "module": "arm5e",
       "path": "packs/scenes.db",
-      "entity": "Scene"
+      "type": "Scene",
+      "system": "arm5e"
+    },
+    {
+      "name": "macros",
+      "label": "Macros",
+      "path": "packs/macros.db",
+      "type": "Macro",
+      "system": "arm5e"
+    },
+    {
+      "name": "journals",
+      "label": "Journals",
+      "path": "packs/journals.db",
+      "type": "JournalEntry",
+      "system": "arm5e"
+    },
+    {
+      "name": "rolltables",
+      "label": "Rolltables",
+      "path": "packs/rolltables.db",
+      "type": "RollTable",
+      "system": "arm5e"
     }
   ],
   "languages": [
@@ -69,12 +142,39 @@
       "lang": "es",
       "name": "Español",
       "path": "lang/es.json"
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json"
+    },
+    {
+      "lang": "it",
+      "name": "Italiano",
+      "path": "lang/it.json"
+    },
+    {
+      "lang": "pt",
+      "name": "Portuguese",
+      "path": "lang/pt.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Portuguese (Brazil)",
+      "path": "lang/pt-BR.json"
+    }
+  ],
+  "media": [
+    {
+      "type": "setup",
+      "url": "systems/arm5e/assets/thumbnails/ArM5logo.webp",
+      "thumbnail": "systems/arm5e/assets/thumbnails/ArM5logo.webp"
     }
   ],
   "gridDistance": 5,
   "gridUnits": "ft",
-  "url": "https://github.com/phaldaros/arm5e",
-  "manifest": "https://raw.githubusercontent.com/phaldaros/arm5e/master/system.json",
-  "download": "https://github.com/phaldaros/arm5e/archive/master.zip",
+  "url": "https://github.com/xzotl42/arm5e",
+  "manifest": "https://raw.githubusercontent.com/xzotl42/arm5e/master/system.json",
+  "download": "https://github.com/xzotl42/arm5e/archive/master.zip",
   "license": "LICENSE.txt"
 }

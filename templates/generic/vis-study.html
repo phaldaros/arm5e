@@ -1,0 +1,23 @@
+<form class="{{cssClass}} arm5eChooser" autocomplete="off">
+  {{> "systems/arm5e/templates/roll/parts/roll-header.html" header="Vis_Study" }}
+  <div style="text-align: center;">
+    <label style="font-size: 16pt;">{{art }}</label>
+  </div>
+  <div class="flexrow3 backSection" style="padding: 18px">
+    <div style="text-align: center;">
+      <label>{{localize "arm5e.activity.pawnsNeeded" }} : {{amount}} </label>
+    </div>
+  </div>
+  <div class="flex-group-center" style="padding-left: 50px; padding-right: 50px;">
+    <div>
+      {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.aura" 
+        name="aura" classes="auraLevel" attributes="" value=aura type="number" dtype="Number"}}
+    </div>
+    <div>
+      <label>{{localize "arm5e.sheet.bonus.activeEffects" }} : {{bonusActiveEffects}}</label>
+    </div>
+  </div>
+
+
+  {{> "systems/arm5e/templates/roll/parts/roll-footer.html" footer="Inputs"}}
+</form>
