@@ -1,11 +1,11 @@
-## 2.2.2.12, Nicodemus
+## 2.2.2.14, Nicodemus
 
 ### Features & changes
 
 - New aura management
 - Players can now toggle effects
 - New French version (by Orneen)
-- [technical] CSS refactoring and cosmetic improvements
+- [technical] HTML and CSS refactoring and cosmetic improvements
 - Multi-realms alignments with updated Active Effect
 - [technical] Verified for Foundry V11.309
 - Improved spell design dialog
@@ -13,6 +13,7 @@
 - [technical] Added lot of test coverage to the diary entries, code factorization and simplification.
 - Added apparent age in the limited actor sheet
 - Added a new "Player's name" field on actor sheet
+- [technical] Removed unused compendia of the system.
 
 ### Bug fixes
 
@@ -30,6 +31,7 @@
 - Fixed icon size problem in Codex
 - Added missing Soak bonus, if any, in the combat tab.
 - Affinities are taken into account when checking if the student will overcome the teacher
+- Fixed the case of some assets that were not loading under Linux.
 
 ## 2.2.2.6, Nicodemus Ex Miscellanea
 
