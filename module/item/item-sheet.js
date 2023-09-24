@@ -46,6 +46,30 @@ export class ArM5eItemSheet extends ItemSheet {
     }
 
     if (this.item.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
+     
+
+      return `${path}/item-main-sheet.html`;
+    }
+    return `${path}/item-limited-sheet.html`;
+  }
+
+  get subsheetTemplate() {
+    const path = "systems/arm5e/templates/item";
+    // Return a single sheet for all item types.
+    // return `${path}/item-sheet.html`;
+
+    // Alternatively, you could use the following return statement to do a
+    // unique item sheet by type, like `weapon-sheet.html`.
+
+    switch (this.item.type) {
+      case "vis":
+        this.options.tabs = [];
+        break;
+      default:
+        break;
+    }
+
+    if (this.item.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
       if (this.item.type === "inhabitant") {
         switch (this.item.system.category) {
           case "magi":
@@ -75,6 +99,7 @@ export class ArM5eItemSheet extends ItemSheet {
     return `${path}/item-limited-sheet.html`;
   }
 
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -83,7 +108,7 @@ export class ArM5eItemSheet extends ItemSheet {
 
     // Use a safe clone of the item data for further operations.
     const itemData = context.item;
-
+    context.subsheet = this.subsheetTemplate;
     // Add the item's data to context.system for easier access, as well as flags.
     context.system = itemData.system;
     context.flags = itemData.flags;
@@ -119,10 +144,10 @@ export class ArM5eItemSheet extends ItemSheet {
           context.ui.flavor = "Beast";
           break;
         case "covenant":
-          context.ui.flavor = "Covenant";
+          context.ui.flavor = "covenant";
           break;
         case "magicCodex":
-          context.ui.flavor = "Codex";
+          context.ui.flavor = "codex";
           break;
         case "laboratory":
           context.ui.flavor = "Lab";

@@ -7,6 +7,8 @@ function getActorsFromTargetedTokens(actor) {
     return Array.from(targets).map(target => target.document._actor)
 }
 
+
 export {
     getActorsFromTargetedTokens,
 }
+

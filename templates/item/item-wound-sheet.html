@@ -1,8 +1,5 @@
-<form class="{{cssClass}} wound flexcol mainItem" autocomplete="off"
-  style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.png')">
-  {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+<form class="sheet-content flexcol" autocomplete="off">
   <header class="sheet-header">
-
     <div class="header-fields">
       <div class="flexrow"><img class="item-small-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
@@ -74,9 +71,8 @@
     {{!-- Description Tab --}}
     <label for="system.description" class="header-label">{{localize "arm5e.sheet.description"}}</label>
     {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-    <div style="height: 160px;">
+    <div style="height: 170px;">
       {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
     </div>
   </section>
-  {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
 </form>

@@ -1094,13 +1094,13 @@ input[type="time"] {
 }
 
 .arm5e .mainCodex {
-  background-image: url("../assets/Codex/background.png");
+  background-image: url("../assets/codex/background.png");
   background-repeat: repeat-y;
   background-size: contain;
 }
 
 .arm5e .mainCovenant {
-  background-image: url("../assets/Covenant/background.png");
+  background-image: url("../assets/covenant/background.png");
   background-repeat: repeat-y;
   background-size: contain;
 }
@@ -1109,10 +1109,10 @@ input[type="time"] {
   background-repeat: repeat-y;
   background-size: 100%;
   font-family: "bookAntiquaBold";
-  padding-left: 34px;
-  padding-right: 34px;
+  /* padding-left: 34px;
+  padding-right: 34px; */
   font-size: 9pt;
-  max-width: 800px;
+  /* max-width: 800px; */
 }
 /* 
 .arm5e .mainItem .sheet-body {
@@ -1120,24 +1120,24 @@ input[type="time"] {
 } */
 
 .arm5e .mainItem .header-background {
-  margin-left: -34px;
+  /* margin-left: -34px; */
   text-align: center;
   margin-top: 0px;
 }
-.arm5e .header-background {
+/* .arm5e .header-background {
   margin-left: -32px;
   width: calc(100% + 64px);
-}
+} */
 .arm5e .mainItem .footer-background {
   text-align: center;
-  margin-left: -34px;
+  /* margin-left: -34px; */
   margin-top: 0px;
 }
-.arm5e .footer-background {
+/* .arm5e .footer-background {
   margin-left: -32px;
   margin-top: auto;
   width: calc(100% + 64px);
-}
+} */
 
 .arm5e .header-background img {
   width: 100%;
@@ -1466,15 +1466,21 @@ input[type="time"] {
   flex: 0;
 }
 
-.arm5e .sheet-body,
+/* .arm5e .sheet-body,
 .arm5e .sheet-body .tab {
-  /* height: 90%; */
+  height: 90%;
   height: auto;
-}
+} */
 
 .arm5e .sheet-body .tab .editor {
-  height: 90%;
-  min-height: 200px;
+  /* height: 280px; */
+  min-height: 250px;
+  overflow-y: auto;
+}
+
+.arm5e .sheet-body .tab .editor.prosemirror {
+  /* height: 280px; */
+  min-height: 100%;
   overflow-y: auto;
 }
 
@@ -1562,13 +1568,13 @@ input[type="time"] {
 }
 
 .arm5eTabsCOV {
-  background-image: url("../assets/Covenant/bar.png");
+  background-image: url("../assets/covenant/bar.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsCOD {
-  background-image: url("../assets/Codex/bar.png");
+  background-image: url("../assets/codex/bar.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }

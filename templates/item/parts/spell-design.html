@@ -18,7 +18,7 @@
   <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
   <input type="text" name="system.baseEffectDescription" value="{{system.baseEffectDescription}}" data-dtype="String" />
 </div>
-<div class="flexrow">
+<div class="flexrow" style="height: 168px;">
   <div class="resource">
     <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
     <select name="system.range.value" data-type="String" class="spell-attribute">
@@ -56,28 +56,28 @@
     <!-- <input type="text" name="system.target" value="{{system.target}}" data-dtype="String"/> -->
   </div>
 
-  <div class="resource">
+  <div class="resource flex-group-center">
     <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
     <input type="number" name="system.targetSize" value="{{system.targetSize}}" class="resource-focus"
-      data-dtype="Number" />
+      data-dtype="Number" style="max-width: 70px;" />
   </div>
-  <div class="resource">
+  <div class="resource flex-group-center">
     <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
     <input type="number" name="system.complexity" value="{{system.complexity}}" class="resource-focus"
-      data-dtype="Number" />
+      data-dtype="Number" style="max-width: 70px;" />
   </div>
-  <div class="resource">
+  <div class="resource flex-group-center">
     <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
     <input type="number" name="system.enhancingRequisite" value="{{system.enhancingRequisite}}" class="resource-focus"
-      data-dtype="Number" />
+      data-dtype="Number" style="max-width: 70px;" />
   </div>
   {{#if item.parent}} {{#if (ne item.parent.system.type "magicCodex")}}
-      <div class="resource">
+      <div class="resource flex-group-center">
         <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
         <input type="checkbox" name="system.applyFocus" {{checked system.applyFocus}} />
       </div>
     {{/if}} {{/if}}
-  <div class="resource">
+  <div class="resource flex-group-center">
     <label class="header-label"><b>{{localize "arm5e.spell.targets.baseSize.label" }}: </b></label>
     {{#with (lookup config.magic.forms system.form.value)}}
       <label class="header-label">{{localize baseSize}}</label>
