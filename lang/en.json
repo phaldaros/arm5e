@@ -1303,6 +1303,8 @@
   "arm5e.sheet.label.details": "Details",
 
   "arm5e.config.sourcebookFilter": "Sourcebooks filter",
+  "arm5e.config.compendiaRef": "Compendia reference",
+  "arm5e.config.hint.compendiaRef": "Select the module that will serve as reference to the system for compendium content",
 
   "arm5e.generic.yes": "Yes",
   "arm5e.generic.no": "No",
