@@ -1,3 +1,4 @@
+import { CompendiaRefConfig } from "./ui/compendiaRefConfig.js";
 import { SourcebookFilterConfig } from "./ui/sourcebookFilterConfig.js";
 
 export function registerSettings() {
@@ -177,16 +178,6 @@ export function registerSettings() {
     restricted: true
   });
 
-  game.settings.register(ARM5E.SYSTEM_ID, "clearUserCache", {
-    name: "Clear user cache",
-    hint: "Reset user cache on next refresh (filters).",
-    icon: "fas fa-trash",
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: true
-  });
-
   let filters = {
     custom: ARM5E.generic.sourcesTypes.custom,
     ArM5: ARM5E.generic.sourcesTypes.ArM5
@@ -198,5 +189,33 @@ export function registerSettings() {
     type: Object,
     scope: "world",
     config: false
+  });
+
+  // game.settings.registerMenu(ARM5E.SYSTEM_ID, "compendiaRef", {
+  //   name: game.i18n.localize("arm5e.config.compendiaRef"),
+  //   label: game.i18n.localize("arm5e.config.compendiaRef"),
+  //   hint: game.i18n.localize("arm5e.config.hint.compendiaRef"),
+  //   icon: "fas fa-cogs",
+  //   type: CompendiaRefConfig,
+  //   restricted: true
+  // });
+
+  // game.settings.register(ARM5E.SYSTEM_ID, "compendiaRef", {
+  //   name: game.i18n.localize("arm5e.config.compendiaRef"),
+  //   hint: game.i18n.localize("arm5e.config.hint.compendiaRef"),
+  //   default: "",
+  //   type: String,
+  //   scope: "world",
+  //   config: false
+  // });
+
+  game.settings.register(ARM5E.SYSTEM_ID, "clearUserCache", {
+    name: "Clear user cache",
+    hint: "Reset user cache on next refresh (filters).",
+    icon: "fas fa-trash",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true
   });
 }
