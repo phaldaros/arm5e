@@ -7,7 +7,7 @@ export class CompendiaRefConfig extends FormApplication {
       template: "systems/arm5e/templates/generic/compendia-ref-config.html",
       height: "auto",
       classes: ["arm5e-config"],
-      closeOnSubmit: false,
+      closeOnSubmit: true,
       height: "auto",
       submitOnChange: false,
       submitOnClose: false,
@@ -19,6 +19,8 @@ export class CompendiaRefConfig extends FormApplication {
 
   async getData() {
     const context = super.getData();
+    context.referenceModule = game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "compendiaRef");
+    context.nofifyMissingRef = game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "notifyMissingRef");
     context.arsModules = game.modules.contents
       .filter((e) => {
         return (
@@ -29,40 +31,21 @@ export class CompendiaRefConfig extends FormApplication {
       .map((e) => {
         return { name: e.title, id: e.id, enabled: false };
       });
-    if (context.arsModules.length == 0) {
-      await ame.settings.set(CONFIG.ARM5E.SYSTEM_ID, "compendiaRef", "");
+    // if the module was disabled, reset to arm5e-compendia
+    if (context.arsModules.find((e) => e.id === context.referenceModule) == undefined) {
+      await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "compendiaRef", "arm5e-compendia");
+      context.referenceModule = "arm5e-compendia";
     }
 
     log(false, context);
     return context;
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
-    html.find("button[name='reset']").click(this._onResetDefaults.bind(this));
-  }
-
-  async _onResetDefaults(event) {
-    event.preventDefault();
-    await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter", {});
-    ui.notifications.info("Reset filters", { localize: true });
-    return this.render();
-  }
-
   async _updateObject(ev, formData) {
-    const filters = foundry.utils.expandObject(formData);
+    const data = foundry.utils.expandObject(formData);
 
-    for (let [k, v] of Object.entries(filters)) {
-      filters[k] = {
-        value: v
-      };
-    }
-
-    // Homebrew and Corebook always true
-    filters["custom"] = { value: true };
-    filters["ArM5"] = { value: true };
-
-    await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter", filters);
+    await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "compendiaRef", data.referenceModule);
+    await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "notifyMissingRef", data.nofifyMissingRef);
     ui.notifications.info("Settings.updated", { localize: true });
   }
 }

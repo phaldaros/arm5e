@@ -108,7 +108,7 @@ export const itemBase = () => {
       min: 0,
       step: 1
     }),
-    url: new fields.StringField({ required: false, blank: true, initial: "" })
+    indexKey: new fields.StringField({ required: false, blank: true, initial: "" })
   };
 };
 

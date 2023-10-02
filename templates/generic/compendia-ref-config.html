@@ -1,27 +1,28 @@
 <form autocomplete="off" onsubmit="event.preventDefault();">
-    <p class="notes">{{localize "arm5e.config.compendiaRef"}}</p>
-
     <header class="table-header flexrow">
         <label class="index">{{ localize "Compendia" }}</label>
     </header>
     <!-- <section class="sheet-body" style="height: 800px"> -->
-    <ul class="permissions-list">
-        {{#each arsModules }}
-            <li class="permission form-group">
-                <label class="index">{{this.title}}</label>
-                <input type="checkbox" name="{{key}}" {{checked book.value}} {{book.edit}} />
-            </li>
-        {{/each}}
-    </ul>
+    <div class="arm5e backSection padding12 flex-group-left ">
+        <div>
+            <select name="referenceModule" data-type="String">
+                {{#select referenceModule}}
+                    {{#each arsModules }}
+                        <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div>
+            <label class="header-label">{{localize "Notify missing reference"}}</label>
+            <input type="checkbox" name="nofifyMissingRef" size="4" {{checked nofifyMissingRef}} />
+        </div>
+    </div>
     <!-- </section> -->
 
     <div class="form-group">
         <button type="submit">
             <i class="fas fa-save"></i> {{localize 'PERMISSION.Submit'}}
-        </button>
-
-        <button type="reset" name="reset">
-            <i class="fas fa-sync"></i> {{localize 'PERMISSION.Reset'}}
         </button>
     </div>
 </form>

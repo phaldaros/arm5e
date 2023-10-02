@@ -1,4 +1,4 @@
-## 2.2.2.14, Nicodemus
+## 2.2.2.16, Nico de Mu
 
 ### Features & changes
 
@@ -7,13 +7,17 @@
 - New French version (by Orneen)
 - [technical] HTML and CSS refactoring and cosmetic improvements
 - Multi-realms alignments with updated Active Effect
-- [technical] Verified for Foundry V11.309
+- [technical] Verified for Foundry V11.311
 - Improved spell design dialog
 - New active effects for "Flawless magic" virtue
 - [technical] Added lot of test coverage to the diary entries, code factorization and simplification.
 - Added apparent age in the limited actor sheet
 - Added a new "Player's name" field on actor sheet
 - [technical] Removed unused compendia of the system.
+- Added new mandatory module dependency : arm5e-compendia
+  - New setting to set your reference compendia module
+  - Added indexKey to all Items and include them in the compendia index
+- New GM actor configs to quickly add abilitis to an actor.
 
 ### Bug fixes
 

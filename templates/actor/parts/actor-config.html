@@ -1,0 +1,10 @@
+<div class="backSection margintop18" style="min-height: 227px;">
+    <div class="characteristics grid grid-3col">
+        {{#each config.ActorConfigs as |cfg key|}}
+            <div class="flexrow flex-group-center">
+                <button class="arm5e actor-config" style="font-family: blackmoor"
+                    data-key="{{key}}">{{localize cfg.label}}</button>
+            </div>
+        {{/each}}
+    </div>
+</div>

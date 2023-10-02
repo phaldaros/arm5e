@@ -398,6 +398,8 @@
   "arm5e.sheet.basicLabTotal.label": "Basic Lab Total",
   "arm5e.sheet.visLimit.label": "Vis Use Limit",
 
+  "arm5e.sheet.indexKey": "Index key",
+
   "arm5e.sheet.setAbilities": "Create abilities for your character that match the labels below. This ensures correct calculations. If you don't have the ability, you can still create it and set to zero and assign it.",
   "arm5e.skill.commonCases.native": "Native Language",
   "arm5e.skill.commonCases.areaLore": "(Area) Lore",

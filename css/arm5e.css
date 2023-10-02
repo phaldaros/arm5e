@@ -1479,8 +1479,9 @@ input[type="time"] {
 }
 
 .arm5e .sheet-body .tab .editor.prosemirror {
-  /* height: 280px; */
-  min-height: 100%;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  min-height: 200px;
   overflow-y: auto;
 }
 
