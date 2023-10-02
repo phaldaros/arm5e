@@ -208,7 +208,7 @@
         <div class="backSection margintop18" style="min-height: 150px;">
           <label class="smallTitle padding12" style="height: 32px;">{{localize "arm5e.sheet.description"}}</label>
           {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-          <div class="flexrow padding12" style="border: 0px; ">
+          <div class="flexrow padding12" style="border: 0px; min-height: calc(100% - 180px); ">
             {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
           </div>
         </div>

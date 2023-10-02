@@ -706,3 +706,39 @@ export function integerToRomanNumeral(num) {
   }
   return roman;
 }
+
+export function slugify(str) {
+  return String(str)
+    .normalize("NFKD") // split accented characters into their base characters and diacritical marks
+    .replace(/[\u0300-\u036f]/g, "") // remove all the accents, which happen to be all in the \u03xx UNICODE block.
+    .trim() // trim leading or trailing whitespace
+    .toLowerCase() // convert to lowercase
+    .replace(/[^a-z0-9 -]/g, "") // remove non-alphanumeric characters
+    .replace(/\s+/g, "-") // replace spaces with hyphens
+    .replace(/-+/g, "-"); // remove consecutive hyphens
+}
+
+export async function createIndexKeys(compendium) {
+  let pack = game.packs.get(compendium);
+  if (pack == undefined) {
+    return;
+  }
+
+  if (pack.documentName != "Item") {
+    return;
+  }
+  // Unlock the pack for editing
+  const wasLocked = pack.locked;
+  await pack.configure({
+    locked: false
+  });
+
+  const documents = await pack.getDocuments();
+
+  for (let doc of documents) {
+    // skip Compendium Folders documents
+    if (doc.name.startsWith("#[CF")) continue;
+
+    await doc.update({ "system.indexKey": slugify(doc.name) });
+  }
+}

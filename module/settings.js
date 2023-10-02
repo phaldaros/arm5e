@@ -191,23 +191,32 @@ export function registerSettings() {
     config: false
   });
 
-  // game.settings.registerMenu(ARM5E.SYSTEM_ID, "compendiaRef", {
-  //   name: game.i18n.localize("arm5e.config.compendiaRef"),
-  //   label: game.i18n.localize("arm5e.config.compendiaRef"),
-  //   hint: game.i18n.localize("arm5e.config.hint.compendiaRef"),
-  //   icon: "fas fa-cogs",
-  //   type: CompendiaRefConfig,
-  //   restricted: true
-  // });
+  game.settings.registerMenu(ARM5E.SYSTEM_ID, "compendiaRef", {
+    name: game.i18n.localize("arm5e.config.compendiaRef"),
+    label: game.i18n.localize("arm5e.config.compendiaRef"),
+    hint: game.i18n.localize("arm5e.config.hint.compendiaRef"),
+    icon: "fas fa-cogs",
+    type: CompendiaRefConfig,
+    restricted: true
+  });
 
-  // game.settings.register(ARM5E.SYSTEM_ID, "compendiaRef", {
-  //   name: game.i18n.localize("arm5e.config.compendiaRef"),
-  //   hint: game.i18n.localize("arm5e.config.hint.compendiaRef"),
-  //   default: "",
-  //   type: String,
-  //   scope: "world",
-  //   config: false
-  // });
+  game.settings.register(ARM5E.SYSTEM_ID, "compendiaRef", {
+    name: game.i18n.localize("arm5e.config.compendiaRef"),
+    hint: game.i18n.localize("arm5e.config.hint.compendiaRef"),
+    default: "arm5e-compendia",
+    type: String,
+    scope: "world",
+    config: false
+  });
+
+  game.settings.register(ARM5E.SYSTEM_ID, "notifyMissingRef", {
+    name: game.i18n.localize("Notifiy missing reference"),
+    hint: game.i18n.localize("arm5e.config.hint.compendiaRef"),
+    default: true,
+    type: Boolean,
+    scope: "world",
+    config: false
+  });
 
   game.settings.register(ARM5E.SYSTEM_ID, "clearUserCache", {
     name: "Clear user cache",

@@ -46,8 +46,6 @@ export class ArM5eItemSheet extends ItemSheet {
     }
 
     if (this.item.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
-     
-
       return `${path}/item-main-sheet.html`;
     }
     return `${path}/item-limited-sheet.html`;
@@ -99,13 +97,12 @@ export class ArM5eItemSheet extends ItemSheet {
     return `${path}/item-limited-sheet.html`;
   }
 
-
   /* -------------------------------------------- */
 
   /** @override */
   async getData() {
     const context = await super.getData();
-
+    context.isGM = game.user.isGM;
     // Use a safe clone of the item data for further operations.
     const itemData = context.item;
     context.subsheet = this.subsheetTemplate;
@@ -192,7 +189,10 @@ export class ArM5eItemSheet extends ItemSheet {
       }
     }
 
-    context.metagame = game.settings.get("arm5e", "metagame");
+    context.metagame = {
+      view: game.settings.get("arm5e", "metagame"),
+      edit: context.isGM ? "" : "readonly"
+    };
 
     context.devMode = game.modules
       .get("_dev-mode")

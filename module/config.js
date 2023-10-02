@@ -26,7 +26,7 @@ export const ARM5E = {};
  * @type {Object}
  */
 ARM5E.SYSTEM_ID = "arm5e";
-
+ARM5E.REF_MODULE_ID = "arm5e-compendia";
 ARM5E.character = {};
 
 ARM5E.character.charTypes = {
@@ -2798,4 +2798,38 @@ ARM5E.recovery = {
   },
   daysInSeason: 92,
   rollMode: 56
+};
+
+ARM5E.ActorConfigs = {
+  basic: {
+    label: "Add basic abilities",
+    abilities: [
+      { key: "livingLanguage", option: "languageName", xp: 75 },
+      { key: "areaLore", option: "AreaName", xp: 5 }
+    ]
+  },
+  martial: {
+    label: "Add martial abilities",
+    abilities: [
+      { key: "awareness", option: "" },
+      { key: "brawl", option: "" },
+      { key: "greatWeapon", option: "" },
+      { key: "singleWeapon", option: "" }
+    ]
+  },
+  magus: {
+    label: "Add basic magus abilities",
+    abilities: [
+      { key: "deadLanguage", option: "Latin", xp: 50 },
+      { key: "magicTheory", option: "", xp: 30 },
+      { key: "parma", option: "", xp: 5 },
+      { key: "artesLib", option: "", xp: 5 },
+      { key: "penetration", option: "" },
+      { key: "finesse", option: "" },
+      { key: "awareness", option: "" },
+      { key: "concentration", option: "" },
+      { key: "philosophy", option: "" }
+    ],
+    virtues: [{ key: "the-gift" }]
+  }
 };

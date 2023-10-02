@@ -26,7 +26,12 @@ import * as Arm5eChatMessage from "./helpers/chat.js";
 import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 
 import { migration } from "./migration.js";
-import { log, generateActiveEffectFromAbilities, getDocumentFromCompendium } from "./tools.js";
+import {
+  log,
+  generateActiveEffectFromAbilities,
+  getDocumentFromCompendium,
+  createIndexKeys
+} from "./tools.js";
 
 import { registerSettings } from "./settings.js";
 import { registerTestSuites } from "./tests/tests.js";
@@ -167,6 +172,7 @@ Hooks.once("init", async function () {
   //////////////////////
   // CONFIG DONE!
   //////////////////////
+
   Hooks.callAll("arm5e-config-done", CONFIG);
 
   CONFIG.ARM5E.activities.conflictExclusion = Object.entries(CONFIG.ARM5E.activities.generic)
@@ -292,13 +298,30 @@ Hooks.once("ready", async function () {
       JSON.stringify({ version: game.system.version })
     );
   }
+
+  // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.abilities`);
+  // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.flaws`);
+  // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.virtues`);
+  // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.laboratory-flaws`);
+  // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.laboratory-virtues`);
+  // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.equipment`);
 });
 
 /**
  * This function runs after game data has been requested and loaded from the servers, so entities exist
  */
 
-Hooks.once("setup", function () {});
+Hooks.once("setup", async function () {
+  // compute indexes
+  game.packs
+    .get(`${ARM5E.REF_MODULE_ID}.abilities`)
+    .getIndex({ fields: ["system.key", "system.option", "system.indexKey"] });
+  game.packs.get(`${ARM5E.REF_MODULE_ID}.virtues`).getIndex({ fields: ["system.indexKey"] });
+  game.packs.get(`${ARM5E.REF_MODULE_ID}.flaws`).getIndex({ fields: ["system.indexKey"] });
+  game.packs.get(`${ARM5E.REF_MODULE_ID}.equipment`).getIndex({ fields: ["system.indexKey"] });
+  game.packs.get(`${ARM5E.REF_MODULE_ID}.virtues`).getIndex({ fields: ["system.indexKey"] });
+  game.packs.get(`${ARM5E.REF_MODULE_ID}.spells`).getIndex({ fields: ["system.indexKey"] });
+});
 
 Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(ARM5E.SYSTEM_ID);

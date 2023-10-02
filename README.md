@@ -4,6 +4,9 @@ This is a Foundry VTT system for Ars Magica 5th Edition.
 
 This package is intended to enable Ars Magica play using Foundry VTT. In order to play, official Ars Magica materials are still required. Official material for Ars Magica 5th edition is published by and may be purchased from Atlas Games (https://atlas-games.com).
 
+**Important**: the system has a mandatory module dependency which contains the compendia of the system.
+[Manifest link]<https://github.com/Xzotl42/arm5e-compendia/releases/latest/download/module.json>
+
 [Magus sheet](./website/img/MagusSheet.png)
 
 [Companion sheet](./website/img/Companion_sheet.png)

@@ -1,7 +1,7 @@
 {
   "id": "arm5e",
   "title": "Ars Magica 5th Edition",
-  "description": "Ars Magica 5e for Foundry VTT",
+  "description": "Ars Magica 5e for Foundry VTT, mandatory arm5e-compendia module at (https://github.com/Xzotl42/arm5e-compendia/releases/latest/download/module.json)",
   "version": "2.2.2.15",
   "minimumCoreVersion": "10.290",
   "compatibility": {
@@ -15,7 +15,7 @@
         "type": "module",
         "manifest": "https://github.com/Xzotl42/arm5e-compendia/releases/latest/download/module.json",
         "compatibility": {
-          "minimum": "0.1.2"
+          "minimum": "0.1.4"
         }
       }
     ]
@@ -39,52 +39,10 @@
   "styles": ["css/arm5e.css", "css/Ars-Magica-icons.css"],
   "packs": [
     {
-      "name": "spells",
-      "label": "Spells",
-      "path": "packs/spells.db",
-      "type": "Item",
-      "system": "arm5e"
-    },
-    {
-      "name": "items",
-      "label": "Equipment",
-      "path": "packs/items.db",
-      "type": "Item",
-      "system": "arm5e"
-    },
-    {
-      "name": "virtues",
-      "label": "Virtues",
-      "path": "packs/virtues.db",
-      "type": "Item",
-      "system": "arm5e"
-    },
-    {
-      "name": "flaws",
-      "label": "Flaws",
-      "path": "packs/flaws.db",
-      "type": "Item",
-      "system": "arm5e"
-    },
-    {
-      "name": "lab-virtues",
-      "label": "Laboratory Virtues",
-      "path": "packs/lab-virtues.db",
-      "type": "Item",
-      "system": "arm5e"
-    },
-    {
-      "name": "lab-flaws",
-      "label": "Laboratory Flaws",
-      "path": "packs/lab-flaws.db",
-      "type": "Item",
-      "system": "arm5e"
-    },
-    {
-      "name": "abilities",
-      "label": "Abilities",
-      "path": "packs/abilities.db",
-      "type": "Item",
+      "name": "actors",
+      "label": "Actors",
+      "path": "packs/actors.db",
+      "type": "Actor",
       "system": "arm5e"
     },
     {

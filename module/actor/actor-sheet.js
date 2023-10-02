@@ -43,8 +43,13 @@ import { Schedule } from "../tools/schedule.js";
 import { createAgingDiaryEntry } from "../helpers/long-term-activities.js";
 import { Sanatorium } from "../tools/sanatorium.js";
 import { MedicalHistory } from "../tools/med-history.js";
+import { ArM5eActorConfig } from "./subsheets/actor-config.js";
 
 export class ArM5eActorSheet extends ActorSheet {
+  constructor(object, options) {
+    super(object, options);
+    this.actorConfig = new ArM5eActorConfig(object);
+  }
   // /** @override */
   static get defaultOptions() {
     const res = mergeObject(super.defaultOptions, {
@@ -847,6 +852,8 @@ export class ArM5eActorSheet extends ActorSheet {
       }
       classes.toggle("hide");
     });
+
+    html.find(".actor-config").click(this.actorConfig.addConfig.bind(this));
 
     // html.find(".spell-list").click(async ev => {
     //   const category = $(ev.currentTarget).data("topic");
@@ -1729,9 +1736,7 @@ export class ArM5eActorSheet extends ActorSheet {
     itemData = itemData instanceof Array ? itemData : [itemData];
     let filtered = itemData.filter((e) => this.isItemDropAllowed(e));
     for (let item of filtered) {
-      // log(false, "Before reset " + JSON.stringify(item.data));
       item = resetOwnerFields(item);
-      // log(false, "After reset " + JSON.stringify(item.data));
     }
 
     return super._onDropItemCreate(filtered);

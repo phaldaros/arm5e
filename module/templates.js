@@ -21,7 +21,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html",
     "systems/arm5e/templates/actor/parts/actor-diary.html",
 
-    "systems/arm5e/templates/actor/parts/actor-setAbilities.html",
+    "systems/arm5e/templates/actor/parts/actor-config.html",
     "systems/arm5e/templates/actor/parts/actor-magic-attributes.html",
 
     "systems/arm5e/templates/actor/parts/codex-base-effects.hbs",
@@ -102,7 +102,6 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/item/item-visStockCovenant-sheet.html",
     "systems/arm5e/templates/item/item-weapon-sheet.html",
     "systems/arm5e/templates/item/item-wound-sheet.html",
-    
 
     // Rolls partials
     "systems/arm5e/templates/roll/parts/roll-header.html",

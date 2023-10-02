@@ -1802,12 +1802,29 @@ export class ArM5ePCActor extends Actor {
     }
   }
 
-  hasSkill(key) {
+  // Check if the actor has a specific skill
+  // if option is undefined, it is not taken into account
+  hasSkill(key, option = undefined) {
     if (key == "") return false;
 
-    return (
-      this.system.abilities.find((e) => e.system.key == key && e.system.option == "") != undefined
-    );
+    if (option) {
+      return (
+        this.system.abilities.find((e) => e.system.key == key && e.system.option == option) !=
+        undefined
+      );
+    } else {
+      return this.system.abilities.find((e) => e.system.key == key) != undefined;
+    }
+  }
+
+  hasVirtue(key) {
+    if (key == "") return false;
+    return this.system.virtues.find((e) => e.system.indexKey == key) != undefined;
+  }
+
+  hasFlaw(key) {
+    if (key == "") return false;
+    return this.system.flaws.find((e) => e.system.indexKey == key) != undefined;
   }
 
   getAbilityStats(key, option = "") {
