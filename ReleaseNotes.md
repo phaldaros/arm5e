@@ -1,4 +1,4 @@
-## 2.2.2.17, Nico de Mu
+## 2.2.2.18, Nico de Mu
 
 ### Features & changes
 
@@ -17,7 +17,7 @@
 - Added new mandatory module dependency : arm5e-compendia
   - New setting to set your reference compendia module
   - Added indexKey to all Items and include them in the compendia index
-- New GM actor configs to quickly add abilitis to an actor.
+- New GM actor profiles to quickly add abilities to an actor.
 
 ### Bug fixes
 

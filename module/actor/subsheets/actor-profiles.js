@@ -2,7 +2,7 @@ import { ARM5E } from "../../config.js";
 import { getDataset, log } from "../../tools.js";
 import { getAbilityFromCompendium, getItemFromCompendium } from "../../tools/compendia.js";
 
-export class ArM5eActorConfig {
+export class ArM5eActorProfiles {
   constructor(actor) {
     this.actor = actor;
   }
@@ -10,9 +10,9 @@ export class ArM5eActorConfig {
     return context;
   }
 
-  async addConfig(event) {
+  async addProfile(event) {
     const dataset = getDataset(event);
-    const config = ARM5E.ActorConfigs[dataset.key];
+    const config = ARM5E.ActorProfiles[dataset.key];
 
     let items = [];
     for (let ab of config.abilities) {

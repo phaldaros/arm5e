@@ -38,7 +38,13 @@
     <div class="tab" data-group="primary" data-tab="description">
       {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
     </div>
-
+    {{#if metagame.view }}
+      <div class="resource flexrow">
+        <label class="header-label">{{localize "arm5e.sheet.indexKey"}}</label>
+        <input type="text" name="system.indexKey" value="{{system.indexKey}}" data-dtype="String"
+          style="font-size: 10px; border:none; color:grey" {{metagame.edit}} />
+      </div>
+    {{/if}}
     {{!-- Attributes Tab --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
       <!-- maybe later ...-->

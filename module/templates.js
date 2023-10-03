@@ -21,7 +21,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/actor/parts/actor-voice-and-gestures.html",
     "systems/arm5e/templates/actor/parts/actor-diary.html",
 
-    "systems/arm5e/templates/actor/parts/actor-config.html",
+    "systems/arm5e/templates/actor/parts/actor-profiles.html",
     "systems/arm5e/templates/actor/parts/actor-magic-attributes.html",
 
     "systems/arm5e/templates/actor/parts/codex-base-effects.hbs",

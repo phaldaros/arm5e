@@ -1,9 +1,9 @@
 <div class="backSection margintop18" style="min-height: 227px;">
     <div class="characteristics grid grid-3col">
-        {{#each config.ActorConfigs as |cfg key|}}
+        {{#each config.ActorProfiles as |prof key|}}
             <div class="flexrow flex-group-center">
-                <button class="arm5e actor-config" style="font-family: blackmoor"
-                    data-key="{{key}}">{{localize cfg.label}}</button>
+                <button class="arm5e actor-profile" style="font-family: blackmoor"
+                    data-key="{{key}}">{{localize prof.label}}</button>
             </div>
         {{/each}}
     </div>
