@@ -2800,7 +2800,7 @@ ARM5E.recovery = {
   rollMode: 56
 };
 
-ARM5E.ActorConfigs = {
+ARM5E.ActorProfiles = {
   basic: {
     label: "Add basic abilities",
     abilities: [
@@ -2809,16 +2809,64 @@ ARM5E.ActorConfigs = {
     ]
   },
   martial: {
-    label: "Add martial abilities",
+    label: "Martial",
     abilities: [
       { key: "awareness", option: "" },
       { key: "brawl", option: "" },
+      { key: "bows", option: "" },
+      { key: "trownWeapon", option: "" },
       { key: "greatWeapon", option: "" },
       { key: "singleWeapon", option: "" }
     ]
   },
+  social: {
+    label: "Social",
+    abilities: [
+      { key: "carouse", option: "" },
+      { key: "charm", option: "" },
+      { key: "bows", option: "" },
+      { key: "etiquette", option: "" },
+      { key: "folkKen", option: "" },
+      { key: "leadership", option: "" }
+    ]
+  },
+  rogue: {
+    label: "Rogue",
+    abilities: [
+      { key: "awareness", option: "" },
+      { key: "charm", option: "" },
+      { key: "guile", option: "" },
+      { key: "intrigue", option: "" },
+      { key: "folkKen", option: "" },
+      { key: "legerdemain", option: "" }
+    ]
+  },
+  scholarMundane: {
+    label: "Mundane scholar",
+    abilities: [
+      { key: "profession", option: "Scribe" },
+      { key: "artesLib", option: "" },
+      { key: "philosophy", option: "" },
+      { key: "theology", option: "" },
+      { key: "law", option: "" },
+      { key: "deadLanguage", option: "Latin" }
+    ]
+  },
+  scholarArcane: {
+    label: "Arcane scholar",
+    abilities: [
+      { key: "profession", option: "Scribe" },
+      { key: "artesLib", option: "" },
+      { key: "philosophy", option: "" },
+      { key: "dominionLore", option: "" },
+      { key: "faerieLore", option: "" },
+      { key: "infernalLore", option: "" },
+      { key: "magicLore", option: "" },
+      { key: "deadLanguage", option: "Latin" }
+    ]
+  },
   magus: {
-    label: "Add basic magus abilities",
+    label: "Magus",
     abilities: [
       { key: "deadLanguage", option: "Latin", xp: 50 },
       { key: "magicTheory", option: "", xp: 30 },
@@ -2828,7 +2876,8 @@ ARM5E.ActorConfigs = {
       { key: "finesse", option: "" },
       { key: "awareness", option: "" },
       { key: "concentration", option: "" },
-      { key: "philosophy", option: "" }
+      { key: "philosophy", option: "" },
+      { key: "hermeticCode", option: "" }
     ],
     virtues: [{ key: "the-gift" }]
   }

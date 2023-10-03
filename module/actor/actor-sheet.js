@@ -43,12 +43,12 @@ import { Schedule } from "../tools/schedule.js";
 import { createAgingDiaryEntry } from "../helpers/long-term-activities.js";
 import { Sanatorium } from "../tools/sanatorium.js";
 import { MedicalHistory } from "../tools/med-history.js";
-import { ArM5eActorConfig } from "./subsheets/actor-config.js";
+import { ArM5eActorProfiles } from "./subsheets/actor-profiles.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   constructor(object, options) {
     super(object, options);
-    this.actorConfig = new ArM5eActorConfig(object);
+    this.actorProfiles = new ArM5eActorProfiles(object);
   }
   // /** @override */
   static get defaultOptions() {
@@ -853,7 +853,7 @@ export class ArM5eActorSheet extends ActorSheet {
       classes.toggle("hide");
     });
 
-    html.find(".actor-config").click(this.actorConfig.addConfig.bind(this));
+    html.find(".actor-profile").click(this.actorProfiles.addProfile.bind(this));
 
     // html.find(".spell-list").click(async ev => {
     //   const category = $(ev.currentTarget).data("topic");
