@@ -1,3 +1,10 @@
+## 2.2.2.19, Nico
+
+### Fixes
+
+- Compendia indexes are computed later as they were not ready in V10
+- Active effects are again editable in V10
+
 ## 2.2.2.18, Nico de Mu
 
 ### Features & changes

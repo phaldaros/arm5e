@@ -305,13 +305,7 @@ Hooks.once("ready", async function () {
   // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.laboratory-flaws`);
   // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.laboratory-virtues`);
   // await createIndexKeys(`${ARM5E.REF_MODULE_ID}.equipment`);
-});
 
-/**
- * This function runs after game data has been requested and loaded from the servers, so entities exist
- */
-
-Hooks.once("setup", async function () {
   // compute indexes
   game.packs
     .get(`${ARM5E.REF_MODULE_ID}.abilities`)
@@ -319,9 +313,14 @@ Hooks.once("setup", async function () {
   game.packs.get(`${ARM5E.REF_MODULE_ID}.virtues`).getIndex({ fields: ["system.indexKey"] });
   game.packs.get(`${ARM5E.REF_MODULE_ID}.flaws`).getIndex({ fields: ["system.indexKey"] });
   game.packs.get(`${ARM5E.REF_MODULE_ID}.equipment`).getIndex({ fields: ["system.indexKey"] });
-  game.packs.get(`${ARM5E.REF_MODULE_ID}.virtues`).getIndex({ fields: ["system.indexKey"] });
   game.packs.get(`${ARM5E.REF_MODULE_ID}.spells`).getIndex({ fields: ["system.indexKey"] });
 });
+
+/**
+ * This function runs after game data has been requested and loaded from the servers, so entities exist
+ */
+
+Hooks.once("setup", async function () {});
 
 Hooks.once("devModeReady", ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(ARM5E.SYSTEM_ID);
