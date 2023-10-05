@@ -125,8 +125,10 @@ export default class ArM5eActiveEffect extends ActiveEffect {
         e._getSourceName(); // Trigger a lookup for the source name
         e.name = e.label;
         e.img = e.icon;
+        e.UUID = e._id;
+      } else {
+        e.UUID = e.uuid;
       }
-      e.UUID = e.uuid;
       // TODO V11 use description field
       e.descr = e.buildActiveEffectDescription();
       // let effectTypes = e.getFlag("arm5e", "type");
