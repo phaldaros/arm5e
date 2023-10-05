@@ -709,8 +709,13 @@ h4.window-title {
   font-size: 10pt;
   background-image: url("../assets/dialog/Dialog_Background.png");
   background-repeat: repeat-y;
-  background-size: contain;
   font-family: "bookAntiquaBold";
+}
+
+.arm5eChooser.vis-study,
+.set-option .arm5eChooser,
+.aging-points .arm5eChooser {
+  background-size: cover;
 }
 
 .scriptorium.scriptorium-sheet {

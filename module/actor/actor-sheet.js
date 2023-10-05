@@ -1224,7 +1224,7 @@ export class ArM5eActorSheet extends ActorSheet {
       {
         jQuery: true,
         height: "110px",
-        classes: ["arm5e-dialog", "dialog"]
+        classes: ["arm5e-dialog", "dialog", "aging-points"]
       }
     ).render(true);
   }

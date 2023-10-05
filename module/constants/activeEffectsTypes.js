@@ -766,11 +766,7 @@ export default {
         label: "arm5e.sheet.realm.infernal",
         key: "system.realms.infernal.aligned",
         mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-        default: true,
-        choice: {
-          true: "arm5e.generic.yes",
-          false: "arm5e.generic.no"
-        }
+        default: true
       }
     }
   },
