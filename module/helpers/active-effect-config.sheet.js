@@ -290,7 +290,7 @@ export class ArM5eActiveEffectConfig extends ActiveEffectConfig {
         {
           jQuery: true,
           height: "140px",
-          classes: ["arm5e-dialog", "dialog"]
+          classes: ["arm5e-dialog", "dialog", "set-option"]
         }
       ).render(true);
     });
