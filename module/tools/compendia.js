@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { log } from "../tools.js";
 
 export async function getAbilityFromCompendium(key, option = "") {
   const ref = game.settings.get(ARM5E.SYSTEM_ID, "compendiaRef");
