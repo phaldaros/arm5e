@@ -2879,6 +2879,6 @@ ARM5E.ActorProfiles = {
       { key: "philosophy", option: "" },
       { key: "hermeticCode", option: "" }
     ],
-    virtues: [{ key: "the-gift" }]
+    virtues: [{ index: "the-gift" }]
   }
 };

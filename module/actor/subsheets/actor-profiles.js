@@ -35,10 +35,10 @@ export class ArM5eActorProfiles {
 
     if (config.virtues) {
       for (let v of config.virtues) {
-        if (this.actor.hasVirtue(v.key)) {
+        if (this.actor.hasVirtue(v.index)) {
           continue;
         }
-        let virtue = await getItemFromCompendium("virtues", v.key);
+        let virtue = await getItemFromCompendium("virtues", v.index);
         if (virtue == null) {
           console.error("Wrong actor config");
           continue;
@@ -49,10 +49,10 @@ export class ArM5eActorProfiles {
 
     if (config.flaws) {
       for (let f of config.flaws) {
-        if (this.actor.hasVirtue(f.key)) {
+        if (this.actor.hasFlaw(f.index)) {
           continue;
         }
-        let flaw = await getItemFromCompendium("flaws", f.key);
+        let flaw = await getItemFromCompendium("flaws", f.index);
         if (flaw == null) {
           console.error("Wrong actor config");
           continue;
