@@ -26,12 +26,7 @@ import * as Arm5eChatMessage from "./helpers/chat.js";
 import { ArsLayer, addArsButtons } from "./ui/ars-layer.js";
 
 import { migration } from "./migration.js";
-import {
-  log,
-  generateActiveEffectFromAbilities,
-  getDocumentFromCompendium,
-  createIndexKeys
-} from "./tools.js";
+import { log } from "./tools.js";
 
 import { registerSettings } from "./settings.js";
 import { registerTestSuites } from "./tests/tests.js";
@@ -314,6 +309,8 @@ Hooks.once("ready", async function () {
   game.packs.get(`${ARM5E.REF_MODULE_ID}.flaws`).getIndex({ fields: ["system.indexKey"] });
   game.packs.get(`${ARM5E.REF_MODULE_ID}.equipment`).getIndex({ fields: ["system.indexKey"] });
   game.packs.get(`${ARM5E.REF_MODULE_ID}.spells`).getIndex({ fields: ["system.indexKey"] });
+
+  // TESTING
 });
 
 /**
