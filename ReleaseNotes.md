@@ -1,5 +1,9 @@
 ## 2.2.2.19, Nico
 
+### Features & changes
+
+- [Technical] Verified for versions: 11.313 and 10.312
+
 ### Fixes
 
 - Compendia indexes are computed later as they were not ready in V10
