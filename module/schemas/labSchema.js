@@ -83,7 +83,7 @@ export class LabSchema extends foundry.abstract.DataModel {
       updateData["system.-=maintenance"] = null;
     }
 
-    if (data.system.covenant?.value && data.covenant.actorId == null) {
+    if (data.system.covenant?.value && data.system.covenant.actorId == null) {
       let cov = game.actors.filter(
         (a) => a.type == "covenant" && a.name == data.system.covenant.value
       );
@@ -92,7 +92,7 @@ export class LabSchema extends foundry.abstract.DataModel {
       }
     }
 
-    if (data.system.owner?.value && data.owner.actorId == null) {
+    if (data.system.owner?.value && data.system.owner.actorId == null) {
       let cov = game.actors.filter(
         (a) => ["player", "npc"].includes(a.type) && a.name == data.system.owner.value
       );
