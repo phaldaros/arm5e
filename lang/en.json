@@ -333,6 +333,7 @@
   "arm5e.sheet.modifier": "Modifier",
   "arm5e.sheet.divider": "Divider",
   "arm5e.sheet.advantage": "Advantage",
+  "arm5e.combat.damage.ignored": "Ignored on roll",
 
   "arm5e.sheet.yearBorn": "Year Born",
   "arm5e.sheet.apprenticeshipYears": "Apprenticeship",

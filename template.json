@@ -23,8 +23,8 @@
           "points": 3
         },
         "covenant": {
-          "dtype": "String",
-          "value": "Covenant Name"
+          "value": "Covenant Name",
+          "actorId": null
         },
         "realms": {
           "magic": { "aligned": false },
@@ -314,7 +314,6 @@
       "laboratoryPC": {
         "sanctum": {
           "value": "",
-          "linked": false,
           "actorId": null
         },
         "laboratory": {
@@ -569,11 +568,13 @@
     "laboratory": {
       "templates": ["base"],
       "covenant": {
-        "value": "Covenant Name"
+        "value": "Covenant Name",
+        "actorId": null
       },
       "description": "",
       "owner": {
-        "value": ""
+        "value": "",
+        "actorId": null
       },
       "location": "",
       "points": 0,

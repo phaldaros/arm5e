@@ -1,3 +1,11 @@
+## 2.2.3.0, Ophilio
+
+### Features & changes
+
+- [technical] better handling of inter-actor links, cleaner code, faster actor load.
+
+### Bug fixes
+
 ## 2.2.2.19, Nico
 
 ### Fixes

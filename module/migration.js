@@ -365,7 +365,34 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     }
   }
 
-  if (actor.type == "player" || actor.type == "npc" || actor.type == "beast") {
+  // external links
+  if (actor.system.covenant?.value && actor.system.covenant?.actorId == null) {
+    let cov = game.actors.filter(
+      (a) => a.type == "covenant" && a.name == actor.system.covenant.value
+    );
+    if (cov.length > 0) {
+      updateData["system.covenant.actorId"] = cov[0]._id;
+    }
+  }
+  if (actor.system.sanctum?.value && actor.system.sanctum?.actorId == null) {
+    let lab = game.actors.filter(
+      (a) => a.type == "laboratory" && a.name == actor.system.sanctum.value
+    );
+    if (lab.length > 0) {
+      updateData["system.sanctum.id"] = lab[0]._id;
+    }
+  }
+
+  if (actor.system.owner?.value && actor.system.owner?.actorId == null) {
+    let owner = game.actors.filter(
+      (a) => ["player", "npc"].includes(a.type) && a.name == actor.system.owner.value
+    );
+    if (owner.length > 0) {
+      updateData["system.owner.actorId"] = owner[0]._id;
+    }
+  }
+
+  if (["player", "npc", "beast"].includes(actor.type)) {
     if (actor.system.mightsFam) {
       updateData["system.powersFam"] = actor.system.mightsFam;
       updateData["system.-=mightsFam"] = null;

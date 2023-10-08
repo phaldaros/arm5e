@@ -85,54 +85,32 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     context.edition = context.config.activities.lab[context.planning.type].edition;
 
     // Covenant
-    context.system.world = {};
-    context.system.world.covenants = game.actors
-      .filter((a) => a.type == "covenant")
-      .map(({ name, id }) => ({
-        name,
-        id
-      }));
     if (context.system.covenant) {
-      let cov = context.system.world.covenants.filter(
-        (c) => c.name == context.system.covenant.value
-      );
-      if (cov.length > 0) {
-        context.system.covenant.linked = true;
-        context.system.covenant.actorId = cov[0].id;
-        context.covenant = game.actors.get(cov[0].id);
-        this.actor.apps[context.covenant.sheet.appId] = context.covenant.sheet;
+      if (context.system.covenant.linked) {
+        this.actor.apps[context.system.covenant.document.sheet.appId] =
+          context.system.covenant.document.sheet;
+        this.actor.apps[context.system.covenant.sheet.appId] = context.system.covenant.sheet;
         context.edition.aura = "readonly";
       } else {
         context.edition.aura = "";
         context.classes = { aura: "editable" };
-        context.system.covenant.linked = false;
         if (context.planning.modifiers.aura == undefined) context.planning.modifiers.aura = 0;
       }
-    } else {
     }
-    // Owner
-    context.system.world.magi = game.actors
-      .filter((a) => a._isMagus() === true)
-      .map(({ name, id }) => ({
-        name,
-        id
-      }));
-    if (context.system.world.magi.length > 0) {
-      let per = context.system.world.magi.filter((p) => p.name == context.system.owner.value);
-      if (per.length > 0) {
-        context.system.owner.linked = true;
-        context.system.owner.actorId = per[0].id;
-        context.owner = game.actors.get(per[0].id);
-        this.actor.apps[context.owner.sheet.appId] = context.owner.sheet;
-        context.owner.magicTheory = context.owner.getAbilityStats("magicTheory");
-        context.owner.apprentice =
-          (context.owner.system.apprentice?.int ?? 0) +
-          (context.owner.system.apprentice?.magicTheory ?? 0);
-        context.owner.apps[this.appId] = this;
-      } else {
-        context.system.owner.linked = false;
-        this._prepareCharacterItems(context);
 
+    if (context.system.owner) {
+      if (context.system.owner.linked) {
+        this.actor.apps[context.system.owner.document.sheet.appId] =
+          context.system.owner.document.sheet;
+        context.system.owner.magicTheory =
+          context.system.owner.document.getAbilityStats("magicTheory");
+        context.planning.modifiers.apprentice =
+          (context.system.owner.document.system.apprentice?.int ?? 0) +
+          (context.system.owner.document.system.apprentice?.magicTheory ?? 0);
+        context.system.owner.document.apps[this.appId] = this;
+      } else {
+        // this._prepareCharacterItems(context);
+        context.planning.modifiers.apprentice = 0;
         log(false, "lab-sheet getData");
         log(false, context);
 
@@ -140,16 +118,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     }
 
-    if (context.owner.system.apprentice?.magicTheory ?? 0 > 0) {
-      context.planning.modifiers.apprentice =
-        (context.owner.system.apprentice?.int ?? 0) + context.owner.system.apprentice?.magicTheory;
-    } else {
-      context.planning.modifiers.apprentice = 0;
-    }
+    // Owner
+
     context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
 
     context.planning.modifiers.aura = this.actor.system.aura.computeMaxAuraModifier(
-      context.owner.system.realms
+      context.system.owner.document.system.realms
     );
 
     // TODO fix covenant date
@@ -207,9 +181,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           points: result.waste
         }
       )}`;
-      if (context.owner.system.penalties.wounds.total != 0) {
+      if (context.system.owner.document.system.penalties.wounds.total != 0) {
         context.planning.message += `<br/> ${game.i18n.format("arm5e.lab.planning.msg.wounded", {
-          penalty: context.owner.system.penalties.wounds.total
+          penalty: context.system.owner.document.system.penalties.wounds.total
         })}`;
       }
     }
@@ -225,18 +199,18 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   }
 
   _computeLabTotal(context) {
-    let labTot = computeRawCastingTotal(context.planning.data, context.owner);
+    let labTot = computeRawCastingTotal(context.planning.data, context.system.owner.document);
 
     let total = labTot.total;
     labTot.label += `+ ${game.i18n.localize("arm5e.sheet.int")} (${
-      context.owner.system.characteristics.int.value
+      context.system.owner.document.system.characteristics.int.value
     }) &#10`;
-    total += context.owner.system.characteristics.int.value;
+    total += context.system.owner.document.system.characteristics.int.value;
 
     labTot.label += `+ ${game.i18n.localize("arm5e.skill.arcane.magicTheory")} (${
-      context.owner.magicTheory.score
+      context.system.owner.magicTheory.score
     }`;
-    total += context.owner.magicTheory.score;
+    total += context.system.owner.magicTheory.score;
     if (context.planning.magicThSpecApply) {
       labTot.label += ` + 1`;
       total++;
@@ -305,7 +279,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     }
 
     let effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(
-      context.owner.effects,
+      context.system.owner.document.effects,
       context.planning.type
     );
 
@@ -435,7 +409,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   async _schedule() {
     let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
 
-    let owner = game.actors.get(this.actor.system.owner.actorId);
+    let owner = this.actor.system.owner.document;
     let applied = false;
     let dates = DiaryEntrySchema.buildSchedule(
       planning.duration,
@@ -610,9 +584,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     let updateData = {};
     if (actor.type == "covenant") {
       updateData["system.covenant.value"] = actor.name;
-    } else if (actor.type == "player" || actor.type == "npc") {
+      updateData["system.covenant.actorId"] = actor._id;
+    } else if (["player", "npc", "beast"].includes(actor.type)) {
       updateData["system.owner.value"] = actor.name;
+      updateData["system.owner.actorId"] = actor._id;
     }
+
     return await this.actor.update(updateData, {});
   }
 

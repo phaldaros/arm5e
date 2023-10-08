@@ -1,9 +1,9 @@
 <div class="workbench flexrow" data-drop="workbench">
     <div class="flexcol flex02 ">
-        <img class="profile-img moreinfo" src="{{owner.img}}" data-id="{{owner._id}}" title="{{owner.name}}" height="75"
-            width="75" />
+        <img class="profile-img moreinfo" src="{{system.owner.document.img}}" data-id="{{system.owner.actorId}}"
+            title="{{system.owner.value}}" height="75" width="75" />
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.intelligence" 
-        name="int" attributes="readonly" value=owner.system.characteristics.int.value type="number" dtype="Number"}}
+        name="int" attributes="readonly" value=system.owner.document.system.characteristics.int.value type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.skill.arcane.magicTheory" 
         name="magicTheory" attributes="readonly" value=owner.magicTheory.score type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.bonus.activity" 
@@ -46,8 +46,8 @@
                         <div class="resource flexcol flex-center">
                             <label class="header-label ">{{localize "arm5e.skill.arcane.magicTheory"}}
                                 {{localize "arm5e.sheet.speciality"}}</label>
-                            <input class="flex01" name="mtSpec" title="{{owner.magicTheory.speciality}}" type="text"
-                                value="{{owner.magicTheory.speciality}}" readonly style="max-width: 150px" />
+                            <input class="flex01" title="{{system.owner.magicTheory.speciality}}" type="text"
+                                value="{{system.owner.magicTheory.speciality}}" readonly style="max-width: 150px" />
                             <input type="checkbox" name="flags.arm5e.planning.magicThSpecApply" {{checked
                                 planning.magicThSpecApply }} />
                         </div>

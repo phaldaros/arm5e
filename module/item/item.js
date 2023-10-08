@@ -551,7 +551,7 @@ export class ArM5eItem extends Item {
     if (item.actor.type === "laboratory") {
       lab = item.actor;
     } else {
-      lab = game.actors.get(item.actor.system.sanctum.actorId);
+      lab = item.actor.system.sanctum.document;
     }
     let planning = lab.getFlag(CONFIG.ARM5E.SYSTEM_ID, "planning") || {};
     let newSpell = await Item.create(spellEffectData, { temporary: true });

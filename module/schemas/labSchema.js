@@ -19,7 +19,12 @@ const labAttribute = () => {
 const actorLink = () => {
   return new fields.SchemaField({
     value: new fields.StringField({ required: false, blank: true, initial: "" }),
-    actorId: new fields.StringField({ required: false, blank: true, initial: "" }),
+    actorId: new fields.StringField({
+      nullable: true,
+      required: false,
+      blank: true,
+      initial: null
+    }),
     linked: new fields.BooleanField({ required: false, initial: false })
   });
 };
@@ -78,11 +83,25 @@ export class LabSchema extends foundry.abstract.DataModel {
       updateData["system.-=maintenance"] = null;
     }
 
-    if (data.system.owner && typeof data.system.owner?.value !== "string") {
-      updateData["system.owner.value"] = "";
+    if (data.system.covenant?.value && data.covenant.actorId == null) {
+      let cov = game.actors.filter(
+        (a) => a.type == "covenant" && a.name == data.system.covenant.value
+      );
+      if (cov.length > 0) {
+        updateData["system.covenant.actorId"] = cov[0]._id;
+      }
     }
 
-    let labAttributes = items.filter(i => {
+    if (data.system.owner?.value && data.owner.actorId == null) {
+      let cov = game.actors.filter(
+        (a) => ["player", "npc"].includes(a.type) && a.name == data.system.owner.value
+      );
+      if (cov.length > 0) {
+        updateData["system.owner.actorId"] = cov[0]._id;
+      }
+    }
+
+    let labAttributes = items.filter((i) => {
       return (
         i.type === "sanctumRoom" ||
         i.type === "distinctive" ||
