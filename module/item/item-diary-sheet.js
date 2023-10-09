@@ -1561,12 +1561,14 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     }
 
     const dates = expanded?.system?.dates;
-    // if (dates) {
-    // expanded.system.dates = mergeObject(source.system.dates, dates);
-    // options.diff = false;
-    // options.recursive = true;
-    // }
-
+    if (dates) {
+      expanded.system.dates = mergeObject(source.system.dates, dates);
+      if (expanded.system.duration) {
+        expanded.system.dates.splice(expanded.system.duration);
+      }
+      options.diff = false;
+      options.recursive = true;
+    }
     // log(false, `Update object: ${JSON.stringify(expanded)}`);
     await this.object.update(expanded, options);
   }
