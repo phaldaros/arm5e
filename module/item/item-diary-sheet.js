@@ -1569,7 +1569,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       options.diff = false;
       options.recursive = true;
     }
-
     // log(false, `Update object: ${JSON.stringify(expanded)}`);
     await this.object.update(expanded, options);
   }
