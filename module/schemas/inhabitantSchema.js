@@ -24,6 +24,12 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
         initial: "grogs",
         choices: Object.keys(ARM5E.covenant.inhabitants)
       }),
+      actorId: new fields.StringField({
+        nullable: true,
+        required: false,
+        blank: true,
+        initial: null
+      }),
       loyalty: new fields.NumberField({
         required: false,
         nullable: false,
@@ -37,13 +43,6 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
         nullable: false,
         integer: true,
         initial: 0,
-        step: 1
-      }),
-      points: new fields.NumberField({
-        required: false,
-        nullable: true,
-        integer: true,
-        initial: null,
         step: 1
       }),
       quantity: new fields.NumberField({
@@ -84,51 +83,17 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
     }
   }
   static migrate(data) {
-    const updateData = { type: "inhabitant" };
-    switch (data.type) {
-      case "habitantMagi":
-        updateData["system.category"] = "magi";
-        if (data.name === "") {
-          updateData["name"] = "Magus name";
-        }
-        updateData["system.extradata.giftType"] = data.giftType;
-        break;
-      case "habitantCompanion":
-        updateData["system.category"] = "companions";
-        if (data.name === "") {
-          updateData["name"] = "Companion name";
-        }
-        break;
-      case "habitantSpecialists":
-        updateData["system.category"] = "specialists";
-        if (data.name === "") {
-          updateData["name"] = "Specialist name";
-        }
-        break;
-      case "habitantHabitants":
-        updateData["system.category"] = "grogs";
-        if (data.name === "") {
-          updateData["name"] = "Grog name";
-        }
-        break;
-      case "habitantHorses":
-        updateData["system.category"] = "horses";
-        if (data.name === "") {
-          updateData["name"] = "Horse name";
-        }
-        break;
-      case "habitantLivestock":
-        updateData["system.category"] = "livestock";
-        if (data.name === "") {
-          updateData["name"] = "LivestockBreed";
-        }
-        break;
-      default:
-        updateData["system.category"] = "grogs";
-        if (data.name === "") {
-          updateData["name"] = "A grog";
-        }
+    const updateData = {};
+
+    if (data.name != "" && (data.system.actorId == null || data.system.actorId === "")) {
+      let inhabitant = game.actors.filter(
+        (a) => ["player", "npc", "beast"].includes(a.type) && a.name == data.name
+      );
+      if (inhabitant.length > 0) {
+        updateData["system.actorId"] = inhabitant[0]._id;
+      }
     }
+
     if (typeof data.system.loyalty != "number") {
       updateData["system.loyalty"] = convertToNumber(data.system.loyalty, 0);
     }
@@ -140,13 +105,6 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
     }
     if (typeof data.system.yearBorn != "number") {
       updateData["system.yearBorn"] = convertToNumber(data.system.yearBorn, 1200);
-    }
-
-    if (typeof data.system.points != "number") {
-      updateData["system.points"] = convertToNumber(
-        data.system.points,
-        ARM5E.covenant.inhabitants[updateData["system.category"]].points
-      );
     }
 
     return updateData;

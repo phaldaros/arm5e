@@ -394,27 +394,6 @@ export class SpellSchema extends foundry.abstract.DataModel {
   }
 }
 
-export class EnchantmentSchema extends foundry.abstract.DataModel {
-  // TODO remove in V11
-  static _enableV10Validation = true;
-
-  static defineSchema() {
-    return {
-      ...itemBase(),
-      ...TechniquesForms(),
-      ...SpellAttributes(),
-      baseLevel: baseLevel(),
-      baseEffectDescription: baseDesc(),
-      applyFocus: boolOption(false, true),
-      ritual: boolOption(),
-      bonus: ModifierField(),
-      bonusDesc: baseDescription(),
-      xp: XpField(),
-      masteryAbilities: baseDescription()
-    };
-  }
-}
-
 export class LabTextSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;

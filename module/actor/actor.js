@@ -50,6 +50,16 @@ export class ArM5ePCActor extends Actor {
     }
     // add properties used for active effects:
 
+    if (["player", "npc", "laboratory"].includes(this.type)) {
+      this.system.covenant.document = game.actors.get(this.system.covenant.actorId);
+      if (this.system.covenant.document) {
+        this.system.covenant.value = this.system.covenant.document.name;
+        this.system.covenant.linked = true;
+      } else {
+        this.system.covenant.linked = false;
+      }
+    }
+
     if (this.type == "laboratory") {
       this.system.size.bonus = 0;
       this.system.generalQuality.bonus = 0;
@@ -75,8 +85,15 @@ export class ArM5ePCActor extends Actor {
       this.system.specialty["texts"] = { bonus: 0 };
       this.system.specialty["visExtraction"] = { bonus: 0 };
 
+      this.system.owner.document = game.actors.get(this.system.owner.actorId);
+      if (this.system.owner.document) {
+        this.system.owner.value = this.system.owner.document.name;
+        this.system.owner.linked = true;
+      } else {
+        this.system.owner.linked = false;
+      }
+
       // Hopefully this can be reworked to use ID instead of name
-      this.system.covenant.document = game.actors.getName(this.system.covenant.value);
       this.system.aura = new Aura(this.system.covenant.document?.system?.scene?.document);
 
       return;
@@ -354,14 +371,9 @@ export class ArM5ePCActor extends Actor {
           Math.round((item.system.xp + item.system.xpBonus) * item.system.xpCoeff)
         );
         item.system.xpNextLevel = Math.round(
-          5 * item.system.derivedScore + 5 / item.system.xpCoeff
+          ArM5ePCActor.getAbilityXp(item.system.derivedScore + 1) / item.system.xpCoeff
         );
-        item.system.remainingXp =
-          item.system.xp -
-          Math.round(
-            ArM5ePCActor.getAbilityXp(item.system.derivedScore / item.system.xpCoeff) -
-              item.system.xpBonus
-          );
+        item.system.remainingXp = item.system.xp + item.system.xpBonus;
 
         if (
           system.bonuses.skills[computedKey] != undefined &&
@@ -431,15 +443,11 @@ export class ArM5ePCActor extends Actor {
         item.system.derivedScore = ArM5ePCActor.getAbilityScoreFromXp(
           Math.round((item.system.xp + item.system.xpBonus) * item.system.xpCoeff)
         );
+
         item.system.xpNextLevel = Math.round(
-          5 * item.system.derivedScore + 5 / item.system.xpCoeff
+          ArM5ePCActor.getAbilityXp(item.system.derivedScore + 1) / item.system.xpCoeff
         );
-        item.system.remainingXp =
-          item.system.xp -
-          Math.round(
-            ArM5ePCActor.getAbilityXp(item.system.derivedScore / item.system.xpCoeff) -
-              item.system.xpBonus
-          );
+        item.system.remainingXp = item.system.xp + item.system.xpBonus;
 
         item.system.finalScore = item.system.derivedScore;
       }
@@ -790,45 +798,14 @@ export class ArM5ePCActor extends Actor {
 
     // links with other actors
 
-    if (this.type === "player" || this.type === "npc") {
-      if (system.covenant?.value) {
-        let covenants = game.actors
-          .filter((a) => a.type == "covenant")
-          .map(({ name, id }) => ({
-            name,
-            id
-          }));
-        let cov = covenants.filter((c) => c.name == system.covenant.value);
-        if (cov.length > 0) {
-          system.covenant.linked = true;
-          system.covenant.actorId = cov[0].id;
-        } else {
-          system.covenant.linked = false;
-        }
-      } else {
-        system.covenant.linked = false;
-      }
-    }
-
     if (system?.charType?.value == "magusNPC" || system?.charType?.value == "magus") {
       // check whether the character is linked to an existing lab
-      if (system.sanctum?.value) {
-        let labs = game.actors
-          .filter((a) => a.type == "laboratory")
-          .map(({ name, id }) => ({
-            name,
-            id
-          }));
-
-        let lab = labs.filter((c) => c.name == system.sanctum.value);
-        if (lab.length > 0) {
-          system.sanctum.linked = true;
-          system.sanctum.actorId = lab[0].id;
-        } else {
-          system.sanctum.linked = false;
-        }
+      this.system.sanctum.document = game.actors.get(this.system.sanctum.actorId);
+      if (this.system.sanctum.document) {
+        this.system.sanctum.value = this.system.sanctum.document.name;
+        this.system.sanctum.linked = true;
       } else {
-        system.sanctum.linked = false;
+        this.system.sanctum.linked = false;
       }
     }
     log(false, "pc end of prepare actor data");
@@ -1007,44 +984,6 @@ export class ArM5ePCActor extends Actor {
       let changes = duplicate(baseSafetyEffect.changes);
       changes[0].value = String(baseSafety);
       baseSafetyEffect.update({ changes });
-    }
-
-    if (system.covenant?.value) {
-      let covenants = game.actors
-        .filter((a) => a.type == "covenant")
-        .map(({ name, id }) => ({
-          name,
-          id
-        }));
-
-      let cov = covenants.filter((c) => c.name == system.covenant.value);
-      if (cov.length > 0) {
-        system.covenant.linked = true;
-        system.covenant.actorId = cov[0].id;
-      } else {
-        system.covenant.linked = false;
-      }
-    } else {
-      system.covenant.linked = false;
-    }
-
-    // check whether the character is linked to an existing lab
-    if (system.owner?.value) {
-      let characters = game.actors
-        .filter((a) => a.type == "player" || a.type == "npc")
-        .map(({ name, id }) => ({
-          name,
-          id
-        }));
-      let char = characters.filter((c) => c.name == system.owner.value);
-      if (char.length > 0) {
-        system.owner.linked = true;
-        system.owner.actorId = char[0].id;
-      } else {
-        system.owner.linked = false;
-      }
-    } else {
-      system.owner.linked = false;
     }
   }
 

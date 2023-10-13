@@ -65,10 +65,8 @@ export class Sanatorium extends FormApplication {
     context.modifiers.activeEffect = patient.system.bonuses.traits.recovery;
     context.config = CONFIG;
     if (patient.system.isMagus && patient.system.sanctum.linked) {
-      const lab = game.actors.get(patient.system.sanctum.actorId);
-      if (lab) {
-        context.modifiers.labHealth = lab.system.health.total;
-      }
+      const lab = patient.system.sanctum.document;
+      context.modifiers.labHealth = lab.system.health.total;
     }
 
     context.curSeasonLabel = game.i18n.localize(CONFIG.ARM5E.seasons[context.curSeason].label);

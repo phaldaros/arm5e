@@ -185,14 +185,4 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
       ev.currentTarget.select();
     });
   }
-
-  async _bindActor(actor) {
-    let updateData = {};
-    if (actor.type == "covenant") {
-      updateData["system.covenant.value"] = actor.name;
-    } else if (actor.type == "laboratory") {
-      updateData["system.sanctum.value"] = actor.name;
-    }
-    return await this.actor.update(updateData, {});
-  }
 }

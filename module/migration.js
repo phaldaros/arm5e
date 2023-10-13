@@ -365,7 +365,43 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     }
   }
 
-  if (actor.type == "player" || actor.type == "npc" || actor.type == "beast") {
+  // external links
+  if (
+    actor.system.covenant?.value &&
+    (actor.system.covenant?.actorId == null || actor.system.covenant?.actorId == "")
+  ) {
+    let cov = game.actors.filter(
+      (a) => a.type == "covenant" && a.name == actor.system.covenant.value
+    );
+    if (cov.length > 0) {
+      updateData["system.covenant.actorId"] = cov[0]._id;
+    }
+  }
+  if (
+    actor.system.sanctum?.value &&
+    (actor.system.sanctum?.actorId == null || actor.system.sanctum?.actorId == "")
+  ) {
+    let lab = game.actors.filter(
+      (a) => a.type == "laboratory" && a.name == actor.system.sanctum.value
+    );
+    if (lab.length > 0) {
+      updateData["system.sanctum.actorId"] = lab[0]._id;
+    }
+  }
+
+  if (
+    actor.system.owner?.value &&
+    (actor.system.owner?.actorId == null || actor.system.owner?.actorId == "")
+  ) {
+    let owner = game.actors.filter(
+      (a) => ["player", "npc"].includes(a.type) && a.name == actor.system.owner.value
+    );
+    if (owner.length > 0) {
+      updateData["system.owner.actorId"] = owner[0]._id;
+    }
+  }
+
+  if (["player", "npc", "beast"].includes(actor.type)) {
     if (actor.system.mightsFam) {
       updateData["system.powersFam"] = actor.system.mightsFam;
       updateData["system.-=mightsFam"] = null;
@@ -1049,16 +1085,101 @@ export const migrateActiveEffectData = async function (effectData) {
 
 export const migrateItemData = async function (item) {
   let itemData = {};
-  const updateData = {};
+  let updateData = {};
   if (item instanceof CONFIG.Item.documentClass) {
     itemData = item._source;
   } else {
     itemData = item;
   }
   if (CONFIG.ARM5E.ItemDataModels[item.type]) {
-    itemData = CONFIG.ARM5E.ItemDataModels[item.type].migrate(itemData);
+    updateData = CONFIG.ARM5E.ItemDataModels[item.type].migrate(itemData);
   } else {
-    if (_isMagicalItem(itemData)) {
+    if (
+      [
+        "habitantMagi",
+        "habitantCompanion",
+        "habitantSpecialists",
+        "habitantHabitants",
+        "habitantHorses",
+        "habitantLivestock"
+      ].includes(itemData.type)
+    ) {
+      updateData["type"] = "inhabitant";
+      if (
+        itemData.name != "" &&
+        (itemData.system.actorId == null || itemData.system.actorId === "")
+      ) {
+        let inhabitant = game.actors.filter(
+          (a) => ["player", "npc", "beast"].includes(a.type) && a.name == itemData.name
+        );
+        if (inhabitant.length > 0) {
+          updateData["system.actorId"] = inhabitant[0]._id;
+        }
+      }
+      switch (itemData.type) {
+        case "habitantMagi":
+          updateData["system.category"] = "magi";
+          if (itemData.name === "") {
+            updateData["name"] = "Magus name";
+          }
+          updateData["system.extradata.giftType"] = itemData.giftType;
+          break;
+        case "habitantCompanion":
+          updateData["system.category"] = "companions";
+          if (itemData.name === "") {
+            updateData["name"] = "Companion name";
+          }
+          break;
+        case "habitantSpecialists":
+          updateData["system.category"] = "specialists";
+          if (itemData.name === "") {
+            updateData["name"] = "Specialist name";
+          }
+          break;
+        case "habitantHabitants":
+          updateData["system.category"] = "grogs";
+          if (itemData.name === "") {
+            updateData["name"] = "Grog name";
+          }
+          break;
+        case "habitantHorses":
+          updateData["system.category"] = "horses";
+          if (itemData.name === "") {
+            updateData["name"] = "Horse name";
+          }
+          break;
+        case "habitantLivestock":
+          updateData["system.category"] = "livestock";
+          if (itemData.name === "") {
+            updateData["name"] = "LivestockBreed";
+          }
+          break;
+        default:
+          updateData["system.category"] = "grogs";
+          if (itemData.name === "") {
+            updateData["name"] = "A grog";
+          }
+      }
+      if (typeof itemData.system.loyalty != "number") {
+        updateData["system.loyalty"] = convertToNumber(itemData.system.loyalty, 0);
+      }
+      if (typeof itemData.system.score != "number") {
+        updateData["system.score"] = convertToNumber(itemData.system.score, 0);
+      }
+      if (typeof itemData.system.quantity != "number") {
+        updateData["system.quantity"] = convertToNumber(itemData.system.quantity, 0);
+      }
+      if (typeof itemData.system.yearBorn != "number") {
+        updateData["system.yearBorn"] = convertToNumber(itemData.system.yearBorn, 1200);
+      }
+
+      if (typeof itemData.system.points != "number") {
+        updateData["system.points"] = convertToNumber(
+          itemData.system.points,
+          ARM5E.covenant.inhabitants[updateData["system.category"]].points
+        );
+      }
+    } else if (_isMagicalItem(itemData)) {
       if (itemData.type != "baseEffect") {
         if (
           itemData.system.duration.value === undefined ||

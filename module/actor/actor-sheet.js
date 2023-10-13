@@ -44,6 +44,7 @@ import { createAgingDiaryEntry } from "../helpers/long-term-activities.js";
 import { Sanatorium } from "../tools/sanatorium.js";
 import { MedicalHistory } from "../tools/med-history.js";
 import { ArM5eActorProfiles } from "./subsheets/actor-profiles.js";
+import { stressDie } from "../dice.js";
 
 export class ArM5eActorSheet extends ActorSheet {
   constructor(object, options) {
@@ -299,27 +300,10 @@ export class ArM5eActorSheet extends ActorSheet {
       }
       context.isDead = this.actor.system.wounds.dead.length > 0;
       context.system.isMagus = this.actor._isMagus();
-
-      context.system.world = {};
-
-      // check whether the character is linked to an existing covenant
-      context.system.world.covenants = game.actors
-        .filter((a) => a.type == "covenant")
-        .map(({ name, id }) => ({
-          name,
-          id
-        }));
       if (context.system.covenant) {
-        let cov = context.system.world.covenants.filter(
-          (c) => c.name == context.system.covenant.value
-        );
-        if (cov.length > 0) {
-          context.system.covenant.linked = true;
-          context.system.covenant.actorId = cov[0].id;
-          const covenant = game.actors.get(cov[0].id);
-          this.actor.apps[covenant.sheet.appId] = covenant.sheet;
-        } else {
-          context.system.covenant.linked = false;
+        if (context.system.covenant.linked) {
+          this.actor.apps[context.system.covenant.document.sheet.appId] =
+            context.system.covenant.document.sheet;
         }
       }
 
@@ -329,23 +313,15 @@ export class ArM5eActorSheet extends ActorSheet {
       ) {
         // Arts icons style
         context.artsIcons = game.settings.get("arm5e", "artsIcons");
-        context.system.world.labs = game.actors
-          .filter((a) => a.type == "laboratory")
-          .map(({ name, id }) => ({
-            name,
-            id
-          }));
 
         // check whether the character is linked to an existing lab
         if (context.system.sanctum) {
-          let lab = context.system.world.labs.filter((c) => c.name == context.system.sanctum.value);
-          if (lab.length > 0) {
-            context.system.sanctum.linked = true;
-            context.system.sanctum.actorId = lab[0].id;
-          } else {
-            context.system.sanctum.linked = false;
+          if (context.system.sanctum.linked) {
+            this.actor.apps[context.system.sanctum.document.sheet.appId] =
+              context.system.sanctum.document.sheet;
           }
         }
+
         // casting total modifiers
 
         if (context.system.castingtotal === undefined) {
@@ -377,13 +353,10 @@ export class ArM5eActorSheet extends ActorSheet {
           context.system.labtotal.modifier = 0;
         }
         if (context.system.sanctum.linked) {
-          let lab = game.actors.get(context.system.sanctum.actorId);
-          if (lab) {
-            this.actor.apps[lab.sheet.appId] = lab.sheet;
-            context.system.labtotal.quality = parseInt(lab.system.generalQuality.total);
-            // store the specialties if the character is linked to a lab
-            context.system.labtotals = { specialty: lab.system.specialty };
-          }
+          const lab = context.system.sanctum.document;
+          context.system.labtotal.quality = parseInt(lab.system.generalQuality.total);
+          // store the specialties if the character is linked to a lab
+          context.system.labtotals = { specialty: lab.system.specialty };
         } else {
           if (context.system.labtotal.quality === undefined) {
             context.system.labtotal.quality = 0;
@@ -391,7 +364,7 @@ export class ArM5eActorSheet extends ActorSheet {
         }
 
         if (context.system.covenant.linked) {
-          let cov = game.actors.get(context.system.covenant.actorId);
+          let cov = context.system.covenant.document;
           if (cov) {
             if (cov.system.levelAura == "") {
               context.system.labtotal.aura = 0;
@@ -853,12 +826,65 @@ export class ArM5eActorSheet extends ActorSheet {
       classes.toggle("hide");
     });
 
-    html.find(".actor-profile").click(this.actorProfiles.addProfile.bind(this));
+    html.find(".covenant-link").change(async (ev) => {
+      ev.preventDefault();
+      const val = ev.target.value;
+      const cov = game.actors.getName(val);
+      // if the actor was linked, remove listener
+      if (this.actor.system.covenant.linked) {
+        delete this.actor.apps[this.actor.system.covenant.document.sheet.appId];
+        await this.actor.system.covenant.document.sheet._unbindActor(this.actor);
+      }
+      let updateData = { "system.covenant.value": val };
+      if (cov) {
+        updateData["system.covenant.actorId"] = cov._id;
 
-    // html.find(".spell-list").click(async ev => {
-    //   const category = $(ev.currentTarget).data("topic");
-    //   document.getElementById(category).classList.toggle("hide");
-    // });
+        await cov.sheet._bindActor(this.actor);
+      } else {
+        updateData["system.covenant.actorId"] = null;
+      }
+      await this.actor.update(updateData);
+    });
+
+    html.find(".owner-link").change(async (ev) => {
+      ev.preventDefault();
+      const val = ev.target.value;
+      const owner = game.actors.getName(val);
+      // if the actor was linked, remove listener
+      if (this.actor.system.owner.linked) {
+        delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
+        await this.actor.system.owner.document.sheet._unbindActor(this.actor);
+      }
+      let updateData = { "system.owner.value": val };
+      if (owner) {
+        updateData["system.owner.actorId"] = owner._id;
+        await owner.sheet._bindActor(this.actor);
+      } else {
+        updateData["system.owner.actorId"] = null;
+      }
+      await this.actor.update(updateData);
+    });
+
+    html.find(".sanctum-link").change(async (ev) => {
+      ev.preventDefault();
+      const val = ev.target.value;
+      const sanctum = game.actors.getName(val);
+      // if the actor was linked, remove listener
+      if (this.actor.system.sanctum.linked) {
+        delete this.actor.apps[this.actor.system.sanctum.document.sheet.appId];
+        await this.actor.system.sanctum.document.sheet._unbindActor(this.actor);
+      }
+      let updateData = { "system.sanctum.value": val };
+      if (sanctum) {
+        updateData["system.sanctum.actorId"] = sanctum._id;
+        await sanctum.sheet._bindActor(this.actor);
+      } else {
+        updateData["system.sanctum.actorId"] = null;
+      }
+      await this.actor.update(updateData);
+    });
+
+    html.find(".actor-profile").click(this.actorProfiles.addProfile.bind(this));
 
     // filters
     html.find(".toggleHidden").click(async (ev) => {
@@ -1066,26 +1092,8 @@ export class ArM5eActorSheet extends ActorSheet {
       ]);
     });
 
-    // Delete Inventory Item, optionally ask for confirmation
     html.find(".item-delete").click(async (ev) => {
-      ev.preventDefault();
-      const li = $(ev.currentTarget).parents(".item");
-      let itemId = li.data("itemId");
-      itemId = itemId instanceof Array ? itemId : [itemId];
-      let confirmed = true;
-      if (game.settings.get("arm5e", "confirmDelete")) {
-        const question = game.i18n.localize("arm5e.dialog.delete-question");
-        confirmed = await getConfirmation(
-          li[0].dataset.name,
-          question,
-          ArM5eActorSheet.getFlavor(this.actor.type)
-        );
-      }
-      if (confirmed) {
-        itemId = itemId instanceof Array ? itemId : [itemId];
-        this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-        li.slideUp(200, () => this.render(false));
-      }
+      this._itemDelete(ev);
     });
 
     // Delete Inventory Item and always ask for confirmation
@@ -1107,9 +1115,6 @@ export class ArM5eActorSheet extends ActorSheet {
       }
     });
 
-    // Generate abilities automatically
-    html.find(".abilities-generate").click(this._onGenerateAbilities.bind(this));
-
     html.find(".rest").click((ev) => {
       if (this.actor.type === "player" || this.actor.type === "npc" || this.actor.type == "beast") {
         this.actor.rest();
@@ -1125,7 +1130,6 @@ export class ArM5eActorSheet extends ActorSheet {
       } else this._onRoll(event);
     });
 
-    html.find(".pick-covenant").click(this._onPickCovenant.bind(this));
     html.find(".soak-damage").click(this._onSoakDamage.bind(this));
     html.find(".damage").click(this._onCalculateDamage.bind(this));
     html.find(".power-use").click(this._onUsePower.bind(this));
@@ -1162,6 +1166,28 @@ export class ArM5eActorSheet extends ActorSheet {
     const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
     const dataset = getDataset(ev);
     await item.system.readBook(item, dataset);
+  }
+
+  // Delete Inventory Item, optionally ask for confirmation
+  async _itemDelete(ev) {
+    ev.preventDefault();
+    const li = $(ev.currentTarget).parents(".item");
+    let itemId = li.data("itemId");
+    itemId = itemId instanceof Array ? itemId : [itemId];
+    let confirmed = true;
+    if (game.settings.get("arm5e", "confirmDelete")) {
+      const question = game.i18n.localize("arm5e.dialog.delete-question");
+      confirmed = await getConfirmation(
+        li[0].dataset.name,
+        question,
+        ArM5eActorSheet.getFlavor(this.actor.type)
+      );
+    }
+    if (confirmed) {
+      itemId = itemId instanceof Array ? itemId : [itemId];
+      this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+      li.slideUp(200, () => this.render(false));
+    }
   }
 
   async _editAging(event) {
@@ -1337,39 +1363,6 @@ export class ArM5eActorSheet extends ActorSheet {
     }
   }
 
-  /* Handle covenant pick */
-  async _onPickCovenant(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    var actor = this.actor;
-    let template = "systems/arm5e/templates/generic/simpleListPicker.html";
-    renderTemplate(template, this.actor).then(function (html) {
-      new Dialog(
-        {
-          title: game.i18n.localize("arm5e.dialog.chooseCovenant"),
-          content: html,
-          buttons: {
-            yes: {
-              icon: "<i class='fas fa-check'></i>",
-              label: `Yes`,
-              callback: (html) => setCovenant(html, actor)
-            },
-            no: {
-              icon: "<i class='fas fa-ban'></i>",
-              label: `Cancel`,
-              callback: null
-            }
-          }
-        },
-        {
-          jQuery: true,
-          height: "140px",
-          classes: ["arm5e-dialog", "dialog"]
-        }
-      ).render(true);
-    });
-  }
-
   async _onSoakDamage(html, actor) {
     const lastMessageDamage = getLastMessageByHeader(game, "arm5e.sheet.damage");
     const damage = parseInt($(lastMessageDamage?.content).text()) || 0;
@@ -1474,6 +1467,18 @@ export class ArM5eActorSheet extends ActorSheet {
               label: `Yes`,
               callback: (html) => calculateDamage(html, actor)
             },
+            // TODO: later
+            // roll: {
+            //   label: `Roll`,
+            //   callback: async (html) => {
+            //     actor.rollData.init(
+            //       { roll: "option", name: "Damage roll", physicalcondition: false },
+            //       actor
+            //     );
+            //     let roll = await stressDie(actor, "option", 16, null, 1);
+            //     // calculateDamage(html, actor, roll);
+            //   }
+            // },
             no: {
               icon: "<i class='fas fa-ban'></i>",
               label: `Cancel`,
@@ -1489,54 +1494,6 @@ export class ArM5eActorSheet extends ActorSheet {
         }
       ).render(true);
     });
-  }
-
-  async _onGenerateAbilities(event) {
-    let charType = this.actor.system.charType.value;
-    let updateData = {};
-    if (charType === "magus" || charType === "magusNPC") {
-      let abilities = this.actor.items.filter((i) => i.type == "ability");
-      let newAbilities = [];
-      for (let [key, a] of Object.entries(CONFIG.ARM5E.character.magicAbilities)) {
-        let localizedA = game.i18n.localize(a);
-        // check if the ability already exists in the Actor
-        let abs = abilities.filter((ab) => ab.name == localizedA || ab.name === localizedA + "*");
-
-        if (abs.length == 0) {
-          log(false, `Did not find ${game.i18n.localize(a)}, creating it...`);
-          const itemData = {
-            name: localizedA,
-            type: "ability"
-          };
-          // First, check if the Ability is found in the world
-          abs = game.items.filter(
-            (i) => i.type === "ability" && (i.name === localizedA || i.name === localizedA + "*")
-          );
-          if (abs.length == 0) {
-            // Then, check if the Abilities compendium exists
-            let abPack = game.packs.filter(
-              (p) => p.metadata.packageName === "arm5e" && p.metadata.name === "abilities"
-            );
-            const documents = await abPack[0].getDocuments();
-            for (let doc of documents) {
-              if (doc.name === localizedA || doc.name === localizedA + "*") {
-                itemData.system = foundry.utils.deepClone(doc.system);
-                break;
-              }
-            }
-          } else {
-            itemData.system = foundry.utils.deepClone(abs[0].system);
-          }
-
-          newAbilities.push(itemData);
-        } else {
-          // found the ability, assign its Id
-          updateData[`system.laboratory.abilitiesSelected.${key}.abilityID`] = abs[0].id;
-        }
-      }
-      await this.actor.update(updateData, {});
-      await this.actor.createEmbeddedDocuments("Item", newAbilities, {});
-    }
   }
 
   async roll(parameters) {
@@ -1762,7 +1719,29 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   async _bindActor(actor) {
-    return false;
+    if (!["covenant", "laboratory"].includes(actor.type)) return false;
+    let updateData = {};
+    if (actor.type == "covenant") {
+      updateData["system.covenant.value"] = actor.name;
+      updateData["system.covenant.actorId"] = actor._id;
+    } else if (actor.type == "laboratory") {
+      updateData["system.sanctum.value"] = actor.name;
+      updateData["system.sanctum.actorId"] = actor._id;
+    }
+    return await this.actor.update(updateData, {});
+  }
+
+  async _unbindActor(actor) {
+    if (!["covenant", "laboratory"].includes(actor.type)) return false;
+    let updateData = {};
+    if (actor.type == "covenant") {
+      updateData["system.covenant.value"] = "";
+      updateData["system.covenant.actorId"] = null;
+    } else if (actor.type == "laboratory") {
+      updateData["system.sanctum.value"] = "";
+      updateData["system.sanctum.actorId"] = null;
+    }
+    return await this.actor.update(updateData, {});
   }
 }
 
@@ -1844,19 +1823,25 @@ export async function setWounds(selector, actor) {
   }
 }
 
-export async function calculateDamage(selector, actor) {
-  const strenght = parseInt(selector.find('label[name$="strenght"]').attr("value") || 0);
-  const weapon = parseInt(selector.find('label[name$="weapon"]').attr("value") || 0);
-  const advantage = parseInt(selector.find('input[name$="advantage"]').val());
-  const modifier = parseInt(selector.find('input[name$="modifier"]').val());
-  const damage = strenght + weapon + advantage + modifier;
+export async function calculateDamage(selector, actor, roll) {
   const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.damage") + " </h2>";
-  const messageStrenght = `${game.i18n.localize("arm5e.sheet.strength")} (${strenght})`;
-  const messageWeapon = `${game.i18n.localize("arm5e.sheet.damage")} (${weapon})`;
-  const messageAdvantage = `${game.i18n.localize("arm5e.sheet.advantage")} (${advantage})`;
-  const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${modifier})`;
+  let damage = parseInt(selector.find('input[name$="modifier"]').val());
+  const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${damage})`;
+  let details = "";
+  if (roll) {
+    damage += roll.total;
+    details = `  ${messageModifier}<br/>`;
+  } else {
+    const strenght = parseInt(selector.find('label[name$="strenght"]').attr("value") || 0);
+    const weapon = parseInt(selector.find('label[name$="weapon"]').attr("value") || 0);
+    const advantage = parseInt(selector.find('input[name$="advantage"]').val());
+    const messageStrenght = `${game.i18n.localize("arm5e.sheet.strength")} (${strenght})`;
+    const messageWeapon = `${game.i18n.localize("arm5e.sheet.damage")} (${weapon})`;
+    const messageAdvantage = `${game.i18n.localize("arm5e.sheet.advantage")} (${advantage})`;
+    damage += strenght + weapon + advantage;
+    details = ` ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`;
+  }
 
-  const details = ` ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`;
   const messageDamage = `<h4 class="dice-total">${damage}</h4>`;
   ChatMessage.create({
     content: messageDamage,

@@ -1,3 +1,12 @@
+## 2.2.3.0, Ophilio
+
+### Features & changes
+
+- [technical] better handling of inter-actor links, cleaner code, faster actor load.
+- Simplified abilties and spell masteries xp display
+
+### Bug fixes
+
 ## 2.2.2.20, Nico
 
 ### Features & changes

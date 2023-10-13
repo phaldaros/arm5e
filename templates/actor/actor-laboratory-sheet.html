@@ -14,8 +14,8 @@
             <label for="system.owner.value" class="bold"
               style="padding-top: 4px; padding-left: 24px; flex: 0.4">{{localize "arm5e.sheet.owner"}}</label>
             <div>
-              <input name="system.owner.value" type="text" value="{{system.owner.value}}" data-dtype="String" />
-              {{#if (eq system.owner.linked true)}}
+              <input class="owner-link" type="text" value="{{system.owner.value}}" data-dtype="String" />
+              {{#if system.owner.linked }}
                 <a class="flexrow0 actor-link" title="Linked to magus" data-actorid="{{system.owner.actorId}}"><i
                     class="fas fa-link fa-sm"></i></a>
               {{else}}
@@ -27,8 +27,8 @@
             <label for=" system.covenant.value" class="bold"
               style="padding-top: 4px; padding-left: 24px; flex: 0.4">{{localize "arm5e.sheet.covenant"}}</label>
             <div>
-              <input name="system.covenant.value" type="text" value="{{system.covenant.value}}" data-dtype="String" />
-              {{#if (eq system.covenant.linked true)}}
+              <input class="covenant-link" type="text" value="{{system.covenant.value}}" data-dtype="String" />
+              {{#if system.covenant.linked }}
                 <a class="flexrow0 actor-link" title="Linked to covenant" data-actorid="{{system.covenant.actorId}}"><i
                     class="fas fa-link fa-sm"></i></a>
               {{else}}

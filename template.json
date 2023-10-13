@@ -23,8 +23,8 @@
           "points": 3
         },
         "covenant": {
-          "dtype": "String",
-          "value": "Covenant Name"
+          "value": "Covenant Name",
+          "actorId": null
         },
         "realms": {
           "magic": { "aligned": false },
@@ -314,7 +314,6 @@
       "laboratoryPC": {
         "sanctum": {
           "value": "",
-          "linked": false,
           "actorId": null
         },
         "laboratory": {
@@ -569,11 +568,13 @@
     "laboratory": {
       "templates": ["base"],
       "covenant": {
-        "value": "Covenant Name"
+        "value": "Covenant Name",
+        "actorId": null
       },
       "description": "",
       "owner": {
-        "value": ""
+        "value": "",
+        "actorId": null
       },
       "location": "",
       "points": 0,
@@ -773,14 +774,14 @@
           "quantity": 0,
           "saving": 0,
           "notes": "",
-          "label": "arm5e.sheet.craftsmenCommon"
+          "label": "arm5e.sheet.craftmenCommon"
         },
         "craftsmenRare": {
           "sumary": "arm5e.sheet.craftsmenRareSumary",
           "quantity": 0,
           "saving": 0,
           "notes": "",
-          "label": "arm5e.sheet.craftsmenRare"
+          "label": "arm5e.sheet.craftmenRare"
         },
         "magicItems": {
           "sumary": "arm5e.sheet.magicItemsSumary",

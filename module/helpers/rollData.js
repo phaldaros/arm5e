@@ -166,7 +166,7 @@ export class ArM5eRollData {
         );
         let livingMod = 0;
         if (actorSystemData.covenant.linked) {
-          let cov = game.actors.get(actorSystemData.covenant.actorId);
+          let cov = actorSystemData.covenant.document;
           if (ArM5ePCActor.isMagus(this._actor.type, actorSystemData.charType.value)) {
             livingMod = cov.system.modifiersLife.magi ?? 0;
           } else {

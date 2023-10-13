@@ -187,6 +187,16 @@ export class ArM5eItemSheet extends ItemSheet {
           ...context.config.virtueFlawTypes.all
         };
       }
+    } else if (itemData.type == "inhabitant") {
+      if (itemData.system.linked) {
+        context.canEdit = "readonly";
+        context.canSelect = "disabled";
+      }
+    } else if (itemData.type == "labCovenant") {
+      if (itemData.system.linked) {
+        context.canEdit = "readonly";
+        context.canSelect = "disabled";
+      }
     }
 
     context.metagame = {
