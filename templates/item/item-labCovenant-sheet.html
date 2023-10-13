@@ -8,7 +8,7 @@
 
       <div class="resource flexcol" style="margin-top: 8px">
         <label class="bold">{{localize "arm5e.sheet.owner"}}</label>
-        <input type="text" name="system.owner" value="{{system.owner}}" data-dtype="String" />
+        <input type="text" name="system.owner" value="{{system.owner}}" data-dtype="String" {{canEdit}} />
       </div>
 
       <div class="resource flexcol" style="margin-top: 8px">
@@ -19,11 +19,11 @@
       <div class="grid grid-2col" style="margin-top: 8px">
         <div class="resource flexcol flexrow">
           <label for="system.quality" class="bold">{{localize "arm5e.sheet.quality"}}</label>
-          <input type="text" name="system.quality" value="{{system.quality}}" data-dtype="Number" />
+          <input type="text" name="system.quality" value="{{system.quality}}" data-dtype="Number" {{canEdit}} />
         </div>
         <div class="resource flexcol flexrow">
           <label for="system.score" class="bold">{{localize "arm5e.lab.upkeep"}}</label>
-          <input type="text" name="system.upkeep" value="{{system.upkeep}}" data-dtype="Number" />
+          <input type="text" name="system.upkeep" value="{{system.upkeep}}" data-dtype="Number" {{canEdit}} />
         </div>
       </div>
 

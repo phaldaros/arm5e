@@ -107,17 +107,6 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
     }
   }
 
-  async _bindActor(actor) {
-    let updateData = {};
-    if (actor.type == "covenant") {
-      updateData["system.covenant.value"] = actor.name;
-      updateData["system.covenant.actorId"] = actor._id;
-    } else if (actor.type == "laboratory") {
-      updateData["system.sanctum.value"] = actor.name;
-      updateData["system.sanctum.actorId"] = actor._id;
-    }
-    return await this.actor.update(updateData, {});
-  }
   async _onDropItem(event, data) {
     const info = getUuidInfo(data.uuid);
     const item = await fromUuid(data.uuid);

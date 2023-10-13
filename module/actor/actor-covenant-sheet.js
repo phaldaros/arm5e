@@ -2,6 +2,7 @@ import { compareLabTexts, log, hermeticFilter, getUuidInfo } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { HERMETIC_FILTER, TIME_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
 import { effectToLabText, resetOwnerFields } from "../item/item-converter.js";
+import { getConfirmation } from "../constants/ui.js";
 
 /**
  * Extend the basic ArM5eActorSheet
@@ -65,61 +66,29 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     context.config = CONFIG.ARM5E;
     log(false, "Covenant-sheet getData");
     log(false, context);
-    context.system.world = {};
-    context.system.world.people = game.actors
-      .filter((a) => a.type == "player" || a.type == "npc")
-      .map(({ name, id }) => ({
-        name,
-        id
-      }));
 
-    if (context.system.world.people.length > 1) {
-      for (let person of context.system.habitants.magi) {
-        let per = context.system.world.people.filter((p) => p.name == person.name);
-        if (per.length > 0) {
-          person.system.linked = true;
-          person.system.actorId = per[0].id;
-        } else {
-          person.system.linked = false;
-        }
-      }
-      for (let person of context.system.habitants.companion) {
-        let per = context.system.world.people.filter((p) => p.name == person.name);
-        if (per.length > 0) {
-          person.system.linked = true;
-          person.system.actorId = per[0].id;
-        } else {
-          person.system.linked = false;
-        }
-      }
-      for (let person of context.system.habitants.habitants) {
-        let per = context.system.world.people.filter((p) => p.name == person.name);
-        if (per.length > 0) {
-          person.system.linked = true;
-          person.system.actorId = per[0].id;
-        } else {
-          person.system.linked = false;
-        }
+    for (let person of context.system.habitants.magi) {
+      if (person.system.linked) {
+        this.actor.apps[person.system.document.sheet.appId] = person.system.document.sheet;
       }
     }
-    context.system.world.labs = game.actors
-      .filter((a) => a.type == "laboratory")
-      .map(({ name, id }) => ({
-        name,
-        id
-      }));
-
-    if (context.system.labs) {
-      for (let sanctum of context.system.labs) {
-        let lab = context.system.world.labs.filter((p) => p.name == sanctum.name);
-        if (lab.length > 0) {
-          sanctum.system.linked = true;
-          sanctum.system.actorId = lab[0].id;
-        } else {
-          sanctum.system.linked = false;
-        }
+    for (let person of context.system.habitants.companion) {
+      if (person.system.linked) {
+        this.actor.apps[person.system.document.sheet.appId] = person.system.document.sheet;
       }
     }
+    for (let person of context.system.habitants.habitants) {
+      if (person.system.linked) {
+        this.actor.apps[person.system.document.sheet.appId] = person.system.document.sheet;
+      }
+    }
+
+    for (let lab of context.system.labs) {
+      if (lab.system.linked) {
+        this.actor.apps[lab.system.document.sheet.appId] = lab.system.document.sheet;
+      }
+    }
+
     context.scenes = game.scenes.contents;
     return context;
   }
@@ -226,6 +195,33 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     return res;
   }
 
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html);
+    html.find(".actor-link-delete").click(async (ev) => {
+      ev.preventDefault();
+      const li = $(ev.currentTarget).parents(".item");
+      let itemId = li.data("itemId");
+      let confirmed = true;
+      if (game.settings.get("arm5e", "confirmDelete")) {
+        const question = game.i18n.localize("arm5e.dialog.delete-question");
+        confirmed = await getConfirmation(
+          li[0].dataset.name,
+          question,
+          ArM5eActorSheet.getFlavor(this.actor.type)
+        );
+      }
+      if (confirmed) {
+        let actorLink = this.actor.items.get(itemId);
+
+        if (actorLink.system.linked) await actorLink.system.document.sheet._unbindActor(this.actor);
+        itemId = itemId instanceof Array ? itemId : [itemId];
+
+        this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+        li.slideUp(200, () => this.render(false));
+      }
+    });
+  }
   /**
    * Handle dropping of an actor reference or item data onto an Actor Sheet
    * @param {DragEvent} event     The concluding DragEvent which contains drop data
@@ -235,6 +231,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
    * @override
    */
   async _bindActor(actor) {
+    if (!["laboratory", "player", "npc", "beast"].includes(actor.type)) return false;
     // add person to covenant inhabitants
     let targetActor = this.actor;
     if (actor._isMagus()) {
@@ -247,8 +244,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         {
           name: actor.name,
           type: "inhabitant",
+          img: actor.img,
           system: {
             category: "magi",
+            actorId: actor._id,
             job:
               actor.system.description.title.value +
               " " +
@@ -279,8 +278,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         {
           name: actor.name,
           type: "inhabitant",
+          img: actor.img,
           system: {
             category: "companions",
+            actorId: actor._id,
             job: actor.system.description.title.value,
             points: pts,
             yearBorn: actor.system.description.born.value
@@ -302,16 +303,14 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       (actor.type == "npc" && actor.system.charType.value == "mundane")
     ) {
       let pts = 1;
-      // if (targetActor.system.season == "summer" || targetActor.system.season == "autumn") {
-      //     pts = 5;
-      // }
-      // TODO: fill other fields?
       const itemData = [
         {
           name: actor.name,
           type: "inhabitant",
+          img: actor.img,
           system: {
             category: "grogs",
+            actorId: actor._id,
             job: actor.system.description.title.value,
             points: pts,
             yearBorn: actor.system.description.born.value
@@ -333,8 +332,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         {
           name: actor.name,
           type: "labCovenant",
+          img: actor.img,
           system: {
             owner: actor.system.owner.value,
+            sanctumId: actor._id,
             quality: actor.system.generalQuality.total,
             upkeep: actor.system.upkeep.total
           }
@@ -351,6 +352,36 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       }
     }
     return {};
+  }
+
+  async _unbindActor(actor) {
+    if (!["laboratory", "player", "npc", "beast"].includes(actor.type)) return false;
+    let targetActor = this.actor;
+    if (actor._isMagus()) {
+      let hab = targetActor.system.habitants.magi.filter((h) => h.system.actorId == actor._id);
+      if (hab.length) {
+        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], {});
+      }
+    } else if (actor._isCompanion()) {
+      let hab = targetActor.system.habitants.companion.filter((h) => h.system.actorId == actor._id);
+      if (hab.length) {
+        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], {});
+      }
+    } else if (
+      actor._isGrog() ||
+      (actor.type == "npc" && actor.system.charType.value == "mundane")
+    ) {
+      let hab = targetActor.system.habitants.habitants.filter((h) => h.system.actorId == actor._id);
+      if (hab.length) {
+        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], {});
+      }
+    } else if (actor.type == "laboratory") {
+      // check if it is already bound
+      let lab = targetActor.system.labs.filter((l) => l.system.sanctumId == actor._id);
+      if (lab.length) {
+        return await this.actor.deleteEmbeddedDocuments("Item", [lab[0]._id], {});
+      }
+    }
   }
 
   /**

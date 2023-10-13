@@ -774,14 +774,14 @@
           "quantity": 0,
           "saving": 0,
           "notes": "",
-          "label": "arm5e.sheet.craftsmenCommon"
+          "label": "arm5e.sheet.craftmenCommon"
         },
         "craftsmenRare": {
           "sumary": "arm5e.sheet.craftsmenRareSumary",
           "quantity": 0,
           "saving": 0,
           "notes": "",
-          "label": "arm5e.sheet.craftsmenRare"
+          "label": "arm5e.sheet.craftmenRare"
         },
         "magicItems": {
           "sumary": "arm5e.sheet.magicItemsSumary",

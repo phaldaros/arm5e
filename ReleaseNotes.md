@@ -3,6 +3,7 @@
 ### Features & changes
 
 - [technical] better handling of inter-actor links, cleaner code, faster actor load.
+- Simplified abilties and spell masteries xp display
 
 ### Bug fixes
 

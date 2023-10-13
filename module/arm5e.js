@@ -46,6 +46,7 @@ import {
   ItemSchema,
   PersonalityTraitSchema,
   ReputationSchema,
+  SanctumSchema,
   VirtueFlawSchema
 } from "./schemas/minorItemsSchemas.js";
 import { LabSchema } from "./schemas/labSchema.js";
@@ -473,18 +474,13 @@ function setDatamodels() {
   CONFIG.ARM5E.ItemDataModels["weapon"] = WeaponSchema;
   CONFIG.ARM5E.ItemDataModels["inhabitant"] = InhabitantSchema;
   CONFIG.ARM5E.ItemDataModels["wound"] = WoundSchema;
+  CONFIG.ARM5E.ItemDataModels["labCovenant"] = SanctumSchema;
   //Actors
   CONFIG.ARM5E.ActorDataModels["laboratory"] = LabSchema;
   CONFIG.ARM5E.ActorDataModels["magicCodex"] = CodexSchema;
 
   // Deprecated types
 
-  CONFIG.ARM5E.ItemDataModels["habitantMagi"] = InhabitantSchema;
-  CONFIG.ARM5E.ItemDataModels["habitantCompanion"] = InhabitantSchema;
-  CONFIG.ARM5E.ItemDataModels["habitantSpecialists"] = InhabitantSchema;
-  CONFIG.ARM5E.ItemDataModels["habitantHabitants"] = InhabitantSchema;
-  CONFIG.ARM5E.ItemDataModels["habitantHorses"] = InhabitantSchema;
-  CONFIG.ARM5E.ItemDataModels["habitantLivestock"] = InhabitantSchema;
   CONFIG.ARM5E.ItemDataModels["visStockCovenant"] = VisSchema;
 }
 

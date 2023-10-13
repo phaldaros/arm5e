@@ -371,14 +371,9 @@ export class ArM5ePCActor extends Actor {
           Math.round((item.system.xp + item.system.xpBonus) * item.system.xpCoeff)
         );
         item.system.xpNextLevel = Math.round(
-          5 * item.system.derivedScore + 5 / item.system.xpCoeff
+          ArM5ePCActor.getAbilityXp(item.system.derivedScore + 1) / item.system.xpCoeff
         );
-        item.system.remainingXp =
-          item.system.xp -
-          Math.round(
-            ArM5ePCActor.getAbilityXp(item.system.derivedScore / item.system.xpCoeff) -
-              item.system.xpBonus
-          );
+        item.system.remainingXp = item.system.xp + item.system.xpBonus;
 
         if (
           system.bonuses.skills[computedKey] != undefined &&
@@ -448,15 +443,11 @@ export class ArM5ePCActor extends Actor {
         item.system.derivedScore = ArM5ePCActor.getAbilityScoreFromXp(
           Math.round((item.system.xp + item.system.xpBonus) * item.system.xpCoeff)
         );
+
         item.system.xpNextLevel = Math.round(
-          5 * item.system.derivedScore + 5 / item.system.xpCoeff
+          ArM5ePCActor.getAbilityXp(item.system.derivedScore + 1) / item.system.xpCoeff
         );
-        item.system.remainingXp =
-          item.system.xp -
-          Math.round(
-            ArM5ePCActor.getAbilityXp(item.system.derivedScore / item.system.xpCoeff) -
-              item.system.xpBonus
-          );
+        item.system.remainingXp = item.system.xp + item.system.xpBonus;
 
         item.system.finalScore = item.system.derivedScore;
       }

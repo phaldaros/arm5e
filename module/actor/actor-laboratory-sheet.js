@@ -89,7 +89,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       if (context.system.covenant.linked) {
         this.actor.apps[context.system.covenant.document.sheet.appId] =
           context.system.covenant.document.sheet;
-        this.actor.apps[context.system.covenant.sheet.appId] = context.system.covenant.sheet;
+        this.actor.apps[context.system.covenant.document.sheet.appId] =
+          context.system.covenant.document.sheet;
         context.edition.aura = "readonly";
       } else {
         context.edition.aura = "";
@@ -581,6 +582,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   }
 
   async _bindActor(actor) {
+    if (!["covenant", "player", "npc", "beast"].includes(actor.type)) return false;
     let updateData = {};
     if (actor.type == "covenant") {
       updateData["system.covenant.value"] = actor.name;
@@ -590,6 +592,19 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       updateData["system.owner.actorId"] = actor._id;
     }
 
+    return await this.actor.update(updateData, {});
+  }
+
+  async _unbindActor(actor) {
+    if (!["covenant", "player", "npc", "beast"].includes(actor.type)) return false;
+    let updateData = {};
+    if (actor.type == "covenant") {
+      updateData["system.covenant.value"] = "";
+      updateData["system.covenant.actorId"] = null;
+    } else if (["player", "npc", "beast"].includes(actor.type)) {
+      updateData["system.owner.value"] = "";
+      updateData["system.owner.actorId"] = null;
+    }
     return await this.actor.update(updateData, {});
   }
 

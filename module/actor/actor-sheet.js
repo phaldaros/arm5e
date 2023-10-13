@@ -833,10 +833,13 @@ export class ArM5eActorSheet extends ActorSheet {
       // if the actor was linked, remove listener
       if (this.actor.system.covenant.linked) {
         delete this.actor.apps[this.actor.system.covenant.document.sheet.appId];
+        await this.actor.system.covenant.document.sheet._unbindActor(this.actor);
       }
       let updateData = { "system.covenant.value": val };
       if (cov) {
         updateData["system.covenant.actorId"] = cov._id;
+
+        await cov.sheet._bindActor(this.actor);
       } else {
         updateData["system.covenant.actorId"] = null;
       }
@@ -850,10 +853,12 @@ export class ArM5eActorSheet extends ActorSheet {
       // if the actor was linked, remove listener
       if (this.actor.system.owner.linked) {
         delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
+        await this.actor.system.owner.document.sheet._unbindActor(this.actor);
       }
       let updateData = { "system.owner.value": val };
       if (owner) {
         updateData["system.owner.actorId"] = owner._id;
+        await owner.sheet._bindActor(this.actor);
       } else {
         updateData["system.owner.actorId"] = null;
       }
@@ -866,11 +871,13 @@ export class ArM5eActorSheet extends ActorSheet {
       const sanctum = game.actors.getName(val);
       // if the actor was linked, remove listener
       if (this.actor.system.sanctum.linked) {
-        delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
+        delete this.actor.apps[this.actor.system.sanctum.document.sheet.appId];
+        await this.actor.system.sanctum.document.sheet._unbindActor(this.actor);
       }
       let updateData = { "system.sanctum.value": val };
       if (sanctum) {
         updateData["system.sanctum.actorId"] = sanctum._id;
+        await sanctum.sheet._bindActor(this.actor);
       } else {
         updateData["system.sanctum.actorId"] = null;
       }
@@ -878,11 +885,6 @@ export class ArM5eActorSheet extends ActorSheet {
     });
 
     html.find(".actor-profile").click(this.actorProfiles.addProfile.bind(this));
-
-    // html.find(".spell-list").click(async ev => {
-    //   const category = $(ev.currentTarget).data("topic");
-    //   document.getElementById(category).classList.toggle("hide");
-    // });
 
     // filters
     html.find(".toggleHidden").click(async (ev) => {
@@ -1090,26 +1092,8 @@ export class ArM5eActorSheet extends ActorSheet {
       ]);
     });
 
-    // Delete Inventory Item, optionally ask for confirmation
     html.find(".item-delete").click(async (ev) => {
-      ev.preventDefault();
-      const li = $(ev.currentTarget).parents(".item");
-      let itemId = li.data("itemId");
-      itemId = itemId instanceof Array ? itemId : [itemId];
-      let confirmed = true;
-      if (game.settings.get("arm5e", "confirmDelete")) {
-        const question = game.i18n.localize("arm5e.dialog.delete-question");
-        confirmed = await getConfirmation(
-          li[0].dataset.name,
-          question,
-          ArM5eActorSheet.getFlavor(this.actor.type)
-        );
-      }
-      if (confirmed) {
-        itemId = itemId instanceof Array ? itemId : [itemId];
-        this.actor.deleteEmbeddedDocuments("Item", itemId, {});
-        li.slideUp(200, () => this.render(false));
-      }
+      this._itemDelete(ev);
     });
 
     // Delete Inventory Item and always ask for confirmation
@@ -1182,6 +1166,28 @@ export class ArM5eActorSheet extends ActorSheet {
     const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
     const dataset = getDataset(ev);
     await item.system.readBook(item, dataset);
+  }
+
+  // Delete Inventory Item, optionally ask for confirmation
+  async _itemDelete(ev) {
+    ev.preventDefault();
+    const li = $(ev.currentTarget).parents(".item");
+    let itemId = li.data("itemId");
+    itemId = itemId instanceof Array ? itemId : [itemId];
+    let confirmed = true;
+    if (game.settings.get("arm5e", "confirmDelete")) {
+      const question = game.i18n.localize("arm5e.dialog.delete-question");
+      confirmed = await getConfirmation(
+        li[0].dataset.name,
+        question,
+        ArM5eActorSheet.getFlavor(this.actor.type)
+      );
+    }
+    if (confirmed) {
+      itemId = itemId instanceof Array ? itemId : [itemId];
+      this.actor.deleteEmbeddedDocuments("Item", itemId, {});
+      li.slideUp(200, () => this.render(false));
+    }
   }
 
   async _editAging(event) {
@@ -1461,17 +1467,18 @@ export class ArM5eActorSheet extends ActorSheet {
               label: `Yes`,
               callback: (html) => calculateDamage(html, actor)
             },
-            roll: {
-              label: `Roll`,
-              callback: async (html) => {
-                actor.rollData.init(
-                  { roll: "option", name: "Damage roll", physicalcondition: false },
-                  actor
-                );
-                let roll = await stressDie(actor, "option", 16, null, 1);
-                // calculateDamage(html, actor, roll);
-              }
-            },
+            // TODO: later
+            // roll: {
+            //   label: `Roll`,
+            //   callback: async (html) => {
+            //     actor.rollData.init(
+            //       { roll: "option", name: "Damage roll", physicalcondition: false },
+            //       actor
+            //     );
+            //     let roll = await stressDie(actor, "option", 16, null, 1);
+            //     // calculateDamage(html, actor, roll);
+            //   }
+            // },
             no: {
               icon: "<i class='fas fa-ban'></i>",
               label: `Cancel`,
@@ -1712,7 +1719,29 @@ export class ArM5eActorSheet extends ActorSheet {
   }
 
   async _bindActor(actor) {
-    return false;
+    if (!["covenant", "laboratory"].includes(actor.type)) return false;
+    let updateData = {};
+    if (actor.type == "covenant") {
+      updateData["system.covenant.value"] = actor.name;
+      updateData["system.covenant.actorId"] = actor._id;
+    } else if (actor.type == "laboratory") {
+      updateData["system.sanctum.value"] = actor.name;
+      updateData["system.sanctum.actorId"] = actor._id;
+    }
+    return await this.actor.update(updateData, {});
+  }
+
+  async _unbindActor(actor) {
+    if (!["covenant", "laboratory"].includes(actor.type)) return false;
+    let updateData = {};
+    if (actor.type == "covenant") {
+      updateData["system.covenant.value"] = "";
+      updateData["system.covenant.actorId"] = null;
+    } else if (actor.type == "laboratory") {
+      updateData["system.sanctum.value"] = "";
+      updateData["system.sanctum.actorId"] = null;
+    }
+    return await this.actor.update(updateData, {});
   }
 }
 

@@ -319,6 +319,63 @@ export class PersonalityTraitSchema extends foundry.abstract.DataModel {
     return data;
   }
 }
+
+export class SanctumSchema extends foundry.abstract.DataModel {
+  // TODO remove in V11
+  static _enableV10Validation = true;
+
+  static defineSchema() {
+    return {
+      ...itemBase(),
+      sanctumId: new fields.StringField({
+        nullable: true,
+        required: false,
+        blank: true,
+        initial: null
+      }),
+      owner: new fields.StringField({ required: false, blank: true, initial: "" }),
+      upkeep: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        initial: 0,
+        step: 1
+      }),
+      quality: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        initial: 0,
+        step: 1
+      }),
+      usage: new fields.StringField({
+        required: false,
+        blank: false,
+        initial: "standard",
+        choices: Object.keys(ARM5E.lab.usage)
+      })
+    };
+  }
+
+  // static migrateData(data) {
+  //   super.migrateData(data);
+  //   return data;
+  // }
+
+  static migrate(data) {
+    const updateData = {};
+    if (data.name != "" && (data.system.sanctumId == null || data.system.sanctumId === "")) {
+      let sanctum = game.actors.filter(
+        (a) => ["laboratory"].includes(a.type) && a.name == data.name
+      );
+      if (sanctum.length > 0) {
+        updateData["system.sanctumId"] = sanctum[0]._id;
+      }
+    }
+    return updateData;
+  }
+}
+
 // TEMPLATE
 export class MySchema extends foundry.abstract.DataModel {
   // TODO remove in V11
@@ -329,6 +386,7 @@ export class MySchema extends foundry.abstract.DataModel {
   }
 
   static migrateData(data) {
+    super.migrateData(data);
     return data;
   }
 
