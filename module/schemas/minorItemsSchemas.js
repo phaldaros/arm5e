@@ -9,6 +9,7 @@ import {
   itemBase,
   XpField
 } from "./commonSchemas.js";
+import { EchantmentExtension, ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 
 export const possibleReputationTypes = Object.keys(ARM5E.reputations);
@@ -137,7 +138,12 @@ export class ItemSchema extends foundry.abstract.DataModel {
         min: 0,
         initial: 0
       }),
-      carried: boolOption(false, true)
+      carried: boolOption(false, true),
+      state: ItemState(),
+      enchantments: new fields.EmbeddedDataField(EchantmentExtension, {
+        nullable: true,
+        initial: null
+      })
     };
   }
 

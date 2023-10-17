@@ -25,12 +25,11 @@
         </div>
       </div>
       <div class="grid grid-2col">
+
         <div class="resource flexcol flex-center">
-          <label class="header-label">{{localize "arm5e.sheet.Requisites"}}</label>
-          <a class="item-control advanced-req" title="Advanced Requistes" data-flavor="{{ui.flavor}}"><i
-              class="fas fa-gavel fa-lg"></i></a>
+          <div class="flex0">{{{masteryHint}}}</div>
         </div>
-        <div class="resource">
+        <div class="resource flexcol flex-center">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
           <input type="text" name="system.level" value="{{system.level}}" data-dtype="Number" />
         </div>
@@ -58,7 +57,7 @@
   </nav>
 
   {{!-- Sheet Body --}}
-  <section class="sheet-body">
+  <section class="sheet-body" style="min-height: 266px;">
     {{!-- Spell Design Tab --}}
     <div class="tab spell-design" data-group="primary" data-tab="spell-design">
       {{> "systems/arm5e/templates/item/parts/spell-design.html" }}

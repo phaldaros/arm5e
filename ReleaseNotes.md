@@ -1,11 +1,16 @@
-## 2.2.3.0, Ophilio
+## 2.2.3.1, Ophilio
 
 ### Features & changes
 
 - [technical] better handling of inter-actor links, cleaner code, faster actor load.
-- Simplified abilties and spell masteries xp display
+- Simplified abilities and spell masteries xp display
+- new design for input fields
 
 ### Bug fixes
+
+- Fixed important item migration bug
+- Covenants can no longer equip weapons and armors
+- Fix vis study activity
 
 ## 2.2.2.20, Nico
 

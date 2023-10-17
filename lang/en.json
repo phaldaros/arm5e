@@ -843,10 +843,19 @@
   "arm5e.lab.enchantment.item.shape.bonus": "Shape bonus",
   "arm5e.lab.enchantment.item.shape.label": "Shape",
   "arm5e.lab.enchantment.item.material.bonus": "Material bonus",
+  "arm5e.lab.enchantment.item.material.label": "Material",
 
   "arm5e.lab.enchantment.item.charges": "Charges",
-  "arm5e.lab.enchantment.item.charged": "Charged",
+
   "arm5e.lab.enchantment.item.maxLevel": "Max level",
+
+  "arm5e.sheet.state.label": "State",
+  "arm5e.lab.enchantment.item.state.inert": "Magically Inert",
+  "arm5e.lab.enchantment.item.state.appraised": "Appraised",
+  "arm5e.lab.enchantment.item.state.prepared": "Prepared",
+  "arm5e.lab.enchantment.item.state.charged": "Charged",
+  "arm5e.lab.enchantment.item.state.enchanted": "Enchanted",
+  "arm5e.lab.enchantment.item.state.attuned": "Attuned",
 
   "arm5e.lab.enchantment.item.expiry.label": "Effect expiry",
   "arm5e.lab.enchantment.item.expiry.never": "Never",
@@ -854,7 +863,6 @@
   "arm5e.lab.enchantment.item.expiry.7y": "7 years",
   "arm5e.lab.enchantment.item.expiry.70y": "70 years",
 
-  "arm5e.lab.enchantment.item.material.label": "Material",
   "arm5e.lab.enchantment.item.material.base": "Material Base",
   "arm5e.lab.enchantment.item.material.base1": "Cloth, glass",
   "arm5e.lab.enchantment.item.material.base2": "Wood, leather",

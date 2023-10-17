@@ -5,13 +5,15 @@ import {
   baseDescription,
   boolOption,
   convertToNumber,
-  EnchantmentAttributes,
   itemBase,
   ModifierField,
   SpellAttributes,
   TechniquesForms,
   XpField
 } from "./commonSchemas.js";
+
+import { EnchantmentAttributes } from "./enchantmentSchema.js";
+
 const fields = foundry.data.fields;
 
 // number field for spell level

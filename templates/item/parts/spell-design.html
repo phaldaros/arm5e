@@ -1,22 +1,32 @@
-<div class="grid grid-2col">
-  <div class="resource">
-    <label class="header-label">Base level</label>
-    <input style="max-width: 70px;" type="number" name="system.baseLevel" size="4" value="{{system.baseLevel}}"
-      data-dtype="Number" />
-  </div>
-  <div class="resource">
-    <label class="header-label">{{localize "arm5e.sheet.general"}}</label>
-    <input type="checkbox" name="system.general" size="4" {{checked system.general}} />
+<div class="flexcol">
+  <div class="flexrow">
+    <div class="resource flexcol flex-center">
+      <label class="header-label">Base level</label>
+      <input style="max-width: 70px;" type="number" name="system.baseLevel" size="4" value="{{system.baseLevel}}"
+        data-dtype="Number" />
+    </div>
+    <div class="resource flexcol flex-center">
+      <label class="header-label">{{localize "arm5e.sheet.Requisites"}}</label>
+      <a class="item-control advanced-req" title="Advanced Requistes" data-flavor="{{ui.flavor}}"><i
+          class="fas fa-gavel fa-lg"></i></a>
+    </div>
+    <div class="resource flexcol flex-center">
+      <label class="header-label">{{localize "arm5e.sheet.general"}}</label>
+      <input type="checkbox" name="system.general" size="4" {{checked system.general}} />
+    </div>
     {{#if system.general}}
-      <label class="header-label">{{localize "arm5e.spell.effect.levelOffset"}}</label>
-      <input type="number" name="system.levelOffset" value="{{system.levelOffset}}" data-dtype="Number"
-        style="max-width: 40px;" class="resource-focus" />
+      <div class="resource flexcol flex-center">
+        <label class="header-label">{{localize "arm5e.spell.effect.levelOffset"}}</label>
+        <input type="number" name="system.levelOffset" value="{{system.levelOffset}}" data-dtype="Number"
+          style="max-width: 40px;" class="resource-focus" />
+      </div>
     {{/if}}
   </div>
 </div>
 <div class="resource">
   <label class="header-label">{{localize "arm5e.spell.effect.description"}}</label>
-  <input type="text" name="system.baseEffectDescription" value="{{system.baseEffectDescription}}" data-dtype="String" />
+  <input type="text" class="one-line" name="system.baseEffectDescription" value="{{system.baseEffectDescription}}"
+    data-dtype="String" />
 </div>
 <div class="flexrow" style="height: 168px;">
   <div class="resource">

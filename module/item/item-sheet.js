@@ -2,6 +2,8 @@ import { log } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ARM5E_DEFAULT_ICONS, getConfirmation } from "../constants/ui.js";
 import { ArM5eActorSheet } from "../actor/actor-sheet.js";
+import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
+import { ArM5eItemEnchantmentSheet } from "./subsheet/item-enchantment-sheet.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -26,6 +28,10 @@ export class ArM5eItemSheet extends ItemSheet {
 
   constructor(data, options) {
     super(data, options);
+    if (["item", "weapon", "armor", "book"].includes(this.item.type)) {
+      this.enchantPossible = true;
+      this.enchantSheet = new ArM5eItemEnchantmentSheet(this);
+    }
   }
 
   /** @override */
@@ -106,8 +112,13 @@ export class ArM5eItemSheet extends ItemSheet {
     // Use a safe clone of the item data for further operations.
     const itemData = context.item;
     context.subsheet = this.subsheetTemplate;
+
     // Add the item's data to context.system for easier access, as well as flags.
     context.system = itemData.system;
+    if (this.enchantPossible && context.system.enchantments != null) {
+      await this.enchantSheet.getData(context);
+    }
+
     context.flags = itemData.flags;
     context.ui = { flavor: "Neutral" };
     context.config = CONFIG.ARM5E;
@@ -234,6 +245,9 @@ export class ArM5eItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    if (this.enchantPossible) {
+      this.enchantSheet.addListeners(html);
+    }
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 

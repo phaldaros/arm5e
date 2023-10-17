@@ -2517,80 +2517,86 @@ ARM5E.lab.usage = {
 
 ARM5E.lab.enchantment = {};
 ARM5E.lab.enchantment.expiry = {
-  1: "arm5e.lab.enchantment.item.expiry.never",
-  10: "arm5e.lab.enchantment.item.expiry.1y",
-  5: "arm5e.lab.enchantment.item.expiry.7y",
-  2: "arm5e.lab.enchantment.item.expiry.70y"
+  0: "arm5e.lab.enchantment.item.expiry.never",
+  1: "arm5e.lab.enchantment.item.expiry.1y",
+  7: "arm5e.lab.enchantment.item.expiry.7y",
+  70: "arm5e.lab.enchantment.item.expiry.70y"
 };
 
-ARM5E.lab.enchantment.status = {
-  0: "arm5e.lab.enchantment.item.inert",
-  1: "arm5e.lab.enchantment.item.prepared",
-  2: "arm5e.lab.enchantment.item.enchanted",
-  3: "arm5e.lab.enchantment.item.opened"
+ARM5E.lab.enchantment.state = {
+  inert: "arm5e.lab.enchantment.item.state.inert",
+  appraised: "arm5e.lab.enchantment.item.state.appraised",
+  prepared: "arm5e.lab.enchantment.item.state.prepared",
+  enchanted: "arm5e.lab.enchantment.item.state.enchanted",
+  charged: "arm5e.lab.enchantment.item.state.charged"
 };
 
 ARM5E.lab.enchantment.materialBase = {
-  1: {
-    value: 1,
+  base1: {
+    base: 1,
     eg: "arm5e.lab.enchantment.item.material.base1"
   },
-  2: {
-    value: 2,
+  base2: {
+    base: 2,
     eg: "arm5e.lab.enchantment.item.material.base2"
   },
-  3: {
-    value: 3,
+  base3: {
+    base: 3,
     eg: "arm5e.lab.enchantment.item.material.base3"
   },
-  4: {
-    value: 4,
+  base4: {
+    base: 4,
     eg: "arm5e.lab.enchantment.item.material.base4"
   },
-  5: {
-    value: 5,
+  base5: {
+    base: 5,
     eg: "arm5e.lab.enchantment.item.material.base5"
   },
-  6: {
-    value: 6,
+  base6: {
+    base: 6,
     eg: "arm5e.lab.enchantment.item.material.base6"
   },
-  10: {
-    value: 10,
+  base10: {
+    base: 10,
     eg: "arm5e.lab.enchantment.item.material.base10"
   },
-  12: {
-    value: 12,
+  base12: {
+    base: 12,
     eg: "arm5e.lab.enchantment.item.material.base12"
   },
-  15: {
-    value: 15,
+  base15: {
+    base: 15,
     eg: "arm5e.lab.enchantment.item.material.base15"
   },
-  20: {
-    value: 20,
+  base20: {
+    base: 20,
     eg: "arm5e.lab.enchantment.item.material.base20"
   }
 };
 
 ARM5E.lab.enchantment.sizeMultiplier = {
-  1: {
+  tiny: {
+    mult: 1,
     eg: "arm5e.lab.enchantment.item.size.tiny-eg",
     value: "arm5e.lab.enchantment.item.size.tiny"
   },
-  2: {
+  small: {
+    mult: 2,
     eg: "arm5e.lab.enchantment.item.size.small-eg",
     value: "arm5e.lab.enchantment.item.size.small"
   },
-  3: {
+  medium: {
+    mult: 3,
     eg: "arm5e.lab.enchantment.item.size.medium-eg",
     value: "arm5e.lab.enchantment.item.size.medium"
   },
-  4: {
+  large: {
+    mult: 4,
     eg: "arm5e.lab.enchantment.item.size.large-eg",
     value: "arm5e.lab.enchantment.item.size.large"
   },
-  5: {
+  huge: {
+    mult: 5,
     eg: "arm5e.lab.enchantment.item.size.huge-eg",
     value: "arm5e.lab.enchantment.item.size.huge"
   }
@@ -2605,11 +2611,6 @@ ARM5E.lab.enchantment.effectUses = {
   5: "24",
   6: "50",
   10: "Unlimited"
-};
-ARM5E.lab.enchantment.status = {
-  0: "To be enchanted",
-  1: "Opened for enchantment",
-  2: "Enchanted"
 };
 
 ARM5E.generic = {};

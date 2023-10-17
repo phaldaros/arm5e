@@ -7,6 +7,7 @@ import {
   itemBase,
   XpField
 } from "./commonSchemas.js";
+import { ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 export const possibleCosts = Object.keys(ARM5E.item.costs);
 export class ArmorSchema extends foundry.abstract.DataModel {
@@ -50,7 +51,8 @@ export class ArmorSchema extends foundry.abstract.DataModel {
         step: 1
       }),
       full: boolOption(false, true),
-      equipped: boolOption(false, true)
+      equipped: boolOption(false, true),
+      state: ItemState()
     };
   }
 

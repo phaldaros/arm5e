@@ -23,10 +23,9 @@ export class NullableEmbeddedDataField extends fields.EmbeddedDataField {
 
 export class NullableSchemaField extends fields.SchemaField {
   /**
-   * @param {typeof DataModel} model          The class of DataModel which should be embedded in this field
    * @param {DataFieldOptions} options        Options which configure the behavior of the field
    */
-  constructor(fields, options = {}) {
+  constructor(fields, options = { nullable: true }) {
     super(fields, options);
   }
 
@@ -258,30 +257,6 @@ export const SpellAttributes = () => {
   };
 };
 
-export const EnchantmentAttributes = () => {
-  return {
-    effectfrequency: new fields.NumberField({
-      required: false,
-      nullable: false,
-      integer: true,
-      min: 0,
-      initial: 0,
-      step: 1
-    }),
-    penetration: new fields.NumberField({
-      required: false,
-      nullable: false,
-      integer: true,
-      min: 0,
-      initial: 0,
-      step: 1
-    }),
-    maintainConc: boolOption(),
-    environmentalTrigger: baseDescription(),
-    restrictedUse: baseDescription(),
-    linkedTrigger: baseDescription()
-  };
-};
 // Choices:
 
 export const ModifierField = () =>
