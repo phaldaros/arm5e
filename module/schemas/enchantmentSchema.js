@@ -1,10 +1,12 @@
 import { ARM5E } from "../config.js";
-import { SHAPES } from "../constants/shapes-materials.js";
+import { ASPECTS } from "../constants/enchant-aspects.js";
+import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
 import {
   baseDescription,
   boolOption,
   convertToNumber,
+  DateField,
   itemBase,
   ModifierField,
   NullableSchemaField,
@@ -27,9 +29,31 @@ export class EchantmentExtension extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       talisman: boolOption(),
-      shapes: new fields.SetField(new fields.SchemaField(ShapeAttribute())),
-      materials: new fields.SetField(new fields.SchemaField(MaterialAttribute())),
-      capacities: new fields.SetField(new fields.SchemaField(HermeticAttributes()), {
+      talismanOwner: new fields.StringField({
+        required: false,
+        blank: true
+      }),
+      charged: boolOption(),
+      prepared: boolOption(),
+      bonuses: new fields.ArrayField(
+        new fields.SchemaField({
+          value: ModifierField(),
+          name: new fields.StringField({
+            required: false,
+            blank: true,
+            initial: "Generic"
+          }),
+          type: new fields.StringField({
+            required: false,
+            blank: false,
+            initial: "labTotal",
+            choices: ["labTotal"]
+          })
+        }),
+        { required: false, initial: [] }
+      ),
+      aspects: new fields.ArrayField(new fields.SchemaField(AspectAttribute())),
+      capacities: new fields.ArrayField(new fields.SchemaField(HermeticAttributes()), {
         initial: [{ sizeMultiplier: "tiny", materialBase: "base1", desc: "" }]
       }),
       capacityMode: new fields.StringField({
@@ -38,24 +62,72 @@ export class EchantmentExtension extends foundry.abstract.DataModel {
         initial: "sum",
         choices: ["sum", "max"]
       }),
-      effects: new fields.SetField(EnchantmentEffect())
+      effects: new fields.ArrayField(
+        new fields.SchemaField({
+          name: new fields.StringField({
+            required: false,
+            blank: true
+          }),
+          img: new fields.FilePathField({
+            categories: ["IMAGE"],
+            initial: (data) => CONFIG.ARM5E_DEFAULT_ICONS["enchantment"]
+          }),
+          system: new fields.EmbeddedDataField(EnchantmentSchema, {})
+        }),
+        {
+          required: false,
+          initial: []
+        }
+      ),
+      charges: new fields.NumberField({
+        required: false,
+        nullable: true,
+        integer: true,
+        min: 0,
+        initial: 1,
+        step: 1
+      }),
+      originalCharges: new fields.NumberField({
+        required: false,
+        nullable: true,
+        integer: true,
+        min: 1,
+        initial: 1,
+        step: 1
+      })
     };
+  }
+  static getDefaultArtwork(itemData) {
+    return { img: UI };
+  }
+
+  static migrate(itemData) {
+    return {};
   }
 }
 
-export const EnchantmentEffect = () => {
-  return new fields.SchemaField({
-    ...itemBase(),
-    ...TechniquesForms(),
-    ...SpellAttributes(),
-    baseLevel: baseLevel(),
-    baseEffectDescription: baseDescription(),
-    bonus: ModifierField(),
-    bonusDesc: baseDescription(),
-    ...EnchantmentAttributes(),
-    hidden: boolOption()
-  });
-};
+export class EnchantmentSchema extends foundry.abstract.DataModel {
+  static _enableV10Validation = true;
+  constructor(fields, options = { nullable: true }) {
+    super(fields, options);
+  }
+  static defineSchema() {
+    return {
+      ...itemBase(),
+      ...TechniquesForms(),
+      ...SpellAttributes(),
+      baseLevel: baseLevel(),
+      baseEffectDescription: baseDescription(),
+      bonus: ModifierField(),
+      bonusDesc: baseDescription(),
+      ...EnchantmentAttributes(),
+      hidden: boolOption()
+    };
+  }
+  static migrate(itemData) {
+    return {};
+  }
+}
 
 export const EnchantmentAttributes = () => {
   return {
@@ -86,6 +158,7 @@ export const EnchantmentAttributes = () => {
       initial: 0,
       step: 1
     }),
+    expiryStartDate: DateField(),
     expiry: new fields.StringField({
       required: false,
       nullable: false,
@@ -125,25 +198,9 @@ export const HermeticAttributes = () => {
   };
 };
 
-export const MaterialAttribute = () => {
+export const AspectAttribute = () => {
   return {
-    material: baseDescription(),
-    effect: baseDescription(),
-    bonus: new fields.NumberField({
-      required: false,
-      nullable: false,
-      integer: true,
-      min: 0,
-      initial: 0,
-      step: 1
-    }),
-    attuned: boolOption()
-  };
-};
-
-export const ShapeAttribute = () => {
-  return {
-    shape: baseDescription(),
+    aspect: baseDescription(),
     effect: baseDescription(),
     bonus: new fields.NumberField({
       required: false,

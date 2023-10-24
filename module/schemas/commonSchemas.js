@@ -111,6 +111,23 @@ export const itemBase = () => {
   };
 };
 
+export const DateField = (year = 1220, season = "spring") =>
+  new fields.SchemaField({
+    season: SeasonField(season),
+    year: new fields.NumberField({
+      required: true,
+      nullable: false,
+      integer: true,
+      initial: year,
+      step: 1
+    }),
+    date: new fields.StringField({
+      required: false,
+      blank: true,
+      initial: ""
+    })
+  });
+
 export const basicTextField = () =>
   new fields.StringField({ required: false, blank: true, initial: "" });
 
@@ -268,11 +285,11 @@ export const ModifierField = () =>
     step: 1
   });
 
-export const SeasonField = () =>
+export const SeasonField = (season = "spring") =>
   new fields.StringField({
     required: false,
     blank: false,
-    initial: "spring",
+    initial: season,
     choices: Object.keys(ARM5E.seasons)
   });
 

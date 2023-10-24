@@ -20,7 +20,8 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
           contentSelector: ".sheet-body",
           initial: "spell-design"
         }
-      ]
+      ],
+      submitOnClose: true
     });
   }
 
@@ -36,6 +37,11 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     context.system.localizedDesc = ArM5eItem.GetEffectAttributesLabel(this.item);
     context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
 
+    if (context.flags && context.flags[CONFIG.ARM5E.SYSTEM_ID]?.readonly === "true") {
+      context.noEdit = "readonly";
+      context.noSelect = "disabled";
+      context.locked = true;
+    }
     // If settings were too restrictive, allow existing Items to keep their value.
     switch (this.item.type) {
       case "spell":

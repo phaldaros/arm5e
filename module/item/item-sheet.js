@@ -1,9 +1,10 @@
-import { log } from "../tools.js";
+import { getDataset, log } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ARM5E_DEFAULT_ICONS, getConfirmation } from "../constants/ui.js";
 import { ArM5eActorSheet } from "../actor/actor-sheet.js";
 import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
-import { ArM5eItemEnchantmentSheet } from "./subsheet/item-enchantment-sheet.js";
+import { ArM5eItemEnchantmentSheet } from "./subsheet/enchant-extension-sheet.js";
+import { ARM5E } from "../config.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -22,7 +23,9 @@ export class ArM5eItemSheet extends ItemSheet {
           contentSelector: ".sheet-body",
           initial: "description"
         }
-      ]
+      ],
+      dragDrop: [{ dragSelector: null, dropSelector: ".drop-enchant" }],
+      scrollY: [".window-content"]
     });
   }
 
@@ -32,6 +35,25 @@ export class ArM5eItemSheet extends ItemSheet {
       this.enchantPossible = true;
       this.enchantSheet = new ArM5eItemEnchantmentSheet(this);
     }
+  }
+
+  async _onDrop(event) {
+    const dropData = TextEditor.getDragEventData(event);
+    if (dropData.type == "Item") {
+      if (this.enchantPossible) {
+        const enchant = await Item.implementation.fromDropData(dropData);
+        if (enchant.type === "enchantment") {
+          log(false, "Enchant dropped");
+          await this.enchantSheet.addEnchantment(enchant);
+        }
+      }
+    }
+    // else if (dropData.type == "Actor" && event.currentTarget.dataset.drop === "reader") {
+    //   const reader = await Actor.implementation.fromDropData(dropData);
+    //   if (reader.type === "player" || reader.type === "npc") {
+    //     await this._setReader(reader);
+    //   }
+    // }
   }
 
   /** @override */
@@ -113,6 +135,20 @@ export class ArM5eItemSheet extends ItemSheet {
     const itemData = context.item;
     context.subsheet = this.subsheetTemplate;
 
+    context.ui = this.item.getFlag(CONFIG.ARM5E.SYSTEM_ID, "ui");
+    if (context.ui) {
+      mergeObject(
+        context.ui,
+        {
+          sections: { visibility: { common: {} } },
+          flavor: "Neutral"
+        },
+        { recursive: true }
+      );
+    } else {
+      context.ui = { sections: { visibility: { common: {} } }, flavor: "Neutral" };
+    }
+
     // Add the item's data to context.system for easier access, as well as flags.
     context.system = itemData.system;
     if (this.enchantPossible && context.system.enchantments != null) {
@@ -120,7 +156,7 @@ export class ArM5eItemSheet extends ItemSheet {
     }
 
     context.flags = itemData.flags;
-    context.ui = { flavor: "Neutral" };
+    // context.ui.flavor = "Neutral";
     context.config = CONFIG.ARM5E;
     if (itemData.type == "weapon" && this.item.isOwned && this.item.actor._isCharacter()) {
       context.system.abilities = this.actor.system.abilities.map((v) => {
@@ -241,6 +277,15 @@ export class ArM5eItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
+  async _updateObject(event, formData) {
+    if (this.item.system.enchantments) {
+      if (this.enchantPossible && this.item.system.enchantments != null) {
+        formData = await this.enchantSheet._updateObject(event, formData);
+      }
+    }
+    return await super._updateObject(event, formData);
+  }
+
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
@@ -248,6 +293,26 @@ export class ArM5eItemSheet extends ItemSheet {
     if (this.enchantPossible) {
       this.enchantSheet.addListeners(html);
     }
+
+    html.find(".section-handle").click(async (ev) => {
+      const dataset = getDataset(ev);
+      log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
+      let section = this.item.flags.arm5e.ui.sections.visibility[dataset.category];
+      let classes = document.getElementById(dataset.section).classList;
+      if (section) {
+        log(false, `DEBUG section found`);
+        if (classes.contains("hide")) {
+          log(false, `DEBUG reveal ${dataset.section}`);
+          section[dataset.section] = "";
+          await this.item.setFlag(ARM5E.SYSTEM_ID, "ui", this.item.flags.arm5e.ui);
+        } else {
+          log(false, `DEBUG hide ${dataset.section}`);
+          section[dataset.section] = "hide";
+          await this.item.setFlag(ARM5E.SYSTEM_ID, "ui", this.item.flags.arm5e.ui);
+        }
+      }
+      classes.toggle("hide");
+    });
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 

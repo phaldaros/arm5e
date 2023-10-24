@@ -2531,6 +2531,12 @@ ARM5E.lab.enchantment.state = {
   charged: "arm5e.lab.enchantment.item.state.charged"
 };
 
+// TODO OPHI mnemonics
+ARM5E.lab.enchantment.bonus = {};
+ARM5E.lab.enchantment.bonus.templates = {
+  verditiusRunes: { type: "labTotal", label: "Verditius' runes", value: 3 }
+};
+
 ARM5E.lab.enchantment.materialBase = {
   base1: {
     base: 1,

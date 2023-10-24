@@ -401,6 +401,9 @@
   "arm5e.sheet.basicLabTotal.label": "Basic Lab Total",
   "arm5e.sheet.visLimit.label": "Vis Use Limit",
 
+  "arm5e.sheet.item.enchantments": "Enchantments",
+  "arm5e.sheet.item.aspects": "Shapes & Materials",
+  "arm5e.sheet.item.hidden": "Hidden",
   "arm5e.sheet.indexKey": "Index key",
 
   "arm5e.sheet.setAbilities": "Create abilities for your character that match the labels below. This ensures correct calculations. If you don't have the ability, you can still create it and set to zero and assign it.",
@@ -799,6 +802,7 @@
   "arm5e.sheet.base-effects": "Base effects",
   "arm5e.sheet.magical-effects": "Magical effects",
   "arm5e.sheet.enchantments": "Enchantments",
+  "arm5e.sheet.enchantment": "Enchantment",
   "arm5e.sheet.filters": "Filters",
   "arm5e.sheet.count": "Count",
 

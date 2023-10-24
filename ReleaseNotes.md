@@ -1,10 +1,14 @@
-## 2.2.3.1, Ophilio
+## 2.2.3.2, Ophilio
 
 ### Features & changes
 
 - [technical] better handling of inter-actor links, cleaner code, faster actor load.
 - Simplified abilities and spell masteries xp display
 - new design for input fields
+- Items can now be enchanted
+  - new Enchantment schema
+  - Extension of the sheet for enchantable items.
+  - Complete design of all enchantments types
 
 ### Bug fixes
 

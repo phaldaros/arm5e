@@ -36,148 +36,45 @@
       <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.description"}}
     </a>
-    {{#if (ne system.state "inert")}}
+    <!-- {{#if (ne system.state "inert")}}
       <a class="item posRelative" data-tab="attributes">
         <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.attributes"}}
       </a>
-    {{/if}}
+    {{/if}} -->
   </nav>
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
-
-      {{#if metagame.view }}
-        <div class="resource flexrow">
-          <label class="header-label">{{localize "arm5e.sheet.indexKey"}}</label>
-          <input type="text" name="system.indexKey" value="{{system.indexKey}}" data-dtype="String"
-            style="font-size: 10px; border:none; color:grey" {{metagame.edit}} />
+    {{#if (eq system.state "inert")}}
+      {{!-- Description Tab --}}
+      <div class="tab" data-group="primary" data-tab="description">
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+      </div>
+    {{else }}
+      <div class="padding4">
+        <div class="padding2">
+          <label class="section-handle clickable" data-category="common"
+            data-section="item-description">{{localize "arm5e.sheet.description"}}</label>
         </div>
-      {{/if}}
-    </div>
-    {{#if (ne system.state "inert")}}
-      {{!-- Attributes Tab --}}
-      {{log "system.enchantments:" system.enchantments}}
-      <div class="tab attributes" data-group="primary" data-tab="attributes" class="enchantment">
-        <!-- CAPACITY -->
-        <div>
-          <div class="padding2">
-            <label class="enchant-item clickable" data-item="capacity"
-              data-persist="capacity">{{localize "Capacity"}}</label>
-          </div>
-          <div class="backSection enchantment {{system.enchantments.visibility.capacity}}" id="capacity">
-            <div class="resource flexrow">
-              <label class="header-label">Capacity computation</label>
-              <div class="padding2">
-                <select name="system.enchantments.capacityMode" style="max-width: 100px;">
-                  {{#select system.enchantments.capacityMode}}
-                    <option value="sum">{{localize "Sum"}}</option>
-                    <option value="max">{{localize "Maximum"}}</option>
-                  {{/select}}
-                </select>
-              </div>
-              <div class="padding2">
-                <label class="header-label">Total Capacity</label>
-              </div>
-              <div class="padding2 modifier">
-                <input type="number" readonly value="{{system.enchantments.totalCapa}}" data-dtype="Number" />
-              </div>
-              <div class="padding2 modifier">
-                <a class="attribute-control attribute-create"
-                  title='{{localize "arm5e.hints.create" item=(localize "arm5e.sheet.attributes")}}'><i
-                    class="fas fa-plus"></i></a>
-              </div>
-            </div>
-
-            {{#each system.enchantments.capacities as |capa idx|}}
-              <div class="resource flexrow">
-                <div class="padding2">
-                  <select name="system.enchantments.capacities.{{idx}}.materialBase" style="max-width: 175px;">
-                    {{#select capa.materialBase}}
-                      {{#each ../config.lab.enchantment.materialBase as |attr key|}}
-                        <option value="{{key}}">({{attr.base}}) {{localize attr.eg}} </option>
-                      {{/each}}
-                    {{/select}}
-                  </select>
-                </div>
-                <div class="padding2">
-                  <select name="system.enchantments.capacities.{{idx}}.sizeMultiplier" style="max-width: 175px;">
-                    {{#select capa.sizeMultiplier}}
-                      {{#each ../config.lab.enchantment.sizeMultiplier as |attr key|}}
-                        <option value="{{key}}" title="{{localize attr.eg}}">{{localize attr.value}} (x {{attr.mult}})
-                        </option>
-                      {{/each}}
-                    {{/select}}
-                  </select>
-                </div>
-                <div class="padding2">
-                  <input type="text" name="system.enchantments.capacities.{{idx}}.desc" value="{{capa.desc}}"
-                    data-dtype="String" style="min-width: 175px;" />
-                </div>
-                <div class="padding2 modifier">
-                  <input type="number" readonly value="{{capa.total}}" data-dtype="Number" />
-                </div>
-                <div class="padding2"><a class="attribute-control attribute-delete" data-index="{{idx}}"
-                    title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.attributes")}}'>
-                    <i class="icon-Icon_Delete_Hand_Gesture"></i></a>
-                </div>
-              </div>
-            {{/each}}
+        <div class="backSection item-description {{ui.sections.visibility.common.item-description}}"
+          id="item-description">
+          <div class="flex-group-left" style="height: auto; overflow-y: auto;max-height: 210px;">
+            {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
           </div>
         </div>
-        <!-- SHAPES -->
-        <div>
-          <div class="padding2">
-            <label class="enchant-item clickable" data-item="shape" data-persist="shape">{{localize "Shapes"}}</label>
-          </div>
-          <div class="backSection enchantment {{system.enchantments.visibility.shape}}" id="shape">
-            <div class="resource flexrow">
-              <div class="padding2 modifier">
-                <a class="shape-control shape-create"
-                  title='{{localize "arm5e.hints.create" item=(localize "arm5e.sheet.shape")}}'><i
-                    class="fas fa-plus"></i></a>
-              </div>
-            </div>
+      </div>
+      <div>
+        {{> "systems/arm5e/templates/item/parts/enchant-extension.html" }}
+      </div>
 
-            {{#each system.enchantments.shapes as |shape idx|}}
-              <div class="resource flexrow">
-                <div class="padding2">
-                  <select name="system.enchantments.shapes.{{idx}}.shape" style="max-width: 175px;">
-                    {{#select shape.shape}}
-                      {{#each ../SHAPES as |shape key|}}
-                        <option value="{{key}}">{{key}}</option>
-                      {{/each}}
-                    {{/select}}
-                  </select>
-                </div>
-                <div class="padding2">
-                  <select name="system.enchantments.shapes.{{idx}}.effect" style="max-width: 175px;">
-                    {{#select shape.effect}}
-                      {{#each shape.effects as |e|}}
-                        <option value="{{e.effect}}">{{e.effect}} (+{{e.bonus}})
-                        </option>
-                      {{/each}}
-                    {{/select}}
-                  </select>
-                </div>
-                <div class="padding2 modifier">
-                  <input type="number" readonly value="{{shape.bonus}}" data-dtype="Number" />
-                </div>
-                <!-- <div class="padding2 modifier">
-                  <input type="checkbox" value="{{capa.total}}" data-dtype="Boolean" />
-                </div> -->
-                <div class="padding2"><a class="attribute-control attribute-delete" data-index="{{idx}}"
-                    title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.attributes")}}'>
-                    <i class="icon-Icon_Delete_Hand_Gesture"></i></a>
-                </div>
-              </div>
-            {{/each}}
-          </div>
-        </div>
+    {{/if}}
+    {{#if metagame.view }}
+      <div class="resource flexrow">
+        <label class="header-label">{{localize "arm5e.sheet.indexKey"}}</label>
+        <input type="text" name="system.indexKey" value="{{system.indexKey}}" data-dtype="String"
+          style="font-size: 10px; border:none; color:grey" {{metagame.edit}} />
       </div>
     {{/if}}
   </section>

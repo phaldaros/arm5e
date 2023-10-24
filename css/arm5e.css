@@ -110,6 +110,12 @@ label {
   font-family: bookAntiqua;
   font-size: 9pt;
 }
+.label-light.checkbox {
+  font-family: bookAntiqua;
+  font-size: 9pt;
+  position: relative;
+  bottom: 10px;
+}
 
 p.notes {
   font-family: bookAntiqua;
@@ -1400,19 +1406,25 @@ input[type="time"] {
   transition-timing-function: ease-in-out;
 }
 
-.enchant-item,
+.section-handle,
 .planning-item {
   background: rgba(0, 0, 0, 0.1);
   padding: 1px 4px;
-  border: 1px solid var(--color-border-dark-tertiary);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 1px solid var(--color-border-dark-tertiary);
+  border-bottom: 1px solid var(--color-border-dark-tertiary);
   border-radius: 2px;
   white-space: nowrap;
   width: fit-content;
 }
 
+.enchantment,
+.enchantment-short,
 .planning-options,
 .planning-attributes,
 .planning-description,
+.item-description,
 .details {
   opacity: 1;
   max-height: 480px;
@@ -1431,7 +1443,9 @@ input[type="time"] {
   opacity: 0;
   overflow: hidden;
 }
-.planning-description.hide {
+.item-description.hide,
+.planning-description.hide,
+.enchantment-short.hide {
   max-height: 0px;
   min-height: 60px;
   opacity: 0.3;
@@ -1440,7 +1454,7 @@ input[type="time"] {
 
 .enchantment.hide {
   max-height: 0px;
-  min-height: 60px;
+  min-height: 0px;
   opacity: 0.3;
   overflow: hidden;
 }
@@ -1494,13 +1508,14 @@ input[type="time"] {
   height: 90%;
   height: auto;
 } */
-
+.arm5e .sheet-body .editor,
 .arm5e .sheet-body .tab .editor {
   /* height: 280px; */
   min-height: 250px;
   overflow-y: auto;
 }
 
+.arm5e .sheet-body .editor.prosemirror,
 .arm5e .sheet-body .tab .editor.prosemirror {
   height: -webkit-fill-available;
   height: -moz-available;
@@ -1531,6 +1546,11 @@ input[type="time"] {
 .arm5e .resource-label {
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.arm5e .checkbox-label {
+  padding-top: 7px;
+  height: auto;
 }
 
 .arm5eTabs {

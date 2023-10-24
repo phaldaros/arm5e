@@ -2,7 +2,7 @@
   <div class="flexrow resource">
     <div class="resource flexcol flex-center">
       <label class="header-label">{{localize "arm5e.lab.enchantment.effectFrequency" }}</label>
-      <select name="system.effectfrequency" data-dtype="Number">
+      <select name="system.effectfrequency" {{noSelect}} data-dtype="Number">
         {{#select system.effectfrequency}} {{#each config.lab.enchantment.effectUses as |uses key|}}
             <option value="{{key}}">{{uses}} {{localize "arm5e.lab.enchantment.uses-per-day"}}</option>
           {{/each}} {{/select}}
@@ -10,32 +10,32 @@
     </div>
     <div class="resource flexcol flex-center">
       <label class="header-label">{{localize "arm5e.lab.enchantment.penetration"}}</label>
-      <input type="number" name="system.penetration" value="{{system.penetration}}" data-dtype="Number" />
+      <input type="number" {{noEdit}} name="system.penetration" value="{{system.penetration}}" data-dtype="Number" />
     </div>
     <div class="resource flexcol flex-center">
       <label class="header-label">{{localize "arm5e.lab.enchantment.maintainConc" }}</label>
-      <input type="checkbox" name="system.maintainConc" {{checked system.maintainConc}} />
+      <input type="checkbox" {{noSelect}} name="system.maintainConc" {{checked system.maintainConc}} />
     </div>
   </div>
   <div class="flexrow resource">
     <div class="resource">
       <label class="header-label">{{localize "arm5e.lab.enchantment.envTrigger"}}</label>
-      <input type="text" name="system.environmentalTrigger" value="{{system.environmentalTrigger}}"
+      <input type="text" {{noEdit}} name="system.environmentalTrigger" value="{{system.environmentalTrigger}}"
         data-dtype="String" />
     </div>
     <div class="resource">
       <label class="header-label">{{localize "arm5e.lab.enchantment.linkTrigger"}}</label>
-      <input type="text" name="system.linkedTrigger" value="{{system.linkedTrigger}}" data-dtype="String" />
+      <input type="text" {{noEdit}} name="system.linkedTrigger" value="{{system.linkedTrigger}}" data-dtype="String" />
     </div>
   </div>
   <div class="flexrow resource">
     <div class="resource">
       <label class="header-label">{{localize "arm5e.lab.enchantment.restrictedUse"}}</label>
-      <input type="text" name="system.restrictedUse" value="{{system.restrictedUse}}" data-dtype="String" />
+      <input type="text" {{noEdit}} name="system.restrictedUse" value="{{system.restrictedUse}}" data-dtype="String" />
     </div>
     <div class="resource">
       <label class="header-label">{{localize "arm5e.lab.enchantment.item.expiry.label" }}</label>
-      <select name="system.expiry" data-dtype="String">
+      <select name="system.expiry" {{noSelect}} data-dtype="String">
         {{#select system.expiry}} {{#each config.lab.enchantment.expiry as |expiry key|}}
             <option value="{{key}}">{{localize expiry}}</option>
           {{/each}} {{/select}}
