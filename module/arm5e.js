@@ -63,6 +63,7 @@ import { InhabitantSchema } from "./schemas/inhabitantSchema.js";
 import { SimpleCalendarSeasons, seasonOrder, seasonOrderInv } from "./tools/time.js";
 import { WoundSchema } from "./schemas/woundSchema.js";
 import { ArM5eSmallSheet } from "./item/item-small-sheet.js";
+import { EnchantmentSchema } from "./schemas/enchantmentSchema.js";
 
 Hooks.once("init", async function () {
   game.arm5e = {
@@ -475,6 +476,7 @@ function setDatamodels() {
   CONFIG.ARM5E.ItemDataModels["inhabitant"] = InhabitantSchema;
   CONFIG.ARM5E.ItemDataModels["wound"] = WoundSchema;
   CONFIG.ARM5E.ItemDataModels["labCovenant"] = SanctumSchema;
+  CONFIG.ARM5E.ItemDataModels["enchantment"] = EnchantmentSchema;
   //Actors
   CONFIG.ARM5E.ActorDataModels["laboratory"] = LabSchema;
   CONFIG.ARM5E.ActorDataModels["magicCodex"] = CodexSchema;

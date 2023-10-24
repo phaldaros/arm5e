@@ -16,7 +16,6 @@
   font-weight: normal;
   font-size: 16pt;
   line-height: 1;
-  padding-top: 9px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -26,6 +25,7 @@
 .icon-Tool_Ars:before {
   content: "\0041";
   font-size: 19pt;
+  padding-top: 11px;
 }
 .icon-Icon_Details:before {
   content: "\0042";
@@ -55,6 +55,7 @@
 .icon-Tool_Auras:before {
   content: "\0047";
   font-size: 19pt;
+  padding-top: 11px;
 }
 .icon-Icon_Auras2:before {
   content: "\0048";
@@ -102,6 +103,7 @@
 .icon-Tool_Scriptorium:before {
   content: "\0057";
   font-size: 19pt;
+  padding-top: 11px;
 }
 .icon-Tool_Journals:before {
   content: "\0057";
@@ -114,6 +116,7 @@
 .icon-Tool_Delete_Perdo2:before {
   content: "\0051";
   font-size: 19pt;
+  padding-top: 11px;
 }
 .icon-Icon_Soak:before {
   content: "\0052";
@@ -124,6 +127,7 @@
 .icon-Tool_Astrolab:before {
   content: "\0053";
   font-size: 19pt;
+  padding-top: 11px;
 }
 .icon-Tool_AstrolabBig:before {
   content: "\0053";

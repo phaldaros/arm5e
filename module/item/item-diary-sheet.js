@@ -75,6 +75,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         }
       }
     }
+    await super._onDrop(event);
   }
   /* -------------------------------------------- */
 
@@ -1514,10 +1515,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         name: spell.name,
         type: "spell",
         ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER },
-        system: spell.spellData
+        system: spell.spellData,
+        [`flags.${CONFIG.ARM5E.SYSTEM_ID}.readonly`]: "true"
       },
       { temporary: true, editable: false }
     );
+
     tmp.sheet.render(true);
   }
 

@@ -110,6 +110,12 @@ label {
   font-family: bookAntiqua;
   font-size: 9pt;
 }
+.label-light.checkbox {
+  font-family: bookAntiqua;
+  font-size: 9pt;
+  position: relative;
+  bottom: 10px;
+}
 
 p.notes {
   font-family: bookAntiqua;
@@ -1021,13 +1027,21 @@ input[type="time"] {
   font-size: inherit;
   text-align: inherit;
   line-height: inherit;
-  border: 1px solid #7a7971;
+  border-width: 0px 1px 1px 0px;
+  border-style: solid #7a7971;
   border-radius: 3px;
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
   user-select: text;
 }
+
+/* .arm5e input.one-line[type="text"] {
+  border-bottom: 1px solid #7a7971;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 1px solid #7a7971;
+} */
 
 .arm5e .sanatorium input[type="number"],
 .arm5e .sanatorium input[type="text"],
@@ -1054,7 +1068,9 @@ input[type="time"] {
 .arm5e select {
   height: 20px;
   background: rgba(0, 0, 0, 0.05);
-  border: 1px solid #7a7971;
+  border-width: 0px 1px 1px 0px;
+  border-style: solid #7a7971;
+  /* border: 1px solid #7a7971; */
   border-radius: 3px;
   font-family: inherit;
   padding: 0 3px;
@@ -1390,18 +1406,25 @@ input[type="time"] {
   transition-timing-function: ease-in-out;
 }
 
+.section-handle,
 .planning-item {
   background: rgba(0, 0, 0, 0.1);
   padding: 1px 4px;
-  border: 1px solid var(--color-border-dark-tertiary);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 1px solid var(--color-border-dark-tertiary);
+  border-bottom: 1px solid var(--color-border-dark-tertiary);
   border-radius: 2px;
   white-space: nowrap;
   width: fit-content;
 }
 
+.enchantment,
+.enchantment-short,
 .planning-options,
 .planning-attributes,
 .planning-description,
+.item-description,
 .details {
   opacity: 1;
   max-height: 480px;
@@ -1420,9 +1443,18 @@ input[type="time"] {
   opacity: 0;
   overflow: hidden;
 }
-.planning-description.hide {
+.item-description.hide,
+.planning-description.hide,
+.enchantment-short.hide {
   max-height: 0px;
   min-height: 60px;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.enchantment.hide {
+  max-height: 0px;
+  min-height: 0px;
   opacity: 0.3;
   overflow: hidden;
 }
@@ -1476,13 +1508,14 @@ input[type="time"] {
   height: 90%;
   height: auto;
 } */
-
+.arm5e .sheet-body .editor,
 .arm5e .sheet-body .tab .editor {
   /* height: 280px; */
   min-height: 250px;
   overflow-y: auto;
 }
 
+.arm5e .sheet-body .editor.prosemirror,
 .arm5e .sheet-body .tab .editor.prosemirror {
   height: -webkit-fill-available;
   height: -moz-available;
@@ -1513,6 +1546,11 @@ input[type="time"] {
 .arm5e .resource-label {
   font-weight: bold;
   text-transform: uppercase;
+}
+
+.arm5e .checkbox-label {
+  padding-top: 7px;
+  height: auto;
 }
 
 .arm5eTabs {
@@ -1957,6 +1995,14 @@ img.art-icon {
   padding-left: 5px;
 }
 
+.arm5e .modifier {
+  width: 35px;
+  max-width: 35px;
+}
+
+.arm5e .padding2 {
+  padding: 2px;
+}
 .arm5e .padding4 {
   padding: 4px;
 }

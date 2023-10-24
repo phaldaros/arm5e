@@ -54,6 +54,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/item/parts/spell-design.html",
     "systems/arm5e/templates/item/parts/spell-design-V2.html",
     "systems/arm5e/templates/item/parts/enchantment.html",
+    "systems/arm5e/templates/item/parts/enchant-extension.html",
     // "systems/arm5e/templates/item/parts/item-enchantment.html",
     "systems/arm5e/templates/item/parts/magic-item.html",
     // "systems/arm5e/templates/item/parts/item-magic-item.html",

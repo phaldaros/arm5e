@@ -5,15 +5,26 @@
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
       <div class="grid grid-2col">
         <div class="resource">
-          <label class="resource-label">{{localize "arm5e.sheet.quantity"}}</label>
+          <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
           <input type="text" name="system.quantity" value="{{system.quantity}}" class="resource-focus"
             data-dtype="Number" />
         </div>
         <div class="resource">
-          <label class="resource-label">{{localize "arm5e.sheet.weight"}}</label>
+          <label class="header-label">{{localize "arm5e.sheet.weight"}}</label>
           <input type="text" name="system.weight" value="{{system.weight}}" class="resource-focus"
             data-dtype="Number" />
         </div>
+        {{#if isGM}}
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.sheet.state.label"}}</label>
+            <input type="text" name="system.state"
+              value="{{localize (lookup config.lab.enchantment.state system.state)}}" data-dtype="String" readonly>
+          </div>
+          <div class="resource">
+            <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise" title="Appraisal"
+              style="border: 0px;" />
+          </div>
+        {{/if}}
       </div>
     </div>
   </header>
@@ -25,19 +36,40 @@
       <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.description"}}
     </a>
-    <a class="item posRelative" data-tab="attributes">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.attributes"}}
-    </a>
+    <!-- {{#if (ne system.state "inert")}}
+      <a class="item posRelative" data-tab="attributes">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.attributes"}}
+      </a>
+    {{/if}} -->
   </nav>
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
-    </div>
+    {{#if (eq system.state "inert")}}
+      {{!-- Description Tab --}}
+      <div class="tab" data-group="primary" data-tab="description">
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+      </div>
+    {{else }}
+      <div class="padding4">
+        <div class="padding2">
+          <label class="section-handle clickable" data-category="common"
+            data-section="item-description">{{localize "arm5e.sheet.description"}}</label>
+        </div>
+        <div class="backSection item-description {{ui.sections.visibility.common.item-description}}"
+          id="item-description">
+          <div class="flex-group-left" style="height: auto; overflow-y: auto;max-height: 210px;">
+            {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+          </div>
+        </div>
+      </div>
+      <div>
+        {{> "systems/arm5e/templates/item/parts/enchant-extension.html" }}
+      </div>
+
+    {{/if}}
     {{#if metagame.view }}
       <div class="resource flexrow">
         <label class="header-label">{{localize "arm5e.sheet.indexKey"}}</label>
@@ -45,12 +77,5 @@
           style="font-size: 10px; border:none; color:grey" {{metagame.edit}} />
       </div>
     {{/if}}
-    {{!-- Attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
-      <!-- maybe later ...-->
-      <!--div class="item-controls">
-                <a class="item-control item-enchant" title="Enchantment" data-type=""><i class="fas fa-magic fa-2x"></i></a>
-            </div-->
-    </div>
   </section>
 </form>

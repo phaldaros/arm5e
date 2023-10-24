@@ -8,6 +8,7 @@ import {
   itemBase,
   NullableEmbeddedDataField
 } from "./commonSchemas.js";
+import { ItemState } from "./enchantmentSchema.js";
 import { LabTextSchema } from "./magicSchemas.js";
 const fields = foundry.data.fields;
 export class BookSchema extends foundry.abstract.DataModel {
@@ -67,7 +68,8 @@ export class BookSchema extends foundry.abstract.DataModel {
           required: false,
           initial: [] //{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
         }
-      )
+      ),
+      state: ItemState()
     };
   }
 
@@ -285,12 +287,12 @@ export class BookSchema extends foundry.abstract.DataModel {
 
     if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
       if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-        updateData["system.season"] =  itemData.system.season.toLowerCase();
+        updateData["system.season"] = itemData.system.season.toLowerCase();
       } else {
         updateData["system.season"] = "spring";
       }
-    } 
-    
+    }
+
     if (itemData.system.description == null) {
       updateData["system.description"] = "";
     }

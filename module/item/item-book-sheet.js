@@ -56,6 +56,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
         }
         // this.submit({ preventClose: true, updateData: updateData });
       }
+    // this.submit({ preventClose: true, updateData: updateData });
     //  else if (event.currentTarget.dataset.drop === "labtext") {
   }
   /* -------------------------------------------- */
@@ -278,7 +279,8 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
         type: "laboratoryText",
         ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER },
         editable: false,
-        system: topic.labtext
+        system: topic.labtext,
+        [`flags.${CONFIG.ARM5E.SYSTEM_ID}.readonly`]: "true"
       },
       { temporary: true }
     );

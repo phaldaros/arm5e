@@ -23,10 +23,9 @@ export class NullableEmbeddedDataField extends fields.EmbeddedDataField {
 
 export class NullableSchemaField extends fields.SchemaField {
   /**
-   * @param {typeof DataModel} model          The class of DataModel which should be embedded in this field
    * @param {DataFieldOptions} options        Options which configure the behavior of the field
    */
-  constructor(fields, options = {}) {
+  constructor(fields, options = { nullable: true }) {
     super(fields, options);
   }
 
@@ -111,6 +110,23 @@ export const itemBase = () => {
     indexKey: new fields.StringField({ required: false, blank: true, initial: "" })
   };
 };
+
+export const DateField = (year = 1220, season = "spring") =>
+  new fields.SchemaField({
+    season: SeasonField(season),
+    year: new fields.NumberField({
+      required: true,
+      nullable: false,
+      integer: true,
+      initial: year,
+      step: 1
+    }),
+    date: new fields.StringField({
+      required: false,
+      blank: true,
+      initial: ""
+    })
+  });
 
 export const basicTextField = () =>
   new fields.StringField({ required: false, blank: true, initial: "" });
@@ -258,30 +274,6 @@ export const SpellAttributes = () => {
   };
 };
 
-export const EnchantmentAttributes = () => {
-  return {
-    effectfrequency: new fields.NumberField({
-      required: false,
-      nullable: false,
-      integer: true,
-      min: 0,
-      initial: 0,
-      step: 1
-    }),
-    penetration: new fields.NumberField({
-      required: false,
-      nullable: false,
-      integer: true,
-      min: 0,
-      initial: 0,
-      step: 1
-    }),
-    maintainConc: boolOption(),
-    environmentalTrigger: baseDescription(),
-    restrictedUse: baseDescription(),
-    linkedTrigger: baseDescription()
-  };
-};
 // Choices:
 
 export const ModifierField = () =>
@@ -293,11 +285,11 @@ export const ModifierField = () =>
     step: 1
   });
 
-export const SeasonField = () =>
+export const SeasonField = (season = "spring") =>
   new fields.StringField({
     required: false,
     blank: false,
-    initial: "spring",
+    initial: season,
     choices: Object.keys(ARM5E.seasons)
   });
 
