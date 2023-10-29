@@ -17,31 +17,52 @@ export class ArM5eItemEnchantmentSheet {
     this.item = sheet.item;
   }
 
+  getUserCache() {
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[this.item.id] == undefined) {
+      usercache[this.item.id] = {
+        sections: {
+          visibility: {
+            common: {},
+            enchantExt: {
+              capacity: "hide",
+              aspect: "hide",
+              info: "hide",
+              enchant: ""
+            }
+          }
+        }
+      };
+      let enchantments = [];
+      for (let idx = 0; idx < this.item.system.enchantments.effects.length; idx++) {
+        enchantments.push({ desc: "", attributes: "" });
+      }
+      usercache[this.item.id].sections.visibility.enchantments = enchantments;
+    } else if (usercache[this.item.id].sections.visibility.enchantExt == undefined) {
+      usercache[this.item.id].sections.visibility.enchantExt = {
+        capacity: "hide",
+        aspect: "hide",
+        info: "hide",
+        enchant: ""
+      };
+    }
+    if (usercache[this.item.id].sections.visibility.enchantments === undefined) {
+      let enchantments = [];
+      for (let idx = 0; idx < this.item.system.enchantments.effects.length; idx++) {
+        enchantments.push({ desc: "", attributes: "" });
+      }
+      usercache[this.item.id].sections.visibility.enchantments = enchantments;
+    }
+    sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    return usercache[this.item.id];
+  }
+
   async getData(context) {
     const enchants = context.system.enchantments;
     enchants.ui = {};
 
-    if (context.ui.sections.visibility.enchantExt === undefined) {
-      mergeObject(
-        context.ui.sections.visibility,
-        {
-          enchantExt: {
-            capacity: "hide",
-            aspect: "hide",
-            info: "hide",
-            enchant: ""
-          }
-        },
-        { recursive: true }
-      );
-    }
-    let enchantments = [];
-    for (let idx = 0; idx < enchants.effects.length; idx++) {
-      enchantments.push({ desc: "", attributes: "" });
-    }
-    mergeObject(enchantments, context.ui.sections.visibility.enchantments, { recursive: true });
-    context.ui.sections.visibility.enchantments = enchantments;
-
+    context.ui = this.getUserCache();
+    context.ui.flavor = "Neutral";
     enchants.totalCapa = 0;
 
     if (enchants.charged) {

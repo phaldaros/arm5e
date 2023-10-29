@@ -451,6 +451,7 @@
   "arm5e.skill.martial.singleWeapon": "Single Weapon",
   "arm5e.skill.martial.greatWeapon": "Great Weapon",
   "arm5e.skill.martial.trownWeapon": "Thrown Weapon",
+  "arm5e.skill.martial.generic": "Martial ability ({option})",
 
   "arm5e.skill.academic.artesLib": "Artes Liberales",
   "arm5e.skill.academic.law": "Law ({option})",
@@ -460,6 +461,7 @@
   "arm5e.skill.academic.medicine": "Medicine",
   "arm5e.skill.academic.philosophy": "Philosophiae",
   "arm5e.skill.academic.theology": "Theology",
+  "arm5e.skill.academic.generic": "Academic ability ({option})",
 
   "arm5e.skill.arcane.hermeticCode": "Code of Hermes",
   "arm5e.skill.arcane.dominionLore": "Dominion Lore",
@@ -470,6 +472,7 @@
   "arm5e.skill.arcane.magicTheory": "Magic Theory",
   "arm5e.skill.arcane.parma": "Parma Magica",
   "arm5e.skill.arcane.penetration": "Penetration",
+  "arm5e.skill.arcane.generic": "Arcane ability ({option})",
 
   "arm5e.skill.supernatural.animalKen": "Animal Ken",
   "arm5e.skill.supernatural.dowsing": "Dowsing",
@@ -495,7 +498,10 @@
   "arm5e.skill.options.profession": "Prof's name",
   "arm5e.skill.options.language": "Language's name",
   "arm5e.skill.options.organization": "Org's name",
-  "arm5e.skill.options.supernatural": "Power's name",
+  "arm5e.skill.options.martial": "Ability's name",
+  "arm5e.skill.options.academic": "Topic's name",
+  "arm5e.skill.options.arcane": "Secret's name",
+
   "arm5e.skill.options.mysteryCult": "Cult's name",
   "arm5e.skill.options.law": "Legal forum",
 
