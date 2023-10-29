@@ -531,6 +531,13 @@ ARM5E.ACADEMIC_ABILITIES = {
     option: false,
     category: "academic",
     selection: ""
+  },
+  academicAbility: {
+    mnemonic: "arm5e.skill.academic.generic",
+    option: true,
+    category: "academic",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.academic"
   }
 };
 
@@ -583,6 +590,13 @@ ARM5E.ARCANE_ABILITIES = {
     option: false,
     category: "arcane",
     selection: ""
+  },
+  arcaneAbility: {
+    mnemonic: "arm5e.skill.arcane.generic",
+    option: true,
+    category: "arcane",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.arcane"
   }
 };
 
@@ -606,6 +620,13 @@ ARM5E.MARTIAL_ABILITIES = {
     option: false,
     category: "martial",
     selection: ""
+  },
+  martialAbility: {
+    mnemonic: "arm5e.skill.martial.generic",
+    option: true,
+    category: "martial",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.martial"
   }
 };
 

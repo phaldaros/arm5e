@@ -1,4 +1,4 @@
-## 2.2.3.3, Ophilio
+## 2.2.3.4, Ophilio
 
 ### Features & changes
 
@@ -12,6 +12,9 @@
   - Edition of enchantments in the magic item sheet.
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
+- Hotbar improvements
+  - Actors and Items have the correct icon used.
+  - Items in the sidebar are accepted.
 
 ### Bug fixes
 

@@ -228,7 +228,7 @@ Hooks.once("ready", async function () {
   CONFIG.ARM5E.LOCALIZED_ABILITIESCAT = localizeCategories();
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => {
-    if (data.type === "Item") {
+    if (["Item", "Actor"].includes(data.type)) {
       createArM5eMacro(data, slot);
       return false;
     }
@@ -361,28 +361,35 @@ Hooks.on("simple-calendar-date-time-change", async (data) => {
  * @returns {Promise}
  */
 async function createArM5eMacro(data, slot) {
-  const item = await fromUuid(data.uuid);
-  if (!item.isOwned) {
-    ui.notifications.warn("You can only create macro buttons for owned Items");
+  const doc = await fromUuid(data.uuid);
+
+  if (doc.isOwned) {
+    // Create the macro command
+    const command = `game.arm5e.rollItemMacro('${doc._id}', '${doc.actor._id}');`;
+    let macro = game.macros.contents.find((m) => m.name === item.name && m.command === command);
+    if (!macro) {
+      macro = await Macro.create({
+        name: doc.name,
+        type: "script",
+        img: doc.img,
+        command: command,
+        flags: {
+          "arm5e.itemMacro": true
+        }
+      });
+    }
+    await game.user.assignHotbarMacro(macro, slot);
+    return true;
+  } else {
+    let macro = await Macro.implementation.create({
+      name: `${game.i18n.localize("Display")} ${name}`,
+      type: CONST.MACRO_TYPES.SCRIPT,
+      img: doc.img,
+      command: `await Hotbar.toggleDocumentSheet("${doc.uuid}");`
+    });
+    await game.user.assignHotbarMacro(macro, slot);
     return true;
   }
-
-  // Create the macro command
-  const command = `game.arm5e.rollItemMacro('${item._id}', '${item.actor._id}');`;
-  let macro = game.macros.contents.find((m) => m.name === item.name && m.command === command);
-  if (!macro) {
-    macro = await Macro.create({
-      name: item.name,
-      type: "script",
-      img: item.img,
-      command: command,
-      flags: {
-        "arm5e.itemMacro": true
-      }
-    });
-  }
-  await game.user.assignHotbarMacro(macro, slot);
-  return false;
 }
 
 async function onDropActorSheetData(actor, sheet, data) {
