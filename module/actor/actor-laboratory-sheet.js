@@ -74,7 +74,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
 
     context.config = CONFIG.ARM5E;
-    context.namePrefix = "flags.arm5e.planning.data";
+    context.namePrefix = "flags.arm5e.planning.data.";
 
     context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
     if (context.planning === undefined) {
@@ -87,8 +87,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     // Covenant
     if (context.system.covenant) {
       if (context.system.covenant.linked) {
-        this.actor.apps[context.system.covenant.document.sheet.appId] =
-          context.system.covenant.document.sheet;
         this.actor.apps[context.system.covenant.document.sheet.appId] =
           context.system.covenant.document.sheet;
         context.edition.aura = "readonly";

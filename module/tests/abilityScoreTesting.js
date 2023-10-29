@@ -24,8 +24,8 @@ export function registerAbilityScoresTesting(quench) {
             it(`Adding ${inc} to actor`, async function () {
               await item.update({ "system.xp": item.system.xp + inc }, { parent: actor.id });
               assert.equal(item.system.finalScore, score + 1, "Final score");
-              assert.equal(item.system.xpNextLevel, 5 * (score + 2), "xpNextLevel");
-              assert.equal(item.system.remainingXp, 0, "remainingXp");
+              assert.equal(item.system.xpNextLevel, 5 * (score + 1), "xpNextLevel");
+              assert.equal(item.system.remainingXp, item.system.xp, "remainingXp");
             });
           }
           after(async function () {
@@ -45,7 +45,7 @@ export function registerAbilityScoresTesting(quench) {
                 { parent: actor.id }
               );
               assert.equal(item.system.finalScore, score + 1, "Final score");
-              assert.equal(item.system.xpNextLevel, 5 * (score + 2), "xpNextLevel");
+              assert.equal(item.system.xpNextLevel, 5 * (score + 1), "xpNextLevel");
               assert.equal(item.system.remainingXp, 1, "remainingXp");
             });
           }

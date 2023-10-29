@@ -136,6 +136,7 @@ export class ArM5eItemSheet extends ItemSheet {
     context.subsheet = this.subsheetTemplate;
 
     context.ui = this.item.getFlag(CONFIG.ARM5E.SYSTEM_ID, "ui");
+
     if (context.ui) {
       mergeObject(
         context.ui,
@@ -145,8 +146,20 @@ export class ArM5eItemSheet extends ItemSheet {
         },
         { recursive: true }
       );
+      this.item.flags.arm5e.ui = context.ui;
     } else {
       context.ui = { sections: { visibility: { common: {} } }, flavor: "Neutral" };
+      if (this.enchantPossible) {
+        mergeObject(
+          context.ui,
+          {
+            sections: { visibility: { enchantExt: {}, enchantments: [] } },
+            flavor: "Neutral"
+          },
+          { recursive: true }
+        );
+        this.item.flags.arm5e = { ui: context.ui };
+      }
     }
 
     // Add the item's data to context.system for easier access, as well as flags.
@@ -297,20 +310,39 @@ export class ArM5eItemSheet extends ItemSheet {
     html.find(".section-handle").click(async (ev) => {
       const dataset = getDataset(ev);
       log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
-      let section = this.item.flags.arm5e.ui.sections.visibility[dataset.category];
-      let classes = document.getElementById(dataset.section).classList;
-      if (section) {
+      let index = dataset.index ?? "";
+      // if (!(this.item.flags.arm5e.ui.sections.visibility[dataset.category] instanceof Array)) {
+      //   // TMP
+      //   this.item.flags.arm5e.ui.sections.visibility[dataset.category] = [];
+      // }
+
+      let scope = this.item.flags.arm5e.ui.sections.visibility[dataset.category];
+      let classes = document.getElementById(
+        `${dataset.category}-${dataset.section}${index}`
+      ).classList;
+      if (scope) {
         log(false, `DEBUG section found`);
         if (classes.contains("hide")) {
-          log(false, `DEBUG reveal ${dataset.section}`);
-          section[dataset.section] = "";
+          if (index !== "") {
+            log(false, `DEBUG reveal ${dataset.section} at index ${index}`);
+            scope[index][dataset.section] = "";
+          } else {
+            log(false, `DEBUG reveal ${dataset.section}`);
+            scope[dataset.section] = "";
+          }
           await this.item.setFlag(ARM5E.SYSTEM_ID, "ui", this.item.flags.arm5e.ui);
         } else {
-          log(false, `DEBUG hide ${dataset.section}`);
-          section[dataset.section] = "hide";
+          if (index) {
+            log(false, `DEBUG hide ${dataset.section} at index ${index}`);
+            scope[index][dataset.section] = "hide";
+          } else {
+            log(false, `DEBUG hide ${dataset.section}`);
+            scope[dataset.section] = "hide";
+          }
           await this.item.setFlag(ARM5E.SYSTEM_ID, "ui", this.item.flags.arm5e.ui);
         }
       }
+      log(false, `DEBUG Flags: ${JSON.stringify(this.item.flags.arm5e.ui.sections.visibility)}`);
       classes.toggle("hide");
     });
     // Everything below here is only needed if the sheet is editable

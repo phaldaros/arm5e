@@ -37,7 +37,7 @@ Beside the name, speciality and description, the following fields are available.
 
 Abilities modified by an active effect have a coloured halo
 
-![](systems/arm5e/assets/userguide/EffectsOnAbilities.png)
+![](systems/arm5e/assets/userguide/EffectsOnAbilities.webp)
 
 Puissant ability
 
@@ -94,7 +94,7 @@ The base effect is the root of any magical effect, spell or powers. They are int
 
 You can select additional arts as requisites by clicking on the hammer icon:
 
-![](systems/arm5e/assets/userguide/Requisites.png)
+![](systems/arm5e/assets/userguide/Requisites.webp)
 
 The **base level** is the level of a spell with this effect with minimal attributes (Range: self, Duration: Momentary, Target : individual). It is the same number found in the book for the spell guidelines.
 
@@ -156,7 +156,7 @@ There two versions that can be generated:
     
 -   a verbose one by shift-click (2nd one in the image below)
     
-    ![A book](systems/arm5e/assets/userguide/book1.png)
+    ![A book](systems/arm5e/assets/userguide/book1.webp)
     
 -   A book can have multiple topics of different types, you can browse them using the arrows, adding one more with the + icon, delete the current one with the Perdo hand gesture.
     
@@ -164,7 +164,7 @@ There two versions that can be generated:
     
     (For lab texts, the book needs to be in the inventory of the character or its sanctum
     
-    ![](systems/arm5e/assets/userguide/book2.png)
+    ![](systems/arm5e/assets/userguide/book2.webp)
     
 -   Topic: You can select whether the book is about an Art, an ability, a spell mastery or a laboratory text
     

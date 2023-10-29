@@ -179,7 +179,33 @@ export class ArM5eActorSheet extends ActorSheet {
 
     // Use a safe clone of the actor data for further operations.
     const actorData = context.actor;
+    context.ui = this.actor.getFlag(CONFIG.ARM5E.SYSTEM_ID, "ui");
 
+    if (context.ui) {
+      mergeObject(
+        context.ui,
+        {
+          sections: { visibility: { common: {} } },
+          flavor: "Neutral"
+        },
+        { recursive: true }
+      );
+      if (this.actor.type == "laboratory") {
+        mergeObject(
+          context.ui,
+          {
+            sections: { visibility: { planning: {} } }
+          },
+          { recursive: true }
+        );
+      }
+    } else {
+      context.ui = { sections: { visibility: { common: {} } }, flavor: "Neutral" };
+      if (this.actor.type == "laboratory") {
+        context.ui.sections.visibility.planning = {};
+      }
+      this.actor.flags.arm5e.ui = context.ui;
+    }
     // Add the actor's data to context.system for easier access, as well as flags.
     context.system = actorData.system;
     context.flags = actorData.flags;
@@ -191,7 +217,7 @@ export class ArM5eActorSheet extends ActorSheet {
       option: false,
       selection: "disabled"
     };
-    context.ui = {};
+
     // context.system.dtypes = ["String", "Number", "Boolean"];
 
     // Xzotl : not sure what this was used for
@@ -809,22 +835,56 @@ export class ArM5eActorSheet extends ActorSheet {
       await MedicalHistory.createDialog(this.actor);
     });
 
-    html.find(".planning-item").click(async (ev) => {
-      const category = $(ev.currentTarget).data("item");
-      const persist = $(ev.currentTarget).data("persist");
-      let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
-      let classes = document.getElementById(category).classList;
-      if (planning) {
+    html.find(".section-handle").click(async (ev) => {
+      const dataset = getDataset(ev);
+      log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
+      let index = dataset.index ?? "";
+      let scope = this.actor.flags.arm5e.ui.sections.visibility[dataset.category];
+      let classes = document.getElementById(
+        `${dataset.category}-${dataset.section}${index}`
+      ).classList;
+      if (scope) {
+        log(false, `DEBUG section found`);
         if (classes.contains("hide")) {
-          planning.visibility[persist] = "";
-          await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+          if (index !== "") {
+            log(false, `DEBUG reveal ${dataset.section} at index ${index}`);
+            scope[index][dataset.section] = "";
+          } else {
+            log(false, `DEBUG reveal ${dataset.section}`);
+            scope[dataset.section] = "";
+          }
+          await this.actor.setFlag(ARM5E.SYSTEM_ID, "ui", this.actor.flags.arm5e.ui);
         } else {
-          planning.visibility[persist] = "hide";
-          await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+          if (index !== "") {
+            log(false, `DEBUG hide ${dataset.section} at index ${index}`);
+            scope[index][dataset.section] = "hide";
+          } else {
+            log(false, `DEBUG hide ${dataset.section}`);
+            scope[dataset.section] = "hide";
+          }
+          await this.actor.setFlag(ARM5E.SYSTEM_ID, "ui", this.actor.flags.arm5e.ui);
         }
       }
       classes.toggle("hide");
+      log(false, `DEBUG Flags: ${JSON.stringify(this.actor.flags.arm5e.ui.sections.visibility)}`);
     });
+
+    // html.find(".planning-item").click(async (ev) => {
+    //   const category = $(ev.currentTarget).data("item");
+    //   const persist = $(ev.currentTarget).data("persist");
+    //   let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+    //   let classes = document.getElementById(category).classList;
+    //   if (planning) {
+    //     if (classes.contains("hide")) {
+    //       planning.visibility[persist] = "";
+    //       await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+    //     } else {
+    //       planning.visibility[persist] = "hide";
+    //       await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+    //     }
+    //   }
+    //   classes.toggle("hide");
+    // });
 
     html.find(".covenant-link").change(async (ev) => {
       ev.preventDefault();

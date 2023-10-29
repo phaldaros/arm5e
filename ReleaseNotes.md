@@ -1,4 +1,4 @@
-## 2.2.3.2, Ophilio
+## 2.2.3.3, Ophilio
 
 ### Features & changes
 
@@ -9,6 +9,9 @@
   - new Enchantment schema
   - Extension of the sheet for enchantable items.
   - Complete design of all enchantments types
+  - Edition of enchantments in the magic item sheet.
+- [technical] rework and factorization of the foldable sections code
+- [technical] converted larger png assets into webp + userguide update of image links
 
 ### Bug fixes
 

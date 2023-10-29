@@ -1,6 +1,6 @@
 ### Interface
 
-![Lab planning tab](systems/arm5e/assets/userguide/Lab-planning-spell.png)
+![Lab planning tab](systems/arm5e/assets/userguide/Lab-planning-spell.webp)
 
 -   At the top left is the current magus using it, just as a reminder and to avoid mistakes. It is also a quick access to the magus sheet if you click on it.
     

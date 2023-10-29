@@ -47,7 +47,7 @@ Some fields like size, soak and encumbrance are read only because they are compu
 **Fatigue**: Use the + and - signs to increase your fatigue or the rest button to reset.  
 As you can see below, it is possible to increase or decrease your fatigue levels and the associated penalty using [[Active effects]]:
 
-![](systems/arm5e/assets/userguide/Fatigue.png)
+![](systems/arm5e/assets/userguide/Fatigue.webp)
 
 **Wounds:** You can manually add wounds to a character here. Each wound is individually represented by an icon and fresh wounds have a red aura around them.
 
@@ -64,7 +64,7 @@ The penalties for wounds and fatigue are automatically taken into account for ro
 
 This section will list all the abilities possessed by the character. As mentioned in the introduction chapter, you can add preconfigured abilities by drag and dropping from the sidebar, a Compendium or even another character sheet.
 
-![](systems/arm5e/assets/userguide/AbilitiesActor.png)
+![](systems/arm5e/assets/userguide/AbilitiesActor.webp)
 
 -   Click on the Ability label to roll for it.
     
@@ -81,7 +81,7 @@ As with abilities, you can drag and drop virtues and flaws. A label in _italic_ 
 
 This tab is only available to magic users
 
-![](systems/arm5e/assets/userguide/HermeticArts.png)
+![](systems/arm5e/assets/userguide/HermeticArts.webp)
 
 Each of the Arts is described in this section:
 
@@ -126,7 +126,7 @@ Like for abilities, a list of the spells known by the magus.
 -   Clicking on the up-down arrow will display a special filter area:
     
 
-![](systems/arm5e/assets/userguide/SpellsFilter.png)
+![](systems/arm5e/assets/userguide/SpellsFilter.webp)
 
 -   You can filter by technique, form and level and then close it back. A little glow will indicate the list is filtered.
     
@@ -185,7 +185,7 @@ You can equip or unequip weapons and armor by clicking the checkbox
 
 ### Effects
 
-![](systems/arm5e/assets/userguide/ActiveEffects.png)
+![](systems/arm5e/assets/userguide/ActiveEffects.webp)
 
 -   See [[Active effects]] for more details on each kind of effect available.
     

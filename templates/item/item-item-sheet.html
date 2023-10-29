@@ -36,13 +36,13 @@
       <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.description"}}
     </a>
-    <!-- {{#if (ne system.state "inert")}}
-      <a class="item posRelative" data-tab="attributes">
+    {{#if (ne system.state "inert")}}
+      <a class="item posRelative" data-tab="enchantments">
         <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
         <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.attributes"}}
       </a>
-    {{/if}} -->
+    {{/if}}
   </nav>
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
@@ -50,26 +50,15 @@
     {{#if (eq system.state "inert")}}
       {{!-- Description Tab --}}
       <div class="tab" data-group="primary" data-tab="description">
-        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror"
+         editable=editable}}
       </div>
     {{else }}
-      <div class="padding4">
-        <div class="padding2">
-          <label class="section-handle clickable" data-category="common"
-            data-section="item-description">{{localize "arm5e.sheet.description"}}</label>
-        </div>
-        <div class="backSection item-description {{ui.sections.visibility.common.item-description}}"
-          id="item-description">
-          <div class="flex-group-left" style="height: auto; overflow-y: auto;max-height: 210px;">
-            {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
-          </div>
-        </div>
-      </div>
       <div>
         {{> "systems/arm5e/templates/item/parts/enchant-extension.html" }}
       </div>
-
     {{/if}}
+
     {{#if metagame.view }}
       <div class="resource flexrow">
         <label class="header-label">{{localize "arm5e.sheet.indexKey"}}</label>

@@ -5,7 +5,7 @@
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.intelligence" 
         name="int" attributes="readonly" value=system.owner.document.system.characteristics.int.value type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.skill.arcane.magicTheory" 
-        name="magicTheory" attributes="readonly" value=owner.magicTheory.score type="number" dtype="Number"}}
+        name="magicTheory" attributes="readonly" value=system.owner.magicTheory.score type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.bonus.activity" 
         name="activityBonus" attributes="readonly" value=planning.activityBonus type="number" dtype="Number"}}
         {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.bonus.apprentice" 
@@ -29,19 +29,22 @@
         </div>
         {{#if planning.display.spellDesign}}
             <h1 class="charname flexrow flex01" style="font-size: 12pt;">
-                <input name="{{namePrefix}}.name" title="{{planning.data.name}}" type="text"
+                <input name="{{namePrefix}}name" title="{{planning.data.name}}" type="text"
                     value="{{planning.data.name}}" placeholder="Name" />
             </h1>
             <label class="resource flex01 padd">{{planning.label}}</label>
             {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
 
-            {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" prefix=namePrefix spelldata=planning.data }}
+            {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" container="planning" 
+            prefix=namePrefix spelldata=planning.data visibility=@root.ui.sections.visibility.planning}}
         {{/if}}
         <div class="flexrow flex01">
             <div class="flexcol" style="margin-top: 10px; margin-right: 10px;">
-                <label class="planning-item header-label clickable flex0 " data-item="planning-options"
-                    data-persist="options">{{localize "arm5e.generic.options"}}</label>
-                <div class="planning-options {{planning.visibility.options}}" id="planning-options">
+                <div class="padding4 flexrow flex-group-left">
+                    <label class="section-handle header-label clickable" data-section="options"
+                        data-category="planning">{{localize "arm5e.generic.options"}}</label>
+                </div>
+                <div class="foldable-section {{@root.ui.sections.visibility.planning.options}}" id="planning-options">
                     <div class="flexrow">
                         <div class="resource flexcol flex-center">
                             <label class="header-label ">{{localize "arm5e.skill.arcane.magicTheory"}}
