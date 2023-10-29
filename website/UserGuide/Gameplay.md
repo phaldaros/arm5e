@@ -26,7 +26,7 @@ The roll type (public, private, …) set in the chat bar is taken into account f
 
 ### Characteristic and ability rolls
 
-![](systems/arm5e/assets/userguide/RollAbility.png)
+![](systems/arm5e/assets/userguide/RollAbility.webp)
 
 - This dialog is the same for characteristic and abilities. The appropriate fields will be set automatically based on the original item clicked:
 
@@ -44,7 +44,7 @@ The roll type (public, private, …) set in the chat bar is taken into account f
 
 - For generic spontaneous magic, click on the Art label. It is possible to set a target level, in order to compute penetration, leaving it at zero disable the feature.
 
-![](systems/arm5e/assets/userguide/RollSpontMagic.png)
+![](systems/arm5e/assets/userguide/RollSpontMagic.webp)
 
 - Apply magical focus will be set automatically to the value set in a spell, but can be enabled if appropriate for spontaneous magic.
 - Each botch on a magic roll will automatically increase the warping of the caster.
@@ -61,19 +61,19 @@ The bonuses section will list any special modifier that will be applied to the r
 
 - Optional bonuses like special circumstances will go there in the future
 
-![](systems/arm5e/assets/userguide/SpellBonuses.png)
+![](systems/arm5e/assets/userguide/SpellBonuses.webp)
 
 The Penetration options will influence the final casting total if the spell is a success.
 
 - Penetration mastery relate to the spell mastery effect if it exists
 
-![](systems/arm5e/assets/userguide/PenetrationOptions.png)
+![](systems/arm5e/assets/userguide/PenetrationOptions.webp)
 
 ### Combat rolls
 
 You can roll everything in Description.Vitals&Combat:
 
-![](systems/arm5e/assets/userguide/CombatStats.png)
+![](systems/arm5e/assets/userguide/CombatStats.webp)
 
 See [[#Combat|Combat]] below for more details.  
 It is also possible to roll for attack by dropping a weapon in the hotbar.
@@ -90,7 +90,7 @@ Most rolls are triggered by clicking on the appropriate label.
 
 Once you cast a spell, do spontaneous magic or use a power, the result of the roll will appear in chat:
 
-![](systems/arm5e/assets/userguide/SpellChatResult.png)
+![](systems/arm5e/assets/userguide/SpellChatResult.webp)
 
 - Icon of the token. Clicking on it will open its sheet.
 
@@ -110,7 +110,7 @@ Once you cast a spell, do spontaneous magic or use a power, the result of the ro
 
 If the spell is cast while one or more tokens are selected, additional message per target will appear in the chat indicating whether the spell successfully overcame magic resistance:
 
-![](systems/arm5e/assets/userguide/MagicContest.png)
+![](systems/arm5e/assets/userguide/MagicContest.webp)
 
 Note that with the right [[Introduction#Settings|Settings]], a player will only see whether if the spell was a success or not, the details are reserved for the GM.
 

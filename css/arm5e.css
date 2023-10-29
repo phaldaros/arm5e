@@ -422,7 +422,7 @@ h4.window-title {
   padding-right: 10px;
   font-size: 14px;
   color: #191813;
-  background-image: url("../assets/chat/background.png");
+  background-image: url("../assets/chat/background.webp");
   /* --color-shadow-primary: #003487; */
   background-repeat: repeat;
   background-size: cover;
@@ -604,7 +604,7 @@ h4.window-title {
 }
 
 .arm5eMain {
-  background-image: url("../assets/background.png");
+  background-image: url("../assets/background.webp");
   background-repeat: repeat-y;
   background-size: 100%;
   font-family: "bookAntiquaBold";
@@ -725,7 +725,7 @@ h4.window-title {
 }
 
 .scriptorium.scriptorium-sheet {
-  background-image: url("../assets/scriptorium/Scriptorium_background.png");
+  background-image: url("../assets/scriptorium/Scriptorium_background.webp");
   background-repeat: repeat-y;
   background-size: contain;
 }
@@ -845,7 +845,7 @@ h4.window-title {
 
 .arm5eRequisite {
   font-size: 10pt;
-  background-image: url("../assets/item/background.png");
+  background-image: url("../assets/item/background.webp");
   background-repeat: repeat-y;
   background-size: cover;
   font-family: "bookAntiquaBold";
@@ -1097,31 +1097,31 @@ input[type="time"] {
 }
 
 .arm5e .mainPlayer {
-  background-image: url("../assets/PC/background.png");
+  background-image: url("../assets/PC/background.webp");
   background-repeat: repeat-y;
   background-size: contain;
 }
 
 .arm5e .mainNPC {
-  background-image: url("../assets/NPC/background.png");
+  background-image: url("../assets/NPC/background.webp");
   background-repeat: repeat-y;
   background-size: contain;
 }
 
 .arm5e .mainLaboratory {
-  background-image: url("../assets/Lab/background.png");
+  background-image: url("../assets/Lab/background.webp");
   background-repeat: repeat-y;
   background-size: contain;
 }
 
 .arm5e .mainCodex {
-  background-image: url("../assets/codex/background.png");
+  background-image: url("../assets/codex/background.webp");
   background-repeat: repeat-y;
   background-size: contain;
 }
 
 .arm5e .mainCovenant {
-  background-image: url("../assets/covenant/background.png");
+  background-image: url("../assets/covenant/background.webp");
   background-repeat: repeat-y;
   background-size: contain;
 }
@@ -1337,7 +1337,7 @@ input[type="time"] {
   font-family: "bookAntiqua";
   font-size: 10pt;
   text-align: center;
-  /* background-image: url("../assets/player/bar.png"); */
+  /* background-image: url("../assets/player/bar.webp"); */
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
@@ -1352,7 +1352,7 @@ input[type="time"] {
 }
 
 .arm5e .spell-attribute {
-  max-width: 165px;
+  max-width: 160px;
 }
 .arm5eRoll .ability-key,
 .arm5e .ability-key {
@@ -1406,9 +1406,8 @@ input[type="time"] {
   transition-timing-function: ease-in-out;
 }
 
-.section-handle,
-.planning-item {
-  background: rgba(0, 0, 0, 0.1);
+.section-handle {
+  background: rgba(0, 0, 0, 0.15);
   padding: 1px 4px;
   border-top: 0px;
   border-left: 0px;
@@ -1419,22 +1418,31 @@ input[type="time"] {
   width: fit-content;
 }
 
+div[class*="foldable-section"] {
+  opacity: 1;
+  max-height: 800px;
+  transition-property: opacity, max-height;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
 .enchantment,
 .enchantment-short,
 .planning-options,
 .planning-attributes,
 .planning-description,
 .item-description,
+.enchant-description,
 .details {
   opacity: 1;
-  max-height: 480px;
+  max-height: 800px;
   transition-property: opacity, max-height;
   transition-duration: 0.6s;
   transition-timing-function: ease-in-out;
 }
 
-.planning-options.hide,
-.planning-attributes.hide,
+/* .planning-options.hide,
+.planning-attributes.hide, */
 .activeEffects.hide,
 .penetration.hide,
 .details.hide,
@@ -1443,15 +1451,16 @@ input[type="time"] {
   opacity: 0;
   overflow: hidden;
 }
-.item-description.hide,
-.planning-description.hide,
+/* .item-description.hide,
+.planning-description.hide, */
+.foldable-section-small.hide,
 .enchantment-short.hide {
   max-height: 0px;
   min-height: 60px;
   opacity: 0.3;
   overflow: hidden;
 }
-
+.foldable-section.hide,
 .enchantment.hide {
   max-height: 0px;
   min-height: 0px;
@@ -1553,6 +1562,14 @@ input[type="time"] {
   height: auto;
 }
 
+.flavor-bar-cov {
+  margin-bottom: 10px;
+  background-image: url("../assets/covenant/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  height: 2px;
+}
+
 .arm5eTabs {
   border: 0px !important;
   /*
@@ -1594,31 +1611,31 @@ input[type="time"] {
   align-items: center;
 }
 .arm5eTabsPC {
-  background-image: url("../assets/PC/bar.png");
+  background-image: url("../assets/PC/bar.webp");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsNPC {
-  background-image: url("../assets/NPC/bar.png");
+  background-image: url("../assets/NPC/bar.webp");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsLAB {
-  background-image: url("../assets/Lab/bar.png");
+  background-image: url("../assets/Lab/bar.webp");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsCOV {
-  background-image: url("../assets/covenant/bar.png");
+  background-image: url("../assets/covenant/bar.webp");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }
 
 .arm5eTabsCOD {
-  background-image: url("../assets/codex/bar.png");
+  background-image: url("../assets/codex/bar.webp");
   background-repeat: repeat-x;
   background-position-y: bottom;
 }

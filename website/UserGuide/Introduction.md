@@ -22,7 +22,7 @@ A **character** englobes any player character or npc Actor
 
 Most Actors and Items sheets have tabs and subtabs. To help navigate in the sheet. the following convention is used in this guide : ActorName.TabName.SubtabName  
 
-![](systems/arm5e/assets/userguide/CharacterTabs.png)
+![](systems/arm5e/assets/userguide/CharacterTabs.webp)
 
 For example: Character.Abilities.Virtues&Flaws indicates the subtab Virtues&Flaws in the tab Abilities of the character sheet
 
@@ -30,7 +30,7 @@ For example: Character.Abilities.Virtues&Flaws indicates the subtab Virtues&Flaw
 
 You will encounter list of items on the sheets, here is a description of the icons:
 
-![](systems/arm5e/assets/userguide/ListIcons.png)
+![](systems/arm5e/assets/userguide/ListIcons.webp)
 
 -   The Plus sign is to add a new item to the list.
     

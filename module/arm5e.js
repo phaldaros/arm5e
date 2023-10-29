@@ -201,7 +201,7 @@ Hooks.once("init", async function () {
         outStr += arguments[arg];
       }
     }
-    return outStr;
+    return new Handlebars.SafeString(outStr);
   });
   Handlebars.registerHelper("toLowerCase", function (str) {
     return str.toLowerCase();

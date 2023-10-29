@@ -8,6 +8,7 @@ import { ASPECTS } from "../../constants/enchant-aspects.js";
 import { EchantmentExtension, EnchantmentSchema } from "../../schemas/enchantmentSchema.js";
 import { computeLevel } from "../../helpers/magic.js";
 import { spellFormLabel, spellTechniqueLabel } from "../../helpers/spells.js";
+import { ArM5eItemMagicSheet } from "../item-magic-sheet.js";
 /**
  */
 export class ArM5eItemEnchantmentSheet {
@@ -19,6 +20,7 @@ export class ArM5eItemEnchantmentSheet {
   async getData(context) {
     const enchants = context.system.enchantments;
     enchants.ui = {};
+
     if (context.ui.sections.visibility.enchantExt === undefined) {
       mergeObject(
         context.ui.sections.visibility,
@@ -33,6 +35,13 @@ export class ArM5eItemEnchantmentSheet {
         { recursive: true }
       );
     }
+    let enchantments = [];
+    for (let idx = 0; idx < enchants.effects.length; idx++) {
+      enchantments.push({ desc: "", attributes: "" });
+    }
+    mergeObject(enchantments, context.ui.sections.visibility.enchantments, { recursive: true });
+    context.ui.sections.visibility.enchantments = enchantments;
+
     enchants.totalCapa = 0;
 
     if (enchants.charged) {
@@ -74,7 +83,7 @@ export class ArM5eItemEnchantmentSheet {
     if (enchants.effects.length > 1) {
       enchants.prepared = true;
     }
-
+    let idx = 0;
     for (let e of enchants.effects) {
       e.details = `${spellTechniqueLabel(e.system)} - ${spellFormLabel(e.system)}`;
       e.system.level = computeLevel(e.system, "enchantment");
@@ -83,6 +92,9 @@ export class ArM5eItemEnchantmentSheet {
       } else {
         enchants.usedCapa += Math.ceil(e.system.level / 10);
       }
+      e.prefix = `system.enchantments.effects.${idx}.`;
+      e.visibility = this.item.flags.arm5e.ui.sections.visibility.enchantments[idx];
+      idx++;
     }
 
     if (enchants.prepared) {
@@ -138,11 +150,22 @@ export class ArM5eItemEnchantmentSheet {
       );
     }
 
+    const effects = expanded?.system?.enchantments?.effects;
+    if (effects) {
+      expanded.system.enchantments.effects = mergeObject(
+        source.system.enchantments.effects,
+        effects,
+        { recursive: true }
+      );
+    }
+
     return expanded;
     // log(false, `${JSON.stringify(formData)}`);
   }
 
   addListeners(html) {
+    // Everything below here is only needed if the sheet is editable
+    if (!this.sheet.options.editable) return;
     html.find(".appraise").click(async () => {
       if (this.item.system.enchantments == null) {
         const updateData = {};
@@ -151,6 +174,21 @@ export class ArM5eItemEnchantmentSheet {
         await this.item.update(updateData);
       }
     });
+
+    html.find(".advanced-req").click(async (evt) => {
+      let effect = this.item.system.enchantments.effects[evt.currentTarget.dataset.index];
+      let update = await ArM5eItemMagicSheet.PickRequisites(
+        effect.system,
+        evt.currentTarget.dataset.flavor
+      );
+
+      if (update)
+        this.sheet.submit({
+          preventClose: true,
+          updateData: { [`system.enchantments.effects.${evt.currentTarget.dataset.index}`]: update }
+        });
+    });
+
     html.find(".aspect-change").change(async (e) => {
       const dataset = getDataset(e);
       let aspects = this.item.system.enchantments.aspects;
@@ -235,6 +273,28 @@ export class ArM5eItemEnchantmentSheet {
       });
       await this.item.update({ "system.enchantments.bonuses": bonuses });
     });
+
+    html.find(".bonus-delete").click(async (e) => {
+      const question = game.i18n.localize("arm5e.dialog.delete-question");
+      let confirm = await getConfirmation(
+        this.item.name,
+        question,
+        ArM5eActorSheet.getFlavor(this.item.actor?.type)
+      );
+      if (confirm) {
+        const dataset = getDataset(e);
+        let bonuses = this.sheet.item.system.enchantments.bonuses;
+        bonuses.splice(dataset.index, 1);
+        await this.sheet.item.update({ "system.enchantments.bonuses": bonuses });
+      }
+    });
+
+    html.find(".enchantment-create").click(async (e) => {
+      let effects = this.item.system.enchantments.effects;
+      effects.push({ name: "My enchantment", system: new EnchantmentSchema() });
+      await this.item.update({ "system.enchantments.effects": effects });
+    });
+
     html.find(".enchant-effect-show").click(async (e) => {
       const dataset = getDataset(e);
       let effects = this.item.system.enchantments.effects;

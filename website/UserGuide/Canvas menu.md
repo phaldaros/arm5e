@@ -1,4 +1,4 @@
-![](systems/arm5e/assets/userguide/CanvasMenu.png)
+![](systems/arm5e/assets/userguide/CanvasMenu.webp)
 
 The Ars Magica system has its own set of tools available in the canvas menu on the left.
 
@@ -41,7 +41,7 @@ This dialog is managing all things book related.
 
 **Dev note:** Only reading is implemented for now, but expect writing and book crafting tabs in the future.
 
-![](systems/arm5e/assets/userguide/Scriptorium1.png)
+![](systems/arm5e/assets/userguide/Scriptorium1.webp)
 
 The instructions are pretty clear: drop a character to act as a reader, optionally you can drop a book to fill all the fields automatically or invent a virtual book on the spot.
 
@@ -62,7 +62,7 @@ The instructions are pretty clear: drop a character to act as a reader, optional
 -   The quality increase will be capped to the level of the book. You will be warned and any excess will be discarded.
     
 
-![](systems/arm5e/assets/userguide/Scriptorium2.png)
+![](systems/arm5e/assets/userguide/Scriptorium2.webp)
 
 -   For spell masteries and generic abilities, it is difficult to have an exact match of the name of the spell (eg: translation) or ability option. The choice is given to pick the correct one with GM approval.
     
