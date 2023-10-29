@@ -47,19 +47,30 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       usercache[this.actor.id] = {
         filters: {
           hermetic: {
+            spells: HERMETIC_FILTER,
+            magicalEffects: HERMETIC_FILTER,
             laboratoryTexts: HERMETIC_FILTER
           },
           bookTopics: {
             abilitiesTopics: TOPIC_FILTER,
             artsTopics: TOPIC_FILTER,
-            masteriesTopics: HERMETIC_FILTER
+            masteriesTopics: HERMETIC_TOPIC_FILTER
           },
           events: {
             diaryEvents: TIME_FILTER
           }
+        },
+        sections: {
+          visibility: { common: {}, planning: {} }
         }
       };
 
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    } else if (usercache[this.actor.id].sections?.visibility == undefined) {
+      usercache[this.actor.id].sections = { visibility: { common: {}, planning: {} } };
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    } else if (usercache[this.actor.id].sections?.visibility.planning == undefined) {
+      usercache[this.actor.id].sections.visibility.planning = {};
       sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     }
     return usercache[this.actor.id];

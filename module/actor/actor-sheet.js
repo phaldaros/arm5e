@@ -165,9 +165,15 @@ export class ArM5eActorSheet extends ActorSheet {
           events: {
             diaryEvents: TIME_FILTER
           }
+        },
+        sections: {
+          visibility: { common: {} }
         }
       };
 
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    } else if (usercache[this.actor.id].sections?.visibility == undefined) {
+      usercache[this.actor.id].sections = { visibility: { common: {} } };
       sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     }
     return usercache[this.actor.id];
@@ -177,35 +183,11 @@ export class ArM5eActorSheet extends ActorSheet {
   async getData() {
     const context = await super.getData();
 
-    // Use a safe clone of the actor data for further operations.
     const actorData = context.actor;
-    context.ui = this.actor.getFlag(CONFIG.ARM5E.SYSTEM_ID, "ui");
+    context.userData = this.getUserCache();
+    context.ui = {};
+    context.ui.sections = context.userData.sections;
 
-    if (context.ui) {
-      mergeObject(
-        context.ui,
-        {
-          sections: { visibility: { common: {} } },
-          flavor: "Neutral"
-        },
-        { recursive: true }
-      );
-      if (this.actor.type == "laboratory") {
-        mergeObject(
-          context.ui,
-          {
-            sections: { visibility: { planning: {} } }
-          },
-          { recursive: true }
-        );
-      }
-    } else {
-      context.ui = { sections: { visibility: { common: {} } }, flavor: "Neutral" };
-      if (this.actor.type == "laboratory") {
-        context.ui.sections.visibility.planning = {};
-      }
-      this.actor.flags.arm5e.ui = context.ui;
-    }
     // Add the actor's data to context.system for easier access, as well as flags.
     context.system = actorData.system;
     context.flags = actorData.flags;
@@ -232,8 +214,6 @@ export class ArM5eActorSheet extends ActorSheet {
     );
 
     actorData.system.effectCreation = game.user.isTrusted;
-
-    context.userData = this.getUserCache();
 
     if (this.actor.type != "magicCodex") {
       // topic filters
@@ -839,12 +819,12 @@ export class ArM5eActorSheet extends ActorSheet {
       const dataset = getDataset(ev);
       log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
       let index = dataset.index ?? "";
-      let scope = this.actor.flags.arm5e.ui.sections.visibility[dataset.category];
+      let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+      let scope = usercache[this.actor._id].sections.visibility[dataset.category];
       let classes = document.getElementById(
         `${dataset.category}-${dataset.section}${index}`
       ).classList;
       if (scope) {
-        log(false, `DEBUG section found`);
         if (classes.contains("hide")) {
           if (index !== "") {
             log(false, `DEBUG reveal ${dataset.section} at index ${index}`);
@@ -853,7 +833,6 @@ export class ArM5eActorSheet extends ActorSheet {
             log(false, `DEBUG reveal ${dataset.section}`);
             scope[dataset.section] = "";
           }
-          await this.actor.setFlag(ARM5E.SYSTEM_ID, "ui", this.actor.flags.arm5e.ui);
         } else {
           if (index !== "") {
             log(false, `DEBUG hide ${dataset.section} at index ${index}`);
@@ -862,8 +841,8 @@ export class ArM5eActorSheet extends ActorSheet {
             log(false, `DEBUG hide ${dataset.section}`);
             scope[dataset.section] = "hide";
           }
-          await this.actor.setFlag(ARM5E.SYSTEM_ID, "ui", this.actor.flags.arm5e.ui);
         }
+        sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
       }
       classes.toggle("hide");
       log(false, `DEBUG Flags: ${JSON.stringify(this.actor.flags.arm5e.ui.sections.visibility)}`);

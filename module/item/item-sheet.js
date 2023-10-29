@@ -127,6 +127,18 @@ export class ArM5eItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
+  getUserCache() {
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[this.item.id] == undefined) {
+      usercache[this.item.id] = {
+        sections: { visibility: { common: {} } }
+      };
+
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    }
+    return usercache[this.item.id];
+  }
+
   /** @override */
   async getData() {
     const context = await super.getData();
@@ -135,32 +147,8 @@ export class ArM5eItemSheet extends ItemSheet {
     const itemData = context.item;
     context.subsheet = this.subsheetTemplate;
 
-    context.ui = this.item.getFlag(CONFIG.ARM5E.SYSTEM_ID, "ui");
-
-    if (context.ui) {
-      mergeObject(
-        context.ui,
-        {
-          sections: { visibility: { common: {} } },
-          flavor: "Neutral"
-        },
-        { recursive: true }
-      );
-      this.item.flags.arm5e.ui = context.ui;
-    } else {
-      context.ui = { sections: { visibility: { common: {} } }, flavor: "Neutral" };
-      if (this.enchantPossible) {
-        mergeObject(
-          context.ui,
-          {
-            sections: { visibility: { enchantExt: {}, enchantments: [] } },
-            flavor: "Neutral"
-          },
-          { recursive: true }
-        );
-        this.item.flags.arm5e = { ui: context.ui };
-      }
-    }
+    context.ui = this.getUserCache();
+    context.ui.flavor = "Neutral";
 
     // Add the item's data to context.system for easier access, as well as flags.
     context.system = itemData.system;
@@ -311,17 +299,12 @@ export class ArM5eItemSheet extends ItemSheet {
       const dataset = getDataset(ev);
       log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
       let index = dataset.index ?? "";
-      // if (!(this.item.flags.arm5e.ui.sections.visibility[dataset.category] instanceof Array)) {
-      //   // TMP
-      //   this.item.flags.arm5e.ui.sections.visibility[dataset.category] = [];
-      // }
-
-      let scope = this.item.flags.arm5e.ui.sections.visibility[dataset.category];
+      let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+      let scope = usercache[this.item._id].sections.visibility[dataset.category];
       let classes = document.getElementById(
         `${dataset.category}-${dataset.section}${index}`
       ).classList;
       if (scope) {
-        log(false, `DEBUG section found`);
         if (classes.contains("hide")) {
           if (index !== "") {
             log(false, `DEBUG reveal ${dataset.section} at index ${index}`);
@@ -330,7 +313,6 @@ export class ArM5eItemSheet extends ItemSheet {
             log(false, `DEBUG reveal ${dataset.section}`);
             scope[dataset.section] = "";
           }
-          await this.item.setFlag(ARM5E.SYSTEM_ID, "ui", this.item.flags.arm5e.ui);
         } else {
           if (index) {
             log(false, `DEBUG hide ${dataset.section} at index ${index}`);
@@ -339,10 +321,10 @@ export class ArM5eItemSheet extends ItemSheet {
             log(false, `DEBUG hide ${dataset.section}`);
             scope[dataset.section] = "hide";
           }
-          await this.item.setFlag(ARM5E.SYSTEM_ID, "ui", this.item.flags.arm5e.ui);
         }
+        sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
       }
-      log(false, `DEBUG Flags: ${JSON.stringify(this.item.flags.arm5e.ui.sections.visibility)}`);
+      // log(false, `DEBUG Flags: ${JSON.stringify(this.item.flags.arm5e.ui.sections.visibility)}`);
       classes.toggle("hide");
     });
     // Everything below here is only needed if the sheet is editable

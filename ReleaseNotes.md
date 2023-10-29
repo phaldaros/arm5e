@@ -1,4 +1,4 @@
-## 2.2.3.4, Ophilio
+## 2.2.3.5, Ophilio
 
 ### Features & changes
 
@@ -15,6 +15,8 @@
 - Hotbar improvements
   - Actors and Items have the correct icon used.
   - Items in the sidebar are accepted.
+- Added generic ability for academic, arcane and martial category.
+- User based cache of the section folding state.
 
 ### Bug fixes
 
