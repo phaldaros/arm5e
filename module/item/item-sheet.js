@@ -42,9 +42,15 @@ export class ArM5eItemSheet extends ItemSheet {
     if (dropData.type == "Item") {
       if (this.enchantPossible) {
         const enchant = await Item.implementation.fromDropData(dropData);
-        if (enchant.type === "enchantment") {
+        if (["enchantment", "spell", "magicalEffect"].includes(enchant.type)) {
           log(false, "Enchant dropped");
           await this.enchantSheet.addEnchantment(enchant);
+          if (this.item.system.enchantments == null) {
+            const updateData = {};
+            updateData["system.state"] = "appraised";
+            updateData["system.enchantments"] = new EchantmentExtension();
+            await this.item.update(updateData);
+          }
         }
       }
     }

@@ -10,11 +10,13 @@
         </div>
         <div class="resource">
           <label>{{localize "arm5e.sheet.year"}}<input type="number" name="system.dates.0.year"
-              value="{{firstSeason.year}}" class="resource-focus" data-dtype="Number" {{@root.ui.editDate}} /></label>
+              value="{{firstSeason.year}}" class="resource-focus change-year" data-dtype="Number"
+              {{@root.ui.editDate}} /></label>
         </div>
         <div class="resource">
           <label>{{localize "arm5e.sheet.season"}}</label>
-          <select name="system.dates.0.season" data-type="String" style="width: 100%" {{@root.ui.editDate}}>
+          <select name="system.dates.0.season" class="change-season" data-type="String" style="width: 100%"
+            {{@root.ui.editDate}}>
             {{#select firstSeason.season}} {{#each config.seasons as |season key|}}
                 <option value="{{key}}">{{localize season.label}}</option>
               {{/each}} {{/select}}

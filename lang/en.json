@@ -499,8 +499,8 @@
   "arm5e.skill.options.language": "Language's name",
   "arm5e.skill.options.organization": "Org's name",
   "arm5e.skill.options.martial": "Ability's name",
-  "arm5e.skill.options.academic": "Topic's name",
-  "arm5e.skill.options.arcane": "Secret's name",
+  "arm5e.skill.options.academic": "Ability's name",
+  "arm5e.skill.options.arcane": "Ability's name",
 
   "arm5e.skill.options.mysteryCult": "Cult's name",
   "arm5e.skill.options.law": "Legal forum",

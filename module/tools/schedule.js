@@ -7,6 +7,7 @@ export class Schedule extends FormApplication {
   constructor(data, options) {
     super(data, options);
     this.object.displayYear = null;
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
   /** @override */
   static get defaultOptions() {

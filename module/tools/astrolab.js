@@ -10,10 +10,11 @@ export class Astrolab extends FormApplication {
       this.object.season = date.season;
       this.render(true);
     });
+    this.timeHook = Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
 
   onClose(app) {
-    Hooks.off("arm5e-date-change");
+    Hooks.off("arm5e-date-change", this.timeHook);
   }
 
   /** @override */

@@ -1,4 +1,4 @@
-## 2.2.3.5, Ophilio
+## 2.2.3.6, Ophilio
 
 ### Features & changes
 
@@ -10,6 +10,9 @@
   - Extension of the sheet for enchantable items.
   - Complete design of all enchantments types
   - Edition of enchantments in the magic item sheet.
+  - Drag and drop of Spells and Magical effects on enchanted item sheet
+  - Bigger area to drop
+  - Dropping an enchantment on an enchantable Item will appraise it automatically.
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
 - Hotbar improvements
@@ -17,12 +20,14 @@
   - Items in the sidebar are accepted.
 - Added generic ability for academic, arcane and martial category.
 - User based cache of the section folding state.
+- It is now possible to edit the begin date of a long duration event (warning: all remaining seasons will be sequenced from that one)
 
 ### Bug fixes
 
 - Fixed important item migration bug
 - Covenants can no longer equip weapons and armors
 - Fix vis study activity
+- Schedule and activity sheets no long pop out on date change.
 
 ## 2.2.2.20, Nico
 

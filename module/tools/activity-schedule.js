@@ -12,9 +12,10 @@ export class ActivitySchedule extends FormApplication {
     Hooks.on("arm5e-date-change", (date) => {
       this.render(true);
     });
+    this.timeHook = Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
   onClose(app) {
-    Hooks.off("arm5e-date-change");
+    Hooks.off("arm5e-date-change", this.timeHook);
   }
   /** @override */
   static get defaultOptions() {

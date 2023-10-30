@@ -7,6 +7,7 @@ import { compareDates, nextDate } from "./time.js";
 export class MedicalHistory extends FormApplication {
   constructor(data, options) {
     super(data, options);
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
 
   static async createDialog(actor) {

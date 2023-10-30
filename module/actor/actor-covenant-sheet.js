@@ -62,7 +62,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     // sheets are the actor object, the data object, whether or not it's
     // editable, the items array, and the effects array.
     const context = await super.getData();
-
+    context.ui = this.getUserCache();
     context.config = CONFIG.ARM5E;
     log(false, "Covenant-sheet getData");
     log(false, context);
