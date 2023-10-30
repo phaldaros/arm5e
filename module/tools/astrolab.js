@@ -5,12 +5,12 @@ import { GroupSchedule } from "./group-schedule.js";
 export class Astrolab extends FormApplication {
   constructor(data, options) {
     super(data, options);
-    Hooks.on("arm5e-date-change", (date) => {
+    this.timeHook = Hooks.on("arm5e-date-change", (date) => {
       this.object.year = date.year;
       this.object.season = date.season;
       this.render(true);
     });
-    this.timeHook = Hooks.on("closeApplication", (app, html) => this.onClose(app));
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
 
   onClose(app) {

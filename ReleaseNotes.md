@@ -1,4 +1,4 @@
-## 2.2.3.6, Ophilio
+## 2.2.3.7, Ophilio
 
 ### Features & changes
 

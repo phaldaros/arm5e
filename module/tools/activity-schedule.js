@@ -9,10 +9,10 @@ export class ActivitySchedule extends FormApplication {
     super(data, options);
     this.object.displayYear = null;
     this.object.dates = this.object.activity.system.dates;
-    Hooks.on("arm5e-date-change", (date) => {
+    this.timeHook = Hooks.on("arm5e-date-change", (date) => {
       this.render(true);
     });
-    this.timeHook = Hooks.on("closeApplication", (app, html) => this.onClose(app));
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
   onClose(app) {
     Hooks.off("arm5e-date-change", this.timeHook);
