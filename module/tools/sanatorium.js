@@ -29,6 +29,7 @@ export class Sanatorium extends FormApplication {
     this.object.nextRecoveryPeriod = 0;
     this.object.dateChange = "disabled";
     this.prepareWounds();
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
 
   static async createDialog(actor) {

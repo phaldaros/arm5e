@@ -86,7 +86,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.firstSeason = context.system.dates[0];
     context.lastSeason = context.system.dates[context.system.dates.length - 1];
     if (context.system.duration > 1) {
-      context.ui.editDate = "disabled";
+      // context.ui.editDate = "disabled";
     }
 
     context.ui.editDuration = "readonly";
@@ -687,7 +687,35 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     html.find(".show-details").click(async (event) => this._showSpell(this.item, event));
     html.find(".select-dates").click(this.displayCalendar.bind(this));
     html.find(".roll-activity").click(async (event) => await this.rollActivity());
+
+    html.find(".change-year").change(this._setStartYear.bind(this));
+    html.find(".change-season").change(this._setStartSeason.bind(this));
     // html.find(".select-year").click(this._selectYear.bind(this));
+  }
+  async _setStartYear(event) {
+    event.preventDefault();
+    const target = event.currentTarget;
+    const newYear = Number($(target).val());
+    let updateData = {};
+    updateData["system.dates"] = DiaryEntrySchema.buildSchedule(
+      this.item.system.duration,
+      newYear,
+      this.item.system.dates[0].season
+    );
+    this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
+  }
+
+  async _setStartSeason(event) {
+    event.preventDefault();
+    const target = event.currentTarget;
+    const newSeason = $(target).val();
+    let updateData = {};
+    updateData["system.dates"] = DiaryEntrySchema.buildSchedule(
+      this.item.system.duration,
+      this.item.system.dates[0].year,
+      newSeason
+    );
+    this.submit({ preventClose: true, updateData: updateData }).then(() => this.render());
   }
 
   async _setDuration(event) {

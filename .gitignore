@@ -20,4 +20,5 @@ packs/scenes/**
 .eslintrc.json
 website/UserGuide/.obsidian
 arm5e.lock
+CommitChangeNotes.md
 

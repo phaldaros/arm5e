@@ -44,8 +44,7 @@ export class ScriptoriumObject {
 export class Scriptorium extends FormApplication {
   constructor(data, options) {
     super(data, options);
-
-    // Hooks.on("closeApplication", (app, html) => this.onClose(app));
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
   /** @override */
   static get defaultOptions() {

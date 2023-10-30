@@ -48,13 +48,13 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
   /** @override */
   async getData() {
     const context = await super.getData();
-
+    context.ui = this.getUserCache();
     // no need to import everything
     context.config = {};
     context.config.magic = CONFIG.ARM5E.magic;
     this._prepareCodexItems(context);
 
-    let filters = context.userData.filters.hermetic.filter;
+    let filters = context.ui.filters.hermetic.filter;
     context.ui = {};
     context.system.filteredBaseEffects = hermeticFilter(filters, context.system.baseEffects);
     context.system.baseEffectCount = context.system.filteredBaseEffects.length;

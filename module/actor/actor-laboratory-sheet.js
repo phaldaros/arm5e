@@ -8,7 +8,12 @@ import { ArM5eItem } from "../item/item.js";
 import { getDataset, log } from "../tools.js";
 import { ArM5eActorSheet } from "./actor-sheet.js";
 import { ArM5eItemDiarySheet } from "../item/item-diary-sheet.js";
-import { HERMETIC_FILTER, TIME_FILTER, TOPIC_FILTER } from "../constants/userdata.js";
+import {
+  HERMETIC_FILTER,
+  HERMETIC_TOPIC_FILTER,
+  TIME_FILTER,
+  TOPIC_FILTER
+} from "../constants/userdata.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 /**
  * Extend the basic ArM5eActorSheet with some very simple modifications
@@ -64,15 +69,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           visibility: { common: {}, planning: {} }
         }
       };
-
-      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
-    } else if (usercache[this.actor.id].sections?.visibility == undefined) {
-      usercache[this.actor.id].sections = { visibility: { common: {}, planning: {} } };
-      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
-    } else if (usercache[this.actor.id].sections?.visibility.planning == undefined) {
-      usercache[this.actor.id].sections.visibility.planning = {};
-      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    } else {
+      let sections = { visibility: { common: {}, planning: {} } };
+      mergeObject(sections, usercache[this.actor.id].sections);
+      usercache[this.actor.id].sections = sections;
     }
+    sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     return usercache[this.actor.id];
   }
 
@@ -81,7 +83,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   /** @override */
   async getData() {
     let context = await super.getData();
-
+    context.ui = this.getUserCache();
     context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
 
     context.config = CONFIG.ARM5E;

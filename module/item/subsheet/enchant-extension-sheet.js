@@ -38,21 +38,27 @@ export class ArM5eItemEnchantmentSheet {
         enchantments.push({ desc: "", attributes: "" });
       }
       usercache[this.item.id].sections.visibility.enchantments = enchantments;
-    } else if (usercache[this.item.id].sections.visibility.enchantExt == undefined) {
-      usercache[this.item.id].sections.visibility.enchantExt = {
-        capacity: "hide",
-        aspect: "hide",
-        info: "hide",
-        enchant: ""
-      };
-    }
-    if (usercache[this.item.id].sections.visibility.enchantments === undefined) {
+    } else {
       let enchantments = [];
       for (let idx = 0; idx < this.item.system.enchantments.effects.length; idx++) {
         enchantments.push({ desc: "", attributes: "" });
       }
-      usercache[this.item.id].sections.visibility.enchantments = enchantments;
+      let sections = {
+        visibility: {
+          common: {},
+          enchantExt: {
+            capacity: "hide",
+            aspect: "hide",
+            info: "hide",
+            enchant: ""
+          },
+          enchantments: enchantments
+        }
+      };
+      mergeObject(sections, usercache[this.item.id].sections);
+      usercache[this.item.id].sections = sections;
     }
+
     sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     return usercache[this.item.id];
   }
@@ -114,7 +120,8 @@ export class ArM5eItemEnchantmentSheet {
         enchants.usedCapa += Math.ceil(e.system.level / 10);
       }
       e.prefix = `system.enchantments.effects.${idx}.`;
-      e.visibility = this.item.flags.arm5e.ui.sections.visibility.enchantments[idx];
+
+      e.visibility = context.ui.sections.visibility.enchantments[idx];
       idx++;
     }
 
