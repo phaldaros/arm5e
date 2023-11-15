@@ -402,8 +402,7 @@
   "arm5e.sheet.visLimit.label": "Vis Use Limit",
 
   "arm5e.sheet.item.enchantments": "Enchantments",
-  "arm5e.sheet.item.aspects": "Shapes & Materials",
-  "arm5e.sheet.item.hidden": "Hidden",
+
   "arm5e.sheet.indexKey": "Index key",
 
   "arm5e.sheet.setAbilities": "Create abilities for your character that match the labels below. This ensures correct calculations. If you don't have the ability, you can still create it and set to zero and assign it.",
@@ -501,6 +500,7 @@
   "arm5e.skill.options.martial": "Ability's name",
   "arm5e.skill.options.academic": "Ability's name",
   "arm5e.skill.options.arcane": "Ability's name",
+  "arm5e.skill.options.supernatural": "Ability's name",
 
   "arm5e.skill.options.mysteryCult": "Cult's name",
   "arm5e.skill.options.law": "Legal forum",
@@ -776,6 +776,8 @@
   "arm5e.spell.targets.baseSize.te": "Depend on material, from 10 cubic paces (sand, dirt) to 1 cubic inch (gem)",
   "arm5e.spell.targets.baseSize.vi": "A spell or depend on the effect",
   "arm5e.spell.masteryHint": "Mastered",
+  "arm5e.spell.attributes": "Effect attributes",
+  "arm5e.spell.description": "Effect description",
 
   "arm5e.spell.targets.subcats.intMagic": "Intellego magic",
 
@@ -817,6 +819,16 @@
   "arm5e.sheet.crucible.receptacle": "Receptacle",
   "arm5e.sheet.crucible.invest": "Invest power",
 
+  "arm5e.enchantment.attributes": "Enchantment attributes",
+  "arm5e.enchantment.capacity.label": "Capacity",
+  "arm5e.enchantment.capacity.summary": "Used/Total Capacity",
+  "arm5e.enchantment.capacities": "Capacities",
+  "arm5e.enchantment.aspects": "Shapes & Materials",
+  "arm5e.enchantment.attuned": "Attuned",
+  "arm5e.enchantment.receptacle.label": "Receptacle",
+  "arm5e.enchantment.receptacle.name": "Receptacle's name",
+  "arm5e.enchantment.receptacle.desc": "Receptacle's description",
+
   "arm5e.lab.planning.labQuality": "Lab quality",
   "arm5e.lab.planning.labSpecTotal": "Lab spec.",
   "arm5e.lab.planning.label": "Planning",
@@ -826,11 +838,16 @@
   "arm5e.lab.planning.msg.artDeficiency": "Due to Art deficiency, divided by {divisor}",
   "arm5e.lab.planning.msg.notSkilledLearn": "Not skilled enough to learn that spell.",
   "arm5e.lab.planning.msg.notSkilledInvent": "Not skilled enough to invent that spell.",
+  "arm5e.lab.planning.msg.notSkilledEnchant": "Not skilled enough to enchant that item.",
   "arm5e.lab.planning.msg.visExtracted": "{num} pawns of Vim vis extracted from the aura.",
   "arm5e.lab.planning.msg.visExtracted2": "Vis vim extracted from the aura of {covenant}.",
   "arm5e.lab.planning.msg.visExtracted3": "No aura to extract Vis from!",
   "arm5e.lab.planning.msg.wounded": " Warning: character is wounded ({penalty}), check if it applies to lab total",
   "arm5e.lab.planning.msg.insufficientLabTotal": "Insufficent {arts} lab total to extract vis.",
+  "arm5e.lab.planning.msg.longevityBonus": "Bonus of {bonus} to aging.",
+  "arm5e.lab.planning.msg.smallCapacity": "Size is too small or material not noble enough.",
+  "arm5e.lab.planning.msg.visNeeded": "{num} pawns of Vis needed.",
+
   "arm5e.lab.planning.button.refresh": "Refresh",
   "arm5e.lab.planning.button.reset": "Reset",
   "arm5e.lab.planning.button.schedule": "Schedule",
@@ -902,7 +919,7 @@
   "arm5e.lab.activity.inventSpell": "Invent spell",
   "arm5e.lab.activity.visExtraction": "Vis extraction",
   "arm5e.lab.activity.openEnchantment": "Open enchantment",
-  "arm5e.lab.activity.longevityPotion": "Longevity potion",
+  "arm5e.lab.activity.longevityRitual": "Longevity Ritual",
   "arm5e.lab.activity.minorEnchantment": "Minor enchantment",
   "arm5e.lab.activity.majorEnchantment": "Major enchantment",
   "arm5e.lab.bonus.generic": "Generic modifier",
@@ -1027,6 +1044,7 @@
   "arm5e.sheet.source.Hooks": "Hooks",
   "arm5e.sheet.source.TtA": "Through the Aegis",
   "arm5e.sheet.source.ML": "Mythic Locations",
+  "arm5e.sheet.source.F&F": "Faith and Flame",
   "arm5e.sheet.source.custom": "Homebrew",
 
   "arm5e.messages.wound.light": "light",
@@ -1089,7 +1107,7 @@
   "arm5e.sheet.activeEffect.types.supernaturalAbilitiesXPBonus": "Bonus to Supernat. abilities XP",
   "arm5e.sheet.activeEffect.types.laboratoryAttr": "Laboratory's attributes",
   "arm5e.sheet.activeEffect.types.laboratorySpec": "Laboratory's specialty",
-  "arm5e.sheet.activeEffect.types.labActivity": "Laboratory activity",
+  "arm5e.sheet.activeEffect.types.labActivity": "Character laboratory activity",
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",
   "arm5e.sheet.activeEffect.types.optional": "Optional bonus",
   "arm5e.sheet.activeEffect.types.spellmastery": "Spell mastery",
@@ -1186,6 +1204,9 @@
   "arm5e.activity.aging": "Aging",
   "arm5e.activity.visStudy": "Vis study",
   "arm5e.activity.recovery": "Recovery",
+  "arm5e.activity.longevityRitual": "Longevity ritual",
+  "arm5e.activity.minorEnchantment": "Minor enchantment",
+
   "arm5e.activity.pawnsNeeded": "Pawns of Vis needed",
 
   "arm5e.activity.roll.aging": "Roll for aging",
@@ -1352,5 +1373,7 @@
   "arm5e.generic.custom": "Custom",
   "arm5e.generic.begins": "Begins",
   "arm5e.generic.ends": "Ends",
-  "arm5e.generic.all": "All"
+  "arm5e.generic.all": "All",
+  "arm5e.generic.hidden": "Hidden",
+  "arm5e.generic.locked": "Locked"
 }

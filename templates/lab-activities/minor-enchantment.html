@@ -1,0 +1,181 @@
+<div class="drop-enchant" data-drop="enchant">
+  <div class="padding4">
+    <h1 class="charname flexrow flex01" style="font-size: 12pt;">
+      <div class="item-image" data-index="{{idx}}" style="max-width: 32px"><img class="item-img"
+          src="{{planning.data.receptacle.img}}" title="{{planning.data.receptacle.name}}"
+          data-edit="{{namePrefix}}receptacle.img" style="height: 30px;width: 30px" /></div>
+      <input name="{{namePrefix}}receptacle.name" title="{{planning.data.receptacle.name}}" type="text"
+        value="{{planning.data.receptacle.name}}" placeholder="Name" />
+    </h1>
+    <div class="padding4 flexrow flex-group-left">
+      <label class="section-handle clickable" data-category="planning"
+        data-section="effect">{{localize "arm5e.sheet.effect"}}</label>
+    </div>
+    <div class="foldable-section backSection {{lookup visibility 'effect'}}"
+      id="planning-effect{{index}}-{{@root.actor._id}}">
+      <div class="resource flexrow">
+        <div class="item-image" data-index="{{idx}}" style="max-width: 32px"><img class="item-img"
+            src="{{planning.data.enchantment.img}}" title="{{planning.data.enchantment.name}}"
+            data-edit="{{namePrefix}}enchantment.img" style="height: 30px;width: 30px" /></div>
+        <div class="padding2">
+          <input type="text" name="{{namePrefix}}enchantment.name" value="{{planning.data.enchantment.name}}"
+            data-dtype="String" style="min-width: 175px;" />
+        </div>
+      </div>
+      <label class="resource flex01 ">{{planning.label}}</label>
+      <div>
+        {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" docId=@root.actor._id container="planning" 
+      prefix=enchantPrefix spelldata=planning.data.enchantment visibility=@root.ui.sections.visibility.planning ritual=false}}
+      </div>
+
+      <div>
+        {{> "systems/arm5e/templates/item/parts/enchantment-attributes.html" docId=@root.actor._id container="planning"
+      prefix=enchantPrefix enchantData=planning.data.enchantment visibility=@root.ui.sections.visibility.planning}}
+      </div>
+    </div>
+    <div>
+      <div class="padding4 flexrow flex-group-left">
+        <label class="section-handle clickable" data-category="planning"
+          data-section="receptacle">{{localize "arm5e.enchantment.receptacle.label"}}</label>
+      </div>
+      <div class="foldable-section backSection enchantment padding4" id="planning-receptacle-{{@root.actor._id}}">
+        <div class="padding4 flexrow flex-group-left">
+          <label class="section-handle header-label clickable" data-category="planning"
+            data-section="receptacle-desc">{{localize "arm5e.enchantment.receptacle.desc"}}</label>
+        </div>
+        <div class="foldable-section-small {{lookup visibility 'receptacle-desc' }}"
+          id="planning-receptacle-desc{{index}}-{{@root.actor._id}}">
+          <div class="flex01" style="height: 200px;">
+            {{log "target:" (concat namePrefix "receptacle.system.description")}}
+            {{editor planning.data.receptacle.system.description target=(concat namePrefix "receptacle.system.description") button=true
+            owner=owner editable=true engine="prosemirror"}}
+          </div>
+        </div>
+        <!-- CAPACITY -->
+
+        <div class="padding4 flexrow flex-group-left ">
+          <label class="section-handle clickable" data-category="planning"
+            data-section="capacity">{{localize "arm5e.enchantment.capacity.label"}}</label>
+        </div>
+        <div class="foldable-section backSection enchantment " id="planning-capacity-{{@root.actor._id}}">
+          <div class="resource flexrow">
+            <div class="padding2">
+              <select name="{{namePrefix}}receptacle.system.enchantments.capacities.0.materialBase"
+                style="max-width: 175px;">
+                {{#select planning.data.receptacle.system.enchantments.capacities.0.materialBase}}
+                  {{#each @root.config.lab.enchantment.materialBase as |attr key|}}
+                    <option value="{{key}}">({{attr.base}}) {{localize attr.eg}} </option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="padding2">
+              <select name="{{namePrefix}}receptacle.system.enchantments.capacities.0.sizeMultiplier"
+                style="max-width: 175px;">
+                {{#select planning.data.receptacle.system.enchantments.capacities.0.sizeMultiplier}}
+                  {{#each @root.config.lab.enchantment.sizeMultiplier as |attr key|}}
+                    <option value="{{key}}" title="{{localize attr.eg}}">{{localize attr.value}} (x {{attr.mult}})
+                    </option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="padding2">
+              <input type="text" name="{{namePrefix}}receptacle.system.enchantments.capacities.0.desc"
+                value="{{planning.data.receptacle.system.enchantments.capacities.0.desc}}" data-dtype="String"
+                style="min-width: 175px;" />
+            </div>
+            <div class="padding2 modifier">
+              <input type="number" readonly value="{{planning.data.receptacle.system.enchantments.capacities.0.total}}"
+                data-dtype="Number" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SHAPES & MATERIALS -->
+        <div>
+          <div class="flexrow flex-group-left padding4">
+            <label class="section-handle clickable" data-category="planning" data-section="aspect">{{localize
+        "arm5e.enchantment.aspects"}}</label>
+          </div>
+          <div class="foldable-section backSection enchantment" id="planning-aspect-{{@root.actor._id}}">
+            <div class="resource flexrow">
+            </div>
+            <div class="resource flexrow">
+              <div class="padding2">
+                <select name="{{namePrefix}}receptacle.system.enchantments.aspects.0.aspect" style="max-width: 175px;"
+                  class="aspect-change">
+                  {{#select planning.data.receptacle.system.enchantments.aspects.0.aspect}}
+                    {{#each planning.data.ASPECTS as |s key|}}
+                      <option value="{{key}}">{{s.name}}</option>
+                    {{/each}}
+                  {{/select}}
+                </select>
+              </div>
+              <div class="padding2">
+                <select name="{{namePrefix}}receptacle.system.enchantments.aspects.0.effect"
+                  style="max-width: 175px;width: 175px;" class="effect-change" data-index="{{idx}}">
+                  {{#select planning.data.receptacle.system.enchantments.aspects.0.effect}}
+                    {{#each planning.data.receptacle.system.enchantments.aspects.0.effects as |e key|}}
+                      <option value="{{key}}">{{e.name}} (+{{e.bonus}})
+                      </option>
+                    {{/each}}
+                  {{/select}}
+                </select>
+              </div>
+              <div class="padding2 modifier">
+                <input type="number" readonly value="{{planning.data.receptacle.system.enchantments.aspects.0.bonus}}"
+                  data-dtype="Number" />
+              </div>
+              <div class="padding2">
+                <label class="label-light"
+                  style="position: relative; bottom: 10px;">{{localize "arm5e.sheet.action.apply"}}</label>
+                <input type="checkbox" {{checked planning.data.receptacle.system.enchantments.aspects.0.apply}}
+                  data-dtype="Boolean" name="{{namePrefix}}receptacle.system.enchantments.aspects.0.apply"
+                  style="position: relative; bottom: 5px;" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{#if hasVisCost}}
+        <div>
+          <div class="padding4 flexrow flex-group-left">
+            <label class="section-handle clickable" data-category="planning"
+              data-section="vis-cost">{{localize "Vis cost: 3 pawns of Pe or Co vis"}}</label>
+          </div>
+          <div class="foldable-section backSection enchantment padding4" id="planning-vis-cost-{{@root.actor._id}}">
+            <div class="padding4 flexrow flex-group-left">
+              <label class="section-handle header-label clickable" data-category="planning"
+                data-section="magus-vis">{{localize "Magus vis stock"}}</label>
+            </div>
+            {{#each planning.data.visCost.magus as |vis|}}
+              <div class="padding4 flexrow flex-group-left">
+                <label class="header-label ">{{vis.label}}</label>
+                <label class="header-label ">{{vis.art}}</label>
+                <div class="padding2 modifier">
+                  <input type="number" readonly value="{{vis.amount}}" data-dtype="Number" />
+                </div>
+              </div>
+            {{/each}}
+            <div class="padding4 flexrow flex-group-left">
+              <label class="section-handle header-label clickable" data-category="planning"
+                data-section="lab-vis">{{localize "Laboratory vis stock"}}</label>
+            </div>
+            {{#each planning.data.visCost.lab as |vis|}}
+              <div class="padding4 flexrow flex-group-left">
+                <label class="header-label ">{{vis.label}}</label>
+                <label class="header-label ">{{vis.art}}</label>
+                <div class="padding2 modifier">
+                  <input type="number" readonly value="{{vis.amount}}" data-dtype="Number" />
+                </div>
+              </div>
+            {{/each}}
+          </div>
+
+
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

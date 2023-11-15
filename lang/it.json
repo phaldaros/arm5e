@@ -245,13 +245,13 @@
   "arm5e.sheet.dazedLvl": "Livello stordito",
   "arm5e.sheet.unconscious": "Svenuto",
 
-   "arm5e.sheet.light": "Leggera",
+  "arm5e.sheet.light": "Leggera",
   "arm5e.sheet.medium": "Media",
   "arm5e.sheet.heavy": "Pesante",
   "arm5e.sheet.incap": "Incap.",
   "arm5e.sheet.dead": "Morto",
 
-   "arm5e.sheet.size": "Taglia",
+  "arm5e.sheet.size": "Taglia",
   "arm5e.sheet.soak": "Assorbimento",
   "arm5e.sheet.soakBonus": "Assorbimento bonus",
 
@@ -445,7 +445,7 @@
   "arm5e.sheet.longevityModifier": "Modificatore Longevità",
   "arm5e.sheet.twilightScars": "Cicatrici del Crepuscolo",
 
-   "arm5e.sheet.owner": "Proprietario",
+  "arm5e.sheet.owner": "Proprietario",
   "arm5e.sheet.sanctum": "Sanctum",
   "arm5e.sheet.location": "Luogo",
   "arm5e.sheet.generalQuality": "Qualità Generale",
@@ -538,8 +538,8 @@
 
   "arm5e.sheet.incomingSources": "Fonti di Reddito",
   "arm5e.sheet.incoming": "Reddito Corente",
-    
- "arm5e.sheet.yearExpenditure": "Spese Annue",
+
+  "arm5e.sheet.yearExpenditure": "Spese Annue",
   "arm5e.sheet.expenditure": "Spese",
 
   "arm5e.sheet.costsSavings": "Risparmi sulle Spese",
@@ -591,7 +591,7 @@
   "arm5e.spell.target.short": "B",
   "arm5e.spell.range.short": "G",
 
- "arm5e.spell.ranges.personal": "Personale",
+  "arm5e.spell.ranges.personal": "Personale",
   "arm5e.spell.ranges.touch": "Tocco",
   "arm5e.spell.ranges.eye": "Sguardo",
   "arm5e.spell.ranges.prop": "Oggetto (Fatata)",
@@ -810,7 +810,7 @@
   "arm5e.lab.activity.inventSpell": "Invenzione incantesimo",
   "arm5e.lab.activity.visExtraction": "Estrazione vis",
   "arm5e.lab.activity.openEnchantment": "Aprire incantamento",
-  "arm5e.lab.activity.longevityPotion": "Pozione di longevità",
+  "arm5e.lab.activity.longevityRitual": "Pozione di longevità",
   "arm5e.lab.activity.minorEnchantment": "Incantamento minore",
   "arm5e.lab.activity.majorEnchantment": "Incantamento maggiore",
   "arm5e.lab.bonus.generic": "Modificatore generico",

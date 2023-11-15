@@ -1,7 +1,8 @@
-## 2.2.3.7, Ophilio
+## 2.2.3.8, Ophilio
 
 ### Features & changes
 
+- [technical] Verified for V11.315
 - [technical] better handling of inter-actor links, cleaner code, faster actor load.
 - Simplified abilities and spell masteries xp display
 - new design for input fields
@@ -13,14 +14,18 @@
   - Drag and drop of Spells and Magical effects on enchanted item sheet
   - Bigger area to drop
   - Dropping an enchantment on an enchantable Item will appraise it automatically.
+  - Added authorship
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
+- [technical] new framework for lab activities for factorization purposes
 - Hotbar improvements
   - Actors and Items have the correct icon used.
   - Items in the sidebar are accepted.
 - Added generic ability for academic, arcane and martial category.
 - User based cache of the section folding state.
 - It is now possible to edit the begin date of a long duration event (warning: all remaining seasons will be sequenced from that one)
+- New lab activity: Minor enchantment
+  - It is now possible to schedule lesser enchantments in the lab
 
 ### Bug fixes
 
@@ -28,6 +33,8 @@
 - Covenants can no longer equip weapons and armors
 - Fix vis study activity
 - Schedule and activity sheets no long pop out on date change.
+- Clicking on an activity in the Troupe Schedule dialog won't create an additional diary entry.
+- Fix Recovery rolls on V10
 
 ## 2.2.2.20, Nico
 

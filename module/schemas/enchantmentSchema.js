@@ -10,6 +10,7 @@ import {
   itemBase,
   ModifierField,
   NullableSchemaField,
+  SeasonField,
   SpellAttributes,
   TechniquesForms,
   XpField
@@ -28,11 +29,24 @@ export class EchantmentExtension extends foundry.abstract.DataModel {
 
   static defineSchema() {
     return {
-      talisman: boolOption(),
-      talismanOwner: new fields.StringField({
+      author: new fields.StringField({ required: false, blank: true, initial: "Unknown" }),
+      year: new fields.NumberField({
         required: false,
-        blank: true
+        nullable: false,
+        integer: true,
+        // positive: true, // for testing
+        initial: 1220,
+        step: 1
       }),
+      season: SeasonField(),
+      talisman: boolOption(),
+      preparedBy: new fields.StringField({
+        required: false,
+        blank: true,
+        nullable: true,
+        initial: null
+      }),
+      locked: boolOption(),
       charged: boolOption(),
       prepared: boolOption(),
       bonuses: new fields.ArrayField(
@@ -200,7 +214,7 @@ export const HermeticAttributes = () => {
 
 export const AspectAttribute = () => {
   return {
-    aspect: baseDescription(),
+    aspect: baseDescription(Object.keys(ASPECTS)[0]),
     effect: baseDescription(),
     bonus: new fields.NumberField({
       required: false,

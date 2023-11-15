@@ -2,8 +2,8 @@ import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
 
 export default class Aura {
-  constructor(scene) {
-    this.scene = scene;
+  constructor(sceneId) {
+    this.sceneId = sceneId;
     this.modifier = 0; // Modifier can be changed (if the user changes it in the dialog)
   }
 
@@ -21,6 +21,10 @@ export default class Aura {
 
   // Scene may have been updated, so constantly retrieve scene flag data for aura values
   get _sceneData() {
+    // fetch the scene if not done already
+    if (!this.scene) {
+      this.scene = game.scenes.get(this.sceneId);
+    }
     // If scene doesn't specify aura data, merge with defaultAura to always have correct structure
     return mergeObject(this.scene?.getFlag("arm5e", "aura") || {}, this.constructor.defaultAura, {
       overwrite: false
@@ -128,6 +132,9 @@ export default class Aura {
   async set(realm, value, nightMod = 0) {
     if (value < 0 || !CONFIG.ARM5E.lookupRealm.includes(realm) || realm == "mundane") {
       return;
+    }
+    if (!this.scene) {
+      this.scene = game.scenes.get(this.sceneId);
     }
     let currentAura = this.scene?.getFlag("arm5e", "aura") ?? this.constructor.defaultAura;
     currentAura.values[realm] = value;

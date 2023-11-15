@@ -25,7 +25,7 @@ export class Schedule extends FormApplication {
 
   onClose(app) {
     if (app.object.actor) {
-      delete actor.apps[app.appId];
+      delete app.object.actor.apps[app.appId];
     }
   }
 

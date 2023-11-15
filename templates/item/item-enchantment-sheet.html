@@ -66,7 +66,8 @@
       {{> "systems/arm5e/templates/item/parts/spell-design.html" }}
     </div> {{!-- Enchantment Tab --}}
     <div class="tab enchantment" data-group="primary" data-tab="enchantment">
-      {{> "systems/arm5e/templates/item/parts/enchantment.html" prefix="" }}
+      {{> "systems/arm5e/templates/item/parts/enchantment-attributes.html" container="enchantment" 
+       enchantData=this docId=@root.item._id}}
     </div>
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">

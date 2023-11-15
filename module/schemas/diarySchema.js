@@ -111,12 +111,21 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           }
         }
       ),
+      // Array of embedded document to add to the Actor on apply (with the exception of spells for now)
+      achievements: new fields.ArrayField(
+        new fields.ObjectField({
+          required: false,
+          nullable: false,
+          initial: []
+        })
+      ),
       externalIds: new fields.ArrayField(
         new fields.SchemaField({
           actorId: new NullableDocumentIdField(),
           itemId: new NullableDocumentIdField(),
           // Flags:
-          // 1 : update an amount
+          // 0 : delete on rollback
+          // 1 : change the quantity of an item
           // 2 : update a schedule
           // 4 : update id
           flags: new fields.NumberField({

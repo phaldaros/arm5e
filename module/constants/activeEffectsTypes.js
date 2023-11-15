@@ -1697,7 +1697,7 @@ export default {
     }
   },
   labActivity: {
-    category: "laboratory",
+    category: "magic",
     type: "laboratory",
     label: "arm5e.sheet.activeEffect.types.labActivity",
     subtypes: {

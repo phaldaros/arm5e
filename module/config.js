@@ -1,9 +1,4 @@
 import {
-  validateExtraction,
-  validateInvention,
-  validateLearning
-} from "./helpers/lab-activities.js";
-import {
   validAdventuring,
   validExposure,
   validPractice,
@@ -2386,6 +2381,49 @@ ARM5E.activities.generic = {
       duplicate: true,
       conflict: false
     }
+  },
+  longevityRitual: {
+    label: "arm5e.activity.longevityRitual",
+    display: {
+      tab: true,
+      progress: false,
+      abilities: false,
+      arts: false,
+      masteries: false,
+      spells: false,
+      attribute: "hidden"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
+    // application: longevityRitual
+  },
+  minorEnchantment: {
+    label: "arm5e.activity.minorEnchantment",
+    display: {
+      tab: true,
+      progress: false,
+      abilities: false,
+      arts: false,
+      masteries: false,
+      spells: false,
+      attribute: "hidden"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    validation: null,
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
   }
 };
 
@@ -2405,13 +2443,8 @@ ARM5E.activities.lab = {
     edition: {
       aura: "",
       spellField: "",
-      spellCombobox: "",
-      spellDesc: true
-    },
-    display: {
-      spellDesign: true
-    },
-    validation: validateInvention
+      spellCombobox: ""
+    }
   },
   learnSpell: {
     label: "arm5e.lab.activity.spellLearning",
@@ -2419,13 +2452,8 @@ ARM5E.activities.lab = {
     edition: {
       aura: "",
       spellField: "readonly",
-      spellCombobox: "disabled",
-      spellDesc: false
-    },
-    display: {
-      spellDesign: true
-    },
-    validation: validateLearning
+      spellCombobox: "disabled"
+    }
   },
   visExtraction: {
     label: "arm5e.lab.activity.visExtraction",
@@ -2433,13 +2461,8 @@ ARM5E.activities.lab = {
     edition: {
       aura: "",
       spellField: "readonly",
-      spellCombobox: "disabled",
-      spellDesc: false
-    },
-    display: {
-      spellDesign: false
-    },
-    validation: validateExtraction
+      spellCombobox: "disabled"
+    }
   },
   openEnchantment: {
     label: "arm5e.lab.activity.openEnchantment",
@@ -2447,28 +2470,25 @@ ARM5E.activities.lab = {
     edition: {
       aura: "",
       spellField: "readonly",
-      spellCombobox: "disabled",
-      spellDesc: false
+      spellCombobox: "disabled"
     }
   },
-  longevityPotion: {
-    label: "arm5e.lab.activity.longevityPotion",
+  longevityRitual: {
+    label: "arm5e.lab.activity.longevityRitual",
     enabled: "disabled",
     edition: {
       aura: "",
       spellField: "readonly",
-      spellCombobox: "disabled",
-      spellDesc: false
+      spellCombobox: "disabled"
     }
   },
   minorEnchantment: {
     label: "arm5e.lab.activity.minorEnchantment",
-    enabled: "disabled",
+    enabled: "",
     edition: {
       aura: "",
-      spellField: "readonly",
-      spellCombobox: "disabled",
-      spellDesc: false
+      spellField: "",
+      spellCombobox: ""
     }
   },
   majorEnchantment: {
@@ -2476,9 +2496,8 @@ ARM5E.activities.lab = {
     enabled: "disabled",
     edition: {
       aura: "",
-      spellField: "readonly",
-      spellCombobox: "disabled",
-      spellDesc: false
+      spellField: "",
+      spellCombobox: ""
     }
   }
 };
@@ -2763,6 +2782,9 @@ ARM5E.generic.sourcesTypes = {
   },
   Hook: {
     label: "arm5e.sheet.source.Hooks"
+  },
+  "F&F": {
+    label: "arm5e.sheet.source.faithAndFlame"
   }
 };
 

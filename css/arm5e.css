@@ -1512,31 +1512,21 @@ div[class*="foldable-section"] {
   flex: 0;
 }
 
-/* .arm5e .sheet-body,
-.arm5e .sheet-body .tab {
-  height: 90%;
-  height: auto;
-} */
 .arm5e .sheet-body .editor,
 .arm5e .sheet-body .tab .editor {
-  /* height: 280px; */
-  min-height: 250px;
+  height: auto;
+  min-height: 205px;
   overflow-y: auto;
 }
 
 .arm5e .sheet-body .editor.prosemirror,
 .arm5e .sheet-body .tab .editor.prosemirror {
+  height: auto;
   height: -webkit-fill-available;
   height: -moz-available;
-  min-height: 200px;
+  min-height: 500px;
   overflow-y: auto;
 }
-
-/* .arm5e .sheet-body .tab .editor-edit {
-  height: 90%;
-  min-height: 200px;
-  overflow-y: auto;
-} */
 
 .arm5e .diary-body {
   padding-top: 7px;

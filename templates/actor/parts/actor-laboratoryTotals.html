@@ -18,7 +18,7 @@
         </div>
         {{#each ../system.arts.techniques as |technique k2|}}
           <div class="lab-total-char flexrow flex-group-center" {{{lookup (lookup ( lookup @root.system.labTotals key)
-            k2) "ui" }}}>{{lookup (lookup ( lookup @root.system.labTotals key) k2) "total"}}</div>
+            k2) 'ui' }}}>{{lookup (lookup ( lookup @root.system.labTotals key) k2) "total"}}</div>
         {{/each}}
       </li>
     {{/each}}

@@ -55,7 +55,6 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     this._prepareCodexItems(context);
 
     let filters = context.ui.filters.hermetic.filter;
-    context.ui = {};
     context.system.filteredBaseEffects = hermeticFilter(filters, context.system.baseEffects);
     context.system.baseEffectCount = context.system.filteredBaseEffects.length;
     context.system.filteredMagicEffects = hermeticFilter(filters, context.system.magicEffects);

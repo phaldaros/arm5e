@@ -1,13 +1,11 @@
-{{log "visibility " visibility}}
 <div class="flexcol flex0">
   <div class="padding4 flexrow flex-group-left">
     <label class="section-handle header-label clickable" data-category="{{container}}" data-section="desc"
-      data-index="{{index}}">{{localize "arm5e.sheet.description"}}</label>
+      data-index="{{index}}">{{localize "arm5e.spell.description"}}</label>
   </div>
-  <div class="foldable-section-small {{lookup visibility 'desc' }}" id="{{container}}-desc{{index}}">
+  <div class="foldable-section-small {{lookup visibility 'desc' }}" id="{{container}}-desc{{index}}-{{docId}}">
     <div class="flex01" style="height: 200px;">
-      {{log "prefix:" prefix ", target="  (concat prefix "system.description")}}
-      {{log "spellData:" spelldata}}
+      {{!--log "spellData:" spelldata--}}
       {{editor spelldata.system.description target=(concat prefix "system.description") button=true 
       owner=owner editable=true engine="prosemirror"}}
     </div>
@@ -16,9 +14,10 @@
 <div class="flexcol flex0" style="margin-top: 10px;">
   <div class="padding4 flexrow flex-group-left">
     <label class="section-handle header-label clickable" data-category="{{container}}" data-section="attributes"
-      data-index="{{index}}">{{localize "Spell attributes"}}</label>
+      data-index="{{index}}">{{localize "arm5e.spell.attributes"}}</label>
   </div>
-  <div class="foldable-section {{lookup visibility 'attributes'}}" id="{{container}}-attributes{{index}}">
+  <div class="foldable-section backSection {{lookup visibility 'attributes'}}"
+    id="{{container}}-attributes{{index}}-{{docId}}">
     <div class="flexrow flex02">
       <div class="resource flexcol flex01">
         <label for="{{prefix}}system.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
@@ -51,11 +50,13 @@
         <input type="number" name="{{prefix}}system.level" value="{{spelldata.system.level}}" class="design-level"
           style="background: rgba(0, 0, 0, 0.15); max-width: 60px" data-dtype="Number" {{edition.spellField}} />
       </div>
-      <div class="resource flexcol flex-group-center ">
-        <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
-        <input type="checkbox" name="{{prefix}}system.ritual" {{checked spelldata.system.ritual}}
-          {{edition.spellCombobox}} />
-      </div>
+      {{#if ritual}}
+        <div class="resource flexcol flex-group-center ">
+          <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
+          <input type="checkbox" name="{{prefix}}system.ritual" {{checked spelldata.system.ritual}}
+            {{edition.spellCombobox}} />
+        </div>
+      {{/if}}
       <div class="resource flexcol flex-center">
         <label class="header-label">{{localize "arm5e.sheet.general"}}</label>
         <input type="checkbox" name="{{prefix}}system.general" size="4" {{checked spelldata.system.general}}

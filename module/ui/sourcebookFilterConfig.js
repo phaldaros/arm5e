@@ -21,7 +21,7 @@ export class SourcebookFilterConfig extends FormApplication {
   async getData() {
     const data = super.getData();
     let sources = Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.generic.sourcesTypes).map(e => {
+      Object.entries(CONFIG.ARM5E.generic.sourcesTypes).map((e) => {
         return [
           e[0],
           {
@@ -67,6 +67,6 @@ export class SourcebookFilterConfig extends FormApplication {
     filters["ArM5"] = { value: true };
 
     await game.settings.set(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter", filters);
-    ui.notifications.info("Settings.updated", { localize: true });
+    ui.notifications.info("Settings updated", { localize: true });
   }
 }

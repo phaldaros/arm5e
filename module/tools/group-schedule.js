@@ -113,7 +113,7 @@ export class GroupSchedule extends FormApplication {
     html.find(".next-step").click(async (event) => this._changeYear(event, 1));
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
-      event.preventDefault();
+      event.stopPropagation();
       const actor = game.actors.get(event.currentTarget.dataset.actorid);
       if (actor) {
         const item = actor.items.get(event.currentTarget.dataset.id);

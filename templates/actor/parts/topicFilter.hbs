@@ -16,7 +16,7 @@
             data-list="{{list}}"
             data-category="bookTopics"
           >
-            {{#with (lookup userData.filters.bookTopics list)}}
+            {{#with (lookup ui.filters.bookTopics list)}}
               {{#select topicFilter}}
                 <option value=""></option>
                 {{#each @root.topics as |topic key|}}
@@ -40,7 +40,7 @@
             data-list="{{list}}"
             data-category="bookTopics"
           >
-            {{#with (lookup userData.filters.bookTopics list)}}
+            {{#with (lookup ui.filters.bookTopics list)}}
               {{#select typeFilter}}
                 <option value=""></option>
                 <option value="Summa">Summa</option>
@@ -61,7 +61,7 @@
             data-list="{{list}}"
             data-category="bookTopics"
           >
-            {{#with (lookup userData.filters.bookTopics list)}}
+            {{#with (lookup ui.filters.bookTopics list)}}
               {{#select levelOperator}}
                 <option value="0">=</option>
                 <option value="-1">&leq;</option>
@@ -69,7 +69,7 @@
               {{/select}}
             {{/with}}
           </select>
-          {{#with (lookup userData.filters.bookTopics list)}}
+          {{#with (lookup ui.filters.bookTopics list)}}
             <input
               type="number"
               name="levelFilter"
@@ -94,7 +94,7 @@
             data-list="{{list}}"
             data-category="bookTopics"
           >
-            {{#with (lookup userData.filters.bookTopics list)}}
+            {{#with (lookup ui.filters.bookTopics list)}}
               {{#select qualityOperator}}
                 <option value="0">=</option>
                 <option value="-1">&leq;</option>
@@ -102,7 +102,7 @@
               {{/select}}
             {{/with}}
           </select>
-          {{#with (lookup userData.filters.bookTopics list)}}
+          {{#with (lookup ui.filters.bookTopics list)}}
             <input
               type="number"
               name="qualityFilter"

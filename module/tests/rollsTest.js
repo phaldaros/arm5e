@@ -49,7 +49,7 @@ export function registerRollTesting(quench) {
           data.actorLink = true;
           magusToken = (await canvas.scene.createEmbeddedDocuments("Token", [data]))[0];
           await magusToken.update({ actorLink: true });
-          aura = new Aura(canvas.scene);
+          aura = new Aura(canvas.scene.id);
           await aura.set("faeric", 6);
         }
       });

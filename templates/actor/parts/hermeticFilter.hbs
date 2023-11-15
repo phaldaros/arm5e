@@ -16,7 +16,7 @@
             data-list="{{list}}"
             data-category="{{category}}"
           >
-            {{#with (lookup (lookup userData.filters category) list)}}
+            {{#with (lookup (lookup ui.filters category) list)}}
               {{#select techniqueFilter}}
                 <option value=""></option>
                 {{#each @root.config.magic.techniques as |technique key|}}
@@ -38,7 +38,7 @@
             data-list="{{list}}"
             data-category="{{category}}"
           >
-            {{#with (lookup (lookup userData.filters category) list)}}
+            {{#with (lookup (lookup ui.filters category) list)}}
               {{#select formFilter}}
                 <option value=""></option>
                 {{#each @root.config.magic.forms as |form key|}}
@@ -63,7 +63,7 @@
               data-list="{{list}}"
               data-category="{{category}}"
             >
-              {{#with (lookup (lookup userData.filters category) list)}}
+              {{#with (lookup (lookup ui.filters category) list)}}
                 {{#select levelOperator}}
                   <option value="0">=</option>
                   <option value="-1">&leq;</option>
@@ -71,7 +71,7 @@
                 {{/select}}
               {{/with}}
             </select>
-            {{#with (lookup (lookup userData.filters category) list)}}
+            {{#with (lookup (lookup ui.filters category) list)}}
               <input
                 type="number"
                 name="levelFilter"
@@ -99,7 +99,7 @@
               data-list="{{list}}"
               data-category="{{category}}"
             >
-              {{#with (lookup (lookup userData.filters category) list)}}
+              {{#with (lookup (lookup ui.filters category) list)}}
                 {{#select qualityOperator}}
                   <option value="0">=</option>
                   <option value="-1">&leq;</option>
@@ -107,7 +107,7 @@
                 {{/select}}
               {{/with}}
             </select>
-            {{#with (lookup (lookup userData.filters category) list)}}
+            {{#with (lookup (lookup ui.filters category) list)}}
               <input
                 type="number"
                 name="qualityFilter"

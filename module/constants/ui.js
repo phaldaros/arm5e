@@ -143,7 +143,9 @@ export const ACTIVITIES_DEFAULT_ICONS = {
     lab: "icons/tools/laboratory/vials-blue-pink.webp",
     aging: "icons/sundries/misc/hourglass-wood.webp",
     visStudy: "icons/skills/toxins/bottle-open-vapors-pink.webp",
-    recovery: "icons/magic/life/cross-explosion-burst-green.webp"
+    recovery: "icons/magic/life/cross-explosion-burst-green.webp",
+    longevityRitual: "icons/consumables/potions/bottle-pear-corked-pink.webp",
+    minorEnchant: "icons/skills/trades/smithing-anvil-silver-red.webp"
   }
 };
 
