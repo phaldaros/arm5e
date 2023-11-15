@@ -308,7 +308,7 @@ export class ArM5eItemSheet extends ItemSheet {
       let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
       let scope = usercache[this.item._id].sections.visibility[dataset.category];
       let classes = document.getElementById(
-        `${dataset.category}-${dataset.section}${index}`
+        `${dataset.category}-${dataset.section}${index}-${this.item._id}`
       ).classList;
       if (scope) {
         if (classes.contains("hide")) {

@@ -868,10 +868,19 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       return context;
     }
 
+    let idx = 0;
+    for (const achievement of this.item.system.achievements) {
+      // if an id exists update it
+      if (achievement._id) {
+      } else {
+        let [item] = await this.actor.createEmbeddedDocuments("Item", [achievement], {});
+        // fill the id of the item created for rollback
+        this.item.system.achievements[idx]._id = item._id;
+      }
+      idx++;
+    }
+
     switch (this.item.system.activity) {
-      case "learnSpell":
-      case "inventSpell":
-      case "visExtraction":
       case "visStudy":
         for (let dependency of this.item.system.externalIds) {
           if (game.actors.has(dependency.actorId)) {
@@ -889,7 +898,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             }
           }
         }
-
+      case "learnSpell":
+      case "inventSpell":
+      case "visExtraction":
       case "adventuring":
       case "exposure":
       case "practice":
@@ -900,6 +911,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "childhood":
       case "laterLife":
       case "laterLifeMagi":
+      case "longevityRitual":
+      case "minorEnchantment":
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // ignore 0 xp gain
           if (ab.xp == 0) {
@@ -1031,7 +1044,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               done: true,
               description: description,
               progress: this.item.system.progress,
-              sourceQuality: sourceQuality - sourceModifier - context.system.sourceBonus
+              sourceQuality: sourceQuality - sourceModifier - context.system.sourceBonus,
+              achievements: this.item.system.achievements
             }
           },
           { render: true }
@@ -1066,6 +1080,14 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
     const actor = this.actor;
     let updateData = [];
+    if (this.item.system.achievements.length != 0) {
+      let items = await this.actor.deleteEmbeddedDocuments(
+        "Item",
+        this.item.system.achievements.map((e) => e._id),
+        {}
+      );
+      log(false, "Item deleted");
+    }
     switch (this.item.system.activity) {
       case "recovery":
         // delete the diary entry
@@ -1166,7 +1188,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         await this.actor.update(actorUpdate, { render: true });
         await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
 
-        if (["visExtraction", "visStudy"].includes(this.item.system.activity)) {
+        if (["visExtraction", "visStudy", "minorEnchantment"].includes(this.item.system.activity)) {
           // delete the diary entry
           await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
           return;

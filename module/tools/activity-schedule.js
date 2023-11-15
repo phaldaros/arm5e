@@ -225,6 +225,7 @@ export class ActivitySchedule extends FormApplication {
     html.find(".next-step").click(async (event) => this._changeYear(event, 1));
     html.find(".previous-step").click(async (event) => this._changeYear(event, -1));
     html.find(".vignette").click(async (event) => {
+      event.stopPropagation();
       const item = this.object.actor.items.get(event.currentTarget.dataset.id);
       if (item) {
         item.apps[this.appId] = this;

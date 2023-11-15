@@ -184,9 +184,7 @@ export class ArM5eActorSheet extends ActorSheet {
     const context = await super.getData();
 
     const actorData = context.actor;
-    context.userData = this.getUserCache();
-    context.ui = {};
-    context.ui.sections = context.userData.sections;
+    context.ui = this.getUserCache();
 
     // Add the actor's data to context.system for easier access, as well as flags.
     context.system = actorData.system;
@@ -219,7 +217,7 @@ export class ArM5eActorSheet extends ActorSheet {
       // topic filters
       // 1. Filter
       // Arts
-      let artsFilters = context.userData.filters.bookTopics.artsTopics;
+      let artsFilters = context.ui.filters.bookTopics.artsTopics;
       // log(false, "Filter: " + JSON.stringify(artsFilters));
       context.system.filteredArtsTopics = topicFilter(
         artsFilters,
@@ -243,7 +241,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
       // 1. Filter
       // abilities
-      let abilitiesFilters = context.userData.filters.bookTopics.abilitiesTopics;
+      let abilitiesFilters = context.ui.filters.bookTopics.abilitiesTopics;
       // log(false, "Filter: " + JSON.stringify(abilitiesFilters));
       context.system.filteredMundaneTopics = topicFilter(
         abilitiesFilters,
@@ -266,7 +264,7 @@ export class ArM5eActorSheet extends ActorSheet {
 
       //  Filter
       // masteries
-      let masteriesFilters = context.userData.filters.bookTopics.masteriesTopics;
+      let masteriesFilters = context.ui.filters.bookTopics.masteriesTopics;
       log(false, "Masteries filter: " + JSON.stringify(masteriesFilters));
       context.system.filteredMasteriesTopics = hermeticTopicFilter(
         masteriesFilters,
@@ -349,49 +347,24 @@ export class ArM5eActorSheet extends ActorSheet {
         }
 
         // lab total modifiers
-        if (context.system.labtotal === undefined) {
-          context.system.labtotal = {};
-        }
-        if (
-          context.system.labtotal.modifier === undefined ||
-          context.system.labtotal.modifier == null
-        ) {
-          context.system.labtotal.modifier = 0;
-        }
+
         if (context.system.sanctum.linked) {
           const lab = context.system.sanctum.document;
           context.system.labtotal.quality = parseInt(lab.system.generalQuality.total);
           // store the specialties if the character is linked to a lab
           context.system.labtotals = { specialty: lab.system.specialty };
+          context.system.labTotal.aura = lab.system.aura.computeMaxAuraModifier(
+            this.actor.system.realms
+          );
         } else {
-          if (context.system.labtotal.quality === undefined) {
-            context.system.labtotal.quality = 0;
-          }
-        }
-
-        if (context.system.covenant.linked) {
-          let cov = context.system.covenant.document;
-          if (cov) {
-            if (cov.system.levelAura == "") {
-              context.system.labtotal.aura = 0;
-            } else {
-              context.system.labtotal.aura = cov.system.levelAura;
-            }
-          }
-        } else {
-          if (!Number.isNumeric(context.system.labtotal.aura)) {
-            context.system.labtotal.aura = 0;
-          }
-        }
-
-        if (context.system.labtotal.applyFocus == undefined) {
-          context.system.labtotal.applyFocus = false;
+          context.system.labTotal.quality = 0;
+          context.system.labTotal.aura = 0;
         }
 
         // hermetic filters
         // 1. Filter
         // Spells
-        let spellsFilters = context.userData.filters.hermetic.spells;
+        let spellsFilters = context.ui.filters.hermetic.spells;
         context.system.filteredSpells = hermeticFilter(spellsFilters, context.system.spells);
         if (spellsFilters.expanded) {
           context.ui.spellsFilterVisibility = "";
@@ -407,7 +380,7 @@ export class ArM5eActorSheet extends ActorSheet {
         }
 
         // magical effects
-        let magicEffectFilters = context.userData.filters.hermetic.magicalEffects;
+        let magicEffectFilters = context.ui.filters.hermetic.magicalEffects;
         context.system.filteredMagicalEffects = hermeticFilter(
           magicEffectFilters,
           context.system.magicalEffects
@@ -459,6 +432,7 @@ export class ArM5eActorSheet extends ActorSheet {
         context.system.castingTotals = {};
         // labTotals
         context.system.labTotals = {};
+        context.system.labtotal = context.system.labtotal ?? {};
         for (let [key, form] of Object.entries(context.system.arts.forms)) {
           if (form.deficient) {
             form.ui = {
@@ -488,10 +462,11 @@ export class ArM5eActorSheet extends ActorSheet {
           context.system.castingTotals[key] = {};
           // compute lab totals:
           context.system.labTotals[key] = {};
+
           for (let [k2, technique] of Object.entries(context.system.arts.techniques)) {
             let techScoreLab = technique.finalScore;
             let formScoreLab = form.finalScore;
-            if (context.system.labtotal.applyFocus) {
+            if (context.system.labtotal?.applyFocus) {
               if (techScoreLab > formScoreLab) {
                 formScoreLab *= 2;
               } else {
@@ -535,9 +510,9 @@ export class ArM5eActorSheet extends ActorSheet {
               (formScoreLab +
                 techScoreLab +
                 context.system.laboratory.basicLabTotal.value +
-                parseInt(context.system.labtotal.quality) +
-                parseInt(context.system.labtotal.aura) +
-                parseInt(context.system.labtotal.modifier) +
+                parseInt(context.system.labtotal.quality ?? 0) +
+                parseInt(context.system.labtotal.aura ?? 0) +
+                parseInt(context.system.labtotal.modifier ?? 0) +
                 context.system.bonuses.arts.laboratory) /
                 deficiencyDivider
             );
@@ -613,7 +588,7 @@ export class ArM5eActorSheet extends ActorSheet {
     if (context.system.diaryEntries) {
       //  Filter
       // activities
-      let diaryFilters = context.userData.filters.events.diaryEvents;
+      let diaryFilters = context.ui.filters.events.diaryEvents;
       log(false, "Events filter: " + JSON.stringify(diaryFilters));
       let diaryCopy = context.system.diaryEntries.map((e) => {
         return e.toObject();
@@ -690,7 +665,7 @@ export class ArM5eActorSheet extends ActorSheet {
       // hermetic filters
       // 1. Filter
       //
-      let labtTextFilters = context.userData.filters.hermetic.laboratoryTexts;
+      let labtTextFilters = context.ui.filters.hermetic.laboratoryTexts;
       // if (!labtTextFilters) {
       //   labtTextFilters = { formFilter: "", levelFilter: "", levelOperator: 0, techniqueFilter: "" };
       // }
@@ -822,7 +797,7 @@ export class ArM5eActorSheet extends ActorSheet {
       let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
       let scope = usercache[this.actor._id].sections.visibility[dataset.category];
       let classes = document.getElementById(
-        `${dataset.category}-${dataset.section}${index}`
+        `${dataset.category}-${dataset.section}${index}-${this.actor._id}`
       ).classList;
       if (scope) {
         if (classes.contains("hide")) {
@@ -847,23 +822,6 @@ export class ArM5eActorSheet extends ActorSheet {
       classes.toggle("hide");
       log(false, `DEBUG Flags: ${JSON.stringify(this.actor.flags.arm5e.ui.sections.visibility)}`);
     });
-
-    // html.find(".planning-item").click(async (ev) => {
-    //   const category = $(ev.currentTarget).data("item");
-    //   const persist = $(ev.currentTarget).data("persist");
-    //   let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
-    //   let classes = document.getElementById(category).classList;
-    //   if (planning) {
-    //     if (classes.contains("hide")) {
-    //       planning.visibility[persist] = "";
-    //       await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
-    //     } else {
-    //       planning.visibility[persist] = "hide";
-    //       await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
-    //     }
-    //   }
-    //   classes.toggle("hide");
-    // });
 
     html.find(".covenant-link").change(async (ev) => {
       ev.preventDefault();

@@ -16,7 +16,7 @@
             data-list="{{list}}"
             data-category="events"
           >
-            {{#with (lookup userData.filters.events list)}}
+            {{#with (lookup ui.filters.events list)}}
               {{#select typeFilter}}
                 <option value=""></option>
                 {{#each @root.config.activities.generic as |activity key|}}
@@ -30,7 +30,7 @@
         <span class="flex03">
           <label for="system.minYearFilter" class="header-label">
             {{localize "arm5e.time.minYear"}}</label>
-          {{#with (lookup userData.filters.events list)}}
+          {{#with (lookup ui.filters.events list)}}
             <input
               type="number"
               name="minYearFilter"
@@ -46,7 +46,7 @@
         <span class="flex03">
           <label for="system.maxYearFilter" class="header-label">
             {{localize "arm5e.time.maxYear"}}</label>
-          {{#with (lookup userData.filters.events list)}}
+          {{#with (lookup ui.filters.events list)}}
             <input
               type="number"
               name="maxYearFilter"

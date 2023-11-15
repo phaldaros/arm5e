@@ -53,7 +53,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     // Item Sheet Partials
     "systems/arm5e/templates/item/parts/spell-design.html",
     "systems/arm5e/templates/item/parts/spell-design-V2.html",
-    "systems/arm5e/templates/item/parts/enchantment.html",
+    "systems/arm5e/templates/item/parts/enchantment-attributes.html",
     "systems/arm5e/templates/item/parts/enchant-extension.html",
     // "systems/arm5e/templates/item/parts/item-enchantment.html",
     "systems/arm5e/templates/item/parts/magic-item.html",
@@ -104,6 +104,10 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/item/item-weapon-sheet.html",
     "systems/arm5e/templates/item/item-wound-sheet.html",
 
+    // Lab activity
+    "systems/arm5e/templates/lab-activities/noparams.html",
+    "systems/arm5e/templates/lab-activities/spell.html",
+    "systems/arm5e/templates/lab-activities/minor-enchantment.html",
     // Rolls partials
     "systems/arm5e/templates/roll/parts/roll-header.html",
     "systems/arm5e/templates/roll/parts/roll-footer.html",

@@ -5,6 +5,13 @@ import { ARM5E } from "./config.js";
 import { showRollResults } from "./helpers/chat.js";
 let mult = 1;
 
+/**
+ * Description
+ * @param {any} actor
+ * @param {any} type="OPTION"
+ * @param {any} callBack
+ * @returns {any}
+ */
 async function simpleDie(actor, type = "OPTION", callBack) {
   mult = 1;
   // actor = getFormData(html, actor);
@@ -77,6 +84,15 @@ async function simpleDie(actor, type = "OPTION", callBack) {
 // 8 => non-interactive
 // 16 => no confidence
 // 32 => no chat message
+/**
+ * Description
+ * @param {any} actor
+ * @param {any} type="OPTION"
+ * @param {any} modes=0
+ * @param {any} callBack=undefined
+ * @param {any} botchNum=0
+ * @returns {any}
+ */
 async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined, botchNum = 0) {
   mult = 1;
   actor = await getRollFormula(actor);

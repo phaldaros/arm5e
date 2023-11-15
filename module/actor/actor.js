@@ -94,15 +94,8 @@ export class ArM5ePCActor extends Actor {
       }
 
       // Hopefully this can be reworked to use ID instead of name
-      this.system.aura = new Aura(this.system.covenant.document?.system?.scene?.document);
-
+      this.system.aura = new Aura(this.system.covenant.document?.system?.scene?.id);
       return;
-    }
-    if (this.type == "laboratory") {
-      this.system.aura = {
-        value: 0,
-        realm: ARM5E.REALM_TYPES.MUNDANE
-      };
     }
 
     // NOT LAB or COVENANT from here
@@ -155,8 +148,16 @@ export class ArM5ePCActor extends Actor {
 
       this.system.stances.gestures = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.gestures);
       this.system.stances.voice = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.voice);
+
+      this.system.labTotal = {
+        modifier: 0,
+        quality: 0,
+        aura: 0,
+        applyFocus: false
+      };
     }
 
+    // For characters
     this.system.bonuses.labActivities = {
       learnSpell: 0,
       inventSpell: 0

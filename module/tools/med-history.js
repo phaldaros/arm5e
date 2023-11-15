@@ -34,8 +34,8 @@ export class MedicalHistory extends FormApplication {
   }
 
   onClose(app) {
-    if (app.patient) {
-      delete patient.apps[app.appId];
+    if (app.object.patient) {
+      delete app.object.patient.apps[app.appId];
     }
   }
   async getData(options = {}) {

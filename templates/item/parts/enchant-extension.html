@@ -9,11 +9,13 @@
         </div>
         <div
           class="foldable-section-small backSection item-description {{ui.sections.visibility.common.item-description}}"
-          id="common-item-description">
+          id="common-item-description-{{@root.item._id}}">
           <div class="flex-group-left" style="height: auto; overflow-y: auto;max-height: 210px;">
             {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
           </div>
+
         </div>
+
       </div>
       <!-- ENCHANTMENTS -->
       <div class="padding4">
@@ -28,7 +30,7 @@
           </div>
         </div>
         <div class="foldable-section-small backSection enchantment-short {{ui.sections.visibility.enchantExt.enchant}}"
-          id="enchantExt-enchant">
+          id="enchantExt-enchant-{{@root.item._id}}">
           <div class="resource flexcol">
             {{#each system.enchantments.effects as |effect idx|}}
               {{#if (or @root.isGM (not effect.system.hidden))}}
@@ -78,7 +80,7 @@
             </div>
           </div>
           <div class="foldable-section backSection enchantment {{ui.sections.visibility.enchantExt.info}}"
-            id="enchantExt-info">
+            id="enchantExt-info-{{@root.item._id}}">
             <div class="padding4">
               <div class="padding2 flexrow">
                 <div class="flexcol flex0 flex-group-center">
@@ -131,11 +133,11 @@
           <div class="padding4">
             <div class="padding4 flexrow flex-group-left">
               <label class="section-handle clickable" data-category="enchantExt"
-                data-section="capacity">{{localize "Capacity"}}</label>
+                data-section="capacity">{{localize "arm5e.enchantment.capacity.label"}}</label>
             </div>
           </div>
           <div class="foldable-section backSection enchantment {{ui.sections.visibility.enchantExt.capacity}}"
-            id="enchantExt-capacity">
+            id="enchantExt-capacity-{{@root.item._id}}">
             <div class="resource flexrow">
               <label class="label-light">Computation</label>
               <div class="padding2">
@@ -146,15 +148,20 @@
                   {{/select}}
                 </select>
               </div>
-              <div class="padding2">
-                <label class="label-light">Used/Total Capacity</label>
-              </div>
-              <div class="padding2 modifier">
-                <input type="number" readonly value="{{system.enchantments.usedCapa}}" data-dtype="Number" />
-              </div>
-              <div class="padding2 modifier">/</div>
-              <div class="padding2 modifier">
-                <input type="number" readonly value="{{system.enchantments.totalCapa}}" data-dtype="Number" />
+              <div class="resource flexrow">
+                <div class="flex-group-left flexrow">
+                  <div class="padding2">
+                    <label class="label-light">{{localize "arm5e.enchantment.capacity.summary"}}</label>
+                  </div>
+
+                  <div class="padding2 modifier">
+                    <input type="number" readonly value="{{system.enchantments.usedCapa}}" data-dtype="Number" />
+                  </div>
+                  <div class="padding2 flex0">/</div>
+                  <div class="padding2 modifier">
+                    <input type="number" readonly value="{{system.enchantments.totalCapa}}" data-dtype="Number" />
+                  </div>
+                </div>
               </div>
               <div class="padding2 modifier">
                 <a class="attribute-control attribute-create"
@@ -203,10 +210,10 @@
         <div class="padding4">
           <div class="padding4 flexrow flex-group-left">
             <label class="section-handle clickable" data-category="enchantExt" data-section="aspect">{{localize
-        "arm5e.sheet.item.aspects"}}</label>
+        "arm5e.enchantment.aspects"}}</label>
           </div>
           <div class="foldable-section backSection enchantment {{ui.sections.visibility.enchantExt.aspect}}"
-            id="enchantExt-aspect">
+            id="enchantExt-aspect-{{@root.item._id}}">
             <div class="resource flexrow">
               <div class="padding2 modifier">
                 <a class="aspect-control aspect-create"
@@ -242,7 +249,8 @@
                   <input type="number" readonly value="{{aspect.bonus}}" data-dtype="Number" />
                 </div>
                 <div class="padding2">
-                  <label class="label-light" style="position: relative; bottom: 10px;">{{localize "Attuned"}}</label>
+                  <label class="label-light"
+                    style="position: relative; bottom: 10px;">{{localize "arm5e.enchantment.attuned"}}</label>
                   <input type="checkbox" {{@root.system.enchantments.ui.attuned}} {{checked aspect.attuned}}
                     data-dtype="Boolean" name="system.enchantments.aspects.{{idx}}.attuned"
                     style="position: relative; bottom: 5px;" />
@@ -283,7 +291,7 @@
               {{#if @root.isGM}}
                 <div class="padding2">
                   <label class="label-light"
-                    style="position: relative; bottom: 10px;">{{localize "arm5e.sheet.item.hidden"}}</label>
+                    style="position: relative; bottom: 10px;">{{localize "arm5e.generic.hidden"}}</label>
                   <input type="checkbox" name="system.enchantments.effects.{{idx}}.system.hidden" {{checked
                     effect.system.hidden}} data-dtype="Boolean" style="position: relative; bottom: 5px;" />
                 </div>
@@ -297,13 +305,14 @@
             </div>
             <div>
               {{log "spellData:"(lookup @root.system.enchantments.effects idx) }}
-              {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" container="enchantments" index=idx
-            prefix=prefix spelldata=(lookup @root.system.enchantments.effects idx) visibility=(lookup @root.ui.sections.visibility.enchantments idx)}}
+              {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" container="enchantments" index=idx docId=@root.item._id
+            prefix=prefix spelldata=(lookup @root.system.enchantments.effects idx) docId=@root.item._id 
+            visibility=(lookup @root.ui.sections.visibility.enchantments idx) ritual=false}}
             </div>
 
             <div style="margin-top: 10px;">
-              {{> "systems/arm5e/templates/item/parts/enchantment.html" container="enchantments" index=idx
-            prefix=prefix spelldata=(lookup @root.system.enchantments.effects idx) visibility=(lookup @root.ui.sections.visibility.enchantments idx)}}
+              {{> "systems/arm5e/templates/item/parts/enchantment-attributes.html" container="enchantments" index=idx docId=@root.item._id
+            prefix=prefix enchantData=(lookup @root.system.enchantments.effects idx) visibility=(lookup @root.ui.sections.visibility.enchantments idx)}}
             </div>
           {{/if}}
         </div>

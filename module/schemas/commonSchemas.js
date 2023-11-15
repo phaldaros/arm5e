@@ -136,8 +136,8 @@ export const possibleTargets = Object.keys(ARM5E.magic.targets).filter((r) => !r
 export const possibleDurations = Object.keys(ARM5E.magic.durations).filter((r) => !r.disabled);
 export const boolOption = (val = false, nullable = false) =>
   new fields.BooleanField({ required: false, initial: val, nullable: nullable });
-export const baseDescription = () =>
-  new fields.StringField({ required: false, blank: true, initial: "" });
+export const baseDescription = (initial = "") =>
+  new fields.StringField({ required: false, blank: true, initial: initial });
 export const TechniquesForms = () => {
   return {
     technique: new fields.SchemaField(
