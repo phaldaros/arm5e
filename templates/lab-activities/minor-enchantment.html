@@ -138,6 +138,44 @@
           </div>
         </div>
       </div>
+      {{#if hasVisCost}}
+        <div>
+          <div class="padding4 flexrow flex-group-left">
+            <label class="section-handle clickable" data-category="planning"
+              data-section="vis-cost">{{localize "Vis cost: 3 pawns of Pe or Co vis"}}</label>
+          </div>
+          <div class="foldable-section backSection enchantment padding4" id="planning-vis-cost-{{@root.actor._id}}">
+            <div class="padding4 flexrow flex-group-left">
+              <label class="section-handle header-label clickable" data-category="planning"
+                data-section="magus-vis">{{localize "Magus vis stock"}}</label>
+            </div>
+            {{#each planning.data.visCost.magus as |vis|}}
+              <div class="padding4 flexrow flex-group-left">
+                <label class="header-label ">{{vis.label}}</label>
+                <label class="header-label ">{{vis.art}}</label>
+                <div class="padding2 modifier">
+                  <input type="number" readonly value="{{vis.amount}}" data-dtype="Number" />
+                </div>
+              </div>
+            {{/each}}
+            <div class="padding4 flexrow flex-group-left">
+              <label class="section-handle header-label clickable" data-category="planning"
+                data-section="lab-vis">{{localize "Laboratory vis stock"}}</label>
+            </div>
+            {{#each planning.data.visCost.lab as |vis|}}
+              <div class="padding4 flexrow flex-group-left">
+                <label class="header-label ">{{vis.label}}</label>
+                <label class="header-label ">{{vis.art}}</label>
+                <div class="padding2 modifier">
+                  <input type="number" readonly value="{{vis.amount}}" data-dtype="Number" />
+                </div>
+              </div>
+            {{/each}}
+          </div>
+
+
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>

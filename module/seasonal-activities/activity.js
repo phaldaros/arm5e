@@ -55,6 +55,8 @@ export class LabActivity extends Activity {
     }
   }
 
+  hasVisCost = false;
+
   activateListeners(html) {}
 
   async getDefaultData() {
@@ -271,6 +273,8 @@ export class LongevityRitualActivity extends LabActivity {
     this.target = target ?? actor;
   }
 
+  // hasVisCost = true;
+
   get labActivitySpec() {
     return {
       mod: this.lab.system.specialty.longevityRituals.bonus,
@@ -290,6 +294,14 @@ export class LongevityRitualActivity extends LabActivity {
       waste: 0,
       duration: 1,
       message: msg
+    };
+  }
+
+  getVisCost(input) {
+    return {
+      amount: Math.ceil(input.labTotal.score / 10),
+      technique: "cr",
+      form: "co"
     };
   }
   async application() {}
@@ -346,6 +358,8 @@ export class MinorEnchantment extends LabActivity {
   constructor(lab, actor) {
     super(lab, actor, "minorEnchantment");
   }
+
+  // hasVisCost = true;
 
   computeLabTotal(data, distractions) {
     return this._computeLabTotal(data.enchantment, distractions);
@@ -455,6 +469,14 @@ export class MinorEnchantment extends LabActivity {
     }
   }
 
+  getVisCost(input) {
+    return {
+      amount: Math.ceil(input.data.enchantment.system.level / 10),
+      technique: input.data.enchantment.system.technique.value,
+      form: input.data.enchantment.system.form.value
+    };
+  }
+
   // TODO rework
   activityAchievement(input) {
     const item = input.data.receptacle;
@@ -467,12 +489,13 @@ export class MinorEnchantment extends LabActivity {
         state: "enchanted",
         weight: item.system.weight,
         description: item.system.description
-      }
+      },
+      _id: null
     };
 
-    if (input.data._id) {
+    if (item._id) {
       // This is an existing item that need to be updated
-      achievement._id = input.data._id;
+      achievement._id = item._id;
     }
     const effect = input.data.enchantment;
     const enchantments = {

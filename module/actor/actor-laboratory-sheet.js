@@ -226,6 +226,22 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     context.planning.labTotal = { score: labTot.score, label: labTot.label };
 
     this.activity.prepareData(context);
+    context.hasVisCost = this.activity.hasVisCost;
+
+    // if (this.activity.hasVisCost) {
+    //   const visCost = this.activity.getVisCost(context.planning);
+    //   context.planning.data.visCost = {
+    //     technique: visCost.technique,
+    //     form: visCost.form,
+    //     amount: visCost.amount,
+    //     magus: [
+    //       { label: "Vis from aura", art: "vi", amount: 2 },
+    //       { label: "Purple flowers", art: "im", amount: 3 }
+    //     ],
+    //     lab: [{ label: "Scales of basilic", art: "te", amount: 10 }]
+    //   };
+    // }
+
     let result = this.activity.validation(context.planning);
 
     if (!result.valid) {

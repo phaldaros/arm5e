@@ -1515,7 +1515,7 @@ div[class*="foldable-section"] {
 .arm5e .sheet-body .editor,
 .arm5e .sheet-body .tab .editor {
   height: auto;
-  min-height: 250px;
+  min-height: 205px;
   overflow-y: auto;
 }
 

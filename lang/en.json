@@ -500,6 +500,7 @@
   "arm5e.skill.options.martial": "Ability's name",
   "arm5e.skill.options.academic": "Ability's name",
   "arm5e.skill.options.arcane": "Ability's name",
+  "arm5e.skill.options.supernatural": "Ability's name",
 
   "arm5e.skill.options.mysteryCult": "Cult's name",
   "arm5e.skill.options.law": "Legal forum",
@@ -830,7 +831,7 @@
 
   "arm5e.lab.planning.labQuality": "Lab quality",
   "arm5e.lab.planning.labSpecTotal": "Lab spec.",
-  "arm5e.lab.plan1ning.label": "Planning",
+  "arm5e.lab.planning.label": "Planning",
   "arm5e.lab.planning.msg.noOwner": "This lab has no owner. Planning is not possible.",
   "arm5e.lab.planning.msg.waste": "Laboratory points unused: {points}.",
   "arm5e.lab.planning.msg.unsupported": "Multi-seasons activities not supported yet.",

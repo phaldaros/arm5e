@@ -2,6 +2,7 @@
 
 ### Features & changes
 
+- [technical] Verified for V11.315
 - [technical] better handling of inter-actor links, cleaner code, faster actor load.
 - Simplified abilities and spell masteries xp display
 - new design for input fields
@@ -24,7 +25,7 @@
 - User based cache of the section folding state.
 - It is now possible to edit the begin date of a long duration event (warning: all remaining seasons will be sequenced from that one)
 - New lab activity: Minor enchantment
-  - It is now possible to schedule minor enchantment in the lab
+  - It is now possible to schedule lesser enchantments in the lab
 
 ### Bug fixes
 
