@@ -820,7 +820,6 @@ export class ArM5eActorSheet extends ActorSheet {
         sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
       }
       classes.toggle("hide");
-      log(false, `DEBUG Flags: ${JSON.stringify(this.actor.flags.arm5e.ui.sections.visibility)}`);
     });
 
     html.find(".covenant-link").change(async (ev) => {

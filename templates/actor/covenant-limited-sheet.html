@@ -1,0 +1,31 @@
+<div class="{{cssClass}}  mainCovenant">
+  <div class="header-background">
+    <img src="systems/arm5e/assets/covenant/header150.png" />
+  </div>
+  <form class="sheet-content flexcol limited-sheet" autocomplete="off">
+    {{!-- Sheet Header --}}
+    <header>
+      <div class="flexrow">
+        <div class="flexcol" style="max-width: 200px; flex-grow: 1;">
+          <div style="flex-grow: 1; max-height: 200px; padding: 5px;"><img src="{{actor.img}}" data-edit="img"
+              width="200px" title="{{actor.name}}" /></div>
+        </div>
+        <div class="flexcol">
+          <h1 class="charname flex0" style="padding: 5px; ">
+            <input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name"
+              style="min-height: 48px;" />
+          </h1>
+        </div>
+      </div>
+    </header>
+    <section class="sheet-body" style="min-height: 349px;">
+      <div class="flex-group-left padding12 backSection" style="min-height: 349px;">
+        <label class="smallTitle">{{localize "arm5e.sheet.description"}}</label>
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+      </div>
+    </section>
+  </form>
+  <div class="footer-background">
+    <img src="systems/arm5e/assets/covenant/footer.png" />
+  </div>
+</div>
