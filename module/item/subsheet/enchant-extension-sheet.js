@@ -188,7 +188,6 @@ export class ArM5eItemEnchantmentSheet {
     }
 
     return expanded;
-    // log(false, `${JSON.stringify(formData)}`);
   }
 
   addListeners(html) {

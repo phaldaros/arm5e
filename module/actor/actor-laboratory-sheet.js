@@ -15,13 +15,7 @@ import {
   TOPIC_FILTER
 } from "../constants/userdata.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
-import {
-  LabActivity,
-  LongevityRitualActivity,
-  MinorEnchantment,
-  SpellActivity,
-  VisExtractionActivity
-} from "../seasonal-activities/activity.js";
+import { LabActivity, SpellActivity } from "../seasonal-activities/activity.js";
 /**
  * Extend the basic ArM5eActorSheet with some very simple modifications
  * @extends {ArM5eActorSheet}
@@ -41,6 +35,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         );
       }
     }
+    log(false, "DEBUG: LabSheet constructor");
+  }
+  /** @override */
+  get template() {
+    if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
+      return `systems/arm5e/templates/actor/actor-laboratory-sheet.html`;
+    }
+    return `systems/arm5e/templates/actor/lab-limited-sheet.html`;
   }
 
   /** @override */
@@ -111,15 +113,20 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
    */
   async getData() {
     let context = await super.getData();
-    context.ui = this.getUserCache();
     context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
-
     // owner
     if (context.system.owner && context.system.owner.linked) {
       this.actor.apps[context.system.owner.document.sheet.appId] =
         context.system.owner.document.sheet;
 
       context.system.owner.document.apps[this.appId] = this;
+      if (this.activity == undefined) {
+        this.activity = new SpellActivity(
+          this.actor,
+          this.actor.system.owner.document,
+          "inventSpell"
+        );
+      }
     } else {
       // this._prepareCharacterItems(context);
       // context.planning.modifiers.apprentice = 0;
@@ -132,6 +139,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     context.config = CONFIG.ARM5E;
 
     context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+
     if (context.planning === undefined) {
       let newData = await this.activity.getDefaultData();
       context.planning = {
@@ -139,9 +147,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         data: newData,
         visibility: { desc: "hide", attr: "hide", options: "hide" },
         modifiers: { generic: 0, aura: 0 },
-        distrations: "none",
+        distractions: "none",
         magicThSpecApply: false
       };
+      this.planning = context.planning;
+    } else {
+      this.planning = undefined;
     }
     context.edition = context.config.activities.lab[context.planning.type].edition;
 
@@ -295,7 +306,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       let update = await ArM5eItemMagicSheet.PickRequisites(
         planning.data.system,
         "Lab",
-        planning.type === "inventSpell" ? "" : "disabled"
+        planning.type === "learnSpell" ? "disabled" : ""
       );
       if (update) {
         let tmp = mergeObject(planning.data, update);
@@ -322,7 +333,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     event.preventDefault();
     const activity = getDataset(event).activity;
     let chosenActivity = $(".lab-activity").find("option:selected")[0].value;
-    this.activity = LabActivity.ActivityFactory(this.actor, chosenActivity);
     switch (chosenActivity) {
       case "inventSpell":
       case "learnSpell":
@@ -345,16 +355,18 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
   async _resetPlanning(activity) {
     // await this.actor.unsetFlag(ARM5E.SYSTEM_ID, "planning");
+    this.activity = LabActivity.ActivityFactory(this.actor, activity);
     let newData = await this.activity.getDefaultData();
     let planning = {
       type: activity,
       data: newData,
       visibility: { desc: "hide", attr: "hide", options: "hide" },
       modifiers: { generic: 0, aura: 0 },
-      distrations: "none",
+      distractions: "none",
       magicThSpecApply: false
     };
-    await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+    // do an update instead of setFlag in order to set recursive = true
+    await this.actor.update({ "flags.arm5e.planning": planning }, { recursive: true });
   }
 
   _refreshValues(event) {
@@ -597,6 +609,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   /** @inheritdoc */
   async _updateObject(event, formData) {
     const expanded = expandObject(formData);
-    return super._updateObject(event, formData);
+    if (expanded.flags?.arm5e?.planning?.data && this.planning) {
+      mergeObject(expanded.flags.arm5e.planning.data, this.planning.data, { recursive: true });
+    }
+    return super._updateObject(event, expanded);
   }
 }

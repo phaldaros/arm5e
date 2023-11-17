@@ -26,6 +26,13 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     });
   }
 
+  get template() {
+    if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
+      return `systems/arm5e/templates/actor/actor-covenant-sheet.html`;
+    }
+    return `systems/arm5e/templates/actor/covenant-limited-sheet.html`;
+  }
+
   getUserCache() {
     let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
     if (usercache[this.actor.id] == undefined) {

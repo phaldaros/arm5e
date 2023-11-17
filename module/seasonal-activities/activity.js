@@ -5,7 +5,7 @@ import { ASPECTS } from "../constants/enchant-aspects.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { computeRawCastingTotal } from "../helpers/magic.js";
 import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
-import { log } from "../tools.js";
+import { error, log } from "../tools.js";
 
 class Activity {
   constructor(actor, type) {
@@ -426,12 +426,22 @@ export class MinorEnchantment extends LabActivity {
    */
   prepareData(input) {
     const receptacleEnchants = input.planning.data.receptacle.system.enchantments;
-    receptacleEnchants.aspects[0].effects = ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
+    if (receptacleEnchants.aspects.length == 0) {
+      error(false, `DEBUG prepareData: WARNING ASPECTS length = 0`);
+      const first = Object.keys(ASPECTS)[0];
+      const firstEffect = Object.keys(ASPECTS[first].effects)[0];
+      receptacleEnchants.aspects = [
+        { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
+      ];
+    } else {
+      receptacleEnchants.aspects[0].effects = ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
 
-    receptacleEnchants.aspects[0].bonus =
-      ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
-        receptacleEnchants.aspects[0].effect
-      ]?.bonus;
+      receptacleEnchants.aspects[0].bonus =
+        ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
+          receptacleEnchants.aspects[0].effect
+        ]?.bonus;
+    }
+
     receptacleEnchants.capacities[0].total =
       ARM5E.lab.enchantment.materialBase[receptacleEnchants.capacities[0].materialBase].base *
       ARM5E.lab.enchantment.sizeMultiplier[receptacleEnchants.capacities[0].sizeMultiplier].mult;
@@ -440,7 +450,6 @@ export class MinorEnchantment extends LabActivity {
   }
 
   validation(input) {
-    let isValid = true;
     let lvl = input.data.enchantment.system.level;
     let delta = input.labTotal.score - lvl;
     if (delta < lvl) {

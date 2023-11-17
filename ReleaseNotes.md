@@ -1,4 +1,4 @@
-## 2.2.3.8, Ophilio
+## 2.2.3.9, Ophilio
 
 ### Features & changes
 
@@ -26,6 +26,7 @@
 - It is now possible to edit the begin date of a long duration event (warning: all remaining seasons will be sequenced from that one)
 - New lab activity: Minor enchantment
   - It is now possible to schedule lesser enchantments in the lab
+- New limited sheet for covenants and laboratories
 
 ### Bug fixes
 

@@ -1,4 +1,5 @@
 <div class="drop-enchant" data-drop="enchant">
+  {{log "Visibility:" visibility}}
   <div class="padding4">
     <h1 class="charname flexrow flex01" style="font-size: 12pt;">
       <div class="item-image" data-index="{{idx}}" style="max-width: 32px"><img class="item-img"
@@ -38,12 +39,14 @@
         <label class="section-handle clickable" data-category="planning"
           data-section="receptacle">{{localize "arm5e.enchantment.receptacle.label"}}</label>
       </div>
-      <div class="foldable-section backSection enchantment padding4" id="planning-receptacle-{{@root.actor._id}}">
+      <div
+        class="foldable-section backSection enchantment padding4 {{lookup @root.ui.sections.visibility.planning 'receptacle'}}"
+        id="planning-receptacle-{{@root.actor._id}}">
         <div class="padding4 flexrow flex-group-left">
           <label class="section-handle header-label clickable" data-category="planning"
             data-section="receptacle-desc">{{localize "arm5e.enchantment.receptacle.desc"}}</label>
         </div>
-        <div class="foldable-section-small {{lookup visibility 'receptacle-desc' }}"
+        <div class="foldable-section-small {{lookup @root.ui.sections.visibility.planning 'receptacle-desc' }}"
           id="planning-receptacle-desc{{index}}-{{@root.actor._id}}">
           <div class="flex01" style="height: 200px;">
             {{log "target:" (concat namePrefix "receptacle.system.description")}}
@@ -57,7 +60,9 @@
           <label class="section-handle clickable" data-category="planning"
             data-section="capacity">{{localize "arm5e.enchantment.capacity.label"}}</label>
         </div>
-        <div class="foldable-section backSection enchantment " id="planning-capacity-{{@root.actor._id}}">
+        <div
+          class="foldable-section backSection enchantment {{lookup @root.ui.sections.visibility.planning 'capacity'}}"
+          id="planning-capacity-{{@root.actor._id}}">
           <div class="resource flexrow">
             <div class="padding2">
               <select name="{{namePrefix}}receptacle.system.enchantments.capacities.0.materialBase"
@@ -98,7 +103,9 @@
             <label class="section-handle clickable" data-category="planning" data-section="aspect">{{localize
         "arm5e.enchantment.aspects"}}</label>
           </div>
-          <div class="foldable-section backSection enchantment" id="planning-aspect-{{@root.actor._id}}">
+          <div
+            class="foldable-section backSection enchantment {{lookup @root.ui.sections.visibility.planning 'aspect'}}"
+            id="planning-aspect-{{@root.actor._id}}">
             <div class="resource flexrow">
             </div>
             <div class="resource flexrow">
@@ -144,7 +151,9 @@
             <label class="section-handle clickable" data-category="planning"
               data-section="vis-cost">{{localize "Vis cost: 3 pawns of Pe or Co vis"}}</label>
           </div>
-          <div class="foldable-section backSection enchantment padding4" id="planning-vis-cost-{{@root.actor._id}}">
+          <div
+            class="foldable-section backSection enchantment padding4 {{lookup @root.ui.sections.visibility.planning 'vis-cost'}}"
+            id="planning-vis-cost-{{@root.actor._id}}">
             <div class="padding4 flexrow flex-group-left">
               <label class="section-handle header-label clickable" data-category="planning"
                 data-section="magus-vis">{{localize "Magus vis stock"}}</label>
