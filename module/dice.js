@@ -1,4 +1,4 @@
-import { ROLL_MODES, getRollTypeProperties } from "./helpers/rollWindow.js";
+import { ROLL_MODES, ROLL_PROPERTIES, getRollTypeProperties } from "./helpers/rollWindow.js";
 import { checkTargetAndCalculateResistance } from "./helpers/magic.js";
 import { log, putInFoldableLink, putInFoldableLinkWithAnimation, sleep } from "./tools.js";
 import { ARM5E } from "./config.js";
@@ -209,131 +209,6 @@ async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined
   return dieRoll;
 }
 
-export function getFormData(html, actor) {
-  let find = html.find(".SelectedCharacteristic");
-  if (find.length > 0) {
-    actor.rollData.characteristic = find[0].value;
-  }
-  find = html.find(".SelectedAbility");
-  if (find.length > 0) {
-    if (find[0].value == "None") {
-      const dataset = {
-        name: actor.rollData.name,
-        roll: "char",
-        characteristic: actor.rollData.characteristic,
-        modifier: actor.rollData.modifier
-      };
-      actor.rollData.init(dataset, actor);
-      // actor.rollData.ability.score = 0;
-      // actor.rollData.ability.name = "";
-      // actor.rollData.type = "char";
-    } else {
-      const dataset = {
-        name: actor.rollData.name,
-        roll: "ability",
-        ability: find[0].value,
-        defaultcharacteristic: actor.rollData.characteristic,
-        modifier: actor.rollData.modifier
-      };
-      actor.rollData.init(dataset, actor);
-
-      // const ability = actor.items.get(find[0].value);
-      // actor.rollData.ability.score = ability.system.finalScore;
-      // actor.rollData.ability.name = ability.name;
-      // actor.rollData.type = "ability";
-    }
-  }
-
-  find = html.find(".abilitySpeciality");
-  if (find.length > 0) {
-    actor.rollData.ability.specApply = find[0].checked;
-  }
-
-  find = html.find(".SelectedTechnique");
-  if (find.length > 0) {
-    actor.rollData.magic.technique = find[0].value;
-    actor.rollData.magic.techniqueLabel = ARM5E.magic.techniques[find[0].value].label;
-    actor.rollData.magic.techniqueScore = parseInt(
-      actor.system.arts.techniques[find[0].value].finalScore
-    );
-
-    if (actor.system.arts.techniques[find[0].value].deficient) {
-      actor.rollData.magic.techDeficiency = true;
-    } else {
-      actor.rollData.magic.techDeficiency = false;
-    }
-  }
-
-  find = html.find(".SelectedForm");
-  if (find.length > 0) {
-    actor.rollData.magic.form = find[0].value;
-    actor.rollData.magic.formLabel = ARM5E.magic.forms[find[0].value].label;
-    actor.rollData.magic.formScore = parseInt(actor.system.arts.forms[find[0].value].finalScore);
-    if (actor.system.arts.forms[find[0].value].deficient) {
-      actor.rollData.magic.formDeficiency = true;
-    } else {
-      actor.rollData.magic.formDeficiency = false;
-    }
-  }
-
-  find = html.find(".SelectedAura");
-  if (find.length > 0) {
-    actor.rollData.environment.aura.modifier = Number(find[0].value) ?? 0;
-  }
-
-  find = html.find(".SelectedLevel");
-  if (find.length > 0) {
-    actor.rollData.magic.level = Number(find[0].value) ?? 0;
-  }
-
-  find = html.find(".SelectedModifier");
-  if (find.length > 0) {
-    actor.rollData.modifier = Number(find[0].value) ?? 0;
-  }
-
-  find = html.find(".SelectedAdvantage");
-  if (find.length > 0) {
-    actor.rollData.combat.advantage = Number(find[0].value) ?? 0;
-  }
-
-  find = html.find(".SelectedFocus");
-  if (find.length > 0) {
-    actor.rollData.magic.focus = find[0].checked;
-  }
-
-  find = html.find(".SelectedYear");
-  if (find.length > 0) {
-    actor.rollData.environment.year = Number(find[0].value) ?? 1220;
-  }
-
-  if (
-    actor.rollData.type == "spell" ||
-    actor.rollData.type == "magic" ||
-    actor.rollData.type == "spont" ||
-    actor.rollData.type == "power"
-  ) {
-    find = html.find(".penSpeciality");
-    if (find.length > 0) {
-      actor.rollData.penetration.specApply = find[0].checked;
-    }
-    find = html.find(".spellMastery");
-    if (find.length > 0) {
-      actor.rollData.penetration.penetrationMastery = find[0].checked;
-    }
-    find = html.find(".multiplierBonusArcanic");
-    if (find.length > 0) {
-      actor.rollData.penetration.multiplierBonusArcanic = Number(find[0].value) ?? 0;
-    }
-
-    find = html.find(".multiplierBonusSympathic");
-    if (find.length > 0) {
-      actor.rollData.penetration.multiplierBonusSympathic = Number(find[0].value) ?? 0;
-    }
-  }
-
-  return actor;
-}
-
 async function getRollFormula(actor) {
   try {
     let total = 0;
@@ -479,7 +354,10 @@ async function getRollFormula(actor) {
     if (rollData.hasGenericField(2)) {
       msg = newLineAdd(msg);
       // combat exertion special case
-      if (rollData.type == "combat" && rollData.combat.exertion) {
+      if (
+        [ROLL_PROPERTIES.ATTACK.VAL, ROLL_PROPERTIES.DEFENSE.VAL].includes(rollData.type) &&
+        rollData.combat.exertion
+      ) {
         total += rollData.getGenericFieldValue(2) * 2;
         msg +=
           rollData.getGenericFieldLabel(2) + " ( 2 x " + rollData.getGenericFieldValue(2) + ")";
@@ -527,6 +405,14 @@ async function getRollFormula(actor) {
         msg = newLineAdd(msg);
         msg += game.i18n.localize("arm5e.sheet.wounds");
         msg += " (" + actorSystemData.penalties.wounds.total + ")";
+      }
+    }
+
+    for (let optBonus of rollData.optionalBonuses) {
+      if (optBonus.active == true) {
+        total += optBonus.bonus;
+        msg = newLineAdd(msg);
+        msg += `${optBonus.name} (${optBonus.bonus})`;
       }
     }
 

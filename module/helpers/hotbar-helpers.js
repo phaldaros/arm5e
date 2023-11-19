@@ -1,4 +1,6 @@
-const TYPE_OF_ROLL = {
+import { ROLL_PROPERTIES } from "./rollWindow.js";
+
+const TYPE_OF_DATASET = {
   ABILITY: "ability",
   SPELL: "spell",
   MAGIC: "magic",
@@ -9,10 +11,10 @@ const TYPE_OF_ROLL = {
 
 //TODO
 function getDatasetForAbility(item) {
-  if (item?.type !== TYPE_OF_ROLL.ABILITY) return {};
+  if (item?.type !== TYPE_OF_DATASET.ABILITY) return {};
 
   return {
-    roll: TYPE_OF_ROLL.ABILITY,
+    roll: TYPE_OF_DATASET.ABILITY,
     ability: item._id,
     defaultCharacteristic: item.system.defaultChaAb,
     name: name
@@ -21,13 +23,13 @@ function getDatasetForAbility(item) {
 
 //TODO
 function getDatasetForWeapon(item) {
-  if (item?.type !== TYPE_OF_ROLL.WEAPON) return {};
+  if (item?.type !== TYPE_OF_DATASET.WEAPON) return {};
   if (!item.system.equipped) {
     ui.notifications.info(game.i18n.localize("arm5e.sheet.notEquippedWeapon"));
     return {};
   }
   return {
-    roll: "combat",
+    roll: ROLL_PROPERTIES.ATTACK.VAL,
     name: game.i18n.localize("arm5e.sheet.attack"),
     option1: item.actor.system.characteristics.dex.value,
     txtoption1: game.i18n.localize("arm5e.sheet.dexterity"),
@@ -40,10 +42,10 @@ function getDatasetForWeapon(item) {
 
 //TODO
 function getDatasetForSpell(item, noCheck) {
-  if (!noCheck && item?.type !== TYPE_OF_ROLL.SPELL) return {};
+  if (!noCheck && item?.type !== TYPE_OF_DATASET.SPELL) return {};
 
   return {
-    roll: TYPE_OF_ROLL.SPELL,
+    roll: ROLL_PROPERTIES.SPELL.VAL,
     id: item._id,
     technique: item.system.technique.value,
     form: item.system.form.value,
@@ -57,7 +59,7 @@ function getDatasetForSpell(item, noCheck) {
 function getDatasetForMagic(item) {
   if (item?.type !== "magicalEffect") return {};
   return {
-    roll: TYPE_OF_ROLL.MAGIC,
+    roll: TYPE_OF_DATASET.MAGIC,
     id: item._id,
     technique: item.system.technique.value,
     form: item.system.form.value,
@@ -69,9 +71,9 @@ function getDatasetForMagic(item) {
 }
 
 function getDatasetForPower(item) {
-  if (item?.type !== TYPE_OF_ROLL.POWER) return {};
+  if (item?.type !== TYPE_OF_DATASET.POWER) return {};
   return {
-    roll: TYPE_OF_ROLL.POWER,
+    roll: TYPE_OF_DATASET.POWER,
     id: item._id,
     form: item.system.form,
     cost: item.system.cost,

@@ -2,7 +2,7 @@ import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "./active-effects.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { log } from "../tools.js";
-import { getRollTypeProperties, ROLL_MODIFIERS } from "./rollWindow.js";
+import { getRollTypeProperties, ROLL_MODIFIERS, ROLL_PROPERTIES } from "./rollWindow.js";
 import Aura from "./aura.js";
 
 export class ArM5eRollData {
@@ -48,18 +48,19 @@ export class ArM5eRollData {
     }
 
     switch (this.type) {
-      case "init":
+      case ROLL_PROPERTIES.INIT.VAL:
         break;
-      case "combat":
+      case ROLL_PROPERTIES.ATTACK.VAL:
+      case ROLL_PROPERTIES.DEFENSE.VAL:
         if (this.img === "") this.img = actorSystemData.combat.img;
         this.itemId = actorSystemData.combat.itemId;
         this.name = actorSystemData.combat.name;
 
         break;
-      case "char":
+      case ROLL_PROPERTIES.CHAR.VAL:
         this.characteristic = dataset.characteristic;
         break;
-      case "ability":
+      case ROLL_PROPERTIES.ABILITY.VAL:
         if (dataset.defaultcharacteristic) {
           this.characteristic = dataset.defaultcharacteristic;
         }
@@ -79,7 +80,7 @@ export class ArM5eRollData {
         this.ability.category = ab.system.category;
         break;
 
-      case "power":
+      case "power": // No roll here
         if (dataset.id) {
           let power = this._actor.items.get(dataset.id);
           this.label += ` (${ARM5E.magic.arts[power.system.form].short})`;
@@ -92,12 +93,12 @@ export class ArM5eRollData {
         this.initPenetrationVariables();
         break;
 
-      case "magic":
-      case "spont":
+      case ROLL_PROPERTIES.MAGIC.VAL:
+      case ROLL_PROPERTIES.SPONT.VAL:
         this.useFatigue = true;
 
         this.magic.divide = this._actor.system.bonuses.arts.spontDivider;
-      case "spell":
+      case ROLL_PROPERTIES.SPELL.VAL:
         this.initPenetrationVariables();
         this.characteristic = "sta";
         if (dataset.id) {
@@ -150,7 +151,7 @@ export class ArM5eRollData {
         }
 
         break;
-      case "aging":
+      case ROLL_PROPERTIES.AGING.VAL:
         this.environment.year = parseInt(dataset.year);
         this.environment.season = ARM5E.seasons[dataset.season].label;
         this.label =
@@ -191,7 +192,7 @@ export class ArM5eRollData {
           );
         }
         break;
-      case "crisis":
+      case ROLL_PROPERTIES.CRISIS.VAL:
         this.environment.year = parseInt(dataset.year);
         this.environment.season = ARM5E.seasons.winter.label;
         this.label =
@@ -227,6 +228,7 @@ export class ArM5eRollData {
     if (["magic", "power", "spont", "spell"].includes(this.type)) {
       this.getSpellcastingModifiers();
     }
+    this.optionalBonuses = this.getOptionalBonuses(this.type);
     this.bonusesExtended = this.bonuses;
     this.getAuraModifier();
 
@@ -246,6 +248,32 @@ export class ArM5eRollData {
 
   get isMagic() {
     return ["magic", "spont", "spell"].includes(this.type);
+  }
+
+  getOptionalBonuses(type) {
+    if (["magic", "spont"].includes(type)) {
+      type = "spontMagic";
+    } else if ("spell" == type) {
+      type = "formulaicMagic";
+    }
+    const activeEffects = CONFIG.ISV10 ? this._actor.effects : this._actor.appliedEffects;
+    let activeEffectsByType = ArM5eActiveEffect.findAllActiveEffectsWithTypeAndSubtypeFiltered(
+      activeEffects,
+      "optionalRollBonus",
+      type
+    );
+
+    let res = [];
+    for (let effect of activeEffectsByType) {
+      let total = 0;
+      // there should be only one, but just in case
+      for (let ch of effect.changes) {
+        total += Number(ch.value);
+      }
+      const name = CONFIG.ISV10 ? effect.label : effect.name;
+      res.push({ name: name, key: effect.changes[0].key, bonus: total, active: false });
+    }
+    return res;
   }
 
   setGenericField(name, value, idx, op = "+") {
@@ -361,6 +389,7 @@ export class ArM5eRollData {
 
     this.bonuses = 0;
     this.bonusesExtended = 0;
+    this.optionalBonuses = [];
     this.type = "";
     this.label = "";
     this.details = "";

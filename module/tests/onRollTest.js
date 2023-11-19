@@ -29,7 +29,7 @@ export function registerOnRollTesting(quench) {
         // The objective of this test is to verify that when the roll type has the NO_BOTCH flag, the roll is marked as a no botch roll.
         it("should mark the roll as a no botch roll when the roll type has the NO_BOTCH flag", async () => {
           const event = {
-            roll: "combat"
+            roll: ROLL_PROPERTIES.ATTACK.VAL
           };
           const expectedRollMode = ROLL_MODES.NO_BOTCH;
 
@@ -145,7 +145,7 @@ export function registerOnRollTesting(quench) {
         it("should mark the roll as a no botch roll when the roll type has the NO_BOTCH flag", async () => {
           const event = {};
           const dataset = {
-            roll: "combat"
+            roll: ROLL_PROPERTIES.ATTACK.VAL
           };
           const expectedRollData = {
             ...dataset,

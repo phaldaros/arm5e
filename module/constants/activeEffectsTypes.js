@@ -145,14 +145,14 @@ export default {
         key: "system.bonuses.activities.visStudy",
         mode: CONST.ACTIVE_EFFECT_MODES.ADD,
         default: 2
-      },
-      divider: {
-        label: "arm5e.activity.visStudy",
-        key: "system.system.penalties.activityDivider",
-        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-        default: 2,
-        internal: true
       }
+      // divider: {
+      //   label: "arm5e.activity.visStudy",
+      //   key: "system.system.penalties.activityDivider",
+      //   mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+      //   default: 2,
+      //   internal: true
+      // }
     }
   },
   spellmastery: {
@@ -1912,6 +1912,44 @@ export default {
         key: "system.aesthetics.max",
         mode: CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,
         default: -1
+      }
+    }
+  },
+
+  optionalRollBonus: {
+    category: "roll",
+    type: "optionalRollBonus",
+    label: "arm5e.sheet.activeEffect.types.roll.optional",
+    subtypes: {
+      spontMagic: {
+        label: "arm5e.sheet.activeEffect.subtypes.spontMagicRoll",
+        key: "spontMagic",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      formulaicMagic: {
+        label: "arm5e.sheet.activeEffect.subtypes.formMagicRoll",
+        key: "formulaicMagic",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      init: {
+        label: "arm5e.sheet.activeEffect.subtypes.initRoll",
+        key: "init",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      attack: {
+        label: "arm5e.sheet.activeEffect.subtypes.attackRoll",
+        key: "attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
+      },
+      defense: {
+        label: "arm5e.sheet.activeEffect.subtypes.defRoll",
+        key: "defense",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 3
       }
     }
   }

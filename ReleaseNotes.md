@@ -1,4 +1,4 @@
-## 2.2.3.9, Ophilio
+## 2.2.3.10, Ophilio
 
 ### Features & changes
 
@@ -27,6 +27,8 @@
 - New lab activity: Minor enchantment
   - It is now possible to schedule lesser enchantments in the lab
 - New limited sheet for covenants and laboratories
+- New active effects
+  - Optional bonus on rolls
 
 ### Bug fixes
 
@@ -36,6 +38,7 @@
 - Schedule and activity sheets no long pop out on date change.
 - Clicking on an activity in the Troupe Schedule dialog won't create an additional diary entry.
 - Fix Recovery rolls on V10
+- Fixed error in macro creation
 
 ## 2.2.2.20, Nico
 

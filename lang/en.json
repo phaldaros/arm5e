@@ -1111,6 +1111,7 @@
   "arm5e.sheet.activeEffect.types.realmAlignment": "Realm alignment",
   "arm5e.sheet.activeEffect.types.optional": "Optional bonus",
   "arm5e.sheet.activeEffect.types.spellmastery": "Spell mastery",
+  "arm5e.sheet.activeEffect.types.roll.optional": "Optional roll bonus",
 
   "arm5e.sheet.activeEffect.subtypes.none": "None",
   "arm5e.sheet.activeEffect.subtypes.fatigueTotal": "Fatigue total",
@@ -1123,6 +1124,14 @@
   "arm5e.sheet.activeEffect.subtypes.auraLevel": "Aura's level",
   "arm5e.sheet.activeEffect.subtypes.xpcoeff": "Xp multiplier",
   "arm5e.sheet.activeEffect.subtypes.xpmod": "Xp bonus",
+  "arm5e.sheet.activeEffect.subtypes.spontMagicRoll": "Spontaneous magic rolls",
+  "arm5e.sheet.activeEffect.subtypes.formMagicRoll": "Formulaic magic rolls",
+  "arm5e.sheet.activeEffect.subtypes.magicRoll": "Magic rolls",
+  "arm5e.sheet.activeEffect.subtypes.initRoll": "Initiative rolls",
+  "arm5e.sheet.activeEffect.subtypes.combatRoll": "Combat rolls",
+  "arm5e.sheet.activeEffect.subtypes.attackRoll": "Attack rolls",
+  "arm5e.sheet.activeEffect.subtypes.defRoll": "Defense rolls",
+
   "arm5e.sheet.activeEffect.bonuses.penetration": "Penetration bonus",
 
   "arm5e.sheet.activeEffect.changeMode": "Change Mode",

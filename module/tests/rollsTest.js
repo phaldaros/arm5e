@@ -4,6 +4,7 @@ import { ArsLayer } from "../ui/ars-layer.js";
 import { ARM5E } from "../config.js";
 import { simpleDie, stressDie } from "../dice.js";
 import Aura from "../helpers/aura.js";
+import { ROLL_PROPERTIES } from "../helpers/rollWindow.js";
 
 export function registerRollTesting(quench) {
   quench.registerBatch(
@@ -201,7 +202,7 @@ export function registerRollTesting(quench) {
         });
 
         it("Combat roll", async function () {
-          let type = "combat";
+          let type = ROLL_PROPERTIES.ATTACK.VAL;
           try {
             let dataset = {
               roll: type,
@@ -232,7 +233,7 @@ export function registerRollTesting(quench) {
           }
         });
         it("Combat roll defense", async function () {
-          let type = "combat";
+          let type = ROLL_PROPERTIES.DEFENSE.VAL;
           try {
             let dataset = {
               roll: type,
@@ -242,7 +243,7 @@ export function registerRollTesting(quench) {
               option2: actor.system.combat.ability,
               txtoption2: "ability",
               option3: actor.system.combat.dfn,
-              txtoption3: "attack"
+              txtoption3: "defense"
             };
             actor.rollData.init(dataset, actor);
             let roll = await stressDie(actor, type, 0, null, 10);
@@ -264,7 +265,7 @@ export function registerRollTesting(quench) {
           }
         });
         it("Combat roll exertion", async function () {
-          let type = "combat";
+          let type = ROLL_PROPERTIES.ATTACK.VAL;
           try {
             let dataset = {
               roll: type,
@@ -297,7 +298,7 @@ export function registerRollTesting(quench) {
         });
         it("Combat wounded", async function () {
           await actor.changeWound(3, "light");
-          let type = "combat";
+          let type = ROLL_PROPERTIES.ATTACK.VAL;
           try {
             let dataset = {
               roll: type,
