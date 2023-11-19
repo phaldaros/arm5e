@@ -17,7 +17,7 @@ import { ArM5eItemDiarySheet } from "./item/item-diary-sheet.js";
 import { ArM5eItemVisSheet } from "./item/item-vis-sheet.js";
 import ArM5eActiveEffect from "./helpers/active-effects.js";
 
-import { prepareDatasetByTypeOfItem } from "./helpers/items-helpers.js";
+import { prepareDatasetByTypeOfItem } from "./helpers/hotbar-helpers.js";
 import { ArM5ePreloadHandlebarsTemplates } from "./templates.js";
 import { ArM5eActiveEffectConfig } from "./helpers/active-effect-config.sheet.js";
 import * as Arm5eChatMessage from "./helpers/chat.js";
@@ -366,7 +366,7 @@ async function createArM5eMacro(data, slot) {
   if (doc.isOwned) {
     // Create the macro command
     const command = `game.arm5e.rollItemMacro('${doc._id}', '${doc.actor._id}');`;
-    let macro = game.macros.contents.find((m) => m.name === item.name && m.command === command);
+    let macro = game.macros.contents.find((m) => m.name === doc.name && m.command === command);
     if (!macro) {
       macro = await Macro.create({
         name: doc.name,

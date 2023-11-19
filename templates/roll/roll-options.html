@@ -16,8 +16,13 @@
         </div>
       {{/unless}}
     {{/each}}
-
-
+    {{#each system.roll.optionalBonuses as |optional|}}
+      <div class="flexrow flex-group-center sub">
+        <div class="modifier">+ </div>
+        <label class="resource-label">{{optional.name }} ({{ optional.bonus }})</label><input type="checkbox"
+          name="{{optional.name}}" {{checked optional.active}} class="SelectedOptional{{@index}} flex01" />
+      </div>
+    {{/each}}
     {{#if system.roll.physicalCondition }}
       <div class="flexrow flex-group-center">
         <label class="resource-label">+</label>

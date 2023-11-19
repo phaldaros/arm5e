@@ -93,6 +93,7 @@
               <div class="subtype">
                 <select name="changes.{{i}}.key" data-subtype="{{lookup ../subtypes i}}" class="effect-subtype"
                   data-index="{{i}}">
+                  {{log "value: " (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "computedKey")}}
                   {{#select (lookup (lookup (lookup ../subtypes i) (lookup ../selectedSubtypes i)) "computedKey")}}
                     {{#each (lookup ../subtypes i) as |st id |}}
                       <option data-subtype="{{id}}" value="{{st.computedKey}}">{{localize st.label}}</option>

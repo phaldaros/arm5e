@@ -37,23 +37,25 @@
       <label class="resource-label">+</label>
     </div>
     {{#if system.roll.environment.aura.visible}}
-    <div class=" flexrow flex-group-center">
-      <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
-      <input type="number" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
-        class="SelectedAura flex02 resource-focus" />
-    </div>
+      <div class=" flexrow flex-group-center">
+        <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+        <input type="number" name="system.roll.environment.aura.modifier"
+          value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
+          class="SelectedAura flex02 resource-focus" />
+      </div>
     {{else}}
-    <div class=" flexrow flex-group-center">
-      <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
-      <input type="number" style="display: none" name="system.roll.environment.aura.modifier" value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
-      class="SelectedAura flex02 resource-focus" />
-      ???
-    </div>
+      <div class=" flexrow flex-group-center">
+        <label class="resource-label flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+        <input type="number" style="display: none" name="system.roll.environment.aura.modifier"
+          value="{{system.roll.environment.aura.modifier}}" data-dtype="Number"
+          class="SelectedAura flex02 resource-focus" />
+        ???
+      </div>
     {{/if}}
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
-    <div class="flexrow">
+    <div class="flexrow flex-group-center">
       <label class="header-label flex05 ">{{localize "arm5e.spell.applyFocus" }}</label>
       <input type="checkbox" name="system.applyFocus" {{checked system.roll.magic.focus}}
         class="SelectedFocus flex01" />
@@ -93,12 +95,18 @@
             <label class="resource-label">+</label>
           </div>
           <div class="flexrow flex-group-center sub">
-            <label class="resource-label">{{ item.label }} {{ item.value }}</label>
+            <label class="resource-label">{{ item.label }} {{numberFormat item.value decimals=0 sign=true}}</label>
           </div>
         {{/each}}
-
       </div>
     {{/unless}}
+    {{#each system.roll.optionalBonuses as |optional|}}
+      <div class="flexrow flex-group-center sub">
+        <div class="modifier">+ </div>
+        <label class="resource-label">{{optional.name }} ({{ optional.bonus }})</label><input type="checkbox"
+          name="{{optional.name}}" {{checked optional.active}} class="SelectedOptional{{@index}} flex01" />
+      </div>
+    {{/each}}
     <div class="flexrow flex-group-center">
       {{#unless (eq system.fatigueTotal 0) }}
         <div class="flexrow flex-group-center">
