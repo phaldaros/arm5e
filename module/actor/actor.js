@@ -31,11 +31,6 @@ export class ArM5ePCActor extends Actor {
   constructor(data, context) {
     super(data, context);
     this.rollData = new ArM5eRollData(this);
-    Hooks.on("arm5e-date-change", async (date) => {
-      if (this._hasDate()) {
-        this.sheet.render();
-      }
-    });
   }
 
   prepareData() {

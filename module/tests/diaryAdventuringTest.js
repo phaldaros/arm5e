@@ -85,14 +85,9 @@ export function registerAdventuringTesting(quench) {
           expect(entry.system.dates.length).to.equal(1);
 
           expect(entry.system.progress.abilities.length).to.equal(0);
-          const ability = magus.items.get(sheetData.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           const oldXp = ability.system.xp;
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id, sheetData);
           expect(entry.system.progress.spells.length).to.equal(0);
           expect(entry.system.progress.arts.length).to.equal(0);
           expect(entry.system.progress.newSpells.length).to.equal(0);
@@ -229,18 +224,13 @@ export function registerAdventuringTesting(quench) {
           expect(entry.system.done).to.equal(false);
           expect(entry.system.dates.length).to.equal(1);
           expect(entry.system.progress.spells.length).to.equal(0);
-          let spells = await addProgressItem(
-            entry,
-            "spells",
-            sheetData.system.defaultSpellMastery,
-            sheetData
-          );
-          let abilities = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          const ability = magus.system.abilities[0];
+          const oldXpAb = ability.system.xp;
+          const spell = magus.system.spells[0];
+          const oldXpSpell = spell.system.xp;
+          const oldXpArt = magus.system.arts.forms.me.xp;
+          let spells = await addProgressItem(entry, "spells", spell._id, sheetData);
+          let abilities = await addProgressItem(entry, "abilities", ability._id, sheetData);
           let arts = await addProgressItem(entry, "arts", "me", sheetData);
 
           expect(entry.system.progress.spells.length).to.equal(1);
@@ -252,11 +242,6 @@ export function registerAdventuringTesting(quench) {
 
           expect(result.system.applyError).to.equal("arm5e.activity.msg.wrongTotalXp");
 
-          const ability = magus.items.get(sheetData.system.defaultAbility);
-          const oldXpAb = ability.system.xp;
-          const spell = magus.items.get(sheetData.system.defaultSpellMastery);
-          const oldXpSpell = spell.system.xp;
-          const oldXpArt = magus.system.arts.forms.me.xp;
           // assign xp
           abilities[0].xp = 5;
           await entry.update({ "system.progress.abilities": abilities });
@@ -307,14 +292,9 @@ export function registerAdventuringTesting(quench) {
           expect(entry.system.done).to.equal(false);
           expect(entry.system.dates.length).to.equal(1);
           expect(entry.system.progress.abilities.length).to.equal(0);
-          const ability = magus.items.get(sheetData.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           const oldXp = ability.system.xp;
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id, sheetData);
           expect(entry.system.progress.spells.length).to.equal(0);
           expect(entry.system.progress.arts.length).to.equal(0);
           expect(entry.system.progress.newSpells.length).to.equal(0);
@@ -472,23 +452,19 @@ export function registerAdventuringTesting(quench) {
           );
           activityBonusAE = activityBonusAE[0];
           const sheetData = await entry.sheet.getData();
+          const ability = magus.system.abilities[0];
+          const oldXpAb = ability.system.xp;
+          const spell = magus.system.spells[0];
+          const oldXpSpell = spell.system.xp;
+          const oldXpArt = magus.system.arts.forms.me.xp;
+
           log(false, JSON.stringify(sheetData.system));
           expect(entry.system.done).to.equal(false);
           expect(entry.system.dates.length).to.equal(1);
 
           expect(entry.system.progress.spells.length).to.equal(0);
-          let spells = await addProgressItem(
-            entry,
-            "spells",
-            sheetData.system.defaultSpellMastery,
-            sheetData
-          );
-          let abilities = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          let spells = await addProgressItem(entry, "spells", spell._id, sheetData);
+          let abilities = await addProgressItem(entry, "abilities", ability._id, sheetData);
           let arts = await addProgressItem(entry, "arts", "me", sheetData);
 
           expect(entry.system.progress.spells.length).to.equal(1);
@@ -498,11 +474,7 @@ export function registerAdventuringTesting(quench) {
           result = await sheet._onProgressApply(event, false);
 
           expect(result.system.applyError).to.equal("arm5e.activity.msg.wrongTotalXp");
-          const ability = magus.items.get(sheetData.system.defaultAbility);
-          const oldXpAb = ability.system.xp;
-          const spell = magus.items.get(sheetData.system.defaultSpellMastery);
-          const oldXpSpell = spell.system.xp;
-          const oldXpArt = magus.system.arts.forms.me.xp;
+
           // assign xp
           abilities[0].xp = 5;
           await entry.update({ "system.progress.abilities": abilities }, { actor: magus });
@@ -550,14 +522,9 @@ export function registerAdventuringTesting(quench) {
           expect(entry.system.dates.length).to.equal(1);
 
           expect(entry.system.progress.abilities.length).to.equal(0);
-          const ability = magus.items.get(sheetData.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           const oldXp = ability.system.xp;
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id, sheetData);
           expect(entry.system.progress.spells.length).to.equal(0);
           expect(entry.system.progress.arts.length).to.equal(0);
           expect(entry.system.progress.newSpells.length).to.equal(0);
@@ -580,7 +547,7 @@ export function registerAdventuringTesting(quench) {
 
           expect(result.system.applyError).to.equal("");
 
-          expect(ability.system.xp).to.equal(oldXp + Math.round(1.5 * 5));
+          expect(ability.system.xp).to.equal(oldXp + 5);
 
           await sheet._onProgressRollback(undefined, false);
           expect(ability.system.xp).to.equal(oldXp);
@@ -637,7 +604,7 @@ export function registerAdventuringTesting(quench) {
 
             expect(result.system.applyError).to.equal("");
 
-            expect(spell.system.xp).to.equal(oldXp + Math.round(1.5 * 5));
+            expect(spell.system.xp).to.equal(oldXp + 5);
             // check rollback
             await sheet._onProgressRollback(undefined, false);
             expect(spell.system.xp).to.equal(oldXp);
@@ -686,7 +653,7 @@ export function registerAdventuringTesting(quench) {
             result = await sheet._onProgressApply(event, false);
 
             expect(result.system.applyError).to.equal("");
-            expect(magus.system.arts.forms.co.xp).to.equal(oldXp + Math.round(1.5 * 5));
+            expect(magus.system.arts.forms.co.xp).to.equal(oldXp + 5);
 
             await sheet._onProgressRollback(undefined, false);
             expect(art.xp).to.equal(oldXp);
@@ -707,6 +674,12 @@ export function registerAdventuringTesting(quench) {
           expect(entry.system.done).to.equal(false);
           expect(entry.system.dates.length).to.equal(1);
 
+          const ability = magus.system.abilities[0];
+          const oldXpAb = ability.system.xp;
+          const spell = magus.items.get(sheetData.system.defaultSpellMastery);
+          const oldXpSpell = spell.system.xp;
+          const oldXpArt = magus.system.arts.forms.co.xp;
+
           expect(entry.system.progress.spells.length).to.equal(0);
           let spells = await addProgressItem(
             entry,
@@ -714,12 +687,7 @@ export function registerAdventuringTesting(quench) {
             sheetData.system.defaultSpellMastery,
             sheetData
           );
-          let abilities = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          let abilities = await addProgressItem(entry, "abilities", ability._id, sheetData);
           let arts = await addProgressItem(entry, "arts", "co", sheetData);
 
           expect(entry.system.progress.spells.length).to.equal(1);
@@ -731,11 +699,6 @@ export function registerAdventuringTesting(quench) {
 
           expect(result.system.applyError).to.equal("arm5e.activity.msg.wrongTotalXp");
 
-          const ability = magus.items.get(sheetData.system.defaultAbility);
-          const oldXpAb = ability.system.xp;
-          const spell = magus.items.get(sheetData.system.defaultSpellMastery);
-          const oldXpSpell = spell.system.xp;
-          const oldXpArt = magus.system.arts.forms.co.xp;
           // assign xp
           abilities[0].xp = 5;
           await entry.update({ "system.progress.abilities": abilities });
@@ -755,7 +718,7 @@ export function registerAdventuringTesting(quench) {
 
           expect(ability.system.xp).to.equal(oldXpAb + 5);
           expect(spell.system.xp).to.equal(oldXpSpell + 5);
-          expect(magus.system.arts.forms.co.xp).to.equal(oldXpArt + Math.round(1.5 * 5));
+          expect(magus.system.arts.forms.co.xp).to.equal(oldXpArt + 5);
 
           await sheet._onProgressRollback(undefined, false);
           expect(ability.system.xp).to.equal(oldXpAb);

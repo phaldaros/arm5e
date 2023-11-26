@@ -3,6 +3,7 @@ import { ACTIVITIES_DEFAULT_ICONS } from "../constants/ui.js";
 import { log } from "../tools.js";
 import { nextDate } from "../tools/time.js";
 import {
+  boolOption,
   characteristicField,
   convertToNumber,
   hermeticForm,
@@ -150,6 +151,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
                 nullable: true,
                 initial: null
               }),
+              secondaryId: boolOption(false, true), // true if the id is actually not the final one
               key: new fields.StringField({ required: false, blank: true, initial: "" }),
               option: new fields.StringField({ required: false, blank: true, initial: "" }),
               category: new fields.StringField({ required: true, blank: false }),

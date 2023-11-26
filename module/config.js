@@ -398,7 +398,8 @@ ARM5E.GENERAL_ABILITIES = {
   concentration: {
     mnemonic: "arm5e.skill.general.concentration",
     option: false,
-    category: "general"
+    category: "general",
+    selection: ""
   },
   craft: {
     mnemonic: "arm5e.skill.general.craft",
@@ -451,7 +452,12 @@ ARM5E.GENERAL_ABILITIES = {
     selection: "",
     optionPlaceholder: "arm5e.skill.options.language"
   },
-  music: { mnemonic: "arm5e.skill.general.music", option: false, category: "general" },
+  music: {
+    mnemonic: "arm5e.skill.general.music",
+    option: false,
+    category: "general",
+    selection: ""
+  },
   organizationLore: {
     mnemonic: "arm5e.skill.general.organizationLore",
     option: true,
@@ -815,6 +821,31 @@ export function localizeAbilities() {
   return res;
 }
 
+/**
+ * Enrich the translated abilities for the diary entries
+ * @param {any} translatedList
+ * @returns {any}
+ */
+export function enrichAbilities(translatedList) {
+  let res = Object.entries(translatedList).filter((e) => e[1].selection !== "disabled");
+  let id = 0;
+  res = res.map(([key, val]) => {
+    return {
+      _id: String(id++),
+      secondaryId: true,
+      name: val.label,
+      system: {
+        key: key,
+        xp: 0,
+        finalScore: 0,
+        option: val.option ? val.optionPlaceholder : "",
+        category: val.category
+      }
+    };
+  }, id);
+  return res;
+}
+
 function translateAndSort(abilityList) {
   for (let [key, value] of Object.entries(abilityList)) {
     let translation;
@@ -829,17 +860,6 @@ function translateAndSort(abilityList) {
     return a[1].label.localeCompare(b[1].label);
   });
   return Object.fromEntries(tmp);
-  // let tmp = abilityList.map(a => {
-  //   let translation;
-  //   if (a.option)
-  //     translation = game.i18n.format(a[1].mnemonic, {
-  //       option: game.i18n.localize(a[1].optionPlaceholder)
-  //     });
-  //   else translation = game.i18n.localize(a[1].mnemonic);
-  //   return { [a[0]]: { name: translation, ...a[1] } };
-  // });
-  // let tmp2 = Object.values(tmp);
-  // return tmp2.sort((a, b) => a.name.localeCompare(b.name));
 }
 export function localizeCategories() {
   let result = {};

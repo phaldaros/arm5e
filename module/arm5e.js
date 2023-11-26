@@ -1,5 +1,5 @@
 // Import Modules
-import { ARM5E, localizeAbilities, localizeCategories } from "./config.js";
+import { ARM5E, enrichAbilities, localizeAbilities, localizeCategories } from "./config.js";
 import { ArM5ePCActor } from "./actor/actor.js";
 import { ArM5ePCActorSheet } from "./actor/actor-pc-sheet.js";
 import { ArM5eBeastActorSheet } from "./actor/actor-beast-sheet.js";
@@ -220,12 +220,12 @@ Hooks.once("init", async function () {
 });
 
 Hooks.once("ready", async function () {
-  // DEV:
-  // generateActiveEffectFromAbilities();
-
+  // TODO put this a function
   // translate and sort all abilities keys
   CONFIG.ARM5E.LOCALIZED_ABILITIES = localizeAbilities();
   CONFIG.ARM5E.LOCALIZED_ABILITIESCAT = localizeCategories();
+  CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED = enrichAbilities(CONFIG.ARM5E.LOCALIZED_ABILITIES);
+
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => {
     if (["Item", "Actor"].includes(data.type)) {

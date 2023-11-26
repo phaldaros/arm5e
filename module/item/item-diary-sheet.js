@@ -10,6 +10,7 @@ import { ActivitySchedule } from "../tools/activity-schedule.js";
 import { UI, getConfirmation } from "../constants/ui.js";
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { ArM5eActorSheet } from "../actor/actor-sheet.js";
+import { getAbilityFromCompendium } from "../tools/compendia.js";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -313,7 +314,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       context.system.applyError = "arm5e.activity.msg.sourceQualityHalved";
       context.system.errorParam = "";
     }
-    if (activityConfig.validation != null) {
+    if (activityConfig.validation != null && !context.system.done) {
       activityConfig.validation(context, this.actor, this.item);
     }
     context.totalQuality =
@@ -324,31 +325,83 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
   }
 
   retrieveAbilities(context, teacher) {
-    let availableAbilities = this.actor.system.abilities;
+    // let availableAbilities = this.actor.system.abilities;
+    let availableAbilities;
+
     const actType = context.system.activity;
     const hasTeacher = context.ui.showTeacher;
     // additionnal filtering based on the teacher skills
-    if (hasTeacher) {
-      if (context.system.teacherLinked) {
-        // context.system.sourceModifier += teacher.system.bonuses.activities.teacher;
-        context.teacherAbilities = teacher.system.abilities.filter((e) => {
-          return e.system.finalScore >= 2;
-        });
-        availableAbilities = this.actor.system.abilities.filter((e) => {
-          return context.teacherAbilities.some((filter) => {
-            if (context.system.done)
-              // for rollback, the item must still be there
-              return filter.system.key === e.system.key && filter.system.option === e.system.option;
-            else
-              return (
-                filter.system.key === e.system.key &&
-                filter.system.option === e.system.option &&
-                filter.system.finalScore > e.system.finalScore
-              );
+    if (hasTeacher && context.system.teacherLinked) {
+      availableAbilities = [];
+      context.teacherAbilities = teacher.system.abilities.filter((e) => {
+        return e.system.finalScore >= 2;
+      });
+      // filter on abilities which have a score higher than the student
+      let idx = 0;
+      for (let ta of context.teacherAbilities) {
+        const sa = this.actor.system.abilities.find(
+          (e) => ta.system.key === e.system.key && ta.system.option === e.system.option
+        );
+
+        if (sa != undefined) {
+          if (sa.system.finalScore < ta.system.finalScore) {
+            availableAbilities.push({
+              _id: sa._id,
+              secondaryId: false,
+              name: sa.name,
+              system: {
+                key: sa.system.key,
+                xp: sa.system.xp,
+                finalScore: sa.system.finalScore,
+                option: sa.system.option,
+                category: sa.system.category
+              }
+            });
+          }
+        } else {
+          availableAbilities.push({
+            _id: ta._id,
+            secondaryId: true,
+            name: ta.name,
+            system: {
+              key: ta.system.key,
+              xp: 0,
+              finalScore: 0,
+              option: ta.system.option,
+              category: ta.system.category
+            }
           });
-        });
-      } else {
-        availableAbilities = this.actor.system.abilities.filter((e) => {
+        }
+      }
+    } else {
+      availableAbilities = duplicate(CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED);
+      // merge all abilities with the character ones
+      for (let a of this.actor.system.abilities) {
+        let found = availableAbilities.findIndex(
+          (e) => e.system.key == a.system.key && e.system.option == a.system.option
+        );
+        if (found >= 0) {
+          availableAbilities[found]._id = a._id;
+          availableAbilities[found].system.xp = a.system.xp;
+          availableAbilities[found].system.finalScore = a.system.finalScore;
+        } else {
+          availableAbilities.push({
+            _id: a._id,
+            secondaryId: true,
+            name: a.name,
+            system: {
+              key: a.system.key,
+              xp: a.system.xp,
+              finalScore: a.system.finalScore,
+              option: a.system.option,
+              category: a.system.category
+            }
+          });
+        }
+      }
+      // filter on unlinked teacher score
+      if (hasTeacher) {
+        availableAbilities = availableAbilities.filter((e) => {
           return e.system.finalScore < context.system.teacher.score;
         });
       }
@@ -365,7 +418,10 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           let teacherAbility = context.teacherAbilities.find((e) => {
             return e.system.key === ability.system.key && e.system.option === ability.system.option;
           });
-          teacherScore = teacherAbility.system.finalScore;
+          if (teacherAbility) teacherScore = teacherAbility.system.finalScore;
+          else {
+            teacherScore = 10;
+          }
         }
       }
       // add category if it was not created yet
@@ -373,12 +429,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         context.system.ownedAbilities[ability.system.category] = [];
       let tmp = {
         id: ability._id,
+        secondaryId: ability.secondaryId,
         category: ability.system.category,
         name: ability.name,
         key: ability.system.key,
         currentXp: ability.system.xp,
-        score: ability.system.finalScore,
-        option: ability.system.option,
+        score: ability.secondaryId ? 0 : ability.system.finalScore,
+        option: game.i18n.localize(ability.system.option),
         teacherScore: teacherScore
       };
       if (firstAb) {
@@ -390,6 +447,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           filteredList.length === 0
         ) {
           context.system.defaultAbility = ability._id;
+          context.system.isDefaultSecondary = ability.secondaryId;
+          context.system.defaultAbilityKey = ability.system.key;
+          context.system.defaultAbilityOption = game.i18n.localize(ability.system.option);
           context.teacherScore = teacherScore;
           firstAb = false;
         }
@@ -405,35 +465,38 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         let teacherAbility = context.teacherAbilities.find((e) => {
           return e.system.key === a.key && e.system.option === a.option;
         });
-        a.teacherScore = teacherAbility.system.finalScore;
+        if (teacherAbility) a.teacherScore = teacherAbility.system.finalScore;
+        else a.teacherscore = 10;
       }
-      if (context.system.ownedAbilities[a.category] == undefined) {
-        context.system.ownedAbilities[a.category] = [];
-        context.system.ownedAbilities[a.category].push({
-          id: a.id,
-          category: a.category,
-          name: CONFIG.ARM5E.LOCALIZED_ABILITIES[a.key].label,
-          key: a.key,
-          currentXp: a.xp,
-          option: a.option,
-          teacherScore: a.teacherScore
-        });
-      } else {
-        let oa = context.system.ownedAbilities[a.category].find((e) => {
-          return e.id == a.id;
-        });
-        if (oa === undefined) {
-          context.system.ownedAbilities[a.category].push({
-            id: a.id,
-            category: a.category,
-            name: CONFIG.ARM5E.LOCALIZED_ABILITIES[a.key].label,
-            key: a.key,
-            currentXp: a.xp,
-            option: a.option,
-            teacherScore: a.teacherScore
-          });
-        }
-      }
+
+      // if (context.system.ownedAbilities[a.category] == undefined) {
+      //   context.system.ownedAbilities[a.category] = [];
+      //   context.system.ownedAbilities[a.category].push({
+      //     id: a.id,
+      //     category: a.category,
+      //     name: CONFIG.ARM5E.LOCALIZED_ABILITIES[a.key].label,
+      //     key: a.key,
+      //     currentXp: a.xp,
+      //     option: a.option,
+      //     teacherScore: a.teacherScore
+      //   });
+      // } else {
+      //   let oa = context.system.ownedAbilities[a.category].find((e) => {
+      //     return e.id == a.id;
+      //   });
+      //   if (oa === undefined) {
+      //     context.system.ownedAbilities[a.category].push({
+      //       id: a.id,
+      //       category: a.category,
+      //       name: CONFIG.ARM5E.LOCALIZED_ABILITIES[a.key].label,
+      //       key: a.key,
+      //       currentXp: a.xp,
+      //       option: a.option,
+      //       score: a.score,
+      //       teacherScore: a.teacherScore
+      //     });
+      //   }
+      // }
     }
   }
 
@@ -626,6 +689,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       let tmp = {
         id: spell._id,
         form: spell.system.form.value,
+        // technique: spell.system.technique.value,
         name: spell.name,
         currentXp: spell.system.xp,
         score: spell.system.finalScore,
@@ -644,7 +708,24 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           firstSpell = false;
         }
       }
+      log(false, `DEBUG: teacher score: ${tmp.teacherScore}`);
       context.system.ownedSpells[spell.system.form.value].push(tmp);
+    }
+
+    for (let s of context.system.progress.spells) {
+      if (context.system.teacher.id === null) {
+        s.teacherScore = context.system.teacher.score ?? 0;
+      } else {
+        let spell = this.actor.items.get(s.id);
+        let teacherSpell = context.teacherMasteries.find((e) => {
+          return (
+            e.system.technique.value === spell.system.technique.value &&
+            e.system.form.value === spell.system.form.value &&
+            e.name === spell.name
+          );
+        });
+        s.teacherScore = teacherSpell.system.finalScore;
+      }
     }
   }
 
@@ -851,6 +932,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     let description = this.item.system.description + "<h4>Technical part:<h4><ol>";
     let updateData = [];
     let sourceQuality = 0;
+
     let sourceModifier = Number(dataset.qualitymod ?? 0);
     if (this.item.system.done) {
       // no idea how it got there:
@@ -913,36 +995,47 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "laterLifeMagi":
       case "longevityRitual":
       case "minorEnchantment":
+        let abilitiesToAdd = [];
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // ignore 0 xp gain
           if (ab.xp == 0) {
             continue;
           }
-          // check that ability still exists
-          let ability = this.actor.items.get(ab.id);
-          if (ability == undefined) {
-            ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
-              permanent: false
-            });
-            context.system.applyError = "arm5e.activity.msg.abilityMissing";
-            return context;
-          }
-          let coeff = this.actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
-          let data = {
-            _id: ab.id,
-            system: {
-              xp: ability.system.xp + Math.round(ab.xp * coeff)
+
+          let ability;
+
+          if (
+            ab.id.length < 8 ||
+            (["training", "teaching"].includes(this.item.system.activity) && ab.secondaryId)
+          ) {
+            // get the ability template from the shared compendia
+            ability = await getAbilityFromCompendium(ab.key, ab.option);
+            ability._source.system.xp = ab.xp;
+            abilitiesToAdd.push(ability.toObject());
+          } else {
+            // check that ability still exists
+            ability = this.actor.items.get(ab.id);
+            if (ability == undefined) {
+              ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.abilityMissing"), {
+                permanent: false
+              });
+              context.system.applyError = "arm5e.activity.msg.abilityMissing";
+              return context;
             }
-          };
-          const xpDesc = coeff == 1 ? ab.xp : `${Math.round(ab.xp * coeff)} (${ab.xp} * ${coeff})`;
+            updateData.push({
+              _id: ab.id,
+              system: {
+                xp: ability.system.xp + Math.round(ab.xp)
+              }
+            });
+          }
+
           description += `<li>${game.i18n.format("arm5e.activity.descItem", {
             item: ability.name,
-            xp: xpDesc
+            xp: ab.xp
           })}</li>`;
-          log(false, `Added ${Math.round(ab.xp * coeff)} to ${ability.name}`);
-          // sourceQuality += Math.round(ab.xp * coeff);
+          log(false, `Added ${ab.xp} to ${ability.name}`);
           sourceQuality += ab.xp;
-          updateData.push(data);
         }
         for (const s of Object.values(this.item.system.progress.spells)) {
           // ignore 0 xp gain
@@ -951,7 +1044,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           }
           // check that spell still exists
           let spell = this.actor.items.get(s.id);
-          let coeff = spell.system.xpCoeff;
           if (spell == undefined) {
             ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
               permanent: false
@@ -962,15 +1054,14 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           let data = {
             _id: s.id,
             system: {
-              xp: spell.system.xp + Math.round(s.xp * coeff)
+              xp: spell.system.xp + s.xp
             }
           };
           description += `<li>${game.i18n.format("arm5e.activity.descItem", {
             item: spell.name,
             xp: s.xp
           })}</li>`;
-          log(false, `Added ${Math.round(s.xp * coeff)} to ${spell.name}`);
-          // sourceQuality += Math.round(s.xp * coeff);
+          log(false, `Added ${Math.round(s.xp)} to ${spell.name}`);
           sourceQuality += s.xp;
           updateData.push(data);
         }
@@ -985,17 +1076,14 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
             artType = "forms";
           }
-          let coeff = this.actor.system.arts[artType][a.key].xpCoeff;
           actorUpdate.system.arts[artType][a.key] = {};
           actorUpdate.system.arts[artType][a.key].xp =
-            this.actor.system.arts[artType][a.key].xp + Math.round(a.xp * coeff);
-          const xpDesc = coeff == 1 ? a.xp : `${Math.round(a.xp * coeff)} (${a.xp} * ${coeff})`;
+            this.actor.system.arts[artType][a.key].xp + a.xp;
           description += `<li>${game.i18n.format("arm5e.activity.descItem", {
             item: game.i18n.localize(CONFIG.ARM5E.magic.arts[a.key].label),
-            xp: xpDesc
+            xp: a.xp
           })}</li>`;
-          log(false, `Added ${Math.round(a.xp * coeff)} to ${a.key}`);
-          // sourceQuality += Math.round(a.xp * coeff);
+          log(false, `Added ${a.xp} to ${a.key}`);
           sourceQuality += a.xp;
         }
         let newSpells = [];
@@ -1032,14 +1120,24 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         // }
         let newTitle = getNewTitleForActivity(this.actor, this.item);
 
-        // if (context.ui.bonusOptions) {
-        //   sourceQuality += context.system.sourceBonus;
-        // }
+        // store the list of ids created
+        let res = await this.actor.createEmbeddedDocuments("Item", abilitiesToAdd);
+        res = res.map((e) => e._id);
+
+        await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
+        await this.actor.update(actorUpdate, { render: true });
+
+        let abIdx = 0;
+        for (let ab of this.item.system.progress.abilities) {
+          if (ab.id.length < 8) {
+            ab.id = res[abIdx];
+            abIdx++;
+          }
+        }
 
         await this.item.update(
           {
             name: newTitle,
-
             system: {
               done: true,
               description: description,
@@ -1048,11 +1146,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               achievements: this.item.system.achievements
             }
           },
-          { render: true }
+          { render: true, recursive: true }
         );
 
-        await this.actor.updateEmbeddedDocuments("Item", updateData, { render: true });
-        await this.actor.update(actorUpdate, { render: true });
         return context;
     }
   }
@@ -1138,34 +1234,32 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             });
             continue;
           }
-          let coeff = this.actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
-          let xps = ability.system.xp - Math.round(ab.xp * coeff);
+          let xps = ability.system.xp - ab.xp;
           let data = {
             _id: ab.id,
             system: {
               xp: xps < 0 ? 0 : xps
             }
           };
-          log(false, `Removed ${Math.round(ab.xp * coeff)} from ${ability.name}`);
+          log(false, `Removed ${ab.xp} from ${ability.name}`);
           updateData.push(data);
         }
         for (const s of Object.values(this.item.system.progress.spells)) {
           let spell = this.actor.items.get(s.id);
-          let coeff = spell.system.xpCoeff;
           if (spell == undefined) {
             ui.notifications.warn(game.i18n.localize("arm5e.activity.msg.spellMissing"), {
               permanent: false
             });
             continue;
           }
-          let xps = spell.system.xp - Math.round(s.xp * coeff);
+          let xps = spell.system.xp - s.xp;
           let data = {
             _id: s.id,
             system: {
               xp: xps < 0 ? 0 : xps
             }
           };
-          log(false, `Removed ${Math.round(s.xp * coeff)} from ${spell.name}`);
+          log(false, `Removed ${s.xp} from ${spell.name}`);
           updateData.push(data);
         }
         let actorUpdate = { system: { arts: { forms: {}, techniques: {} } } };
@@ -1174,9 +1268,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           if (Object.keys(CONFIG.ARM5E.magic.techniques).indexOf(a.key) == -1) {
             artType = "forms";
           }
-          let coeff = actor.system.arts[artType][a.key].xpCoeff;
-          let xps = actor.system.arts[artType][a.key].xp - Math.round(a.xp * coeff);
-          log(false, `Removed ${Math.round(a.xp * coeff)} from ${a.key}`);
+          let xps = actor.system.arts[artType][a.key].xp - a.xp;
+          log(false, `Removed ${a.xp} from ${a.key}`);
           actorUpdate.system.arts[artType][a.key] = {};
           actorUpdate.system.arts[artType][a.key].xp = xps < 0 ? 0 : xps;
         }
@@ -1337,11 +1430,29 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         switch (button.dataset.action) {
           case "add":
             // get first ability of the tree
-            const newAb = this.actor.items.get(button.dataset.default);
+            let newAb;
 
-            // if
+            const hasTeacher = ["training", "teaching"].includes(this.item.system.activity);
+            // check if the
+            if (button.dataset.default.length == 16 && !button.dataset.default.secondary) {
+              newAb = this.actor.items.get(button.dataset.default);
+            } else {
+              if (hasTeacher) {
+                let teacher = game.actors.get(this.item.system.teacher.id);
+                newAb = teacher.system.abilities.find(
+                  (e) =>
+                    e.system.key == button.dataset.defaultkey &&
+                    e.system.option == button.dataset.defaultoption
+                );
+              } else {
+                newAb = CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED.find(
+                  (e) => e._id === button.dataset.default
+                );
+              }
+            }
+
             let tScore = 0;
-            if (["training", "teaching"].includes(this.item.system.activity)) {
+            if (hasTeacher) {
               if (this.item.system.teacher.id === null) {
                 tScore = button.dataset.teacherscore;
               } else {
@@ -1351,13 +1462,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             }
 
             const data = {
-              id: newAb.id,
+              id: newAb._id,
               key: newAb.system.key,
               option: newAb.system.option,
               category: newAb.system.category,
               name: newAb.name,
               currentXp: newAb.system.xp,
-              xpNextLevel: newAb.system.xpNextLevel,
+              // xpNextLevel: newAb.system.xpNextLevel,
               teacherScore: tScore,
               xp: 0
             };
@@ -1409,7 +1520,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             let tScore = 0;
             if (["training", "teaching"].includes(this.item.system.activity)) {
               if (this.item.system.teacher.id === null) {
-                tScore = button.dataset.teacherscore;
+                tScore = Number(button.dataset.teacherscore);
               } else {
                 let teacher = game.actors.get(this.item.system.teacher.id);
                 let similarSpells = teacher.getSimilarSpell(
@@ -1430,7 +1541,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               name: newSpell.name,
               currentXp: newSpell.system.xp,
               teacherScore: tScore,
-              xpNextLevel: newSpell.system.xpNextLevel,
+              // xpNextLevel: newSpell.system.xpNextLevel,
               xp: 0
             };
 
@@ -1515,22 +1626,32 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     let updateData = {};
     const target = event.currentTarget;
     const idx = target.dataset.index;
-    const value = $(target).val();
+    const abilityId = $(target).val();
+
     let currentData = this.item.system.progress[target.dataset.type];
-    const selectedAbility = this.actor.items.get(value);
+    let selectedAbility;
+    if (abilityId.length == 16) {
+      selectedAbility = this.actor.items.get(abilityId);
+      if (selectedAbility === undefined) {
+        let teacher = game.actors.get(this.item.system.teacher.id);
+        selectedAbility = teacher.items.get(abilityId);
+      }
+    } else {
+      selectedAbility = CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED.find((e) => e._id === abilityId);
+    }
     let teacherScore = Object.values(
       this.item.system.ownedAbilities[selectedAbility.system.category]
     ).find((e) => {
       return e.key === selectedAbility.system.key && e.option === selectedAbility.system.option;
     }).teacherScore;
     const data = {
-      id: selectedAbility.id,
+      id: abilityId,
       name: selectedAbility.name,
       category: selectedAbility.system.category,
       currentXp: selectedAbility.system.xp,
       key: selectedAbility.system.key,
       option: selectedAbility.system.option,
-      xpNextLevel: selectedAbility.system.xpNextLevel,
+      // xpNextLevel: selectedAbility.system.xpNextLevel,
       xp: 0,
       teacherScore: teacherScore
     };
@@ -1594,34 +1715,37 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const expanded = expandObject(formData);
     const source = this.object.toObject();
     const abilities = expanded?.system?.progress?.abilities;
-    let options = {};
+    let options = { diff: false, recursive: true };
     if (abilities) {
-      expanded.system.progress.abilities = mergeObject(source.system.progress.abilities, abilities);
+      foundry.utils.mergeObject(source.system.progress.abilities, abilities);
+      expanded.system.progress.abilities = source.system.progress.abilities;
     }
 
     const spells = expanded?.system?.progress?.spells;
     if (spells) {
-      expanded.system.progress.spells = mergeObject(source.system.progress.spells, spells);
+      foundry.utils.mergeObject(source.system.progress.spells, spells);
+      expanded.system.progress.spells = source.system.progress.spells;
     }
 
     const arts = expanded?.system?.progress?.arts;
     if (arts) {
-      expanded.system.progress.arts = mergeObject(source.system.progress.arts, arts);
+      foundry.utils.mergeObject(source.system.progress.arts, arts);
+      expanded.system.progress.arts = source.system.progress.arts;
     }
 
     const newSpells = expanded?.system?.progress?.newSpells;
     if (newSpells) {
-      expanded.system.progress.newSpells = mergeObject(source.system.progress.newSpells, newSpells);
+      foundry.utils.mergeObject(source.system.progress.newSpells, newSpells);
+      expanded.system.progress.newSpells = source.system.progress.newSpells;
     }
 
     const dates = expanded?.system?.dates;
     if (dates) {
-      expanded.system.dates = mergeObject(source.system.dates, dates);
+      foundry.utils.mergeObject(source.system.dates, dates);
+      expanded.system.dates = source.system.dates;
       if (expanded.system.duration) {
         expanded.system.dates.splice(expanded.system.duration);
       }
-      options.diff = false;
-      options.recursive = true;
     }
     // log(false, `Update object: ${JSON.stringify(expanded)}`);
     await this.object.update(expanded, options);
