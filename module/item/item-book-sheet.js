@@ -391,7 +391,7 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     const source = this.object.toObject();
     const index = Number(Object.keys(expanded.system.topics)[0]);
     if (expanded?.system?.topics) {
-      expanded.system.topics = mergeObject(source.system.topics, expanded.system.topics);
+      mergeObject(source.system.topics, expanded.system.topics);
     }
 
     // manage readonly fields

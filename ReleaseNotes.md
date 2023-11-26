@@ -1,4 +1,4 @@
-## 2.2.3.10, Ophilio
+## 2.2.3.11, Ophilio
 
 ### Features & changes
 
@@ -29,6 +29,7 @@
 - New limited sheet for covenants and laboratories
 - New active effects
   - Optional bonus on rolls
+- Free choice of abilities in long term activities (ie: character doesn't need to have it to progress)
 
 ### Bug fixes
 
@@ -39,6 +40,11 @@
 - Clicking on an activity in the Troupe Schedule dialog won't create an additional diary entry.
 - Fix Recovery rolls on V10
 - Fixed error in macro creation
+- Fixes on diary entries
+  - Capped spell masteries based on teacher score
+  - Fixed rollback of capped masteries.
+  - Remove xp multiplier from progressed xp.
+- Actor age is now changing properly when the date changes.
 
 ## 2.2.2.20, Nico
 

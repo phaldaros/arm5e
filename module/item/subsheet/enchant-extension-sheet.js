@@ -155,36 +155,20 @@ export class ArM5eItemEnchantmentSheet {
     const aspects = expanded?.system?.enchantments?.aspects;
     let options = {};
     if (aspects) {
-      expanded.system.enchantments.aspects = mergeObject(
-        source.system.enchantments.aspects,
-        aspects,
-        { recursive: true }
-      );
+      foundry.utils.mergeObject(source.system.enchantments.aspects, aspects, { recursive: true });
     }
     const enchants = expanded?.system?.enchantments?.effects;
     if (enchants) {
-      expanded.system.enchantments.effects = mergeObject(
-        source.system.enchantments.effects,
-        enchants,
-        { recursive: true }
-      );
+      foundry.utils.mergeObject(source.system.enchantments.effects, enchants, { recursive: true });
     }
     const bonuses = expanded?.system?.enchantments?.bonuses;
     if (bonuses) {
-      expanded.system.enchantments.bonuses = mergeObject(
-        source.system.enchantments.bonuses,
-        bonuses,
-        { recursive: true }
-      );
+      foundry.utils.mergeObject(source.system.enchantments.bonuses, bonuses, { recursive: true });
     }
 
     const effects = expanded?.system?.enchantments?.effects;
     if (effects) {
-      expanded.system.enchantments.effects = mergeObject(
-        source.system.enchantments.effects,
-        effects,
-        { recursive: true }
-      );
+      foundry.utils.mergeObject(source.system.enchantments.effects, effects, { recursive: true });
     }
 
     return expanded;

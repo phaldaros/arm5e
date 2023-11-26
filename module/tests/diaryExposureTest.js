@@ -82,14 +82,9 @@ export function registerExposureTesting(quench) {
           expect(entry.system.dates.length).to.equal(1);
 
           expect(entry.system.progress.abilities.length).to.equal(0);
-          const ability = magus.items.get(sheetData.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           const oldXp = ability.system.xp;
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id, sheetData);
           expect(entry.system.progress.spells.length).to.equal(0);
           expect(entry.system.progress.arts.length).to.equal(0);
           expect(entry.system.progress.newSpells.length).to.equal(0);
@@ -219,8 +214,13 @@ export function registerExposureTesting(quench) {
         it("Combo", async function () {
           await entry.update({ "system.sourceQuality": 15 });
           let sheet = entry.sheet;
-
           const sheetData = await entry.sheet.getData();
+          const ability = magus.system.abilities[0];
+          const oldXpAb = ability.system.xp;
+          const spell = magus.items.get(sheetData.system.defaultSpellMastery);
+          const oldXpSpell = spell.system.xp;
+          const oldXpArt = magus.system.arts.forms.me.xp;
+
           log(false, JSON.stringify(sheetData.system));
           expect(entry.system.done).to.equal(false);
           expect(entry.system.dates.length).to.equal(1);
@@ -232,12 +232,7 @@ export function registerExposureTesting(quench) {
             sheetData.system.defaultSpellMastery,
             sheetData
           );
-          let abilities = await addProgressItem(
-            entry,
-            "abilities",
-            sheetData.system.defaultAbility,
-            sheetData
-          );
+          let abilities = await addProgressItem(entry, "abilities", ability._id, sheetData);
           let arts = await addProgressItem(entry, "arts", "me", sheetData);
 
           expect(entry.system.progress.spells.length).to.equal(1);
@@ -248,11 +243,6 @@ export function registerExposureTesting(quench) {
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.wrongTotalXp");
 
-          const ability = magus.items.get(sheetData.system.defaultAbility);
-          const oldXpAb = ability.system.xp;
-          const spell = magus.items.get(sheetData.system.defaultSpellMastery);
-          const oldXpSpell = spell.system.xp;
-          const oldXpArt = magus.system.arts.forms.me.xp;
           // assign xp
           abilities[0].xp = 5;
           await entry.update({ "system.progress.abilities": abilities });

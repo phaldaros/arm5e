@@ -49,7 +49,20 @@ import { stressDie } from "../dice.js";
 export class ArM5eActorSheet extends ActorSheet {
   constructor(object, options) {
     super(object, options);
+
+    this.timeHook = Hooks.on("arm5e-date-change", async (date) => {
+      if (this.actor._hasDate()) {
+        this.actor.updateSource({ "datetime.year": date.year });
+        this.render();
+        log(false, "Render on date change");
+      }
+    });
     this.actorProfiles = new ArM5eActorProfiles(object);
+    Hooks.on("closeApplication", (app, html) => this.onClose(app));
+  }
+
+  onClose(app) {
+    Hooks.off("arm5e-date-change", this.timeHook);
   }
   // /** @override */
   static get defaultOptions() {

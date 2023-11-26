@@ -91,7 +91,7 @@ export function registerTeachingTesting(quench) {
           await sheet._setTeacher(teacher);
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
+          const ability = magus.system.abilities[2];
           const oldXp = ability.system.xp;
           let teacherSkill = await teacher.getAbilityStats(
             ability.system.key,
@@ -219,7 +219,7 @@ export function registerTeachingTesting(quench) {
 
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           let teacherSkill = await teacher.getAbilityStats(
             ability.system.key,
             ability.system.option
@@ -352,13 +352,9 @@ export function registerTeachingTesting(quench) {
           await entry.update({ "system.teacher.score": 6 });
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           const oldXp = ability.system.xp;
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            entry.system.defaultAbility
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id);
           expect(entry.system.progress.spells.length).to.equal(0);
           expect(entry.system.progress.arts.length).to.equal(0);
           expect(entry.system.progress.newSpells.length).to.equal(0);
@@ -479,13 +475,9 @@ export function registerTeachingTesting(quench) {
 
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
+          const ability = magus.system.abilities[0];
 
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            entry.system.defaultAbility
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id);
           await magus.updateEmbeddedDocuments("Item", [
             { _id: ability._id, "system.xp": teacherXp - 5 }
           ]);
@@ -597,8 +589,7 @@ export function registerTeachingTesting(quench) {
 
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
-
+          const ability = magus.system.abilities[0];
           await magus.updateEmbeddedDocuments("Item", [{ _id: ability._id, "system.xp": 30 }]);
           const oldXp = ability.system.xp;
           let teacherSkill = await teacher.getAbilityStats(
@@ -724,7 +715,7 @@ export function registerTeachingTesting(quench) {
 
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           let teacherSkill = await teacher.getAbilityStats(
             ability.system.key,
             ability.system.option
@@ -856,13 +847,9 @@ export function registerTeachingTesting(quench) {
           await entry.update({ "system.teacher.score": 6 });
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
+          const ability = magus.system.abilities[0];
           const oldXp = ability.system.xp;
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            entry.system.defaultAbility
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id);
           expect(entry.system.progress.spells.length).to.equal(0);
           expect(entry.system.progress.arts.length).to.equal(0);
           expect(entry.system.progress.newSpells.length).to.equal(0);
@@ -987,13 +974,9 @@ export function registerTeachingTesting(quench) {
 
           result = await sheet._onProgressApply(event, false);
           expect(result.system.applyError).to.equal("arm5e.activity.msg.noProgressItems");
-          const ability = magus.items.get(entry.system.defaultAbility);
+          const ability = magus.system.abilities[0];
 
-          let progressItemCol = await addProgressItem(
-            entry,
-            "abilities",
-            entry.system.defaultAbility
-          );
+          let progressItemCol = await addProgressItem(entry, "abilities", ability._id);
           await magus.updateEmbeddedDocuments("Item", [
             { _id: ability._id, "system.xp": teacherXp - 5 }
           ]);
