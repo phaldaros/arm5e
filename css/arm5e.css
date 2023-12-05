@@ -2006,6 +2006,7 @@ img.art-icon {
 .arm5e .modifier {
   width: 35px;
   max-width: 35px;
+  text-align: center;
 }
 
 .arm5e .padding2 {

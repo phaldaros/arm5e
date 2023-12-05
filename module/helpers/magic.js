@@ -143,6 +143,7 @@ export function addSpellMagnitude(base, num) {
 }
 
 export function computeLevel(system, type) {
+  if (!system) return;
   let effectLevel = system.baseLevel;
 
   if (system.range.value) {

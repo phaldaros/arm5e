@@ -66,7 +66,7 @@ export class LabActivity extends Activity {
         type: "spell"
         // system:
       },
-      { temporary: true }
+      { temporary: true, render: false }
     );
   }
 
@@ -84,6 +84,37 @@ export class LabActivity extends Activity {
 
   get labActivitySpec() {
     return { mod: 0, label: "" };
+  }
+
+  validateVisCost(data) {
+    const result = { valid: true, message: "" };
+    if (!this.hasVisCost) return result;
+
+    let available = Object.values(data.magus).reduce(
+      (accumulator, currentValue) => accumulator + currentValue.amount,
+      0
+    );
+    available = Object.values(data.lab).reduce(
+      (accumulator, currentValue) => accumulator + currentValue.amount,
+      available
+    );
+    if (available < data.amount) {
+      result.message = game.i18n.localize("arm5e.activity.msg.noEnoughVis");
+      result.valid = false;
+    }
+    let sum = Object.values(data.magus).reduce(
+      (accumulator, currentValue) => accumulator + (Number(currentValue.used) ?? 0),
+      0
+    );
+    sum = Object.values(data.lab).reduce(
+      (accumulator, currentValue) => accumulator + (Number(currentValue.used) ?? 0),
+      sum
+    );
+    if (sum != data.amount) {
+      result.message = game.i18n.localize("arm5e.activity.msg.wrongVisAmount");
+      result.valid = false;
+    }
+    return result;
   }
 
   computeLabTotal(data, distractions) {
@@ -195,7 +226,7 @@ export class SpellActivity extends LabActivity {
         type: "spell"
         // system:
       },
-      { temporary: true }
+      { temporary: true, render: false }
     );
     return effect.toObject();
   }
@@ -359,7 +390,7 @@ export class MinorEnchantment extends LabActivity {
     super(lab, actor, "minorEnchantment");
   }
 
-  // hasVisCost = true;
+  hasVisCost = true;
 
   computeLabTotal(data, distractions) {
     return this._computeLabTotal(data.enchantment, distractions);
@@ -371,7 +402,7 @@ export class MinorEnchantment extends LabActivity {
         name: "New enchantment",
         type: "enchantment"
       },
-      { temporary: true }
+      { temporary: true, render: false }
     );
     enchant = enchant.toObject();
 
@@ -386,7 +417,7 @@ export class MinorEnchantment extends LabActivity {
           enchantments: new EchantmentExtension()
         }
       },
-      { temporary: true }
+      { temporary: true, render: false }
     );
     item = item.toObject();
     // item.system.receptacle = {
@@ -421,11 +452,11 @@ export class MinorEnchantment extends LabActivity {
 
   /**
    * Enrich context with specific data for the lab activity
-   * @param {any} input
+   * @param {any} planning
    * @returns {any}
    */
-  prepareData(input) {
-    const receptacleEnchants = input.planning.data.receptacle.system.enchantments;
+  prepareData(planning) {
+    const receptacleEnchants = planning.data.receptacle.system.enchantments;
     if (receptacleEnchants.aspects.length == 0) {
       error(false, `DEBUG prepareData: WARNING ASPECTS length = 0`);
       const first = Object.keys(ASPECTS)[0];
@@ -445,8 +476,8 @@ export class MinorEnchantment extends LabActivity {
     receptacleEnchants.capacities[0].total =
       ARM5E.lab.enchantment.materialBase[receptacleEnchants.capacities[0].materialBase].base *
       ARM5E.lab.enchantment.sizeMultiplier[receptacleEnchants.capacities[0].sizeMultiplier].mult;
-    input.planning.enchantPrefix = input.planning.namePrefix + "enchantment.";
-    return input;
+    planning.enchantPrefix = planning.namePrefix + "enchantment.";
+    return planning;
   }
 
   validation(input) {

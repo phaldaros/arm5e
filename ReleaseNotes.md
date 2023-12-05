@@ -1,4 +1,4 @@
-## 2.2.3.11, Ophilio
+## 2.2.3.12, Ophilio
 
 ### Features & changes
 
@@ -15,6 +15,7 @@
   - Bigger area to drop
   - Dropping an enchantment on an enchantable Item will appraise it automatically.
   - Added authorship
+  - Vis costs
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
 - [technical] new framework for lab activities for factorization purposes
@@ -30,6 +31,7 @@
 - New active effects
   - Optional bonus on rolls
 - Free choice of abilities in long term activities (ie: character doesn't need to have it to progress)
+-
 
 ### Bug fixes
 
@@ -45,6 +47,8 @@
   - Fixed rollback of capped masteries.
   - Remove xp multiplier from progressed xp.
 - Actor age is now changing properly when the date changes.
+- It is no longer possible to roll for aging unless a year of birth is set (it defaults to 1200 at creation)
+- Aging rolls are computing the age modifier based on the year of the diary entry instead of current year
 
 ## 2.2.2.20, Nico
 

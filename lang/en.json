@@ -937,6 +937,10 @@
   "arm5e.lab.specialty.texts": "Texts",
   "arm5e.lab.specialty.visExtraction": "Vis extraction",
 
+  "arm5e.lab.visCosts.label": "Vis cost : {amount} pawns of vis {tech} or {form} ",
+  "arm5e.lab.visCosts.vimOnly": "Vis cost : {amount} pawns of vis Vim",
+  "arm5e.lab.visCosts.magusStock": "Magus' vis stock",
+  "arm5e.lab.visCosts.labStock": "Laboratory's vis stock",
   "arm5e.sheet.bonus.activeEffects": "Effects bonuses",
   "arm5e.sheet.action.rest": "Rest",
   "arm5e.sheet.action.reset": "Reset",
@@ -1244,6 +1248,9 @@
   "arm5e.activity.msg.agingInWinter": "Aging happens usually in winter unless it is an external effect.",
   "arm5e.activity.msg.unappliedActivities": "There are still unapplied activities scheduled before this one.",
   "arm5e.activity.msg.sourceQualityHalved": "Due to wounds recovery, study total is divided by 2",
+  "arm5e.activity.msg.noYearOfBirth": "There is no year of birth defined for the character.",
+  "arm5e.activity.msg.wrongVisAmount": "Select the correct vis amount",
+  "arm5e.activity.msg.noEnoughVis": "Not enough vis available in stock.",
 
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "No distraction",

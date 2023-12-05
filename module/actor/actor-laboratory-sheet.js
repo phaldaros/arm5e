@@ -17,7 +17,7 @@ import {
 import { DiaryEntrySchema } from "../schemas/diarySchema.js";
 import { LabActivity, SpellActivity } from "../seasonal-activities/activity.js";
 /**
- * Extend the basic ArM5eActorSheet with some very simple modifications
+ * Extend the basic ArM5eActorSheet
  * @extends {ArM5eActorSheet}
  */
 export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
@@ -35,7 +35,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         );
       }
     }
-    log(false, "DEBUG: LabSheet constructor");
   }
   /** @override */
   get template() {
@@ -112,7 +111,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
    * @returns {any}
    */
   async getData() {
+    log(false, "GET WORKBENCH DATA");
     let context = await super.getData();
+    let isValid = true;
     context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
     // owner
     if (context.system.owner && context.system.owner.linked) {
@@ -128,8 +129,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         );
       }
     } else {
-      // this._prepareCharacterItems(context);
-      // context.planning.modifiers.apprentice = 0;
+      this._prepareCharacterItems(context);
+      // this.planning.modifiers.apprentice = 0;
       log(false, "lab-sheet getData");
       log(false, context);
 
@@ -138,11 +139,11 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     context.config = CONFIG.ARM5E;
 
-    context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+    // context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
 
-    if (context.planning === undefined) {
+    if (this.planning === undefined) {
       let newData = await this.activity.getDefaultData();
-      context.planning = {
+      this.planning = {
         type: "inventSpell",
         data: newData,
         visibility: { desc: "hide", attr: "hide", options: "hide" },
@@ -150,11 +151,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         distractions: "none",
         magicThSpecApply: false
       };
-      this.planning = context.planning;
-    } else {
-      this.planning = undefined;
     }
-    context.edition = context.config.activities.lab[context.planning.type].edition;
+    context.edition = context.config.activities.lab[this.planning.type].edition;
+    this.planning.messages = [];
 
     // Covenant
     if (context.system.covenant) {
@@ -165,130 +164,160 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       } else {
         context.edition.aura = "";
         context.classes = { aura: "editable" };
-        if (context.planning.modifiers.aura == undefined) context.planning.modifiers.aura = 0;
+        if (this.planning.modifiers == undefined) this.planning.modifiers = { aura: 0 };
+        else if (this.planning.modifiers.aura == undefined) this.planning.modifiers.aura = 0;
       }
     }
 
     context.system.owner.magicTheory = context.system.owner.document.getAbilityStats("magicTheory");
-    context.planning.modifiers.apprentice =
+    this.planning.modifiers.apprentice =
       (context.system.owner.document.system.apprentice?.int ?? 0) +
       (context.system.owner.document.system.apprentice?.magicTheory ?? 0);
 
-    context.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
+    this.planning.modifiers.labQuality = this.actor.system.generalQuality.total;
 
-    context.planning.modifiers.aura = this.actor.system.aura.computeMaxAuraModifier(
+    this.planning.modifiers.aura = this.actor.system.aura.computeMaxAuraModifier(
       context.system.owner.document.system.realms
     );
 
-    context.planning.modifiers.magicThSpecApply = context.planning.magicThSpecApply ? 1 : 0;
+    this.planning.modifiers.magicThSpecApply = this.planning.magicThSpecApply ? 1 : 0;
 
     // TODO fix covenant date
-    if (context.planning.date == undefined)
-      context.planning.date = game.settings.get("arm5e", "currentDate");
-    else if (context.planning.date.year == null) {
-      context.planning.date.year = game.settings.get("arm5e", "currentDate").year;
+    if (this.planning.date == undefined)
+      this.planning.date = game.settings.get("arm5e", "currentDate");
+    else if (this.planning.date.year == null) {
+      this.planning.date.year = game.settings.get("arm5e", "currentDate").year;
     }
 
-    context.planning.display = context.config.activities.lab[context.planning.type].display;
-    context.namePrefix = "flags.arm5e.planning.data.";
-    switch (context.planning.type) {
+    this.planning.display = context.config.activities.lab[this.planning.type].display;
+
+    this.planning.namePrefix = "flags.arm5e.planning.data.";
+    this.planning.expiryAllowed = false;
+    switch (this.planning.type) {
       case "inventSpell":
       case "learnSpell":
         {
-          context.planning.data.system.level = computeLevel(context.planning.data.system, "spell");
-          context.planning.label = ArM5eItem.GetEffectAttributesLabel(context.planning.data);
+          this.planning.data.system.level = computeLevel(this.planning.data.system, "spell");
+          this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data);
         }
         break;
       case "minorEnchantment":
         {
-          context.planning.data.enchantment.system.level = computeLevel(
-            context.planning.data.enchantment.system,
+          this.planning.data.enchantment.system.level = computeLevel(
+            this.planning.data.enchantment.system,
             "enchantment"
           );
-          context.planning.label = ArM5eItem.GetEffectAttributesLabel(
-            context.planning.data.enchantment
-          );
+          this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data.enchantment);
           context.enchantPrefix = "flags.arm5e.planning.data.enchantment.";
           context.receptaclePrefix = "flags.arm5e.planning.data.receptacle.";
         }
         break;
       case "visExtraction":
         {
-          context.planning.data.system.technique.value = "cr";
-          context.planning.data.system.form.value = "vi";
+          this.planning.data.system.technique.value = "cr";
+          this.planning.data.system.form.value = "vi";
         }
         break;
       case "longevityRitual":
         {
-          context.planning.data.system.technique.value = "cr";
-          context.planning.data.system.form.value = "co";
+          this.planning.data.system.technique.value = "cr";
+          this.planning.data.system.form.value = "co";
         }
         break;
     }
-    this.activity.modifiers = context.planning.modifiers;
+    this.activity.modifiers = this.planning.modifiers;
     context.activitySheet = this.activity.activitySheet;
 
-    let labTot = this.activity.computeLabTotal(
-      context.planning.data,
-      context.planning.distractions
-    );
-    context.planning.activityBonus = this.activity.ownerActivityMod;
-    context.planning.labSpecTotal = this.activity.labActivitySpec;
-    context.planning.labTotal = { score: labTot.score, label: labTot.label };
-
-    this.activity.prepareData(context);
+    let labTot = this.activity.computeLabTotal(this.planning.data, this.planning.distractions);
+    this.planning.activityBonus = this.activity.ownerActivityMod;
+    this.planning.labSpecTotal = this.activity.labActivitySpec;
+    this.planning.labTotal = { score: labTot.score, label: labTot.label };
+    this.activity.prepareData(this.planning);
     context.hasVisCost = this.activity.hasVisCost;
 
-    // if (this.activity.hasVisCost) {
-    //   const visCost = this.activity.getVisCost(context.planning);
-    //   context.planning.data.visCost = {
-    //     technique: visCost.technique,
-    //     form: visCost.form,
-    //     amount: visCost.amount,
-    //     magus: [
-    //       { label: "Vis from aura", art: "vi", amount: 2 },
-    //       { label: "Purple flowers", art: "im", amount: 3 }
-    //     ],
-    //     lab: [{ label: "Scales of basilic", art: "te", amount: 10 }]
-    //   };
-    // }
+    if (this.activity.hasVisCost) {
+      const visCost = this.activity.getVisCost(this.planning);
 
-    let result = this.activity.validation(context.planning);
+      let magusStock = context.system.owner.document.system.vis
+        .filter((v) => {
+          return v.system.art == visCost.technique || v.system.art == visCost.form;
+        })
+        .reduce((res, current) => {
+          res[current._id] = {
+            label: current.name,
+            amount: current.system.pawns,
+            art: CONFIG.ARM5E.magic.arts[current.system.art].short,
+            used: this.planning.data.visCost.magus[current._id]?.used ?? 0
+          };
+          return res;
+        }, {});
 
-    if (!result.valid) {
+      let labStock = this.actor.system.rawVis
+        .filter((v) => {
+          return v.system.art == visCost.technique || v.system.art == visCost.form;
+        })
+        .reduce((res, current) => {
+          res[current._id] = {
+            label: current.name,
+            amount: current.system.pawns,
+            art: CONFIG.ARM5E.magic.arts[current.system.art].short,
+            used: this.planning.data.visCost.lab[current._id]?.used ?? 0
+          };
+          return res;
+        }, {});
+
+      this.planning.data.visCost = {
+        technique: CONFIG.ARM5E.magic.arts[visCost.technique].label,
+        form: CONFIG.ARM5E.magic.arts[visCost.form].label,
+        amount: visCost.amount,
+        magus: magusStock,
+        lab: labStock
+      };
+      let res = this.activity.validateVisCost(this.planning.data.visCost);
+      if (!res.valid) {
+        this.planning.messages.push(res.message);
+      }
+      isValid &= res.valid;
+    }
+
+    let result = this.activity.validation(this.planning);
+    isValid &= result.valid;
+    if (!isValid) {
       context.edition.schedule = "disabled";
       if (result.duration <= 1) {
-        context.planning.message = result.message;
+        this.planning.messages.push(result.message);
       } else {
-        context.planning.message =
+        this.planning.messages.push(
           game.i18n.localize("arm5e.lab.planning.msg.unsupported") +
-          "<br/>" +
-          game.i18n.format("arm5e.lab.planning.msg.waste", {
-            points: result.waste
-          });
+            "<br/>" +
+            game.i18n.format("arm5e.lab.planning.msg.waste", {
+              points: result.waste
+            })
+        );
       }
     } else {
       context.edition.schedule = "";
-      context.planning.message = `${result.message}&#10${game.i18n.format(
-        "arm5e.lab.planning.msg.waste",
-        {
+      this.planning.messages.push(
+        `${result.message}&#10${game.i18n.format("arm5e.lab.planning.msg.waste", {
           points: result.waste
-        }
-      )}`;
+        })}`
+      );
       if (context.system.owner.document.system.penalties.wounds.total != 0) {
-        context.planning.message += `<br/> ${game.i18n.format("arm5e.lab.planning.msg.wounded", {
-          penalty: context.system.owner.document.system.penalties.wounds.total
-        })}`;
+        this.planning.messages.push(
+          `${game.i18n.format("arm5e.lab.planning.msg.wounded", {
+            penalty: context.system.owner.document.system.penalties.wounds.total
+          })}`
+        );
       }
     }
-    context.planning.duration = result.duration;
+    this.planning.duration = result.duration;
 
     // Prepare items.
     this._prepareCharacterItems(context);
 
     log(false, "lab-sheet getData");
     log(false, context);
-
+    context.planning = this.planning;
     return context;
   }
 
@@ -319,9 +348,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     html.find(".reset-planning").click(async (event) => {
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
       event.preventDefault();
-      this._resetPlanning(planning.type);
+      await this._resetPlanning(planning?.type ?? "inventSpell");
       this.render();
     });
+    html.find(".vis-use").change(async (event) => this._useVis(event));
     html.find(".refresh").click(this._refreshValues.bind(this));
     html.find(".schedule").click(async () => this._schedule());
     html.find(".moreinfo").click(async (ev) => {
@@ -329,6 +359,24 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       game.actors.get(actorId).sheet.render(true, { focus: true });
     });
   }
+
+  async _useVis(event) {
+    event.preventDefault();
+    const dataset = getDataset(event);
+
+    const amount = Number(dataset.amount);
+    let val = Number(event.target.value);
+    if (val > amount) {
+      val = amount;
+      event.target.value = amount;
+    }
+    const planning = this.actor.flags.arm5e.planning;
+    planning.data.visCost[dataset.stock][dataset.id].used = val;
+
+    await this.submit({ preventClose: true, updateData: { "flags.arm5e.planning": planning } });
+    // this.render();
+  }
+
   async _changeActivity(item, event) {
     event.preventDefault();
     const activity = getDataset(event).activity;
@@ -354,19 +402,17 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   }
 
   async _resetPlanning(activity) {
-    // await this.actor.unsetFlag(ARM5E.SYSTEM_ID, "planning");
-    this.activity = LabActivity.ActivityFactory(this.actor, activity);
+    await this.actor.update({ "flags.arm5e.planning.-=data": null }, { render: false });
+    this.activity = LabActivity.ActivityFactory(this.actor, activity ?? "inventSpell");
     let newData = await this.activity.getDefaultData();
-    let planning = {
-      type: activity,
-      data: newData,
-      visibility: { desc: "hide", attr: "hide", options: "hide" },
-      modifiers: { generic: 0, aura: 0 },
-      distractions: "none",
-      magicThSpecApply: false
-    };
-    // do an update instead of setFlag in order to set recursive = true
-    await this.actor.update({ "flags.arm5e.planning": planning }, { recursive: true });
+    this.planning.type = activity;
+    this.planning.data = newData;
+    this.planning.visibility = { desc: "hide", attr: "hide", options: "hide" };
+    this.planning.modifiers = { generic: 0, aura: 0 };
+    this.planning.distractions = "none";
+    this.planning.magicThSpecApply = false;
+    // await this.submit({ preventClose: true, updateData: { "flags.arm5e.planning": this.planning } });
+    await this.actor.update({ "flags.arm5e.planning": this.planning }, { recursive: true });
   }
 
   _refreshValues(event) {
@@ -417,8 +463,31 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         sourceQuality = computeLevel(planning.data.system, planning.type);
         break;
       case "visExtraction":
+        break;
       case "longevityRitual":
       case "minorEnchantment":
+        {
+          for (let [k, vis] of Object.entries(planning.data.visCost.magus)) {
+            if (Number(vis.used) > 0) {
+              externalIds.push({
+                actorId: owner._id,
+                itemId: k,
+                flags: 1,
+                data: { amountLabel: "pawns", amount: vis.used }
+              });
+            }
+          }
+          for (let [k, vis] of Object.entries(planning.data.visCost.lab)) {
+            if (Number(vis.used) > 0) {
+              externalIds.push({
+                actorId: this.actor._id,
+                itemId: k,
+                flags: 1,
+                data: { amountLabel: "pawns", amount: vis.used }
+              });
+            }
+          }
+        }
         break;
       default:
         throw "Unsupported activity";
@@ -608,10 +677,31 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
   /** @inheritdoc */
   async _updateObject(event, formData) {
+    if (!this.object.id) return;
     const expanded = expandObject(formData);
-    if (expanded.flags?.arm5e?.planning?.data && this.planning) {
-      mergeObject(expanded.flags.arm5e.planning.data, this.planning.data, { recursive: true });
+    const source = this.object.toObject();
+
+    const planning = expanded.flags?.arm5e?.planning;
+    if (planning) {
+      // let visMagus = planning.data?.visCost?.magus;
+      // if (visMagus) {
+      //   foundry.utils.mergeObject(this.planning.data.visCost.magus, Object.values(visMagus), {
+      //     recursive: true
+      //   });
+      // }
+      // let visLab = planning.data?.visCost?.lab;
+      // if (visLab) {
+      //   foundry.utils.mergeObject(this.planning.data.visCost.lab, Object.values(visLab), {
+      //     recursive: true
+      //   });
+      // }
+
+      foundry.utils.mergeObject(this.planning, planning, {
+        recursive: true
+      });
+      expanded.flags.arm5e.planning = this.planning;
     }
+
     return super._updateObject(event, expanded);
   }
 }

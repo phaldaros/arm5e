@@ -243,6 +243,9 @@ function checkMaxXpPerItem(context, array, max) {
 }
 
 export function validAging(context, actor, item) {
+  if (actor.system.description.born.value == null) {
+    context.system.applyError = game.i18n.localize("arm5e.activity.msg.noYearOfBirth");
+  }
   if (context.firstSeason.season !== "winter") {
     context.system.applyInfo = game.i18n.localize("arm5e.activity.msg.agingInWinter");
     context.unnaturalAging = true;
@@ -827,7 +830,10 @@ export async function setVisStudyResults(actor, roll, message, rollData) {
     progressArts.push({ key: rollData.additionalData.art, maxLevel: 0, xp: xpGain });
     updateData["system.progress.arts"] = progressArts;
     const externalIds = diaryitem.system.externalIds;
-    externalIds[0].data = { amountLabel: "pawns", amount: rollData.additionalData.amount };
+    externalIds[0].data = {
+      amountLabel: "pawns",
+      amount: rollData.additionalData.amount
+    };
     updateData["system.externalIds"] = externalIds;
     // updateData["system.rollDone"] = true;
     updateData._id = diaryitem._id;

@@ -1,12 +1,12 @@
 <div class="drop-spell" data-drop="spell">
   <h1 class="charname flexrow flex01" style="font-size: 12pt;">
-    <input name="{{namePrefix}}name" title="{{planning.data.name}}" type="text" value="{{planning.data.name}}"
+    <input name="{{planning.namePrefix}}name" title="{{planning.data.name}}" type="text" value="{{planning.data.name}}"
       placeholder="Name" />
   </h1>
   <label class="resource flex01 padd">{{planning.label}}</label>
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
 
   {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" docId=@root.actor._id container="planning" 
-prefix=namePrefix spelldata=planning.data visibility=@root.ui.sections.visibility.planning ritual=true}}
+prefix=planning.namePrefix spelldata=planning.data visibility=@root.ui.sections.visibility.planning ritual=true}}
 
 </div>

@@ -950,20 +950,22 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       return context;
     }
 
-    let idx = 0;
+    let achievementsIndexes = [];
     for (const achievement of this.item.system.achievements) {
       // if an id exists update it
       if (achievement._id) {
       } else {
         let [item] = await this.actor.createEmbeddedDocuments("Item", [achievement], {});
+
         // fill the id of the item created for rollback
-        this.item.system.achievements[idx]._id = item._id;
+        achievementsIndexes.push(item._id);
       }
-      idx++;
     }
 
     switch (this.item.system.activity) {
       case "visStudy":
+      case "minorEnchantment":
+      case "longevityRitual":
         for (let dependency of this.item.system.externalIds) {
           if (game.actors.has(dependency.actorId)) {
             let actor = game.actors.get(dependency.actorId);
@@ -993,8 +995,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "childhood":
       case "laterLife":
       case "laterLifeMagi":
-      case "longevityRitual":
-      case "minorEnchantment":
         let abilitiesToAdd = [];
         for (const ab of Object.values(this.item.system.progress.abilities)) {
           // ignore 0 xp gain
@@ -1135,6 +1135,11 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           }
         }
 
+        let achIdx = 0;
+        for (let ach of this.item.system.achievements) {
+          this.item.system.achievements[achIdx]._id = achievementsIndexes[achIdx];
+          achIdx++;
+        }
         await this.item.update(
           {
             name: newTitle,
