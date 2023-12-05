@@ -114,7 +114,6 @@
             <select name="system.progress.abilities.{{idx}}.id" data-dtype="String" data-index="{{idx}}"
               data-type="abilities" data-teacher="{{teacher.id}}" class="
               progress-ability flex02" {{@root.system.disabled}} style="min-width: 150px;">
-              {{log "ability: " ability}}
               {{#select ability.id}}
                 {{#each (lookup ../system.ownedAbilities ability.category) as |ab i|}}
                   <option value="{{ab.id}}">{{ab.name}} ({{ab.score}})</option>
@@ -243,7 +242,6 @@
                   data-index="{{idx}}" data-type="spells" {{@root.system.canEdit}}
                   class="progress-xp flex0 resource-focus" style="width:50px" min="0" step="1" />
               {{else}}
-                {{log "spell : " spell}}
                 <input type="number" name="system.progress.spells.{{idx}}.teacherScore" value="{{spell.teacherScore}}"
                   data-dtype="Number" data-index="{{idx}}" data-type="spells" readonly class="flex0" style="width:50px"
                   min="0" step="1" />

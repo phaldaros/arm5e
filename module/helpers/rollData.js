@@ -162,7 +162,7 @@ export class ArM5eRollData {
           this.environment.year;
         this.setGenericField(
           game.i18n.localize("arm5e.sheet.ageModifier"),
-          Math.round(parseInt(actorSystemData.age.value) / 10),
+          Math.round(parseInt(this.environment.year - actorSystemData.description.born.value) / 10),
           1
         );
         let livingMod = 0;

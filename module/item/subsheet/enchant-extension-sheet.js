@@ -156,19 +156,23 @@ export class ArM5eItemEnchantmentSheet {
     let options = {};
     if (aspects) {
       foundry.utils.mergeObject(source.system.enchantments.aspects, aspects, { recursive: true });
+      expanded.system.enchantments.aspects = source.system.enchantments.aspects;
     }
     const enchants = expanded?.system?.enchantments?.effects;
     if (enchants) {
       foundry.utils.mergeObject(source.system.enchantments.effects, enchants, { recursive: true });
+      expanded.system.enchantments.enchants = source.system.enchantments.enchants;
     }
     const bonuses = expanded?.system?.enchantments?.bonuses;
     if (bonuses) {
       foundry.utils.mergeObject(source.system.enchantments.bonuses, bonuses, { recursive: true });
+      expanded.system.enchantments.bonuses = source.system.enchantments.bonuses;
     }
 
     const effects = expanded?.system?.enchantments?.effects;
     if (effects) {
       foundry.utils.mergeObject(source.system.enchantments.effects, effects, { recursive: true });
+      expanded.system.enchantments.effects = source.system.enchantments.effects;
     }
 
     return expanded;

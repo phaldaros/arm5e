@@ -53,17 +53,13 @@ export class ArM5eActorSheet extends ActorSheet {
     this.timeHook = Hooks.on("arm5e-date-change", async (date) => {
       if (this.actor._hasDate()) {
         this.actor.updateSource({ "datetime.year": date.year });
-        this.render();
+        this.render(false);
         log(false, "Render on date change");
       }
     });
     this.actorProfiles = new ArM5eActorProfiles(object);
-    Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
 
-  onClose(app) {
-    Hooks.off("arm5e-date-change", this.timeHook);
-  }
   // /** @override */
   static get defaultOptions() {
     const res = mergeObject(super.defaultOptions, {
