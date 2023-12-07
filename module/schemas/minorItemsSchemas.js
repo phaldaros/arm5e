@@ -1,14 +1,8 @@
 // import DataModel from "common/abstract/data.mjs";
 import { ARM5E } from "../config.js";
 import { VIRTUESFLAWS_DEFAULT_ICONS } from "../constants/ui.js";
-import { log } from "../tools.js";
-import {
-  boolOption,
-  convertToInteger,
-  convertToNumber,
-  itemBase,
-  XpField
-} from "./commonSchemas.js";
+import { convertToNumber, log } from "../tools.js";
+import { boolOption, convertToInteger, itemBase, XpField } from "./commonSchemas.js";
 import { EchantmentExtension, ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 

@@ -1,11 +1,10 @@
 import { ARM5E } from "../config.js";
 import { ACTIVITIES_DEFAULT_ICONS } from "../constants/ui.js";
-import { log } from "../tools.js";
+import { convertToNumber, log } from "../tools.js";
 import { nextDate } from "../tools/time.js";
 import {
   boolOption,
   characteristicField,
-  convertToNumber,
   hermeticForm,
   NullableDocumentIdField,
   SeasonField,

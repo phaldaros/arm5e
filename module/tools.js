@@ -464,6 +464,25 @@ function getWoundType(size) {
   return result;
 }
 
+// convert a field value into a number
+export const convertToNumber = function (value, fallback = 0) {
+  if (value === undefined || value === "" || value === null) {
+    return fallback;
+  } else if (typeof value === "string") {
+    if (Number.isNumeric(value)) {
+      return Number(value);
+    } else {
+      return fallback;
+    }
+  } else {
+    if (Number.isInteger(value)) {
+      return value;
+    } else {
+      return fallback;
+    }
+  }
+};
+
 // Internal function to generate Active Effects types from the ability list
 export function generateActiveEffectFromAbilities() {
   let activeEffects = {

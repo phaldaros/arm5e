@@ -119,7 +119,6 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       case "spell":
       case "vis":
       case "book":
-      case "magicItem":
       case "reputation":
       case "inhabitant":
       // case "habitantMagi":

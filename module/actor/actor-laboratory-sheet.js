@@ -627,7 +627,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       // case "speciality":
       // case "distinctive":
       // case "sanctumRoom":
-      case "magicItem":
       case "personalityTrait":
       case "magicalEffect":
       case "laboratoryText":

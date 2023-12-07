@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { convertToNumber } from "../tools.js";
 
 const fields = foundry.data.fields;
 
@@ -71,25 +72,6 @@ export class NullableDocumentIdField extends fields.DocumentIdField {
       throw new Error("must be a valid 16-character alphanumeric ID or null");
   }
 }
-
-// convert a field value into a number
-export const convertToNumber = function (value, fallback = 0) {
-  if (value === undefined || value === "" || value === null) {
-    return fallback;
-  } else if (typeof value === "string") {
-    if (Number.isNumeric(value)) {
-      return Number(value);
-    } else {
-      return fallback;
-    }
-  } else {
-    if (Number.isInteger(value)) {
-      return value;
-    } else {
-      return fallback;
-    }
-  }
-};
 
 export const convertToInteger = function (value, fallback = 0) {
   return Math.round(convertToNumber(value, fallback));

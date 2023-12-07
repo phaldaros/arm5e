@@ -1,10 +1,9 @@
 import { ARM5E } from "../config.js";
-import { log } from "../tools.js";
+import { convertToNumber, log } from "../tools.js";
 import {
   authorship,
   baseDescription,
   boolOption,
-  convertToNumber,
   itemBase,
   ModifierField,
   SpellAttributes,

@@ -5,7 +5,6 @@ import { log } from "../tools.js";
 import {
   baseDescription,
   boolOption,
-  convertToNumber,
   DateField,
   itemBase,
   ModifierField,

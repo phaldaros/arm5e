@@ -1,4 +1,4 @@
-## 2.2.3.12, Ophilio
+## 2.2.3.13, Ophilio
 
 ### Features & changes
 
@@ -16,6 +16,7 @@
   - Dropping an enchantment on an enchantable Item will appraise it automatically.
   - Added authorship
   - Vis costs
+  - Migration of legacy magic items
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
 - [technical] new framework for lab activities for factorization purposes

@@ -3,13 +3,7 @@ import { stressDie } from "../dice.js";
 import Aura from "../helpers/aura.js";
 import { setVisStudyResults } from "../helpers/long-term-activities.js";
 import { log } from "../tools.js";
-import {
-  boolOption,
-  convertToInteger,
-  convertToNumber,
-  itemBase,
-  XpField
-} from "./commonSchemas.js";
+import { boolOption, convertToInteger, itemBase, XpField } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 
 export class VisSchema extends foundry.abstract.DataModel {

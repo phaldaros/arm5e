@@ -1,8 +1,8 @@
 import { ARM5E } from "../config.js";
 import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
-import { log } from "../tools.js";
+import { convertToNumber, log } from "../tools.js";
 import { Scriptorium } from "../tools/scriptorium.js";
-import { convertToNumber, itemBase } from "./commonSchemas.js";
+import { itemBase } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 export class InhabitantSchema extends foundry.abstract.DataModel {
   // TODO remove in V11

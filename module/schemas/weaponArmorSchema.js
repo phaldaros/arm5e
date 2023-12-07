@@ -1,12 +1,6 @@
 import { ARM5E } from "../config.js";
-import { log } from "../tools.js";
-import {
-  boolOption,
-  convertToInteger,
-  convertToNumber,
-  itemBase,
-  XpField
-} from "./commonSchemas.js";
+import { convertToNumber, log } from "../tools.js";
+import { boolOption, itemBase, XpField } from "./commonSchemas.js";
 import { ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 export const possibleCosts = Object.keys(ARM5E.item.costs);
