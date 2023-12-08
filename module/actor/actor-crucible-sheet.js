@@ -89,7 +89,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
     // Add Inventory Item
     // html.find('.item-create').click(this._onItemCreate.bind(this));
 
-    html.find(".reset").click(ev => {
+    html.find(".reset").click((ev) => {
       const ids = this.actor.items.keys();
       this.actor.deleteEmbeddedDocuments("Item", Array.from(ids), {
         render: false
@@ -105,7 +105,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       });
     });
 
-    html.find(".invest").click(ev => {
+    html.find(".invest").click((ev) => {
       const receptacleData = this.actor.system.receptacle.data;
       const enchantData = this.actor.system.enchantments[0].data;
       if (receptacleData.system.maxLevel < enchantData.system.level) {
@@ -127,7 +127,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
       log(false, "Investing");
     });
 
-    html.find(".update").click(ev => {
+    html.find(".update").click((ev) => {
       const receptacleData = this.actor.system.receptacle.data;
       const enchantData = this.actor.system.enchantments[0].data;
       if (receptacleData.system.maxLevel < enchantData.system.level) {
@@ -153,7 +153,7 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
 
     // Drag events for macros.
     if (this.actor.isOwner) {
-      let handler = ev => this._onDragStart(ev);
+      let handler = (ev) => this._onDragStart(ev);
       html.find("li.item").each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
@@ -166,7 +166,6 @@ export class ArM5eCrucibleSheet extends ArM5eActorSheet {
     switch (itemData.type) {
       case "enchantment":
       case "item":
-      case "magicItem":
         // case "weapon":
         // case "armor":
         // case "laboratoryText":

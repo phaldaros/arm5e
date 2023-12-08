@@ -113,7 +113,6 @@ export class ArM5eActorSheet extends ActorSheet {
     //     case "speciality":
     //     case "distinctive":
     //     case "sanctumRoom":
-    //     case "magicItem":
     //     case "personality":
     //     case "reputation":
     //     case "habitantMagi":
@@ -761,6 +760,36 @@ export class ArM5eActorSheet extends ActorSheet {
       for (let effect of actorData.system.magicalEffects) {
         effect.TechReq = spellTechniqueLabel(effect.system);
         effect.FormReq = spellFormLabel(effect.system);
+      }
+    }
+    if (actorData.system.items) {
+      for (let item of actorData.system.items) {
+        item.magicHint =
+          item.system.state === "inert"
+            ? ""
+            : `<i title="${game.i18n.localize(
+                ARM5E.lab.enchantment.state[item.system.state]
+              )}" class="icon-Icon_Effects-small"></i>`;
+      }
+    }
+    if (actorData.system.weapons) {
+      for (let item of actorData.system.weapons) {
+        item.magicHint =
+          item.system.state === "inert"
+            ? ""
+            : `<i title="${game.i18n.localize(
+                ARM5E.lab.enchantment.state[item.system.state]
+              )}" class="icon-Icon_Effects-small"></i>`;
+      }
+    }
+    if (actorData.system.armor) {
+      for (let item of actorData.system.armor) {
+        item.magicHint =
+          item.system.state === "inert"
+            ? ""
+            : `<i title="${game.i18n.localize(
+                ARM5E.lab.enchantment.state[item.system.state]
+              )}" class="icon-Icon_Effects-small"></i>`;
       }
     }
   }

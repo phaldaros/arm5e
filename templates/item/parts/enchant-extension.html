@@ -268,57 +268,59 @@
   </div>
   <!-- ENCHANTMENTS TAB -->
   <div class="tab" data-group="primary" data-tab="enchantments">
-    {{#each system.enchantments.effects as |effect idx|}}
-      <div class="backSection enchantment {{ui.sections.visibility.enchantExt.effects}} ">
-        <div class="padding12">
-          {{#if (or @root.isGM (not effect.system.hidden))}}
-            <div class="resource flexrow" data-category="enchantExt" data-section="capacity">
-              <div class="item-image" data-index="{{idx}}" style="max-width: 32px"><img class="item-img"
-                  src="{{effect.img}}" title="{{effect.name}}" data-edit="system.enchantments.effects.{{idx}}.img"
-                  style="height: 30px;width: 30px" /></div>
-              <div class="padding2">
-                <!-- {{log "effect: " effect}} -->
-                <input type="text" name="system.enchantments.effects.{{idx}}.name" value="{{effect.name}}"
-                  data-dtype="String" style="min-width: 175px;" />
-              </div>
-              <div class="padding2">
-                <label class="label-light">{{effect.details}}</label>
-              </div>
-              <div class="padding2 modifier">
-                <label>{{effect.system.level}}</label>
-              </div>
-
-              {{#if @root.isGM}}
+    <div style="min-height: 189px;">
+      {{#each system.enchantments.effects as |effect idx|}}
+        <div class="backSection enchantment {{ui.sections.visibility.enchantExt.effects}} ">
+          <div class="padding12">
+            {{#if (or @root.isGM (not effect.system.hidden))}}
+              <div class="resource flexrow" data-category="enchantExt" data-section="capacity">
+                <div class="item-image" data-index="{{idx}}" style="max-width: 32px"><img class="item-img"
+                    src="{{effect.img}}" title="{{effect.name}}" data-edit="system.enchantments.effects.{{idx}}.img"
+                    style="height: 30px;width: 30px" /></div>
                 <div class="padding2">
-                  <label class="label-light"
-                    style="position: relative; bottom: 10px;">{{localize "arm5e.generic.hidden"}}</label>
-                  <input type="checkbox" name="system.enchantments.effects.{{idx}}.system.hidden" {{checked
-                    effect.system.hidden}} data-dtype="Boolean" style="position: relative; bottom: 5px;" />
+                  <!-- {{log "effect: " effect}} -->
+                  <input type="text" name="system.enchantments.effects.{{idx}}.name" value="{{effect.name}}"
+                    data-dtype="String" style="min-width: 175px;" />
                 </div>
-              {{/if}}
+                <div class="padding2">
+                  <label class="label-light">{{effect.details}}</label>
+                </div>
+                <div class="padding2 modifier">
+                  <label>{{effect.system.level}}</label>
+                </div>
 
-              <div class="padding2 modifier"><a class="enchant-effect-control enchant-effect-delete"
-                  data-index="{{idx}}"
-                  title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.enchantment")}}'>
-                  <i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+                {{#if @root.isGM}}
+                  <div class="padding2">
+                    <label class="label-light"
+                      style="position: relative; bottom: 10px;">{{localize "arm5e.generic.hidden"}}</label>
+                    <input type="checkbox" name="system.enchantments.effects.{{idx}}.system.hidden" {{checked
+                      effect.system.hidden}} data-dtype="Boolean" style="position: relative; bottom: 5px;" />
+                  </div>
+                {{/if}}
+
+                <div class="padding2 modifier"><a class="enchant-effect-control enchant-effect-delete"
+                    data-index="{{idx}}"
+                    title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.enchantment")}}'>
+                    <i class="icon-Icon_Delete_Hand_Gesture"></i></a>
+                </div>
               </div>
-            </div>
-            <div>
-              {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" container="enchantments" index=idx docId=@root.item._id
+              <div>
+                {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" container="enchantments" index=idx docId=@root.item._id
             prefix=prefix spelldata=(lookup @root.system.enchantments.effects idx) docId=@root.item._id 
             visibility=(lookup @root.ui.sections.visibility.enchantments idx) ritual=false}}
-            </div>
+              </div>
 
-            <div style="margin-top: 10px;">
-              {{> "systems/arm5e/templates/item/parts/enchantment-attributes.html" container="enchantments" index=idx docId=@root.item._id
+              <div style="margin-top: 10px;">
+                {{> "systems/arm5e/templates/item/parts/enchantment-attributes.html" container="enchantments" index=idx docId=@root.item._id
             prefix=prefix enchantData=(lookup @root.system.enchantments.effects idx) visibility=(lookup @root.ui.sections.visibility.enchantments idx)}}
-            </div>
-          {{/if}}
+              </div>
+            {{/if}}
+          </div>
         </div>
-      </div>
-      <div class="padding12">
+        <div class="padding12">
 
-      </div>
-    {{/each}}
+        </div>
+      {{/each}}
+    </div>
   </div>
 </div>

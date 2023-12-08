@@ -1218,6 +1218,10 @@ input[type="time"] {
   flex: 0 0 315px;
 }
 
+.arm5e .checkbox-label {
+  position: relative;
+  bottom: 6px;
+}
 .arm5e .sheet-header-codex {
   -ms-flex: 0 0 80px;
   flex: 0 0 80px;

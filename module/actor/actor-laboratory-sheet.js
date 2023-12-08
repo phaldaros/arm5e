@@ -273,6 +273,19 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         magus: magusStock,
         lab: labStock
       };
+      // check if vis cost is more than 2 x magic theory
+      if (
+        visCost.amount >
+        (context.system.owner.magicTheory.score + this.planning.modifiers.magicThSpecApply) * 2
+      ) {
+        this.planning.messages.push(
+          game.i18n.format("arm5e.lab.planning.msg.tooMuchVis", {
+            num: visCost.amount
+          })
+        );
+        isValid = false;
+      }
+
       let res = this.activity.validateVisCost(this.planning.data.visCost);
       if (!res.valid) {
         this.planning.messages.push(res.message);
@@ -624,10 +637,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       case "vis":
       case "item":
       case "book":
-      // case "speciality":
-      // case "distinctive":
-      // case "sanctumRoom":
-      case "magicItem":
       case "personalityTrait":
       case "magicalEffect":
       case "laboratoryText":
@@ -683,19 +692,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     const planning = expanded.flags?.arm5e?.planning;
     if (planning) {
-      // let visMagus = planning.data?.visCost?.magus;
-      // if (visMagus) {
-      //   foundry.utils.mergeObject(this.planning.data.visCost.magus, Object.values(visMagus), {
-      //     recursive: true
-      //   });
-      // }
-      // let visLab = planning.data?.visCost?.lab;
-      // if (visLab) {
-      //   foundry.utils.mergeObject(this.planning.data.visCost.lab, Object.values(visLab), {
-      //     recursive: true
-      //   });
-      // }
-
       foundry.utils.mergeObject(this.planning, planning, {
         recursive: true
       });

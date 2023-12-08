@@ -31,7 +31,7 @@ export class ArM5eItemSheet extends ItemSheet {
 
   constructor(data, options) {
     super(data, options);
-    if (["item", "weapon", "armor", "book"].includes(this.item.type)) {
+    if (ARM5E.lab.enchantment.enchantableTypes.includes(this.item.type)) {
       this.enchantPossible = true;
       this.enchantSheet = new ArM5eItemEnchantmentSheet(this);
     }

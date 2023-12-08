@@ -1,13 +1,7 @@
 import { ARM5E } from "../config.js";
-import { log } from "../tools.js";
-import {
-  boolOption,
-  convertToInteger,
-  convertToNumber,
-  itemBase,
-  XpField
-} from "./commonSchemas.js";
-import { ItemState } from "./enchantmentSchema.js";
+import { convertToNumber, log } from "../tools.js";
+import { boolOption, itemBase, XpField } from "./commonSchemas.js";
+import { EchantmentExtension, ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 export const possibleCosts = Object.keys(ARM5E.item.costs);
 export class ArmorSchema extends foundry.abstract.DataModel {
@@ -52,7 +46,11 @@ export class ArmorSchema extends foundry.abstract.DataModel {
       }),
       full: boolOption(false, true),
       equipped: boolOption(false, true),
-      state: ItemState()
+      state: ItemState(),
+      enchantments: new fields.EmbeddedDataField(EchantmentExtension, {
+        nullable: true,
+        initial: null
+      })
     };
   }
 
@@ -158,7 +156,12 @@ export class WeaponSchema extends foundry.abstract.DataModel {
       weaponExpert: boolOption(false, true),
       equipped: boolOption(false, true),
       horse: boolOption(false, true),
-      ability: new fields.StringField({ required: false, blank: true, initial: "brawl" })
+      ability: new fields.StringField({ required: false, blank: true, initial: "brawl" }),
+      state: ItemState(),
+      enchantments: new fields.EmbeddedDataField(EchantmentExtension, {
+        nullable: true,
+        initial: null
+      })
     };
   }
 

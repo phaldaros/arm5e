@@ -3,19 +3,55 @@
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
-      <div class="grid grid-2col">
-        <div class="resource">
+      <div class="flexrow">
+        <div class="resource" style=" max-width: 115px; ">
           <label class="header-label">{{localize "arm5e.sheet.protection"}}</label>
-          <input type="number" name="system.prot" value="{{system.prot}}" class="resource-focus" data-dtype="Number" />
+          <input type="number" name="system.prot" value="{{system.prot}}" class="modifier resource-focus"
+            data-dtype="Number" />
+        </div>
+        <div class="resource" style="max-width: 110px; ">
+          <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
+          <input type="number" name="system.load" value="{{system.load}}" class="modifier resource-focus"
+            data-dtype="Number" />
+        </div>
+        <div class="resource" style="max-width: 110px;">
+          <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
+          <input type="number" name="system.quantity" value="{{system.quantity}}" class="modifier resource-focus"
+            data-dtype="Number" />
+        </div>
+      </div>
+      <div class="flexrow">
+        <div class="resource">
+          <label class="checkbox-label">{{localize "arm5e.sheet.fullSet"}}</label>
+          <input type="checkbox" name="system.full" {{checked system.full}} />
         </div>
         <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
-          <input type="text" name="system.load" value="{{system.load}}" class="resource-focus" data-dtype="Number" />
+          <label for="system.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
+          <select name="system.cost.value" data-type="String">
+            {{#select system.cost.value}} {{#each config.item.costs as |costs key|}}
+                <option value="{{key}}">{{localize costs.label}}</option>
+              {{/each}} {{/select}}
+          </select>
         </div>
         {{#if system.canEquip}}
           <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.equipped"}}</label>
+            <label class="checkbox-label">{{localize "arm5e.sheet.equipped"}}</label>
             <input type="checkbox" name="system.equipped" {{checked system.equipped}} />
+          </div>
+        {{else}}
+          <div class="flex0"></div>
+        {{/if}}
+      </div>
+      <div class="flexrow">
+        {{#if isGM}}
+          <div class="resource">
+            <label class="header-label">{{localize "arm5e.sheet.state.label"}}</label>
+            <input type="text" name="system.state"
+              value="{{localize (lookup config.lab.enchantment.state system.state)}}" data-dtype="String" readonly>
+          </div>
+          <div class="resource">
+            <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise" title="Appraisal"
+              style="border: 0px; width: 32px; height: 32px;" />
           </div>
         {{/if}}
       </div>
@@ -29,43 +65,27 @@
       <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.description"}}
     </a>
-    <a class="item posRelative" data-tab="attributes">
-      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
-      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
-      {{localize "arm5e.sheet.attributes"}}
-    </a>
+    {{#if (ne system.state "inert")}}
+      <a class="item posRelative" data-tab="enchantments">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.sheet.item.enchantments"}}
+      </a>
+    {{/if}}
   </nav>
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    {{!-- Attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
-      <div class="grid grid-3col">
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
-          <input type="text" name="system.quantity" value="{{system.quantity}}" class="resource-focus"
-            data-dtype="Number" />
-        </div>
-
-        <div class="resource flexcol flex-center">
-          <label class="header-label">{{localize "arm5e.sheet.fullSet"}}</label>
-          <input type="checkbox" name="system.full" {{checked system.full}} />
-        </div>
-        <div class="resource flexcol">
-          <label for="system.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
-          <select name="system.cost.value" data-type="String">
-            {{#select system.cost.value}} {{#each config.item.costs as |costs key|}}
-                <option value="{{key}}">{{localize costs.label}}</option>
-              {{/each}} {{/select}}
-          </select>
-        </div>
-      </div>
-    </div>
-
     {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
-    </div>
+    {{#if (eq system.state "inert")}}
+      <div class="tab" data-group="primary" data-tab="description">
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+      </div>
+    {{else }}
+      <div>
+        {{> "systems/arm5e/templates/item/parts/enchant-extension.html" }}
+      </div>
+    {{/if}}
     {{#if metagame.view }}
       <div class="resource flexrow">
         <label class="header-label">{{localize "arm5e.sheet.indexKey"}}</label>

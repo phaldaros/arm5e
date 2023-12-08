@@ -1,6 +1,7 @@
 import { ArM5ePCActor } from "./actor/actor.js";
 import { ARM5E } from "./config.js";
-import { error, log } from "./tools.js";
+import { computeLevel } from "./helpers/magic.js";
+import { convertToNumber, error, log } from "./tools.js";
 
 const DEPRECATED_ITEMS = ["speciality", "distinctive", "sanctumRoom", "personality"];
 const DEPRECATED_ACTORS = ["scriptorium"];
@@ -1179,6 +1180,49 @@ export const migrateItemData = async function (item) {
           ARM5E.covenant.inhabitants[updateData["system.category"]].points
         );
       }
+    } else if (itemData.type === "magicItem") {
+      // transform magicItems into Items with enchantment
+      let description = "<b>Migrated from legacy magic Item</b><br/>";
+      updateData["type"] = "item";
+      updateData["system.quantity"] = 1;
+
+      updateData["system.carried"] = true;
+      const ench = {};
+      if (itemData.system.uses) {
+        updateData["system.state"] = "charged";
+        ench.charged = true;
+        ench.charges = itemData.system.uses;
+        ench.originalCharges = itemData.system.uses;
+      } else {
+        updateData["system.state"] = "enchanted";
+        ench.charged = false;
+        ench.charges = null;
+      }
+      ench.year = convertToNumber(itemData.system.year, 1200);
+      ench.author = itemData.system.creator;
+      ench.talisman = false;
+      const level = computeLevel(itemData.system, "spell");
+      const delta = itemData.system.level - level;
+      if (delta != 0) {
+        description += `Computed level (${level}) doesn't match original item level (${itemData.system.level}), please review.<br/>`;
+      }
+      description;
+      ench.effects = [
+        {
+          name: itemData.system.effects,
+          system: {
+            baseLevel: 1,
+            technique: { value: itemData.system.technique.value },
+            form: { value: itemData.system.form.value },
+            range: { value: itemData.system.range.value },
+            duration: { value: itemData.system.duration.value },
+            target: { value: itemData.system.target.value }
+          }
+        }
+      ];
+
+      updateData["system.enchantments"] = ench;
+      updateData["system.description"] = `${description}<br/>${itemData.system.description}`;
     } else if (_isMagicalItem(itemData)) {
       if (itemData.type != "baseEffect") {
         if (

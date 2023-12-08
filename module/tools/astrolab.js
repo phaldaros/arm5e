@@ -1,5 +1,4 @@
-import { convertToNumber } from "../schemas/commonSchemas.js";
-import { debug, log } from "../tools.js";
+import { convertToNumber, debug, log } from "../tools.js";
 import { GroupSchedule } from "./group-schedule.js";
 
 export class Astrolab extends FormApplication {
