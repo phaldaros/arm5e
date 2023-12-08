@@ -1,7 +1,7 @@
 // Prototype WIP
 
 import { ARM5E } from "../config.js";
-import { ASPECTS } from "../constants/enchant-aspects.js";
+// import { ASPECTS } from "../constants/enchant-aspects.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { computeRawCastingTotal } from "../helpers/magic.js";
 import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
@@ -424,8 +424,8 @@ export class MinorEnchantment extends LabActivity {
     //   capacity: { materialBase: "base1", sizeMultiplier: "tiny", desc: "" },
     //   aspect: { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
     // };
-    const first = Object.keys(ASPECTS)[0];
-    const firstEffect = Object.keys(ASPECTS[first].effects)[0];
+    const first = Object.keys(CONFIG.ARM5E.ASPECTS)[0];
+    const firstEffect = Object.keys(CONFIG.ARM5E.ASPECTS[first].effects)[0];
     item.system.enchantments.capacities = [
       { materialBase: "base1", sizeMultiplier: "tiny", desc: "" }
     ];
@@ -434,7 +434,7 @@ export class MinorEnchantment extends LabActivity {
     ];
     result.receptacle = item;
     result.enchantment = enchant;
-    result.ASPECTS = ASPECTS;
+    result.ASPECTS = CONFIG.ARM5E.ASPECTS;
     return result;
   }
   get labActivitySpec() {
@@ -459,16 +459,17 @@ export class MinorEnchantment extends LabActivity {
     const receptacleEnchants = planning.data.receptacle.system.enchantments;
     if (receptacleEnchants.aspects.length == 0) {
       error(false, `DEBUG prepareData: WARNING ASPECTS length = 0`);
-      const first = Object.keys(ASPECTS)[0];
-      const firstEffect = Object.keys(ASPECTS[first].effects)[0];
+      const first = Object.keys(CONFIG.ARM5E.ASPECTS)[0];
+      const firstEffect = Object.keys(CONFIG.ARM5E.ASPECTS[first].effects)[0];
       receptacleEnchants.aspects = [
         { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
       ];
     } else {
-      receptacleEnchants.aspects[0].effects = ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
+      receptacleEnchants.aspects[0].effects =
+        CONFIG.ARM5E.ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
 
       receptacleEnchants.aspects[0].bonus =
-        ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
+        CONFIG.ARM5E.ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
           receptacleEnchants.aspects[0].effect
         ]?.bonus;
     }
@@ -560,11 +561,11 @@ export class MinorEnchantment extends LabActivity {
       let planning = this.lab.getFlag(ARM5E.SYSTEM_ID, "planning");
       let aspect = planning.data.receptacle.system.enchantments.aspects[0];
       let newAspect = e.currentTarget.selectedOptions[0].value;
-      const effect = Object.keys(ASPECTS[newAspect].effects)[0];
+      const effect = Object.keys(CONFIG.ARM5E.ASPECTS[newAspect].effects)[0];
       aspect.aspect = newAspect;
       aspect.effect = effect;
-      aspect.bonus = ASPECTS[newAspect].effects[effect].bonus;
-      aspect.effects = ASPECTS[newAspect].effects;
+      aspect.bonus = CONFIG.ARM5E.ASPECTS[newAspect].effects[effect].bonus;
+      aspect.effects = CONFIG.ARM5E.ASPECTS[newAspect].effects;
       await this.lab.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
     });
   }

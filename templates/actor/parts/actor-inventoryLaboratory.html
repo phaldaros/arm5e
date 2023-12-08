@@ -28,30 +28,6 @@
 <ol class="items-list backSection margintop18">
   <li class="item flexrow item-header">
     <div class="item-image"></div>
-    <div class="item-name">{{localize "arm5e.sheet.magicItems"}}</div>
-    <div class="item-controls">
-      <a class="item-control item-create" title="Create item" data-type="magicItem"><i class="fas fa-plus"></i></a>
-    </div>
-  </li>
-  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
-  {{#each system.magicItems as |item id|}}
-    <li class="item item-value flexrow" data-name="{{item.name}}" data-item-id="{{item._id}}">
-      <div class="item-image item-control item-edit"><img src="{{item.img}}" title="{{item.name}}" /></div>
-      <h4 class="item-title">{{item.name}}</h4>
-      <span></span>
-      <span class="flexrow bold">{{localize "arm5e.sheet.creator"}}: {{item.system.creator}} </span>
-      <span class="flexrow bold">{{localize "arm5e.sheet.year"}}: {{item.system.year}} </span>
-      <div class="item-controls">
-        <a class="item-control item-edit" title="Edit magicItems"><i class="icon-Icon_Edit"></i></a>
-        <a class="item-control item-delete" title="Delete magicItems"><i class="icon-Icon_Delete_Hand_Gesture"></i></a>
-      </div>
-    </li>
-  {{/each}}
-</ol>
-
-<ol class="items-list backSection margintop18">
-  <li class="item flexrow item-header">
-    <div class="item-image"></div>
     <div class="item-name">{{localize "arm5e.sheet.items"}}</div>
     <div class="item-controls">
       <a class="item-control item-create" title="Create item" data-type="item"><i class="fas fa-plus"></i></a>

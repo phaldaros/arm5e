@@ -259,7 +259,6 @@ export class ArM5ePCActor extends Actor {
     let magicalEffects = [];
     let vis = [];
     let items = [];
-    let magicItems = [];
     let artsTopics = [];
     let mundaneTopics = [];
     let masteryTopics = [];
@@ -668,8 +667,6 @@ export class ArM5ePCActor extends Actor {
         powersFamiliar.push(item);
       } else if (item.type === "might" || item.type === "power") {
         powers.push(item);
-      } else if (item.type === "magicItem") {
-        magicItems.push(item);
       } else if (item.type === "personalityTrait") {
         system.personalities.push(item);
       } else if (item.type === "reputation") {
@@ -684,7 +681,6 @@ export class ArM5ePCActor extends Actor {
     flaws.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     weapons.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     armor.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    magicItems.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     powers.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     system.personalities.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     reputations.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -793,8 +789,6 @@ export class ArM5ePCActor extends Actor {
 
     system.reputations = reputations;
 
-    system.magicItems = magicItems;
-
     // links with other actors
 
     if (system?.charType?.value == "magusNPC" || system?.charType?.value == "magus") {
@@ -870,7 +864,6 @@ export class ArM5ePCActor extends Actor {
     system.virtues = [];
     system.flaws = [];
     system.diaryEntries = [];
-    system.magicItems = [];
     system.laboratoryTexts = [];
 
     for (let [key, item] of this.items.entries()) {
@@ -883,9 +876,6 @@ export class ArM5ePCActor extends Actor {
         system.rooms_old.push(item);
       } else if (item.type === "personality") {
         system.personalities_old.push(item);
-        // TODO END
-      } else if (item.type === "magicItem") {
-        system.magicItems.push(item);
       } else if (item.type === "book") {
         let idx = 0;
         for (let topic of item.system.topics) {
@@ -1114,8 +1104,6 @@ export class ArM5ePCActor extends Actor {
               error(false, "Unknown topic category" + topic.category);
           }
         }
-      } else if (item.type === "magicItem") {
-        magicItems.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
       } else if (item.type === "weapon") {
@@ -1155,9 +1143,6 @@ export class ArM5ePCActor extends Actor {
     system.mundaneTopics = mundaneTopics.sort(compareTopics);
     system.masteryTopics = masteryTopics.sort(compareTopics);
     // system.laboratoryTexts = laboratoryTexts.sort(compareTopics);
-    if (system.magicItems) {
-      system.magicItems = magicItems;
-    }
     if (system.diaryEntries) {
       system.diaryEntries = diaryEntries;
     }
