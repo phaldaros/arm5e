@@ -109,7 +109,7 @@
             <div class="resource flexrow">
               <div class="padding2">
                 <select name="{{planning.namePrefix}}receptacle.system.enchantments.aspects.0.aspect"
-                  style="max-width: 175px;" class="aspect-change">
+                  style="max-width: 175px;" class="aspect-change" data-index="0">
                   {{#select planning.data.receptacle.system.enchantments.aspects.0.aspect}}
                     {{#each planning.data.ASPECTS as |s key|}}
                       <option value="{{key}}">{{s.name}}</option>
@@ -119,7 +119,7 @@
               </div>
               <div class="padding2">
                 <select name="{{planning.namePrefix}}receptacle.system.enchantments.aspects.0.effect"
-                  style="max-width: 175px;width: 175px;" class="effect-change" data-index="{{idx}}">
+                  style="max-width: 175px;width: 175px;" class="effect-change" data-index="0">
                   {{#select planning.data.receptacle.system.enchantments.aspects.0.effect}}
                     {{#each planning.data.receptacle.system.enchantments.aspects.0.effects as |e key|}}
                       <option value="{{key}}">{{e.name}} (+{{e.bonus}})

@@ -393,6 +393,18 @@ export class MinorEnchantment extends LabActivity {
   hasVisCost = true;
 
   computeLabTotal(data, distractions) {
+    // retrieve shape and material bonus if any
+    let MTscore = this.actor.getAbilityStats("magicTheory").score;
+    if (this.modifiers["magicThSpecApply"]) {
+      MTscore++;
+    }
+    const aspect = data.receptacle.system.enchantments.aspects[0];
+    if (aspect.apply) {
+      this.modifiers["aspects"] = Math.min(MTscore, aspect.bonus);
+    } else {
+      delete this.modifiers.aspects;
+    }
+
     return this._computeLabTotal(data.enchantment, distractions);
   }
   async getDefaultData() {
