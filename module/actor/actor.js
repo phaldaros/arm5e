@@ -285,6 +285,7 @@ export class ArM5ePCActor extends Actor {
     let totalVirtues = 0;
     let totalFlaws = 0;
     let totalXPSpells = 0;
+    let totalXPMasteries = 0;
 
     let combat = {
       load: 0,
@@ -583,6 +584,7 @@ export class ArM5ePCActor extends Actor {
         item.system.castingTotal = item._computeCastingTotal(this, { char: "sta" });
         spells.push(item);
         totalXPSpells = parseInt(totalXPSpells) + parseInt(item.system.level);
+        totalXPMasteries = totalXPMasteries + item.system.xp;
       } else if (item.type === "magicalEffect") {
         item.system.castingTotal = item._computeCastingTotal(this, { char: "sta" });
         magicalEffects.push(item);
@@ -736,6 +738,7 @@ export class ArM5ePCActor extends Actor {
     system.totalVirtues = totalVirtues;
     system.totalFlaws = totalFlaws;
     system.totalXPSpells = totalXPSpells;
+    system.totalXPMasteries = totalXPMasteries;
     system.pendingXps = pendingXps;
 
     if (system.weapons) {
@@ -1003,7 +1006,6 @@ export class ArM5ePCActor extends Actor {
     let artsTopics = [];
     let mundaneTopics = [];
     let masteryTopics = [];
-    let magicItems = [];
     let items = [];
     let boons = [];
     let hooks = [];
@@ -1116,9 +1118,9 @@ export class ArM5ePCActor extends Actor {
         magicItems.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
-      } else if (item.type === "weapon" || item.type === "enchantedWeapon") {
+      } else if (item.type === "weapon") {
         weapons.push(item);
-      } else if (item.type === "armor" || item.type === "enchantedArmor") {
+      } else if (item.type === "armor") {
         armor.push(item);
       } else if (item.type === "item") {
         items.push(item);

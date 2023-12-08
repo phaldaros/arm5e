@@ -847,6 +847,7 @@
   "arm5e.lab.planning.msg.longevityBonus": "Bonus of {bonus} to aging.",
   "arm5e.lab.planning.msg.smallCapacity": "Size is too small or material not noble enough.",
   "arm5e.lab.planning.msg.visNeeded": "{num} pawns of Vis needed.",
+  "arm5e.lab.planning.msg.tooMuchVis": "{num} pawns is more than twice the Magic theory's score",
 
   "arm5e.lab.planning.button.refresh": "Refresh",
   "arm5e.lab.planning.button.reset": "Reset",

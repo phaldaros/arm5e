@@ -32,7 +32,7 @@
 - New active effects
   - Optional bonus on rolls
 - Free choice of abilities in long term activities (ie: character doesn't need to have it to progress)
--
+- New total for spell masteries xp.
 
 ### Bug fixes
 

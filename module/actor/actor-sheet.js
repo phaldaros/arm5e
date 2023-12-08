@@ -772,6 +772,26 @@ export class ArM5eActorSheet extends ActorSheet {
               )}" class="icon-Icon_Effects-small"></i>`;
       }
     }
+    if (actorData.system.weapons) {
+      for (let item of actorData.system.weapons) {
+        item.magicHint =
+          item.system.state === "inert"
+            ? ""
+            : `<i title="${game.i18n.localize(
+                ARM5E.lab.enchantment.state[item.system.state]
+              )}" class="icon-Icon_Effects-small"></i>`;
+      }
+    }
+    if (actorData.system.armor) {
+      for (let item of actorData.system.armor) {
+        item.magicHint =
+          item.system.state === "inert"
+            ? ""
+            : `<i title="${game.i18n.localize(
+                ARM5E.lab.enchantment.state[item.system.state]
+              )}" class="icon-Icon_Effects-small"></i>`;
+      }
+    }
   }
 
   /* -------------------------------------------- */

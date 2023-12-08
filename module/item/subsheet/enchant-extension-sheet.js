@@ -307,7 +307,10 @@ export class ArM5eItemEnchantmentSheet {
     html.find(".enchantment-create").click(async (e) => {
       let effects = this.item.system.enchantments.effects;
       effects.push({ name: "My enchantment", system: new EnchantmentSchema() });
-      await this.item.update({ "system.enchantments.effects": effects });
+      await this.item.update({
+        "system.state": "enchanted",
+        "system.enchantments.effects": effects
+      });
     });
 
     html.find(".enchant-effect-show").click(async (e) => {
@@ -338,9 +341,14 @@ export class ArM5eItemEnchantmentSheet {
       );
       if (confirm) {
         const dataset = getDataset(e);
+
         let effects = this.sheet.item.system.enchantments.effects;
         effects.splice(dataset.index, 1);
-        await this.sheet.item.update({ "system.enchantments.effects": effects });
+        const updateData = { "system.enchantments.effects": effects };
+        if (effects.length == 0) {
+          updateData["system.state"] = "appraised";
+        }
+        await this.sheet.item.update(updateData);
       }
     });
   }
