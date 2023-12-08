@@ -610,7 +610,6 @@
         "description": "",
         "value": 0
       },
-      "magicItems": [],
       "items": [],
       "books": [],
       "rawVis": []
@@ -699,7 +698,6 @@
       },
       "possessions": [],
       "labs": [],
-      "magicItems": [],
       "items": [],
       "visSources": [],
       "visStock": [],

@@ -1,5 +1,5 @@
 import { ARM5E } from "../config.js";
-import { ASPECTS } from "../constants/enchant-aspects.js";
+// import { ASPECTS } from "../constants/enchant-aspects.js";
 import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
 import {
@@ -213,7 +213,7 @@ export const HermeticAttributes = () => {
 
 export const AspectAttribute = () => {
   return {
-    aspect: baseDescription(Object.keys(ASPECTS)[0]),
+    aspect: baseDescription(Object.keys(CONFIG.ARM5E.ASPECTS)[0]),
     effect: baseDescription(),
     bonus: new fields.NumberField({
       required: false,
