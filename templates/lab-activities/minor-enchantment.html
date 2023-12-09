@@ -42,6 +42,15 @@
         class="foldable-section backSection enchantment padding4 {{lookup @root.ui.sections.visibility.planning 'receptacle'}}"
         id="planning-receptacle-{{@root.actor._id}}">
         <div class="padding4 flexrow flex-group-left">
+          <select class="type-change" name="{{planning.namePrefix}}itemType" style="max-width: 175px;">
+            {{#select planning.data.itemType}}
+              {{#each @root.config.lab.enchantment.enchantableTypes as |type|}}
+                <option value="{{type}}">{{localize (concat "TYPES.Item." type)}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        <div class="padding4 flexrow flex-group-left">
           <label class="section-handle header-label clickable" data-category="planning"
             data-section="receptacle-desc">{{localize "arm5e.enchantment.receptacle.desc"}}</label>
         </div>

@@ -2679,7 +2679,7 @@ ARM5E.lab.enchantment.effectUses = {
   10: "Unlimited"
 };
 
-ARM5E.lab.enchantment.enchantableTypes = ["item", "weapon", "armor", "book"];
+ARM5E.lab.enchantment.enchantableTypes = ["item", "weapon", "armor"]; // TODO support books, "book"];
 
 ARM5E.generic = {};
 ARM5E.generic.sourcesTypes = {

@@ -403,7 +403,7 @@ export class MinorEnchantment extends LabActivity {
       MTscore++;
     }
     const aspect = data.receptacle.system.enchantments.aspects[0];
-    if (aspect.apply) {
+    if (aspect?.apply) {
       this.modifiers["aspects"] = Math.min(MTscore, aspect.bonus);
     } else {
       delete this.modifiers.aspects;
@@ -450,6 +450,7 @@ export class MinorEnchantment extends LabActivity {
     ];
     result.receptacle = item;
     result.enchantment = enchant;
+    result.itemType = "item";
     result.ASPECTS = CONFIG.ARM5E.ASPECTS;
     return result;
   }
@@ -539,14 +540,9 @@ export class MinorEnchantment extends LabActivity {
     const item = input.data.receptacle;
     const achievement = {
       name: item.name,
-      type: "item",
+      type: input.data.itemType,
       img: item.img,
-      system: {
-        quantity: 1,
-        state: "enchanted",
-        weight: item.system.weight,
-        description: item.system.description
-      },
+      system: item.system,
       _id: null
     };
 

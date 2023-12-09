@@ -21,6 +21,7 @@
   - Added authorship
   - Vis costs
   - Migration of legacy magic items
+  - Pick the type of enchanted item
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
 - [technical] new framework for lab activities for factorization purposes

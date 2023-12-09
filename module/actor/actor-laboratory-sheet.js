@@ -371,6 +371,26 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       const actorId = $(ev.currentTarget).data("id");
       game.actors.get(actorId).sheet.render(true, { focus: true });
     });
+    html.find(".type-change").change(async (event) => {
+      event.preventDefault();
+      let newType = event.currentTarget.selectedOptions[0].value;
+      this.planning.data.itemType = newType;
+      const receptacle = this.planning.data.receptacle;
+      let newReceptacle = await Item.create(
+        {
+          name: receptacle.name,
+          type: newType,
+          img: receptacle.img,
+          system: receptacle.system
+        },
+        { temporary: true, render: false }
+      );
+      newReceptacle = newReceptacle.toObject();
+      this.submit({
+        preventClose: true,
+        updateData: { "flags.arm5e.planning.data.receptacle": newReceptacle }
+      });
+    });
 
     html.find(".aspect-change").change(async (e) => {
       const dataset = getDataset(e);
@@ -416,7 +436,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     const planning = this.planning;
     planning.data.visCost[dataset.stock][dataset.id].used = val;
 
-    await this.submit({ preventClose: true, updateData: { "flags.arm5e.planning": planning } });
+    await this.submit({
+      preventClose: true,
+      updateData: { "flags.arm5e.planning.data.visCost": planning.data.visCost }
+    });
     // this.render();
   }
 
