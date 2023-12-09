@@ -42,6 +42,15 @@
         class="foldable-section backSection enchantment padding4 {{lookup @root.ui.sections.visibility.planning 'receptacle'}}"
         id="planning-receptacle-{{@root.actor._id}}">
         <div class="padding4 flexrow flex-group-left">
+          <select class="type-change" name="{{planning.namePrefix}}itemType" style="max-width: 175px;">
+            {{#select planning.data.itemType}}
+              {{#each @root.config.lab.enchantment.enchantableTypes as |type|}}
+                <option value="{{type}}">{{localize (concat "TYPES.Item." type)}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        <div class="padding4 flexrow flex-group-left">
           <label class="section-handle header-label clickable" data-category="planning"
             data-section="receptacle-desc">{{localize "arm5e.enchantment.receptacle.desc"}}</label>
         </div>
@@ -109,7 +118,7 @@
             <div class="resource flexrow">
               <div class="padding2">
                 <select name="{{planning.namePrefix}}receptacle.system.enchantments.aspects.0.aspect"
-                  style="max-width: 175px;" class="aspect-change">
+                  style="max-width: 175px;" class="aspect-change" data-index="0">
                   {{#select planning.data.receptacle.system.enchantments.aspects.0.aspect}}
                     {{#each planning.data.ASPECTS as |s key|}}
                       <option value="{{key}}">{{s.name}}</option>
@@ -119,7 +128,7 @@
               </div>
               <div class="padding2">
                 <select name="{{planning.namePrefix}}receptacle.system.enchantments.aspects.0.effect"
-                  style="max-width: 175px;width: 175px;" class="effect-change" data-index="{{idx}}">
+                  style="max-width: 175px;width: 175px;" class="effect-change" data-index="0">
                   {{#select planning.data.receptacle.system.enchantments.aspects.0.effect}}
                     {{#each planning.data.receptacle.system.enchantments.aspects.0.effects as |e key|}}
                       <option value="{{key}}">{{e.name}} (+{{e.bonus}})

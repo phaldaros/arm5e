@@ -1,6 +1,6 @@
-## 2.2.3.14, Ophilio
+## 2.2.3.15, Ophilio
 
-### Dependencies
+### Dependencies updates
 
 - arm5e-compendia module minimum version 0.2.0
 
@@ -21,6 +21,7 @@
   - Added authorship
   - Vis costs
   - Migration of legacy magic items
+  - Pick the type of enchanted item
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
 - [technical] new framework for lab activities for factorization purposes

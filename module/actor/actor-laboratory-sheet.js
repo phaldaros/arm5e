@@ -247,7 +247,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             label: current.name,
             amount: current.system.pawns,
             art: CONFIG.ARM5E.magic.arts[current.system.art].short,
-            used: this.planning.data.visCost.magus[current._id]?.used ?? 0
+            used: this.planning.data.visCost?.magus[current._id]?.used ?? 0
           };
           return res;
         }, {});
@@ -261,7 +261,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             label: current.name,
             amount: current.system.pawns,
             art: CONFIG.ARM5E.magic.arts[current.system.art].short,
-            used: this.planning.data.visCost.lab[current._id]?.used ?? 0
+            used: this.planning.data.visCost?.lab[current._id]?.used ?? 0
           };
           return res;
         }, {});
@@ -371,6 +371,56 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       const actorId = $(ev.currentTarget).data("id");
       game.actors.get(actorId).sheet.render(true, { focus: true });
     });
+    html.find(".type-change").change(async (event) => {
+      event.preventDefault();
+      let newType = event.currentTarget.selectedOptions[0].value;
+      this.planning.data.itemType = newType;
+      const receptacle = this.planning.data.receptacle;
+      let newReceptacle = await Item.create(
+        {
+          name: receptacle.name,
+          type: newType,
+          img: receptacle.img,
+          system: receptacle.system
+        },
+        { temporary: true, render: false }
+      );
+      newReceptacle = newReceptacle.toObject();
+      this.submit({
+        preventClose: true,
+        updateData: { "flags.arm5e.planning.data.receptacle": newReceptacle }
+      });
+    });
+
+    html.find(".aspect-change").change(async (e) => {
+      const dataset = getDataset(e);
+      // let aspects = this.actor.flags.arm5e.planning.data.receptacle.system.enchantments.aspects;
+      let aspects = this.planning.data.receptacle.system.enchantments.aspects;
+      let aspect = e.currentTarget.selectedOptions[0].value;
+      const effect = Object.keys(CONFIG.ARM5E.ASPECTS[aspect].effects)[0];
+      aspects[Number(dataset.index)].aspect = aspect;
+      aspects[Number(dataset.index)].effect = effect;
+      aspects[Number(dataset.index)].bonus = CONFIG.ARM5E.ASPECTS[aspect].effects[effect].bonus;
+      aspects[Number(dataset.index)].effects = CONFIG.ARM5E.ASPECTS[aspect].effects;
+      this.submit({
+        preventClose: true,
+        updateData: { "flags.arm5e.planning.data.receptacle.system.enchantments.aspects": aspects }
+      });
+    });
+    html.find(".effect-change").change(async (e) => {
+      const dataset = getDataset(e);
+      // let aspects = this.actor.flags.arm5e.planning.data.receptacle.system.enchantments.aspects;
+      let aspects = this.planning.data.receptacle.system.enchantments.aspects;
+      const effect = e.currentTarget.selectedOptions[0].value;
+      const aspect = aspects[Number(dataset.index)].aspect;
+      aspects[Number(dataset.index)].effect = effect;
+      aspects[Number(dataset.index)].bonus = CONFIG.ARM5E.ASPECTS[aspect].effects[effect].bonus;
+      aspects[Number(dataset.index)].effects = CONFIG.ARM5E.ASPECTS[aspect].effects;
+      this.submit({
+        preventClose: true,
+        updateData: { "flags.arm5e.planning.data.receptacle.system.enchantments.aspects": aspects }
+      });
+    });
   }
 
   async _useVis(event) {
@@ -383,10 +433,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       val = amount;
       event.target.value = amount;
     }
-    const planning = this.actor.flags.arm5e.planning;
+    const planning = this.planning;
     planning.data.visCost[dataset.stock][dataset.id].used = val;
 
-    await this.submit({ preventClose: true, updateData: { "flags.arm5e.planning": planning } });
+    await this.submit({
+      preventClose: true,
+      updateData: { "flags.arm5e.planning.data.visCost": planning.data.visCost }
+    });
     // this.render();
   }
 

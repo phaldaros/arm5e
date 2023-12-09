@@ -5,7 +5,7 @@ import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { computeRawCastingTotal } from "../helpers/magic.js";
 import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
-import { error, log } from "../tools.js";
+import { error, getDataset, log } from "../tools.js";
 
 class Activity {
   constructor(actor, type) {
@@ -56,6 +56,10 @@ export class LabActivity extends Activity {
   }
 
   hasVisCost = false;
+
+  getTechnicalPart(data) {
+    return "";
+  }
 
   activateListeners(html) {}
 
@@ -393,6 +397,18 @@ export class MinorEnchantment extends LabActivity {
   hasVisCost = true;
 
   computeLabTotal(data, distractions) {
+    // retrieve shape and material bonus if any
+    let MTscore = this.actor.getAbilityStats("magicTheory").score;
+    if (this.modifiers["magicThSpecApply"]) {
+      MTscore++;
+    }
+    const aspect = data.receptacle.system.enchantments.aspects[0];
+    if (aspect?.apply) {
+      this.modifiers["aspects"] = Math.min(MTscore, aspect.bonus);
+    } else {
+      delete this.modifiers.aspects;
+    }
+
     return this._computeLabTotal(data.enchantment, distractions);
   }
   async getDefaultData() {
@@ -434,6 +450,7 @@ export class MinorEnchantment extends LabActivity {
     ];
     result.receptacle = item;
     result.enchantment = enchant;
+    result.itemType = "item";
     result.ASPECTS = CONFIG.ARM5E.ASPECTS;
     return result;
   }
@@ -523,14 +540,9 @@ export class MinorEnchantment extends LabActivity {
     const item = input.data.receptacle;
     const achievement = {
       name: item.name,
-      type: "item",
+      type: input.data.itemType,
       img: item.img,
-      system: {
-        quantity: 1,
-        state: "enchanted",
-        weight: item.system.weight,
-        description: item.system.description
-      },
+      system: item.system,
       _id: null
     };
 
@@ -556,17 +568,5 @@ export class MinorEnchantment extends LabActivity {
     return achievement;
   }
 
-  activateListeners(html) {
-    html.find(".aspect-change").change(async (e) => {
-      let planning = this.lab.getFlag(ARM5E.SYSTEM_ID, "planning");
-      let aspect = planning.data.receptacle.system.enchantments.aspects[0];
-      let newAspect = e.currentTarget.selectedOptions[0].value;
-      const effect = Object.keys(CONFIG.ARM5E.ASPECTS[newAspect].effects)[0];
-      aspect.aspect = newAspect;
-      aspect.effect = effect;
-      aspect.bonus = CONFIG.ARM5E.ASPECTS[newAspect].effects[effect].bonus;
-      aspect.effects = CONFIG.ARM5E.ASPECTS[newAspect].effects;
-      await this.lab.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
-    });
-  }
+  activateListeners(html) {}
 }
