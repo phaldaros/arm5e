@@ -5,7 +5,7 @@ import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { computeRawCastingTotal } from "../helpers/magic.js";
 import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
-import { error, log } from "../tools.js";
+import { error, getDataset, log } from "../tools.js";
 
 class Activity {
   constructor(actor, type) {
@@ -56,6 +56,10 @@ export class LabActivity extends Activity {
   }
 
   hasVisCost = false;
+
+  getTechnicalPart(data) {
+    return "";
+  }
 
   activateListeners(html) {}
 
@@ -568,17 +572,5 @@ export class MinorEnchantment extends LabActivity {
     return achievement;
   }
 
-  activateListeners(html) {
-    html.find(".aspect-change").change(async (e) => {
-      let planning = this.lab.getFlag(ARM5E.SYSTEM_ID, "planning");
-      let aspect = planning.data.receptacle.system.enchantments.aspects[0];
-      let newAspect = e.currentTarget.selectedOptions[0].value;
-      const effect = Object.keys(CONFIG.ARM5E.ASPECTS[newAspect].effects)[0];
-      aspect.aspect = newAspect;
-      aspect.effect = effect;
-      aspect.bonus = CONFIG.ARM5E.ASPECTS[newAspect].effects[effect].bonus;
-      aspect.effects = CONFIG.ARM5E.ASPECTS[newAspect].effects;
-      await this.lab.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
-    });
-  }
+  activateListeners(html) {}
 }
