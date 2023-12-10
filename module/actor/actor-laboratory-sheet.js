@@ -210,6 +210,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data.enchantment);
           context.enchantPrefix = "flags.arm5e.planning.data.enchantment.";
           context.receptaclePrefix = "flags.arm5e.planning.data.receptacle.";
+          // If settings were too restrictive, allow existing Items to keep their value.
+          const aspect = this.planning.data.receptacle.system.enchantments.aspects[0].aspect;
+          this.planning.data.ASPECTS[aspect] = CONFIG.ARM5E.ASPECTS[aspect];
         }
         break;
       case "visExtraction":

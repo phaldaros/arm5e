@@ -1,76 +1,105 @@
 <form class="sheet-content flexcol" autocomplete="off">
   <header class="sheet-header">
-    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
-      {{#if system.canEquip}}
-        <div class="resource flexcol flexrow">
-          <label for="system.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
-          <select name="system.ability" data-type="String" class="ability-key">
-            {{#select system.ability}} {{#each system.abilities }}
-                <option value="{{id}}">{{name}}</option>
-              {{/each}} {{/select}}
-          </select>
+    <div class="flexcol">
+      <div class="flexrow">
+        <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <div class="flexcol header-fields">
+          <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+          {{#if system.canEquip}}
+            <div class="resource flexcol flexrow">
+              <label for="system.ability" class="header-label">{{localize "arm5e.sheet.ability"}} </label>
+              <select name="system.ability" data-type="String" class="ability-key">
+                {{#select system.ability}} {{#each system.abilities }}
+                    <option value="{{id}}">{{name}}</option>
+                  {{/each}} {{/select}}
+              </select>
+            </div>
+          {{/if}}
+          <div class="grid grid-2col">
+            {{#if system.canEquip}}
+              <div class="resource">
+                <label class="header-label">{{localize "arm5e.sheet.equipped"}}</label>
+                <input type="checkbox" name="system.equipped" class="toggle" data-item-id="{{item.id}}"
+                  data-attr="equipped" {{checked system.equipped}} />
+              </div>
+              <div class="resource">
+                <label class="header-label">{{localize "arm5e.sheet.weaponExpert"}}</label>
+                <input type="checkbox" name="system.weaponExpert" {{checked system.weaponExpert}} />
+              </div>
+            {{/if}}
+          </div>
+          <div class="grid grid-3col">
+            <div class="resource flex-group-right">
+              <label class="header-label">{{localize "arm5e.sheet.initiative"}}</label>
+              <input type="number" name="system.init" value="{{system.init}}" class="modifier resource-focus"
+                data-dtype="Number" />
+            </div>
+            <div class="resource flex-group-right">
+              <label class="header-label">{{localize "arm5e.sheet.attack"}}</label>
+              <input type="number" name="system.atk" value="{{system.atk}}" class="modifier resource-focus"
+                data-dtype="Number" />
+            </div>
+            <div class="resource flex-group-right">
+              <label class="header-label">{{localize "arm5e.sheet.defense"}}</label>
+              <input type="number" name="system.dfn" value="{{system.dfn}}" class="modifier resource-focus"
+                data-dtype="Number" />
+            </div>
+            <div class="resource flex-group-right">
+              <label class="header-label">{{localize "arm5e.sheet.damage"}}</label>
+              <input type="number" name="system.dam" value="{{system.dam}}" class="modifier resource-focus"
+                data-dtype="Number" />
+            </div>
+            <div class="resource flex-group-right">
+              <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
+              <input type="number" name="system.range" value="{{system.range}}" class="modifier resource-focus"
+                data-dtype="Number" />
+            </div>
+            <div class="resource flex-group-right">
+              <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
+              <input type="number" name="system.load" value="{{system.load}}" class="modifier resource-focus"
+                data-dtype="Number" />
+            </div>
+          </div>
+          {{#if isGM}}
+            <div class="flexrow">
+              <div class="resource">
+                <label class="header-label">{{localize "arm5e.sheet.state.label"}}</label>
+                <input type="text" name="system.state" style="max-width: 150px;"
+                  value="{{localize (lookup config.lab.enchantment.state system.state)}}" data-dtype="String" readonly>
+              </div>
+              <div class="resource" style="max-width: 100px;">
+                <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise" title="Appraisal"
+                  style="border: 0px; width: 32px; height: 32px;" />
+              </div>
+            </div>
+          {{/if}}
         </div>
-      {{/if}}
-      <div class="grid grid-2col">
-        {{#if system.canEquip}}
-          <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.equipped"}}</label>
-            <input type="checkbox" name="system.equipped" class="toggle" data-item-id="{{item.id}}" data-attr="equipped"
-              {{checked system.equipped}} />
-          </div>
-          <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.weaponExpert"}}</label>
-            <input type="checkbox" name="system.weaponExpert" {{checked system.weaponExpert}} />
-          </div>
-        {{/if}}
       </div>
-      <div class="grid grid-3col">
+      <div class="flexrow">
         <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.initiative"}}</label>
-          <input type="number" name="system.init" value="{{system.init}}" class="modifier resource-focus"
-            data-dtype="Number" />
-        </div>
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.attack"}}</label>
-          <input type="number" name="system.atk" value="{{system.atk}}" class="modifier resource-focus"
+          <label class="header-label">{{localize "arm5e.sheet.strengthNeeded"}}</label>
+          <input type="number" name="system.str" value="{{system.str}}" class="modifier resource-focus"
             data-dtype="Number" />
         </div>
 
         <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.defense"}}</label>
-          <input type="number" name="system.dfn" value="{{system.dfn}}" class="modifier resource-focus"
-            data-dtype="Number" />
+          <label for="system.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
+          <select name="system.cost.value" data-type="String">
+            {{#select system.cost.value}} {{#each config.item.costs as |costs key|}}
+                <option value="{{key}}">{{localize label}}</option>
+              {{/each}} {{/select}}
+          </select>
         </div>
         <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.damage"}}</label>
-          <input type="number" name="system.dam" value="{{system.dam}}" class="modifier resource-focus"
+          <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
+          <input type="number" name="system.quantity" value="{{system.quantity}}" class="modifier resource-focus"
             data-dtype="Number" />
         </div>
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
-          <input type="number" name="system.range" value="{{system.range}}" class="modifier resource-focus"
-            data-dtype="Number" />
-        </div>
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.load"}}</label>
-          <input type="number" name="system.load" value="{{system.load}}" class="modifier resource-focus"
-            data-dtype="Number" />
+        <div class="resource flex0" style="min-width: 100px;">
+          <label class="checkbox-label">{{localize "arm5e.sheet.horse"}}</label>
+          <input type="checkbox" name="system.horse" {{checked system.horse}} />
         </div>
       </div>
-      {{#if isGM}}
-        <div class="grid grid-2col">
-          <div class="resource">
-            <label class="header-label">{{localize "arm5e.sheet.state.label"}}</label>
-            <input type="text" name="system.state"
-              value="{{localize (lookup config.lab.enchantment.state system.state)}}" data-dtype="String" readonly>
-          </div>
-          <div class="resource">
-            <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise" title="Appraisal"
-              style="border: 0px; width: 32px; height: 32px;" />
-          </div>
-      {{/if}}
     </div>
   </header>
   {{!-- Sheet Tab Navigation --}}
@@ -91,41 +120,12 @@
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
-    {{!-- Attributes Tab --}}
-
-
     {{!-- Description Tab --}}
     {{#if (eq system.state "inert")}}
       <div class="tab" data-group="primary" data-tab="description">
-    {{/if}}
-    <div class="flexrow">
-      <div class="resource">
-        <label class="header-label">{{localize "arm5e.sheet.strengthNeeded"}}</label>
-        <input type="number" name="system.str" value="{{system.str}}" class="modifier resource-focus"
-          data-dtype="Number" />
-      </div>
-
-      <div class="resource">
-        <label for="system.cost.value" class="header-label">{{localize "arm5e.sheet.cost"}}</label>
-        <select name="system.cost.value" data-type="String">
-          {{#select system.cost.value}} {{#each config.item.costs as |costs key|}}
-              <option value="{{key}}">{{localize label}}</option>
-            {{/each}} {{/select}}
-        </select>
-      </div>
-      <div class="resource">
-        <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
-        <input type="number" name="system.quantity" value="{{system.quantity}}" class="modifier resource-focus"
-          data-dtype="Number" />
-      </div>
-      <div class="resource flex0" style="min-width: 100px;">
-        <label class="checkbox-label">{{localize "arm5e.sheet.horse"}}</label>
-        <input type="checkbox" name="system.horse" {{checked system.horse}} />
-      </div>
-    </div>
-    {{#if (eq system.state "inert")}}
-      <div>
-        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+        <div>
+          {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+        </div>
       </div>
     {{else }}
       <div>

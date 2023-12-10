@@ -84,24 +84,25 @@
             <div class="padding4">
               <div class="padding2 flexrow">
                 <div class="flexcol flex0 flex-group-center">
-                  <label class="label-light checkbox">{{localize "Charged"}}</label>
+                  <label class="label-light checkbox">{{localize "arm5e.lab.enchantment.item.state.charged"}}</label>
                   <input type="checkbox" {{system.enchantments.ui.charged}} {{checked system.enchantments.charged}}
                     data-dtype="Boolean" name="system.enchantments.charged" style="position: relative; bottom: 5px;" />
 
                 </div>
                 {{#unless system.enchantments.charged}}
                   <div class="flexcol flex0 flex-group-left">
-                    <label class="label-light checkbox">{{localize "Prepared"}}</label>
+                    <label class="label-light checkbox">{{localize "arm5e.lab.enchantment.item.state.prepared"}}</label>
                     <input type="checkbox" {{system.enchantments.ui.prepared}} {{checked system.enchantments.prepared}}
                       data-dtype="Boolean" name="system.enchantments.prepared"
                       style="position: relative; bottom: 5px;" />
                   </div>
+                  <div class="flexcol flex0 flex-group-left">
+                    <label class="label-light checkbox">{{localize "arm5e.lab.enchantment.item.state.talisman"}}</label>
+                    <input type="checkbox" {{system.enchantments.ui.talisman}} {{checked system.enchantments.talisman}}
+                      data-dtype="Boolean" name="system.enchantments.talisman"
+                      style="position: relative; bottom: 5px;" />
+                  </div>
                 {{/unless}}
-                <div class="flexcol flex0 flex-group-left">
-                  <label class="label-light checkbox">{{localize "Talisman"}}</label>
-                  <input type="checkbox" {{system.enchantments.ui.talisman}} {{checked system.enchantments.talisman}}
-                    data-dtype="Boolean" name="system.enchantments.talisman" style="position: relative; bottom: 5px;" />
-                </div>
                 <div class="form-group" style="height: max-content;">
                   <fieldset>
                     <legend>{{localize "Bonuses"}}

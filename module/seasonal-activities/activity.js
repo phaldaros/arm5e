@@ -4,6 +4,7 @@ import { ARM5E } from "../config.js";
 // import { ASPECTS } from "../constants/enchant-aspects.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { computeRawCastingTotal } from "../helpers/magic.js";
+import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
 import { error, getDataset, log } from "../tools.js";
 
@@ -436,12 +437,11 @@ export class MinorEnchantment extends LabActivity {
       { temporary: true, render: false }
     );
     item = item.toObject();
-    // item.system.receptacle = {
-    //   capacity: { materialBase: "base1", sizeMultiplier: "tiny", desc: "" },
-    //   aspect: { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
-    // };
-    const first = Object.keys(CONFIG.ARM5E.ASPECTS)[0];
-    const firstEffect = Object.keys(CONFIG.ARM5E.ASPECTS[first].effects)[0];
+
+    result.ASPECTS = await ArM5eItemMagicSheet.GetFilteredAspects();
+
+    const first = Object.keys(result.ASPECTS)[0];
+    const firstEffect = Object.keys(result.ASPECTS[first].effects)[0];
     item.system.enchantments.capacities = [
       { materialBase: "base1", sizeMultiplier: "tiny", desc: "" }
     ];
@@ -451,7 +451,6 @@ export class MinorEnchantment extends LabActivity {
     result.receptacle = item;
     result.enchantment = enchant;
     result.itemType = "item";
-    result.ASPECTS = CONFIG.ARM5E.ASPECTS;
     return result;
   }
   get labActivitySpec() {
@@ -476,17 +475,17 @@ export class MinorEnchantment extends LabActivity {
     const receptacleEnchants = planning.data.receptacle.system.enchantments;
     if (receptacleEnchants.aspects.length == 0) {
       error(false, `DEBUG prepareData: WARNING ASPECTS length = 0`);
-      const first = Object.keys(CONFIG.ARM5E.ASPECTS)[0];
-      const firstEffect = Object.keys(CONFIG.ARM5E.ASPECTS[first].effects)[0];
+      const first = Object.keys(planning.data.ASPECTS)[0];
+      const firstEffect = Object.keys(planning.data.ASPECTS[first].effects)[0];
       receptacleEnchants.aspects = [
         { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
       ];
     } else {
       receptacleEnchants.aspects[0].effects =
-        CONFIG.ARM5E.ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
+        planning.data.ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
 
       receptacleEnchants.aspects[0].bonus =
-        CONFIG.ARM5E.ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
+        planning.data.ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
           receptacleEnchants.aspects[0].effect
         ]?.bonus;
     }
