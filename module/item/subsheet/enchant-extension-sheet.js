@@ -94,10 +94,12 @@ export class ArM5eItemEnchantmentSheet {
         enchants.totalCapa = capa.total;
       }
     }
-    enchants.ASPECTS = CONFIG.ARM5E.ASPECTS;
+    enchants.ASPECTS = await ArM5eItemMagicSheet.GetFilteredAspects();
 
     for (let a of enchants.aspects) {
-      a.effects = CONFIG.ARM5E.ASPECTS[a.aspect].effects;
+      // If settings were too restrictive, allow existing Items to keep their value.
+      enchants.ASPECTS[a.aspect] = CONFIG.ARM5E.ASPECTS[a.aspect];
+      a.effects = enchants.ASPECTS[a.aspect].effects;
       if (a.attuned) {
         enchants.talisman = true;
         enchants.ui.talisman = "disabled";
@@ -187,6 +189,19 @@ export class ArM5eItemEnchantmentSheet {
         updateData["system.state"] = "appraised";
         updateData["system.enchantments"] = new EchantmentExtension();
         await this.item.update(updateData);
+      } else {
+        const question = game.i18n.localize("arm5e.dialog.delete-question");
+        let confirm = await getConfirmation(
+          game.i18n.localize("arm5e.sheet.enchantment"),
+          question,
+          ArM5eActorSheet.getFlavor(this.item.actor?.type)
+        );
+        if (confirm) {
+          const updateData = {};
+          updateData["system.state"] = "inert";
+          updateData["system.enchantments"] = null;
+          await this.item.update(updateData);
+        }
       }
     });
 
@@ -208,11 +223,13 @@ export class ArM5eItemEnchantmentSheet {
       const dataset = getDataset(e);
       let aspects = this.item.system.enchantments.aspects;
       let aspect = e.currentTarget.selectedOptions[0].value;
-      const effect = Object.keys(CONFIG.ARM5E.ASPECTS[aspect].effects)[0];
+      const effect = Object.keys(this.item.system.enchantments.ASPECTS[aspect].effects)[0];
       aspects[Number(dataset.index)].aspect = aspect;
       aspects[Number(dataset.index)].effect = effect;
-      aspects[Number(dataset.index)].bonus = CONFIG.ARM5E.ASPECTS[aspect].effects[effect].bonus;
-      aspects[Number(dataset.index)].effects = CONFIG.ARM5E.ASPECTS[aspect].effects;
+      aspects[Number(dataset.index)].bonus =
+        this.item.system.enchantments.ASPECTS[aspect].effects[effect].bonus;
+      aspects[Number(dataset.index)].effects =
+        this.item.system.enchantments.ASPECTS[aspect].effects;
       this.sheet.submit({
         preventClose: true,
         updateData: { "system.enchantments.aspects": aspects }
@@ -224,8 +241,10 @@ export class ArM5eItemEnchantmentSheet {
       const effect = e.currentTarget.selectedOptions[0].value;
       const aspect = aspects[Number(dataset.index)].aspect;
       aspects[Number(dataset.index)].effect = effect;
-      aspects[Number(dataset.index)].bonus = CONFIG.ARM5E.ASPECTS[aspect].effects[effect].bonus;
-      aspects[Number(dataset.index)].effects = CONFIG.ARM5E.ASPECTS[aspect].effects;
+      aspects[Number(dataset.index)].bonus =
+        this.item.system.enchantments.ASPECTS[aspect].effects[effect].bonus;
+      aspects[Number(dataset.index)].effects =
+        this.item.system.enchantments.ASPECTS[aspect].effects;
       this.sheet.submit({
         preventClose: true,
         updateData: { "system.enchantments.aspects": aspects }
@@ -255,12 +274,12 @@ export class ArM5eItemEnchantmentSheet {
 
     html.find(".aspect-create").click(async (e) => {
       let aspects = this.item.system.enchantments.aspects;
-      const first = Object.keys(CONFIG.ARM5E.ASPECTS)[0];
-      const firstEffect = Object.keys(CONFIG.ARM5E.ASPECTS[first].effects)[0];
+      const first = Object.keys(this.item.system.enchantments.ASPECTS)[0];
+      const firstEffect = Object.keys(this.item.system.enchantments.ASPECTS[first].effects)[0];
       aspects.push({
         aspect: first,
         effect: firstEffect,
-        bonus: CONFIG.ARM5E.ASPECTS[first].effects[firstEffect].bonus
+        bonus: this.item.system.enchantments.ASPECTS[first].effects[firstEffect].bonus
       });
       await this.item.update({ "system.enchantments.aspects": aspects });
     });

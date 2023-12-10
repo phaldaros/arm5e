@@ -6,12 +6,12 @@
       <div class="grid grid-2col">
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.quantity"}}</label>
-          <input type="text" name="system.quantity" value="{{system.quantity}}" class="resource-focus"
+          <input type="number" name="system.quantity" value="{{system.quantity}}" class=" modifier resource-focus"
             data-dtype="Number" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.weight"}}</label>
-          <input type="text" name="system.weight" value="{{system.weight}}" class="resource-focus"
+          <input type="number" name="system.weight" value="{{system.weight}}" class="modifier resource-focus"
             data-dtype="Number" />
         </div>
         {{#if isGM}}
@@ -21,7 +21,8 @@
               value="{{localize (lookup config.lab.enchantment.state system.state)}}" data-dtype="String" readonly>
           </div>
           <div class="resource">
-            <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise" title="Appraisal"
+            <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise"
+              title="{{localize 'arm5e.lab.enchantment.item.appraisal'}}"
               style="border: 0px; width: 32px; height: 32px;" />
           </div>
         {{/if}}

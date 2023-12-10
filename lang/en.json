@@ -878,6 +878,9 @@
   "arm5e.lab.enchantment.item.maxLevel": "Max level",
 
   "arm5e.sheet.state.label": "State",
+  "arm5e.lab.enchantment.item.appraisal": "Appraisal",
+  "arm5e.lab.enchantment.item.talisman": "Talisman",
+  "arm5e.lab.enchantment.item.compounded": "Compounded",
   "arm5e.lab.enchantment.item.state.inert": "Magically Inert",
   "arm5e.lab.enchantment.item.state.appraised": "Appraised",
   "arm5e.lab.enchantment.item.state.prepared": "Prepared",
