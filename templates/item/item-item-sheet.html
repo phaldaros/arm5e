@@ -18,7 +18,8 @@
           <div class="resource">
             <label class="header-label">{{localize "arm5e.sheet.state.label"}}</label>
             <input type="text" name="system.state"
-              value="{{localize (lookup config.lab.enchantment.state system.state)}}" data-dtype="String" readonly>
+              value="{{localize (lookup config.lab.enchantment.receptacle.state system.state)}}" data-dtype="String"
+              readonly>
           </div>
           <div class="resource">
             <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise"
@@ -29,7 +30,6 @@
       </div>
     </div>
   </header>
-
   {{!-- Sheet Tab Navigation --}}
   <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
     <a class="item posRelative" data-tab="description">

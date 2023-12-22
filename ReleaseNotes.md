@@ -1,8 +1,8 @@
-## 2.2.3.15, Ophilio
+## 2.2.3.16, Ophilio
 
 ### Dependencies updates
 
-- arm5e-compendia module minimum version 0.2.0
+- arm5e-compendia module minimum version 0.2.2
 
 ### Features & changes
 
@@ -23,6 +23,7 @@
   - Migration of legacy magic items
   - Pick the type of enchanted item
   - Filter shape and material options based on the Sourcebook filter setting
+  - link an enchantment effect to a particular size and material (capacity)
 - [technical] rework and factorization of the foldable sections code
 - [technical] converted larger png assets into webp + userguide update of image links
 - [technical] new framework for lab activities for factorization purposes
@@ -39,6 +40,8 @@
   - Optional bonus on rolls
 - Free choice of abilities in long term activities (ie: character doesn't need to have it to progress)
 - New total for spell masteries xp.
+- Updated French version by Orneen
+-
 
 ### Bug fixes
 
@@ -56,6 +59,7 @@
 - Actor age is now changing properly when the date changes.
 - It is no longer possible to roll for aging unless a year of birth is set (it defaults to 1200 at creation)
 - Aging rolls are computing the age modifier based on the year of the diary entry instead of current year
+- Penetration spell mastery is now properly added to the penetration score.
 
 ## 2.2.2.20, Nico
 

@@ -768,7 +768,7 @@ export class ArM5eActorSheet extends ActorSheet {
           item.system.state === "inert"
             ? ""
             : `<i title="${game.i18n.localize(
-                ARM5E.lab.enchantment.state[item.system.state]
+                ARM5E.lab.enchantment.receptacle.state[item.system.state]
               )}" class="icon-Icon_Effects-small"></i>`;
       }
     }
@@ -778,7 +778,7 @@ export class ArM5eActorSheet extends ActorSheet {
           item.system.state === "inert"
             ? ""
             : `<i title="${game.i18n.localize(
-                ARM5E.lab.enchantment.state[item.system.state]
+                ARM5E.lab.enchantment.receptacle.state[item.system.state]
               )}" class="icon-Icon_Effects-small"></i>`;
       }
     }
@@ -788,7 +788,7 @@ export class ArM5eActorSheet extends ActorSheet {
           item.system.state === "inert"
             ? ""
             : `<i title="${game.i18n.localize(
-                ARM5E.lab.enchantment.state[item.system.state]
+                ARM5E.lab.enchantment.receptacle.state[item.system.state]
               )}" class="icon-Icon_Effects-small"></i>`;
       }
     }

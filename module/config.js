@@ -2583,12 +2583,19 @@ ARM5E.lab.enchantment.expiry = {
   70: "arm5e.lab.enchantment.item.expiry.70y"
 };
 
-ARM5E.lab.enchantment.state = {
+ARM5E.lab.enchantment.receptacle = {};
+ARM5E.lab.enchantment.receptacle.state = {
   inert: "arm5e.lab.enchantment.item.state.inert",
   appraised: "arm5e.lab.enchantment.item.state.appraised",
-  prepared: "arm5e.lab.enchantment.item.state.prepared",
-  enchanted: "arm5e.lab.enchantment.item.state.enchanted",
-  charged: "arm5e.lab.enchantment.item.state.charged"
+  enchanted: "arm5e.lab.enchantment.item.state.enchanted"
+};
+
+ARM5E.lab.enchantment.state = {
+  prepared: { label: "arm5e.lab.enchantment.item.state.prepared" },
+  lesser: { label: "arm5e.lab.enchantment.item.state.lesser" },
+  major: { label: "arm5e.lab.enchantment.item.state.major" },
+  charged: { label: "arm5e.lab.enchantment.item.state.charged" },
+  talisman: { label: "arm5e.lab.enchantment.item.talisman" }
 };
 
 // TODO OPHI mnemonics

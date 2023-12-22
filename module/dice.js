@@ -441,6 +441,11 @@ async function getRollFormula(actor) {
         score += 1;
       }
 
+      // if the mastery skill is penetration, add it to the score
+      if (rollData.penetration.penetrationMastery) {
+        score += rollData.magic.masteryScore;
+      }
+
       if (score > 0) {
         msg += " + <br /><b>Penetration: </b> <br />";
         msg += "Score (" + score + ") * Multiplier (" + multiplier + ") = " + score * multiplier;

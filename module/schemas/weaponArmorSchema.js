@@ -69,11 +69,16 @@ export class ArmorSchema extends foundry.abstract.DataModel {
     return data;
   }
 
-  static migrate(data) {
+  static migrate(itemData) {
     let update = {};
 
     update["system.-=weight"] = null;
-    update["system.load"] = data.system.load;
+    update["system.load"] = itemData.system.load;
+    if (itemData.system.enchantments != null) {
+      const updateData = EchantmentExtension.migrate(itemData);
+      foundry.utils.mergeObject(update, updateData);
+    }
+
     return update;
   }
 }
@@ -176,30 +181,35 @@ export class WeaponSchema extends foundry.abstract.DataModel {
   hasQuantity() {
     return { name: "quantity", qty: this.quantity };
   }
-  static migrate(data) {
+  static migrate(itemData) {
     let update = {};
 
-    if (typeof data.system.init != "number") {
-      update["system.init"] = convertToNumber(data.system.init, 0);
+    if (typeof itemData.system.init != "number") {
+      update["system.init"] = convertToNumber(itemData.system.init, 0);
     }
-    if (typeof data.system.atk != "number") {
-      update["system.atk"] = convertToNumber(data.system.atk, 0);
+    if (typeof itemData.system.atk != "number") {
+      update["system.atk"] = convertToNumber(itemData.system.atk, 0);
     }
-    if (typeof data.system.dfn != "number") {
-      update["system.dfn"] = convertToNumber(data.system.dfn, 0);
+    if (typeof itemData.system.dfn != "number") {
+      update["system.dfn"] = convertToNumber(itemData.system.dfn, 0);
     }
-    if (typeof data.system.dam != "number") {
-      update["system.dam"] = convertToNumber(data.system.dam, 0);
+    if (typeof itemData.system.dam != "number") {
+      update["system.dam"] = convertToNumber(itemData.system.dam, 0);
     }
-    if (typeof data.system.str != "number") {
-      update["system.str"] = convertToNumber(data.system.str, 0);
+    if (typeof itemData.system.str != "number") {
+      update["system.str"] = convertToNumber(itemData.system.str, 0);
     }
-    if (typeof data.system.range != "number") {
-      update["system.range"] = convertToNumber(data.system.range, 0);
+    if (typeof itemData.system.range != "number") {
+      update["system.range"] = convertToNumber(itemData.system.range, 0);
     }
-    if (typeof data.system.load != "number") {
-      update["system.load"] = convertToNumber(data.system.load, 0);
+    if (typeof itemData.system.load != "number") {
+      update["system.load"] = convertToNumber(itemData.system.load, 0);
     }
+    if (itemData.system.enchantments != null) {
+      const updateData = EchantmentExtension.migrate(itemData);
+      foundry.utils.mergeObject(update, updateData);
+    }
+
     return update;
   }
 }

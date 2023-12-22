@@ -44,13 +44,13 @@ export class ArM5eItemSheet extends ItemSheet {
         const enchant = await Item.implementation.fromDropData(dropData);
         if (["enchantment", "spell", "magicalEffect"].includes(enchant.type)) {
           log(false, "Enchant dropped");
+          // if (this.item.system.enchantments == null) {
+          //   const updateData = {};
+          //   updateData["system.state"] = "appraised";
+          //   updateData["system.enchantments"] = new EchantmentExtension();
+          //   await this.item.update(updateData);
+          // }
           await this.enchantSheet.addEnchantment(enchant);
-          if (this.item.system.enchantments == null) {
-            const updateData = {};
-            updateData["system.state"] = "appraised";
-            updateData["system.enchantments"] = new EchantmentExtension();
-            await this.item.update(updateData);
-          }
         }
       }
     }
@@ -160,6 +160,8 @@ export class ArM5eItemSheet extends ItemSheet {
     context.system = itemData.system;
     if (this.enchantPossible && context.system.enchantments != null) {
       await this.enchantSheet.getData(context);
+    } else {
+      context.stateEdit = "disabled";
     }
 
     context.flags = itemData.flags;
