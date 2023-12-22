@@ -55,7 +55,6 @@
       </div>
     </div>
   </header>
-  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Tab Navigation --}}
   <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
     <a class="item posRelative" data-tab="description">
@@ -77,13 +76,13 @@
         {{localize "arm5e.lab.enchantment.label"}}
       </a>
     {{/if}}
-    <a class="item posRelative" data-tab="authorship">
+    <!-- <a class="item posRelative" data-tab="authorship">
       <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
       <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
       {{localize "arm5e.sheet.authorship.label"}}
-    </a>
+    </a> -->
   </nav>
-
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Attributes Tab --}}
@@ -169,10 +168,13 @@
     "systems/arm5e/templates/item/parts/enchantment.html" }} {{/if}} {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
       {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
+      <div class="padding4 flexrow">
+        {{> "systems/arm5e/templates/item/parts/authorship.html" }}
+      </div>
       {{#if metagame.view }} {{> "systems/arm5e/templates/generic/source.html" }} {{/if}}
     </div>
-    <div class="tab" data-group="primary" data-tab="authorship">
+    <!-- <div class="tab" data-group="primary" data-tab="authorship">
       {{!-- Authorship Tab --}} {{> "systems/arm5e/templates/item/parts/authorship.html" }}
-    </div>
+    </div> -->
   </section>
 </form>

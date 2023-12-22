@@ -27,7 +27,7 @@ export class ArM5eItemEnchantmentSheet {
             enchantExt: {
               capacity: "hide",
               aspect: "hide",
-              info: "hide",
+              info: "",
               enchant: ""
             }
           }
@@ -49,7 +49,7 @@ export class ArM5eItemEnchantmentSheet {
           enchantExt: {
             capacity: "hide",
             aspect: "hide",
-            info: "hide",
+            info: "",
             enchant: ""
           },
           enchantments: enchantments
@@ -66,24 +66,24 @@ export class ArM5eItemEnchantmentSheet {
   async getData(context) {
     const enchants = context.system.enchantments;
     enchants.ui = {};
-
+    enchants.invalidMsg = [];
     context.ui = this.getUserCache();
     context.ui.flavor = "Neutral";
     enchants.totalCapa = 0;
-
-    if (enchants.charged) {
-      enchants.minor = false;
-      enchants.prepared = false;
-    }
+    enchants.states = duplicate(ARM5E.lab.enchantment.state);
 
     if (enchants.capacities.length > 1) {
+      enchants.states["charged"].selection = "disabled";
+      enchants.states["lesser"].selection = "disabled";
       enchants.charged = false;
-      enchants.ui.charged = "disabled";
-      enchants.minor = false;
-      enchants.prepared = true;
+    } else if (enchants.capacities.length == 1) {
+      // prevent deleting the last capacity
+      enchants.noDelete = true;
     }
 
+    enchants.prepared = false;
     for (let capa of enchants.capacities) {
+      capa.used = 0;
       capa.total =
         ARM5E.lab.enchantment.materialBase[capa.materialBase].base *
         ARM5E.lab.enchantment.sizeMultiplier[capa.sizeMultiplier].mult;
@@ -93,33 +93,58 @@ export class ArM5eItemEnchantmentSheet {
         // Max mode
         enchants.totalCapa = capa.total;
       }
+      if (capa.prepared) {
+        enchants.prepared = true;
+      }
     }
     enchants.ASPECTS = await ArM5eItemMagicSheet.GetFilteredAspects();
 
+    if (enchants.aspects.length > 1) {
+      enchants.states["charged"].selection = "disabled";
+      enchants.states["lesser"].selection = "disabled";
+    }
+
+    enchants.attuned = false;
     for (let a of enchants.aspects) {
       // If settings were too restrictive, allow existing Items to keep their value.
       enchants.ASPECTS[a.aspect] = CONFIG.ARM5E.ASPECTS[a.aspect];
       a.effects = enchants.ASPECTS[a.aspect].effects;
-      if (a.attuned) {
-        enchants.talisman = true;
-        enchants.ui.talisman = "disabled";
+      if (!enchants.attuned && a.attuned) {
+        enchants.attuned = true;
         enchants.charged = false;
         enchants.minor = false;
+        enchants.states["charged"].selection = "disabled";
+        enchants.states["lesser"].selection = "disabled";
+        enchants.states["prepared"].selection = "disabled";
+        enchants.states["major"].selection = "disabled";
       }
     }
     enchants.usedCapa = 0;
 
     if (enchants.effects.length > 1) {
-      enchants.prepared = true;
+      enchants.states["charged"].selection = "disabled";
+      enchants.states["lesser"].selection = "disabled";
+      enchants.states["prepared"].selection = "disabled";
+      // enchants.prepared = true;
     }
     let idx = 0;
+    let overcap = false;
     for (let e of enchants.effects) {
-      e.details = `${spellTechniqueLabel(e.system)} - ${spellFormLabel(e.system)}`;
+      e.details = `${spellTechniqueLabel(e.system, true)} - ${spellFormLabel(e.system, true)}`;
       e.system.level = computeLevel(e.system, "enchantment");
       if (e.system.hidden && !context.isGM) {
         enchants.usedCapa = "??";
       } else {
+        const capaIdx = enchants.capacities.findIndex((c) => {
+          return e.receptacleId == c.id;
+        });
+        enchants.capacities[capaIdx].used += Math.ceil(e.system.level / 10);
         enchants.usedCapa += Math.ceil(e.system.level / 10);
+        if (!overcap && enchants.capacities[capaIdx].used > enchants.capacities[capaIdx].total) {
+          enchants.invalidItem = true;
+          enchants.invalidMsg.push("arm5e.enchantment.msg.capacityOverflow");
+          overcap = true;
+        }
       }
       e.prefix = `system.enchantments.effects.${idx}.`;
 
@@ -127,26 +152,64 @@ export class ArM5eItemEnchantmentSheet {
       idx++;
     }
 
-    if (enchants.prepared) {
-      enchants.charged = false;
-      enchants.ui.charged = "disabled";
-      enchants.minor = false;
-      enchants.ui.minor = "disabled";
+    enchants.addEffect = true;
+    enchants.addCapa = true;
+    enchants.addAspect = true;
+    enchants.ui.attuned = "disabled";
+    switch (context.system.enchantments.state) {
+      case "lesser":
+        enchants.lesser = true;
+        enchants.ui.prepared = "disabled";
+        break;
+      case "major":
+        break;
+      case "charged":
+        enchants.prepared = false;
+        enchants.minor = false;
+        enchants.charged = true;
+        enchants.ui.prepared = "disabled";
+        enchants.talisman = false;
+        enchants.ui.talisman = "disabled";
+        break;
+      case "prepared":
+        enchants.charged = false;
+        enchants.ui.charged = "disabled";
+        enchants.minor = false;
+        enchants.ui.minor = "disabled";
+        enchants.addEffect = false;
+        break;
+      case "talisman":
+        if (!enchants.attuned) {
+          enchants.invalidItem = true;
+          enchants.invalidMsg.push("arm5e.enchantment.msg.noAttunment");
+        }
+        enchants.charged = false;
+        enchants.ui.charged = "disabled";
+        enchants.minor = false;
+        enchants.ui.minor = "disabled";
+        enchants.ui.attuned = "";
+      default:
     }
 
-    if (enchants.talisman) {
-      enchants.charged = false;
-      enchants.ui.charged = "disabled";
-      enchants.minor = false;
-      enchants.ui.minor = "disabled";
-    }
-
-    if (enchants.charged) {
-      enchants.prepared = false;
-      enchants.ui.prepared = "disabled";
-      enchants.talisman = false;
-      enchants.ui.talisman = "disabled";
-      enchants.ui.attuned = "disabled";
+    if (["charged", "lesser"].includes(context.system.enchantments.state)) {
+      if (enchants.effects.length >= 1) {
+        if (enchants.effects.length > 1) {
+          enchants.invalidItem = true;
+          enchants.invalidMsg.push("arm5e.enchantment.msg.tooManyEffects");
+        }
+        enchants.addEffect = false;
+      }
+      if (enchants.capacities.length >= 1) {
+        enchants.addCapa = false;
+      }
+      if (enchants.aspects.length >= 1) {
+        enchants.addAspect = false;
+      }
+    } else {
+      if (!enchants.prepared) {
+        enchants.invalidItem = true;
+        enchants.invalidMsg.push("arm5e.enchantment.msg.noCapacityPrepared");
+      }
     }
   }
 
@@ -160,10 +223,12 @@ export class ArM5eItemEnchantmentSheet {
       foundry.utils.mergeObject(source.system.enchantments.aspects, aspects, { recursive: true });
       expanded.system.enchantments.aspects = source.system.enchantments.aspects;
     }
-    const enchants = expanded?.system?.enchantments?.effects;
-    if (enchants) {
-      foundry.utils.mergeObject(source.system.enchantments.effects, enchants, { recursive: true });
-      expanded.system.enchantments.enchants = source.system.enchantments.enchants;
+    const capacities = expanded?.system?.enchantments?.capacities;
+    if (capacities) {
+      foundry.utils.mergeObject(source.system.enchantments.capacities, capacities, {
+        recursive: true
+      });
+      expanded.system.enchantments.capacities = source.system.enchantments.capacities;
     }
     const bonuses = expanded?.system?.enchantments?.bonuses;
     if (bonuses) {
@@ -183,6 +248,118 @@ export class ArM5eItemEnchantmentSheet {
   addListeners(html) {
     // Everything below here is only needed if the sheet is editable
     if (!this.sheet.options.editable) return;
+
+    html.find(".enchantment-state").change(async (e) => {
+      const dataset = getDataset(e);
+      let currentState = dataset.state;
+      let newState = e.currentTarget.selectedOptions[0].value;
+      const updateData = {};
+      const enchant = this.item.system.enchantments;
+      switch (currentState) {
+        case "charged":
+          const question = game.i18n.localize("arm5e.enchantment.msg.deleteChargesConfirm");
+          let confirm = await getConfirmation(
+            game.i18n.localize("arm5e.sheet.enchantment"),
+            question,
+            ArM5eActorSheet.getFlavor(this.item.actor?.type)
+          );
+          if (confirm) {
+            updateData[`system.enchantments.charges`] = 1;
+            updateData[`system.enchantments.originalCharges`] = 1;
+          } else {
+            e.currentTarget.value = currentState;
+            return;
+          }
+          switch (newState) {
+            case "major":
+            case "talisman": {
+              enchant.capacities[0].prepared = true;
+              updateData["system.enchantments.capacities"] = enchant.capacities;
+              break;
+              break;
+            }
+            case "prepared":
+            case "lesser":
+          }
+          break;
+        case "lesser":
+          switch (newState) {
+            case "talisman":
+            case "major": {
+              enchant.capacities[0].prepared = true;
+              updateData["system.enchantments.capacities"] = enchant.capacities;
+              break;
+            }
+            case "charged":
+            case "prepared":
+              break;
+          }
+          break;
+        case "prepared":
+          switch (newState) {
+            case "talisman":
+            case "major": {
+              enchant.capacities[0].prepared = true;
+              updateData["system.enchantments.capacities"] = enchant.capacities;
+              break;
+            }
+            case "charged":
+            case "lesser":
+              break;
+          }
+          break;
+        case "major":
+          switch (newState) {
+            case "talisman":
+              break;
+            case "prepared":
+              const question = game.i18n.localize("arm5e.enchantment.msg.deleteEffectsConfirm");
+              let confirm = await getConfirmation(
+                game.i18n.localize("arm5e.sheet.enchantment"),
+                question,
+                ArM5eActorSheet.getFlavor(this.item.actor?.type)
+              );
+              if (confirm) {
+                for (let idx = 0; idx < enchant.effects.length; idx++) {
+                  updateData[`system.enchantments.effects.-=${idx}`] = null;
+                }
+                // updateData["system.enchantments.effects"] = [];
+              } else {
+                e.currentTarget.value = currentState;
+                return;
+              }
+
+              break;
+            case "charged":
+            case "lesser": {
+              enchant.capacities[0].prepared = false;
+              updateData["system.enchantments.capacities"] = enchant.capacities;
+              break;
+            }
+          }
+          break;
+        case "talisman":
+          switch (newState) {
+            case "major":
+            case "prepared":
+
+            case "charged":
+            case "lesser": {
+              enchant.capacities[0].prepared = false;
+              updateData["system.enchantments.capacities"] = enchant.capacities;
+
+              break;
+            }
+          }
+          break;
+        default:
+          return;
+      }
+
+      updateData["system.enchantments.state"] = newState;
+      await this.item.update(updateData);
+    });
+
     html.find(".appraise").click(async () => {
       if (this.item.system.enchantments == null) {
         const updateData = {};
@@ -253,11 +430,27 @@ export class ArM5eItemEnchantmentSheet {
 
     html.find(".attribute-create").click(async (e) => {
       let capacities = this.sheet.item.system.enchantments.capacities;
-      capacities.push({ sizeMultiplier: "tiny", materialBase: "base1", desc: "" });
+      capacities.push({
+        id: foundry.utils.randomID(),
+        sizeMultiplier: "tiny",
+        materialBase: "base1",
+        desc: ""
+      });
       await this.item.update({ "system.enchantments.capacities": capacities });
     });
 
     html.find(".attribute-delete").click(async (e) => {
+      const dataset = getDataset(e);
+      const index = Number(dataset.index);
+
+      if (
+        this.sheet.item.system.enchantments.effects.find((e) => {
+          return e.receptacleId == dataset.id;
+        })
+      ) {
+        ui.notifications.info(game.i18n.localize("arm5e.notification.effectLinked"));
+        return;
+      }
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       let confirm = await getConfirmation(
         this.item.name,
@@ -265,9 +458,8 @@ export class ArM5eItemEnchantmentSheet {
         ArM5eActorSheet.getFlavor(this.item.actor?.type)
       );
       if (confirm) {
-        const dataset = getDataset(e);
         let capacities = this.sheet.item.system.enchantments.capacities;
-        capacities.splice(dataset.index, 1);
+        capacities.splice(index, 1);
         await this.sheet.item.update({ "system.enchantments.capacities": capacities });
       }
     });
@@ -325,7 +517,11 @@ export class ArM5eItemEnchantmentSheet {
 
     html.find(".enchantment-create").click(async (e) => {
       let effects = this.item.system.enchantments.effects;
-      effects.push({ name: "My enchantment", system: new EnchantmentSchema() });
+      effects.push({
+        name: "My enchantment",
+        system: new EnchantmentSchema(),
+        receptacleId: this.item.system.enchantments.capacities[0].id
+      });
       await this.item.update({
         "system.state": "enchanted",
         "system.enchantments.effects": effects
@@ -352,6 +548,9 @@ export class ArM5eItemEnchantmentSheet {
     });
 
     html.find(".enchant-effect-delete").click(async (e) => {
+      const dataset = getDataset(e);
+      const index = dataset.index;
+
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       let confirm = await getConfirmation(
         this.item.name,
@@ -359,16 +558,22 @@ export class ArM5eItemEnchantmentSheet {
         ArM5eActorSheet.getFlavor(this.item.actor?.type)
       );
       if (confirm) {
-        const dataset = getDataset(e);
-
         let effects = this.sheet.item.system.enchantments.effects;
-        effects.splice(dataset.index, 1);
+        effects.splice(index, 1);
         const updateData = { "system.enchantments.effects": effects };
         if (effects.length == 0) {
           updateData["system.state"] = "appraised";
         }
         await this.sheet.item.update(updateData);
       }
+    });
+    html.find(".receptacle-idx-change").change(async (e) => {
+      const dataset = getDataset(e);
+      let receptacleId = e.currentTarget.selectedOptions[0].value;
+      let effects = this.sheet.item.system.enchantments.effects;
+      effects[dataset.index]["receptacleId"] = receptacleId;
+      const updateData = { "system.enchantments.effects": effects };
+      await this.sheet.item.update(updateData);
     });
   }
 
@@ -378,7 +583,8 @@ export class ArM5eItemEnchantmentSheet {
     const newEffect = {
       name: enchantment.name,
       img: enchantment.img,
-      system: foundry.utils.deepClone(enchantment.system)
+      system: foundry.utils.deepClone(enchantment.system),
+      receptacleId: this.item.system.enchantments.capacities[0].id
     };
     newEffect.system.state = "enchanted";
     effects.push(newEffect);

@@ -580,7 +580,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           },
           optionKey: "standard",
           duration: planning.duration,
-          description: `${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
+          description: `${planning.data.receptacle.name}<br/>${planning.data.enchantment.name} : ${
+            planning.label
+          }<br/>${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
             planning.labTotal.score
           }</b> <br/> ${planning.labTotal.label}`,
           achievements: achievements,

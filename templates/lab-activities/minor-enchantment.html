@@ -71,9 +71,9 @@
           class="foldable-section backSection enchantment {{lookup @root.ui.sections.visibility.planning 'capacity'}}"
           id="planning-capacity-{{@root.actor._id}}">
           <div class="resource flexrow">
-            <div class="padding2">
+            <div class="padding2 flex0">
               <select name="{{planning.namePrefix}}receptacle.system.enchantments.capacities.0.materialBase"
-                style="max-width: 175px;">
+                style="max-width: 140px;">
                 {{#select planning.data.receptacle.system.enchantments.capacities.0.materialBase}}
                   {{#each @root.config.lab.enchantment.materialBase as |attr key|}}
                     <option value="{{key}}">({{attr.base}}) {{localize attr.eg}} </option>
@@ -81,9 +81,9 @@
                 {{/select}}
               </select>
             </div>
-            <div class="padding2">
+            <div class="padding2 flex0">
               <select name="{{planning.namePrefix}}receptacle.system.enchantments.capacities.0.sizeMultiplier"
-                style="max-width: 175px;">
+                style="max-width: 105px;">
                 {{#select planning.data.receptacle.system.enchantments.capacities.0.sizeMultiplier}}
                   {{#each @root.config.lab.enchantment.sizeMultiplier as |attr key|}}
                     <option value="{{key}}" title="{{localize attr.eg}}">{{localize attr.value}} (x {{attr.mult}})
@@ -92,14 +92,20 @@
                 {{/select}}
               </select>
             </div>
-            <div class="padding2">
+            <div class="padding2 flex0">
               <input type="text" name="{{planning.namePrefix}}receptacle.system.enchantments.capacities.0.desc"
                 value="{{planning.data.receptacle.system.enchantments.capacities.0.desc}}" data-dtype="String"
-                style="min-width: 175px;" />
+                style="min-width: 160px;" />
+            </div>
+            <div class="padding2 modifier">
+              <input type="number" readonly value="{{planning.data.receptacle.system.enchantments.capacities.0.used}}"
+                data-dtype="Number" />
             </div>
             <div class="padding2 modifier">
               <input type="number" readonly value="{{planning.data.receptacle.system.enchantments.capacities.0.total}}"
                 data-dtype="Number" />
+              <input type="text" name="{{planning.namePrefix}}receptacle.system.enchantments.capacities.0.id" hidden
+                value="{{planning.data.receptacle.system.enchantments.capacities.0.id}}" data-dtype="String" />
             </div>
           </div>
         </div>

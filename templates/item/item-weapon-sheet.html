@@ -64,8 +64,9 @@
             <div class="flexrow">
               <div class="resource">
                 <label class="header-label">{{localize "arm5e.sheet.state.label"}}</label>
-                <input type="text" name="system.state" style="max-width: 150px;"
-                  value="{{localize (lookup config.lab.enchantment.state system.state)}}" data-dtype="String" readonly>
+                <input type="text" name="system.state"
+                  value="{{localize (lookup config.lab.enchantment.receptacle.state system.state)}}" data-dtype="String"
+                  readonly>
               </div>
               <div class="resource" style="max-width: 100px;">
                 <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise" title="Appraisal"

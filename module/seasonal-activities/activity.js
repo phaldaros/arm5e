@@ -421,7 +421,10 @@ export class MinorEnchantment extends LabActivity {
       },
       { temporary: true, render: false }
     );
+
+    const receptacleID = foundry.utils.randomID();
     enchant = enchant.toObject();
+    enchant.receptacleId = receptacleID;
 
     let item = await Item.create(
       {
@@ -443,7 +446,7 @@ export class MinorEnchantment extends LabActivity {
     const first = Object.keys(result.ASPECTS)[0];
     const firstEffect = Object.keys(result.ASPECTS[first].effects)[0];
     item.system.enchantments.capacities = [
-      { materialBase: "base1", sizeMultiplier: "tiny", desc: "" }
+      { id: receptacleID, materialBase: "base1", sizeMultiplier: "tiny", desc: "" }
     ];
     item.system.enchantments.aspects = [
       { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
@@ -552,18 +555,17 @@ export class MinorEnchantment extends LabActivity {
     const effect = input.data.enchantment;
     const enchantments = {
       author: this.actor.name,
-      talisman: false,
-      charged: false,
-      prepared: false,
-      locked: true,
       year: input.date.year,
       season: input.date.season,
       bonuses: [],
+      state: "lesser",
       aspects: item.system.enchantments.aspects,
       capacities: item.system.enchantments.capacities,
       effects: [effect]
     };
+
     achievement.system.enchantments = enchantments;
+    achievement.system.state = "enchanted";
     return achievement;
   }
 

@@ -114,7 +114,7 @@ export async function migration(originalVersion) {
       }
     }
     if (itemsUpdates.length > 0) {
-      await Item.updateDocuments(itemsUpdates, { diff: true });
+      await Item.updateDocuments(itemsUpdates, { diff: false, recursive: true });
     }
     // Migrate Invalid items
 

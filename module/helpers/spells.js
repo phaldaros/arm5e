@@ -1,9 +1,9 @@
-export function spellTechniqueLabel(item) {
-  let label = CONFIG.ARM5E.magic.techniques[item.technique.value].label;
-  let techReq = Object.entries(item["technique-req"]).filter(r => r[1] === true);
+export function spellTechniqueLabel(item, short = false) {
+  let label = CONFIG.ARM5E.magic.techniques[item.technique.value][short ? "short" : "label"];
+  let techReq = Object.entries(item["technique-req"]).filter((r) => r[1] === true);
   if (techReq.length > 0) {
     label += " (";
-    techReq.forEach(key => {
+    techReq.forEach((key) => {
       label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
     });
     // remove last whitespace
@@ -14,12 +14,12 @@ export function spellTechniqueLabel(item) {
   return label;
 }
 
-export function spellFormLabel(item) {
-  let label = CONFIG.ARM5E.magic.forms[item.form.value].label;
-  let techReq = Object.entries(item["form-req"]).filter(r => r[1] === true);
+export function spellFormLabel(item, short = false) {
+  let label = CONFIG.ARM5E.magic.forms[item.form.value][short ? "short" : "label"];
+  let techReq = Object.entries(item["form-req"]).filter((r) => r[1] === true);
   if (techReq.length > 0) {
     label += " (";
-    techReq.forEach(key => {
+    techReq.forEach((key) => {
       label += CONFIG.ARM5E.magic.arts[key[0]].short + " ";
     });
     // remove last whitespace

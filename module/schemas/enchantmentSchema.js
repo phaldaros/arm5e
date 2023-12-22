@@ -1,4 +1,5 @@
 import { ARM5E } from "../config.js";
+import { UI } from "../constants/ui.js";
 // import { ASPECTS } from "../constants/enchant-aspects.js";
 import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
@@ -46,8 +47,7 @@ export class EchantmentExtension extends foundry.abstract.DataModel {
         initial: null
       }),
       locked: boolOption(),
-      charged: boolOption(),
-      prepared: boolOption(),
+      state: EnchantedItemState(),
       bonuses: new fields.ArrayField(
         new fields.SchemaField({
           value: ModifierField(),
@@ -67,8 +67,17 @@ export class EchantmentExtension extends foundry.abstract.DataModel {
       ),
       aspects: new fields.ArrayField(new fields.SchemaField(AspectAttribute())),
       capacities: new fields.ArrayField(new fields.SchemaField(HermeticAttributes()), {
-        initial: [{ sizeMultiplier: "tiny", materialBase: "base1", desc: "" }]
+        initial: [
+          {
+            id: foundry.utils.randomID(),
+            sizeMultiplier: "tiny",
+            materialBase: "base1",
+            desc: "",
+            prepared: false
+          }
+        ]
       }),
+      compounded: boolOption(),
       capacityMode: new fields.StringField({
         required: false,
         blank: false,
@@ -85,7 +94,12 @@ export class EchantmentExtension extends foundry.abstract.DataModel {
             categories: ["IMAGE"],
             initial: (data) => CONFIG.ARM5E_DEFAULT_ICONS["enchantment"]
           }),
-          system: new fields.EmbeddedDataField(EnchantmentSchema, {})
+          system: new fields.EmbeddedDataField(EnchantmentSchema, {}),
+          receptacleId: new fields.StringField({
+            required: false,
+            blank: true,
+            initial: ""
+          })
         }),
         {
           required: false,
@@ -110,12 +124,26 @@ export class EchantmentExtension extends foundry.abstract.DataModel {
       })
     };
   }
-  static getDefaultArtwork(itemData) {
-    return { img: UI };
-  }
+  // static getDefaultArtwork(itemData) {
+  //   return { img: UI. };
+  // }
 
   static migrate(itemData) {
-    return {};
+    log(false, "Migrate enchant extension");
+    const updateData = {};
+    const capacities = itemData.system.enchantments.capacities;
+    for (let c of capacities) {
+      if (c.id == "" || c.id.length == 1) {
+        c.id = foundry.utils.randomID();
+      }
+    }
+    const effects = itemData.system.enchantments.effects;
+    for (let e of effects) {
+      e.receptacleId = capacities[0].id;
+    }
+    updateData["system.enchantments.capacities"] = capacities;
+    updateData["system.enchantments.effects"] = effects;
+    return updateData;
   }
 }
 
@@ -182,17 +210,32 @@ export const EnchantmentAttributes = () => {
   };
 };
 
+export const EnchantedItemState = () => {
+  return new fields.StringField({
+    required: false,
+    nullable: false,
+    initial: "lesser",
+    choices: Object.keys(ARM5E.lab.enchantment.state)
+  });
+};
+
 export const ItemState = () => {
   return new fields.StringField({
     required: false,
     nullable: false,
     initial: "inert",
-    choices: Object.keys(ARM5E.lab.enchantment.state)
+    choices: Object.keys(ARM5E.lab.enchantment.receptacle.state)
   });
 };
 
 export const HermeticAttributes = () => {
   return {
+    id: new fields.StringField({
+      required: true,
+      nullable: false,
+      blank: false,
+      initial: foundry.utils.randomID()
+    }),
     sizeMultiplier: new fields.StringField({
       required: false,
       nullable: false,
@@ -207,7 +250,8 @@ export const HermeticAttributes = () => {
       initial: "base1",
       choices: Object.keys(ARM5E.lab.enchantment.materialBase)
     }),
-    desc: baseDescription()
+    desc: baseDescription(),
+    prepared: boolOption()
   };
 };
 

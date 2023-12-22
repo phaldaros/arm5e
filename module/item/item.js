@@ -110,20 +110,20 @@ export class ArM5eItem extends Item {
       this.system.points = ARM5E.covenant.inhabitants[this.system.category].points;
     }
 
-    if (ArM5eItem.canBeEnchanted(this)) {
-      if (this.system.enchantments === null) {
-        this.system.state = "inert";
-      } else {
-        this.system.state = "appraised";
+    // if (ArM5eItem.canBeEnchanted(this)) {
+    //   if (this.system.enchantments === null) {
+    //     this.system.state = "inert";
+    //   } else {
+    //     this.system.state = "appraised";
 
-        if (this.system.enchantments.prepared) {
-          this.system.state = "prepared";
-        }
-        if (this.system.enchantments.effects.length) {
-          this.system.state = "enchanted";
-        }
-      }
-    }
+    //     if (this.system.enchantments.prepared) {
+    //       this.system.state = "prepared";
+    //     }
+    //     if (this.system.enchantments.effects.length) {
+    //       this.system.state = "enchanted";
+    //     }
+    //   }
+    // }
 
     // log(false,"prepare-item");
     // log(false,itemData);

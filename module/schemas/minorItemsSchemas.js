@@ -149,7 +149,10 @@ export class ItemSchema extends foundry.abstract.DataModel {
     if (itemData.system.weight === null) {
       updateData["system.weight"] = 0;
     }
-
+    if (itemData.system.enchantments != null) {
+      const updateExt = EchantmentExtension.migrate(itemData);
+      foundry.utils.mergeObject(updateData, updateExt);
+    }
     return updateData;
   }
 
