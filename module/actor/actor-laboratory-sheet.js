@@ -201,6 +201,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data);
         }
         break;
+      case "chargedItem":
       case "minorEnchantment":
         {
           this.planning.data.enchantment.system.level = computeLevel(
@@ -210,11 +211,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data.enchantment);
           context.enchantPrefix = "flags.arm5e.planning.data.enchantment.";
           context.receptaclePrefix = "flags.arm5e.planning.data.receptacle.";
-          // If settings were too restrictive, allow existing Items to keep their value.
-          const aspect = this.planning.data.receptacle.system.enchantments.aspects[0].aspect;
-          this.planning.data.ASPECTS[aspect] = CONFIG.ARM5E.ASPECTS[aspect];
+          if (this.planning.data.receptacle.system.enchantments.aspects.length > 0) {
+            // If settings were too restrictive, allow existing Items to keep their value.
+            const aspect = this.planning.data.receptacle.system.enchantments.aspects[0].aspect;
+            this.planning.data.ASPECTS[aspect] = CONFIG.ARM5E.ASPECTS[aspect];
+          }
         }
         break;
+
       case "visExtraction":
         {
           this.planning.data.system.technique.value = "cr";
@@ -314,7 +318,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     } else {
       context.edition.schedule = "";
       this.planning.messages.push(
-        `${result.message}&#10${game.i18n.format("arm5e.lab.planning.msg.waste", {
+        `${result.message}</ul><ul>${game.i18n.format("arm5e.lab.planning.msg.waste", {
           points: result.waste
         })}`
       );

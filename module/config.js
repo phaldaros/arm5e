@@ -2502,6 +2502,15 @@ ARM5E.activities.lab = {
       spellCombobox: "disabled"
     }
   },
+  chargedItem: {
+    label: "arm5e.lab.activity.chargedEnchantment",
+    enabled: "disabled",
+    edition: {
+      aura: "",
+      spellField: "",
+      spellCombobox: ""
+    }
+  },
   minorEnchantment: {
     label: "arm5e.lab.activity.minorEnchantment",
     enabled: "",
