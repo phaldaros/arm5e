@@ -7,11 +7,11 @@ This package is intended to enable Ars Magica play using Foundry VTT. In order t
 **Important**: the system has a mandatory module dependency which contains the compendia of the system.
 [Manifest link]<https://github.com/Xzotl42/arm5e-compendia/releases/latest/download/module.json>
 
-[Magus sheet](./website/img/MagusSheet.png)
+![Magus sheet](./website/img/Magus_sheet.webp)
 
-[Companion sheet](./website/img/Companion_sheet.png)
+![Companion sheet](./website/img/Companion_sheet.webp)
 
-[Spell sheet](./website/img/SpellSheet.png)
+![Spell sheet](./website/img/Spell_sheet.webp)
 
 Ars Magica content is copyright Trident, Inc d/b/a Atlas Games. Ars Magica, Mythic Europe, and Covenants are trademarks of Trident, Inc. Order of Hermes and Tremere are trademarks of White Wolf, Inc. USED WITH PERMISSION.
 
@@ -25,7 +25,7 @@ Thanks to various contributors at https://game-icons.net for some default icons
 
 ![Latest Release Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/latest/arm5e.zip)
 
-![Release 2.1.0.18 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.1.0.18/arm5e.zip)
+![Release 2.2.2.22 Download Count](https://img.shields.io/github/downloads/Xzotl42/arm5e/v2.2.2.22/arm5e.zip)
 
 ![Release 1.4.8 Download Count (V9)](https://img.shields.io/github/downloads/Xzotl42/arm5e/v1.4.8/arm5e.zip)
 

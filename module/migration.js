@@ -763,7 +763,8 @@ export const migrateActorData = async function (actorDoc, actorItems) {
     actor.type == "player" ||
     actor.type == "npc" ||
     actor.type == "beast" ||
-    actor.type == "laboratory"
+    actor.type == "laboratory" ||
+    actor.type == "covenant"
   ) {
     if (CONFIG.ISV10) {
       if (actor.effects && (actor.effects.length > 0 || actor.effects.size > 0)) {

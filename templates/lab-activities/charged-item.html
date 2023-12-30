@@ -17,9 +17,16 @@
         <div class="item-image" data-index="{{idx}}" style="max-width: 32px"><img class="item-img"
             src="{{planning.data.enchantment.img}}" title="{{planning.data.enchantment.name}}"
             data-edit="{{planning.namePrefix}}enchantment.img" style="height: 30px;width: 30px" /></div>
-        <div class="padding2">
+        <div class="padding2 flexrow">
           <input type="text" name="{{planning.namePrefix}}enchantment.name" value="{{planning.data.enchantment.name}}"
             data-dtype="String" style="max-width: 300px;" title="{{planning.data.enchantment.name}}" />
+          <div class="flexrow flex-group-center">
+            <label class="label-light flex0">{{localize "arm5e.lab.enchantment.item.charges"}}</label>
+            <div class="modifier">
+              <input type="number" readonly name="{{planning.namePrefix}}receptacle.system.enchantments.originalCharges"
+                value="{{planning.data.receptacle.system.enchantments.originalCharges}}" data-dtype="Number" />
+            </div>
+          </div>
         </div>
       </div>
       <label class="resource flex01 ">{{planning.label}}</label>
@@ -146,8 +153,6 @@
               <div class="padding2 modifier">
                 <input type="number" readonly value="{{planning.data.receptacle.system.enchantments.aspects.0.bonus}}"
                   data-dtype="Number" />
-                <input type="number" hidden name="{{planning.namePrefix}}receptacle.system.enchantments.aspects.0.bonus"
-                  value="{{planning.data.receptacle.system.enchantments.aspects.0.bonus}}" data-dtype="Number" />
               </div>
               <div class="padding2">
                 <label class="label-light"
