@@ -40,7 +40,9 @@ export class ArM5eItemEnchantmentSheet {
     } else {
       let enchantments = new Array(this.item.system.enchantments.effects.length);
       for (let idx = 0; idx < this.item.system.enchantments.effects.length; idx++) {
-        const ench = usercache[this.item.id].sections.visibility.enchantments[idx];
+        const ench = usercache[this.item.id].sections.visibility.enchantments
+          ? usercache[this.item.id].sections.visibility.enchantments[idx]
+          : undefined;
         if (ench) {
           enchantments[idx] = ench;
         } else {

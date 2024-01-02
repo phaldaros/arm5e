@@ -1,4 +1,4 @@
-## 2.2.3.18, Ophilio, less young
+## 2.2.3.19, Ophilio, less young
 
 ### Dependencies updates
 
@@ -13,6 +13,7 @@
 - Fix on V10 for enchanted items.
 - It is no longer needed to reopen or re-render an enchanted Item sheet for the enchantments section folding to work.
 - Auras are working again properly.
+- Fix migration of magic items and already migrated ones.
 
 ## 2.2.3.17, Ophilio, once young
 
