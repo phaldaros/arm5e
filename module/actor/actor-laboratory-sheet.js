@@ -36,12 +36,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     }
   }
+
   /** @override */
   get template() {
     if (this.actor.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) {
-      return `systems/arm5e/templates/actor/actor-laboratory-sheet.html`;
+      return "systems/arm5e/templates/actor/actor-laboratory-sheet.html";
     }
-    return `systems/arm5e/templates/actor/lab-limited-sheet.html`;
+    return "systems/arm5e/templates/actor/lab-limited-sheet.html";
   }
 
   /** @override */
@@ -73,7 +74,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
   getUserCache() {
     let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
-    if (usercache[this.actor.id] == undefined) {
+    if (usercache[this.actor.id] === undefined) {
       usercache[this.actor.id] = {
         filters: {
           hermetic: {
@@ -115,13 +116,13 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     let context = await super.getData();
     let isValid = true;
     context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
-    // owner
+    // Owner
     if (context.system.owner && context.system.owner.linked) {
       this.actor.apps[context.system.owner.document.sheet.appId] =
         context.system.owner.document.sheet;
 
       context.system.owner.document.apps[this.appId] = this;
-      if (this.activity == undefined) {
+      if (this.activity === undefined) {
         this.activity = new SpellActivity(
           this.actor,
           this.actor.system.owner.document,
@@ -130,7 +131,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       }
     } else {
       this._prepareCharacterItems(context);
-      // this.planning.modifiers.apprentice = 0;
+      // This.planning.modifiers.apprentice = 0;
       log(false, "lab-sheet getData");
       log(false, context);
 
@@ -139,7 +140,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     context.config = CONFIG.ARM5E;
 
-    // context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
+    // Context.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
 
     if (this.planning === undefined) {
       let newData = await this.activity.getDefaultData();
@@ -164,8 +165,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       } else {
         context.edition.aura = "";
         context.classes = { aura: "editable" };
-        if (this.planning.modifiers == undefined) this.planning.modifiers = { aura: 0 };
-        else if (this.planning.modifiers.aura == undefined) this.planning.modifiers.aura = 0;
+        if (this.planning.modifiers === undefined) this.planning.modifiers = { aura: 0 };
+        else if (this.planning.modifiers.aura === undefined) this.planning.modifiers.aura = 0;
       }
     }
 
@@ -183,9 +184,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     this.planning.modifiers.magicThSpecApply = this.planning.magicThSpecApply ? 1 : 0;
 
     // TODO fix covenant date
-    if (this.planning.date == undefined)
+    if (this.planning.date === undefined) {
       this.planning.date = game.settings.get("arm5e", "currentDate");
-    else if (this.planning.date.year == null) {
+    } else if (this.planning.date.year == null) {
       this.planning.date.year = game.settings.get("arm5e", "currentDate").year;
     }
 
@@ -196,40 +197,32 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     switch (this.planning.type) {
       case "inventSpell":
       case "learnSpell":
-        {
-          this.planning.data.system.level = computeLevel(this.planning.data.system, "spell");
-          this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data);
-        }
+        this.planning.data.system.level = computeLevel(this.planning.data.system, "spell");
+        this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data);
         break;
       case "chargedItem":
       case "minorEnchantment":
-        {
-          this.planning.data.enchantment.system.level = computeLevel(
-            this.planning.data.enchantment.system,
-            "enchantment"
-          );
-          this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data.enchantment);
-          context.enchantPrefix = "flags.arm5e.planning.data.enchantment.";
-          context.receptaclePrefix = "flags.arm5e.planning.data.receptacle.";
-          if (this.planning.data.receptacle.system.enchantments.aspects.length > 0) {
-            // If settings were too restrictive, allow existing Items to keep their value.
-            const aspect = this.planning.data.receptacle.system.enchantments.aspects[0].aspect;
-            this.planning.data.ASPECTS[aspect] = CONFIG.ARM5E.ASPECTS[aspect];
-          }
+        this.planning.data.enchantment.system.level = computeLevel(
+          this.planning.data.enchantment.system,
+          "enchantment"
+        );
+        this.planning.label = ArM5eItem.GetEffectAttributesLabel(this.planning.data.enchantment);
+        context.enchantPrefix = "flags.arm5e.planning.data.enchantment.";
+        context.receptaclePrefix = "flags.arm5e.planning.data.receptacle.";
+        if (this.planning.data.receptacle.system.enchantments.aspects.length > 0) {
+          // If settings were too restrictive, allow existing Items to keep their value.
+          const aspect = this.planning.data.receptacle.system.enchantments.aspects[0].aspect;
+          this.planning.data.ASPECTS[aspect] = CONFIG.ARM5E.ASPECTS[aspect];
         }
         break;
 
       case "visExtraction":
-        {
-          this.planning.data.system.technique.value = "cr";
-          this.planning.data.system.form.value = "vi";
-        }
+        this.planning.data.system.technique.value = "cr";
+        this.planning.data.system.form.value = "vi";
         break;
       case "longevityRitual":
-        {
-          this.planning.data.system.technique.value = "cr";
-          this.planning.data.system.form.value = "co";
-        }
+        this.planning.data.system.technique.value = "cr";
+        this.planning.data.system.form.value = "co";
         break;
     }
     this.activity.modifiers = this.planning.modifiers;
@@ -247,7 +240,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
       let magusStock = context.system.owner.document.system.vis
         .filter((v) => {
-          return v.system.art == visCost.technique || v.system.art == visCost.form;
+          return v.system.art === visCost.technique || v.system.art === visCost.form;
         })
         .reduce((res, current) => {
           res[current._id] = {
@@ -261,7 +254,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
       let labStock = this.actor.system.rawVis
         .filter((v) => {
-          return v.system.art == visCost.technique || v.system.art == visCost.form;
+          return v.system.art === visCost.technique || v.system.art === visCost.form;
         })
         .reduce((res, current) => {
           res[current._id] = {
@@ -280,7 +273,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         magus: magusStock,
         lab: labStock
       };
-      // check if vis cost is more than 2 x magic theory
+      // Check if vis cost is more than 2 x magic theory
       if (
         visCost.amount >
         (context.system.owner.magicTheory.score + this.planning.modifiers.magicThSpecApply) * 2
@@ -308,11 +301,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         this.planning.messages.push(result.message);
       } else {
         this.planning.messages.push(
-          game.i18n.localize("arm5e.lab.planning.msg.unsupported") +
-            "<br/>" +
-            game.i18n.format("arm5e.lab.planning.msg.waste", {
+          `${game.i18n.localize("arm5e.lab.planning.msg.unsupported")}<br/>${game.i18n.format(
+            "arm5e.lab.planning.msg.waste",
+            {
               points: result.waste
-            })
+            }
+          )}`
         );
       }
     } else {
@@ -401,7 +395,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     html.find(".aspect-change").change(async (e) => {
       const dataset = getDataset(e);
-      // let aspects = this.actor.flags.arm5e.planning.data.receptacle.system.enchantments.aspects;
+      // Let aspects = this.actor.flags.arm5e.planning.data.receptacle.system.enchantments.aspects;
       let aspects = this.planning.data.receptacle.system.enchantments.aspects;
       let aspect = e.currentTarget.selectedOptions[0].value;
       const effect = Object.keys(CONFIG.ARM5E.ASPECTS[aspect].effects)[0];
@@ -416,7 +410,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     });
     html.find(".effect-change").change(async (e) => {
       const dataset = getDataset(e);
-      // let aspects = this.actor.flags.arm5e.planning.data.receptacle.system.enchantments.aspects;
+      // Let aspects = this.actor.flags.arm5e.planning.data.receptacle.system.enchantments.aspects;
       let aspects = this.planning.data.receptacle.system.enchantments.aspects;
       const effect = e.currentTarget.selectedOptions[0].value;
       const aspect = aspects[Number(dataset.index)].aspect;
@@ -447,7 +441,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       preventClose: true,
       updateData: { "flags.arm5e.planning.data.visCost": planning.data.visCost }
     });
-    // this.render();
+    // This.render();
   }
 
   async _changeActivity(item, event) {
@@ -484,7 +478,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     this.planning.modifiers = { generic: 0, aura: 0 };
     this.planning.distractions = "none";
     this.planning.magicThSpecApply = false;
-    // await this.submit({ preventClose: true, updateData: { "flags.arm5e.planning": this.planning } });
+    // Await this.submit({ preventClose: true, updateData: { "flags.arm5e.planning": this.planning } });
     await this.actor.update({ "flags.arm5e.planning": this.planning }, { recursive: true });
   }
 
@@ -539,31 +533,30 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         break;
       case "longevityRitual":
       case "minorEnchantment":
-        {
-          for (let [k, vis] of Object.entries(planning.data.visCost.magus)) {
-            if (Number(vis.used) > 0) {
-              externalIds.push({
-                actorId: owner._id,
-                itemId: k,
-                flags: 1,
-                data: { amountLabel: "pawns", amount: vis.used }
-              });
-            }
-          }
-          for (let [k, vis] of Object.entries(planning.data.visCost.lab)) {
-            if (Number(vis.used) > 0) {
-              externalIds.push({
-                actorId: this.actor._id,
-                itemId: k,
-                flags: 1,
-                data: { amountLabel: "pawns", amount: vis.used }
-              });
-            }
+        for (let [k, vis] of Object.entries(planning.data.visCost.magus)) {
+          if (Number(vis.used) > 0) {
+            externalIds.push({
+              actorId: owner._id,
+              itemId: k,
+              flags: 1,
+              data: { amountLabel: "pawns", amount: vis.used }
+            });
           }
         }
+        for (let [k, vis] of Object.entries(planning.data.visCost.lab)) {
+          if (Number(vis.used) > 0) {
+            externalIds.push({
+              actorId: this.actor._id,
+              itemId: k,
+              flags: 1,
+              data: { amountLabel: "pawns", amount: vis.used }
+            });
+          }
+        }
+
         break;
       default:
-        throw "Unsupported activity";
+        throw new Error("Unsupported activity");
     }
 
     const entryData = [
@@ -609,8 +602,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
   async _onDrop(event) {
     const dropData = TextEditor.getDragEventData(event);
-    if (dropData.type == "Item") {
-      // if (this.item.system.activity === "teaching" || this.item.system.activity === "training") {
+    if (dropData.type === "Item") {
+      // If (this.item.system.activity === "teaching" || this.item.system.activity === "training") {
       const item = await Item.implementation.fromDropData(dropData);
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
 
@@ -641,7 +634,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             return await super._onDrop(event);
         }
       } else if (event.currentTarget.dataset.drop === "enchant") {
-        //   switch (item.type) {
+        //   Switch (item.type) {
         //   case "laboratoryText": {
         //     if (item.system.type !== "spell") {
         //       break;
@@ -676,7 +669,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
    *
    * @param {Object} actorData The actor to prepare.
    *
-   * @return {undefined}
+   * @param sheetData
+   * @returns {undefined}
    */
   _prepareCharacterItems(sheetData) {
     super._prepareCharacterItems(sheetData);

@@ -64,7 +64,6 @@ import { SimpleCalendarSeasons, seasonOrder, seasonOrderInv } from "./tools/time
 import { WoundSchema } from "./schemas/woundSchema.js";
 import { ArM5eSmallSheet } from "./item/item-small-sheet.js";
 import { EnchantmentSchema } from "./schemas/enchantmentSchema.js";
-
 Hooks.once("init", async function () {
   game.arm5e = {
     ArM5ePCActor,
@@ -77,7 +76,6 @@ Hooks.once("init", async function () {
 
   // Add system metadata
   CONFIG.ARM5E = ARM5E;
-
   CONFIG.ARM5E.ItemDataModels = CONFIG.ISV10
     ? CONFIG.Item.systemDataModels
     : CONFIG.Item.dataModels;

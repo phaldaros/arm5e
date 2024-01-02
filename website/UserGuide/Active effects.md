@@ -104,15 +104,18 @@ As per the rules, halve casting and lab totals.
 -   Deficiencies on multiple Forms or Techniques are not cumulative (effects with requisites)
 
 
+### Spell mastery
+
+Xp multiplier or Xp bonus to all spell masteries' score
+
 ### Vitals
 
 Flat modifier to the following:
 
--   **Size** (eg: Large, Small frame)
-    
--   **Soak:** (eg Tough)
-    
--   **Aging**: for aging rolls (eg: Fae blood)
+- **Size** (eg: Large, Small frame)
+- **Soak:** (eg Tough)
+- **Aging**: for aging rolls (eg: Fae blood or longevity rituals)
+- Aging offset: when a character starts aging compared to the standard 35 years old.
     
 
 ### Characteristics
@@ -162,10 +165,13 @@ Multiplier to the total number of experience points in an ability.
 
 -   For generic abilities, use the cogs icon to specify the ability option. It must match exactly the option of the owned generic ability (see [[Items#Generic abilities|Generic abilities]] for explanations)
     
+### Supernatural ability xp bonus
+
+Give a flat XP bonus to a supernatural ability to simulate the score of 1 when the corresponding virtue is taken.
 
 ### Laboratory activities
 
-Flat modifier to a specific lab activity. (Note: this is an effect for characters, for laboratories, specialities will cover that)
+Flat modifier to a specific lab activity. (Note: this is an effect for characters, for laboratories, specialties will cover that)
 
 ### Laboratory
 
@@ -191,3 +197,13 @@ Flat modifier to a laboratory attribute, those are given to laboratory vices and
 ### Laboratory speciality
 
 Flat modifier to lab totals of a given Art or specific activity
+
+### Optional roll bonuses
+
+This effect create additional option to rolls of a particular kind. This can be used to simulate virtues or flaws with circumstances' modifiers (Cyclic Magic, Special circumstances, talisman's attunements, ...)
+
+- Formulaic magic
+- Spontaneous magic
+- Initiative rolls
+- Attack rolls
+- Defense rolls

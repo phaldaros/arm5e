@@ -139,7 +139,7 @@ You can roll for aging by clicking the hourglass icon in Description tab.
 
 Those activities are not available directly, you must schedule them from a laboratory. See [[Laboratory activities]]
 
--   Editable source quality: yes
+-   Editable source quality: no
     
 -   Progress items available: Spells
     
@@ -147,6 +147,18 @@ Those activities are not available directly, you must schedule them from a labor
     
 -   Teacher: no (not yet for spell learning)
     
+
+### Enchanting
+
+As spell invention, this activity is not available directly and is created from a laboratory See [[Laboratory activities]] Applying will create the designed magic item and remove any vis cost.
+
+-   Editable source quality: no
+    
+-   Progress items available: none
+    
+-   Options: no
+    
+-   Teacher: no (not yet for spell learning)
 
 ### Others
 

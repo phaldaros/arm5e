@@ -137,7 +137,7 @@ Enchantments can be created from a magical effect or a spell using the [[Actors#
 There is an additional tab with new attributes specific to enchanting.
 
   
-**Dev notes**: Enchanting as an activity is not yet implemented in the system, but the sheet can still be used for design as the level is still computed automatically.
+**Dev notes**: Enchanting as an activity is not fully implemented in the system (only lesser enchantments)
 
 ## Diary entry
 
@@ -172,12 +172,24 @@ There two versions that can be generated:
 -   See [[#Generic abilities]] for more explanations about the ability option field
     
 
-## Weapon
+## Physical items
+
+A physical item is something that exists in game as opposed to a virtue Item for example 
+(books, weapons, armors, vis,...).
+When you drag and drop a physical item from an actor sheet to another, it will transfer it instead of creating a copy. If there more than one exemplar (ie: quantity field), it will ask how many should be moved. 
+It is possible to copy instead by pressing the SHIFT key (DevNote: due to a Foundry VTT limitation planned to be fixed in V12, you will have to press SHIFT after starting to drag the item)
+
+### Weapon
 
 **Ability:** The ability to apply when using the weapon.
 
 **Weapon expert:** Indicate the ability's specialty matches the weapon.
 
-##Others
+### Enchanted items
+
+Some physical items are enchantable (items, weapons, armor,...), to access the enchantment attributes, click on the golden book in the sheet. Clicking again will destroy them, after confirmation.
+
+
+## Others
 
 There are more types of Items but they don't have any particular feature yet beside pure data.

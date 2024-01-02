@@ -1,6 +1,5 @@
 import { ARM5E } from "../config.js";
 import { UI } from "../constants/ui.js";
-// import { ASPECTS } from "../constants/enchant-aspects.js";
 import { ArM5eItem } from "../item/item.js";
 import { log } from "../tools.js";
 import {
@@ -20,7 +19,7 @@ const fields = foundry.data.fields;
 
 // Schema field added to enchanted devices
 
-export class EchantmentExtension extends foundry.abstract.DataModel {
+export class EnchantmentExtension extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
   constructor(fields, options = { nullable: true }) {

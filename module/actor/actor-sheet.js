@@ -1473,9 +1473,9 @@ export class ArM5eActorSheet extends ActorSheet {
 
   async _onCalculateDamage(html, actor) {
     const lastAttackMessage = getLastMessageByHeader(game, "arm5e.sheet.attack");
-    const lastDefenseMessage = getLastMessageByHeader(game, "arm5e.sheet.defense");
+    const lastDefenceMessage = getLastMessageByHeader(game, "arm5e.sheet.defense");
     const attack = parseInt(lastAttackMessage?.content || "0");
-    const defense = parseInt(lastDefenseMessage?.content || "0");
+    const defense = parseInt(lastDefenceMessage?.content || "0");
     const advantage = attack - defense;
 
     const extraData = {

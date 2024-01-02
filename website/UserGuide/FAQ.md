@@ -22,7 +22,7 @@ This is useful when you need to tell the system which ability you are talking ab
 
 ## I cannot select the ability I want to progress into.
 
-A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0 or drag and drop them on the diary sheet's abilities tab (the latter doesn't work with training and teaching)
+A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0 or drag and drop them on the diary sheet's abilities tab (the latter doesn't work with training and teaching). Update: this limitation was removed in Ophelio version (2.2.3)
 
 # Rolls
 

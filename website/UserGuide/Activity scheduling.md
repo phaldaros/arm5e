@@ -38,7 +38,7 @@ All of the above applies but additionally it allows to move the activity to anot
 - To be able to schedule the activity:
 	- There must be no conflict
 	- A number of seasons based on the duration must be ticked.
-
+- If the activity spans multiple seasons, changing the start date will reassign all seasons in a sequence.
 ## Troupe scheduling
 
 Accessed through the Astrolabium, this dialog allows the GM to have a general view year by year of the activities of each character. It is possible to filter the type of actor displayed

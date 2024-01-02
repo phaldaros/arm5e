@@ -39,7 +39,7 @@ You will encounter list of items on the sheets, here is a description of the ico
 -   The Perdo hand sign is to delete it.
     
 
-**GM** (Gamemaster) is used instead of Storyteller in this document as it is how Foundry calls it
+**GM** (Gamemaster) is used instead of Storyguide in this document as it is how Foundry calls it
 
 ### Everything is drag and drop
 
@@ -97,3 +97,9 @@ A chain link symbol near a field often indicates it is possible to link the appr
 **Quick delete:** Whether to ask for confirmation before deleting an owned Item or not.
 
 **Dramatic pause when rolling a one:** [Dice so Nice integration] If you have the Dice so Nice module enabled and the "Fun stress die" setting disabled, it will add a dramatic pause (ms) after rolling a one.
+
+**Enforce schedule constraints**: Whether to prevent users to schedule or apply seasonal activities due to constraints put in the system. (For example: reading a book twice the same season).
+
+**Winter first** : Whether the first season of the year is winter or spring (recommendation: do not change in the middle of a Saga)
+
+**Clear user cache:** reset the browser session data on next refresh. Currently the user cache contains all filters criteria  for all actors as well as the folding state of all foldable sections. With time, it can grow bigger than necessary as every sheet opened will store its data in it

@@ -4,7 +4,7 @@
 
 ### Can I buy you a coffee for your time spent developing and maintaining the system?
 
-Yes, you can, [here!](https://ko-fi.com/xzotl). Totally optional, but thanks if you do!
+Yes, you can, [here!](https://ko-fi.com/xzotl). Totally optional, but thanks if you do! You will get the Barista status in the Discord server if you do.
 
 ## Installation
 
@@ -38,7 +38,6 @@ For spells, we recommend you to download the Grand Grimoire of Hermetic spells (
 
 ### Is there any recommended modules?
 
-- "Compendium folders" is highly recommended. It is heavily used to organize the system compendiums (abilities, spells,...) and will greatly improve your browsing experience. (https://foundryvtt.com/packages/compendium-folders)
 - If you want to contribute by adding and fixing errors in the system compendiums, Mana's compendium Importer can be useful to export an errata as json files and share them.(https://foundryvtt.com/packages/mkah-compendium-importer)
 - If you plan to contribute to the code, It is highly recommended to install the module "Developper Mode" (https://foundryvtt.com/packages/_dev-mode). Once enabled, it will give all kind of information and easy print out of documents in console. All debug traces are done with it, so they don't need to be removed immediately for release, it only logs when the dev mode is active.
 
@@ -115,7 +114,7 @@ This is useful when you need to tell the system which ability you are talking ab
 
 ### I cannot select the ability I want to progress into.
 
-A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0 or drag and drop them on the diary sheet's abilities tab (the latter doesn't work with training and teaching)
+A character must possess an ability in order to progress into it. Add the ability from a compendium with a score of 0 or drag and drop them on the diary sheet's abilities tab (the latter doesn't work with training and teaching). Update: This limitation was removed in the Ophelio release (2.2.3)
 
 ## Rolls
 

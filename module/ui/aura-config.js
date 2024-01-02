@@ -23,7 +23,7 @@ export class AuraConfig extends FormApplication {
   }
 
   async _updateObject(event, formData) {
-    this.object.setFlag("arm5e", "aura", {
+    await this.object.setFlag("arm5e", "aura", {
       values: {
         magic: formData.magic,
         faeric: formData.faeric,

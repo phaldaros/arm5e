@@ -616,7 +616,7 @@ ARM5E.MARTIAL_ABILITIES = {
     selection: ""
   },
   trownWeapon: {
-    // I know typo, thrown weapon
+    // I know, typo, thrown weapon
     mnemonic: "arm5e.skill.martial.trownWeapon",
     option: false,
     category: "martial",
@@ -2695,7 +2695,11 @@ ARM5E.lab.enchantment.effectUses = {
   10: "Unlimited"
 };
 
-ARM5E.lab.enchantment.enchantableTypes = ["item", "weapon", "armor"]; // TODO support books, "book"];
+ARM5E.lab.enchantment.enchantableTypes = {
+  item: CONFIG.ISV10 ? "ITEM.TypeItem" : "TYPES.Item.item",
+  weapon: CONFIG.ISV10 ? "ITEM.TypeWeapon" : "TYPES.Item.weapon",
+  armor: CONFIG.ISV10 ? "ITEM.TypeArmor" : "TYPES.Item.armor"
+}; // TODO support books, "book"];
 
 ARM5E.generic = {};
 ARM5E.generic.sourcesTypes = {

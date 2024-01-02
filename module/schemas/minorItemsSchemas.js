@@ -2,8 +2,14 @@
 import { ARM5E } from "../config.js";
 import { VIRTUESFLAWS_DEFAULT_ICONS } from "../constants/ui.js";
 import { convertToNumber, log } from "../tools.js";
-import { boolOption, convertToInteger, itemBase, XpField } from "./commonSchemas.js";
-import { EchantmentExtension, ItemState } from "./enchantmentSchema.js";
+import {
+  boolOption,
+  convertToInteger,
+  itemBase,
+  NullableEmbeddedDataField,
+  XpField
+} from "./commonSchemas.js";
+import { EnchantmentExtension, ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 
 export const possibleReputationTypes = Object.keys(ARM5E.reputations);
@@ -114,7 +120,6 @@ export class VirtueFlawSchema extends foundry.abstract.DataModel {
 export class ItemSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
-
   static defineSchema() {
     return {
       ...itemBase(),
@@ -134,13 +139,12 @@ export class ItemSchema extends foundry.abstract.DataModel {
       }),
       carried: boolOption(false, true),
       state: ItemState(),
-      enchantments: new fields.EmbeddedDataField(EchantmentExtension, {
+      enchantments: new NullableEmbeddedDataField(EnchantmentExtension, {
         nullable: true,
-        initial: null
+        initial: CONFIG.ISV10 ? new EnchantmentExtension() : null
       })
     };
   }
-
   static migrate(itemData) {
     const updateData = {};
     if (itemData.system.quantity === null || !Number.isInteger(itemData.system.quantity)) {
@@ -149,10 +153,21 @@ export class ItemSchema extends foundry.abstract.DataModel {
     if (itemData.system.weight === null) {
       updateData["system.weight"] = 0;
     }
-    if (itemData.system.enchantments != null) {
-      const updateExt = EchantmentExtension.migrate(itemData);
-      foundry.utils.mergeObject(updateData, updateExt);
+
+    if (CONFIG.ISV10) {
+      if (itemData.system.state != "inert") {
+        const updateExt = EnchantmentExtension.migrate(itemData);
+        foundry.utils.mergeObject(updateData, updateExt);
+      } else {
+        updateData["system.enchantments"] = new EnchantmentExtension();
+      }
+    } else {
+      if (itemData.system.enchantments != null) {
+        const updateExt = EnchantmentExtension.migrate(itemData);
+        foundry.utils.mergeObject(updateData, updateExt);
+      }
     }
+
     return updateData;
   }
 
@@ -160,7 +175,6 @@ export class ItemSchema extends foundry.abstract.DataModel {
     return { name: "quantity", qty: this.quantity };
   }
 }
-
 export class ReputationSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
