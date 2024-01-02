@@ -1,4 +1,20 @@
-## 2.2.3.17, Ophilio
+## 2.2.3.18, Ophilio, less young
+
+### Dependencies updates
+
+- arm5e-compendia module minimum version 0.2.3
+
+### Features & changes
+
+- Updated userguide (markdown only)
+
+### Bug fixes
+
+- Fix on V10 for enchanted items.
+- It is no longer needed to reopen or re-render an enchanted Item sheet for the enchantments section folding to work.
+- Auras are working again properly.
+
+## 2.2.3.17, Ophilio, once young
 
 ### Dependencies updates
 

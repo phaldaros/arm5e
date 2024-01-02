@@ -44,8 +44,8 @@
         <div class="padding4 flexrow flex-group-left">
           <select class="type-change" name="{{planning.namePrefix}}itemType" style="max-width: 175px;">
             {{#select planning.data.itemType}}
-              {{#each @root.config.lab.enchantment.enchantableTypes as |type|}}
-                <option value="{{type}}">{{localize (concat "TYPES.Item." type)}}</option>
+              {{#each @root.config.lab.enchantment.enchantableTypes as |type key|}}
+                <option value="{{key}}">{{localize type}}</option>
               {{/each}}
             {{/select}}
           </select>

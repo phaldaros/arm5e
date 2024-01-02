@@ -4,8 +4,7 @@ import { ARM5E } from "../../config.js";
 import { ArM5eItem } from "../item.js";
 import { getConfirmation } from "../../constants/ui.js";
 import { ArM5eActorSheet } from "../../actor/actor-sheet.js";
-// import { ASPECTS } from "../../constants/enchant-aspects.js";
-import { EchantmentExtension, EnchantmentSchema } from "../../schemas/enchantmentSchema.js";
+import { EnchantmentExtension, EnchantmentSchema } from "../../schemas/enchantmentSchema.js";
 import { computeLevel } from "../../helpers/magic.js";
 import { spellFormLabel, spellTechniqueLabel } from "../../helpers/spells.js";
 import { ArM5eItemMagicSheet } from "../item-magic-sheet.js";
@@ -39,9 +38,14 @@ export class ArM5eItemEnchantmentSheet {
       }
       usercache[this.item.id].sections.visibility.enchantments = enchantments;
     } else {
-      let enchantments = [];
+      let enchantments = new Array(this.item.system.enchantments.effects.length);
       for (let idx = 0; idx < this.item.system.enchantments.effects.length; idx++) {
-        enchantments.push({ desc: "", attributes: "" });
+        const ench = usercache[this.item.id].sections.visibility.enchantments[idx];
+        if (ench) {
+          enchantments[idx] = ench;
+        } else {
+          enchantments[idx] = { desc: "", attributes: "" };
+        }
       }
       let sections = {
         visibility: {
@@ -51,11 +55,12 @@ export class ArM5eItemEnchantmentSheet {
             aspect: "hide",
             info: "",
             enchant: ""
-          },
-          enchantments: enchantments
+          }
         }
       };
+
       mergeObject(sections, usercache[this.item.id].sections);
+      sections.visibility.enchantments = enchantments;
       usercache[this.item.id].sections = sections;
     }
 
@@ -361,10 +366,13 @@ export class ArM5eItemEnchantmentSheet {
     });
 
     html.find(".appraise").click(async () => {
-      if (this.item.system.enchantments == null) {
+      if (
+        this.item.system.enchantments == null ||
+        (this.item.system.state === "inert" && CONFIG.ISV10)
+      ) {
         const updateData = {};
         updateData["system.state"] = "appraised";
-        updateData["system.enchantments"] = new EchantmentExtension();
+        updateData["system.enchantments"] = new EnchantmentExtension();
         await this.item.update(updateData);
       } else {
         const question = game.i18n.localize("arm5e.dialog.delete-question");
@@ -376,7 +384,11 @@ export class ArM5eItemEnchantmentSheet {
         if (confirm) {
           const updateData = {};
           updateData["system.state"] = "inert";
-          updateData["system.enchantments"] = null;
+          if (CONFIG.ISV10) {
+            updateData["system.enchantments"] = new EnchantmentExtension();
+          } else {
+            updateData["system.enchantments"] = null;
+          }
           await this.item.update(updateData);
         }
       }
@@ -522,10 +534,15 @@ export class ArM5eItemEnchantmentSheet {
         system: new EnchantmentSchema(),
         receptacleId: this.item.system.enchantments.capacities[0].id
       });
+
       await this.item.update({
         "system.state": "enchanted",
         "system.enchantments.effects": effects
       });
+      // add it to the cache
+      let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+      usercache[this.item.id].sections.visibility.enchantments.push({ desc: "", attributes: "" });
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     });
 
     html.find(".enchant-effect-show").click(async (e) => {
@@ -549,7 +566,7 @@ export class ArM5eItemEnchantmentSheet {
 
     html.find(".enchant-effect-delete").click(async (e) => {
       const dataset = getDataset(e);
-      const index = dataset.index;
+      const index = Number(dataset.index);
 
       const question = game.i18n.localize("arm5e.dialog.delete-question");
       let confirm = await getConfirmation(
@@ -565,6 +582,10 @@ export class ArM5eItemEnchantmentSheet {
           updateData["system.state"] = "appraised";
         }
         await this.sheet.item.update(updateData);
+        // remove it from the cache
+        // let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+        // usercache[this.item.id].sections.visibility.enchantments.splice(index, 1);
+        // sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
       }
     });
     html.find(".receptacle-idx-change").change(async (e) => {

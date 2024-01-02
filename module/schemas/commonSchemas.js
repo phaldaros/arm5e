@@ -15,10 +15,8 @@ export class NullableEmbeddedDataField extends fields.EmbeddedDataField {
   }
 
   toObject(value) {
-    if (value != null) {
-      return super.toObject(value);
-    }
-    return null;
+    if (!value) return value;
+    return value.toObject(false);
   }
 }
 
@@ -40,10 +38,12 @@ export class NullableSchemaField extends fields.SchemaField {
   }
 
   toObject(value) {
-    if (value != null) {
-      return super.toObject(value);
+    if (value === undefined || value === null) return value;
+    const data = {};
+    for (const [name, field] of this.entries()) {
+      data[name] = field.toObject(value[name]);
     }
-    return null;
+    return data;
   }
 }
 

@@ -220,4 +220,4 @@ entry.
 
 ### Codex Hermeticum (violet)
 
-This Actor is usually unique in a world. It is used to quickly design effects based on a database of base effects.
+This Actor is usually unique in a world. It is used to quickly design effects based on a database of base effects. A populated version of the Codex is available in the compendia.

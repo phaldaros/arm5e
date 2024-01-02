@@ -1,7 +1,7 @@
 import { ARM5E } from "../config.js";
 import { convertToNumber, log } from "../tools.js";
-import { boolOption, itemBase, XpField } from "./commonSchemas.js";
-import { EchantmentExtension, ItemState } from "./enchantmentSchema.js";
+import { boolOption, itemBase, NullableEmbeddedDataField, XpField } from "./commonSchemas.js";
+import { EnchantmentExtension, ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 export const possibleCosts = Object.keys(ARM5E.item.costs);
 export class ArmorSchema extends foundry.abstract.DataModel {
@@ -47,9 +47,9 @@ export class ArmorSchema extends foundry.abstract.DataModel {
       full: boolOption(false, true),
       equipped: boolOption(false, true),
       state: ItemState(),
-      enchantments: new fields.EmbeddedDataField(EchantmentExtension, {
+      enchantments: new NullableEmbeddedDataField(EnchantmentExtension, {
         nullable: true,
-        initial: null
+        initial: CONFIG.ISV10 ? new EnchantmentExtension() : null
       })
     };
   }
@@ -74,15 +74,23 @@ export class ArmorSchema extends foundry.abstract.DataModel {
 
     update["system.-=weight"] = null;
     update["system.load"] = itemData.system.load;
-    if (itemData.system.enchantments != null) {
-      const updateData = EchantmentExtension.migrate(itemData);
-      foundry.utils.mergeObject(update, updateData);
+    if (CONFIG.ISV10) {
+      if (itemData.system.state != "inert") {
+        const updateData = EnchantmentExtension.migrate(itemData);
+        foundry.utils.mergeObject(update, updateData);
+      } else {
+        update["system.enchantments"] = new EnchantmentExtension();
+      }
+    } else {
+      if (itemData.system.enchantments != null) {
+        const updateData = EnchantmentExtension.migrate(itemData);
+        foundry.utils.mergeObject(update, updateData);
+      }
     }
 
     return update;
   }
 }
-
 export class WeaponSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
   static _enableV10Validation = true;
@@ -163,9 +171,9 @@ export class WeaponSchema extends foundry.abstract.DataModel {
       horse: boolOption(false, true),
       ability: new fields.StringField({ required: false, blank: true, initial: "brawl" }),
       state: ItemState(),
-      enchantments: new fields.EmbeddedDataField(EchantmentExtension, {
+      enchantments: new NullableEmbeddedDataField(EnchantmentExtension, {
         nullable: true,
-        initial: null
+        initial: CONFIG.ISV10 ? new EnchantmentExtension() : null
       })
     };
   }
@@ -205,9 +213,19 @@ export class WeaponSchema extends foundry.abstract.DataModel {
     if (typeof itemData.system.load != "number") {
       update["system.load"] = convertToNumber(itemData.system.load, 0);
     }
-    if (itemData.system.enchantments != null) {
-      const updateData = EchantmentExtension.migrate(itemData);
-      foundry.utils.mergeObject(update, updateData);
+
+    if (CONFIG.ISV10) {
+      if (itemData.system.state != "inert") {
+        const updateData = EnchantmentExtension.migrate(itemData);
+        foundry.utils.mergeObject(update, updateData);
+      } else {
+        update["system.enchantments"] = new EnchantmentExtension();
+      }
+    } else {
+      if (itemData.system.enchantments != null) {
+        const updateData = EnchantmentExtension.migrate(itemData);
+        foundry.utils.mergeObject(update, updateData);
+      }
     }
 
     return update;

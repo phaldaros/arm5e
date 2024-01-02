@@ -41,3 +41,7 @@ Instead it is recommended to drag and drop spells, magic effects or lab text on 
 ### Vis extraction
 
 This activity will create an amount of Vim vis based on the aura and the magus CrVi lab total
+
+### Lesser enchantment
+
+

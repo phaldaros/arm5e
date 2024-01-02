@@ -118,7 +118,7 @@ Note that with the right [[Introduction#Settings|Settings]], a player will only 
 
 **Dev note**: Combat being usually short and deadly in Ars Magica, it hasn't been properly integrated in the Foundry framework yet. At the moment, you can roll for initiative with it to have an action order, but it is a simplified version of the rules (ie: no reroll is made in case of tie).
 
-- On **Attack** or **Defence** rolls, it is possible to exert self (ie: lose a fatigue level) to double the ability score.
+- On **Attack** or **Defense** rolls, it is possible to exert self (ie: lose a fatigue level) to double the ability score.
 
 - **Damage** roll will automatically compute the advantage based on the previous attack and defence chat messages. That's why the GM should pay attention that players only roll when it is their turn, otherwise the Advantage must be computed "manually".
 

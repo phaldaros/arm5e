@@ -1,11 +1,10 @@
 // Prototype WIP
 
 import { ARM5E } from "../config.js";
-// import { ASPECTS } from "../constants/enchant-aspects.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { computeRawCastingTotal } from "../helpers/magic.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
-import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
+import { EnchantmentExtension } from "../schemas/enchantmentSchema.js";
 import { error, getDataset, log } from "../tools.js";
 
 class Activity {
@@ -437,7 +436,7 @@ export class MinorEnchantment extends LabActivity {
           quantity: 1,
           weight: 0,
           state: "appraised",
-          enchantments: new EchantmentExtension()
+          enchantments: new EnchantmentExtension()
         }
       },
       { temporary: true, render: false }
@@ -618,7 +617,7 @@ export class ChargedItem extends LabActivity {
           quantity: 1,
           weight: 0,
           state: "appraised",
-          enchantments: new EchantmentExtension()
+          enchantments: new EnchantmentExtension()
         }
       },
       { temporary: true, render: false }

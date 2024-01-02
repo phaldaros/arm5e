@@ -2,7 +2,7 @@ import { getDataset, log } from "../tools.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { ARM5E_DEFAULT_ICONS, getConfirmation } from "../constants/ui.js";
 import { ArM5eActorSheet } from "../actor/actor-sheet.js";
-import { EchantmentExtension } from "../schemas/enchantmentSchema.js";
+import { EnchantmentExtension } from "../schemas/enchantmentSchema.js";
 import { ArM5eItemEnchantmentSheet } from "./subsheet/enchant-extension-sheet.js";
 import { ARM5E } from "../config.js";
 /**
@@ -31,7 +31,7 @@ export class ArM5eItemSheet extends ItemSheet {
 
   constructor(data, options) {
     super(data, options);
-    if (ARM5E.lab.enchantment.enchantableTypes.includes(this.item.type)) {
+    if (Object.keys(ARM5E.lab.enchantment.enchantableTypes).includes(this.item.type)) {
       this.enchantPossible = true;
       this.enchantSheet = new ArM5eItemEnchantmentSheet(this);
     }
@@ -47,7 +47,7 @@ export class ArM5eItemSheet extends ItemSheet {
           // if (this.item.system.enchantments == null) {
           //   const updateData = {};
           //   updateData["system.state"] = "appraised";
-          //   updateData["system.enchantments"] = new EchantmentExtension();
+          //   updateData["system.enchantments"] = new EnchantmentExtension();
           //   await this.item.update(updateData);
           // }
           await this.enchantSheet.addEnchantment(enchant);
@@ -141,6 +141,9 @@ export class ArM5eItemSheet extends ItemSheet {
       };
 
       sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    } else if (usercache[this.item.id].sections == undefined) {
+      usercache[this.item.id].sections = { visibility: { common: {} } };
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     }
     return usercache[this.item.id];
   }
@@ -158,10 +161,18 @@ export class ArM5eItemSheet extends ItemSheet {
 
     // Add the item's data to context.system for easier access, as well as flags.
     context.system = itemData.system;
-    if (this.enchantPossible && context.system.enchantments != null) {
-      await this.enchantSheet.getData(context);
+    if (CONFIG.ISV10) {
+      if (this.enchantPossible && context.system.state != "inert") {
+        await this.enchantSheet.getData(context);
+      } else {
+        context.stateEdit = "disabled";
+      }
     } else {
-      context.stateEdit = "disabled";
+      if (this.enchantPossible && context.system.enchantments != null) {
+        await this.enchantSheet.getData(context);
+      } else {
+        context.stateEdit = "disabled";
+      }
     }
 
     context.flags = itemData.flags;
@@ -288,8 +299,14 @@ export class ArM5eItemSheet extends ItemSheet {
 
   async _updateObject(event, formData) {
     if (this.item.system.enchantments) {
-      if (this.enchantPossible && this.item.system.enchantments != null) {
-        formData = await this.enchantSheet._updateObject(event, formData);
+      if (CONFIG.ISV10) {
+        if (this.enchantPossible && this.item.system.state != "inert") {
+          formData = await this.enchantSheet._updateObject(event, formData);
+        }
+      } else {
+        if (this.enchantPossible && this.item.system.enchantments != null) {
+          formData = await this.enchantSheet._updateObject(event, formData);
+        }
       }
     }
     return await super._updateObject(event, formData);
