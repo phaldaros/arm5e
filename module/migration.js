@@ -1190,12 +1190,14 @@ export const migrateItemData = async function (item) {
       updateData["system.carried"] = true;
       const ench = {};
       if (itemData.system.uses) {
-        updateData["system.state"] = "charged";
+        updateData["system.state"] = "enchanted";
+        ench.state = "charged";
         ench.charged = true;
         ench.charges = itemData.system.uses;
         ench.originalCharges = itemData.system.uses;
       } else {
         updateData["system.state"] = "enchanted";
+        ench.state = "lesser";
         ench.charged = false;
         ench.charges = null;
       }
@@ -1207,10 +1209,22 @@ export const migrateItemData = async function (item) {
       if (delta != 0) {
         description += `Computed level (${level}) doesn't match original item level (${itemData.system.level}), please review.<br/>`;
       }
-      description;
+
+      ench.capacities = [
+        {
+          id: foundry.utils.randomID(),
+          sizeMultiplier: "tiny",
+          materialBase: "base1",
+          desc: "",
+          prepared: false
+        }
+      ];
+
       ench.effects = [
         {
-          name: itemData.system.effects,
+          name: itemData.system.effects ?? game.i18n.localize("arm5e.sheet.effect"),
+          type: "enchantment",
+          receptacleId: ench.capacities[0].id,
           system: {
             baseLevel: 1,
             technique: { value: itemData.system.technique.value },

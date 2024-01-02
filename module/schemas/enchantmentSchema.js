@@ -87,7 +87,13 @@ export class EnchantmentExtension extends foundry.abstract.DataModel {
         new fields.SchemaField({
           name: new fields.StringField({
             required: false,
-            blank: true
+            blank: true,
+            initial: ""
+          }),
+          type: new fields.StringField({
+            required: false,
+            blank: false,
+            initial: "enchantment"
           }),
           img: new fields.FilePathField({
             categories: ["IMAGE"],
@@ -136,9 +142,28 @@ export class EnchantmentExtension extends foundry.abstract.DataModel {
         c.id = foundry.utils.randomID();
       }
     }
+
     const effects = itemData.system.enchantments.effects;
+    // explanation: recovering from the mess made for magic Items migration
+    if (
+      itemData.system.enchantments.originalCharges > 1 &&
+      itemData.system.state == "enchanted" &&
+      (effects.length ? effects[0].receptacleId == "" : false)
+    ) {
+      updateData["system.state"] = "enchanted";
+      updateData["system.enchantments.state"] = "charged";
+    }
+
     for (let e of effects) {
-      e.receptacleId = capacities[0].id;
+      if (e.name === "") {
+        e.name = game.i18n.localize("arm5e.sheet.effect");
+      }
+      if (e.type === undefined) {
+        e.type = "enchantment";
+      }
+      if (e.receptacleId === "") {
+        e.receptacleId = capacities[0].id;
+      }
     }
     updateData["system.enchantments.capacities"] = capacities;
     updateData["system.enchantments.effects"] = effects;
