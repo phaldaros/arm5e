@@ -2,7 +2,6 @@ import { log } from "../tools.js";
 import { getCompanion, getMagus } from "./testData.js";
 import { ArsLayer } from "../ui/ars-layer.js";
 import { ARM5E } from "../config.js";
-import { simpleDie, stressDie } from "../dice.js";
 import Aura from "../helpers/aura.js";
 
 // import { Quench } from "../quench.js";

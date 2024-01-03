@@ -1,3 +1,13 @@
+## 2.2.3.20, Ophilio, even less young
+
+### Features & changes
+
+### Bug fixes
+
+- Core status effects don't prevent the roll of dice anymore
+- Aging rolls of 10 are again counting as 0.
+- Crisis rolls are also taking into account the diary date instead of the current date.
+
 ## 2.2.3.19, Ophilio, less young
 
 ### Dependencies updates

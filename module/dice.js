@@ -93,7 +93,7 @@ async function simpleDie(actor, type = "OPTION", callBack) {
  * @param {any} botchNum=0
  * @returns {any}
  */
-async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined, botchNum = 0) {
+async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined, botchNum = -1) {
   mult = 1;
   actor = await getRollFormula(actor);
   const rollData = actor.rollData;
@@ -111,7 +111,7 @@ async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined
     ui.notifications.info(`${actor.name} used DEV mode to roll a 0`);
   }
   if (modes & 4) {
-    rollOptions.noBotch = true;
+    botchNum = 0;
   }
   if (modes & 8) {
     rollOptions.prompt = false;
@@ -142,9 +142,13 @@ async function stressDie(actor, type = "OPTION", modes = 0, callBack = undefined
     )}</h3><br/>`;
   } else if (mult === 0) {
     if (dieRoll.botches === 0) {
-      flavorTxt = `<h2 class="dice-msg">${game.i18n.format("arm5e.messages.die.noBotch", {
-        dicenum: dieRoll.botchDice
-      })}</h2><br/>`;
+      if (modes && 4) {
+        flavorTxt = `<p>${game.i18n.localize("arm5e.dialog.button.stressdieNoBotch")}:</p>`;
+      } else {
+        flavorTxt = `<h2 class="dice-msg">${game.i18n.format("arm5e.messages.die.noBotch", {
+          dicenum: dieRoll.botchDice
+        })}</h2><br/>`;
+      }
     } else if (dieRoll._total == 1) {
       confAllowed = false;
       flavorTxt = `<h2 class="dice-msg">${game.i18n.localize("arm5e.messages.die.botch")}</h2>`;
@@ -507,7 +511,7 @@ async function CheckBotch(botchDice) {
   // return botchRoll.terms[0].total;
 }
 
-async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
+async function explodingRoll(actorData, rollOptions = {}, botchNum = -1) {
   let dieRoll;
   dieRoll = await createRoll(
     actorData.rollData.formula,
@@ -584,7 +588,7 @@ async function explodingRoll(actorData, rollOptions = {}, botchNum = 0) {
 
       const html = await renderTemplate("systems/arm5e/templates/roll/roll-botch.html");
       let botchRoll;
-      if (botchNum === 0 && rollOptions.prompt) {
+      if (botchNum === -1 && rollOptions.prompt) {
         // interactive mode show dialog
         await new Promise((resolve) => {
           new Dialog(
