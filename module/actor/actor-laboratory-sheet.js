@@ -608,6 +608,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
 
       if (event.currentTarget.dataset.drop === "spell") {
+        event.stopPropagation();
         switch (item.type) {
           case "laboratoryText": {
             if (item.system.type !== "spell") {
@@ -620,7 +621,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             planning.type = "learnSpell";
             let data = newSpell.toObject();
             planning.data = resetOwnerFields(data);
-            await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+            this.submit({
+              preventClose: true,
+              updateData: { "flags.arm5e.planning": planning }
+            });
             return true;
           }
           case "enchantment": {
@@ -628,37 +632,60 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             planning.type = "learnSpell";
             let data = newEnchant.toObject();
             planning.data = resetOwnerFields(data);
-            await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+            this.submit({
+              preventClose: true,
+              updateData: { "flags.arm5e.planning": planning }
+            });
+            return true;
           }
           default:
             return await super._onDrop(event);
         }
       } else if (event.currentTarget.dataset.drop === "enchant") {
-        //   Switch (item.type) {
-        //   case "laboratoryText": {
-        //     if (item.system.type !== "spell") {
-        //       break;
-        //     }
-        //   }
-        //   case "magicalEffect":
-        //   case "spell": {
-        //     let newSpell = await Item.create(item.toObject(), { temporary: true });
-        //     planning.type = "learnSpell";
-        //     let data = newSpell.toObject();
-        //     planning.data = resetOwnerFields(data);
-        //     await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
-        //     return true;
-        //   }
-        //   case "enchantment": {
-        //     let newEnchant = await Item.create(item.toObject(), { temporary: true });
-        //     planning.type = "minorEnchant";
-        //     let data = newEnchant.toObject();
-        //     planning.data = resetOwnerFields(data);
-        //     await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
-        //   }
-        //   case "item": {
-        //   }
-        // }
+        event.stopPropagation();
+        switch (item.type) {
+          case "laboratoryText": {
+            if (item.system.type !== "spell") {
+              break;
+            }
+          }
+          case "magicalEffect":
+          case "spell": {
+            let newSpell = await Item.create(item.toObject(), { temporary: true });
+            let data = newSpell.toObject();
+            resetOwnerFields(data);
+            planning.data.enchantment = {
+              name: data.name,
+              img: data.img,
+              type: "enchantment",
+              system: data.system
+            };
+            this.submit({
+              preventClose: true,
+              updateData: { "flags.arm5e.planning": planning }
+            });
+            return true;
+          }
+          case "enchantment": {
+            let newEnchant = await Item.create(item.toObject(), { temporary: true });
+            let data = newEnchant.toObject();
+            resetOwnerFields(data);
+            planning.data.enchantment = {
+              name: data.name,
+              img: data.img,
+              type: "enchantment",
+              system: data.system
+            };
+            this.submit({
+              preventClose: true,
+              updateData: { "flags.arm5e.planning": planning }
+            });
+            // awa
+            return true;
+          }
+          case "item": {
+          }
+        }
       }
     }
     return await super._onDrop(event);

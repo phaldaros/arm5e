@@ -64,6 +64,7 @@ export function registerRollTesting(quench) {
               try {
                 let dataset = { roll: "char", characteristic: c };
                 actor.rollData.init(dataset, actor);
+
                 let roll = await stressDie(actor, "char", 0, null, 10);
                 log(false, roll);
                 assert.ok(roll);
@@ -105,7 +106,57 @@ export function registerRollTesting(quench) {
           });
         }
       });
-
+      describe("Aging rolls", function () {
+        for (const loop of Array(25).keys()) {
+          it("Aging roll number " + [loop], async function () {
+            try {
+              let dataset = {
+                roll: "aging",
+                season: "winter",
+                year: "1222"
+              };
+              actor.rollData.init(dataset, actor);
+              const ageMod = actor.rollData.getGenericFieldValue(1);
+              let roll = await stressDie(actor, "aging", 4, null, 0);
+              log(false, roll);
+              assert.ok(roll);
+              if (roll.botches) {
+                assert.equal(roll.total, 0, "botched");
+                return;
+              }
+              assert.equal(roll.modifier(), ageMod, "modifier not correct");
+            } catch (err) {
+              console.error(`Error: ${err}`);
+              assert.ok(false);
+            }
+          });
+        }
+        for (const loop of Array(25).keys()) {
+          it("Crisis roll number " + [loop], async function () {
+            try {
+              let dataset = {
+                roll: "crisis",
+                season: "winter",
+                year: "1222"
+              };
+              actor.rollData.init(dataset, actor);
+              const ageMod =
+                actor.rollData.getGenericFieldValue(1) + actor.rollData.getGenericFieldValue(2);
+              let roll = await simpleDie(actor, "crisis", null);
+              log(false, roll);
+              assert.ok(roll);
+              if (roll.botches) {
+                assert.equal(roll.total, 0, "botched");
+                return;
+              }
+              assert.equal(roll.modifier(), ageMod, "modifier not correct");
+            } catch (err) {
+              console.error(`Error: ${err}`);
+              assert.ok(false);
+            }
+          });
+        }
+      });
       describe("Options rolls", function () {
         it("Personality roll", async function () {
           try {

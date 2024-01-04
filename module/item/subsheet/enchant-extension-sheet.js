@@ -137,8 +137,8 @@ export class ArM5eItemEnchantmentSheet {
     let idx = 0;
     let overcap = false;
     for (let e of enchants.effects) {
-      e.details = `${spellTechniqueLabel(e.system, true)} - ${spellFormLabel(e.system, true)}`;
       e.system.level = computeLevel(e.system, "enchantment");
+      e.details = ArM5eItem.GetEffectAttributesLabel(e);
       if (e.system.hidden && !context.isGM) {
         enchants.usedCapa = "??";
       } else {

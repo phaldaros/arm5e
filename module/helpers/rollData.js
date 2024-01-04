@@ -194,11 +194,11 @@ export class ArM5eRollData {
         break;
       case ROLL_PROPERTIES.CRISIS.VAL:
         this.environment.year = parseInt(dataset.year);
-        this.environment.season = ARM5E.seasons.winter.label;
+        this.environment.season = ARM5E.seasons[dataset.season].label;
         this.label =
-          game.i18n.localize("arm5e.aging.roll.label") +
+          game.i18n.localize("arm5e.aging.crisis.label") +
           " " +
-          this.environment.season +
+          game.i18n.localize(ARM5E.seasons[dataset.season].label) +
           " " +
           this.environment.year;
 
@@ -209,7 +209,7 @@ export class ArM5eRollData {
         );
         this.setGenericField(
           game.i18n.localize("arm5e.sheet.ageModifier"),
-          Math.round(parseInt(actorSystemData.age.value) / 10),
+          Math.round(parseInt(this.environment.year - actorSystemData.description.born.value) / 10),
           2
         );
         break;

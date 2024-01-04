@@ -10,7 +10,7 @@ export async function exertSelf(actor, mode, callback) {
 
   actor.rollData.combat.exertion = true;
 
-  await stressDie(actor, actor.rollData.type, callback, mode, 0);
+  await stressDie(actor, actor.rollData.type, callback, mode, -1);
 
   await actor.loseFatigueLevel(1);
 }

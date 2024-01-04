@@ -1,6 +1,5 @@
-import { stressDie } from "../dice.js";
 import { debug, log } from "../tools.js";
-import { ArM5eItemSheet, ArM5eItemSheetNoDesc } from "./item-sheet.js";
+import { ArM5eItemSheetNoDesc } from "./item-sheet.js";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -19,7 +18,7 @@ export class ArM5eSmallSheet extends ArM5eItemSheetNoDesc {
   /** @override */
   async getData() {
     const context = await super.getData();
-    
+
     context;
     return context;
   }

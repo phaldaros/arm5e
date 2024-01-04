@@ -1,4 +1,3 @@
-import { stressDie } from "../dice.js";
 import { debug, log } from "../tools.js";
 import { ArM5eItemSheet, ArM5eItemSheetNoDesc } from "./item-sheet.js";
 

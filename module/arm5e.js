@@ -380,7 +380,7 @@ async function createArM5eMacro(data, slot) {
     return true;
   } else {
     let macro = await Macro.implementation.create({
-      name: `${game.i18n.localize("Display")} ${name}`,
+      name: `${game.i18n.localize("Display")} ${doc.name}`,
       type: CONST.MACRO_TYPES.SCRIPT,
       img: doc.img,
       command: `await Hotbar.toggleDocumentSheet("${doc.uuid}");`

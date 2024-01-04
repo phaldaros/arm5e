@@ -42,7 +42,8 @@
       <div class="padding4">
         <div class="padding4 flexrow flex-group-left">
           <label class="section-handle clickable" data-category="enchantExt"
-            data-section="enchant">{{localize "arm5e.sheet.item.enchantments"}}
+            data-section="enchant">{{localize "arm5e.sheet.item.enchantments"}} -
+            {{ system.enchantments.effects.length}}
           </label>
           <div class="flex0 padding2">
             {{#if system.enchantments.addEffect }}
@@ -174,7 +175,8 @@
         <div class="padding4">
           <div class="padding4 flexrow flex-group-left">
             <label class="section-handle clickable" data-category="enchantExt"
-              data-section="capacity">{{localize "arm5e.enchantment.capacity.label"}}</label>
+              data-section="capacity">{{localize "arm5e.enchantment.capacity.label"}} -
+              {{ system.enchantments.capacities.length}}</label>
             <div class="flex0 padding2">
               {{#if system.enchantments.addCapa }}
                 <a class="attribute-control attribute-create"
@@ -270,7 +272,8 @@
       <div class="padding4">
         <div class="padding4 flexrow flex-group-left">
           <label class="section-handle clickable" data-category="enchantExt" data-section="aspect">{{localize
-        "arm5e.enchantment.aspects"}}</label>
+        "arm5e.enchantment.aspects"}} - {{ system.enchantments.aspects.length}}</label>
+
           <div class="padding2 flex0">
             {{#if system.enchantments.addAspect }}
               <a class="aspect-control aspect-create"
