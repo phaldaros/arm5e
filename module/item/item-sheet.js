@@ -137,12 +137,12 @@ export class ArM5eItemSheet extends ItemSheet {
     let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
     if (usercache[this.item.id] == undefined) {
       usercache[this.item.id] = {
-        sections: { visibility: { common: {} } }
+        sections: { visibility: { common: {}, book: {} } }
       };
 
       sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     } else if (usercache[this.item.id].sections == undefined) {
-      usercache[this.item.id].sections = { visibility: { common: {} } };
+      usercache[this.item.id].sections = { visibility: { common: {}, book: {} } };
       sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     }
     return usercache[this.item.id];

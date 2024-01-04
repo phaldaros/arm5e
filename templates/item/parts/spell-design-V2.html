@@ -139,10 +139,12 @@
             {{edition.spellField}} style="max-width: 70px;" />
         </div>
       </div>
-      <div class="resource flex-group-center" style="min-width: 150px;max-width: 190px;margin-top: 6px;">
-        <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
-        <input type="checkbox" name="{{prefix}}system.applyFocus" {{checked spelldata.system.applyFocus}} />
-      </div>
+      {{#unless noApplyFocus}}
+        <div class="resource flex-group-center" style="min-width: 150px;max-width: 190px;margin-top: 6px;">
+          <label class="header-label">{{localize "arm5e.spell.applyFocus" }}</label>
+          <input type="checkbox" name="{{prefix}}system.applyFocus" {{checked spelldata.system.applyFocus}} />
+        </div>
+      {{/unless}}
     </div>
   </div>
 </div>

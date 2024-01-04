@@ -498,6 +498,7 @@ export class MinorEnchantment extends LabActivity {
       ARM5E.lab.enchantment.materialBase[receptacleEnchants.capacities[0].materialBase].base *
       ARM5E.lab.enchantment.sizeMultiplier[receptacleEnchants.capacities[0].sizeMultiplier].mult;
     planning.enchantPrefix = planning.namePrefix + "enchantment.";
+
     return planning;
   }
 
@@ -554,6 +555,7 @@ export class MinorEnchantment extends LabActivity {
       achievement._id = item._id;
     }
     const effect = input.data.enchantment;
+    effect.receptacleId = item.system.enchantments.capacities[0].id;
     const enchantments = {
       author: this.actor.name,
       year: input.date.year,

@@ -2,11 +2,16 @@
 
 ### Features & changes
 
+- Cosmetic changes to enchanted item's sheet
+- Lab texts sheet rework to match other magic effects sheets
+- Drag and drop support of effects/enchantments/spells on the lab workbench
+
 ### Bug fixes
 
 - Core status effects don't prevent the roll of dice anymore
 - Aging rolls of 10 are again counting as 0.
 - Crisis rolls are also taking into account the diary date instead of the current date.
+- Documents dropped on the hotbar have the proper macro name "Display <documentName>"
 
 ## 2.2.3.19, Ophilio, less young
 
