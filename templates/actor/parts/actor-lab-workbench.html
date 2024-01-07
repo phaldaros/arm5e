@@ -45,10 +45,12 @@
               <input type="checkbox" name="flags.arm5e.planning.magicThSpecApply" {{checked planning.magicThSpecApply
                 }} />
             </div>
-            <div class="resource flexcol flex-center">
-              <label class="header-label ">{{localize "arm5e.lab.option.oneCharge"}}</label>
-              <input type="checkbox" name="flags.arm5e.planning.oneCharge" {{checked planning.oneCharge}} />
-            </div>
+            {{#if (eq planning.type "chargedItem")}}
+              <div class="resource flexcol flex-center">
+                <label class="header-label ">{{localize "arm5e.lab.option.oneCharge"}}</label>
+                <input type="checkbox" name="flags.arm5e.planning.oneCharge" {{checked planning.oneCharge}} />
+              </div>
+            {{/if}}
             <div class="resource flexcol flex-center flex01">
               <label class="header-label ">{{localize "arm5e.lab.distraction.label"}}
               </label>
