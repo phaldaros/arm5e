@@ -7,14 +7,17 @@
   <div class="foldable-section backSection {{lookup visibility 'enchant-attributes'}}"
     id="{{container}}-enchant-attributes{{index}}-{{docId}}">
     <div class="flexrow ressource">
-      <div class="resource flexcol flex-center">
-        <label class="header-label">{{localize "arm5e.lab.enchantment.effectFrequency" }}</label>
-        <select name="{{prefix}}system.effectfrequency" {{noSelect}} data-dtype="Number">
-          {{#select enchantData.system.effectfrequency}} {{#each @root.config.lab.enchantment.effectUses as |uses key|}}
-              <option value="{{key}}">{{uses}} {{localize "arm5e.lab.enchantment.uses-per-day"}}</option>
-            {{/each}} {{/select}}
-        </select>
-      </div>
+      {{#unless charged}}
+        <div class="resource flexcol flex-center">
+          <label class="header-label">{{localize "arm5e.lab.enchantment.effectFrequency" }}</label>
+          <select name="{{prefix}}system.effectfrequency" {{noSelect}} data-dtype="Number">
+            {{#select enchantData.system.effectfrequency}}
+              {{#each @root.config.lab.enchantment.effectUses as |uses key|}}
+                <option value="{{key}}">{{uses}} {{localize "arm5e.lab.enchantment.uses-per-day"}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+      {{/unless}}
       <div class="resource flexcol flex-center">
         <label class="header-label">{{localize "arm5e.lab.enchantment.penetration"}}</label>
         <input type="number" {{noEdit}} name="{{prefix}}system.penetration" value="{{enchantData.system.penetration}}"

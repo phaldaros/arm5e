@@ -300,27 +300,27 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       if (result.duration <= 1) {
         this.planning.messages.push(result.message);
       } else {
+        this.planning.messages.push(game.i18n.localize("arm5e.lab.planning.msg.unsupported"));
         this.planning.messages.push(
-          `${game.i18n.localize("arm5e.lab.planning.msg.unsupported")}<br/>${game.i18n.format(
-            "arm5e.lab.planning.msg.waste",
-            {
-              points: result.waste
-            }
-          )}`
+          game.i18n.format("arm5e.lab.planning.msg.waste", {
+            points: result.waste
+          })
         );
       }
     } else {
       context.edition.schedule = "";
-      this.planning.messages.push(
-        `${result.message}</ul><ul>${game.i18n.format("arm5e.lab.planning.msg.waste", {
-          points: result.waste
-        })}`
-      );
-      if (context.system.owner.document.system.penalties.wounds.total != 0) {
+      this.planning.messages.push(result.message);
+      if (this.activity.hasWaste) {
         this.planning.messages.push(
-          `${game.i18n.format("arm5e.lab.planning.msg.wounded", {
-            penalty: context.system.owner.document.system.penalties.wounds.total
-          })}`
+          game.i18n.format("arm5e.lab.planning.msg.waste", {
+            points: result.waste
+          })
+        );
+      } else {
+        this.planning.messages.push(
+          game.i18n.format("arm5e.lab.planning.msg.labTotalExcess", {
+            points: result.waste
+          })
         );
       }
     }
@@ -530,6 +530,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         sourceQuality = computeLevel(planning.data.system, planning.type);
         break;
       case "visExtraction":
+      case "chargedItem":
         break;
       case "longevityRitual":
       case "minorEnchantment":
@@ -561,7 +562,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     const entryData = [
       {
-        name: game.i18n.localize(CONFIG.ARM5E.activities.lab[planning.type].label),
+        name: planning.data.receptacle.name,
         type: "diaryEntry",
         system: {
           done: false,

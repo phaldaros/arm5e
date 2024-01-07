@@ -15,9 +15,12 @@
       <div class="padding4 flexrow">
         {{> "systems/arm5e/templates/item/parts/authorship.html" }}
       </div>
-      <div class="grid grid-2col">
+      <div class="flexrow">
+        <div class="padding2">
+          <label>{{system.localizedDesc}}</label>
+        </div>
         {{#if isOwned}}
-          <div class="resource flexcol flex-center flex0" style="margin-top: 10px;">
+          <div class="modifier" style="margin-top: 10px;">
             <a class=" study-labtext" title='{{localize "arm5e.hints.read" item=(localize "arm5e.sheet.book")}}'
               style="padding-left: 5px; padding-top: 5px;"><i class="icon-Icon_Readspell"></i></a>
           </div>

@@ -321,7 +321,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
       case "enchantment":
       case "spell":
       case "laboratoryText":
-        return true;
+        return item.system.type !== "raw";
 
       default:
         return false;
@@ -344,9 +344,10 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     if (type == "laboratoryText") {
       log(false, "Valid drop");
       // create a spell or enchantment data:
-      return await super._onDropItemCreate(labTextToEffect(foundry.utils.deepClone(item)));
+      if (item.system.type != "raw") {
+        return await super._onDropItemCreate(labTextToEffect(foundry.utils.deepClone(item)));
+      }
     }
-    // }
     const res = await super._onDropItem(event, data);
     if (res.length == 1) {
       res[0].sheet.render(true);

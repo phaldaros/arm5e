@@ -841,6 +841,7 @@
   "arm5e.lab.planning.label": "Planning",
   "arm5e.lab.planning.msg.noOwner": "This lab has no owner. Planning is not possible.",
   "arm5e.lab.planning.msg.waste": "Laboratory points unused: {points}.",
+  "arm5e.lab.planning.msg.labTotalExcess": "Laboratory points in excess: {points}.",
   "arm5e.lab.planning.msg.unsupported": "Multi-seasons activities not supported yet.",
   "arm5e.lab.planning.msg.artDeficiency": "Due to Art deficiency, divided by {divisor}",
   "arm5e.lab.planning.msg.notSkilledLearn": "Not skilled enough to learn that spell.",
@@ -854,6 +855,7 @@
   "arm5e.lab.planning.msg.longevityBonus": "Bonus of {bonus} to aging.",
   "arm5e.lab.planning.msg.smallCapacity": "Size is too small or material not noble enough.",
   "arm5e.lab.planning.msg.visNeeded": "{num} pawns of Vis needed.",
+  "arm5e.lab.planning.msg.chargesAvailable": "{num} charges available.",
   "arm5e.lab.planning.msg.tooMuchVis": "{num} pawns is more than twice the Magic theory's score",
 
   "arm5e.lab.planning.button.refresh": "Refresh",
@@ -944,6 +946,10 @@
   "arm5e.lab.bonus.apprentice": "Apprentice",
   "arm5e.lab.bonus.specialties": "Specialties",
   "arm5e.lab.bonus.aspects": "Shapes and materials bonus",
+  "arm5e.lab.bonus.aspectsVerditius": "Philosophiae (Verditius)",
+  "arm5e.lab.bonus.aspectsMax": "maximum twice M. Theory",
+
+  "arm5e.lab.option.oneCharge": "One charge per item",
 
   "arm5e.lab.specialty.experimentation": "Experimentation",
   "arm5e.lab.specialty.familiar": "Familiar",
@@ -1206,7 +1212,7 @@
   "arm5e.aging.result4": "- Gained {num} point(s) of aging in {characteristic}.<br/>",
   "arm5e.aging.result5": "- Lost one point in {characteristic}.<br/>",
   "arm5e.aging.result6": "- Gained {num} point(s) of decrepitude.<br/>",
-  "arm5e.aging.result7": "- Gained {num} point(s) of Warping due to longetivity potion.<br/>",
+  "arm5e.aging.result7": "- Gained {num} point(s) of Warping due to longevity potion.<br/>",
   "arm5e.aging.rollback.title": "Revert effect of aging roll",
   "arm5e.aging.rollback.confirm": "This action will revert the effect of aging and delete the diary entry. Are you sure?",
   "arm5e.aging.manualEdit": "{name} lost one point in {char} due to aging.",
@@ -1228,6 +1234,7 @@
   "arm5e.activity.reading": "Reading",
   "arm5e.activity.spellLearning": "Spell learning",
   "arm5e.activity.inventSpell": "Invent Spell",
+  "arm5e.activity.newSpellName": "New spell name",
   "arm5e.activity.apprenticeship": "Apprenticeship",
   "arm5e.activity.childhood": "Early childhood",
   "arm5e.activity.laterLife": "Later life",
@@ -1236,7 +1243,8 @@
   "arm5e.activity.visStudy": "Vis study",
   "arm5e.activity.recovery": "Recovery",
   "arm5e.activity.longevityRitual": "Longevity ritual",
-  "arm5e.activity.minorEnchantment": "Minor enchantment",
+  "arm5e.activity.minorEnchantment": "Lesser enchantment",
+  "arm5e.activity.chargedItem": "Charged item",
 
   "arm5e.activity.pawnsNeeded": "Pawns of Vis needed",
 

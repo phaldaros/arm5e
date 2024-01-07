@@ -1,10 +1,13 @@
-## 2.2.3.20, Ophilio, even less young
+## 2.2.3.21, Ophilio, even less young
 
 ### Features & changes
 
 - Cosmetic changes to enchanted item's sheet
 - Lab texts sheet rework to match other magic effects sheets
+- Dropping a lab text on an Actor's sheet no longer add it as an effect but add it in inventory.
 - Drag and drop support of effects/enchantments/spells on the lab workbench
+- Verditius magic taken into account for shapes and materials bonuses.
+- Charged Items creation in lab.
 
 ### Bug fixes
 
@@ -12,6 +15,8 @@
 - Aging rolls of 10 are again counting as 0.
 - Crisis rolls are also taking into account the diary date instead of the current date.
 - Documents dropped on the hotbar have the proper macro name "Display <documentName>"
+- Removed dependency to arm5e-compendia at documents' initialization so higher latency servers don't raise an error.
+- Migration no longer fails migrating effects of invalid actors
 
 ## 2.2.3.19, Ophilio, less young
 

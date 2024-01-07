@@ -16,7 +16,8 @@ export class ArM5eItem extends Item {
       item.type == "magicalEffect" ||
       item.type == "enchantment" ||
       item.type == "spell" ||
-      (item.type === "laboratoryText" && item.system.type === "spell")
+      (item.type === "laboratoryText" &&
+        (item.system.type === "spell" || item.system.type === "enchantment"))
     );
   }
   static canBeEnchanted(item) {

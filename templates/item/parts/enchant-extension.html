@@ -369,12 +369,13 @@
             <div>
               {{> "systems/arm5e/templates/item/parts/spell-design-V2.html" container="enchantments" index=idx docId=@root.item._id
             prefix=prefix spelldata=(lookup @root.system.enchantments.effects idx) docId=@root.item._id 
-            visibility=(lookup @root.ui.sections.visibility.enchantments idx) ritual=false}}
+            visibility=(lookup @root.ui.sections.visibility.enchantments idx) ritual=false }}
             </div>
 
             <div style="margin-top: 10px;">
               {{> "systems/arm5e/templates/item/parts/enchantment-attributes.html" container="enchantments" index=idx docId=@root.item._id
-            prefix=prefix enchantData=(lookup @root.system.enchantments.effects idx) visibility=(lookup @root.ui.sections.visibility.enchantments idx)}}
+            prefix=prefix enchantData=(lookup @root.system.enchantments.effects idx) 
+            visibility=(lookup @root.ui.sections.visibility.enchantments idx) charged=@root.system.enchantments.charged}}
             </div>
           {{/if}}
         </div>
