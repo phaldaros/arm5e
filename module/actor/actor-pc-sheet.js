@@ -144,17 +144,7 @@ export class ArM5ePCActorSheet extends ArM5eActorSheet {
     }
 
     // transform input into labText
-    if (item.type == "laboratoryText") {
-      if (item.system.type == "spell") {
-        log(false, "Valid drop");
-        // create a spell or enchantment data:
-        // TODOV10 check that
-        return await super._onDropItemCreate(labTextToEffect(foundry.utils.deepClone(item)));
-      } else {
-        log(false, "Invalid drop");
-        return false;
-      }
-    } else if (item.type == "ability") {
+    if (item.type == "ability") {
       if (this.actor.hasSkill(item.system.key)) {
         ui.notifications.warn(
           `${game.i18n.localize("arm5e.notification.doubleAbility")} : ${item.name}`

@@ -58,7 +58,9 @@ export class LabActivity extends Activity {
     }
   }
 
-  hasVisCost = false;
+  get hasVisCost() {
+    return false;
+  }
 
   getTechnicalPart(data) {
     return "";
@@ -69,12 +71,16 @@ export class LabActivity extends Activity {
   async getDefaultData() {
     return await Item.create(
       {
-        name: "New activity",
+        name: this.title,
         type: "spell"
         // system:
       },
       { temporary: true, render: false }
     );
+  }
+
+  get title() {
+    return game.i18n.localize("arm5e.activity.activity");
   }
 
   activityAchievement(input) {
@@ -147,10 +153,29 @@ export class LabActivity extends Activity {
 
     for (let [key, mod] of Object.entries(this.modifiers)) {
       if (key == "magicThSpecApply") continue;
+
+      if (["philosophy", "aspects"].includes(key)) continue;
       total += mod;
       if (mod != 0) {
         labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus." + key)} (${mod}) &#10`;
       }
+    }
+
+    //special case for aspect and Verditius Magic
+
+    if (this.modifiers.aspects) {
+      labTot.label += `+ ${game.i18n.localize("arm5e.lab.bonus.aspects")} (${
+        this.modifiers.aspects
+      }) &#10`;
+      total += this.modifiers.aspects;
+      if (this.modifiers.philosophy) {
+        labTot.label += `   ( +${this.modifiers.philosophy} ${game.i18n.localize(
+          "arm5e.lab.bonus.aspectsVerditius"
+        )}, `;
+      } else {
+        labTot.label += "   (";
+      }
+      labTot.label += `${game.i18n.localize("arm5e.lab.bonus.aspectsMax")})&#10`;
     }
 
     // lab specialties
@@ -226,10 +251,18 @@ export class SpellActivity extends LabActivity {
     super(lab, actor, type);
   }
 
+  get title() {
+    return game.i18n.localize("arm5e.activity.newSpellName");
+  }
+
+  get hasWaste() {
+    return true;
+  }
+
   async getDefaultData() {
     const effect = await Item.create(
       {
-        name: "New spell",
+        name: this.title,
         type: "spell"
         // system:
       },
@@ -311,7 +344,17 @@ export class LongevityRitualActivity extends LabActivity {
     this.target = target ?? actor;
   }
 
-  // hasVisCost = true;
+  get hasVisCost() {
+    return true;
+  }
+
+  get hasWaste() {
+    return false;
+  }
+
+  get title() {
+    return game.i18n.localize("arm5e.activity.longevityRitual");
+  }
 
   get labActivitySpec() {
     return {
@@ -359,6 +402,10 @@ export class VisExtractionActivity extends LabActivity {
     };
   }
 
+  get title() {
+    return game.i18n.localize("arm5e.activity.visExtraction");
+  }
+
   activityAchievement(input) {
     return {
       name: "Vim vis",
@@ -397,17 +444,30 @@ export class MinorEnchantment extends LabActivity {
     super(lab, actor, "minorEnchantment");
   }
 
-  hasVisCost = true;
+  get hasVisCost() {
+    return true;
+  }
+
+  get title() {
+    return game.i18n.localize("arm5e.activity.minorEnchantment");
+  }
 
   computeLabTotal(data, distractions) {
     // retrieve shape and material bonus if any
     let MTscore = this.actor.getAbilityStats("magicTheory").score;
+    let philo = { score: 0 };
+    if (this.actor.hasSkill("verditiusMagic")) {
+      philo = this.actor.getAbilityStats("philosophy");
+      if (philo.score > 0) {
+        this.modifiers["philosophy"] = philo.score;
+      }
+    }
     if (this.modifiers["magicThSpecApply"]) {
       MTscore++;
     }
     const aspect = data.receptacle.system.enchantments.aspects[0];
     if (aspect?.apply) {
-      this.modifiers["aspects"] = Math.min(MTscore, aspect.bonus);
+      this.modifiers["aspects"] = Math.min(MTscore, aspect.bonus + philo.score);
     } else {
       delete this.modifiers.aspects;
     }
@@ -430,7 +490,7 @@ export class MinorEnchantment extends LabActivity {
 
     let item = await Item.create(
       {
-        name: "Lesser enchanted device",
+        name: this.title,
         type: "item",
         system: {
           quantity: 1,
@@ -486,9 +546,9 @@ export class MinorEnchantment extends LabActivity {
         { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
       ];
     }
+
     receptacleEnchants.aspects[0].effects =
       planning.data.ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
-
     receptacleEnchants.aspects[0].bonus =
       planning.data.ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
         receptacleEnchants.aspects[0].effect
@@ -575,114 +635,25 @@ export class MinorEnchantment extends LabActivity {
   activateListeners(html) {}
 }
 
-export class ChargedItem extends LabActivity {
+export class ChargedItem extends MinorEnchantment {
   constructor(lab, actor) {
     super(lab, actor, "chargedItem");
   }
 
-  hasVisCost = false;
-
-  computeLabTotal(data, distractions) {
-    // retrieve shape and material bonus if any
-    let MTscore = this.actor.getAbilityStats("magicTheory").score;
-    if (this.modifiers["magicThSpecApply"]) {
-      MTscore++;
-    }
-    const aspect = data.receptacle.system.enchantments.aspects[0];
-    if (aspect?.apply) {
-      this.modifiers["aspects"] = Math.min(MTscore, aspect.bonus);
-    } else {
-      delete this.modifiers.aspects;
-    }
-
-    return this._computeLabTotal(data.enchantment, distractions);
+  get hasWaste() {
+    return false;
   }
-  async getDefaultData() {
-    const result = {};
-    let enchant = await Item.create(
-      {
-        name: "New enchantment",
-        type: "enchantment"
-      },
-      { temporary: true, render: false }
-    );
 
-    const receptacleID = foundry.utils.randomID();
-    enchant = enchant.toObject();
-    enchant.receptacleId = receptacleID;
-
-    let item = await Item.create(
-      {
-        name: "Charged enchanted device",
-        type: "item",
-        system: {
-          quantity: 1,
-          weight: 0,
-          state: "appraised",
-          enchantments: new EnchantmentExtension()
-        }
-      },
-      { temporary: true, render: false }
-    );
-    item = item.toObject();
-
-    result.ASPECTS = await ArM5eItemMagicSheet.GetFilteredAspects();
-
-    const first = Object.keys(result.ASPECTS)[0];
-    const firstEffect = Object.keys(result.ASPECTS[first].effects)[0];
-    item.system.enchantments.capacities = [
-      { id: receptacleID, materialBase: "base1", sizeMultiplier: "tiny", desc: "", used: 0 }
-    ];
-    item.system.enchantments.aspects = [
-      { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
-    ];
-    result.receptacle = item;
-    result.enchantment = enchant;
-    result.itemType = "item";
-    return result;
-  }
-  get labActivitySpec() {
-    return {
-      mod: this.lab.system.specialty.items.bonus,
-      label: `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
-        "arm5e.lab.specialty.items"
-      )} (${this.lab.system.specialty.items.bonus}) &#10`
-    };
+  get hasVisCost() {
+    return false;
   }
 
   get activitySheet() {
     return "systems/arm5e/templates/lab-activities/charged-item.html";
   }
 
-  /**
-   * Enrich context with specific data for the lab activity
-   * @param {any} planning
-   * @returns {any}
-   */
-  prepareData(planning) {
-    const receptacleEnchants = planning.data.receptacle.system.enchantments;
-    if (receptacleEnchants.aspects.length == 0) {
-      error(false, `DEBUG prepareData: WARNING ASPECTS length = 0`);
-      const first = Object.keys(planning.data.ASPECTS)[0];
-      const firstEffect = Object.keys(planning.data.ASPECTS[first].effects)[0];
-      receptacleEnchants.aspects = [
-        { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
-      ];
-    }
-
-    receptacleEnchants.aspects[0].effects =
-      planning.data.ASPECTS[receptacleEnchants.aspects[0].aspect].effects;
-    receptacleEnchants.aspects[0].bonus =
-      planning.data.ASPECTS[receptacleEnchants.aspects[0].aspect].effects[
-        receptacleEnchants.aspects[0].effect
-      ]?.bonus ?? 0;
-
-    receptacleEnchants.capacities[0].used = Math.ceil(planning.data.enchantment.system.level / 10);
-    receptacleEnchants.capacities[0].total =
-      ARM5E.lab.enchantment.materialBase[receptacleEnchants.capacities[0].materialBase].base *
-      ARM5E.lab.enchantment.sizeMultiplier[receptacleEnchants.capacities[0].sizeMultiplier].mult;
-    planning.enchantPrefix = planning.namePrefix + "enchantment.";
-    return planning;
+  get title() {
+    return game.i18n.localize("arm5e.lab.activity.chargedEnchantment");
   }
 
   validation(input) {
@@ -705,26 +676,37 @@ export class ChargedItem extends LabActivity {
     } else {
       return {
         valid: true,
-        waste: delta - lvl,
+        waste: delta,
         duration: 1,
-        message: game.i18n.format("arm5e.lab.planning.msg.visNeeded", {
-          num: Math.ceil(lvl / 10)
+        message: game.i18n.format("arm5e.lab.planning.msg.chargesAvailable", {
+          num: Math.ceil(delta / 5)
         })
       };
     }
   }
 
-  // getVisCost(input) {
-  //   return {
-  //     amount: Math.ceil(input.data.enchantment.system.level / 10),
-  //     technique: input.data.enchantment.system.technique.value,
-  //     form: input.data.enchantment.system.form.value
-  //   };
-  // }
+  prepareData(planning) {
+    planning = super.prepareData(planning);
+
+    planning.data.receptacle.system.enchantments.originalCharges = Math.max(
+      1,
+      Math.ceil((planning.labTotal.score - planning.data.enchantment.system.level) / 5)
+    );
+
+    return planning;
+  }
 
   // TODO rework
   activityAchievement(input) {
     const item = input.data.receptacle;
+    let chargesPerItem = item.system.enchantments.originalCharges;
+    let quantity = 1;
+
+    if (input.oneCharge) {
+      quantity = chargesPerItem;
+      chargesPerItem = 1;
+    }
+
     const achievement = {
       name: item.name,
       type: input.data.itemType,
@@ -733,17 +715,23 @@ export class ChargedItem extends LabActivity {
       _id: null
     };
 
+    achievement.system.quantity = quantity;
+
     if (item._id) {
       // This is an existing item that need to be updated
       achievement._id = item._id;
     }
+
     const effect = input.data.enchantment;
+    effect.receptacleId = item.system.enchantments.capacities[0].id;
     const enchantments = {
       author: this.actor.name,
       year: input.date.year,
       season: input.date.season,
       bonuses: [],
       state: "charged",
+      originalCharges: chargesPerItem,
+      charges: chargesPerItem,
       aspects: item.system.enchantments.aspects,
       capacities: item.system.enchantments.capacities,
       effects: [effect]

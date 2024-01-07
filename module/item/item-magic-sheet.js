@@ -42,12 +42,16 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
       context.noSelect = "disabled";
       context.locked = true;
     }
+
     // If settings were too restrictive, allow existing Items to keep their value.
     switch (this.item.type) {
+      case "laboratoryText":
+        if (this.item.system.type === "raw") {
+          break;
+        }
       case "spell":
       case "enchantment":
       case "magicItem":
-      case "laboratoryText":
       case "magicalEffect":
         context.ranges[context.system.range.value] =
           CONFIG.ARM5E.magic.ranges[context.system.range.value];

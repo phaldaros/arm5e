@@ -281,8 +281,8 @@ export const HermeticAttributes = () => {
 
 export const AspectAttribute = () => {
   return {
-    aspect: baseDescription(Object.keys(CONFIG.ARM5E.ASPECTS)[0]),
-    effect: baseDescription(),
+    aspect: baseDescription("agate"),
+    effect: baseDescription("air"),
     bonus: new fields.NumberField({
       required: false,
       nullable: false,

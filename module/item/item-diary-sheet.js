@@ -966,6 +966,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "visStudy":
       case "minorEnchantment":
       case "longevityRitual":
+      case "chargedItem":
         for (let dependency of this.item.system.externalIds) {
           if (game.actors.has(dependency.actorId)) {
             let actor = game.actors.get(dependency.actorId);
@@ -1200,6 +1201,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "visExtraction":
       case "visStudy":
       case "minorEnchantment":
+      case "chargedItem":
         for (let dependency of this.item.system.externalIds) {
           if (game.actors.has(dependency.actorId)) {
             let actor = game.actors.get(dependency.actorId);

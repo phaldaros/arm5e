@@ -823,7 +823,13 @@ export const migrateActorData = async function (actorDoc, actorItems) {
           } else {
             // Effect is a remnant of V10 coming from an item
             const [actorPrefix, actorId, itemPrefix, itemId] = e.origin?.split(".") ?? [];
-            if (itemPrefix && actorDoc.items.has(itemId)) {
+            let hasItem = false;
+            if (actors.items instanceof Collection) {
+              hasItem = actorDoc.items.has(itemId);
+            } else if (actors.items instanceof Array) {
+              hasItem = actorDoc.items.some((e) => e._id === itemId);
+            }
+            if (itemPrefix && hasItem) {
               if (actorDoc instanceof ArM5ePCActor || actor.synthetic) {
                 console.log(`DEBUG: Found duplicate effect of origin: "${e.origin}", delete it.`);
                 toDelete.push(e._id);
