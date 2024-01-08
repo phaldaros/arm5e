@@ -1,4 +1,4 @@
-## 2.2.3.21, Ophilio, even less young
+## 2.2.3.22, Ophilio, even less young
 
 ### Features & changes
 
@@ -17,6 +17,7 @@
 - Documents dropped on the hotbar have the proper macro name "Display <documentName>"
 - Removed dependency to arm5e-compendia at documents' initialization so higher latency servers don't raise an error.
 - Migration no longer fails migrating effects of invalid actors
+- It is again possible to add abilities during a teaching or training activity
 
 ## 2.2.3.19, Ophilio, less young
 

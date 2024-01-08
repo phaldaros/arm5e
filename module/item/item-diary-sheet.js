@@ -1441,7 +1441,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
             const hasTeacher = ["training", "teaching"].includes(this.item.system.activity);
             // check if the
-            if (button.dataset.default.length == 16 && !button.dataset.default.secondary) {
+            if (button.dataset.default.length == 16 && !button.dataset.secondary) {
               newAb = this.actor.items.get(button.dataset.default);
             } else {
               if (hasTeacher) {
