@@ -33,7 +33,8 @@ const results = {
     visStudy: false,
     recovery: false,
     longevityRitual: false,
-    minorEnchantment: false
+    minorEnchantment: false,
+    chargedItem: false
   },
   adventuring: {
     none: false,
@@ -55,7 +56,8 @@ const results = {
     visStudy: false,
     recovery: false,
     longevityRitual: false,
-    minorEnchantment: false
+    minorEnchantment: false,
+    chargedItem: false
   },
   exposure: {
     none: false,
@@ -77,7 +79,8 @@ const results = {
     visStudy: false,
     recovery: false,
     longevityRitual: false,
-    minorEnchantment: false
+    minorEnchantment: false,
+    chargedItem: false
   },
   practice: {
     none: false,
@@ -99,7 +102,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   training: {
     none: false,
@@ -121,7 +125,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   teaching: {
     none: false,
@@ -143,7 +148,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   hermeticApp: {
     none: false,
@@ -165,7 +171,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   childhood: {
     none: false,
@@ -187,7 +194,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   laterLife: {
     none: false,
@@ -209,7 +217,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   laterLifeMagi: {
     none: false,
@@ -231,7 +240,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   reading: {
     none: false,
@@ -253,7 +263,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   learnSpell: {
     none: false,
@@ -275,7 +286,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   inventSpell: {
     none: false,
@@ -297,7 +309,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   visExtraction: {
     none: false,
@@ -319,7 +332,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   lab: {
     none: false,
@@ -341,7 +355,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   aging: {
     none: false,
@@ -363,7 +378,8 @@ const results = {
     visStudy: false,
     recovery: false,
     longevityRitual: false,
-    minorEnchantment: false
+    minorEnchantment: false,
+    chargedItem: false
   },
   visStudy: {
     none: false,
@@ -385,7 +401,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   recovery: {
     none: false,
@@ -407,7 +424,8 @@ const results = {
     visStudy: false,
     recovery: false,
     longevityRitual: false,
-    minorEnchantment: false
+    minorEnchantment: false,
+    chargedItem: false
   },
   longevityRitual: {
     none: false,
@@ -429,7 +447,8 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
   },
   minorEnchantment: {
     none: false,
@@ -451,7 +470,31 @@ const results = {
     visStudy: true,
     recovery: false,
     longevityRitual: true,
-    minorEnchantment: true
+    minorEnchantment: true,
+    chargedItem: true
+  },
+  chargedItem: {
+    none: false,
+    adventuring: false,
+    exposure: false,
+    practice: true,
+    training: true,
+    teaching: true,
+    hermeticApp: true,
+    childhood: true,
+    laterLife: true,
+    laterLifeMagi: true,
+    reading: true,
+    learnSpell: true,
+    inventSpell: true,
+    visExtraction: true,
+    lab: true,
+    aging: false,
+    visStudy: true,
+    recovery: false,
+    longevityRitual: true,
+    minorEnchantment: true,
+    chargedItem: true
   }
 };
 export function registerDiaryTesting(quench) {
