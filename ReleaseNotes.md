@@ -1,4 +1,4 @@
-## 2.2.3.22, Ophilio, even less young
+## 2.2.3.23, Ophilio, even less young
 
 ### Features & changes
 
@@ -8,6 +8,7 @@
 - Drag and drop support of effects/enchantments/spells on the lab workbench
 - Verditius magic taken into account for shapes and materials bonuses.
 - Charged Items creation in lab.
+- Shapes and materials browsing via the Codex
 
 ### Bug fixes
 

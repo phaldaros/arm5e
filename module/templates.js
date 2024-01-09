@@ -28,6 +28,7 @@ export const ArM5ePreloadHandlebarsTemplates = async function () {
     "systems/arm5e/templates/actor/parts/codex-magical-effects.hbs",
     "systems/arm5e/templates/actor/parts/codex-enchantments.hbs",
     "systems/arm5e/templates/actor/parts/codex-spells.hbs",
+    "systems/arm5e/templates/actor/parts/codex-aspects.hbs",
     "systems/arm5e/templates/actor/parts/actor-weapons.html",
     "systems/arm5e/templates/actor/parts/actor-armor.html",
     "systems/arm5e/templates/actor/parts/actor-items.html",

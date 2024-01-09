@@ -6,6 +6,7 @@ import { labTextToEffect } from "../item/item-converter.js";
 import { ArM5eItem } from "../item/item.js";
 import { HERMETIC_FILTER } from "../constants/userdata.js";
 import { getConfirmation } from "../constants/ui.js";
+import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -36,9 +37,15 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
         filters: {
           hermetic: {
             filter: HERMETIC_FILTER
+          },
+          aspects: {
+            searchString: ""
           }
         }
       };
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    } else if (usercache[this.actor.id].filters.aspects === undefined) {
+      usercache[this.actor.id].filters.aspects = { searchString: "" };
       sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     }
     return usercache[this.actor.id];
@@ -50,6 +57,11 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     const context = await super.getData();
     context.ui = this.getUserCache();
     // no need to import everything
+
+    context.metagame = {
+      view: game.settings.get("arm5e", "metagame"),
+      edit: context.isGM ? "" : "readonly"
+    };
     context.config = {};
     context.config.magic = CONFIG.ARM5E.magic;
     this._prepareCodexItems(context);
@@ -63,6 +75,67 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     context.system.enchantmentsCount = context.system.filteredEnchantments.length;
     context.system.filteredSpells = hermeticFilter(filters, context.system.spells);
     context.system.spellsCount = context.system.filteredSpells.length;
+
+    const filterBySettingAspects = await ArM5eItemMagicSheet.GetFilteredAspects();
+    const searchStr = context.ui.filters.aspects.searchString;
+    if (searchStr && searchStr.length < 3) {
+      context.system.filteredAspects = Object.values(filterBySettingAspects).map((e) => {
+        return { ...e, source: game.i18n.localize(CONFIG.ARM5E.generic.sourcesTypes[e.src].label) };
+      });
+    } else {
+      context.system.filteredAspects = {};
+      context.system.aspectsCount = 0;
+      if (CONFIG.ARM5E.lang[game.i18n.lang] && CONFIG.ARM5E.lang[game.i18n.lang].aspects) {
+        let tmp = {};
+        let subset = filterBySettingAspects;
+        for (let keyword of searchStr.split(" ")) {
+          for (let [a, params] of Object.entries(subset)) {
+            if (params.index.includes(keyword)) {
+              // context.system.filteredAspects[a] = params;
+              tmp[a] = params;
+              continue;
+            } else {
+              for (let e of Object.values(params.effects)) {
+                if (e.index.includes(keyword)) {
+                  tmp[a] = params;
+                  // context.system.filteredAspects[a] = params;
+                  context.system.aspectsCount++;
+                  break;
+                }
+              }
+            }
+          }
+          subset = duplicate(tmp);
+          tmp = {};
+        }
+        context.system.filteredAspects = subset;
+        context.system.aspectsCount = Object.keys(subset).length;
+      } else {
+        let tmp = {};
+        let subset = filterBySettingAspects;
+        for (let keyword of searchStr.split(" ")) {
+          for (let [a, params] of Object.entries(subset)) {
+            if (a.includes(keyword)) {
+              tmp[a] = params;
+              // context.system.filteredAspects[a] = params;
+              continue;
+            } else {
+              for (let e of Object.keys(params.effects)) {
+                if (e.includes(keyword)) {
+                  tmp[a] = params;
+                  // context.system.filteredAspects[a] = params;
+                  break;
+                }
+              }
+            }
+          }
+          subset = duplicate(tmp);
+          tmp = {};
+        }
+        context.system.filteredAspects = subset;
+        context.system.aspectsCount = Object.keys(subset).length;
+      }
+    }
 
     return context;
   }
@@ -95,6 +168,14 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find(".search-aspects").change(async (event) => {
+      let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+      usercache[this.actor.id].filters.aspects.searchString = event.target.value
+        .toLowerCase()
+        .trim();
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+      this.render(true);
+    });
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 

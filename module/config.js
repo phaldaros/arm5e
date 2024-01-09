@@ -24,6 +24,10 @@ ARM5E.SYSTEM_ID = "arm5e";
 ARM5E.REF_MODULE_ID = "arm5e-compendia";
 ARM5E.character = {};
 
+ARM5E.lang = {
+  fr: { aspects: true }
+};
+
 ARM5E.character.charTypes = {
   magus: {
     label: "arm5e.sheet.magus",

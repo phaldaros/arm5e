@@ -77,6 +77,11 @@
         <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
         {{localize "arm5e.sheet.enchantments"}}
       </a>
+      <a class="item posRelative" data-tab="aspects">
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+        {{localize "arm5e.enchantment.aspects"}}
+      </a>
     </nav>
     <div class="flexcol">
       {{!-- Sheet Body --}}
@@ -103,6 +108,13 @@
         <div class="tab enchantments" data-group="primary" data-tab="enchantments">
           <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
             {{> "systems/arm5e/templates/actor/parts/codex-enchantments.hbs" }}
+          </ol>
+        </div>
+
+        {{!--Aspects Tab --}}
+        <div class="tab aspects" data-group="primary" data-tab="aspects">
+          <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+            {{> "systems/arm5e/templates/actor/parts/codex-aspects.hbs" }}
           </ol>
         </div>
       </section>
