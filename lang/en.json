@@ -93,6 +93,8 @@
   "TYPES.Item.mundaneBook": "Mundane book (deprecated)",
   "TYPES.Item.wound": "Wound",
 
+  "arm5e.system.dependencyWarning": "The system requires module {name} to be at least version {minimum}, the current version is {current}. You may encounter errors and bugs, please update",
+
   "arm5e.sheet.player": "Player",
   "arm5e.sheet.playername": "Player's name",
   "arm5e.sheet.players": "Players",
@@ -931,6 +933,7 @@
   "arm5e.lab.enchantment.item.size.large-eg": "Large (staff, shield, cloak, skeleton)",
   "arm5e.lab.enchantment.item.size.huge-eg": "Huge (boat, wagon, human body, small room)",
 
+  "arm5e.lab.activity.label": "Laboratory activity",
   "arm5e.lab.activity.spellLearning": "Spell learning",
   "arm5e.lab.activity.inventSpell": "Invent spell",
   "arm5e.lab.activity.visExtraction": "Vis extraction",

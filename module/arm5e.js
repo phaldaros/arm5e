@@ -218,6 +218,25 @@ Hooks.once("init", async function () {
 });
 
 Hooks.once("ready", async function () {
+  // Check that the arm5e-compendia module is at least the minimum version
+  const req = game.system.relationships.requires.find((e) => e.id == CONFIG.ARM5E.REF_MODULE_ID);
+  if (req) {
+    const minVersion = req.compatibility.minimum;
+    const currentVersion = game.modules.get("arm5e-compendia").version;
+    if (foundry.utils.isNewerVersion(minVersion, currentVersion)) {
+      ui.notifications.warn(
+        game.i18n.format("arm5e.system.dependencyWarning", {
+          name: "arm5e-compendia",
+          minimum: minVersion,
+          current: currentVersion
+        }),
+        {
+          permanent: true
+        }
+      );
+    }
+  }
+
   // TODO put this a function
   // translate and sort all abilities keys
   CONFIG.ARM5E.LOCALIZED_ABILITIES = localizeAbilities();

@@ -114,7 +114,7 @@ export class ArM5eBeastActorSheet extends ArM5eActorSheet {
       if (info.ownerType === "Actor" && info.type === "Item" && item.system.hasQuantity) {
         if (!event.shiftKey) {
           if (this.isItemDropAllowed(item)) {
-            return this._handleTransfer(info, item);
+            return this._handleTransfer(item);
           }
         }
       }

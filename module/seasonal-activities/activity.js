@@ -66,6 +66,16 @@ export class LabActivity extends Activity {
     return "";
   }
 
+  getDiaryName(planning) {
+    return game.i18n.localize(CONFIG.ARM5E.activities.lab[this.type].label);
+  }
+
+  getDiaryDescription(planning) {
+    return `${this.getDiaryName(planning)} : ${planning.label}<br/>${game.i18n.localize(
+      "arm5e.sheet.labTotal"
+    )}: <b>${planning.labTotal.score}</b> <br/> ${planning.labTotal.label}`;
+  }
+
   activateListeners(html) {}
 
   async getDefaultData() {
@@ -259,6 +269,10 @@ export class SpellActivity extends LabActivity {
     return true;
   }
 
+  getDiaryName(planning) {
+    return planning.data.name;
+  }
+
   async getDefaultData() {
     const effect = await Item.create(
       {
@@ -406,6 +420,18 @@ export class VisExtractionActivity extends LabActivity {
     return game.i18n.localize("arm5e.activity.visExtraction");
   }
 
+  getDiaryName(planning) {
+    return game.i18n.format("arm5e.lab.planning.msg.visExtracted", {
+      num: Math.ceil(planning.labTotal.score / 10)
+    });
+  }
+
+  getDiaryDescription(planning) {
+    return `${this.getDiaryName(planning)} : ${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
+      planning.labTotal.score
+    }</b> <br/> ${planning.labTotal.label}`;
+  }
+
   activityAchievement(input) {
     return {
       name: "Vim vis",
@@ -450,6 +476,17 @@ export class MinorEnchantment extends LabActivity {
 
   get title() {
     return game.i18n.localize("arm5e.activity.minorEnchantment");
+  }
+  getDiaryName(planning) {
+    return planning.data.receptacle.name;
+  }
+
+  getDiaryDescription(planning) {
+    return `${planning.data.receptacle.name}<br/>${planning.data.enchantment.name} : ${
+      planning.label
+    }<br/>${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${planning.labTotal.score}</b> <br/> ${
+      planning.labTotal.label
+    }`;
   }
 
   computeLabTotal(data, distractions) {
@@ -511,7 +548,7 @@ export class MinorEnchantment extends LabActivity {
       { id: receptacleID, materialBase: "base1", sizeMultiplier: "tiny", desc: "" }
     ];
     item.system.enchantments.aspects = [
-      { aspect: first, effect: firstEffect, bonus: 0, attuned: false, apply: false }
+      { aspect: first, effect: firstEffect, bonus: firstEffect.bonus, attuned: false, apply: false }
     ];
     result.receptacle = item;
     result.enchantment = enchant;
@@ -638,6 +675,14 @@ export class MinorEnchantment extends LabActivity {
 export class ChargedItem extends MinorEnchantment {
   constructor(lab, actor) {
     super(lab, actor, "chargedItem");
+  }
+
+  getDiaryDescription(planning) {
+    return `${planning.data.receptacle.name}<br/>${planning.data.enchantment.name} (${
+      planning.data.receptacle.system.enchantments.originalCharges
+    }): ${planning.label}<br/>${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
+      planning.labTotal.score
+    }</b> <br/> ${planning.labTotal.label}`;
   }
 
   get hasWaste() {

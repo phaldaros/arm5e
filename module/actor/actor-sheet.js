@@ -1618,7 +1618,7 @@ export class ArM5eActorSheet extends ActorSheet {
         return "Neutral";
     }
   }
-  async _handleTransfer(info, item) {
+  async _handleTransfer(item) {
     const html = await TextEditor.enrichHTML(
       `<div class="flex-center"><p>${game.i18n.format("arm5e.dialog.confirmTransfer-question", {
         name: item.name
@@ -1692,7 +1692,7 @@ export class ArM5eActorSheet extends ActorSheet {
       });
     }
     if (confirmed) {
-      const originActor = game.actors.get(info.ownerId);
+      const originActor = game.actors.get(item.actor._id);
       if (!originActor) return false;
 
       let res = [];

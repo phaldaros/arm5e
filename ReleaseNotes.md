@@ -1,3 +1,13 @@
+## 2.2.3.24, Ophilio, prime years
+
+### Features & changes
+
+- Added notification warning if arm5e-compendia module version is below minimum
+
+### Bug fixes
+
+- Fixed name and description of diary entry causing errors on scheduling.
+
 ## 2.2.3.23, Ophilio, even less young
 
 ### Features & changes
