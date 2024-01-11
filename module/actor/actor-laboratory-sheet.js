@@ -227,12 +227,12 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     }
     this.activity.modifiers = this.planning.modifiers;
     context.activitySheet = this.activity.activitySheet;
-
+    this.activity.prepareData(this.planning);
     let labTot = this.activity.computeLabTotal(this.planning.data, this.planning.distractions);
     this.planning.activityBonus = this.activity.ownerActivityMod;
     this.planning.labSpecTotal = this.activity.labActivitySpec;
     this.planning.labTotal = { score: labTot.score, label: labTot.label };
-    this.activity.prepareData(this.planning);
+
     context.hasVisCost = this.activity.hasVisCost;
 
     if (this.activity.hasVisCost) {
@@ -448,23 +448,23 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     event.preventDefault();
     const activity = getDataset(event).activity;
     let chosenActivity = $(".lab-activity").find("option:selected")[0].value;
-    switch (chosenActivity) {
-      case "inventSpell":
-      case "learnSpell":
-        switch (activity) {
-          case "inventSpell":
-          case "learnSpell":
-            break;
-          default:
-            await this._resetPlanning(chosenActivity);
-            break;
-        }
-        return;
-      case "minorEnchantment":
-      case "visExtraction":
-      case "longevityRitual":
-        break;
-    }
+    // switch (chosenActivity) {
+    //   case "inventSpell":
+    //   case "learnSpell":
+    //     switch (activity) {
+    //       case "inventSpell":
+    //       case "learnSpell":
+    //         await this._resetPlanning(chosenActivity);
+    //         break;
+    //       default:
+    //         break;
+    //     }
+    //     return;
+    //   case "minorEnchantment":
+    //   case "visExtraction":
+    //   case "longevityRitual":
+    //     break;
+    // }
     await this._resetPlanning(chosenActivity);
   }
 
@@ -523,7 +523,6 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     if (achievement != null) {
       achievements.push(achievement);
     }
-
     switch (planning.type) {
       case "inventSpell":
       case "learnSpell":
@@ -532,8 +531,8 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       case "visExtraction":
       case "chargedItem":
         break;
-      case "longevityRitual":
       case "minorEnchantment":
+      case "longevityRitual":
         for (let [k, vis] of Object.entries(planning.data.visCost.magus)) {
           if (Number(vis.used) > 0) {
             externalIds.push({
@@ -562,7 +561,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
     const entryData = [
       {
-        name: planning.data.receptacle.name,
+        name: this.activity.getDiaryName(planning),
         type: "diaryEntry",
         system: {
           done: false,
@@ -578,11 +577,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           },
           optionKey: "standard",
           duration: planning.duration,
-          description: `${planning.data.receptacle.name}<br/>${planning.data.enchantment.name} : ${
-            planning.label
-          }<br/>${game.i18n.localize("arm5e.sheet.labTotal")}: <b>${
-            planning.labTotal.score
-          }</b> <br/> ${planning.labTotal.label}`,
+          description: this.activity.getDiaryDescription(planning),
           achievements: achievements,
           externalIds: externalIds
         }
@@ -685,6 +680,14 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             return true;
           }
           case "item": {
+          }
+        }
+      } else {
+        if (item.isOwned && item.system.hasQuantity) {
+          if (!event.shiftKey) {
+            if (this.isItemDropAllowed(item)) {
+              return this._handleTransfer(item);
+            }
           }
         }
       }
