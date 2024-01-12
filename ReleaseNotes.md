@@ -1,3 +1,11 @@
+## 2.2.3.25, Ophilio, getting old
+
+### Features & changes
+
+- Put the "Apply/Rollback" button as visible in all tabs in diary sheet
+
+### Bug fixes
+
 ## 2.2.3.24, Ophilio, prime years
 
 ### Features & changes

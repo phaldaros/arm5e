@@ -111,6 +111,31 @@
       <div class="tab" data-group="primary" data-tab="advanced">
         {{> "systems/arm5e/templates/item/parts/seasonal-activity.html" }}
       </div>
+      <div class="flexrow">
+        {{#if system.applyPossible}}
+          {{#if rollNeeded}}
+            <button class="arm5e flex03 roll-activity" style="font-family: bookAntika">{{localize rollLabel}}</button>
+          {{else}}
+            <button class="arm5e flex02 progress-apply" style="font-family: bookAntika"
+              data-qualitymod="{{system.sourceModifier}}">{{localize "arm5e.sheet.action.apply"}}
+            </button>
+          {{/if}}
+        {{else}}
+          {{#unless system.done}}
+            <button class="arm5e flex02 progress-refresh"
+              style="font-family: bookAntika">{{localize "arm5e.lab.planning.button.refresh"}}</button>
+          {{else}}
+            <button class="arm5e flex02 progress-rollback"
+              style="font-family: bookAntika">{{localize "arm5e.sheet.action.rollback"}}</button>
+          {{/unless}}
+        {{/if}}
+        <div class="flexcol">
+          <label class="header-label"
+            style="color:red; padding: 10px;">{{localize system.applyError param=system.errorParam}}</label>
+          <label class="header-label"
+            style="padding: 10px;">{{localize system.applyInfo param=system.infoParam}}</label>
+        </div>
+      </div>
     {{/if}}
   </section>
 </form>
