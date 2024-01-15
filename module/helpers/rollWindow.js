@@ -534,6 +534,10 @@ export function getFormData(html, actor) {
   find = html.find(".SelectedModifier");
   if (find.length > 0) {
     actor.rollData.modifier = Number(find[0].value) ?? 0;
+    // negative modifier
+    if ([ROLL_PROPERTIES.CRISIS.VAL].includes(actor.rollData.type)) {
+      actor.rollData.modifier = -actor.rollData.modifier;
+    }
   }
 
   find = html.find(".SelectedAdvantage");
