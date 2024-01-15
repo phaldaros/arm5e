@@ -140,6 +140,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     if (this.actor.system.pendingCrisis) {
       context.system.applyError = "arm5e.notification.pendingCrisis";
       context.system.disabled = "disabled";
+      context.system.applyPossible = false;
       return context;
     }
     genericValidationOfActivity(context, this.actor, this.item);

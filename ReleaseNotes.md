@@ -6,6 +6,10 @@
 
 ### Bug fixes
 
+- Partial fix of aging crisis roll
+  - no errors on click
+  - Medical assistance is properly removed from the roll instead of added.
+
 ## 2.2.3.24, Ophilio, prime years
 
 ### Features & changes

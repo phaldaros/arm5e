@@ -11,8 +11,8 @@
           <div class="flexrow"><input class="flex1" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
             {{#if system.pendingCrisis}}
               <div class="flex0 padding10" style="width:36px"><a class="rollable" data-roll="crisis"
-                  data-year="{{datetime.year}}" title="Resolve aging crisis" style="font-size: 20pt;"><i
-                    class="icon-Icon_Aging_crisis"></i></a>
+                  data-year="{{datetime.year}}" data-season="{{datetime.season}}" title="Resolve aging crisis"
+                  style="font-size: 20pt;"><i class="icon-Icon_Aging_crisis"></i></a>
               </div>
             {{/if}}
             {{#if devMode}}
