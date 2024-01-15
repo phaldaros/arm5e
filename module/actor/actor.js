@@ -1694,6 +1694,7 @@ export class ArM5ePCActor extends Actor {
     log(false, updateData);
     if (result.crisis) {
       updateData["system.pendingCrisis"] = true;
+      updateData["system.lastCrisis"] = { year: agingData.year, season: agingData.season };
     }
 
     if (this.system.laboratory.longevityRitual.modifier && naturalAging) {

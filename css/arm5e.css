@@ -1062,7 +1062,7 @@ input[type="time"] {
   font-weight: normal;
   height: 13pt;
   background-image: none;
-  max-width: 220px;
+  max-width: 190px;
 }
 .arm5eRoll select,
 .arm5e select {
@@ -1126,15 +1126,6 @@ input[type="time"] {
   background-size: contain;
 }
 
-.arm5e .mainItem {
-  background-repeat: repeat-y;
-  background-size: 100%;
-  font-family: "bookAntiquaBold";
-  /* padding-left: 34px;
-  padding-right: 34px; */
-  font-size: 9pt;
-  /* max-width: 800px; */
-}
 /* 
 .arm5e .mainItem .sheet-body {
   height: auto;
@@ -2099,3 +2090,21 @@ img.art-icon {
 .arm5e .fontSize8 {
   font-size: 8pt;
 }
+
+.arm5e .mainItem {
+  background-repeat: repeat-y;
+  background-size: 100%;
+  font-family: "bookAntiquaBold";
+  display: flex;
+  /* padding-left: 34px;
+  padding-right: 34px; */
+  font-size: 9pt;
+  /* max-width: 800px; */
+}
+
+/* .content {
+  min-height: calc(58vh - 75px);
+}
+.footer {
+  height: 75px;
+} */

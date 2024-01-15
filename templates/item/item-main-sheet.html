@@ -1,6 +1,8 @@
 <div class="{{cssClass}} mainItem"
     style="background-image: url('systems/arm5e/assets/item/{{ui.flavor}}_background.webp')">
-    {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
-    {{> (lookup . "subsheet") flavor=ui.flavor}}
-    {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+    <div class="body">
+        {{> "systems/arm5e/templates/item/parts/item-header.html" flavor=ui.flavor}}
+        <div class="content">{{> (lookup . "subsheet") flavor=ui.flavor}}</div>
+        {{> "systems/arm5e/templates/item/parts/item-footer.html" flavor=ui.flavor}}
+    </div>
 </div>

@@ -1197,7 +1197,7 @@
   "arm5e.aging.roll.IntPerPts": "1 Aging Point in Int and Per.",
   "arm5e.aging.roll.bronze": "Familiar Bronze cord",
   "arm5e.aging.crisis.label": "Aging crisis",
-  "arm5e.aging.crisis.tooltip": "Resolve crisis",
+  "arm5e.aging.crisis.tooltip": "Resolve aging crisis",
   "arm5e.aging.crisis.summary": "Crisis summary",
   "arm5e.aging.crisis.bedriddenWeek": "Bedridden for a week.",
   "arm5e.aging.crisis.bedriddenMonth": "Bedridden for a month.",
@@ -1446,5 +1446,6 @@
   "arm5e.generic.ends": "Ends",
   "arm5e.generic.all": "All",
   "arm5e.generic.hidden": "Hidden",
-  "arm5e.generic.locked": "Locked"
+  "arm5e.generic.locked": "Locked",
+  "arm5e.generic.params": "Parameters"
 }

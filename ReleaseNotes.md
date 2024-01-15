@@ -1,3 +1,15 @@
+## 2.2.4.0, Pralix
+
+### Features & changes
+
+- Put the "Apply/Rollback" button as visible in all tabs in diary sheet
+- Added macros to open canvas menu dialogs (Scriptorium, Astrolabium, Aura management)
+- Rework of Reading tab in Scriptorium
+
+### Bug fixes
+
+- Changing the topic of a virtual book in the Scriptorium no longer raise an error.
+
 ## 2.2.3.25, Ophilio, getting old
 
 ### Features & changes

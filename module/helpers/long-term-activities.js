@@ -10,6 +10,7 @@ export async function setAgingEffects(actor, roll, message) {
 
   dialogData.year = actor.rollData.environment.year;
   dialogData.season = actor.rollData.environment.season;
+  dialogData.seasonLabel = CONFIG.ARM5E.seasons[actor.rollData.environment.season].label;
   dialogData.choice = res === "crisis" || res === "anyAgingPt";
   dialogData.chars = CONFIG.ARM5E.character.characteristics;
 

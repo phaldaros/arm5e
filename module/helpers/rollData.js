@@ -153,7 +153,8 @@ export class ArM5eRollData {
         break;
       case ROLL_PROPERTIES.AGING.VAL:
         this.environment.year = parseInt(dataset.year);
-        this.environment.season = ARM5E.seasons[dataset.season].label;
+        this.environment.season = dataset.season;
+        this.environment.seasonLabel = ARM5E.seasons[dataset.season].label;
         this.label =
           game.i18n.localize("arm5e.aging.roll.label") +
           " " +
@@ -194,7 +195,8 @@ export class ArM5eRollData {
         break;
       case ROLL_PROPERTIES.CRISIS.VAL:
         this.environment.year = parseInt(dataset.year);
-        this.environment.season = ARM5E.seasons[dataset.season].label;
+        this.environment.season = dataset.season;
+        this.environment.seasonLabel = ARM5E.seasons[dataset.season].label;
         this.label =
           game.i18n.localize("arm5e.aging.crisis.label") +
           " " +
@@ -384,7 +386,7 @@ export class ArM5eRollData {
       operatorOpt: ["+", "+", "+", "+", "+"]
     };
 
-    this.environment = { aura: 0, year: "", season: "" };
+    this.environment = { aura: 0, year: "", season: "", seasonLabel: "" };
     this.activeEffects = [];
 
     this.bonuses = 0;

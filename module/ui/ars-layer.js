@@ -92,6 +92,10 @@ export class ArsLayer extends InteractionLayer {
     const scriptorium = new Scriptorium(formData, {}); // data, options
     const res = await scriptorium.render(true);
   }
+
+  static async openAuraConfig() {
+    new AuraConfig(canvas.scene).render(true);
+  }
 }
 
 export function addArsButtons(buttons) {
@@ -108,7 +112,7 @@ export function addArsButtons(buttons) {
         icon: "icon-Tool_Auras",
         visible: game.user.isGM,
         button: true,
-        onClick: () => new AuraConfig(canvas.scene).render(true)
+        onClick: () => ArsLayer.openAuraConfig()
       },
       {
         name: "clearAura",

@@ -1,7 +1,7 @@
 import { ArM5ePCActor } from "../actor/actor.js";
 import { getTopicDescription } from "../item/item-book-sheet.js";
 import { ArM5eItem } from "../item/item.js";
-import { debug, log } from "../tools.js";
+import { debug, getDataset, log } from "../tools.js";
 
 export class ScriptoriumObject {
   seasons = CONFIG.ARM5E.seasons;
@@ -16,6 +16,31 @@ export class ScriptoriumObject {
 
   reading = {
     reader: { id: null },
+    book: {
+      id: null,
+      uuid: null,
+      name: game.i18n.localize("arm5e.activity.book.title"),
+      language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+      topics: [
+        {
+          category: "ability",
+          type: "Summa",
+          author: game.i18n.localize("arm5e.generic.unknown"),
+          quality: 1,
+          level: 1,
+          key: "",
+          option: "",
+          spellName: "",
+          art: "",
+          spellTech: "cr",
+          spellForm: "an"
+        }
+      ],
+      topicIndex: 0
+    }
+  };
+  writing = {
+    writer: { id: null },
     book: {
       id: null,
       uuid: null,
@@ -54,7 +79,8 @@ export class Scriptorium extends FormApplication {
       template: "systems/arm5e/templates/generic/scriptorium.html",
       dragDrop: [
         { dragSelector: null, dropSelector: ".drop-book" },
-        { dragSelector: null, dropSelector: ".drop-reader" }
+        { dragSelector: null, dropSelector: ".drop-reader" },
+        { dragSelector: null, dropSelector: ".drop-writer" }
       ],
       tabs: [
         {
@@ -88,10 +114,17 @@ export class Scriptorium extends FormApplication {
       if (book.type === "book") {
         await this._setBook(book);
       }
-    } else if (dropData.type == "Actor" && event.currentTarget.dataset.drop === "reader") {
-      const reader = await Actor.implementation.fromDropData(dropData);
-      if (reader.type === "player" || reader.type === "npc") {
-        await this._setReader(reader);
+    } else if (dropData.type == "Actor") {
+      if (event.currentTarget.dataset.drop === "reader") {
+        const reader = await Actor.implementation.fromDropData(dropData);
+        if (reader.type === "player" || reader.type === "npc") {
+          await this._setReader(reader);
+        }
+      } else if (event.currentTarget.dataset.drop === "writer") {
+        const writer = await Actor.implementation.fromDropData(dropData);
+        if (writer.type === "player" || writer.type === "npc") {
+          await this._setWriter(writer);
+        }
       }
     }
   }
@@ -254,6 +287,40 @@ export class Scriptorium extends FormApplication {
     html.find(".unlink-read-book").click(this._resetReadBook.bind(this));
     html.find(".unlink-reader").click(this._resetReader.bind(this));
     html.find(".create-activity").click(this._createDiaryEntry.bind(this));
+    html.find(".section-handle").click(this._handle_section.bind(this));
+  }
+
+  async _handle_section(ev) {
+    const dataset = getDataset(ev);
+    log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
+    let index = dataset.index ?? "";
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    let scope = usercache[this.item._id].sections.visibility[dataset.category];
+    let classes = document.getElementById(
+      `${dataset.category}-${dataset.section}${index}-${this.item._id}`
+    ).classList;
+    if (scope) {
+      if (classes.contains("hide")) {
+        if (index !== "") {
+          log(false, `DEBUG reveal ${dataset.section} at index ${index}`);
+          scope[index][dataset.section] = "";
+        } else {
+          log(false, `DEBUG reveal ${dataset.section}`);
+          scope[dataset.section] = "";
+        }
+      } else {
+        if (index) {
+          log(false, `DEBUG hide ${dataset.section} at index ${index}`);
+          scope[index][dataset.section] = "hide";
+        } else {
+          log(false, `DEBUG hide ${dataset.section}`);
+          scope[dataset.section] = "hide";
+        }
+      }
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    }
+    // log(false, `DEBUG Flags: ${JSON.stringify(this.item.flags.arm5e.ui.sections.visibility)}`);
+    classes.toggle("hide");
   }
 
   async _createDiaryEntry(event) {
@@ -436,6 +503,20 @@ export class Scriptorium extends FormApplication {
     });
   }
 
+  async _setWriter(writer) {
+    log(false, "set writer info");
+    let writerInfo = {
+      id: writer._id,
+      name: writer.name
+    };
+    writer.apps[this.appId] = this;
+    const writingData = { writer: writerInfo };
+    await this.submit({
+      preventClose: true,
+      updateData: { writer: writingData }
+    });
+  }
+
   async setDate(event) {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
@@ -475,7 +556,7 @@ export class Scriptorium extends FormApplication {
     const index = event.currentTarget.dataset.index;
     let chosenTopic = $(".book-topic").find("option:selected").val();
     const readingData = { book: { system: { topics: { [index]: {} } } } };
-    let bookInfo = readingData.book.systen.topics[index];
+    let bookInfo = readingData.book.system.topics[index];
     if (chosenTopic === "ability") {
       bookInfo.art = null;
       bookInfo.key = "awareness";

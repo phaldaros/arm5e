@@ -16,6 +16,7 @@ export class ArM5eItemSheet extends ItemSheet {
       classes: ["arm5e", "sheet", "item"],
       width: 650,
       height: 750,
+      // resizable: false,
       // dragDrop: [{dragSelector: ".item-list .item", dropSelector: null}],
       tabs: [
         {

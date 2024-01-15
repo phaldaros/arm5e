@@ -346,7 +346,7 @@ async function getRollFormula(actor) {
       rollData.label =
         game.i18n.localize("arm5e.aging.roll.label") +
         " " +
-        game.i18n.localize(rollData.environment.season) +
+        game.i18n.localize(rollData.environment.seasonLabel) +
         " " +
         rollData.environment.year;
     }
