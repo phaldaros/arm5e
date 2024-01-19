@@ -20,23 +20,25 @@ export class ScriptoriumObject {
       id: null,
       uuid: null,
       name: game.i18n.localize("arm5e.activity.book.title"),
-      language: game.i18n.localize("arm5e.skill.commonCases.latin"),
-      topics: [
-        {
-          category: "ability",
-          type: "Summa",
-          author: game.i18n.localize("arm5e.generic.unknown"),
-          quality: 1,
-          level: 1,
-          key: "",
-          option: "",
-          spellName: "",
-          art: "",
-          spellTech: "cr",
-          spellForm: "an"
-        }
-      ],
-      topicIndex: 0
+      system: {
+        language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+        topics: [
+          {
+            category: "ability",
+            type: "Summa",
+            author: game.i18n.localize("arm5e.generic.unknown"),
+            quality: 1,
+            level: 1,
+            key: "",
+            option: "",
+            spellName: "",
+            art: "",
+            spellTech: "cr",
+            spellForm: "an"
+          }
+        ],
+        topicIndex: 0
+      }
     }
   };
   writing = {
@@ -45,23 +47,25 @@ export class ScriptoriumObject {
       id: null,
       uuid: null,
       name: game.i18n.localize("arm5e.activity.book.title"),
-      language: game.i18n.localize("arm5e.skill.commonCases.latin"),
-      topics: [
-        {
-          category: "ability",
-          type: "Summa",
-          author: game.i18n.localize("arm5e.generic.unknown"),
-          quality: 1,
-          level: 1,
-          key: "",
-          option: "",
-          spellName: "",
-          art: "",
-          spellTech: "cr",
-          spellForm: "an"
-        }
-      ],
-      topicIndex: 0
+      system: {
+        language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+        topics: [
+          {
+            category: "ability",
+            type: "Summa",
+            author: game.i18n.localize("arm5e.generic.unknown"),
+            quality: 1,
+            level: 1,
+            key: "",
+            option: "",
+            spellName: "",
+            art: "",
+            spellTech: "cr",
+            spellForm: "an"
+          }
+        ],
+        topicIndex: 0
+      }
     }
   };
 }
@@ -69,6 +73,7 @@ export class ScriptoriumObject {
 export class Scriptorium extends FormApplication {
   constructor(data, options) {
     super(data, options);
+    delete this.object.bookTopics.labText; // those are read in a lab
     // Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
   /** @override */
@@ -90,7 +95,7 @@ export class Scriptorium extends FormApplication {
         }
       ],
       width: "600",
-      height: "auto",
+      height: "800",
       submitOnChange: true,
       closeOnSubmit: false
     });
@@ -129,10 +134,32 @@ export class Scriptorium extends FormApplication {
     }
   }
 
+  getUserCache() {
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[`scriptorium`] == undefined) {
+      usercache[`scriptorium`] = {
+        sections: {
+          visibility: {
+            scriptorium: {}
+          }
+        }
+      };
+    }
+
+    sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    return usercache[`scriptorium`];
+  }
+
   async getData(options = {}) {
     const context = foundry.utils.expandObject(await super.getData().object);
     context.error = false;
-    context.ui = { createPossible: "disabled", warning: "", warningParam: "", editItem: "" };
+    context.ui = {
+      ...this.getUserCache(),
+      createPossible: "disabled",
+      warning: "",
+      warningParam: "",
+      editItem: ""
+    };
     let currentDate = game.settings.get("arm5e", "currentDate");
     context.curYear = currentDate.year;
     context.curSeason = currentDate.season;
@@ -154,8 +181,10 @@ export class Scriptorium extends FormApplication {
       context.ui.disableType = "disabled";
     }
     context.reading.book.currentTopic = currentTopic;
+    context.currentTopicNumber = topicIndex + 1;
+    context.topicNum = context.reading.book.system.topics.length;
     if (!context.reading.reader?.id) {
-      log(false, `Scriptorium reading data: ${JSON.stringify(context.reading)}`);
+      log(false, `Scriptorium reading data: ${context} ${JSON.stringify(context)}`);
       return context;
     }
 
@@ -264,6 +293,12 @@ export class Scriptorium extends FormApplication {
         }
         break;
       }
+      case "labText": {
+        context.ui.editItem = "disabled";
+        context.ui.warning = "arm5e.scriptorium.msg.labText";
+        context.error = true;
+        break;
+      }
       default:
         context.ui.warning = "Error";
         break;
@@ -288,34 +323,37 @@ export class Scriptorium extends FormApplication {
     html.find(".unlink-reader").click(this._resetReader.bind(this));
     html.find(".create-activity").click(this._createDiaryEntry.bind(this));
     html.find(".section-handle").click(this._handle_section.bind(this));
-  }
 
+    html.find(".next-topic").click(async (event) => this._changeCurrentTopic(event, 1));
+    html.find(".previous-topic").click(async (event) => this._changeCurrentTopic(event, -1));
+  }
+  async _changeCurrentTopic(event, offset) {
+    event.preventDefault();
+    const newIndex = Number(getDataset(event).index) + offset;
+    if (newIndex > this.object.reading.book.system.topics.length - 1 || newIndex < 0) {
+      // no effect
+      return;
+    }
+    // let updateData = ;
+    // updateData["reading.book.system.topicIndex"] = newIndex;
+    await this.submit({
+      preventClose: true,
+      updateData: { "reading.book.system.topicIndex": newIndex }
+    });
+  }
   async _handle_section(ev) {
     const dataset = getDataset(ev);
     log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
-    let index = dataset.index ?? "";
     let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
-    let scope = usercache[this.item._id].sections.visibility[dataset.category];
-    let classes = document.getElementById(
-      `${dataset.category}-${dataset.section}${index}-${this.item._id}`
-    ).classList;
+    let scope = usercache["scriptorium"].sections.visibility[dataset.category];
+    let classes = document.getElementById(`${dataset.category}-${dataset.section}`).classList;
     if (scope) {
       if (classes.contains("hide")) {
-        if (index !== "") {
-          log(false, `DEBUG reveal ${dataset.section} at index ${index}`);
-          scope[index][dataset.section] = "";
-        } else {
-          log(false, `DEBUG reveal ${dataset.section}`);
-          scope[dataset.section] = "";
-        }
+        log(false, `DEBUG reveal ${dataset.section}`);
+        scope[dataset.section] = "";
       } else {
-        if (index) {
-          log(false, `DEBUG hide ${dataset.section} at index ${index}`);
-          scope[index][dataset.section] = "hide";
-        } else {
-          log(false, `DEBUG hide ${dataset.section}`);
-          scope[dataset.section] = "hide";
-        }
+        log(false, `DEBUG hide ${dataset.section}`);
+        scope[dataset.section] = "hide";
       }
       sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
     }
@@ -534,19 +572,22 @@ export class Scriptorium extends FormApplication {
   }
 
   async _updateObject(event, formData) {
-    if (formData.season) {
-      this.object.season = formData.season;
-    }
-    if (formData.year) {
-      this.object.year = formData.year;
-    }
-    for (let [key, value] of Object.entries(formData)) {
-      log(false, `Updated ${key} : ${value}`);
-      this.object[key] = value;
-    }
-    this.object = foundry.utils.expandObject(this.object);
-    // log(false, `Scriptorium object: ${JSON.stringify(this.object)}`);
+    const expanded = expandObject(formData);
+    mergeObject(this.object, expanded, { recursive: true });
     this.render();
+    // if (formData.season) {
+    //   this.object.season = formData.season;
+    // }
+    // if (formData.year) {
+    //   this.object.year = formData.year;
+    // }
+    // for (let [key, value] of Object.entries(formData)) {
+    //   log(false, `Updated ${key} : ${value}`);
+    //   this.object[key] = value;
+    // }
+    // this.object = foundry.utils.expandObject(this.object);
+    // // log(false, `Scriptorium object: ${JSON.stringify(this.object)}`);
+    // this.render();
 
     return;
   }

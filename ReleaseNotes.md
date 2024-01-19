@@ -5,10 +5,13 @@
 - Put the "Apply/Rollback" button as visible in all tabs in diary sheet
 - Added macros to open canvas menu dialogs (Scriptorium, Astrolabium, Aura management)
 - Rework of Reading tab in Scriptorium
+  - Possible to browse the topics of a book in the scriptorium.
 
 ### Bug fixes
 
 - Changing the topic of a virtual book in the Scriptorium no longer raise an error.
+- It is no longer impossible to add a skill in a diary entry if you have animal handling.
+- Lab texts are no longer applicable in the scriptorium.
 
 ## 2.2.3.25, Ophilio, getting old
 

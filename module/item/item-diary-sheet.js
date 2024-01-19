@@ -384,6 +384,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         if (found >= 0) {
           availableAbilities[found]._id = a._id;
           availableAbilities[found].system.xp = a.system.xp;
+          availableAbilities[found].secondaryId = false;
           availableAbilities[found].system.finalScore = a.system.finalScore;
         } else {
           availableAbilities.push({
@@ -1442,7 +1443,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
             const hasTeacher = ["training", "teaching"].includes(this.item.system.activity);
             // check if the
-            if (button.dataset.default.length == 16 && !button.dataset.secondary) {
+            if (button.dataset.default.length == 16 && button.dataset.secondary === "false") {
               newAb = this.actor.items.get(button.dataset.default);
             } else {
               if (hasTeacher) {

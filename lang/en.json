@@ -1342,6 +1342,7 @@
   "arm5e.scriptorium.msg.diaryTopic.art": "the {art} Hermetic Art",
   "arm5e.scriptorium.msg.diaryTopic.spell": "the mastery of the \"{spell}\" spell",
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
+  "arm5e.scriptorium.msg.labText": "Laboratory texts are studied in a lab.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
 
   "arm5e.sanatorium.magicalHelp": "Magical help",

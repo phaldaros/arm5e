@@ -1367,11 +1367,21 @@ input[type="time"] {
   border-bottom: 2px solid #4a4a48;
 }
 
-.arm5e .sheet header.sheet-header .img-container img,
-.arm5e .img-container img {
+.arm5e .sheet header.sheet-header .img-container img {
   display: block;
   height: 12px;
   justify-content: center;
+}
+
+.arm5e .img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 40px;
+}
+
+.arm5e .img-container img {
+  height: 12px;
 }
 
 .arm5e .nav-arrow {
