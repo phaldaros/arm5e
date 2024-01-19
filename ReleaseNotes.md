@@ -1,3 +1,9 @@
+## 2.2.3.26, Ophilio, old
+
+### Bug fixes
+
+- It is no longer impossible to add a skill in a diary entry if you have animal handling.
+
 ## 2.2.3.25, Ophilio, getting old
 
 ### Features & changes
