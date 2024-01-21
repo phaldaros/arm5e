@@ -1611,7 +1611,7 @@ export class ArM5eActorSheet extends ActorSheet {
       case "beast":
         return "NPC";
       case "covenant":
-        return "Covenant";
+        return "covenant";
       case "laboratory":
         return "Lab";
       default:

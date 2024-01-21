@@ -10,6 +10,7 @@
 
 ### Bug fixes
 
+- Covenant UI flavor has the proper case
 - Diary sheet fixes:
   - It is no longer impossible to add a skill in a diary entry if you have animal handling.
   - You can again add an ability progress item with a virtual teacher
