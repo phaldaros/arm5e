@@ -35,6 +35,7 @@ async function addProgressItem(entry, type, defaultItem, sheetData) {
         type: type,
         action: "add",
         default: defaultItem,
+        secondary: "false",
         teacherscore: sheetData.system.teacherScore
       }
     }

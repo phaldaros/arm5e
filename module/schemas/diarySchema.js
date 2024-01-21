@@ -150,6 +150,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
                 nullable: true,
                 initial: null
               }),
+              name: new fields.StringField({ required: false, blank: true, initial: "" }), // used for secondary source (teacher)
               secondaryId: boolOption(false, true), // true if the id is actually not the final one
               key: new fields.StringField({ required: false, blank: true, initial: "" }),
               option: new fields.StringField({ required: false, blank: true, initial: "" }),

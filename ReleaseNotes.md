@@ -1,16 +1,28 @@
 ## 2.2.4.0, Pralix
 
+### Dependencies updates
+
+- arm5e-compendia module minimum version 0.2.6
+
 ### Features & changes
 
 - Put the "Apply/Rollback" button as visible in all tabs in diary sheet
 - Added macros to open canvas menu dialogs (Scriptorium, Astrolabium, Aura management)
 - Rework of Reading tab in Scriptorium
   - Possible to browse the topics of a book in the scriptorium.
+- Retrieve generic abilities from ref compendia even with an unkown option
 
 ### Bug fixes
 
 - Changing the topic of a virtual book in the Scriptorium no longer raise an error.
+- Covenant UI flavor has the proper case
+- Diary sheet fixes:
 - It is no longer impossible to add a skill in a diary entry if you have animal handling.
+  - You can again add an ability progress item with a virtual teacher
+  - Added some robustness, the + sign fro progress items will disappear if all possibilities are exhausted.
+  - Generic abilities learned from a teacher are set properly.
+  - Spells tab is no longer visible in teaching activities (until it is implemented)
+  - bunch of small fixes
 - Lab texts are no longer applicable in the scriptorium.
 
 ## 2.2.3.25, Ophilio, getting old
