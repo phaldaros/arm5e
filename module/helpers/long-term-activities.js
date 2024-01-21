@@ -514,19 +514,16 @@ export function validTraining(context, actor, item) {
   if (abilitiesArr.length > 0) {
     const teacherScore = Number(item.system.progress.abilities[0].teacherScore);
     context.system.sourceQuality = teacherScore + 3;
+
+    const taughtAb = item.system.progress.abilities[0];
+
     let ability = Object.values(actor.system.abilities).find((e) => {
-      return e._id === item.system.progress.abilities[0].id;
+      return e._id === taughtAb.id;
     });
     if (ability === undefined) {
-      // either the ability is no longer teachable or it has been deleted
-      ability = actor.items.get(item.system.progress.abilities[0].id);
-
-      if (ability === undefined) {
-        // ability deleted
-        // what should be done here?
-        return;
-      }
+      ability = { system: { key: taughtAb.key, option: taughtAb.option, xp: 0 } };
     }
+
     const coeff = actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
     checkIfCapped(context, teacherScore, coeff, ability);
 
@@ -601,19 +598,13 @@ export function validTeaching(context, actor, item) {
           : context.system.teacher.name;
       return;
     }
+    const taughtAb = item.system.progress.abilities[0];
 
     let ability = Object.values(actor.system.abilities).find((e) => {
-      return e._id === item.system.progress.abilities[0].id;
+      return e._id === taughtAb.id;
     });
     if (ability === undefined) {
-      // either the ability is no longer teachable or it has been deleted
-      ability = actor.items.get(item.system.progress.abilities[0].id);
-
-      if (ability === undefined) {
-        // ability deleted
-        // what should be done here?
-        return;
-      }
+      ability = { system: { key: taughtAb.key, option: taughtAb.option, xp: 0 } };
     }
     const coeff = actor._getAbilityXpCoeff(ability.system.key, ability.system.option);
     checkIfCapped(context, teacherScore, coeff, ability);

@@ -35,6 +35,7 @@ async function addProgressItem(entry, type, defaultItem, teacherScore) {
         type: type,
         action: "add",
         default: defaultItem,
+        secondary: "false",
         teacherscore: teacherScore ? teacherScore : entry.system.teacher.score
       }
     }

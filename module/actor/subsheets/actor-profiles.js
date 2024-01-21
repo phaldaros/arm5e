@@ -25,7 +25,7 @@ export class ArM5eActorProfiles {
         console.error("Wrong actor config");
         continue;
       }
-      ability = ability.toObject();
+      // ability = ability.toObject();
       if (ab.xp) {
         ability.system.xp = ab.xp;
       }
