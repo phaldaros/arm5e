@@ -182,7 +182,7 @@ export class Scriptorium extends FormApplication {
     }
     context.reading.book.currentTopic = currentTopic;
     context.currentTopicNumber = topicIndex + 1;
-    context.topicNum = context.reading.book.system.topics.length;
+    context.topicNum = context.reading.book.system.topics.length ?? 1;
     if (!context.reading.reader?.id) {
       log(false, `Scriptorium reading data: ${context} ${JSON.stringify(context)}`);
       return context;
@@ -222,56 +222,83 @@ export class Scriptorium extends FormApplication {
       });
     switch (currentTopic.category) {
       case "ability": {
-        context.reading.reader.abilities = reader.system.abilities.map((a) => {
-          return {
-            id: a.id,
-            key: a.system.key,
-            option: a.system.option,
-            name: game.i18n.format(
-              CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key]
-                ? CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key].mnemonic
-                : "Unknown",
-              {
-                option: a.system.option
+        let availableAbilities = duplicate(CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED);
+        for (let a of reader.system.abilities) {
+          let found = availableAbilities.findIndex(
+            (e) => e.system.key == a.system.key && e.system.option == a.system.option
+          );
+          if (found >= 0) {
+            availableAbilities[found]._id = a._id;
+            availableAbilities[found].system.xp = a.system.xp;
+            availableAbilities[found].secondaryId = false;
+            availableAbilities[found].system.finalScore = a.system.finalScore;
+          } else {
+            availableAbilities.push({
+              _id: a._id,
+              secondaryId: true,
+              name: a.name,
+              system: {
+                key: a.system.key,
+                xp: a.system.xp,
+                finalScore: a.system.finalScore,
+                option: a.system.option,
+                category: a.system.category
               }
-            ),
-            score: a.system.finalScore
-          };
+            });
+          }
+        }
+        // reader.system.abilities.map((a) => {
+        //   return {
+        //     id: a.id,
+        //     key: a.system.key,
+        //     option: a.system.option,
+        //     name: game.i18n.format(
+        //       CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key]
+        //         ? CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key].mnemonic
+        //         : "Unknown",
+        //       {
+        //         option: a.system.option
+        //       }
+        //     ),
+        //     score: a.system.finalScore
+        //   };
+        // });
+
+        let filteredAbilities = availableAbilities.filter((a) => a.system.finalScore < maxLevel);
+        // does the reader has the book topic ability?
+        let ability = availableAbilities.find((a) => {
+          return a.system.key === currentTopic.key && a.system.option === currentTopic.option;
         });
 
-        let filteredAbilities = context.reading.reader.abilities.filter((a) => a.score < maxLevel);
-        // does the reader has the book topic ability?
-        let abilityId = context.reading.reader.abilities.find(
-          (a) => a.key == currentTopic.key && a.option == currentTopic.option
-        )?.id;
-
-        if (abilityId) {
+        if (ability) {
           // is the reader low skilled enough?
-          if (filteredAbilities.find((a) => a.id == abilityId)) {
-            context.reading.reader.ability = abilityId;
+          if (filteredAbilities.find((a) => a._id == ability._id)) {
+            context.reading.reader.ability = ability._id;
+            context.reading.reader.abilities = [ability];
           } else {
             context.ui.editItem = "disabled";
             context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
             context.ui.warningParam = "";
             context.error = true;
           }
-          context.reading.reader.abilities = filteredAbilities;
         } else {
           // check if the ability is not found because of the option field
-          filteredAbilities = filteredAbilities.filter((a) => a.key == currentTopic.key);
+          filteredAbilities = filteredAbilities.filter((a) => a.system.key == currentTopic.key);
           if (filteredAbilities.length > 0) {
             context.ui.warning = "arm5e.scriptorium.msg.whichItem";
             context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
             if (!context.reading.reader.ability) {
               context.reading.reader.ability = filteredAbilities[0];
             }
-            context.reading.reader.abilities = filteredAbilities;
           } else {
-            context.ui.editItem = "disabled";
-            context.ui.warning = "arm5e.scriptorium.msg.missingItem";
-            context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
-            context.error = true;
+            context.reading.reader.abilities = filteredAbilities;
           }
+          // else {
+          //   context.ui.editItem = "disabled";
+          //   context.ui.warning = "arm5e.scriptorium.msg.missingItem";
+          //   context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+          //   context.error = true;
+          // }
           //context.error = true;
         }
 

@@ -215,6 +215,7 @@ span.player-name {
   border-radius: 14px;
   border-color: rgb(161, 154, 154);
 }
+
 .window-app .window-content {
   flex-direction: column;
   flex-wrap: nowrap;
@@ -306,7 +307,7 @@ a.content-link i.fa-book-open {
 
 .scriptorium .drop-box {
   text-align: center;
-  padding: 5px;
+  padding: 25px;
   margin: 5px;
   border: 3px;
   border-style: dashed;

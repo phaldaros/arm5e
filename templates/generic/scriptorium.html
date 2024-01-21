@@ -62,12 +62,12 @@
             <label class="section-handle header-label clickable" data-section="book-read"
               data-category="scriptorium">{{localize "arm5e.sheet.book"}}</label>
           </div>
-          <!-- READING _ BOOK -->
+          <!-- READING - BOOK -->
           <div
             class="scriptorium foldable-section backSection padding10 resource flexcol {{@root.ui.sections.visibility.scriptorium.book-read}}"
             id="scriptorium-book-read">
             {{#if (eq reading.book.uuid null)}}
-              <div class="resource drop-box drop-book" data-drop="book">
+              <div class="drop-box drop-book" data-drop="book">
                 <label>{{localize "arm5e.scriptorium.msg.dropBook"}}</label>
               </div>
             {{else}}
@@ -158,10 +158,10 @@
                             name="reading.book.system.topics.{{topicIndex}}.option"
                             value='{{reading.book.currentTopic.option}}' {{ui.canEditBook}} style="max-width: 180px;" />
                         {{else}}
-                          <label for="reading.book.system.topics.{{topicIndex}}.option" class="header-label"
-                            style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label>
+                          <!-- <label for="reading.book.system.topics.{{topicIndex}}.option" class="header-label"
+                            style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label> -->
                           <input type="text" name="reading.book.system.topics.{{topicIndex}}.option" data-dtype="String"
-                            value="" readonly style="max-width: 150px;" />
+                            value="" hidden style="max-width: 150px;" />
                         {{/if}}
                       </div>
                     </div>
@@ -222,10 +222,10 @@
           </div>
           <!-- READING - READER -->
           <div
-            class="scriptorium foldable-section backSection padding10 resource flexcol  {{@root.ui.sections.visibility.scriptorium.reader}}"
+            class="scriptorium foldable-section backSection resource flexcol  {{@root.ui.sections.visibility.scriptorium.reader}}"
             style="margin-left: 5px;" id="scriptorium-reader">
             {{#if (eq reading.reader.id null)}}
-              <div class="resource drop-box drop-reader" data-drop="reader">
+              <div class="drop-box drop-reader" data-drop="reader">
                 <label>{{localize "arm5e.scriptorium.msg.dropCharacter"}}</label>
               </div>
             {{else}}
