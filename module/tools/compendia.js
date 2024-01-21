@@ -24,7 +24,20 @@ async function getAbilityInternal(moduleRef, key, option = "") {
   }
   let res = abilitiesPack.index.find((i) => i.system.key == key && i.system.option == option);
   if (res) {
-    return await fromUuid(res.uuid);
+    let genericAb = await fromUuid(res.uuid);
+    return genericAb.toObject();
+  } else if (option !== "" && CONFIG.ARM5E.ALL_ABILITIES[key].option) {
+    // try to get without specified the option:
+    let optionDefault = game.i18n.localize(CONFIG.ARM5E.ALL_ABILITIES[key].optionDefault);
+
+    res = abilitiesPack.index.find((i) => i.system.key == key && i.system.option == optionDefault);
+    if (res) {
+      let genericAb = await fromUuid(res.uuid);
+      // update the option
+      genericAb = genericAb.toObject();
+      genericAb.system.option = option;
+      return genericAb;
+    }
   }
   return null;
 }

@@ -355,7 +355,8 @@ ARM5E.GENERAL_ABILITIES = {
     option: true,
     category: "general",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.area"
+    optionPlaceholder: "arm5e.skill.options.area",
+    optionDefault: "AreaName"
   },
   athletics: {
     mnemonic: "arm5e.skill.general.athletics",
@@ -410,7 +411,8 @@ ARM5E.GENERAL_ABILITIES = {
     option: true,
     category: "general",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.craft"
+    optionPlaceholder: "arm5e.skill.options.craft",
+    optionDefault: "craft"
   },
   etiquette: {
     mnemonic: "arm5e.skill.general.etiquette",
@@ -454,7 +456,8 @@ ARM5E.GENERAL_ABILITIES = {
     option: true,
     category: "general",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.language"
+    optionPlaceholder: "arm5e.skill.options.language",
+    optionDefault: "languageName"
   },
   music: {
     mnemonic: "arm5e.skill.general.music",
@@ -467,14 +470,16 @@ ARM5E.GENERAL_ABILITIES = {
     option: true,
     category: "general",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.organization"
+    optionPlaceholder: "arm5e.skill.options.organization",
+    optionDefault: "OrgName"
   },
   profession: {
     mnemonic: "arm5e.skill.general.profession",
     option: true,
     category: "general",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.profession"
+    optionPlaceholder: "arm5e.skill.options.profession",
+    optionDefault: "ProfessionName"
   },
   ride: { mnemonic: "arm5e.skill.general.ride", option: false, category: "general", selection: "" },
   stealth: {
@@ -510,14 +515,16 @@ ARM5E.ACADEMIC_ABILITIES = {
     option: true,
     category: "academic",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.law"
+    optionPlaceholder: "arm5e.skill.options.law",
+    optionDefault: "legalForum"
   },
   deadLanguage: {
     mnemonic: "arm5e.skill.academic.deadLanguage",
     option: true,
     category: "academic",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.language"
+    optionPlaceholder: "arm5e.skill.options.language",
+    optionDefault: "languageName"
   },
   medicine: {
     mnemonic: "arm5e.skill.academic.medicine",
@@ -542,7 +549,8 @@ ARM5E.ACADEMIC_ABILITIES = {
     option: true,
     category: "academic",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.academic"
+    optionPlaceholder: "arm5e.skill.options.academic",
+    optionDefault: "topicName"
   }
 };
 
@@ -601,7 +609,8 @@ ARM5E.ARCANE_ABILITIES = {
     option: true,
     category: "arcane",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.arcane"
+    optionPlaceholder: "arm5e.skill.options.arcane",
+    defaultOption: "arcaneName"
   }
 };
 
@@ -631,7 +640,8 @@ ARM5E.MARTIAL_ABILITIES = {
     option: true,
     category: "martial",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.martial"
+    optionPlaceholder: "arm5e.skill.options.martial",
+    defaultOption: "weaponType"
   }
 };
 
@@ -695,7 +705,8 @@ ARM5E.SUPERNATURAL_ABILITIES = {
     option: true,
     category: "supernaturalCat",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.supernatural"
+    optionPlaceholder: "arm5e.skill.options.supernatural",
+    optionDefault: "powerName"
   },
   wildernessSense: {
     mnemonic: "arm5e.skill.supernatural.wildernessSense",
@@ -734,7 +745,8 @@ ARM5E.MYSTERY_ABILITIES = {
     option: true,
     category: "mystery",
     selection: "",
-    optionPlaceholder: "arm5e.skill.options.mysteryCult"
+    optionPlaceholder: "arm5e.skill.options.mysteryCult",
+    optionDefault: "cultName"
   }
 };
 
@@ -2139,7 +2151,7 @@ ARM5E.activities.generic = {
       abilities: true,
       arts: true,
       masteries: true,
-      spells: true
+      spells: false
     },
     source: { default: null, readonly: true },
     maxXp: 0,

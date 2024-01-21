@@ -1,8 +1,22 @@
-## 2.2.3.26, Ophilio, old
+## 2.2.3.27, Ophilio, old
+
+### Dependencies updates
+
+- arm5e-compendia module minimum version 0.2.6
+
+### Features & changes
+
+- Retrieve generic abilities from ref compendia even with an unkown option
 
 ### Bug fixes
 
-- It is no longer impossible to add a skill in a diary entry if you have animal handling.
+- Diary sheet fixes:
+  - It is no longer impossible to add a skill in a diary entry if you have animal handling.
+  - You can again add an ability progress item with a virtual teacher
+  - Added some robustness, the + sign fro progress items will disappear if all possibilities are exhausted.
+  - Generic abilities learned from a teacher are set properly.
+  - Spells tab is no longer visible in teaching activities (until it is implemented)
+  - bunch of small fixes
 
 ## 2.2.3.25, Ophilio, getting old
 

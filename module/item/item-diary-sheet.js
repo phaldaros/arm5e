@@ -275,20 +275,23 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     context.system.canProgress = { abilities: true, arts: true, spells: true };
     if (context.ui.showAbilities) {
       this.retrieveAbilities(context, teacher);
-      if (foundry.utils.isEmpty(context.system.ownedAbilities)) {
+      // if (foundry.utils.isEmpty(context.system.ownedAbilities)) {
+      if (context.system.defaultAbility === "") {
         context.system.canProgress.abilities = false;
       }
     }
     if (context.ui.showMagicProgress) {
       if (context.ui.showArts) {
         this.retrieveArts(context, teacher);
-        if (foundry.utils.isEmpty(context.system.ownedArts)) {
+        // if (foundry.utils.isEmpty(context.system.ownedArts)) {
+        if (context.system.defaultArt === "") {
           context.system.canProgress.arts = false;
         }
       }
       if (context.ui.showMasteries) {
         this.retrieveSpellMasteries(context, teacher);
-        if (foundry.utils.isEmpty(context.system.ownedSpells)) {
+        //if (foundry.utils.isEmpty(context.system.ownedSpells)) {
+        if (context.system.defaultSpellMastery === "") {
           context.system.canProgress.spells = false;
         }
       }
@@ -1008,13 +1011,14 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
           let ability;
 
           if (
-            ab.id.length < 8 ||
+            ab.id.length < 16 ||
             (["training", "teaching"].includes(this.item.system.activity) && ab.secondaryId)
           ) {
             // get the ability template from the shared compendia
             ability = await getAbilityFromCompendium(ab.key, ab.option);
-            ability._source.system.xp = ab.xp;
-            abilitiesToAdd.push(ability.toObject());
+            ability.name = ab.name;
+            ability.system.xp = ab.xp;
+            abilitiesToAdd.push(ability);
           } else {
             // check that ability still exists
             ability = this.actor.items.get(ab.id);
@@ -1132,8 +1136,12 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
 
         let abIdx = 0;
         for (let ab of this.item.system.progress.abilities) {
-          if (ab.id.length < 8) {
+          if (
+            ab.id.length < 8 ||
+            (["training", "teaching"].includes(this.item.system.activity) && ab.secondaryId)
+          ) {
             ab.id = res[abIdx];
+            ab.secondaryId = false;
             abIdx++;
           }
         }
@@ -1445,14 +1453,16 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
             // check if the
             if (button.dataset.default.length == 16 && button.dataset.secondary === "false") {
               newAb = this.actor.items.get(button.dataset.default);
+              newAb.secondaryId = false;
             } else {
-              if (hasTeacher) {
+              if (this.item.system.teacher.id !== null) {
                 let teacher = game.actors.get(this.item.system.teacher.id);
                 newAb = teacher.system.abilities.find(
                   (e) =>
                     e.system.key == button.dataset.defaultkey &&
                     e.system.option == button.dataset.defaultoption
                 );
+                newAb.secondaryId = true;
               } else {
                 newAb = CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED.find(
                   (e) => e._id === button.dataset.default
@@ -1477,7 +1487,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               category: newAb.system.category,
               name: newAb.name,
               currentXp: newAb.system.xp,
-              // xpNextLevel: newAb.system.xpNextLevel,
+              secondaryId: newAb.secondaryId,
               teacherScore: tScore,
               xp: 0
             };
@@ -1644,6 +1654,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       if (selectedAbility === undefined) {
         let teacher = game.actors.get(this.item.system.teacher.id);
         selectedAbility = teacher.items.get(abilityId);
+        selectedAbility.secondaryId = true;
+      } else {
+        selectedAbility.secondaryId = false;
       }
     } else {
       selectedAbility = CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED.find((e) => e._id === abilityId);
@@ -1654,12 +1667,13 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       return e.key === selectedAbility.system.key && e.option === selectedAbility.system.option;
     }).teacherScore;
     const data = {
-      id: abilityId,
+      id: selectedAbility._id,
       name: selectedAbility.name,
       category: selectedAbility.system.category,
       currentXp: selectedAbility.system.xp,
       key: selectedAbility.system.key,
       option: selectedAbility.system.option,
+      secondaryId: selectedAbility.secondaryId,
       // xpNextLevel: selectedAbility.system.xpNextLevel,
       xp: 0,
       teacherScore: teacherScore
