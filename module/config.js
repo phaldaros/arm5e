@@ -854,7 +854,7 @@ export function enrichAbilities(translatedList) {
         key: key,
         xp: 0,
         finalScore: 0,
-        option: val.option ? val.optionPlaceholder : "",
+        option: val.option ? val.optionDefault : "",
         category: val.category
       }
     };
