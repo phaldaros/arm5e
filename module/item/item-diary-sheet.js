@@ -475,34 +475,40 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         else a.teacherscore = 10;
       }
 
-      // if (context.system.ownedAbilities[a.category] == undefined) {
-      //   context.system.ownedAbilities[a.category] = [];
-      //   context.system.ownedAbilities[a.category].push({
-      //     id: a.id,
-      //     category: a.category,
-      //     name: CONFIG.ARM5E.LOCALIZED_ABILITIES[a.key].label,
-      //     key: a.key,
-      //     currentXp: a.xp,
-      //     option: a.option,
-      //     teacherScore: a.teacherScore
-      //   });
-      // } else {
-      //   let oa = context.system.ownedAbilities[a.category].find((e) => {
-      //     return e.id == a.id;
-      //   });
-      //   if (oa === undefined) {
-      //     context.system.ownedAbilities[a.category].push({
-      //       id: a.id,
-      //       category: a.category,
-      //       name: CONFIG.ARM5E.LOCALIZED_ABILITIES[a.key].label,
-      //       key: a.key,
-      //       currentXp: a.xp,
-      //       option: a.option,
-      //       score: a.score,
-      //       teacherScore: a.teacherScore
-      //     });
-      //   }
-      // }
+      if (context.system.ownedAbilities[a.category] == undefined) {
+        context.system.ownedAbilities[a.category] = [];
+        context.system.ownedAbilities[a.category].push({
+          id: a.id,
+          category: a.category,
+          secondaryId: ability.secondaryId,
+          name: a.name,
+          key: a.key,
+          currentXp: a.xp,
+          option: a.option,
+          teacherScore: a.teacherScore
+        });
+      } else {
+        let idx = context.system.ownedAbilities[a.category].findIndex((e) => {
+          return e.id == a.id;
+        });
+        if (idx < 0) {
+          context.system.ownedAbilities[a.category].push({
+            id: a.id,
+            category: a.category,
+            secondaryId: a.secondaryId,
+            name: a.name,
+            key: a.key,
+            currentXp: a.xp,
+            option: a.option,
+            teacherScore: a.teacherScore
+          });
+        } else {
+          context.system.ownedAbilities[a.category][idx].secondaryId = a.secondaryId;
+          context.system.ownedAbilities[a.category][idx].name = a.name;
+          context.system.ownedAbilities[a.category][idx].currentXp = a.xp;
+          context.system.ownedAbilities[a.category][idx].option = a.option;
+        }
+      }
     }
   }
 

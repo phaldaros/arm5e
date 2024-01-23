@@ -161,7 +161,7 @@
                           <!-- <label for="reading.book.system.topics.{{topicIndex}}.option" class="header-label"
                             style="color: gray">{{localize "arm5e.sheet.skill.abilityOption"}}</label> -->
                           <input type="text" name="reading.book.system.topics.{{topicIndex}}.option" data-dtype="String"
-                            value="" hidden style="max-width: 150px;" />
+                            value="" hidden {{ui.canEditBook}} style="max-width: 150px;" />
                         {{/if}}
                       </div>
                     </div>
@@ -296,6 +296,9 @@
         </div>
       </div>
     </div>
+    <!-- ***********
+    *** WRITING ****
+    **************** -->
     <div class="tab " data-group="primary" data-tab="writing">
       <div class="flexrow marginsides32">
         <div class="scriptorium backSection padding10 resource flexcol">

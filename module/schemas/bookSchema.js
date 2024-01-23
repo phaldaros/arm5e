@@ -169,7 +169,7 @@ export class BookSchema extends foundry.abstract.DataModel {
       name: item.name,
       system: this.toObject()
     };
-    formData.reading.book.system.topicIndex = dataset.index;
+    formData.reading.book.system.topicIndex = Number(dataset.index);
     if (item.isOwned && item.actor._isCharacter()) {
       formData.reading.reader.id = item.actor.id;
     }

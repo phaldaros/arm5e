@@ -181,7 +181,7 @@ export class Scriptorium extends FormApplication {
       context.ui.disableType = "disabled";
     }
     context.reading.book.currentTopic = currentTopic;
-    context.currentTopicNumber = topicIndex + 1;
+    context.currentTopicNumber = topicIndex + 1 ?? 1;
     context.topicNum = context.reading.book.system.topics.length ?? 1;
     if (!context.reading.reader?.id) {
       log(false, `Scriptorium reading data: ${context} ${JSON.stringify(context)}`);
@@ -267,7 +267,10 @@ export class Scriptorium extends FormApplication {
         let filteredAbilities = availableAbilities.filter((a) => a.system.finalScore < maxLevel);
         // does the reader has the book topic ability?
         let ability = availableAbilities.find((a) => {
-          return a.system.key === currentTopic.key && a.system.option === currentTopic.option;
+          return (
+            a.system.key === currentTopic.key &&
+            (currentTopic.option === null || a.system.option === currentTopic.option)
+          );
         });
 
         if (ability) {
@@ -285,13 +288,23 @@ export class Scriptorium extends FormApplication {
           // check if the ability is not found because of the option field
           filteredAbilities = filteredAbilities.filter((a) => a.system.key == currentTopic.key);
           if (filteredAbilities.length > 0) {
-            context.ui.warning = "arm5e.scriptorium.msg.whichItem";
-            context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
             if (!context.reading.reader.ability) {
-              context.reading.reader.ability = filteredAbilities[0];
+              context.reading.reader.ability = filteredAbilities[0]._id;
+            }
+            context.reading.reader.abilities = filteredAbilities;
+            filteredAbilities[0].name = game.i18n.format(
+              CONFIG.ARM5E.LOCALIZED_ABILITIES[currentTopic.key].mnemonic,
+              { option: currentTopic.option }
+            );
+            if (filteredAbilities.length == 1) {
+              context.ui.warning = "arm5e.scriptorium.msg.whichItem";
+              context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
             }
           } else {
-            context.reading.reader.abilities = filteredAbilities;
+            context.ui.editItem = "disabled";
+            context.ui.warning = "arm5e.scriptorium.msg.missingItem";
+            context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+            context.error = true;
           }
           // else {
           //   context.ui.editItem = "disabled";
@@ -433,13 +446,17 @@ export class Scriptorium extends FormApplication {
     switch (topic.category) {
       case "ability":
         if (topic.type == "Summa") {
-          let ab = reader.system.abilities.find((a) => {
-            return a._id === dataset.abilityId;
-          });
           objectData.ui = {};
-          entryData[0].system.cappedGain = this.checkAbilityOverload(objectData, reader, ab);
-          if (entryData[0].system.cappedGain) {
-            quality = topic.quality;
+          if (dataset.abilityId.length == 16) {
+            let ab = reader.system.abilities.find((a) => {
+              return a._id === dataset.abilityId;
+            });
+            entryData[0].system.cappedGain = this.checkAbilityOverload(objectData, reader, ab);
+            if (entryData[0].system.cappedGain) {
+              quality = topic.quality;
+            }
+          } else {
+            entryData[0].system.cappedGain = false;
           }
           entryData[0].system.sourceQuality = quality;
           maxLevel = topic.level;
@@ -447,7 +464,12 @@ export class Scriptorium extends FormApplication {
         entryData[0].system.progress.abilities.push({
           id: dataset.abilityId,
           category: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.category ?? "general",
-          name: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.label ?? book.name,
+          name: game.i18n.format(CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key].mnemonic, {
+            option: topic.option
+          }),
+          key: topic.key,
+          option: topic.option,
+          secondaryId: dataset.abilityId.length != 16,
           maxLevel: maxLevel,
           xp: entryData[0].system.cappedGain
             ? quality
