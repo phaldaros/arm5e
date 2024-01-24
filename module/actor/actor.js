@@ -1199,7 +1199,7 @@ export class ArM5ePCActor extends Actor {
 
   // Utility functions
 
-  // get the XP coefficient of a given ability if any
+  // get the XP bonus of a given ability if any
 
   _getAbilityXpBonus(abilityKey = "", option = "") {
     if (abilityKey === "" || CONFIG.ARM5E.ALL_ABILITIES[abilityKey] == undefined) {
@@ -1218,7 +1218,7 @@ export class ArM5ePCActor extends Actor {
 
     return this.system.bonuses.skills[abilityKey].xpMod || 0;
   }
-
+  // get the XP coefficient of a given ability if any
   _getAbilityXpCoeff(abilityKey = "", option = "") {
     if (abilityKey === "" || CONFIG.ARM5E.ALL_ABILITIES[abilityKey] == undefined) {
       return 1.0;
@@ -1694,6 +1694,7 @@ export class ArM5ePCActor extends Actor {
     log(false, updateData);
     if (result.crisis) {
       updateData["system.pendingCrisis"] = true;
+      updateData["system.lastCrisis"] = { year: agingData.year, season: agingData.season };
     }
 
     if (this.system.laboratory.longevityRitual.modifier && naturalAging) {

@@ -1,3 +1,17 @@
+## 2.2.4.0, Pralix
+
+### Features & changes
+
+- Added macros to open canvas menu dialogs (Scriptorium, Astrolabium, Aura management)
+- Rework of Reading tab in Scriptorium
+  - Possible to browse the topics of a book in the scriptorium.
+  - Improved generic ability handling
+
+### Bug fixes
+
+- Changing the topic of a virtual book in the Scriptorium no longer raise an error.
+- Lab texts are no longer applicable in the scriptorium.
+
 ## 2.2.3.27, Ophilio, old
 
 ### Dependencies updates

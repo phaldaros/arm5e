@@ -215,6 +215,7 @@ span.player-name {
   border-radius: 14px;
   border-color: rgb(161, 154, 154);
 }
+
 .window-app .window-content {
   flex-direction: column;
   flex-wrap: nowrap;
@@ -306,7 +307,7 @@ a.content-link i.fa-book-open {
 
 .scriptorium .drop-box {
   text-align: center;
-  padding: 5px;
+  padding: 25px;
   margin: 5px;
   border: 3px;
   border-style: dashed;
@@ -1062,7 +1063,7 @@ input[type="time"] {
   font-weight: normal;
   height: 13pt;
   background-image: none;
-  max-width: 220px;
+  max-width: 190px;
 }
 .arm5eRoll select,
 .arm5e select {
@@ -1126,15 +1127,6 @@ input[type="time"] {
   background-size: contain;
 }
 
-.arm5e .mainItem {
-  background-repeat: repeat-y;
-  background-size: 100%;
-  font-family: "bookAntiquaBold";
-  /* padding-left: 34px;
-  padding-right: 34px; */
-  font-size: 9pt;
-  /* max-width: 800px; */
-}
 /* 
 .arm5e .mainItem .sheet-body {
   height: auto;
@@ -1376,11 +1368,21 @@ input[type="time"] {
   border-bottom: 2px solid #4a4a48;
 }
 
-.arm5e .sheet header.sheet-header .img-container img,
-.arm5e .img-container img {
+.arm5e .sheet header.sheet-header .img-container img {
   display: block;
   height: 12px;
   justify-content: center;
+}
+
+.arm5e .img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 40px;
+}
+
+.arm5e .img-container img {
+  height: 12px;
 }
 
 .arm5e .nav-arrow {
@@ -2099,3 +2101,22 @@ img.art-icon {
 .arm5e .fontSize8 {
   font-size: 8pt;
 }
+
+.arm5e .mainItem {
+  background-repeat: repeat-y;
+  background-size: 100%;
+  font-family: "bookAntiquaBold";
+  display: flex;
+  /* padding-left: 34px;
+  padding-right: 34px; */
+  font-size: 9pt;
+  /* max-width: 800px; */
+}
+
+/* .content {
+  min-height: calc(58vh - 75px);
+}
+*/
+/* .footer {
+  height: 75px;
+} */

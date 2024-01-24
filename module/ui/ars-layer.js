@@ -1,7 +1,7 @@
 import { log } from "../tools.js";
 import { Astrolab } from "../tools/astrolab.js";
 import { ArM5eActiveEffectConfig } from "../helpers/active-effect-config.sheet.js";
-import { Scriptorium } from "../tools/scriptorium.js";
+import { Scriptorium, ScriptoriumObject } from "../tools/scriptorium.js";
 import { AuraConfig } from "./aura-config.js";
 
 export class ArsLayer extends InteractionLayer {
@@ -50,47 +50,53 @@ export class ArsLayer extends InteractionLayer {
     const res = await astrolab.render(true);
   }
   static async openScriptorium() {
-    let formData = {
-      seasons: CONFIG.ARM5E.seasons,
-      abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
-      arts: CONFIG.ARM5E.magic.arts,
-      techs: CONFIG.ARM5E.magic.techniques,
-      forms: CONFIG.ARM5E.magic.forms,
-      bookTopics: CONFIG.ARM5E.books.categories,
-      bookTypes: CONFIG.ARM5E.books.types,
-      ...game.settings.get("arm5e", "currentDate"),
-      reading: {
-        reader: { id: null },
-        book: {
-          uuid: null,
-          id: null,
-          name: game.i18n.localize("arm5e.activity.book.title"),
-          system: {
-            language: game.i18n.localize("arm5e.skill.commonCases.latin"),
-            author: game.i18n.localize("arm5e.generic.unknown"),
-            topics: [
-              {
-                category: "ability",
-                type: "Summa",
-                author: game.i18n.localize("arm5e.generic.unknown"),
-                quality: 1,
-                level: 1,
-                key: "",
-                option: "",
-                spellName: "",
-                art: "",
-                spellTech: "cr",
-                spellForm: "an"
-              }
-            ],
-            topicIndex: 0
-          }
-        }
-      }
-    };
+    // let formData = {
+    //   seasons: CONFIG.ARM5E.seasons,
+    //   abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
+    //   arts: CONFIG.ARM5E.magic.arts,
+    //   techs: CONFIG.ARM5E.magic.techniques,
+    //   forms: CONFIG.ARM5E.magic.forms,
+    //   bookTopics: CONFIG.ARM5E.books.categories,
+    //   bookTypes: CONFIG.ARM5E.books.types,
+    //   ...game.settings.get("arm5e", "currentDate"),
+    //   reading: {
+    //     reader: { id: null },
+    //     book: {
+    //       uuid: null,
+    //       id: null,
+    //       name: game.i18n.localize("arm5e.activity.book.title"),
+    //       system: {
+    //         language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+    //         author: game.i18n.localize("arm5e.generic.unknown"),
+    //         topics: [
+    //           {
+    //             category: "ability",
+    //             type: "Summa",
+    //             author: game.i18n.localize("arm5e.generic.unknown"),
+    //             quality: 1,
+    //             level: 1,
+    //             key: "",
+    //             option: "",
+    //             spellName: "",
+    //             art: "",
+    //             spellTech: "cr",
+    //             spellForm: "an"
+    //           }
+    //         ],
+    //         topicIndex: 0
+    //       }
+    //     }
+    //   }
+    // };
+
+    let formData = new ScriptoriumObject();
     // // const html = await renderTemplate("systems/arm5e/templates/generic/astrolab.html", dialogData);
     const scriptorium = new Scriptorium(formData, {}); // data, options
     const res = await scriptorium.render(true);
+  }
+
+  static async openAuraConfig() {
+    new AuraConfig(canvas.scene).render(true);
   }
 }
 
@@ -108,7 +114,7 @@ export function addArsButtons(buttons) {
         icon: "icon-Tool_Auras",
         visible: game.user.isGM,
         button: true,
-        onClick: () => new AuraConfig(canvas.scene).render(true)
+        onClick: () => ArsLayer.openAuraConfig()
       },
       {
         name: "clearAura",

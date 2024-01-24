@@ -66,6 +66,7 @@ import { ArM5eSmallSheet } from "./item/item-small-sheet.js";
 import { EnchantmentSchema } from "./schemas/enchantmentSchema.js";
 Hooks.once("init", async function () {
   game.arm5e = {
+    ArsLayer,
     ArM5ePCActor,
     ArM5eItem,
     rollItemMacro

@@ -1197,7 +1197,7 @@
   "arm5e.aging.roll.IntPerPts": "1 Aging Point in Int and Per.",
   "arm5e.aging.roll.bronze": "Familiar Bronze cord",
   "arm5e.aging.crisis.label": "Aging crisis",
-  "arm5e.aging.crisis.tooltip": "Resolve crisis",
+  "arm5e.aging.crisis.tooltip": "Resolve aging crisis",
   "arm5e.aging.crisis.summary": "Crisis summary",
   "arm5e.aging.crisis.bedriddenWeek": "Bedridden for a week.",
   "arm5e.aging.crisis.bedriddenMonth": "Bedridden for a month.",
@@ -1342,6 +1342,7 @@
   "arm5e.scriptorium.msg.diaryTopic.art": "the {art} Hermetic Art",
   "arm5e.scriptorium.msg.diaryTopic.spell": "the mastery of the \"{spell}\" spell",
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
+  "arm5e.scriptorium.msg.labText": "Laboratory texts are studied in a lab.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
 
   "arm5e.sanatorium.magicalHelp": "Magical help",
@@ -1446,5 +1447,6 @@
   "arm5e.generic.ends": "Ends",
   "arm5e.generic.all": "All",
   "arm5e.generic.hidden": "Hidden",
-  "arm5e.generic.locked": "Locked"
+  "arm5e.generic.locked": "Locked",
+  "arm5e.generic.params": "Parameters"
 }

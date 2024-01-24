@@ -1,7 +1,7 @@
 import { ArM5ePCActor } from "../actor/actor.js";
 import { getTopicDescription } from "../item/item-book-sheet.js";
 import { ArM5eItem } from "../item/item.js";
-import { debug, log } from "../tools.js";
+import { debug, getDataset, log } from "../tools.js";
 
 export class ScriptoriumObject {
   seasons = CONFIG.ARM5E.seasons;
@@ -20,23 +20,52 @@ export class ScriptoriumObject {
       id: null,
       uuid: null,
       name: game.i18n.localize("arm5e.activity.book.title"),
-      language: game.i18n.localize("arm5e.skill.commonCases.latin"),
-      topics: [
-        {
-          category: "ability",
-          type: "Summa",
-          author: game.i18n.localize("arm5e.generic.unknown"),
-          quality: 1,
-          level: 1,
-          key: "",
-          option: "",
-          spellName: "",
-          art: "",
-          spellTech: "cr",
-          spellForm: "an"
-        }
-      ],
-      topicIndex: 0
+      system: {
+        language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+        topics: [
+          {
+            category: "ability",
+            type: "Summa",
+            author: game.i18n.localize("arm5e.generic.unknown"),
+            quality: 1,
+            level: 1,
+            key: "",
+            option: "",
+            spellName: "",
+            art: "",
+            spellTech: "cr",
+            spellForm: "an"
+          }
+        ],
+        topicIndex: 0
+      }
+    }
+  };
+  writing = {
+    writer: { id: null },
+    book: {
+      id: null,
+      uuid: null,
+      name: game.i18n.localize("arm5e.activity.book.title"),
+      system: {
+        language: game.i18n.localize("arm5e.skill.commonCases.latin"),
+        topics: [
+          {
+            category: "ability",
+            type: "Summa",
+            author: game.i18n.localize("arm5e.generic.unknown"),
+            quality: 1,
+            level: 1,
+            key: "",
+            option: "",
+            spellName: "",
+            art: "",
+            spellTech: "cr",
+            spellForm: "an"
+          }
+        ],
+        topicIndex: 0
+      }
     }
   };
 }
@@ -44,6 +73,7 @@ export class ScriptoriumObject {
 export class Scriptorium extends FormApplication {
   constructor(data, options) {
     super(data, options);
+    delete this.object.bookTopics.labText; // those are read in a lab
     // Hooks.on("closeApplication", (app, html) => this.onClose(app));
   }
   /** @override */
@@ -54,7 +84,8 @@ export class Scriptorium extends FormApplication {
       template: "systems/arm5e/templates/generic/scriptorium.html",
       dragDrop: [
         { dragSelector: null, dropSelector: ".drop-book" },
-        { dragSelector: null, dropSelector: ".drop-reader" }
+        { dragSelector: null, dropSelector: ".drop-reader" },
+        { dragSelector: null, dropSelector: ".drop-writer" }
       ],
       tabs: [
         {
@@ -64,7 +95,7 @@ export class Scriptorium extends FormApplication {
         }
       ],
       width: "600",
-      height: "auto",
+      height: "800",
       submitOnChange: true,
       closeOnSubmit: false
     });
@@ -88,18 +119,47 @@ export class Scriptorium extends FormApplication {
       if (book.type === "book") {
         await this._setBook(book);
       }
-    } else if (dropData.type == "Actor" && event.currentTarget.dataset.drop === "reader") {
-      const reader = await Actor.implementation.fromDropData(dropData);
-      if (reader.type === "player" || reader.type === "npc") {
-        await this._setReader(reader);
+    } else if (dropData.type == "Actor") {
+      if (event.currentTarget.dataset.drop === "reader") {
+        const reader = await Actor.implementation.fromDropData(dropData);
+        if (reader.type === "player" || reader.type === "npc") {
+          await this._setReader(reader);
+        }
+      } else if (event.currentTarget.dataset.drop === "writer") {
+        const writer = await Actor.implementation.fromDropData(dropData);
+        if (writer.type === "player" || writer.type === "npc") {
+          await this._setWriter(writer);
+        }
       }
     }
+  }
+
+  getUserCache() {
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    if (usercache[`scriptorium`] == undefined) {
+      usercache[`scriptorium`] = {
+        sections: {
+          visibility: {
+            scriptorium: {}
+          }
+        }
+      };
+    }
+
+    sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    return usercache[`scriptorium`];
   }
 
   async getData(options = {}) {
     const context = foundry.utils.expandObject(await super.getData().object);
     context.error = false;
-    context.ui = { createPossible: "disabled", warning: "", warningParam: "", editItem: "" };
+    context.ui = {
+      ...this.getUserCache(),
+      createPossible: "disabled",
+      warning: "",
+      warningParam: "",
+      editItem: ""
+    };
     let currentDate = game.settings.get("arm5e", "currentDate");
     context.curYear = currentDate.year;
     context.curSeason = currentDate.season;
@@ -121,8 +181,10 @@ export class Scriptorium extends FormApplication {
       context.ui.disableType = "disabled";
     }
     context.reading.book.currentTopic = currentTopic;
+    context.currentTopicNumber = topicIndex + 1 ?? 1;
+    context.topicNum = context.reading.book.system.topics.length ?? 1;
     if (!context.reading.reader?.id) {
-      log(false, `Scriptorium reading data: ${JSON.stringify(context.reading)}`);
+      log(false, `Scriptorium reading data: ${context} ${JSON.stringify(context)}`);
       return context;
     }
 
@@ -160,56 +222,96 @@ export class Scriptorium extends FormApplication {
       });
     switch (currentTopic.category) {
       case "ability": {
-        context.reading.reader.abilities = reader.system.abilities.map((a) => {
-          return {
-            id: a.id,
-            key: a.system.key,
-            option: a.system.option,
-            name: game.i18n.format(
-              CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key]
-                ? CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key].mnemonic
-                : "Unknown",
-              {
-                option: a.system.option
+        let availableAbilities = duplicate(CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED);
+        for (let a of reader.system.abilities) {
+          let found = availableAbilities.findIndex(
+            (e) => e.system.key == a.system.key && e.system.option == a.system.option
+          );
+          if (found >= 0) {
+            availableAbilities[found]._id = a._id;
+            availableAbilities[found].system.xp = a.system.xp;
+            availableAbilities[found].secondaryId = false;
+            availableAbilities[found].system.finalScore = a.system.finalScore;
+          } else {
+            availableAbilities.push({
+              _id: a._id,
+              secondaryId: true,
+              name: a.name,
+              system: {
+                key: a.system.key,
+                xp: a.system.xp,
+                finalScore: a.system.finalScore,
+                option: a.system.option,
+                category: a.system.category
               }
-            ),
-            score: a.system.finalScore
-          };
+            });
+          }
+        }
+        // reader.system.abilities.map((a) => {
+        //   return {
+        //     id: a.id,
+        //     key: a.system.key,
+        //     option: a.system.option,
+        //     name: game.i18n.format(
+        //       CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key]
+        //         ? CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key].mnemonic
+        //         : "Unknown",
+        //       {
+        //         option: a.system.option
+        //       }
+        //     ),
+        //     score: a.system.finalScore
+        //   };
+        // });
+
+        let filteredAbilities = availableAbilities.filter((a) => a.system.finalScore < maxLevel);
+        // does the reader has the book topic ability?
+        let ability = availableAbilities.find((a) => {
+          return (
+            a.system.key === currentTopic.key &&
+            (currentTopic.option === null || a.system.option === currentTopic.option)
+          );
         });
 
-        let filteredAbilities = context.reading.reader.abilities.filter((a) => a.score < maxLevel);
-        // does the reader has the book topic ability?
-        let abilityId = context.reading.reader.abilities.find(
-          (a) => a.key == currentTopic.key && a.option == currentTopic.option
-        )?.id;
-
-        if (abilityId) {
+        if (ability) {
           // is the reader low skilled enough?
-          if (filteredAbilities.find((a) => a.id == abilityId)) {
-            context.reading.reader.ability = abilityId;
+          if (filteredAbilities.find((a) => a._id == ability._id)) {
+            context.reading.reader.ability = ability._id;
+            context.reading.reader.abilities = [ability];
           } else {
             context.ui.editItem = "disabled";
             context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
             context.ui.warningParam = "";
             context.error = true;
           }
-          context.reading.reader.abilities = filteredAbilities;
         } else {
           // check if the ability is not found because of the option field
-          filteredAbilities = filteredAbilities.filter((a) => a.key == currentTopic.key);
+          filteredAbilities = filteredAbilities.filter((a) => a.system.key == currentTopic.key);
           if (filteredAbilities.length > 0) {
-            context.ui.warning = "arm5e.scriptorium.msg.whichItem";
-            context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
             if (!context.reading.reader.ability) {
-              context.reading.reader.ability = filteredAbilities[0];
+              context.reading.reader.ability = filteredAbilities[0]._id;
             }
             context.reading.reader.abilities = filteredAbilities;
+            filteredAbilities[0].name = game.i18n.format(
+              CONFIG.ARM5E.LOCALIZED_ABILITIES[currentTopic.key].mnemonic,
+              { option: currentTopic.option }
+            );
+            if (filteredAbilities.length == 1) {
+              context.ui.warning = "arm5e.scriptorium.msg.whichItem";
+              context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+            }
           } else {
             context.ui.editItem = "disabled";
             context.ui.warning = "arm5e.scriptorium.msg.missingItem";
             context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
             context.error = true;
           }
+          // else {
+          //   context.ui.editItem = "disabled";
+          //   context.ui.warning = "arm5e.scriptorium.msg.missingItem";
+          //   context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+          //   context.error = true;
+          // }
           //context.error = true;
         }
 
@@ -229,6 +331,12 @@ export class Scriptorium extends FormApplication {
             context.reading.reader.spell = context.reading.reader.spells[0].id;
           }
         }
+        break;
+      }
+      case "labText": {
+        context.ui.editItem = "disabled";
+        context.ui.warning = "arm5e.scriptorium.msg.labText";
+        context.error = true;
         break;
       }
       default:
@@ -254,6 +362,43 @@ export class Scriptorium extends FormApplication {
     html.find(".unlink-read-book").click(this._resetReadBook.bind(this));
     html.find(".unlink-reader").click(this._resetReader.bind(this));
     html.find(".create-activity").click(this._createDiaryEntry.bind(this));
+    html.find(".section-handle").click(this._handle_section.bind(this));
+
+    html.find(".next-topic").click(async (event) => this._changeCurrentTopic(event, 1));
+    html.find(".previous-topic").click(async (event) => this._changeCurrentTopic(event, -1));
+  }
+  async _changeCurrentTopic(event, offset) {
+    event.preventDefault();
+    const newIndex = Number(getDataset(event).index) + offset;
+    if (newIndex > this.object.reading.book.system.topics.length - 1 || newIndex < 0) {
+      // no effect
+      return;
+    }
+    // let updateData = ;
+    // updateData["reading.book.system.topicIndex"] = newIndex;
+    await this.submit({
+      preventClose: true,
+      updateData: { "reading.book.system.topicIndex": newIndex }
+    });
+  }
+  async _handle_section(ev) {
+    const dataset = getDataset(ev);
+    log(false, `DEBUG section: ${dataset.section}, category: ${dataset.category}`);
+    let usercache = JSON.parse(sessionStorage.getItem(`usercache-${game.user.id}`));
+    let scope = usercache["scriptorium"].sections.visibility[dataset.category];
+    let classes = document.getElementById(`${dataset.category}-${dataset.section}`).classList;
+    if (scope) {
+      if (classes.contains("hide")) {
+        log(false, `DEBUG reveal ${dataset.section}`);
+        scope[dataset.section] = "";
+      } else {
+        log(false, `DEBUG hide ${dataset.section}`);
+        scope[dataset.section] = "hide";
+      }
+      sessionStorage.setItem(`usercache-${game.user.id}`, JSON.stringify(usercache));
+    }
+    // log(false, `DEBUG Flags: ${JSON.stringify(this.item.flags.arm5e.ui.sections.visibility)}`);
+    classes.toggle("hide");
   }
 
   async _createDiaryEntry(event) {
@@ -301,13 +446,17 @@ export class Scriptorium extends FormApplication {
     switch (topic.category) {
       case "ability":
         if (topic.type == "Summa") {
-          let ab = reader.system.abilities.find((a) => {
-            return a._id === dataset.abilityId;
-          });
           objectData.ui = {};
-          entryData[0].system.cappedGain = this.checkAbilityOverload(objectData, reader, ab);
-          if (entryData[0].system.cappedGain) {
-            quality = topic.quality;
+          if (dataset.abilityId.length == 16) {
+            let ab = reader.system.abilities.find((a) => {
+              return a._id === dataset.abilityId;
+            });
+            entryData[0].system.cappedGain = this.checkAbilityOverload(objectData, reader, ab);
+            if (entryData[0].system.cappedGain) {
+              quality = topic.quality;
+            }
+          } else {
+            entryData[0].system.cappedGain = false;
           }
           entryData[0].system.sourceQuality = quality;
           maxLevel = topic.level;
@@ -315,7 +464,12 @@ export class Scriptorium extends FormApplication {
         entryData[0].system.progress.abilities.push({
           id: dataset.abilityId,
           category: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.category ?? "general",
-          name: CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key]?.label ?? book.name,
+          name: game.i18n.format(CONFIG.ARM5E.LOCALIZED_ABILITIES[topic.key].mnemonic, {
+            option: topic.option
+          }),
+          key: topic.key,
+          option: topic.option,
+          secondaryId: dataset.abilityId.length != 16,
           maxLevel: maxLevel,
           xp: entryData[0].system.cappedGain
             ? quality
@@ -436,6 +590,20 @@ export class Scriptorium extends FormApplication {
     });
   }
 
+  async _setWriter(writer) {
+    log(false, "set writer info");
+    let writerInfo = {
+      id: writer._id,
+      name: writer.name
+    };
+    writer.apps[this.appId] = this;
+    const writingData = { writer: writerInfo };
+    await this.submit({
+      preventClose: true,
+      updateData: { writer: writingData }
+    });
+  }
+
   async setDate(event) {
     event.preventDefault();
     const dataset = event.currentTarget.dataset;
@@ -453,19 +621,22 @@ export class Scriptorium extends FormApplication {
   }
 
   async _updateObject(event, formData) {
-    if (formData.season) {
-      this.object.season = formData.season;
-    }
-    if (formData.year) {
-      this.object.year = formData.year;
-    }
-    for (let [key, value] of Object.entries(formData)) {
-      log(false, `Updated ${key} : ${value}`);
-      this.object[key] = value;
-    }
-    this.object = foundry.utils.expandObject(this.object);
-    // log(false, `Scriptorium object: ${JSON.stringify(this.object)}`);
+    const expanded = expandObject(formData);
+    mergeObject(this.object, expanded, { recursive: true });
     this.render();
+    // if (formData.season) {
+    //   this.object.season = formData.season;
+    // }
+    // if (formData.year) {
+    //   this.object.year = formData.year;
+    // }
+    // for (let [key, value] of Object.entries(formData)) {
+    //   log(false, `Updated ${key} : ${value}`);
+    //   this.object[key] = value;
+    // }
+    // this.object = foundry.utils.expandObject(this.object);
+    // // log(false, `Scriptorium object: ${JSON.stringify(this.object)}`);
+    // this.render();
 
     return;
   }
@@ -475,7 +646,7 @@ export class Scriptorium extends FormApplication {
     const index = event.currentTarget.dataset.index;
     let chosenTopic = $(".book-topic").find("option:selected").val();
     const readingData = { book: { system: { topics: { [index]: {} } } } };
-    let bookInfo = readingData.book.systen.topics[index];
+    let bookInfo = readingData.book.system.topics[index];
     if (chosenTopic === "ability") {
       bookInfo.art = null;
       bookInfo.key = "awareness";

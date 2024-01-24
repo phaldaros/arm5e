@@ -1,6 +1,6 @@
 import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
-import { Scriptorium } from "../tools/scriptorium.js";
+import { Scriptorium, ScriptoriumObject } from "../tools/scriptorium.js";
 import {
   authorship,
   hermeticForm,
@@ -161,26 +161,15 @@ export class BookSchema extends foundry.abstract.DataModel {
     if (topic.category == "labText") {
       return;
     }
-    let formData = {
-      seasons: CONFIG.ARM5E.seasons,
-      abilityKeysList: CONFIG.ARM5E.LOCALIZED_ABILITIES,
-      arts: CONFIG.ARM5E.magic.arts,
-      techs: CONFIG.ARM5E.magic.techniques,
-      forms: CONFIG.ARM5E.magic.forms,
-      bookTopics: CONFIG.ARM5E.books.categories,
-      bookTypes: CONFIG.ARM5E.books.types,
-      ...game.settings.get("arm5e", "currentDate"),
-      reading: {
-        reader: { id: null },
-        book: {
-          uuid: item.uuid,
-          id: item._id,
-          name: item.name,
-          system: this.toObject()
-        }
-      }
+
+    let formData = new ScriptoriumObject();
+    formData.reading.book = {
+      uuid: item.uuid,
+      id: item._id,
+      name: item.name,
+      system: this.toObject()
     };
-    formData.reading.book.system.topicIndex = dataset.index;
+    formData.reading.book.system.topicIndex = Number(dataset.index);
     if (item.isOwned && item.actor._isCharacter()) {
       formData.reading.reader.id = item.actor.id;
     }
