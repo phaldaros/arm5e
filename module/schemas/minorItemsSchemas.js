@@ -5,6 +5,7 @@ import { convertToNumber, log } from "../tools.js";
 import {
   boolOption,
   convertToInteger,
+  CostField,
   itemBase,
   NullableEmbeddedDataField,
   XpField
@@ -137,6 +138,7 @@ export class ItemSchema extends foundry.abstract.DataModel {
         min: 0,
         initial: 0
       }),
+      cost: CostField("standard"),
       carried: boolOption(false, true),
       state: ItemState(),
       enchantments: new NullableEmbeddedDataField(EnchantmentExtension, {

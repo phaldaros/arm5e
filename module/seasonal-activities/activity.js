@@ -438,7 +438,7 @@ export class VisExtractionActivity extends LabActivity {
       type: "vis",
       system: {
         art: "vi",
-        pawns: Math.ceil(input.labTotal.score / 10),
+        quantity: Math.ceil(input.labTotal.score / 10),
         description: game.i18n.format("arm5e.lab.planning.msg.visExtracted2", {
           covenant: this.actor.system.covenant.value
         })

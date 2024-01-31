@@ -1,4 +1,4 @@
-## 2.2.4.0, Pralix
+## 2.2.4.1, Pralix
 
 ### Features & changes
 
@@ -6,11 +6,16 @@
 - Rework of Reading tab in Scriptorium
   - Possible to browse the topics of a book in the scriptorium.
   - Improved generic ability handling
+- Items allowed to be created in the sidebar have been filtered to remove deprecated ones or the ones which make no sense to exist independently (a reputation, a wound, a covenant inhabitant)
+- New container actor.
+- Added quantity and price to all physical items (even if it is not visible for some)
+- Books topics have their own authorship parameters (name, language, date)
 
 ### Bug fixes
 
 - Changing the topic of a virtual book in the Scriptorium no longer raise an error.
 - Lab texts are no longer applicable in the scriptorium.
+- Transfer of part of an physical item stack no properly update the original stack
 
 ## 2.2.3.27, Ophilio, old
 

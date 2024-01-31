@@ -1,6 +1,12 @@
 import { ARM5E } from "../config.js";
 import { convertToNumber, log } from "../tools.js";
-import { boolOption, itemBase, NullableEmbeddedDataField, XpField } from "./commonSchemas.js";
+import {
+  boolOption,
+  CostField,
+  itemBase,
+  NullableEmbeddedDataField,
+  XpField
+} from "./commonSchemas.js";
 import { EnchantmentExtension, ItemState } from "./enchantmentSchema.js";
 const fields = foundry.data.fields;
 export const possibleCosts = Object.keys(ARM5E.item.costs);
@@ -11,17 +17,7 @@ export class ArmorSchema extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       ...itemBase(),
-      cost: new fields.SchemaField(
-        {
-          value: new fields.StringField({
-            required: false,
-            blank: false,
-            initial: "n-a",
-            choices: possibleCosts
-          })
-        },
-        { required: false, blank: false, initial: { value: "n-a" } }
-      ),
+      cost: CostField("standard", 2),
       quantity: new fields.NumberField({
         required: false,
         nullable: false,
@@ -98,17 +94,7 @@ export class WeaponSchema extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       ...itemBase(),
-      cost: new fields.SchemaField(
-        {
-          value: new fields.StringField({
-            required: false,
-            blank: false,
-            initial: "n-a",
-            choices: possibleCosts
-          })
-        },
-        { required: false, blank: false, initial: { value: "n-a" } }
-      ),
+      cost: CostField("standard"),
       quantity: new fields.NumberField({
         required: false,
         nullable: false,

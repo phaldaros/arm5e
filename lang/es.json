@@ -1098,7 +1098,7 @@
   "arm5e.scriptorium.msg.invalidLevel": "Nivel inválido.",
   "arm5e.scriptorium.msg.invalidQuality": "Calidad inválida.",
   "arm5e.scriptorium.msg.cappedQuality": "Este libro se ha vuelto una lectura superflua. La Calidad se reduce a {item}",
-  "arm5e.scriptorium.msg.diaryDesc": "{name} pasó la estación leyendo \"{title}\" de {author},<br/> un {type} en {language} sobre {topic}",
+  "arm5e.scriptorium.msg.diaryDescReading": "{name} pasó la estación leyendo \"{title}\" de {author},<br/> un {type} en {language} sobre {topic}",
   "arm5e.scriptorium.msg.diaryTopic.art": "el Arte hermético de {art}",
   "arm5e.scriptorium.msg.diaryTopic.spell": "el dominio del hechizo \"{spell}\"",
   "arm5e.scriptorium.msg.notMagus": "El lector no es un magus.",

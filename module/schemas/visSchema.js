@@ -2,8 +2,8 @@ import { ARM5E } from "../config.js";
 import { stressDie } from "../dice.js";
 import Aura from "../helpers/aura.js";
 import { setVisStudyResults } from "../helpers/long-term-activities.js";
-import { log } from "../tools.js";
-import { boolOption, convertToInteger, itemBase, XpField } from "./commonSchemas.js";
+import { convertToNumber, log } from "../tools.js";
+import { boolOption, convertToInteger, CostField, itemBase, XpField } from "./commonSchemas.js";
 const fields = foundry.data.fields;
 
 export class VisSchema extends foundry.abstract.DataModel {
@@ -20,13 +20,22 @@ export class VisSchema extends foundry.abstract.DataModel {
         choices: Object.keys(ARM5E.magic.arts)
       }),
       pawns: new fields.NumberField({
+        // DEPRECATED use quantity instead
         required: false,
-        nullable: false,
+        nullable: true,
+        min: 0,
+        initial: null,
+        step: 1
+      }),
+      quantity: new fields.NumberField({
+        required: false,
+        nullable: true,
         integer: true,
         min: 0, // allow quantity of 0 to keep an eye on what is missing
         initial: 1,
         step: 1
-      })
+      }),
+      cost: CostField("priceless")
     };
   }
 
@@ -60,18 +69,22 @@ export class VisSchema extends foundry.abstract.DataModel {
       updateData["system.-=form"] = null;
     }
 
+    if (itemData.system.pawns) {
+      updateData["system.quantity"] = convertToNumber(itemData.system.pawns, 1);
+      updateData["system.pawns"] = null;
+    }
     return updateData;
   }
 
   hasQuantity() {
-    return { name: "pawns", qty: this.pawns };
+    return { name: "quantity", qty: this.quantity };
   }
 
   async studyVis(item) {
     const actor = item.actor;
     let artStats = actor.getArtStats(this.art);
     let amount = Math.max(1, Math.ceil(artStats.derivedScore / 5));
-    if (amount > this.pawns) {
+    if (amount > this.quantity) {
       ui.notifications.info(
         game.i18n.format("arm5e.notification.noEnoughVis", { name: actor.name })
       );

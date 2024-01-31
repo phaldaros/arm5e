@@ -399,9 +399,9 @@
   "arm5e.sheet.multipleCasting.label": "Lancement Multiple",
   "arm5e.sheet.basicLabTotal.label": "Total de Laboratoire de Base",
   "arm5e.sheet.visLimit.label": "Limite de Vis",
-  
+
   "arm5e.sheet.item.enchantments": "Enchantements",
-  
+
   "arm5e.sheet.indexKey": "Clé d'indexation",
 
   "arm5e.sheet.setAbilities": "Créez des compétences pour votre personnage pour les valeurs ci-dessous. Celà permet le calcul correct. Si vous ne possédez pas la capacité, vous pouvez tout de même la créer avec une valeur de zéro",
@@ -500,7 +500,7 @@
   "arm5e.skill.options.academic": "Nom de la compétence",
   "arm5e.skill.options.arcane": "Nom de la compétence",
   "arm5e.skill.options.supernatural": "Nom de la compétence",
-  
+
   "arm5e.skill.options.mysteryCult": "Nom du culte",
   "arm5e.skill.options.law": "Forum juridique",
 
@@ -827,7 +827,7 @@
   "arm5e.enchantment.receptacle.label": "Réceptacle",
   "arm5e.enchantment.receptacle.name": "Nom du réceptacle",
   "arm5e.enchantment.receptacle.desc": "Description du réceptacle",
-  
+
   "arm5e.lab.planning.labQuality": "Qualitée laboratoire",
   "arm5e.lab.planning.labSpecTotal": "Spé. Lab.",
   "arm5e.lab.planning.label": "Planification",
@@ -847,7 +847,7 @@
   "arm5e.lab.planning.msg.smallCapacity": "La taille est trop petite ou le matériel n'est pas assez noble.",
   "arm5e.lab.planning.msg.visNeeded": "{num} pions de vis requis.",
   "arm5e.lab.planning.msg.tooMuchVis": "{num} pions c'est plus que le double de la valeur de théorie de la magie",
-  
+
   "arm5e.lab.planning.button.refresh": "Rafraîchir",
   "arm5e.lab.planning.button.reset": "Remise à zéro",
   "arm5e.lab.planning.button.schedule": "Planifier",
@@ -873,14 +873,14 @@
   "arm5e.lab.enchantment.item.material.label": "Materiau",
 
   "arm5e.lab.enchantment.item.charges": "Charges",
-  
+
   "arm5e.lab.enchantment.item.maxLevel": "Niveau Max",
-  
+
   "arm5e.sheet.state.label": "Statut",
   "arm5e.lab.enchantment.item.state.inert": "Non magique",
   "arm5e.lab.enchantment.item.state.appraised": "Enchantement",
   "arm5e.lab.enchantment.item.state.prepared": "Préparé",
-  "arm5e.lab.enchantment.item.state.charged": "A charge",  
+  "arm5e.lab.enchantment.item.state.charged": "A charge",
   "arm5e.lab.enchantment.item.state.enchanted": "Enchanté",
   "arm5e.lab.enchantment.item.state.attuned": "Harmoniser",
 
@@ -1136,7 +1136,7 @@
   "arm5e.sheet.activeEffect.subtypes.combatRoll": "Jets de combat",
   "arm5e.sheet.activeEffect.subtypes.attackRoll": "Jets d'attaque",
   "arm5e.sheet.activeEffect.subtypes.defRoll": "Jet de défense",
-  
+
   "arm5e.sheet.activeEffect.bonuses.penetration": "Bonus de Pénétration",
 
   "arm5e.sheet.activeEffect.changeMode": "Mode",
@@ -1220,7 +1220,7 @@
   "arm5e.activity.recovery": "Récupération",
   "arm5e.activity.longevityRitual": "Rituel de longévité",
   "arm5e.activity.minorEnchantment": "Enchantement mineur",
-  
+
   "arm5e.activity.pawnsNeeded": "Pions de vis nécessaire",
 
   "arm5e.activity.roll.aging": "Jet de vieillissement",
@@ -1252,7 +1252,7 @@
   "arm5e.activity.msg.noYearOfBirth": "Il n'y a pas d'année de naissance définie pour le personnage.",
   "arm5e.activity.msg.wrongVisAmount": "Sélectionner la valeur correcte de vis",
   "arm5e.activity.msg.noEnoughVis": "Pas assez de vis disponible en stock.",
-  
+
   "arm5e.lab.distraction.label": "Distractions",
   "arm5e.lab.distraction.none": "Pas de distraction",
   "arm5e.lab.distraction.oneMonth": "Un mois",
@@ -1310,7 +1310,7 @@
   "arm5e.scriptorium.msg.invalidLevel": "Niveau invalide.",
   "arm5e.scriptorium.msg.invalidQuality": "Qualité invalide",
   "arm5e.scriptorium.msg.cappedQuality": "Ce livre est devenu facile à lire. La qualité est réduite à {item}",
-  "arm5e.scriptorium.msg.diaryDesc": "{name} a passé la saison à lire \"{title}\" de {author},<br/> un {type} en {language} à propos de {topic}",
+  "arm5e.scriptorium.msg.diaryDescReading": "{name} a passé la saison à lire \"{title}\" de {author},<br/> un {type} en {language} à propos de {topic}",
   "arm5e.scriptorium.msg.diaryTopic.art": "l'art hermétique {art}",
   "arm5e.scriptorium.msg.diaryTopic.spell": "la maîtrise du sort \"{sort}\"",
   "arm5e.scriptorium.msg.notMagus": "Le lecteur n'est pas un mage.",

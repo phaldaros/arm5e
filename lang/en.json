@@ -355,9 +355,11 @@
   "arm5e.sheet.handedness": "Handedness",
 
   "arm5e.sheet.n-a": "N/A",
+  "arm5e.sheet.none": "None",
   "arm5e.sheet.inexpensive": "Inexpensive",
   "arm5e.sheet.standard": "Standard",
   "arm5e.sheet.expensive": "Expensive",
+  "arm5e.sheet.priceless": "Priceless",
 
   "arm5e.sheet.free": "Free",
   "arm5e.sheet.major": "Major",
@@ -1323,6 +1325,10 @@
   "arm5e.astrolab.restAll": "Rest everyone",
 
   "arm5e.scriptorium.index": "Index",
+
+  "arm5e.scriptorium.writer.title": "Writer",
+  "arm5e.scriptorium.writer.name": "Writer's name",
+  "arm5e.scriptorium.writer.writingScore": "Writing score (Com + language)",
   "arm5e.scriptorium.reader.title": "Reader",
   "arm5e.scriptorium.reader.name": "Reader's name",
   "arm5e.scriptorium.reader.languages": "Known languages",
@@ -1338,12 +1344,14 @@
   "arm5e.scriptorium.msg.invalidLevel": "Invalid level.",
   "arm5e.scriptorium.msg.invalidQuality": "Invalid quality.",
   "arm5e.scriptorium.msg.cappedQuality": "This book has become an easy read. The quality is reduced to {item}",
-  "arm5e.scriptorium.msg.diaryDesc": "{name} spent the season reading \"{title}\" by {author},<br/> a {type} in {language} about {topic}",
+  "arm5e.scriptorium.msg.diaryDescReading": "{name} spent the season reading \"{title}\" by {author},<br/> a {type} in {language} about {topic}",
+  "arm5e.scriptorium.msg.diaryDescWriting": "{name} spent the season writing \"{title}\",<br/> a {type} in {language} about {topic}",
   "arm5e.scriptorium.msg.diaryTopic.art": "the {art} Hermetic Art",
   "arm5e.scriptorium.msg.diaryTopic.spell": "the mastery of the \"{spell}\" spell",
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
   "arm5e.scriptorium.msg.labText": "Laboratory texts are studied in a lab.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
+  "arm5e.scriptorium.writing.activity": "Writing {title}",
 
   "arm5e.sanatorium.magicalHelp": "Magical help",
   "arm5e.sanatorium.mundaneHelp": "Mundane help",

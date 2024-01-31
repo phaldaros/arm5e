@@ -1172,7 +1172,7 @@
   "arm5e.scriptorium.msg.invalidLevel": "Livello non valido.",
   "arm5e.scriptorium.msg.invalidQuality": "Qualità non valida.",
   "arm5e.scriptorium.msg.cappedQuality": "Questo libro è diventato troppo facile. La qualità è ridotta a {item}",
-  "arm5e.scriptorium.msg.diaryDesc": "{name} ha speso la stagione leggendo \"{title}\" di {author},<br/> un {type} in {language} che parla di {topic}",
+  "arm5e.scriptorium.msg.diaryDescReading": "{name} ha speso la stagione leggendo \"{title}\" di {author},<br/> un {type} in {language} che parla di {topic}",
   "arm5e.scriptorium.msg.diaryTopic.art": "l'arte Ermetica {art}",
   "arm5e.scriptorium.msg.diaryTopic.spell": "la padronanza dell'incantesimo \"{spell}\" ",
   "arm5e.scriptorium.msg.notMagus": "Il lettore non è un magus.",

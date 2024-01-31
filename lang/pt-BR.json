@@ -1056,7 +1056,7 @@
   "arm5e.scriptorium.msg.invalidLevel": "Niveau invalide.",
   "arm5e.scriptorium.msg.invalidQuality": "Qualité invalide",
   "arm5e.scriptorium.msg.cappedQuality": "Ce livre est devenu facile à lire. La qualité est réduite à {item}",
-  "arm5e.scriptorium.msg.diaryDesc": "{name} a passé la saison à lire \"{title}\" de {author},<br/> un {type} en {language} à propos de {topic}",
+  "arm5e.scriptorium.msg.diaryDescReading": "{name} a passé la saison à lire \"{title}\" de {author},<br/> un {type} en {language} à propos de {topic}",
   "arm5e.scriptorium.msg.diaryTopic.art": "l'art hermétique {art}",
   "arm5e.scriptorium.msg.diaryTopic.spell": "la maîtrise du sort \"{sort}\"",
   "arm5e.scriptorium.msg.notMagus": "Le lecteur n'est pas un mage.",

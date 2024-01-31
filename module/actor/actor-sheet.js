@@ -1697,14 +1697,19 @@ export class ArM5eActorSheet extends ActorSheet {
 
       let res = [];
       let modified = [];
+      let newItemData = item.toObject();
       if (chosenAmount == quantity.qty) {
-        res = await this.actor.createEmbeddedDocuments("Item", [item]);
+        res = await this.actor.createEmbeddedDocuments("Item", [newItemData]);
         let deleted = await originActor.deleteEmbeddedDocuments("Item", [item._id]);
       } else {
-        item.updateSource({ system: { [quantity.name]: chosenAmount } });
-        res = await this.actor.createEmbeddedDocuments("Item", [item]);
-        item.updateSource({ system: { [quantity.name]: quantity.qty - chosenAmount } });
-        modified = await originActor.updateEmbeddedDocuments("Item", [item]);
+        newItemData.system[quantity.name] = chosenAmount;
+        res = await this.actor.createEmbeddedDocuments("Item", [newItemData]);
+        let itemUpdate = {
+          _id: item._id,
+          system: { [quantity.name]: quantity.qty - chosenAmount }
+        };
+        // item.system[quantity.name] = quantity.qty - chosenAmount;
+        modified = await originActor.updateEmbeddedDocuments("Item", [itemUpdate]);
       }
       originActor.sheet.render(false);
 

@@ -245,7 +245,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         .reduce((res, current) => {
           res[current._id] = {
             label: current.name,
-            amount: current.system.pawns,
+            amount: current.system.quantity,
             art: CONFIG.ARM5E.magic.arts[current.system.art].short,
             used: this.planning.data.visCost?.magus[current._id]?.used ?? 0
           };
@@ -259,7 +259,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         .reduce((res, current) => {
           res[current._id] = {
             label: current.name,
-            amount: current.system.pawns,
+            amount: current.system.quantity,
             art: CONFIG.ARM5E.magic.arts[current.system.art].short,
             used: this.planning.data.visCost?.lab[current._id]?.used ?? 0
           };
@@ -539,7 +539,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
               actorId: owner._id,
               itemId: k,
               flags: 1,
-              data: { amountLabel: "pawns", amount: vis.used }
+              data: { amount: vis.used }
             });
           }
         }
@@ -549,7 +549,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
               actorId: this.actor._id,
               itemId: k,
               flags: 1,
-              data: { amountLabel: "pawns", amount: vis.used }
+              data: { amount: vis.used }
             });
           }
         }
