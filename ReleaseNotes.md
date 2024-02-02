@@ -1,3 +1,12 @@
+## 2.2.3.28, Ophilio, the Elder
+
+### Bug fixes
+
+- Transfer of part of an physical item stack now properly updates the original stack
+- Spell parameters are again properly filtered by the sourcebook setting in all sheets with effect
+- Collaborating on the lab sheet is again possible.
+- It is again possible to edit the lab aura when not part of a covenant with one.
+
 ## 2.2.3.27, Ophilio, old
 
 ### Dependencies updates

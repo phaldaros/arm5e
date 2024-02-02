@@ -83,7 +83,7 @@
         <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
         <select name="{{prefix}}system.range.value" data-type="String" class="spell-attribute"
           {{edition.spellCombobox}}>
-          {{#select spelldata.system.range.value}} {{#each @root.config.magic.ranges as |range key|}}
+          {{#select spelldata.system.range.value}} {{#each @root.ranges as |range key|}}
               <option value="{{key}}" {{disabled range.disabled}}>
                 {{localize range.label}}{{#if (eq range.disabled undefined)}}
                   ({{range.impact}}){{/if}}
@@ -97,7 +97,7 @@
         <label class="header-label">{{localize "arm5e.sheet.duration"}}</label>
         <select name="{{prefix}}system.duration.value" data-type="String" class="spell-attribute"
           {{edition.spellCombobox}}>
-          {{#select spelldata.system.duration.value}} {{#each @root.config.magic.durations as |duration key|}}
+          {{#select spelldata.system.duration.value}} {{#each @root.durations as |duration key|}}
               <option value="{{key}}" {{disabled duration.disabled}}>
                 {{localize duration.label}}{{#if (eq duration.disabled undefined)}} ({{duration.impact}}){{/if}}
               </option>
@@ -109,7 +109,7 @@
         <label class="header-label">{{localize "arm5e.sheet.target"}}</label>
         <select name="{{prefix}}system.target.value" data-type="String" class="spell-attribute"
           {{edition.spellCombobox}}>
-          {{#select spelldata.system.target.value}} {{#each @root.config.magic.targets as |target key|}}
+          {{#select spelldata.system.target.value}} {{#each @root.targets as |target key|}}
               <option value="{{key}}" {{disabled target.disabled}}>{{localize target.label}}
                 {{#if (eq target.disabled undefined)}}
                   ({{target.impact}}){{/if}}

@@ -79,6 +79,8 @@ export class ArM5eItemEnchantmentSheet {
     enchants.totalCapa = 0;
     enchants.states = duplicate(ARM5E.lab.enchantment.state);
 
+    context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
+
     if (enchants.capacities.length > 1) {
       enchants.states["charged"].selection = "disabled";
       enchants.states["lesser"].selection = "disabled";
