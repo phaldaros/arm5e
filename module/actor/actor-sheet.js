@@ -1719,7 +1719,7 @@ export class ArM5eActorSheet extends ActorSheet {
     }
   }
 
-  // Overloaded core functions (TODO: review at each Foundry update)
+  //  Overloaded core functions (TODO: review at each Foundry update)
 
   /**
    * Handle the final creation of dropped Item data on the Actor.
