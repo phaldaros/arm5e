@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast"],
+    "types": ["player", "npc", "laboratory", "covenant", "magicCodex", "beast", "container"],
     "templates": {
       "base": {
         "version": "2.0.2",
@@ -1041,7 +1041,7 @@
     "visStockCovenant": {
       "templates": ["base"],
       "art": "cr",
-      "pawns": 1,
+      "quantity": 1,
       "form": ""
     },
     "calendarCovenant": {

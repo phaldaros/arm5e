@@ -4,6 +4,7 @@ import {
   authorship,
   baseDescription,
   boolOption,
+  CostField,
   itemBase,
   ModifierField,
   SpellAttributes,
@@ -416,6 +417,15 @@ export class LabTextSchema extends foundry.abstract.DataModel {
       level: baseLevel(),
       baseEffectDescription: baseDescription(),
       ritual: boolOption(),
+      cost: CostField("priceless"),
+      quantity: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        min: 0, // allow quantity of 0 to keep an eye on what is missing
+        initial: 1,
+        step: 1
+      }),
       img: new fields.StringField({
         required: false,
         blank: true,

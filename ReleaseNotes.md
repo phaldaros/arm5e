@@ -1,4 +1,4 @@
-## 2.2.4.0, Pralix
+## 2.2.4.1, Pralix
 
 ### Features & changes
 
@@ -6,11 +6,29 @@
 - Rework of Reading tab in Scriptorium
   - Possible to browse the topics of a book in the scriptorium.
   - Improved generic ability handling
+- Items allowed to be created in the sidebar have been filtered to remove deprecated ones or the ones which make no sense to exist independently (a reputation, a wound, a covenant inhabitant)
+- New container actor.
+- Added quantity and price to all physical items (even if it is not visible for some)
+- Books topics have their own authorship parameters (name, language, date)
 
 ### Bug fixes
 
 - Changing the topic of a virtual book in the Scriptorium no longer raise an error.
 - Lab texts are no longer applicable in the scriptorium.
+- Transfer of part of an physical item stack now properly updates the original stack
+- Spell parameters are again properly filtered by the sourcebook setting in all sheets with effect
+- Collaborating on the lab sheet is again possible.
+- It is again possible to edit the lab aura when not part of a covenant with one.
+- Fixed some problem with the laboratory totals tab when linked to a lab
+
+## 2.2.3.28, Ophilio, the Elder
+
+### Bug fixes
+
+- Transfer of part of an physical item stack now properly updates the original stack
+- Spell parameters are again properly filtered by the sourcebook setting in all sheets with effect
+- Collaborating on the lab sheet is again possible.
+- It is again possible to edit the lab aura when not part of a covenant with one.
 
 ## 2.2.3.27, Ophilio, old
 

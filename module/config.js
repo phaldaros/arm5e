@@ -10,7 +10,8 @@ import {
   validVisStudy,
   agingRoll,
   validAging,
-  visStudy
+  visStudy,
+  validWriting
 } from "./helpers/long-term-activities.js";
 
 export const ARM5E = {};
@@ -2030,6 +2031,9 @@ ARM5E.item.costs = {
   "n-a": {
     label: "arm5e.sheet.n-a"
   },
+  none: {
+    label: "arm5e.sheet.none"
+  },
   inexp: {
     label: "arm5e.sheet.inexpensive"
   },
@@ -2038,6 +2042,9 @@ ARM5E.item.costs = {
   },
   exp: {
     label: "arm5e.sheet.expensive"
+  },
+  priceless: {
+    label: "arm5e.sheet.priceless"
   }
 };
 
@@ -2271,6 +2278,27 @@ ARM5E.activities.generic = {
     maxXp: 0,
     bonusOptions: null,
     validation: validReading,
+    secondaryFilter: null,
+    scheduling: {
+      duplicate: false,
+      conflict: true
+    }
+  },
+  writing: {
+    label: "arm5e.activity.writing",
+    display: {
+      tab: true,
+      progress: false,
+      abilities: false,
+      arts: false,
+      masteries: false,
+      spells: false,
+      attribute: "hidden"
+    },
+    source: { default: 0, readonly: true },
+    maxXp: 0,
+    bonusOptions: null,
+    // validation: validWriting,
     secondaryFilter: null,
     scheduling: {
       duplicate: false,
@@ -2977,7 +3005,7 @@ ARM5E.ActorProfiles = {
       { key: "artesLib", option: "" },
       { key: "philosophy", option: "" },
       { key: "theology", option: "" },
-      { key: "law", option: "" },
+      { key: "law", option: "canonLaw" },
       { key: "deadLanguage", option: "Latin" }
     ]
   },

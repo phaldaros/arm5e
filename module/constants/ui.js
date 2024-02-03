@@ -60,7 +60,8 @@ ARM5E_DEFAULT_ICONS.MONO = {
   npc: "icons/svg/mystery-man-black.svg",
   laboratory: "icons/svg/tower.svg",
   enchantment: "icons/svg/daze.svg",
-  labCovenant: "icons/svg/tower.svg"
+  labCovenant: "icons/svg/tower.svg",
+  container: "icons/svg/chest.svg"
 };
 ARM5E_DEFAULT_ICONS.COLOR = {
   weapon: "icons/weapons/swords/greatsword-crossguard-silver.webp",
@@ -101,7 +102,8 @@ ARM5E_DEFAULT_ICONS.COLOR = {
   magicCodex: "icons/commodities/materials/parchment-secrets.webp",
   npc: "icons/svg/mystery-man-black.svg",
   laboratory: "icons/tools/laboratory/vials-blue-pink.webp",
-  crucible: "icons/tools/laboratory/bowl-liquid-orange.webp"
+  crucible: "icons/tools/laboratory/bowl-liquid-orange.webp",
+  container: "icons/containers/chest/chest-elm-steel-brown.webp"
 };
 
 export const ACTIVITIES_DEFAULT_ICONS = {
@@ -145,6 +147,7 @@ export const ACTIVITIES_DEFAULT_ICONS = {
     visStudy: "icons/skills/toxins/bottle-open-vapors-pink.webp",
     recovery: "icons/magic/life/cross-explosion-burst-green.webp",
     longevityRitual: "icons/consumables/potions/bottle-pear-corked-pink.webp",
+    minorEnchant: "icons/skills/trades/smithing-anvil-silver-red.webp",
     minorEnchant: "icons/skills/trades/smithing-anvil-silver-red.webp"
   }
 };

@@ -986,9 +986,9 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               if (dependency.flags == 1) {
                 // resource update
                 let item = actor.items.get(dependency.itemId);
-                let label = `system.${dependency.data.amountLabel}`;
+                let label = `system.${dependency.data.quantity}`;
                 await item.update(
-                  { [label]: item.system[dependency.data.amountLabel] - dependency.data.amount },
+                  { "system.quantity": item.system.quantity - dependency.data.amount },
                   { parent: actor }
                 );
               }
@@ -1004,6 +1004,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "training":
       case "teaching":
       case "reading":
+      case "writing":
       case "hermeticApp":
       case "childhood":
       case "laterLife":
@@ -1229,9 +1230,8 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
               else if (dependency.flags == 1) {
                 // resource update
                 let item = actor.items.get(dependency.itemId);
-                let label = `system.${dependency.data.amountLabel}`;
                 await item.update(
-                  { [label]: item.system[dependency.data.amountLabel] + dependency.data.amount },
+                  { "system.quantity": item.system.quantity + dependency.data.amount },
                   { parent: actor }
                 );
               }
@@ -1245,6 +1245,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "training":
       case "teaching":
       case "reading":
+      case "writing":
       case "hermeticApp":
       case "childhood":
       case "laterLife":

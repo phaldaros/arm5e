@@ -461,6 +461,38 @@ function rollItemMacro(itemId, actorId) {
   }
 }
 
+Hooks.on("renderDialog", (dialog, html) => {
+  let deprecatedTypes = [
+    "magicItem",
+    "personalityTrait",
+    "reputation",
+    "habitantMagi",
+    "inhabitant",
+    "habitantCompanion",
+    "habitantSpecialists",
+    "habitantHabitants",
+    "habitantHorses",
+    "habitantLivestock",
+    "visStockCovenant",
+    "baseEffect",
+    "sanctumRoom",
+    "labCovenant",
+    "abilityFamiliar",
+    "powerFamiliar",
+    "speciality",
+    "distinctive",
+    "personality",
+    "mundaneBook",
+    "calendarCovenant",
+    "wound"
+  ]; //
+  Array.from(html.find("#document-create option")).forEach((i) => {
+    if (deprecatedTypes.includes(i.value)) {
+      i.remove();
+    }
+  });
+});
+
 Hooks.on("renderChatMessage", (message, html, data) =>
   Arm5eChatMessage.addChatListeners(message, html, data)
 );

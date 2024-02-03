@@ -150,7 +150,13 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
   async _addTopic(item, event) {
     event.preventDefault();
     const dataset = getDataset(event);
+    const index = Number(dataset.index);
+    const currentTopic = item.system.topics[index];
     let newTopic = {
+      author: currentTopic.author,
+      language: currentTopic.language,
+      year: currentTopic.year,
+      season: currentTopic.season,
       art: "cr",
       key: null,
       option: null,
@@ -163,8 +169,9 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
       labtextTitle: ""
     };
     const topics = item.system.topics;
+    const newIdx = item.system.topics.length;
     topics.push(newTopic);
-
+    await item.setFlag("arm5e", "currentBookTopic", newIdx);
     await item.update({ "system.topics": topics });
   }
 

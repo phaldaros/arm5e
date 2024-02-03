@@ -783,6 +783,11 @@ export function validReading(context, actor, item) {
   }
 }
 
+// TODO
+export function validWriting(context, actor, item) {
+  return;
+}
+
 export function validVisStudy(context, actor, item) {
   context.system.totalXp = { abilities: 0, arts: 0, masteries: 0, spellLevels: 0 };
   // const progressArt = item.system.progress.arts[0];
@@ -823,7 +828,6 @@ export async function setVisStudyResults(actor, roll, message, rollData) {
     updateData["system.progress.arts"] = progressArts;
     const externalIds = diaryitem.system.externalIds;
     externalIds[0].data = {
-      amountLabel: "pawns",
       amount: rollData.additionalData.amount
     };
     updateData["system.externalIds"] = externalIds;

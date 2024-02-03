@@ -1,4 +1,5 @@
 import { ArM5ePCActor } from "../actor/actor.js";
+import ArM5eActiveEffect from "../helpers/active-effects.js";
 import { getTopicDescription } from "../item/item-book-sheet.js";
 import { ArM5eItem } from "../item/item.js";
 import { debug, getDataset, log } from "../tools.js";
@@ -21,12 +22,12 @@ export class ScriptoriumObject {
       uuid: null,
       name: game.i18n.localize("arm5e.activity.book.title"),
       system: {
-        language: game.i18n.localize("arm5e.skill.commonCases.latin"),
         topics: [
           {
             category: "ability",
             type: "Summa",
             author: game.i18n.localize("arm5e.generic.unknown"),
+            language: game.i18n.localize("arm5e.skill.commonCases.latin"),
             quality: 1,
             level: 1,
             key: "",
@@ -34,7 +35,9 @@ export class ScriptoriumObject {
             spellName: "",
             art: "",
             spellTech: "cr",
-            spellForm: "an"
+            spellForm: "an",
+            year: this.year,
+            season: this.season
           }
         ],
         topicIndex: 0
@@ -48,12 +51,12 @@ export class ScriptoriumObject {
       uuid: null,
       name: game.i18n.localize("arm5e.activity.book.title"),
       system: {
-        language: game.i18n.localize("arm5e.skill.commonCases.latin"),
         topics: [
           {
             category: "ability",
             type: "Summa",
             author: game.i18n.localize("arm5e.generic.unknown"),
+            language: game.i18n.localize("arm5e.skill.commonCases.latin"),
             quality: 1,
             level: 1,
             key: "",
@@ -61,7 +64,9 @@ export class ScriptoriumObject {
             spellName: "",
             art: "",
             spellTech: "cr",
-            spellForm: "an"
+            spellForm: "an",
+            year: this.year,
+            season: this.season
           }
         ],
         topicIndex: 0
@@ -91,7 +96,7 @@ export class Scriptorium extends FormApplication {
         {
           navSelector: ".sheet-tabs",
           contentSelector: ".sheet-body",
-          initial: "reading"
+          initial: "writing"
         }
       ],
       width: "600",
@@ -169,186 +174,370 @@ export class Scriptorium extends FormApplication {
     }
 
     let maxLevel = 99;
-    const topicIndex = context.reading.book.system.topicIndex;
+    const topicIndex = Number(context.reading.book.system.topicIndex);
     // for convenience
+
     context.topicIndex = Number(topicIndex);
-    const currentTopic = context.reading.book.system.topics[topicIndex];
-    if (context.type === "Summa" || currentTopic.level) {
+    const currentTopic = context.reading.book.system.topics[context.topicIndex];
+    if (currentTopic.type === "Summa" || currentTopic.level) {
       maxLevel = currentTopic.level;
     }
 
     if (currentTopic.category == "mastery") {
       context.ui.disableType = "disabled";
     }
+
     context.reading.book.currentTopic = currentTopic;
-    context.currentTopicNumber = topicIndex + 1 ?? 1;
+    context.currentTopicNumber = context.topicIndex + 1 ?? 1;
     context.topicNum = context.reading.book.system.topics.length ?? 1;
-    if (!context.reading.reader?.id) {
-      log(false, `Scriptorium reading data: ${context} ${JSON.stringify(context)}`);
-      return context;
+    // new topic => writing
+    context.newTopicIndex = context.writing.book.system.topicIndex;
+    const newTopic = context.writing.book.system.topics[context.newTopicIndex];
+    context.writing.book.newTopic = newTopic;
+
+    if (currentTopic.category == "mastery") {
+      context.ui.disableType = "disabled";
     }
-
-    context.ui.canEditReader = "readonly";
-    context.ui.disabledReader = "disabled";
-    let reader = game.actors.get(context.reading.reader.id);
-    context.reading.reader.name = reader.name;
-    // get known languages
-    context.reading.reader.languages = reader.system.abilities
-      .filter((e) => {
-        return (
-          (e.system.key === "livingLanguage" || e.system.key === "deadLanguage") &&
-          e.system.finalScore >= 4
-        );
-      })
-      .map((lang) => {
-        return { id: lang.id, name: lang.name, score: lang.system.finalScore };
-      });
-
-    // always get spell list to have at least one spell selected
-    context.reading.reader.spells = reader.system.spells
-      .filter((s) => {
-        return (
-          s.system.technique.value === currentTopic.spellTech &&
-          s.system.form.value === currentTopic.spellForm
-        );
-      })
-      .map((s) => {
-        return {
-          id: s.id,
-          name: s.name,
-          technique: s.system.technique.value,
-          form: s.system.form.value
-        };
-      });
-    switch (currentTopic.category) {
-      case "ability": {
-        let availableAbilities = duplicate(CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED);
-        for (let a of reader.system.abilities) {
-          let found = availableAbilities.findIndex(
-            (e) => e.system.key == a.system.key && e.system.option == a.system.option
-          );
-          if (found >= 0) {
-            availableAbilities[found]._id = a._id;
-            availableAbilities[found].system.xp = a.system.xp;
-            availableAbilities[found].secondaryId = false;
-            availableAbilities[found].system.finalScore = a.system.finalScore;
-          } else {
-            availableAbilities.push({
-              _id: a._id,
-              secondaryId: true,
-              name: a.name,
-              system: {
-                key: a.system.key,
-                xp: a.system.xp,
-                finalScore: a.system.finalScore,
-                option: a.system.option,
-                category: a.system.category
-              }
-            });
-          }
-        }
-        // reader.system.abilities.map((a) => {
-        //   return {
-        //     id: a.id,
-        //     key: a.system.key,
-        //     option: a.system.option,
-        //     name: game.i18n.format(
-        //       CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key]
-        //         ? CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key].mnemonic
-        //         : "Unknown",
-        //       {
-        //         option: a.system.option
-        //       }
-        //     ),
-        //     score: a.system.finalScore
-        //   };
-        // });
-
-        let filteredAbilities = availableAbilities.filter((a) => a.system.finalScore < maxLevel);
-        // does the reader has the book topic ability?
-        let ability = availableAbilities.find((a) => {
+    if (context.reading.reader?.id) {
+      context.ui.canEditReader = "readonly";
+      context.ui.disabledReader = "disabled";
+      let reader = game.actors.get(context.reading.reader.id);
+      context.reading.reader.name = reader.name;
+      // get known languages
+      context.reading.reader.languages = reader.system.abilities
+        .filter((e) => {
           return (
-            a.system.key === currentTopic.key &&
-            (currentTopic.option === null || a.system.option === currentTopic.option)
+            (e.system.key === "livingLanguage" || e.system.key === "deadLanguage") &&
+            e.system.finalScore >= 4
           );
+        })
+        .map((lang) => {
+          return { id: lang.id, name: lang.name, score: lang.system.finalScore };
         });
 
-        if (ability) {
-          // is the reader low skilled enough?
-          if (filteredAbilities.find((a) => a._id == ability._id)) {
-            context.reading.reader.ability = ability._id;
-            context.reading.reader.abilities = [ability];
-          } else {
-            context.ui.editItem = "disabled";
-            context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
-            context.ui.warningParam = "";
-            context.error = true;
-          }
-        } else {
-          // check if the ability is not found because of the option field
-          filteredAbilities = filteredAbilities.filter((a) => a.system.key == currentTopic.key);
-          if (filteredAbilities.length > 0) {
-            if (!context.reading.reader.ability) {
-              context.reading.reader.ability = filteredAbilities[0]._id;
-            }
-            context.reading.reader.abilities = filteredAbilities;
-            filteredAbilities[0].name = game.i18n.format(
-              CONFIG.ARM5E.LOCALIZED_ABILITIES[currentTopic.key].mnemonic,
-              { option: currentTopic.option }
+      // always get spell list to have at least one spell selected
+      context.reading.reader.spells = reader.system.spells
+        .filter((s) => {
+          return (
+            s.system.technique.value === currentTopic.spellTech &&
+            s.system.form.value === currentTopic.spellForm
+          );
+        })
+        .map((s) => {
+          return {
+            id: s.id,
+            name: s.name,
+            technique: s.system.technique.value,
+            form: s.system.form.value
+          };
+        });
+      switch (currentTopic.category) {
+        case "ability": {
+          let availableAbilities = duplicate(CONFIG.ARM5E.LOCALIZED_ABILITIES_ENRICHED);
+          for (let a of reader.system.abilities) {
+            let found = availableAbilities.findIndex(
+              (e) => e.system.key == a.system.key && e.system.option == a.system.option
             );
-            if (filteredAbilities.length == 1) {
-              context.ui.warning = "arm5e.scriptorium.msg.whichItem";
-              context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+            if (found >= 0) {
+              availableAbilities[found]._id = a._id;
+              availableAbilities[found].system.xp = a.system.xp;
+              availableAbilities[found].secondaryId = false;
+              availableAbilities[found].system.finalScore = a.system.finalScore;
+            } else {
+              availableAbilities.push({
+                _id: a._id,
+                secondaryId: true,
+                name: a.name,
+                system: {
+                  key: a.system.key,
+                  xp: a.system.xp,
+                  finalScore: a.system.finalScore,
+                  option: a.system.option,
+                  category: a.system.category
+                }
+              });
+            }
+          }
+          // reader.system.abilities.map((a) => {
+          //   return {
+          //     id: a.id,
+          //     key: a.system.key,
+          //     option: a.system.option,
+          //     name: game.i18n.format(
+          //       CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key]
+          //         ? CONFIG.ARM5E.LOCALIZED_ABILITIES[a.system.key].mnemonic
+          //         : "Unknown",
+          //       {
+          //         option: a.system.option
+          //       }
+          //     ),
+          //     score: a.system.finalScore
+          //   };
+          // });
+
+          let filteredAbilities = availableAbilities.filter((a) => a.system.finalScore < maxLevel);
+          // does the reader has the book topic ability?
+          let ability = availableAbilities.find((a) => {
+            return (
+              a.system.key === currentTopic.key &&
+              (currentTopic.option === null || a.system.option === currentTopic.option)
+            );
+          });
+
+          if (ability) {
+            // is the reader low skilled enough?
+            if (filteredAbilities.find((a) => a._id == ability._id)) {
+              context.reading.reader.ability = ability._id;
+              context.reading.reader.abilities = [ability];
+            } else {
+              context.ui.editItem = "disabled";
+              context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
+              context.ui.warningParam = "";
+              context.error = true;
             }
           } else {
+            // check if the ability is not found because of the option field
+            filteredAbilities = filteredAbilities.filter((a) => a.system.key == currentTopic.key);
+            if (filteredAbilities.length > 0) {
+              if (!context.reading.reader.ability) {
+                context.reading.reader.ability = filteredAbilities[0]._id;
+              }
+              context.reading.reader.abilities = filteredAbilities;
+              filteredAbilities[0].name = game.i18n.format(
+                CONFIG.ARM5E.LOCALIZED_ABILITIES[currentTopic.key].mnemonic,
+                { option: currentTopic.option }
+              );
+              if (filteredAbilities.length == 1) {
+                context.ui.warning = "arm5e.scriptorium.msg.whichItem";
+                context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+              }
+            } else {
+              context.ui.editItem = "disabled";
+              context.ui.warning = "arm5e.scriptorium.msg.missingItem";
+              context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+              context.error = true;
+            }
+            // else {
+            //   context.ui.editItem = "disabled";
+            //   context.ui.warning = "arm5e.scriptorium.msg.missingItem";
+            //   context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+            //   context.error = true;
+            // }
+            //context.error = true;
+          }
+
+          break;
+        }
+        case "art": {
+          break;
+        }
+        case "mastery": {
+          if (context.reading.reader.spells.length === 0) {
             context.ui.editItem = "disabled";
             context.ui.warning = "arm5e.scriptorium.msg.missingItem";
-            context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+            context.ui.warningParam = game.i18n.localize("arm5e.sheet.spell");
             context.error = true;
+          } else {
+            if (!context.reading.reader.spell) {
+              context.reading.reader.spell = context.reading.reader.spells[0].id;
+            }
           }
-          // else {
-          //   context.ui.editItem = "disabled";
-          //   context.ui.warning = "arm5e.scriptorium.msg.missingItem";
-          //   context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
-          //   context.error = true;
-          // }
-          //context.error = true;
+          break;
         }
-
-        break;
-      }
-      case "art": {
-        break;
-      }
-      case "mastery": {
-        if (context.reading.reader.spells.length === 0) {
+        case "labText": {
           context.ui.editItem = "disabled";
-          context.ui.warning = "arm5e.scriptorium.msg.missingItem";
-          context.ui.warningParam = game.i18n.localize("arm5e.sheet.spell");
+          context.ui.warning = "arm5e.scriptorium.msg.labText";
           context.error = true;
-        } else {
-          if (!context.reading.reader.spell) {
-            context.reading.reader.spell = context.reading.reader.spells[0].id;
-          }
+          break;
         }
-        break;
+        default:
+          context.ui.warning = "Error";
+          break;
       }
-      case "labText": {
-        context.ui.editItem = "disabled";
-        context.ui.warning = "arm5e.scriptorium.msg.labText";
-        context.error = true;
-        break;
-      }
-      default:
-        context.ui.warning = "Error";
-        break;
+      this.checkReading(context, reader);
+      log(false, `Scriptorium reading data: ${JSON.stringify(context.reading)}`);
     }
-    this.checkReading(context, reader);
+
+    ////////////////
+    // WRITING section
+    ///////////////
+    if (context.writing.writer?.id) {
+      if (newTopic.type === "Summa" || newTopic.level) {
+        maxLevel = newTopic.level;
+      }
+      context.ui.canEditWriter = "readonly";
+      context.ui.disabledWriter = "disabled";
+      let writer = game.actors.get(context.writing.writer.id);
+      const activeEffects = CONFIG.ISV10 ? writer.effects : writer.appliedEffects;
+      context.writing.writer.writingBonus = 0;
+
+      const writingEffects = ArM5eActiveEffect.findAllActiveEffectsWithTypeAndSubtypeFiltered(
+        activeEffects,
+        "activities",
+        "writing"
+      );
+      for (const e of writingEffects) {
+        context.writing.writer.writingBonus += e.changes.reduce(
+          (res, current) => (res += Number(current.value)),
+          context.writing.writer.writingBonus
+        );
+      }
+
+      context.writing.writer.name = writer.name;
+      // get known languages
+      context.writing.writer.languages = writer.system.abilities
+        .filter((e) => {
+          return (
+            (e.system.key === "livingLanguage" || e.system.key === "deadLanguage") &&
+            e.system.finalScore >= 5
+          );
+        })
+        .map((lang) => {
+          return { id: lang.id, name: lang.name, score: lang.system.finalScore };
+        });
+
+      if (context.writing.writer.languages.length) {
+        if (!context.writing.writer.language) {
+          context.writing.writer.language = context.writing.writer.languages[0].id;
+        }
+        context.writing.writer.writingScore =
+          writer.items.get(context.writing.writer.language).system.finalScore +
+          writer.system.characteristics.com.value;
+      } else {
+        context.writing.writer.writingScore = 0;
+      }
+
+      // always get spell list to have at least one spell selected
+      context.writing.writer.filteredSpells = writer.system.spells
+        .filter((s) => {
+          return s.system.finalScore >= 2;
+        })
+        .map((s) => {
+          return {
+            id: s.id,
+            name: s.name,
+            mastery: s.system.finalScore
+          };
+        });
+      let qualityBonus = 0;
+      let work = 0;
+      switch (newTopic.category) {
+        case "ability": {
+          context.writing.filteredAbilities = writer.system.abilities.filter(
+            (e) => e.system.finalScore >= 2
+          );
+          //
+          //   context.writing.book.ability;
+          if (context.writing.filteredAbilities.length) {
+            if (!context.writing.writer.ability) {
+              context.writing.writer.ability = context.writing.filteredAbilities[0]._id;
+            }
+
+            let ab = writer.items.get(context.writing.writer.ability);
+            context.writing.book.system.topics[context.newTopicIndex].maxLevel = Math.round(
+              ab.system.finalScore / 2
+            );
+
+            context.writing.book.system.topics[context.newTopicIndex].key = ab.system.key;
+            context.writing.book.system.topics[context.newTopicIndex].option = ab.system.option;
+            qualityBonus =
+              (context.writing.book.system.topics[context.newTopicIndex].maxLevel -
+                context.writing.book.system.topics[context.newTopicIndex].level) *
+              3;
+            // Adjust the level if it is above the max
+            context.writing.book.system.topics[context.newTopicIndex].level = Math.min(
+              context.writing.book.system.topics[context.newTopicIndex].level,
+              context.writing.book.system.topics[context.newTopicIndex].maxLevel
+            );
+            work = context.writing.book.system.topics[context.newTopicIndex].level * 5;
+          }
+          log(false, `writer.ability: ${context.writing.writer.ability}`);
+          break;
+        }
+        case "art": {
+          let tech = Object.entries(writer.system.arts.techniques)
+            .map((e) => {
+              return {
+                id: e[0],
+                label: e[1].label,
+                finalScore: e[1].finalScore
+              };
+            })
+            .filter((e) => e.finalScore >= 5);
+          let forms = Object.entries(writer.system.arts.forms)
+            .map((e) => {
+              return {
+                id: e[0],
+                label: e[1].label,
+                finalScore: e[1].finalScore
+              };
+            })
+            .filter((e) => e.finalScore >= 5);
+          context.writing.filteredArts = tech.concat(forms);
+          if (context.writing.filteredArts.length) {
+            if (!context.writing.writer.art) {
+              context.writing.writer.art = context.writing.filteredArts[0].id;
+            }
+            context.writing.book.system.topics[context.newTopicIndex].maxLevel = Math.round(
+              writer.getArtScore(context.writing.writer.art).finalScore / 2
+            );
+            if (newTopic.type === "Summa") {
+              qualityBonus =
+                context.writing.book.system.topics[context.newTopicIndex].maxLevel -
+                context.writing.book.system.topics[context.newTopicIndex].level;
+              // Adjust the level if it is above the max
+              context.writing.book.system.topics[context.newTopicIndex].level = Math.min(
+                context.writing.book.system.topics[context.newTopicIndex].level,
+                context.writing.book.system.topics[context.newTopicIndex].maxLevel
+              );
+              work = context.writing.book.system.topics[context.newTopicIndex].level;
+            }
+          }
+          break;
+        }
+        case "mastery": {
+          if (context.writing.writer.filteredSpells.length === 0) {
+            context.ui.editItem = "disabled";
+            context.ui.warning = "arm5e.scriptorium.msg.missingItem";
+            context.ui.warningParam = game.i18n.localize("arm5e.sheet.spell");
+            context.error = true;
+          } else {
+            if (!context.writing.writer.spell) {
+              context.writing.writer.spell = context.writing.writer.filteredSpells[0].id;
+            }
+            let spell = context.writing.writer.filteredSpells.find(
+              (e) => e.id == context.writing.writer.spell
+            );
+            context.writing.book.system.topics[context.newTopicIndex].maxLevel = Math.round(
+              spell.mastery / 2
+            );
+            qualityBonus = 0;
+          }
+          break;
+        }
+      }
+      // quality bonus cannot be higher than twice the original bonus
+      context.writing.book.system.topics[context.newTopicIndex].quality = Math.min(
+        2 * (writer.system.characteristics["com"].value + 6 + context.writing.writer.writingBonus),
+        writer.system.characteristics["com"].value +
+          6 +
+          context.writing.writer.writingBonus +
+          qualityBonus
+      );
+
+      if (newTopic.type === "Tractatus") {
+        context.writing.writer.duration = 1;
+      } else {
+        context.writing.writer.duration = Math.ceil(work / context.writing.writer.writingScore);
+      }
+      this.checkWriting(context, writer);
+      // log(false, `Scriptorium writing data: ${JSON.stringify(context.writing)}`);
+    }
+
     if (context.error === false) {
       context.ui.createPossible = "";
     }
 
-    log(false, `Scriptorium reading data: ${JSON.stringify(context.reading)}`);
     log(false, `Scriptorium ui: ${JSON.stringify(context.ui)}`);
     return context;
   }
@@ -361,7 +550,8 @@ export class Scriptorium extends FormApplication {
     html.find(".book-topic").change(this._changeBookTopic.bind(this));
     html.find(".unlink-read-book").click(this._resetReadBook.bind(this));
     html.find(".unlink-reader").click(this._resetReader.bind(this));
-    html.find(".create-activity").click(this._createDiaryEntry.bind(this));
+    html.find(".create-reading-activity").click(this._createReadingDiaryEntry.bind(this));
+    html.find(".create-writing-activity").click(this._createWritingDiaryEntry.bind(this));
     html.find(".section-handle").click(this._handle_section.bind(this));
 
     html.find(".next-topic").click(async (event) => this._changeCurrentTopic(event, 1));
@@ -400,8 +590,70 @@ export class Scriptorium extends FormApplication {
     // log(false, `DEBUG Flags: ${JSON.stringify(this.item.flags.arm5e.ui.sections.visibility)}`);
     classes.toggle("hide");
   }
+  async _createWritingDiaryEntry(event) {
+    const objectData = foundry.utils.expandObject(this.object);
+    const writer = game.actors.get(objectData.writing.writer.id);
 
-  async _createDiaryEntry(event) {
+    const writerData = objectData.writing.writer;
+    const book = objectData.writing.book;
+    const dataset = event.currentTarget.dataset;
+    const topic = book.system.topics[dataset.index];
+
+    let activityName = game.i18n.format("arm5e.scriptorium.writing.activity", {
+      title: book.name
+    });
+
+    topic.art = writerData.art;
+    topic.author = writer.name;
+    topic.language = writer.items.get(writerData.language).name;
+    if (topic.category == "mastery" && writerData.spell) {
+      const spell = writer.items.get(writerData.spell);
+      topic.spellName = spell.name;
+      topic.spellTech = spell.system.technique.value;
+      topic.spellForm = spell.system.form.value;
+    }
+
+    const achievement = {
+      name: book.name,
+      type: "book",
+      img: book.img,
+      system: book.system,
+      _id: null
+    };
+
+    const entryData = [
+      {
+        name: activityName,
+        type: "diaryEntry",
+        system: {
+          cappedGain: false,
+          dates: [{ season: objectData.season, year: Number(objectData.year), applied: false }],
+          sourceQuality: 0,
+          activity: "writing",
+          done: false,
+          progress: {
+            abilities: [],
+            arts: [],
+            spells: [],
+            newSpells: []
+          },
+          optionKey: "standard",
+          duration: writerData.duration,
+          description: game.i18n.format("arm5e.scriptorium.msg.diaryDescWriting", {
+            name: writer.name,
+            title: book.name,
+            type: topic.type,
+            language: topic.language,
+            topic: getTopicDescription(topic)
+          }),
+          achievements: [achievement]
+        }
+      }
+    ];
+    let entry = await writer.createEmbeddedDocuments("Item", entryData, {});
+    entry[0].sheet.render(true);
+  }
+  async _createReadingDiaryEntry(event) {
     const objectData = foundry.utils.expandObject(this.object);
     const reader = game.actors.get(objectData.reading.reader.id);
     const readerData = objectData.reading.reader;
@@ -430,7 +682,7 @@ export class Scriptorium extends FormApplication {
           },
           optionKey: "standard",
           duration: 1,
-          description: game.i18n.format("arm5e.scriptorium.msg.diaryDesc", {
+          description: game.i18n.format("arm5e.scriptorium.msg.diaryDescReading", {
             name: reader.name,
             title: book.name,
             author: book.system.author,
@@ -600,7 +852,7 @@ export class Scriptorium extends FormApplication {
     const writingData = { writer: writerInfo };
     await this.submit({
       preventClose: true,
-      updateData: { writer: writingData }
+      updateData: { writing: writingData }
     });
   }
 
@@ -643,38 +895,56 @@ export class Scriptorium extends FormApplication {
 
   async _changeBookTopic(event) {
     event.preventDefault();
-    const index = event.currentTarget.dataset.index;
-    let chosenTopic = $(".book-topic").find("option:selected").val();
-    const readingData = { book: { system: { topics: { [index]: {} } } } };
-    let bookInfo = readingData.book.system.topics[index];
+    const index = Number(event.currentTarget.dataset.index);
+    const activity = event.currentTarget.dataset.activity;
+    let chosenTopic = $(`.book-topic.${activity}`).val();
+    const topicData = this.object[activity].book.system.topics[index];
     if (chosenTopic === "ability") {
-      bookInfo.art = null;
-      bookInfo.key = "awareness";
-      bookInfo.option = "";
-      bookInfo.spellName = null;
-      bookInfo.category = "ability";
+      topicData.art = null;
+      topicData.key = "awareness";
+      topicData.option = "";
+      topicData.spellName = null;
+      topicData.category = "ability";
     } else if (chosenTopic === "art") {
       // missing data, reset to default
-      bookInfo.art = "cr";
-      bookInfo.key = null;
-      bookInfo.option = "";
-      bookInfo.spellName = null;
-      bookInfo.category = "art";
+      topicData.art = "cr";
+      topicData.key = null;
+      topicData.option = "";
+      topicData.spellName = null;
+      topicData.category = "art";
     } else if (chosenTopic === "mastery") {
-      bookInfo.art = null;
-      bookInfo.key = null;
-      bookInfo.option = "";
-      bookInfo.spellName = "Mastered spell";
-      bookInfo.category = "mastery";
-      bookInfo.type = "Tractatus";
+      topicData.art = null;
+      topicData.key = null;
+      topicData.option = "";
+      topicData.spellName = "Mastered spell";
+      topicData.category = "mastery";
+      topicData.type = "Tractatus";
     } else {
       //TODO
     }
     await this.submit({
       preventClose: true,
-      updateData: { reading: readingData }
+      updateData: { [`${activity}.book.system.topics.${index}`]: topicData }
     });
     // log(false, `Book topic: ${item.system.topic}`);
+  }
+
+  checkWriting(context, writer) {
+    const bookData = context.writing.book;
+    const topic = context.writing.book.system.topics[context.newTopicIndex];
+    // is the character able to  read?
+    let writingSkill = writer.getAbilityStats("artesLib");
+    if (writingSkill.score == 0) {
+      context.ui.warning = "arm5e.scriptorium.msg.illiterate";
+      context.ui.warningParam = "";
+      context.error = true;
+    }
+    // know any language at proper level?
+    if (context.writing.writer.languages.length == 0) {
+      context.ui.warning = "arm5e.scriptorium.msg.noLanguage";
+      context.ui.warningParam = "";
+      context.error = true;
+    }
   }
 
   checkReading(context, reader) {

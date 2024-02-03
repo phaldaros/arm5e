@@ -8,8 +8,8 @@ import { EnchantmentExtension } from "../schemas/enchantmentSchema.js";
 import { error, getDataset, log } from "../tools.js";
 
 class Activity {
-  constructor(actor, type) {
-    this.actor = actor;
+  constructor(actorUuid, type) {
+    this.actorUuid = actorUuid;
     this.type = type;
   }
 
@@ -32,9 +32,9 @@ class ProgressActivity extends Activity {}
 class BookActivity extends ProgressActivity {}
 
 export class LabActivity extends Activity {
-  constructor(lab, actor, type) {
-    super(actor, type);
-    this.lab = lab;
+  constructor(labUuid, actorUuid, type) {
+    super(actorUuid, type);
+    this.labUuid = labUuid;
     this.labSpecTotal = 0;
     this.ownerActivityMod = 0;
   }
@@ -43,18 +43,18 @@ export class LabActivity extends Activity {
     switch (type) {
       case "inventSpell":
       case "learnSpell":
-        return new SpellActivity(lab, lab.system.owner.document, type);
+        return new SpellActivity(lab.uuid, lab.system.owner.document.uuid, type);
       case "minorEnchantment":
-        return new MinorEnchantment(lab, lab.system.owner.document);
+        return new MinorEnchantment(lab.uuid, lab.system.owner.document.uuid);
       case "chargedItem":
-        return new ChargedItem(lab, lab.system.owner.document);
+        return new ChargedItem(lab.uuid, lab.system.owner.document.uuid);
       case "visExtraction":
-        return new VisExtractionActivity(lab, lab.system.owner.document);
+        return new VisExtractionActivity(lab.uuid, lab.system.owner.document.uuid);
       case "longevityRitual":
-        return new LongevityRitualActivity(lab, lab.system.owner.document);
+        return new LongevityRitualActivity(lab.uuid, lab.system.owner.document.uuid);
       default:
         log(false, "Unknown activity");
-        return new SpellActivity(lab, lab.system.owner.document, "inventSpell");
+        return new SpellActivity(lab.uuid, lab.system.owner.document.uuid, "inventSpell");
     }
   }
 
@@ -93,7 +93,7 @@ export class LabActivity extends Activity {
     return game.i18n.localize("arm5e.activity.activity");
   }
 
-  activityAchievement(input) {
+  async activityAchievement(input) {
     return null;
   }
 
@@ -105,7 +105,7 @@ export class LabActivity extends Activity {
     return "systems/arm5e/templates/lab-activities/noparams.html";
   }
 
-  get labActivitySpec() {
+  labActivitySpec(lab) {
     return { mod: 0, label: "" };
   }
 
@@ -140,19 +140,19 @@ export class LabActivity extends Activity {
     return result;
   }
 
-  computeLabTotal(data, distractions) {
-    return this._computeLabTotal(data, distractions);
+  computeLabTotal(lab, actor, data, distractions) {
+    return this._computeLabTotal(lab, actor, data, distractions);
   }
 
-  _computeLabTotal(data, distractions) {
-    let labTot = computeRawCastingTotal(data, this.actor);
+  _computeLabTotal(lab, actor, data, distractions) {
+    let labTot = computeRawCastingTotal(data, actor);
 
     let total = labTot.total;
     labTot.label += `+ ${game.i18n.localize("arm5e.sheet.int")} (${
-      this.actor.system.characteristics.int.value
+      actor.system.characteristics.int.value
     }) &#10`;
-    total += this.actor.system.characteristics.int.value;
-    let MTscore = this.actor.getAbilityStats("magicTheory").score;
+    total += actor.system.characteristics.int.value;
+    let MTscore = actor.getAbilityStats("magicTheory").score;
     labTot.label += `+ ${game.i18n.localize("arm5e.skill.arcane.magicTheory")} (${MTscore}`;
     total += MTscore;
     if (this.modifiers.magicThSpecApply) {
@@ -189,7 +189,7 @@ export class LabActivity extends Activity {
     }
 
     // lab specialties
-    let labSpec = this.lab.system.specialty[data.system.technique.value].bonus;
+    let labSpec = lab.system.specialty[data.system.technique.value].bonus;
     this.labSpecTotal = labSpec;
     if (labSpec != 0) {
       total += labSpec;
@@ -197,7 +197,7 @@ export class LabActivity extends Activity {
         CONFIG.ARM5E.magic.arts[data.system.technique.value].short
       } (${labSpec}) &#10`;
     }
-    labSpec = this.lab.system.specialty[data.system.form.value].bonus;
+    labSpec = lab.system.specialty[data.system.form.value].bonus;
     this.labSpecTotal += labSpec;
     if (labSpec != 0) {
       total += labSpec;
@@ -207,7 +207,7 @@ export class LabActivity extends Activity {
     }
 
     // activities specialties
-    labSpec = this.labActivitySpec;
+    labSpec = this.labActivitySpec(lab);
 
     if (labSpec.mod != 0) {
       this.labSpecTotal += labSpec.mod;
@@ -217,7 +217,7 @@ export class LabActivity extends Activity {
 
     // owner modifiers
     let effects = ArM5eActiveEffect.findAllActiveEffectsWithSubtypeFiltered(
-      this.actor.effects,
+      actor.effects,
       this.type
     );
 
@@ -257,8 +257,8 @@ export class LabActivity extends Activity {
 }
 
 export class SpellActivity extends LabActivity {
-  constructor(lab, actor, type) {
-    super(lab, actor, type);
+  constructor(labUuid, actorUuid, type) {
+    super(labUuid, actorUuid, type);
   }
 
   get title() {
@@ -333,20 +333,20 @@ export class SpellActivity extends LabActivity {
     return { valid: true, waste: delta, duration: 1, message: "" };
   }
 
-  get labActivitySpec() {
+  labActivitySpec(lab) {
     if ("inventSpell" == this.type) {
       return {
-        mod: this.lab.system.specialty.spells.bonus,
+        mod: lab.system.specialty.spells.bonus,
         label: `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
           "arm5e.lab.specialty.spells"
-        )} (${this.lab.system.specialty.spells.bonus}) &#10`
+        )} (${lab.system.specialty.spells.bonus}) &#10`
       };
     } else {
       return {
-        mod: this.lab.system.specialty.texts.bonus,
+        mod: lab.system.specialty.texts.bonus,
         label: `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
           "arm5e.lab.specialty.texts"
-        )} (${this.lab.system.specialty.texts.bonus}) &#10`
+        )} (${lab.system.specialty.texts.bonus}) &#10`
       };
     }
   }
@@ -370,12 +370,12 @@ export class LongevityRitualActivity extends LabActivity {
     return game.i18n.localize("arm5e.activity.longevityRitual");
   }
 
-  get labActivitySpec() {
+  labActivitySpec(lab) {
     return {
-      mod: this.lab.system.specialty.longevityRituals.bonus,
+      mod: lab.system.specialty.longevityRituals.bonus,
       label: `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
         "arm5e.lab.specialty.longevityRituals"
-      )} (${this.lab.system.specialty.longevityRituals.bonus}) &#10`
+      )} (${lab.system.specialty.longevityRituals.bonus}) &#10`
     };
   }
   validation(input) {
@@ -407,12 +407,12 @@ export class VisExtractionActivity extends LabActivity {
     super(lab, actor, "visExtraction");
   }
 
-  get labActivitySpec() {
+  labActivitySpec(lab) {
     return {
-      mod: this.lab.system.specialty.visExtraction.bonus,
+      mod: lab.system.specialty.visExtraction.bonus,
       label: `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
         "arm5e.lab.specialty.visExtraction"
-      )} (${this.lab.system.specialty.visExtraction.bonus}) &#10`
+      )} (${lab.system.specialty.visExtraction.bonus}) &#10`
     };
   }
 
@@ -432,15 +432,16 @@ export class VisExtractionActivity extends LabActivity {
     }</b> <br/> ${planning.labTotal.label}`;
   }
 
-  activityAchievement(input) {
+  async activityAchievement(input) {
+    const actor = await fromUuid(this.actorUuid);
     return {
       name: "Vim vis",
       type: "vis",
       system: {
         art: "vi",
-        pawns: Math.ceil(input.labTotal.score / 10),
+        quantity: Math.ceil(input.labTotal.score / 10),
         description: game.i18n.format("arm5e.lab.planning.msg.visExtracted2", {
-          covenant: this.actor.system.covenant.value
+          covenant: actor.system.covenant.value
         })
       }
     };
@@ -489,12 +490,12 @@ export class MinorEnchantment extends LabActivity {
     }`;
   }
 
-  computeLabTotal(data, distractions) {
+  computeLabTotal(lab, actor, data, distractions) {
     // retrieve shape and material bonus if any
-    let MTscore = this.actor.getAbilityStats("magicTheory").score;
+    let MTscore = actor.getAbilityStats("magicTheory").score;
     let philo = { score: 0 };
-    if (this.actor.hasSkill("verditiusMagic")) {
-      philo = this.actor.getAbilityStats("philosophy");
+    if (actor.hasSkill("verditiusMagic")) {
+      philo = actor.getAbilityStats("philosophy");
       if (philo.score > 0) {
         this.modifiers["philosophy"] = philo.score;
       }
@@ -509,7 +510,7 @@ export class MinorEnchantment extends LabActivity {
       delete this.modifiers.aspects;
     }
 
-    return this._computeLabTotal(data.enchantment, distractions);
+    return this._computeLabTotal(lab, actor, data.enchantment, distractions);
   }
   async getDefaultData() {
     const result = {};
@@ -555,12 +556,12 @@ export class MinorEnchantment extends LabActivity {
     result.itemType = "item";
     return result;
   }
-  get labActivitySpec() {
+  labActivitySpec(lab) {
     return {
-      mod: this.lab.system.specialty.items.bonus,
+      mod: lab.system.specialty.items.bonus,
       label: `+ ${game.i18n.localize("arm5e.sheet.speciality")} ${game.i18n.localize(
         "arm5e.lab.specialty.items"
-      )} (${this.lab.system.specialty.items.bonus}) &#10`
+      )} (${lab.system.specialty.items.bonus}) &#10`
     };
   }
 
@@ -637,7 +638,8 @@ export class MinorEnchantment extends LabActivity {
   }
 
   // TODO rework
-  activityAchievement(input) {
+  async activityAchievement(input) {
+    const actor = await fromUuid(this.actorUuid);
     const item = input.data.receptacle;
     const achievement = {
       name: item.name,
@@ -654,7 +656,7 @@ export class MinorEnchantment extends LabActivity {
     const effect = input.data.enchantment;
     effect.receptacleId = item.system.enchantments.capacities[0].id;
     const enchantments = {
-      author: this.actor.name,
+      author: actor.name,
       year: input.date.year,
       season: input.date.season,
       bonuses: [],
@@ -742,7 +744,8 @@ export class ChargedItem extends MinorEnchantment {
   }
 
   // TODO rework
-  activityAchievement(input) {
+  async activityAchievement(input) {
+    const actor = await fromUuid(this.actorUuid);
     const item = input.data.receptacle;
     let chargesPerItem = item.system.enchantments.originalCharges;
     let quantity = 1;
@@ -770,7 +773,7 @@ export class ChargedItem extends MinorEnchantment {
     const effect = input.data.enchantment;
     effect.receptacleId = item.system.enchantments.capacities[0].id;
     const enchantments = {
-      author: this.actor.name,
+      author: actor.name,
       year: input.date.year,
       season: input.date.season,
       bonuses: [],

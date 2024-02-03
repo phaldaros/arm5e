@@ -237,8 +237,8 @@ export class ArM5ePCActor extends Actor {
       return this._prepareCovenantData();
     } else if (this.type == "laboratory") {
       return this._prepareLabData();
-    } else if (this.type == "crucible") {
-      return this._prepareCrucibleData();
+    } else if (this.type == "container") {
+      return this._prepareContainerData();
     } else if (this.type == "base") {
       return {};
     } else {
@@ -1185,7 +1185,7 @@ export class ArM5ePCActor extends Actor {
     system.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
   }
 
-  _prepareCrucibleData() {
+  _prepareContainerData() {
     log(false, "_prepareCrucibleData");
 
     for (let [key, item] of this.items.entries()) {

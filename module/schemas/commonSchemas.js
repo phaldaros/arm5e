@@ -113,6 +113,40 @@ export const DateField = (year = 1220, season = "spring") =>
 export const basicTextField = () =>
   new fields.StringField({ required: false, blank: true, initial: "" });
 
+export const CostField = (value = "n-a", coeff = 1, pounds = 1) =>
+  new fields.SchemaField(
+    {
+      value: new fields.StringField({
+        required: false,
+        blank: false,
+        initial: "n-a",
+        choices: Object.keys(ARM5E.item.costs)
+      }),
+      mythicPounds: new fields.NumberField({
+        required: false,
+        initial: (value, pounds) => {
+          if (pounds) return pounds;
+          else {
+            switch (value) {
+              case "n-a":
+              case "priceless":
+                return 9999999;
+              case "none":
+                return 0;
+              case "inexpensive":
+                return 1 * coeff;
+              case "standard":
+                return 4 * coeff;
+              case "expensive":
+                return 16 * coeff;
+            }
+          }
+        }
+      })
+    },
+    { required: false, initial: { value: "n-a", mythicPounds: 0 } }
+  );
+
 export const possibleRanges = Object.keys(ARM5E.magic.ranges).filter((r) => !r.disabled);
 export const possibleTargets = Object.keys(ARM5E.magic.targets).filter((r) => !r.disabled);
 export const possibleDurations = Object.keys(ARM5E.magic.durations).filter((r) => !r.disabled);
@@ -325,7 +359,11 @@ export const hermeticTechnique = () =>
 
 export const authorship = () => {
   return {
-    author: new fields.StringField({ required: false, blank: true, initial: "Unknown" }),
+    author: new fields.StringField({
+      required: false,
+      blank: true,
+      initial: game.i18n.localize("arm5e.generic.unknown")
+    }),
     year: new fields.NumberField({
       required: false,
       nullable: false,
@@ -335,6 +373,10 @@ export const authorship = () => {
       step: 1
     }),
     season: SeasonField(),
-    language: new fields.StringField({ required: false, blank: true, initial: "Latin" })
+    language: new fields.StringField({
+      required: false,
+      blank: true,
+      initial: game.i18n.localize("arm5e.skill.commonCases.latin")
+    })
   };
 };

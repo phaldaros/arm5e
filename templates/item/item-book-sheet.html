@@ -13,29 +13,6 @@
         </div>
       </h1>
 
-      <div class="grid grid-2col">
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
-          <input type="text" {{noEdit}} name="system.author" value="{{system.author}}" data-dtype="String" />
-        </div>
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
-          <input type="text" {{noEdit}} name="system.language" value="{{system.language}}" data-dtype="String" />
-        </div>
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.season"}}</label>
-          <select {{noSelect}} name="system.season" data-dtype="String">
-            {{#select system.season}} {{#each config.seasons as |season key|}}
-                <option value="{{key}}">{{localize season.label}}</option>
-              {{/each}} {{/select}}
-          </select>
-        </div>
-        <div class="resource">
-          <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
-          <input type="number" {{noEdit}} name="system.year" value="{{system.year}}" data-dtype="Number"
-            class="resource-focus" style="width:60px" />
-        </div>
-      </div>
       <label style="margin-left: 5px;">{{localize "arm5e.sheet.bookTopics"}}: {{topicNum}}</label>
     </div>
   </header>
@@ -105,9 +82,8 @@
           {{/unless}}
         </div>
       </div>
-      <br />
-      <div class="resource flexrow" style="width: 320px;">
-        <div style="padding-top: 5px;">
+      <div class="resource flexrow">
+        <div class="resource" style="width: 30%;">
           <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
           <select class="book-category" name="system.topics.{{topicIdx}}.category" data-index="{{topicIdx}}"
             data-dtype="String">
@@ -118,8 +94,30 @@
             {{/select}}
           </select>
         </div>
-        <div>
-
+        <div class="resource" style="width: 35%;">
+          <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
+          <input type="text" {{noEdit}} name="system.topics.{{topicIdx}}.author" value="{{currentTopic.author}}"
+            data-dtype="String" />
+        </div>
+        <div class="resource" style="width: 35%;">
+          <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
+          <input type="text" {{noEdit}} name="system.topics.{{topicIdx}}.language" value="{{currentTopic.language}}"
+            data-dtype="String" />
+        </div>
+      </div>
+      <div class="resource flexrow" style="width: 50%;">
+        <div class="resource">
+          <label class="header-label">{{localize "arm5e.sheet.season"}}</label>
+          <select {{noSelect}} name="system.topics.{{topicIdx}}.season" data-dtype="String">
+            {{#select currentTopic.season}} {{#each config.seasons as |season key|}}
+                <option value="{{key}}">{{localize season.label}}</option>
+              {{/each}} {{/select}}
+          </select>
+        </div>
+        <div class="resource" style="width: 50%;">
+          <label class="header-label">{{localize "arm5e.sheet.year"}}</label>
+          <input type="number" {{noEdit}} name="system.topics.{{topicIdx}}.year" value="{{currentTopic.year}}"
+            data-dtype="Number" class="resource-focus" style="width:60px" />
         </div>
       </div>
       {{#unless (eq currentTopic.category "labText") }}

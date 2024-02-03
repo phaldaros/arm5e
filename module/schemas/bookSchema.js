@@ -2,11 +2,12 @@ import { ARM5E } from "../config.js";
 import { log } from "../tools.js";
 import { Scriptorium, ScriptoriumObject } from "../tools/scriptorium.js";
 import {
-  authorship,
+  CostField,
   hermeticForm,
   hermeticTechnique,
   itemBase,
-  NullableEmbeddedDataField
+  NullableEmbeddedDataField,
+  authorship
 } from "./commonSchemas.js";
 import { ItemState } from "./enchantmentSchema.js";
 import { LabTextSchema } from "./magicSchemas.js";
@@ -18,10 +19,35 @@ export class BookSchema extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       ...itemBase(),
-      ...authorship(),
+      author: new fields.StringField({
+        // deprecated
+        required: false,
+        blank: true,
+        nullable: true,
+        initial: null
+      }),
+      year: new fields.NumberField({
+        // deprecated
+        required: false,
+        nullable: true,
+        initial: null
+      }),
+      season: new fields.StringField({
+        // deprecated
+        required: false,
+        nullable: true,
+        initial: null
+      }),
+      language: new fields.StringField({
+        // deprecated
+        required: false,
+        nullable: true,
+        initial: null
+      }),
       topic: new fields.ObjectField({ required: false, nullable: true, initial: null }), // TODO: remove when a way is found
       topics: new fields.ArrayField(
         new fields.SchemaField({
+          ...authorship(),
           category: new fields.StringField({
             required: false,
             nullable: false,
@@ -69,7 +95,16 @@ export class BookSchema extends foundry.abstract.DataModel {
           initial: [] //{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
         }
       ),
-      state: ItemState()
+      state: ItemState(),
+      cost: CostField("priceless"),
+      quantity: new fields.NumberField({
+        required: false,
+        nullable: false,
+        integer: true,
+        min: 0, // allow quantity of 0 to keep an eye on what is missing
+        initial: 1,
+        step: 1
+      })
     };
   }
 
@@ -77,16 +112,33 @@ export class BookSchema extends foundry.abstract.DataModel {
     let res = itemData;
     let currentDate = game.settings.get("arm5e", "currentDate");
     if (itemData.system) {
-      res.system.season = currentDate.season;
       res.system.year = Number(currentDate.year);
       if (itemData.system.topics == undefined) {
-        res.system.topics = [{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }];
+        res.system.topics = [
+          {
+            category: "art",
+            art: "cr",
+            type: "Summa",
+            quality: 1,
+            level: 1,
+            season: currentDate.season,
+            year: Number(currentDate.year)
+          }
+        ];
       }
     } else {
       res.system = {
-        season: currentDate.season,
-        year: Number(currentDate.year),
-        topics: [{ category: "art", art: "cr", type: "Summa", quality: 1, level: 1 }]
+        topics: [
+          {
+            category: "art",
+            art: "cr",
+            type: "Summa",
+            quality: 1,
+            level: 1,
+            season: currentDate.season,
+            year: Number(currentDate.year)
+          }
+        ]
       };
     }
     return res;
@@ -210,13 +262,13 @@ export class BookSchema extends foundry.abstract.DataModel {
 
       const topics = [];
       topics.push(topic);
-      if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
-        if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-          updateData["system.season"] = itemData.system.season.toLowerCase();
-        } else {
-          updateData["system.season"] = "spring";
-        }
-      }
+      // if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+      //   if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+      //     updateData["system.season"] = itemData.system.season.toLowerCase();
+      //   } else {
+      //     updateData["system.season"] = "spring";
+      //   }
+      // }
 
       updateData["system.topics"] = topics;
       updateData["system.-=quality"] = null;
@@ -257,6 +309,23 @@ export class BookSchema extends foundry.abstract.DataModel {
             topics[idx].labtext.type = "spell";
           }
         }
+
+        if (itemData.system.year) {
+          topics[idx].year = itemData.system.year;
+          updateData["system.year"] = null;
+        }
+        if (itemData.system.season) {
+          topics[idx].season = itemData.system.season;
+          updateData["system.season"] = null;
+        }
+        if (itemData.system.language) {
+          topics[idx].language = itemData.system.language;
+          updateData["system.language"] = null;
+        }
+        if (itemData.system.author) {
+          topics[idx].author = itemData.system.author;
+          updateData["system.author"] = null;
+        }
         idx++;
       }
       if (topics.length > 0) {
@@ -264,23 +333,23 @@ export class BookSchema extends foundry.abstract.DataModel {
       }
     }
 
-    if (itemData.system.year == null || itemData.system.year == undefined) {
-      updateData["system.year"] = 1220;
-    } else if (typeof itemData.system.year === "string") {
-      if (!Number.isNumeric(itemData.system.year)) {
-        updateData["system.year"] = 1220;
-      } else {
-        updateData["system.year"] = Number(itemData.system.year);
-      }
-    }
+    // if (itemData.system.year == null || itemData.system.year == undefined) {
+    //   updateData["system.year"] = 1220;
+    // } else if (typeof itemData.system.year === "string") {
+    //   if (!Number.isNumeric(itemData.system.year)) {
+    //     updateData["system.year"] = 1220;
+    //   } else {
+    //     updateData["system.year"] = Number(itemData.system.year);
+    //   }
+    // }
 
-    if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
-      if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
-        updateData["system.season"] = itemData.system.season.toLowerCase();
-      } else {
-        updateData["system.season"] = "spring";
-      }
-    }
+    // if (!Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season)) {
+    //   if (Object.keys(CONFIG.ARM5E.seasons).includes(itemData.system.season.toLowerCase())) {
+    //     updateData["system.season"] = itemData.system.season.toLowerCase();
+    //   } else {
+    //     updateData["system.season"] = "spring";
+    //   }
+    // }
 
     if (itemData.system.description == null) {
       updateData["system.description"] = "";
