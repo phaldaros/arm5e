@@ -15,7 +15,11 @@
 
 - Changing the topic of a virtual book in the Scriptorium no longer raise an error.
 - Lab texts are no longer applicable in the scriptorium.
-- Transfer of part of an physical item stack no properly update the original stack
+- Transfer of part of an physical item stack now properly updates the original stack
+- Spell parameters are again properly filtered by the sourcebook setting in all sheets with effect
+- Collaborating on the lab sheet is again possible.
+- It is again possible to edit the lab aura when not part of a covenant with one.
+- Fixed some problem with the laboratory totals tab when linked to a lab
 
 ## 2.2.3.28, Ophilio, the Elder
 

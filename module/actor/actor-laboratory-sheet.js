@@ -515,8 +515,16 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       distractions: "none",
       magicThSpecApply: false
     };
-    // Await this.submit({ preventClose: true, updateData: { "flags.arm5e.planning": this.actor.flags.arm5e.planning } });
-    await this.actor.update({ "flags.arm5e.planning": planning }, { recursive: true });
+    // await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
+    // let tmp = await this.submit({
+    //   preventClose: true,
+    //   updateData: { "flags.arm5e.planning": planning }
+    // });
+    let tmp = await this.actor.update(
+      { "flags.arm5e.planning": planning },
+      { diff: false, recursive: true, render: true }
+    );
+    this.render(true);
   }
 
   _refreshValues(event) {
@@ -810,15 +818,16 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
 
   /** @inheritdoc */
   async _updateObject(event, formData) {
-    //   if (!this.object.id) return;
-    //   const expanded = expandObject(formData);
-    //   const source = this.object.toObject();
+    if (!this.object.id) return;
+    // const expanded = expandObject(formData);
+    // const source = this.object.toObject();
 
     //   const planning = expanded.flags?.arm5e?.planning;
     //   if (planning) {
-    //     foundry.utils.mergeObject(this.planning, planning, {
-    //       recursive: true
-    //     });
+    // foundry.utils.mergeObject(source, expanded);
+    //   foundry.utils.mergeObject(source, expanded, {
+    //     recursive: true
+    //   });
     //     expanded.flags.arm5e.planning = this.planning;
     //     //await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", expanded.flags.arm5e.planning);
     //   }

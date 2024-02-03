@@ -897,7 +897,7 @@ export class Scriptorium extends FormApplication {
     event.preventDefault();
     const index = Number(event.currentTarget.dataset.index);
     const activity = event.currentTarget.dataset.activity;
-    let chosenTopic = $(`.book-topic.${activity}`).find("option:selected").val();
+    let chosenTopic = $(`.book-topic.${activity}`).val();
     const topicData = this.object[activity].book.system.topics[index];
     if (chosenTopic === "ability") {
       topicData.art = null;
