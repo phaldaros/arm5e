@@ -1,4 +1,4 @@
-## 2.2.4.1, Pralix
+## 2.2.4.2, Pralix
 
 ### Features & changes
 
@@ -10,6 +10,7 @@
 - New container actor.
 - Added quantity and price to all physical items (even if it is not visible for some)
 - Books topics have their own authorship parameters (name, language, date)
+- Books as magic items
 
 ### Bug fixes
 
@@ -19,7 +20,8 @@
 - Spell parameters are again properly filtered by the sourcebook setting in all sheets with effect
 - Collaborating on the lab sheet is again possible.
 - It is again possible to edit the lab aura when not part of a covenant with one.
-- Fixed some problem with the laboratory totals tab when linked to a lab
+- Fixed some problem with the laboratory totals tab when linked to a lab.
+- Drop a new owner on a lab will reset the lab.
 
 ## 2.2.3.28, Ophilio, the Elder
 

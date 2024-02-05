@@ -2763,7 +2763,8 @@ ARM5E.lab.enchantment.effectUses = {
 ARM5E.lab.enchantment.enchantableTypes = {
   item: CONFIG.ISV10 ? "ITEM.TypeItem" : "TYPES.Item.item",
   weapon: CONFIG.ISV10 ? "ITEM.TypeWeapon" : "TYPES.Item.weapon",
-  armor: CONFIG.ISV10 ? "ITEM.TypeArmor" : "TYPES.Item.armor"
+  armor: CONFIG.ISV10 ? "ITEM.TypeArmor" : "TYPES.Item.armor",
+  book: CONFIG.ISV10 ? "ITEM.TypeBook" : "TYPES.Item.book"
 }; // TODO support books, "book"];
 
 ARM5E.generic = {};

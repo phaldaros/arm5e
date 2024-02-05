@@ -736,8 +736,11 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           }
         }
       }
+    } else {
+      const res = await super._onDrop(event);
+      await this._resetPlanning();
+      return res;
     }
-    return await super._onDrop(event);
   }
 
   /**
