@@ -9,7 +9,7 @@ import {
   NullableEmbeddedDataField,
   authorship
 } from "./commonSchemas.js";
-import { ItemState } from "./enchantmentSchema.js";
+import { EnchantmentExtension, ItemState } from "./enchantmentSchema.js";
 import { LabTextSchema } from "./magicSchemas.js";
 const fields = foundry.data.fields;
 export class BookSchema extends foundry.abstract.DataModel {
@@ -96,6 +96,10 @@ export class BookSchema extends foundry.abstract.DataModel {
         }
       ),
       state: ItemState(),
+      enchantments: new NullableEmbeddedDataField(EnchantmentExtension, {
+        nullable: true,
+        initial: CONFIG.ISV10 ? new EnchantmentExtension() : null
+      }),
       cost: CostField("priceless"),
       quantity: new fields.NumberField({
         required: false,

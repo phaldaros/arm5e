@@ -124,14 +124,15 @@
     {{!-- Description Tab --}}
     {{#if (eq system.state "inert")}}
       <div class="tab" data-group="primary" data-tab="description">
-        <div>
-          {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
-        </div>
+        {{editor system.description target="system.description" button=true owner=owner engine="prosemirror" editable=editable}}
       </div>
     {{else }}
-      <div>
-        {{> "systems/arm5e/templates/item/parts/enchant-extension.html" }}
-      </div>
+      <div class="tab" data-group="primary" data-tab="description">
+        {{> "systems/arm5e/templates/item/parts/enchant-desc-section.html" }}
+        {{> "systems/arm5e/templates/item/parts/enchant-attributes-section.html" }}
+      </div> <!-- Description Tab END -->
+      {{> "systems/arm5e/templates/item/parts/enchant-extension.html" }}
+
     {{/if}}
     {{#if metagame.view }}
       <div class="resource flexrow">

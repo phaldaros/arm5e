@@ -147,12 +147,15 @@ export class ArM5eItemEnchantmentSheet {
         const capaIdx = enchants.capacities.findIndex((c) => {
           return e.receptacleId == c.id;
         });
-        enchants.capacities[capaIdx].used += Math.ceil(e.system.level / 10);
-        enchants.usedCapa += Math.ceil(e.system.level / 10);
-        if (!overcap && enchants.capacities[capaIdx].used > enchants.capacities[capaIdx].total) {
-          enchants.invalidItem = true;
-          enchants.invalidMsg.push("arm5e.enchantment.msg.capacityOverflow");
-          overcap = true;
+        if (capaIdx >= 0) {
+          enchants.capacities[capaIdx].used += Math.ceil(e.system.level / 10);
+
+          enchants.usedCapa += Math.ceil(e.system.level / 10);
+          if (!overcap && enchants.capacities[capaIdx].used > enchants.capacities[capaIdx].total) {
+            enchants.invalidItem = true;
+            enchants.invalidMsg.push("arm5e.enchantment.msg.capacityOverflow");
+            overcap = true;
+          }
         }
       }
       e.prefix = `system.enchantments.effects.${idx}.`;
