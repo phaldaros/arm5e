@@ -1,7 +1,9 @@
-## 2.2.4.2, Pralix
+## 2.2.4.3, Pralix
 
 ### Features & changes
 
+- Complete Scriptorium overhaul
+  - New writing activities
 - Added macros to open canvas menu dialogs (Scriptorium, Astrolabium, Aura management)
 - Rework of Reading tab in Scriptorium
   - Possible to browse the topics of a book in the scriptorium.
@@ -11,6 +13,9 @@
 - Added quantity and price to all physical items (even if it is not visible for some)
 - Books topics have their own authorship parameters (name, language, date)
 - Books as magic items
+- Actor links optimization and fixes
+  - Reduction of the number of individual updates
+  - Proper deletion of old link in 1:1 relationship
 
 ### Bug fixes
 

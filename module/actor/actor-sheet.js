@@ -864,11 +864,13 @@ export class ArM5eActorSheet extends ActorSheet {
       ev.preventDefault();
       const val = ev.target.value;
       const cov = game.actors.getName(val);
+      let updateArray = [];
       // if the actor was linked, remove listener
       if (this.actor.system.covenant.linked) {
         delete this.actor.apps[this.actor.system.covenant.document.sheet.appId];
         await this.actor.system.covenant.document.sheet._unbindActor(this.actor);
       }
+
       let updateData = { "system.covenant.value": val };
       if (cov) {
         updateData["system.covenant.actorId"] = cov._id;
@@ -877,45 +879,31 @@ export class ArM5eActorSheet extends ActorSheet {
       } else {
         updateData["system.covenant.actorId"] = null;
       }
-      await this.actor.update(updateData);
-    });
-
-    html.find(".owner-link").change(async (ev) => {
-      ev.preventDefault();
-      const val = ev.target.value;
-      const owner = game.actors.getName(val);
-      // if the actor was linked, remove listener
-      if (this.actor.system.owner.linked) {
-        delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
-        await this.actor.system.owner.document.sheet._unbindActor(this.actor);
-      }
-      let updateData = { "system.owner.value": val };
-      if (owner) {
-        updateData["system.owner.actorId"] = owner._id;
-        await owner.sheet._bindActor(this.actor);
-      } else {
-        updateData["system.owner.actorId"] = null;
-      }
-      await this.actor.update(updateData);
+      updateData["_id"] = this.actor._id;
+      updateArray.push(updateData);
+      await Actor.updateDocuments(updateArray);
     });
 
     html.find(".sanctum-link").change(async (ev) => {
       ev.preventDefault();
       const val = ev.target.value;
       const sanctum = game.actors.getName(val);
+      let updateArray = [];
       // if the actor was linked, remove listener
       if (this.actor.system.sanctum.linked) {
         delete this.actor.apps[this.actor.system.sanctum.document.sheet.appId];
-        await this.actor.system.sanctum.document.sheet._unbindActor(this.actor);
+        updateArray.push(await this.actor.system.sanctum.document.sheet._unbindActor(this.actor));
       }
       let updateData = { "system.sanctum.value": val };
       if (sanctum) {
         updateData["system.sanctum.actorId"] = sanctum._id;
-        await sanctum.sheet._bindActor(this.actor);
+        updateArray.push(await sanctum.sheet._bindActor(this.actor));
       } else {
         updateData["system.sanctum.actorId"] = null;
       }
-      await this.actor.update(updateData);
+      updateData["_id"] = this.actor._id;
+      updateArray.push(updateData);
+      await Actor.updateDocuments(updateArray);
     });
 
     html.find(".actor-profile").click(this.actorProfiles.addProfile.bind(this));
@@ -1752,14 +1740,30 @@ export class ArM5eActorSheet extends ActorSheet {
     }
     let droppedActor = await fromUuid(data.uuid);
     // link both ways
-    let res = await this._bindActor(droppedActor);
-    let res2 = await droppedActor.sheet._bindActor(this.actor);
-    return res && res2;
+    let updateArray = [];
+
+    if (droppedActor.type === "covenant") {
+      if (this.actor.system.covenant.linked) {
+        delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
+        updateArray.push(await this.actor.system.owner.document.sheet._unbindActor(this.actor));
+        await droppedActor.sheet._bindActor(this.actor);
+      }
+    } else if (droppedActor.type === "laboratory") {
+      if (this.actor.system.sanctum.linked) {
+        delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
+        updateArray.push(await this.actor.system.owner.document.sheet._unbindActor(this.actor));
+      }
+      updateArray.push(await droppedActor.sheet._bindActor(this.actor));
+    }
+
+    updateArray.push(await this._bindActor(droppedActor));
+
+    return await Actor.updateDocuments(updateArray);
   }
 
   async _bindActor(actor) {
     if (!["covenant", "laboratory"].includes(actor.type)) return false;
-    let updateData = {};
+    let updateData = { _id: this.actor._id };
     if (actor.type == "covenant") {
       updateData["system.covenant.value"] = actor.name;
       updateData["system.covenant.actorId"] = actor._id;
@@ -1767,12 +1771,12 @@ export class ArM5eActorSheet extends ActorSheet {
       updateData["system.sanctum.value"] = actor.name;
       updateData["system.sanctum.actorId"] = actor._id;
     }
-    return await this.actor.update(updateData, {});
+    return updateData;
   }
 
   async _unbindActor(actor) {
     if (!["covenant", "laboratory"].includes(actor.type)) return false;
-    let updateData = {};
+    let updateData = { _id: this.actor._id };
     if (actor.type == "covenant") {
       updateData["system.covenant.value"] = "";
       updateData["system.covenant.actorId"] = null;
@@ -1780,7 +1784,7 @@ export class ArM5eActorSheet extends ActorSheet {
       updateData["system.sanctum.value"] = "";
       updateData["system.sanctum.actorId"] = null;
     }
-    return await this.actor.update(updateData, {});
+    return updateData;
   }
 }
 

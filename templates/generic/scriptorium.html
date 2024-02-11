@@ -84,20 +84,21 @@
               <input type="text" name="reading.book.name" value="{{reading.book.name}}" data-dtype="String"
                 {{ui.canEditBook}}>
               <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
-              <input type="text" name="reading.book.system.author" value="{{reading.book.system.author}}"
-                data-dtype="String" {{ui.canEditBook}}>
+              <input type="text" name="reading.book.system.topics.{{topicIndex}}.author"
+                value="{{reading.book.currentTopic.author}}" data-dtype="String" {{ui.canEditBook}}>
 
             </div>
             <div class="flexrow">
               <div class="flexcol">
                 <div class="scriptorium item-header resource">
                   <label class="header-label">{{localize "arm5e.sheet.authorship.language"}}</label>
-                  <input type="text" name="reading.book.system.language" value="{{reading.book.system.language}}"
-                    data-dtype="String" {{ui.canEditBook}} style="max-width: 150px;">
+                  <input type="text" name="reading.book.system.topics.{{topicIndex}}.language"
+                    value="{{reading.book.currentTopic.language}}" data-dtype="String" {{ui.canEditBook}}
+                    style="max-width: 150px;">
                 </div>
                 <div class="scriptorium item-header resource">
                   <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
-                  <select class="book-topic reading" name="reading.book.system.topics.{{topicIndex}}.category"
+                  <select class="book-topic-change reading" name="reading.book.system.topics.{{topicIndex}}.category"
                     data-index="{{topicIndex}}" data-activity="reading" data-dtype="String" {{ui.disabledBook}}>
                     {{#select reading.book.currentTopic.category}}
                       {{#each bookTopics as |book key|}}
@@ -110,7 +111,7 @@
                     <label for="reading.book.system.topics.{{topicIndex}}.type"
                       class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
                     <select name="reading.book.system.topics.{{topicIndex}}.type" data-type="String"
-                      data-index="{{topicIndex}}" {{ui.disabledBook}} {{ui.disableType}}>
+                      data-index="{{topicIndex}}" {{ui.disabledBook}} {{ui.reading.disableType}}>
                       {{#select reading.book.currentTopic.type}} {{#each @root.bookTypes }}
                           <option value="{{this}}">{{this}}</option>
                         {{/each}}
@@ -282,14 +283,20 @@
                   </select>
                 </div>
               {{/if}}
-
-              <div class="scriptorium resource"><label class="header-label"
-                  style="color:red; padding: 10px; text-align: center;">{{localize ui.warning item=ui.warningParam}}</label>
-              </div>
+              <ul>
+                {{#each ui.reading.warning }}
+                  <li>
+                    <div class="scriptorium resource"><label class="header-label"
+                        style="color:red; padding: 10px; text-align: center;">{{this}}</label>
+                    </div>
+                  </li>
+                {{/each}}
+              </ul>
               <div class="scriptorium resource">
-                <button class="arm5e flex02 create-activity" style="font-family: bookAntika" data-index="{{topicIndex}}"
-                  data-ability-id="{{reading.reader.ability}}" data-spell-id="{{reading.reader.spell}}"
-                  {{ui.createPossible}}>{{localize "arm5e.scriptorium.button"}}</button>
+                <button class="arm5e flex02 create-reading-activity" style="font-family: bookAntika"
+                  data-index="{{topicIndex}}" data-ability-id="{{reading.reader.ability}}"
+                  data-spell-id="{{reading.reader.spell}}"
+                  {{ui.reading.createPossible}}>{{localize "arm5e.scriptorium.button"}}</button>
               </div>
             {{/unless}}
 
@@ -344,7 +351,7 @@
 
               <div class="scriptorium item-header resource">
                 <label class="header-label">{{localize "arm5e.sheet.bookTopic"}}</label>
-                <select class="book-topic writing" name="writing.book.system.topics.{{newTopicIndex}}.category"
+                <select class="book-topic-change writing" name="writing.book.system.topics.{{newTopicIndex}}.category"
                   data-activity="writing" data-index="{{newTopicIndex}}" data-dtype="String" {{ui.disabledBook}}>
                   {{#select writing.book.newTopic.category}}
                     {{#each bookTopics as |book key|}}
@@ -357,7 +364,7 @@
                   <label for="writing.book.system.topics.{{newTopicIndex}}.type"
                     class="header-label">{{localize "arm5e.sheet.bookType"}}</label>
                   <select name="writing.book.system.topics.{{newTopicIndex}}.type" data-type="String"
-                    data-index="{{topicIndex}}" {{ui.disabledBook}} {{ui.disableType}}>
+                    data-index="{{topicIndex}}" {{ui.disabledBook}} {{ui.writing.disableType}}>
                     {{#select writing.book.newTopic.type}} {{#each @root.bookTypes }}
                         <option value="{{this}}">{{this}}</option>
                       {{/each}}
@@ -453,15 +460,18 @@
               </div>
             {{/unless}}
           </div>
-
-          <div class="scriptorium resource"><label class="header-label"
-              style="color:red; padding: 10px; text-align: center;">{{localize ui.warning item=ui.warningParam}}</label>
-          </div>
+          <ul>
+            {{#each ui.writing.warning }}
+              <div class="scriptorium resource"><label class="header-label"
+                  style="color:red; padding: 10px; text-align: center;">{{this}}</label>
+              </div>
+            {{/each}}
+          </ul>
           <div class="scriptorium resource">
             <button class="arm5e flex02 create-writing-activity" style="font-family: bookAntika"
               data-index="{{newTopicIndex}}" data-ability-id="{{writing.writer.ability}}"
               data-spell-id="{{writing.writer.spell}}"
-              {{ui.createPossible}}>{{localize "arm5e.scriptorium.button"}}</button>
+              {{ui.writing.createPossible}}>{{localize "arm5e.scriptorium.button"}}</button>
           </div>
         </div>
 

@@ -23,20 +23,6 @@ import { LabActivity, SpellActivity } from "../seasonal-activities/activity.js";
 export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   constructor(object, options) {
     super(object, options);
-    // if (this.actor.system.owner.linked) {
-    //   this.planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
-    //   if (this.planning) {
-    //     this.planning.activity = LabActivity.ActivityFactory(this.actor, this.planning.type);
-    //   } else {
-    //     this.planning = {
-    //       activity: new SpellActivity(
-    //         this.actor.uuid,
-    //         this.actor.system.owner.document.uuid,
-    //         "inventSpell"
-    //       )
-    //     };
-    //   }
-    // }
   }
 
   /** @override */
@@ -373,7 +359,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    if (this.actor.flags.arm5e.planning?.activity) {
+    if (this.actor.flags.arm5e.planning?.activity instanceof SpellActivity) {
       this.actor.flags.arm5e.planning.activity.activateListeners(html);
     }
     // Everything below here is only needed if the sheet is editable
@@ -456,6 +442,28 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         updateData: { "flags.arm5e.planning.data.receptacle.system.enchantments.aspects": aspects }
       });
     });
+
+    html.find(".owner-link").change(async (ev) => {
+      ev.preventDefault();
+      const val = ev.target.value;
+      const owner = game.actors.getName(val);
+      let updateArray = [];
+      // if the actor was linked, remove listener
+      if (this.actor.system.owner.linked) {
+        delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
+        updateArray.push(await this.actor.system.owner.document.sheet._unbindActor(this.actor));
+      }
+      let updateData = { "system.owner.value": val };
+      if (owner) {
+        updateData["system.owner.actorId"] = owner._id;
+        updateArray.push(await owner.sheet._bindActor(this.actor));
+      } else {
+        updateData["system.owner.actorId"] = null;
+      }
+      updateData["_id"] = this.actor._id;
+      updateArray.push(updateData);
+      await Actor.updateDocuments(updateArray);
+    });
   }
 
   async _useVis(event) {
@@ -502,7 +510,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     await this._resetPlanning(chosenActivity);
   }
 
-  async _resetPlanning(activityType = "inventSpell") {
+  async _resetPlanning(activityType = "inventSpell", onlyData = false) {
     // await this.actor.update({ "flags.arm5e.planning.-=data": null }, { render: false });
     const activity = LabActivity.ActivityFactory(this.actor, activityType);
     let newData = await activity.getDefaultData();
@@ -515,6 +523,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
       distractions: "none",
       magicThSpecApply: false
     };
+    if (onlyData) return planning;
     // await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", planning);
     // let tmp = await this.submit({
     //   preventClose: true,
@@ -737,8 +746,9 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
         }
       }
     } else {
+      event.stopPropagation();
       const res = await super._onDrop(event);
-      await this._resetPlanning();
+      //await this._resetPlanning();
       return res;
     }
   }
@@ -792,48 +802,71 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     }
   }
 
+  /**
+   * Handle dropping of an actor reference or item data onto an Actor Sheet
+   * @param {DragEvent} event     The concluding DragEvent which contains drop data
+   * @param {Object} data         The data transfer extracted from the event
+   * @return {Promise<Object>}    A data object which describes the result of the drop
+   * @private
+   * @override
+   */
+  async _onDropActor(event, data) {
+    if (!this.actor.isOwner) {
+      return false;
+    }
+    let droppedActor = await fromUuid(data.uuid);
+    // link both ways
+    let updateArray = [];
+
+    if (droppedActor._isCharacter()) {
+      if (this.actor.system.owner.linked) {
+        delete this.actor.apps[this.actor.system.owner.document.sheet.appId];
+        updateArray.push(await this.actor.system.owner.document.sheet._unbindActor(this.actor));
+      }
+      updateArray.push(await droppedActor.sheet._bindActor(this.actor));
+    } else if (droppedActor.type === "covenant") {
+      if (this.actor.system.covenant.linked) {
+        delete this.actor.apps[this.actor.system.covenant.document.sheet.appId];
+        await this.actor.system.covenant.document.sheet._unbindActor(this.actor);
+      }
+      await droppedActor.sheet._bindActor(this.actor);
+    }
+    updateArray.push(await this._bindActor(droppedActor));
+
+    return await Actor.updateDocuments(updateArray);
+  }
+
   async _bindActor(actor) {
     if (!["covenant", "player", "npc", "beast"].includes(actor.type)) return false;
-    let updateData = {};
+    let updateData = { _id: this.actor._id };
     if (actor.type == "covenant") {
       updateData["system.covenant.value"] = actor.name;
       updateData["system.covenant.actorId"] = actor._id;
     } else if (["player", "npc", "beast"].includes(actor.type)) {
       updateData["system.owner.value"] = actor.name;
       updateData["system.owner.actorId"] = actor._id;
+      updateData["flags.arm5e.planning"] = await this._resetPlanning("inventSpell", true);
     }
-
-    return await this.actor.update(updateData, {});
+    return updateData;
   }
 
   async _unbindActor(actor) {
     if (!["covenant", "player", "npc", "beast"].includes(actor.type)) return false;
-    let updateData = {};
+    let updateData = { _id: this.actor._id };
     if (actor.type == "covenant") {
       updateData["system.covenant.value"] = "";
       updateData["system.covenant.actorId"] = null;
     } else if (["player", "npc", "beast"].includes(actor.type)) {
       updateData["system.owner.value"] = "";
       updateData["system.owner.actorId"] = null;
+      updateData["flags.arm5e.planning"] = await this._resetPlanning("none", true);
     }
-    return await this.actor.update(updateData, {});
+    return updateData;
   }
 
   /** @inheritdoc */
   async _updateObject(event, formData) {
     if (!this.object.id) return;
-    // const expanded = expandObject(formData);
-    // const source = this.object.toObject();
-
-    //   const planning = expanded.flags?.arm5e?.planning;
-    //   if (planning) {
-    // foundry.utils.mergeObject(source, expanded);
-    //   foundry.utils.mergeObject(source, expanded, {
-    //     recursive: true
-    //   });
-    //     expanded.flags.arm5e.planning = this.planning;
-    //     //await this.actor.setFlag(ARM5E.SYSTEM_ID, "planning", expanded.flags.arm5e.planning);
-    //   }
 
     return super._updateObject(event, formData);
   }
