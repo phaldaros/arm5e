@@ -1919,4 +1919,12 @@ export class ArM5ePCActor extends Actor {
       ? 0
       : woundsTotal + this.system.bonuses.traits.wounds;
   }
+
+  _getDiariesOfType(diaryType) {
+    if (!["player", "npc", "laboratory", "covenant", "beast"].includes(this.type)) return [];
+    if (!Object.keys(CONFIG.ARM5E.activities.generic).includes(diaryType)) return [];
+    return this.items.filter((e) => {
+      return e.type == "diaryEntry" && e.system.activity === diaryType;
+    });
+  }
 }

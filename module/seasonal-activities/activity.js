@@ -41,9 +41,11 @@ export class LabActivity extends Activity {
 
   static ActivityFactory(lab, type) {
     switch (type) {
+      case "none":
+        return new NoLabActivity(lab.uuid);
       case "inventSpell":
       case "learnSpell":
-        return new SpellActivity(lab.uuid, lab.system.owner.document.uuid, type);
+        return new SpellActivity(lab.uuid, type);
       case "minorEnchantment":
         return new MinorEnchantment(lab.uuid, lab.system.owner.document.uuid);
       case "chargedItem":
@@ -256,9 +258,19 @@ export class LabActivity extends Activity {
   }
 }
 
+// blank acivity for labs without owner
+export class NoLabActivity extends LabActivity {
+  constructor(labUuid) {
+    super(null, "none");
+    this.labUuid = labUuid;
+    this.labSpecTotal = 0;
+    this.ownerActivityMod = 0;
+  }
+}
+
 export class SpellActivity extends LabActivity {
-  constructor(labUuid, actorUuid, type) {
-    super(labUuid, actorUuid, type);
+  constructor(labUuid, type) {
+    super(labUuid, type);
   }
 
   get title() {
@@ -433,7 +445,13 @@ export class VisExtractionActivity extends LabActivity {
   }
 
   async activityAchievement(input) {
-    const actor = await fromUuid(this.actorUuid);
+    let actor;
+    if (this.actorUuid) {
+      actor = await fromUuid(this.actorUuid);
+    } else {
+      let lab = await fromUuid(this.labUuid);
+      actor = await fromUuid(lab.system.owner.document.uuid);
+    }
     return {
       name: "Vim vis",
       type: "vis",

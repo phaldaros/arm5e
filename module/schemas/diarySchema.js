@@ -128,6 +128,7 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
           // 1 : change the quantity of an item
           // 2 : update a schedule
           // 4 : update id
+          // 8 : just data
           flags: new fields.NumberField({
             required: false,
             nullable: false,

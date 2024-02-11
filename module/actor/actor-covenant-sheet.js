@@ -220,7 +220,11 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       if (confirmed) {
         let actorLink = this.actor.items.get(itemId);
 
-        if (actorLink.system.linked) await actorLink.system.document.sheet._unbindActor(this.actor);
+        if (actorLink.system.linked) {
+          let update = await actorLink.system.document.sheet._unbindActor(this.actor);
+          await actorLink.system.document.update(update);
+        }
+
         itemId = itemId instanceof Array ? itemId : [itemId];
 
         this.actor.deleteEmbeddedDocuments("Item", itemId, {});
@@ -236,6 +240,20 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
    * @private
    * @override
    */
+
+  async _onDropActor(event, data) {
+    if (!this.actor.isOwner) {
+      return false;
+    }
+    let droppedActor = await fromUuid(data.uuid);
+    // link both ways
+    let updateArray = [];
+    // covenant can have a 1:N relationship with others, no need to remove existing links
+    await this._bindActor(droppedActor);
+    updateArray.push(await droppedActor.sheet._bindActor(this.actor));
+    return await Actor.updateDocuments(updateArray);
+  }
+
   async _bindActor(actor) {
     if (!["laboratory", "player", "npc", "beast"].includes(actor.type)) return false;
     // add person to covenant inhabitants
@@ -269,10 +287,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       let magi = targetActor.system.habitants.magi.filter((h) => h.name == actor.name);
       if (magi.length == 0) {
         log(false, "Added to inhabitants Magi");
-        return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.createEmbeddedDocuments("Item", itemData, { render: true });
       } else {
         itemData[0]._id = magi[0]._id;
-        return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.updateEmbeddedDocuments("Item", itemData, { render: true });
       }
     } else if (actor._isCompanion()) {
       let pts = 3;
@@ -299,10 +317,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       let comp = targetActor.system.habitants.companion.filter((h) => h.name == actor.name);
       if (comp.length == 0) {
         log(false, "Added to inhabitants Companion");
-        return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.createEmbeddedDocuments("Item", itemData, { render: true });
       } else {
         itemData[0]._id = comp[0]._id;
-        return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.updateEmbeddedDocuments("Item", itemData, { render: true });
       }
     } else if (
       actor._isGrog() ||
@@ -328,10 +346,10 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       let hab = targetActor.system.habitants.habitants.filter((h) => h.name == actor.name);
       if (hab.length == 0) {
         log(false, "Added to inhabitants");
-        return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.createEmbeddedDocuments("Item", itemData, { render: true });
       } else {
         itemData[0]._id = hab[0]._id;
-        return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.updateEmbeddedDocuments("Item", itemData, { render: true });
       }
     } else if (actor.type == "laboratory") {
       const itemData = [
@@ -351,27 +369,27 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
       let lab = targetActor.system.labs.filter((h) => h.name == actor.name);
       if (lab.length == 0) {
         log(false, "Added to sanctums");
-        return await this.actor.createEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.createEmbeddedDocuments("Item", itemData, { render: true });
       } else {
         itemData[0]._id = lab[0]._id;
-        return await this.actor.updateEmbeddedDocuments("Item", itemData, {});
+        return await this.actor.updateEmbeddedDocuments("Item", itemData, { render: true });
       }
     }
     return {};
   }
 
   async _unbindActor(actor) {
-    if (!["laboratory", "player", "npc", "beast"].includes(actor.type)) return false;
+    if (!["laboratory", "player", "npc", "beast"].includes(actor.type)) return true;
     let targetActor = this.actor;
     if (actor._isMagus()) {
       let hab = targetActor.system.habitants.magi.filter((h) => h.system.actorId == actor._id);
       if (hab.length) {
-        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], {});
+        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], { render: true });
       }
     } else if (actor._isCompanion()) {
       let hab = targetActor.system.habitants.companion.filter((h) => h.system.actorId == actor._id);
       if (hab.length) {
-        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], {});
+        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], { render: true });
       }
     } else if (
       actor._isGrog() ||
@@ -379,13 +397,13 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     ) {
       let hab = targetActor.system.habitants.habitants.filter((h) => h.system.actorId == actor._id);
       if (hab.length) {
-        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], {});
+        return await this.actor.deleteEmbeddedDocuments("Item", [hab[0]._id], { render: true });
       }
     } else if (actor.type == "laboratory") {
       // check if it is already bound
       let lab = targetActor.system.labs.filter((l) => l.system.sanctumId == actor._id);
       if (lab.length) {
-        return await this.actor.deleteEmbeddedDocuments("Item", [lab[0]._id], {});
+        return await this.actor.deleteEmbeddedDocuments("Item", [lab[0]._id], { render: true });
       }
     }
   }

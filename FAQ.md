@@ -6,6 +6,10 @@
 
 Yes, you can, [here!](https://ko-fi.com/xzotl). Totally optional, but thanks if you do! You will get the Barista status in the Discord server if you do.
 
+### Has feature X or Y been implemented yet?
+
+To have a general idea of what is available in the system, you can look in the user guide. It is always a bit lagging a bit behind but it should give you a good overview of where things are. The guide is available in the Journals compendium but also on the GitHub wiki.
+
 ## Installation
 
 See README file

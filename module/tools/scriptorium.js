@@ -96,7 +96,7 @@ export class Scriptorium extends FormApplication {
         {
           navSelector: ".sheet-tabs",
           contentSelector: ".sheet-body",
-          initial: "writing"
+          initial: "reading"
         }
       ],
       width: "600",
@@ -157,12 +157,10 @@ export class Scriptorium extends FormApplication {
 
   async getData(options = {}) {
     const context = foundry.utils.expandObject(await super.getData().object);
-    context.error = false;
     context.ui = {
       ...this.getUserCache(),
-      createPossible: "disabled",
-      warning: "",
-      warningParam: "",
+      reading: { warning: [], error: false, createPossible: "disabled" },
+      writing: { warning: [], error: false, createPossible: "disabled" },
       editItem: ""
     };
     let currentDate = game.settings.get("arm5e", "currentDate");
@@ -183,10 +181,6 @@ export class Scriptorium extends FormApplication {
       maxLevel = currentTopic.level;
     }
 
-    if (currentTopic.category == "mastery") {
-      context.ui.disableType = "disabled";
-    }
-
     context.reading.book.currentTopic = currentTopic;
     context.currentTopicNumber = context.topicIndex + 1 ?? 1;
     context.topicNum = context.reading.book.system.topics.length ?? 1;
@@ -195,12 +189,12 @@ export class Scriptorium extends FormApplication {
     const newTopic = context.writing.book.system.topics[context.newTopicIndex];
     context.writing.book.newTopic = newTopic;
 
-    if (currentTopic.category == "mastery") {
-      context.ui.disableType = "disabled";
-    }
     if (context.reading.reader?.id) {
       context.ui.canEditReader = "readonly";
       context.ui.disabledReader = "disabled";
+      if (currentTopic.category == "mastery") {
+        context.ui.reading.disableType = "disabled";
+      }
       let reader = game.actors.get(context.reading.reader.id);
       context.reading.reader.name = reader.name;
       // get known languages
@@ -291,9 +285,10 @@ export class Scriptorium extends FormApplication {
               context.reading.reader.abilities = [ability];
             } else {
               context.ui.editItem = "disabled";
-              context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
-              context.ui.warningParam = "";
-              context.error = true;
+              context.ui.reading.warning.push(
+                game.i18n.localize("arm5e.scriptorium.msg.tooSkilled")
+              );
+              context.ui.reading.error = true;
             }
           } else {
             // check if the ability is not found because of the option field
@@ -308,14 +303,20 @@ export class Scriptorium extends FormApplication {
                 { option: currentTopic.option }
               );
               if (filteredAbilities.length == 1) {
-                context.ui.warning = "arm5e.scriptorium.msg.whichItem";
-                context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
+                context.ui.reading.warning.push(
+                  game.i18n.format("arm5e.scriptorium.msg.whichItem", {
+                    item: game.i18n.localize("arm5e.sheet.ability")
+                  })
+                );
               }
             } else {
               context.ui.editItem = "disabled";
-              context.ui.warning = "arm5e.scriptorium.msg.missingItem";
-              context.ui.warningParam = game.i18n.localize("arm5e.sheet.ability");
-              context.error = true;
+              context.ui.reading.warning.push(
+                game.i18n.format("arm5e.scriptorium.msg.missingItem", {
+                  item: game.i18n.localize("arm5e.sheet.ability")
+                })
+              );
+              context.ui.reading.error = true;
             }
             // else {
             //   context.ui.editItem = "disabled";
@@ -334,9 +335,10 @@ export class Scriptorium extends FormApplication {
         case "mastery": {
           if (context.reading.reader.spells.length === 0) {
             context.ui.editItem = "disabled";
-            context.ui.warning = "arm5e.scriptorium.msg.missingItem";
-            context.ui.warningParam = game.i18n.localize("arm5e.sheet.spell");
-            context.error = true;
+            context.ui.reading.warning.push(game.i18n.format("arm5e.scriptorium.msg.missingItem"), {
+              item: game.i18n.localize("arm5e.sheet.spell")
+            });
+            context.ui.reading.error = true;
           } else {
             if (!context.reading.reader.spell) {
               context.reading.reader.spell = context.reading.reader.spells[0].id;
@@ -346,12 +348,13 @@ export class Scriptorium extends FormApplication {
         }
         case "labText": {
           context.ui.editItem = "disabled";
-          context.ui.warning = "arm5e.scriptorium.msg.labText";
-          context.error = true;
+          context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.labText"));
+          context.ui.reading.error = true;
           break;
         }
         default:
-          context.ui.warning = "Error";
+          context.ui.warning.push("Error");
+          context.ui.reading.error = true;
           break;
       }
       this.checkReading(context, reader);
@@ -382,7 +385,9 @@ export class Scriptorium extends FormApplication {
           context.writing.writer.writingBonus
         );
       }
-
+      if (newTopic.category == "mastery") {
+        context.ui.writing.disableType = "disabled";
+      }
       context.writing.writer.name = writer.name;
       // get known languages
       context.writing.writer.languages = writer.system.abilities
@@ -498,9 +503,12 @@ export class Scriptorium extends FormApplication {
         case "mastery": {
           if (context.writing.writer.filteredSpells.length === 0) {
             context.ui.editItem = "disabled";
-            context.ui.warning = "arm5e.scriptorium.msg.missingItem";
-            context.ui.warningParam = game.i18n.localize("arm5e.sheet.spell");
-            context.error = true;
+            context.ui.writing.warning.push(
+              game.i18n.format("arm5e.scriptorium.msg.missingItem", {
+                item: game.i18n.localize("arm5e.sheet.spell")
+              })
+            );
+            context.ui.writing.error = true;
           } else {
             if (!context.writing.writer.spell) {
               context.writing.writer.spell = context.writing.writer.filteredSpells[0].id;
@@ -534,8 +542,11 @@ export class Scriptorium extends FormApplication {
       // log(false, `Scriptorium writing data: ${JSON.stringify(context.writing)}`);
     }
 
-    if (context.error === false) {
-      context.ui.createPossible = "";
+    if (context.ui.reading.error === false) {
+      context.ui.reading.createPossible = "";
+    }
+    if (context.ui.writing.error === false) {
+      context.ui.writing.createPossible = "";
     }
 
     log(false, `Scriptorium ui: ${JSON.stringify(context.ui)}`);
@@ -547,9 +558,10 @@ export class Scriptorium extends FormApplication {
     html.find(".set-date").click(this.setDate.bind(this));
     html.find(".change-season").change(this._changeSeason.bind(this));
     html.find(".change-year").change(this._changeYear.bind(this));
-    html.find(".book-topic").change(this._changeBookTopic.bind(this));
+    html.find(".book-topic-change").change(this._changeBookTopic.bind(this));
     html.find(".unlink-read-book").click(this._resetReadBook.bind(this));
     html.find(".unlink-reader").click(this._resetReader.bind(this));
+    html.find(".unlink-writer").click(this._resetWriter.bind(this));
     html.find(".create-reading-activity").click(this._createReadingDiaryEntry.bind(this));
     html.find(".create-writing-activity").click(this._createWritingDiaryEntry.bind(this));
     html.find(".section-handle").click(this._handle_section.bind(this));
@@ -621,6 +633,13 @@ export class Scriptorium extends FormApplication {
       _id: null
     };
 
+    const extraData = {
+      actorId: objectData.writing.writer.id,
+      itemId: book.id,
+      flags: 8,
+      data: { title: book.name, topic: topic }
+    };
+
     const entryData = [
       {
         name: activityName,
@@ -646,7 +665,8 @@ export class Scriptorium extends FormApplication {
             language: topic.language,
             topic: getTopicDescription(topic)
           }),
-          achievements: [achievement]
+          achievements: [achievement],
+          externalIds: [extraData]
         }
       }
     ];
@@ -663,6 +683,13 @@ export class Scriptorium extends FormApplication {
     let activityName = game.i18n.format("arm5e.scriptorium.reading.activity", {
       title: book.name
     });
+
+    const extraData = {
+      actorId: objectData.reading.reader.id,
+      itemId: book.id,
+      flags: 8,
+      data: { title: book.name, topic: topic }
+    };
 
     const entryData = [
       {
@@ -689,7 +716,8 @@ export class Scriptorium extends FormApplication {
             type: topic.type,
             language: book.system.language,
             topic: getTopicDescription(topic)
-          })
+          }),
+          externalIds: [extraData]
         }
       }
     ];
@@ -773,6 +801,22 @@ export class Scriptorium extends FormApplication {
       "reading.reader.ability": "",
       "reading.reader.spellName": "",
       "reading.reader.language": ""
+    };
+    await this.submit({
+      preventClose: true,
+      updateData: updatedData
+    });
+  }
+
+  async _resetWriter(event) {
+    let writer = game.actors.get(this.object.writing.writer.id);
+    delete writer.apps[this.appId];
+    let updatedData = {
+      "writing.writer.id": null,
+      "writing.writer.name": "",
+      "writing.writer.ability": "",
+      "writing.writer.spellName": "",
+      "writing.writer.language": ""
     };
     await this.submit({
       preventClose: true,
@@ -897,7 +941,7 @@ export class Scriptorium extends FormApplication {
     event.preventDefault();
     const index = Number(event.currentTarget.dataset.index);
     const activity = event.currentTarget.dataset.activity;
-    let chosenTopic = $(`.book-topic.${activity}`).val();
+    let chosenTopic = $(`.book-topic-change.${activity}`).val();
     const topicData = this.object[activity].book.system.topics[index];
     if (chosenTopic === "ability") {
       topicData.art = null;
@@ -935,15 +979,74 @@ export class Scriptorium extends FormApplication {
     // is the character able to  read?
     let writingSkill = writer.getAbilityStats("artesLib");
     if (writingSkill.score == 0) {
-      context.ui.warning = "arm5e.scriptorium.msg.illiterate";
-      context.ui.warningParam = "";
-      context.error = true;
+      context.ui.writing.warning.push(game.i18n.localize("arm5e.scriptorium.msg.illiterate"));
+      context.ui.writing.error = true;
     }
     // know any language at proper level?
     if (context.writing.writer.languages.length == 0) {
-      context.ui.warning = "arm5e.scriptorium.msg.noLanguage";
-      context.ui.warningParam = "";
-      context.error = true;
+      context.ui.writing.warning.push(game.i18n.localize("arm5e.scriptorium.msg.noLanguage"));
+      context.ui.writing.error = true;
+    }
+
+    switch (topic.category) {
+      case "ability": {
+        if (topic.type === "Tractatus") {
+          const tractati = this.getWritenTractati(writer);
+          const tnum = tractati.filter((e) => {
+            return e.topic.key == topic.key && e.topic.option == topic.option;
+          }).length;
+          if (tnum) {
+            const writerScore = writer.getAbilityStats(topic.key, topic.option);
+
+            if (Math.ceil(writerScore.score / 2) == tnum) {
+              context.ui.writing.warning.push(
+                game.i18n.localize("arm5e.scriptorium.msg.tooManyTractati")
+              );
+            }
+          }
+        }
+        break;
+      }
+      case "art": {
+        if (topic.type === "Tractatus") {
+          const tractati = this.getWritenTractati(writer);
+
+          const tnum = tractati.filter((e) => {
+            return e.topic.art == topic.art;
+          }).length;
+          if (tnum) {
+            const writerScore = writer.getArtStats(topic.art);
+
+            if (Math.ceil(writerScore.score / 5) == tnum) {
+              context.ui.writing.warning.push(
+                game.i18n.localize("arm5e.scriptorium.msg.tooManyTractati")
+              );
+            }
+          }
+        }
+        break;
+      }
+      case "mastery": {
+        const tractati = this.getWritenTractati(writer);
+        const tnum = tractati.filter((e) => {
+          return (
+            e.topic.spellName == topic.spellName &&
+            e.topic.spellTech == topic.spellTech &&
+            e.topic.spellForm == topic.spellForm
+          );
+        }).length;
+        if (tnum) {
+          const writerScore = writer.getSpellMasteryStats(context.writing.writer.spell);
+
+          if (Math.ceil(writerScore.score / 2) == tnum) {
+            context.ui.writing.warning.push(
+              game.i18n.localize("arm5e.scriptorium.msg.tooManyTractati")
+            );
+          }
+        }
+
+        break;
+      }
     }
   }
 
@@ -953,27 +1056,30 @@ export class Scriptorium extends FormApplication {
     // is the character able to  read?
     let readingSkill = reader.getAbilityStats("artesLib");
     if (readingSkill.score == 0) {
-      context.ui.warning = "arm5e.scriptorium.msg.illiterate";
-      context.ui.warningParam = "";
-      context.error = true;
+      context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.illiterate"));
+      context.ui.reading.error = true;
     }
     // know any language at proper level?
     if (context.reading.reader.languages.length == 0) {
-      context.ui.warning = "arm5e.scriptorium.msg.noLanguage";
-      context.ui.warningParam = "";
+      context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.noLanguage"));
       context.error = true;
     }
     if (currentTopic.type === "Summa") {
       if (Number.isNaN(currentTopic.level) || currentTopic.level < 1) {
-        context.ui.warning = "arm5e.scriptorium.msg.invalidLevel";
-        context.ui.warningParam = "";
-        context.error = true;
+        context.reading.ui.warning.push(game.i18n.localize("arm5e.scriptorium.msg.invalidLevel"));
+        context.ui.reading.error = true;
       }
     }
     if (Number.isNaN(currentTopic.quality) || currentTopic.quality < 1) {
-      context.ui.warning = "arm5e.scriptorium.msg.invalidQuality";
-      context.ui.warningParam = "";
-      context.error = true;
+      context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.invalidQuality"));
+      context.ui.reading.error = true;
+    }
+
+    if (reader.name == currentTopic.author) {
+      context.ui.reading.warning.push(
+        game.i18n.localize("The reader seems to be the author of the book!")
+      );
+      context.ui.reading.error = true;
     }
 
     switch (currentTopic.category) {
@@ -983,38 +1089,74 @@ export class Scriptorium extends FormApplication {
             return a._id === context.reading.reader.ability;
           });
           if (ab?.system.finalscore >= currentTopic.level) {
-            context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
-            context.ui.warningParam = "";
-            context.error = true;
+            context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.tooSkilled"));
+            context.ui.reading.error = true;
           } else if (ab) {
             this.checkAbilityOverload(context, reader, ab);
+          }
+        } else {
+          const tractati = this.getReadTractati(reader);
+          const t = tractati.find((e) => {
+            return (
+              e.topic.key == currentTopic.key &&
+              e.topic.option == currentTopic.option &&
+              e.topic.quality == currentTopic.quality
+            );
+          });
+          if (t) {
+            context.ui.reading.warning.push(
+              game.i18n.format("arm5e.scriptorium.msg.tractatusAlreadyRead", { title: t.title })
+            );
           }
         }
         break;
       }
       case "art": {
         if (!reader._isMagus()) {
-          context.ui.warning = "arm5e.scriptorium.msg.notMagus";
-          context.ui.warningParam = "";
-          context.error = true;
+          context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.notMagus"));
+          context.ui.reading.error = true;
         }
         if (currentTopic.type === "Summa") {
           let art = reader.getArtStats(currentTopic.art);
           if (art.finalscore >= currentTopic.level) {
-            context.ui.warning = "arm5e.scriptorium.msg.tooSkilled";
-            context.ui.warningParam = "";
-            context.error = true;
+            context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.tooSkilled"));
+            context.ui.reading.error = true;
           } else {
             this.checkArtOverload(context, reader, art);
+          }
+        } else {
+          const tractati = this.getReadTractati(reader);
+
+          const t = tractati.find((e) => {
+            return e.topic.art == currentTopic.art && e.topic.quality == currentTopic.quality;
+          });
+          if (t) {
+            context.ui.reading.warning.push(
+              game.i18n.format("arm5e.scriptorium.msg.tractatusAlreadyRead", { title: t.title })
+            );
           }
         }
         break;
       }
       case "mastery":
         if (!reader._isMagus()) {
-          context.ui.warning = "arm5e.scriptorium.msg.notMagus";
-          context.ui.warningParam = "";
-          context.error = true;
+          context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.notMagus"));
+          context.ui.reading.error = true;
+        }
+        const tractati = this.getReadTractati(reader);
+
+        const t = tractati.find((e) => {
+          return (
+            e.topic.spellName == currentTopic.spellName &&
+            e.topic.spellTech == currentTopic.spellTech &&
+            e.topic.spellForm == currentTopic.spellForm &&
+            e.topic.quality == currentTopic.quality
+          );
+        });
+        if (t) {
+          context.ui.reading.warning.push(
+            game.i18n.format("arm5e.scriptorium.msg.tractatusAlreadyRead", { title: t.title })
+          );
         }
         break;
     }
@@ -1031,8 +1173,9 @@ export class Scriptorium extends FormApplication {
       let newSource = maxXp - artStat.xp;
       currentTopic.theoriticalQuality = currentTopic.quality;
       currentTopic.quality = newSource > 0 ? newSource : 0;
-      context.ui.warningParam = currentTopic.quality;
-      context.ui.warning = "arm5e.scriptorium.msg.cappedQuality";
+      context.ui.reading.warning.push(
+        game.i18n.format("arm5e.scriptorium.msg.cappedQuality", { item: currentTopic.quality })
+      );
       return true;
     }
     return false;
@@ -1049,10 +1192,45 @@ export class Scriptorium extends FormApplication {
       let newSource = maxXp - ability.system.xp;
       currentTopic.theoriticalQuality = currentTopic.quality;
       currentTopic.quality = newSource > 0 ? newSource : 0;
-      context.ui.warningParam = currentTopic.quality;
-      context.ui.warning = "arm5e.scriptorium.msg.cappedQuality";
+      context.ui.reading.warning.push(
+        game.i18n.format("arm5e.scriptorium.msg.cappedQuality", { item: currentTopic.quality })
+      );
       return true;
     }
     return false;
+  }
+
+  getReadTractati(actor) {
+    const reading = actor._getDiariesOfType("reading");
+
+    const tractati = reading.filter((e) => {
+      return e.system.externalIds.find((d) => {
+        return d.flags == 8 && d.data.topic?.type == "Tractatus";
+      });
+    });
+    // externalId is an array!
+    return tractati.map((e) => {
+      return {
+        title: e.system.externalIds[0].data.title,
+        topic: e.system.externalIds[0].data.topic
+      };
+    });
+  }
+
+  getWritenTractati(actor) {
+    const writing = actor._getDiariesOfType("writing");
+
+    const tractati = writing.filter((e) => {
+      return e.system.externalIds.find((d) => {
+        return d.flags == 8 && d.data.topic?.type == "Tractatus";
+      });
+    });
+    // externalId is an array!
+    return tractati.map((e) => {
+      return {
+        title: e.system.externalIds[0].data.title,
+        topic: e.system.externalIds[0].data.topic
+      };
+    });
   }
 }
