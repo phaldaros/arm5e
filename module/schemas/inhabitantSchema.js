@@ -94,6 +94,61 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
       }
     }
 
+    if (
+      [
+        "habitantMagi",
+        "habitantCompanion",
+        "habitantSpecialists",
+        "habitantHabitants",
+        "habitantHorses",
+        "habitantLivestock"
+      ].includes(data.type)
+    ) {
+      switch (data.type) {
+        case "habitantMagi":
+          updateData["system.category"] = "magi";
+          if (data.name === "") {
+            updateData["name"] = "Magus name";
+          }
+          updateData["system.extradata.giftType"] = data.giftType;
+          break;
+        case "habitantCompanion":
+          updateData["system.category"] = "companions";
+          if (data.name === "") {
+            updateData["name"] = "Companion name";
+          }
+          break;
+        case "habitantSpecialists":
+          updateData["system.category"] = "specialists";
+          if (data.name === "") {
+            updateData["name"] = "Specialist name";
+          }
+          break;
+        case "habitantHabitants":
+          updateData["system.category"] = "grogs";
+          if (data.name === "") {
+            updateData["name"] = "Grog name";
+          }
+          break;
+        case "habitantHorses":
+          updateData["system.category"] = "horses";
+          if (data.name === "") {
+            updateData["name"] = "Horse name";
+          }
+          break;
+        case "habitantLivestock":
+          updateData["system.category"] = "livestock";
+          if (data.name === "") {
+            updateData["name"] = "LivestockBreed";
+          }
+          break;
+        default:
+          updateData["system.category"] = "grogs";
+          if (data.name === "") {
+            updateData["name"] = "A grog";
+          }
+      }
+    }
     if (typeof data.system.loyalty != "number") {
       updateData["system.loyalty"] = convertToNumber(data.system.loyalty, 0);
     }

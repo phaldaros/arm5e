@@ -45,7 +45,7 @@ export class LabActivity extends Activity {
         return new NoLabActivity(lab.uuid);
       case "inventSpell":
       case "learnSpell":
-        return new SpellActivity(lab.uuid, type);
+        return new SpellActivity(lab.uuid, lab.system.owner.document.uuid, type);
       case "minorEnchantment":
         return new MinorEnchantment(lab.uuid, lab.system.owner.document.uuid);
       case "chargedItem":
@@ -261,16 +261,15 @@ export class LabActivity extends Activity {
 // blank acivity for labs without owner
 export class NoLabActivity extends LabActivity {
   constructor(labUuid) {
-    super(null, "none");
-    this.labUuid = labUuid;
+    super(labUuid, null, "none");
     this.labSpecTotal = 0;
     this.ownerActivityMod = 0;
   }
 }
 
 export class SpellActivity extends LabActivity {
-  constructor(labUuid, type) {
-    super(labUuid, type);
+  constructor(labUuid, actorUuid, type) {
+    super(labUuid, actorUuid, type);
   }
 
   get title() {

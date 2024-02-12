@@ -54,7 +54,7 @@
             <div class="item-controls">
                 {{#if (eq item.system.linked true)}}
                     <a class="item-control actor-link" title="Linked to sanctum"
-                        data-actorid="{{item.system.actorId}}"><i class=" fas fa-link fa-sm"></i></a>
+                        data-actorid="{{item.system.document._id}}"><i class=" fas fa-link fa-sm"></i></a>
                 {{else}}
                     <a title="Not linked to sanctum"><i class="fas fa-unlink fa-sm"></i></a>
                 {{/if}}
