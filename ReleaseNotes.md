@@ -1,4 +1,4 @@
-## 2.2.4.3, Pralix
+## 2.2.4.4, Pralix, filia Guorna the Fetid
 
 ### Features & changes
 
