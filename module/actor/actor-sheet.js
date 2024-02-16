@@ -1037,11 +1037,19 @@ export class ArM5eActorSheet extends ActorSheet {
     html.find(".item-create").click(this._onItemCreate.bind(this));
 
     // Update Inventory Item
-    html.find(".item-edit").click((ev) => {
+    html.find(".item-edit").click(async (ev) => {
       const li = $(ev.currentTarget).parents(".item");
       const item = this.actor.getEmbeddedDocument("Item", li.data("itemId"));
       // const item = this.actor.items.get(li.data("itemId"))
       item.sheet.render(true, { focus: true });
+    });
+
+    html.find(".effect-edit").click(async (ev) => {
+      const li = $(ev.currentTarget).parents(".item");
+
+      const effect = await fromUuid(li.data("effectId"));
+      // const item = this.actor.items.get(li.data("itemId"))
+      effect.sheet.render(true, { focus: true });
     });
 
     html.find(".wound-edit").click((ev) => {

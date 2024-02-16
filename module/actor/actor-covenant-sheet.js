@@ -84,6 +84,13 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
         this.actor.apps[person.system.document.sheet.appId] = person.system.document.sheet;
       }
     }
+
+    for (let person of context.system.habitants.turbula) {
+      if (person.system.linked) {
+        this.actor.apps[person.system.document.sheet.appId] = person.system.document.sheet;
+      }
+    }
+
     for (let person of context.system.habitants.habitants) {
       if (person.system.linked) {
         this.actor.apps[person.system.document.sheet.appId] = person.system.document.sheet;
@@ -333,7 +340,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
           type: "inhabitant",
           img: actor.img,
           system: {
-            category: "grogs",
+            category: "turbula",
             actorId: actor._id,
             job: actor.system.description.title.value,
             points: pts,

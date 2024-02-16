@@ -112,7 +112,7 @@ export class ArM5eItemSheet extends ItemSheet {
           case "specialists":
           case "craftmen":
             return `${path}/item-habitantSpecialists-sheet.html`;
-          case "grogs":
+          case "turbula":
           case "servants":
           case "laborers":
           case "teamsters":
@@ -398,8 +398,13 @@ export class ArM5eItemSheet extends ItemSheet {
       ev.preventDefault();
       ev.currentTarget.select();
     });
-  }
 
+    html.find(".rollable").click(async (event) => {
+      const dataset = getDataset(event);
+
+      await this.object.actor.sheet._onRoll(dataset);
+    });
+  }
   async _changeAbilitykey(item, event) {
     event.preventDefault();
     await this.item._updateIcon("system.key", event.target.value);

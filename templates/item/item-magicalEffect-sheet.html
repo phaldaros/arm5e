@@ -3,7 +3,17 @@
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
       <h1 class="charname" style="font-size: 24pt; font-family: blackmoor">{{localize "arm5e.sheet.spell-design"}}</h1>
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+      <h1 class="charname">
+        <div class="flexrow"><input name="name" type="text" title="{{item.name}}" value="{{item.name}}"
+            placeholder="Name" />
+          {{#if item.isOwned}}
+            <div class="flex0 padding10 "><a class="rollable" data-roll="spell" data-id="{{item._id}}"
+                title='{{localize "arm5e.dialog.button.roll"}}'><img src="systems/arm5e/assets/dice.png"
+                  style="border: 0px; height:30px; min-height:30px; min-width: 30px;"></a>
+            </div>
+          {{/if}}
+        </div>
+      </h1>
       <div class="grid grid-2col">
         <div class="resource flexcol flexrow">
           <label for="system.technique.value" class="header-label">{{localize "arm5e.sheet.technique"}}</label>
@@ -28,9 +38,10 @@
           <a class="item-control advanced-req" title="Advanced Requistes" data-flavor="{{ui.flavor}}"><i
               class="fas fa-gavel fa-lg"></i></a>
         </div>
-        <div class="resource">
+        <div class="resource flexcol flex-center">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-          <input type="text" name="system.level" value="{{system.level}}" data-dtype="Number" />
+          <input class="design-level" type="number" name="system.level" value="{{system.level}}"
+            style="max-width: 60px;" data-dtype="Number" />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
-import { computeLevel, computeRawCastingTotal } from "../helpers/magic.js";
+import { PickRequisites, computeLevel, computeRawCastingTotal } from "../helpers/magic.js";
 import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
@@ -366,7 +366,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     if (!this.options.editable) return;
     html.find(".advanced-req").click(async () => {
       let planning = this.actor.getFlag(ARM5E.SYSTEM_ID, "planning");
-      let update = await ArM5eItemMagicSheet.PickRequisites(
+      let update = await PickRequisites(
         planning.data.system,
         "Lab",
         planning.type === "learnSpell" ? "disabled" : ""

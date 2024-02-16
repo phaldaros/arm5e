@@ -540,6 +540,8 @@ export class Scriptorium extends FormApplication {
       }
       this.checkWriting(context, writer);
       // log(false, `Scriptorium writing data: ${JSON.stringify(context.writing)}`);
+    } else {
+      context.ui.writing.error = true;
     }
 
     if (context.ui.reading.error === false) {

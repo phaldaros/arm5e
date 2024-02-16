@@ -3,7 +3,18 @@
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
       <h1 class="charname" style="font-size: 24pt; font-family: blackmoor">{{localize "arm5e.sheet.spell"}}</h1>
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+      <h1 class="charname">
+        <div class="flexrow"><input name="name" type="text" title="{{item.name}}" value="{{item.name}}"
+            placeholder="Name" />
+          {{#if item.isOwned}}
+            <div class="flex0 padding10 "><a class="rollable" data-roll="magic" data-id="{{item._id}}"
+                data-modifier="{{ item.system.bonus }}" data-name="{{item.name}}" data-usefatigue="true"
+                title='{{localize "arm5e.dialog.button.roll"}}'><img src="systems/arm5e/assets/dice.png"
+                  style="border: 0px; height:30px; min-height:30px; min-width: 30px;"></a>
+            </div>
+          {{/if}}
+        </div>
+      </h1>
       {{#if locked}}
         <i class="icon-Icon_Locked"></i>
       {{/if}}
@@ -35,9 +46,10 @@
           <label class="header-label">{{localize "arm5e.sheet.ritual"}}</label>
           <input type="checkbox" {{noSelect}} name="system.ritual" {{checked system.ritual}} />
         </div>
-        <div class="resource">
+        <div class="resource flexcol flex-center">
           <label class="header-label">{{localize "arm5e.sheet.level"}}</label>
-          <input type="text" {{noEdit}} name="system.level" value="{{system.level}}" data-dtype="Number" />
+          <input class="design-level" type="number" {{noEdit}} name="system.level" value="{{system.level}}"
+            data-dtype="Number" style="max-width: 60px;" />
         </div>
       </div>
     </div>
@@ -59,7 +71,7 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body">
     {{!-- Attributes Tab --}}
-    <div class="tab attributes" data-group="primary" data-tab="attributes">
+    <div class="tab attributes" data-group="primary" data-tab="attributes" style="min-height: 266px">
       <div class="flexrow">
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.range"}}</label>
@@ -115,14 +127,14 @@
           <div class="flexrow">
             <div class="flexrow">
               <label class="header-label flex0">{{localize "arm5e.sheet.mastery"}}
-                <input type="number" class="flex01" name="" value="{{system.finalScore}}" data-dtype="Number"
+                <input type="number" class="modifier flex01" name="" value="{{system.finalScore}}" data-dtype="Number"
                   readonly /></label>
               <div class="ressource flex0" style="padding-top: 8px; padding-left: 8px; padding-right: 8px;">
                 <a class="item-control increase-score" title="Increase mastery"><i class="fas fa-plus"></i></a>
                 <a class="item-control decrease-score" title="Decrease mastery"><i class="fas fa-minus"></i></a>
               </div>
-              <label class="flex01 resource-focus">{{localize "arm5e.sheet.experience"}}<input type="number"
-                  name="system.xp" value="{{system.xp}}" data-dtype="Number" /></label>
+              <label class="flex01">{{localize "arm5e.sheet.experience"}}<input type="number"
+                  class="modifier resource-focus" name="system.xp" value="{{system.xp}}" data-dtype="Number" /></label>
               <label style="padding-top: 16px;"> / {{ system.xpNextLevel }} </label>
             </div>
             <div class="ressource">
@@ -135,11 +147,11 @@
       {{/if}}
 
 
-      <div class="flexrow">
+      <div class="resource flexrow">
         <div class="resource">
           <label class="header-label">{{localize "arm5e.spell.effect.baseLevel"}}</label>
-          <input type="number" name="system.baseLevel" size="4" value="{{system.baseLevel}}" class="resource-focus"
-            data-dtype="Number" />
+          <input type="number" name="system.baseLevel" size="4" value="{{system.baseLevel}}"
+            class="resource-focus modifier" data-dtype="Number" />
         </div>
         <div class="resource">
           <label class="header-label">{{localize "arm5e.sheet.general"}}</label>
@@ -157,20 +169,20 @@
           data-dtype="String" />
       </div>
       <div class="flexrow">
-        <div class="resource">
+        <div class="resource flex-group-center">
           <label class="header-label">{{localize "arm5e.spell.targets.targetSize"}}</label>
           <input type="number" {{noEdit}} name="system.targetSize" value="{{system.targetSize}}" class="resource-focus"
-            data-dtype="Number" />
+            data-dtype="Number" style="max-width: 70px;" />
         </div>
-        <div class="resource">
+        <div class="resource flex-group-center">
           <label class="header-label">{{localize "arm5e.spell.targets.complexity"}}</label>
           <input type="number" {{noEdit}} name="system.complexity" value="{{system.complexity}}" class="resource-focus"
-            data-dtype="Number" />
+            data-dtype="Number" style="max-width: 70px;" />
         </div>
-        <div class="resource">
+        <div class="resource ">
           <label class="header-label">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
           <input type="number" {{noEdit}} name="system.enhancingRequisite" value="{{system.enhancingRequisite}}"
-            class="resource-focus" data-dtype="Number" />
+            class="resource-focus" data-dtype="Number" style="max-width: 70px;" />
         </div>
       </div>
     </div>

@@ -143,11 +143,14 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
           }
           break;
         default:
-          updateData["system.category"] = "grogs";
+          updateData["system.category"] = "turbula";
           if (data.name === "") {
             updateData["name"] = "A grog";
           }
       }
+    }
+    if (data.system.category === "grogs") {
+      updateData["system.category"] = "turbula";
     }
     if (typeof data.system.loyalty != "number") {
       updateData["system.loyalty"] = convertToNumber(data.system.loyalty, 0);
