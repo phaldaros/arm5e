@@ -6,8 +6,8 @@
       <div class="effect-source">{{localize "arm5e.sheet.duration"}}</div>
       <div class="item-controls effect-controls flexrow">
         {{#if ../system.effectCreation}}
-          <a class="effect-control" data-action="create" title="{{localize 'arm5e.sheet.effectsCreate'}}">
-            <i class="fas fa-plus"></i> {{localize "arm5e.sheet.effectsCreate"}}
+          <a class="effect-control" data-action="create" title="{{localize 'arm5e.sheet.action.Create'}}">
+            <i class="fas fa-plus"></i> {{localize "arm5e.sheet.action.Create"}}
           </a>
         {{/if}}
       </div>
@@ -18,8 +18,8 @@
       {{#each section.effects as |effect|}}
         <li class="item effect flexrow" data-effect-id="{{effect.UUID}}">
           <div class="item-name effect-name flexrow">
-            <img class="item-image" style="max-width: 100px" src="{{effect.img}}" title="{{{effect.descr}}}" width="36"
-              height="36" />
+            <img class="item-image effect-edit"" style=" max-width: 100px" src="{{effect.img}}"
+              title="{{{effect.descr}}}" width="36" height="36" />
             <h4>{{effect.name}}</h4>
           </div>
           <div class="effect-source">{{effect.sourceName}}</div>

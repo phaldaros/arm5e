@@ -1,12 +1,12 @@
 import { ARM5E } from "../config.js";
 
 import { simpleDie, stressDie, noRoll, changeMight } from "../dice.js";
-import { checkTargetAndCalculateResistance, noFatigue } from "./magic.js";
+import { PickRequisites, checkTargetAndCalculateResistance, noFatigue } from "./magic.js";
 import { chatFailedCasting } from "./chat.js";
 import { ArM5ePCActor } from "../actor/actor.js";
 import { setAgingEffects, agingCrisis } from "./long-term-activities.js";
 import { exertSelf } from "./combat.js";
-import { log } from "../tools.js";
+import { getDataset, log } from "../tools.js";
 
 // below is a bitmap
 const ROLL_MODES = {
@@ -383,6 +383,25 @@ function addListenersDialog(html) {
     ev.currentTarget.select();
   });
 
+  html.find(".advanced-req-roll").click(async (e) => {
+    const dataset = getDataset(e);
+    const actor = game.actors.get(dataset.actorid);
+    const item = actor.items.get(dataset.itemid);
+    // create a tmp Item in memory
+    let newSpell = await Item.create(item.toObject(), { temporary: true });
+    let update = await PickRequisites(newSpell.system, dataset.flavor);
+    await newSpell.updateSource(update);
+    let techData = newSpell._getTechniqueData(actor.system);
+    actor.rollData.magic.techniqueLabel = techData[0];
+    actor.rollData.magic.techniqueScore = techData[1];
+    actor.rollData.magic.techDeficiency = techData[2];
+    let formData = newSpell._getFormData(actor.system);
+    actor.rollData.magic.formLabel = formData[0];
+    actor.rollData.magic.formScore = formData[1];
+    actor.rollData.magic.formDeficiency = formData[2];
+
+    // actor.system.roll =
+  });
   // html.find(".toggleHidden").click(event => {
   //   // log(false, "toggle Hidden");
   //   const hidden = $(event.target).data("hidden");

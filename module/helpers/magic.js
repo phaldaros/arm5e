@@ -8,6 +8,77 @@ const VOICE_AND_GESTURES_ICONS = {
   gestures: "icons/skills/social/wave-halt-stop.webp"
 };
 
+export async function PickRequisites(spelldata, flavor, editable) {
+  spelldata.config = {
+    magic: {
+      techniques: CONFIG.ARM5E.magic.techniques,
+      forms: CONFIG.ARM5E.magic.forms
+    }
+  };
+  spelldata.edition = editable;
+  spelldata.ui = { flavor: flavor };
+  log("false", spelldata);
+  // var itemData = this.item;
+  let template = "systems/arm5e/templates/item/parts/requisites.html";
+  let html = await renderTemplate(template, spelldata);
+
+  let itemUpdate = await new Promise((resolve) => {
+    new Dialog(
+      {
+        title: game.i18n.localize("arm5e.sheet.Requisites"),
+        content: html,
+        buttons: {
+          yes: {
+            icon: "<i class='fas fa-check'></i>",
+            label: game.i18n.localize("arm5e.dialog.button.save"),
+            callback: async (html) => {
+              resolve(_setRequisites(html));
+            }
+          },
+          no: {
+            icon: "<i class='fas fa-ban'></i>",
+            label: game.i18n.localize("arm5e.dialog.button.cancel"),
+            callback: null
+          }
+        }
+      },
+      {
+        classes: ["arm5e-dialog", "dialog"]
+      }
+    ).render(true);
+  });
+  return itemUpdate;
+}
+
+function _setRequisites(selector) {
+  let itemUpdate = {};
+
+  for (const tech of Object.entries(CONFIG.ARM5E.magic.techniques)) {
+    let found = selector.find(`.Selected${tech[1].label}`);
+    if (found.length > 0) {
+      if (found[0].checked == true) {
+        itemUpdate[`system.technique-req.${tech[0]}`] = true;
+      } else {
+        itemUpdate[`system.technique-req.${tech[0]}`] = false;
+      }
+    }
+  }
+
+  // Forms
+  for (const form of Object.entries(CONFIG.ARM5E.magic.forms)) {
+    let found = selector.find(`.Selected${form[1].label}`);
+    if (found.length > 0) {
+      if (found[0].checked == true) {
+        itemUpdate[`system.form-req.${form[0]}`] = true;
+      } else {
+        itemUpdate[`system.form-req.${form[0]}`] = false;
+      }
+    }
+  }
+
+  return itemUpdate;
+}
+
 export class QuickMagic extends FormApplication {
   constructor(data, options) {
     super(data, options);

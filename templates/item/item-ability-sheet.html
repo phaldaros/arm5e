@@ -2,7 +2,18 @@
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+      <h1 class="charname">
+        <div class="flexrow"><input name="name" type="text" title="{{item.name}}" value="{{item.name}}"
+            placeholder="Name" />
+          {{#if item.isOwned}}
+            <div class="flex0 padding10 "><a class="rollable" data-roll="ability" data-ability="{{item._id}}"
+                data-defaultcharacteristic="{{item.system.defaultChaAb}}"
+                title='{{localize "arm5e.dialog.button.roll"}}'><img src="systems/arm5e/assets/dice.png"
+                  style="border: 0px; height: 18px; min-height:30px; min-width: 30px;"></a>
+            </div>
+          {{/if}}
+        </div>
+      </h1>
 
       <div class="resource">
         <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="system.speciality"

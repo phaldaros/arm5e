@@ -5,7 +5,7 @@ import { ArM5eItem } from "../item.js";
 import { getConfirmation } from "../../constants/ui.js";
 import { ArM5eActorSheet } from "../../actor/actor-sheet.js";
 import { EnchantmentExtension, EnchantmentSchema } from "../../schemas/enchantmentSchema.js";
-import { computeLevel } from "../../helpers/magic.js";
+import { PickRequisites, computeLevel } from "../../helpers/magic.js";
 import { spellFormLabel, spellTechniqueLabel } from "../../helpers/spells.js";
 import { ArM5eItemMagicSheet } from "../item-magic-sheet.js";
 /**
@@ -403,10 +403,7 @@ export class ArM5eItemEnchantmentSheet {
 
     html.find(".advanced-req").click(async (evt) => {
       let effect = this.item.system.enchantments.effects[evt.currentTarget.dataset.index];
-      let update = await ArM5eItemMagicSheet.PickRequisites(
-        effect.system,
-        evt.currentTarget.dataset.flavor
-      );
+      let update = await PickRequisites(effect.system, evt.currentTarget.dataset.flavor);
 
       if (update)
         this.sheet.submit({

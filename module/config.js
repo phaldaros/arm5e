@@ -962,7 +962,7 @@ ARM5E.covenant.inhabitants = {
   },
   companions: { label: "arm5e.sheet.companion", points: 3 },
 
-  grogs: { label: "arm5e.sheet.grog", points: 1 },
+  turbula: { label: "arm5e.sheet.turbula", points: 1 },
   craftmen: { label: "arm5e.sheet.craftmen", points: 2 },
   specialists: { label: "arm5e.sheet.specialists", points: 2 },
   dependants: { label: "arm5e.sheet.dependants", points: 1 },

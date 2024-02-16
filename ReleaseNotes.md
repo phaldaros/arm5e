@@ -1,3 +1,22 @@
+## 2.2.4.5, Pralix, filia Tytalus
+
+### Features & changes
+
+- Clicking on the icon of an active effect will display its sheet.
+- Cosmetics changes and GUI improvements
+  - Larger area to create new embedded documents
+  - Possible to roll an ability, spell from their sheet.
+- Additional requisites on roll for spell and magic effects.
+
+### Bug fixes
+
+- Removed dead links on Forms icons
+- Not possible anymore to click the "Create activity" button without a writer.
+- Covenant inhabitants
+  - New turbula section to replace grogs
+  - dependants are again displayed in the Inhabitants section
+  - Points are readonly for now and based on the role.
+
 ## 2.2.4.4, Pralix, filia Guorna the Fetid
 
 ### Features & changes

@@ -983,6 +983,7 @@ export class ArM5ePCActor extends Actor {
     let companion = [];
     let specialists = [];
     let habitants = [];
+    let turbula = [];
     let horses = [];
     let livestock = [];
     let possessions = [];
@@ -1036,10 +1037,13 @@ export class ArM5ePCActor extends Actor {
           case "craftmen":
             specialists.push(item);
             break;
-          case "grogs":
+          case "turbula":
+            turbula.push(item);
+            break;
           case "servants":
           case "laborers":
           case "teamster":
+          case "dependants":
             habitants.push(item);
             break;
           case "horses":
@@ -1121,6 +1125,7 @@ export class ArM5ePCActor extends Actor {
       system.habitants.magi = magi;
       system.habitants.companion = companion;
       system.habitants.specialists = specialists;
+      system.habitants.turbula = turbula;
       system.habitants.habitants = habitants;
       system.habitants.horses = horses;
       system.habitants.livestock = livestock;
