@@ -556,6 +556,8 @@
 
   "arm5e.sheet.constructionPoints": "Build Points",
   "arm5e.sheet.library": "Library",
+  "arm5e.sheet.blankBook": "Blank book",
+  "arm5e.sheet.physicalBooks": "Physical books",
   "arm5e.sheet.laboratoryTexts": "Lab Texts",
   "arm5e.sheet.vis": "Vis",
 

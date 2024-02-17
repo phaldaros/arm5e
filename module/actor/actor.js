@@ -263,6 +263,7 @@ export class ArM5ePCActor extends Actor {
     let mundaneTopics = [];
     let masteryTopics = [];
     let laboratoryTexts = [];
+    let physicalBooks = [];
     let virtues = [];
     let flaws = [];
     let abilities = [];
@@ -619,6 +620,7 @@ export class ArM5ePCActor extends Actor {
               error(false, "Unknown topic category" + topic.category);
           }
         }
+        physicalBooks.push(item);
       } else if (item.type === "laboratoryText") {
         let topic = {
           id: item.id,
@@ -767,6 +769,7 @@ export class ArM5ePCActor extends Actor {
     system.mundaneTopics = mundaneTopics.sort(compareTopics);
     system.masteryTopics = masteryTopics.sort(compareTopics);
     system.laboratoryTexts = laboratoryTexts.sort(compareTopics);
+    system.physicalBooks = physicalBooks.sort((a, b) => (a.sort || 0) - (b.sort || 0));
 
     if (system.virtues) {
       system.virtues = virtues;
@@ -846,6 +849,7 @@ export class ArM5ePCActor extends Actor {
 
   _prepareLabData() {
     const system = this.system;
+    let physicalBooks = [];
     let artsTopics = [];
     let mundaneTopics = [];
     let masteryTopics = [];
@@ -904,6 +908,7 @@ export class ArM5ePCActor extends Actor {
               error(false, "Unknown topic category" + topic.category);
           }
         }
+        physicalBooks.push(item);
       } else if (item.type === "laboratoryText") {
         let topic = {
           id: item.id,
@@ -940,6 +945,7 @@ export class ArM5ePCActor extends Actor {
     system.rawVis.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     system.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
 
+    system.physicalBooks = physicalBooks.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     system.artsTopics = artsTopics.sort(compareTopics);
     system.mundaneTopics = mundaneTopics.sort(compareTopics);
     system.masteryTopics = masteryTopics.sort(compareTopics);
@@ -994,6 +1000,7 @@ export class ArM5ePCActor extends Actor {
     let calendar = [];
     let incomingSources = [];
     let laboratoryTexts = [];
+    let physicalBooks = [];
     let artsTopics = [];
     let mundaneTopics = [];
     let masteryTopics = [];
@@ -1108,6 +1115,7 @@ export class ArM5ePCActor extends Actor {
               error(false, "Unknown topic category" + topic.category);
           }
         }
+        physicalBooks.push(item);
       } else if (item.type === "reputation") {
         reputations.push(item);
       } else if (item.type === "weapon") {
@@ -1144,6 +1152,7 @@ export class ArM5ePCActor extends Actor {
     if (system.incomingSources) {
       system.incomingSources = incomingSources;
     }
+    system.physicalBooks = physicalBooks.sort((a, b) => (a.sort || 0) - (b.sort || 0));
     system.artsTopics = artsTopics.sort(compareTopics);
     system.mundaneTopics = mundaneTopics.sort(compareTopics);
     system.masteryTopics = masteryTopics.sort(compareTopics);

@@ -116,32 +116,32 @@ export class BookSchema extends foundry.abstract.DataModel {
     let res = itemData;
     let currentDate = game.settings.get("arm5e", "currentDate");
     if (itemData.system) {
-      res.system.year = Number(currentDate.year);
+      // res.system.year = Number(currentDate.year);
       if (itemData.system.topics == undefined) {
         res.system.topics = [
-          {
-            category: "art",
-            art: "cr",
-            type: "Summa",
-            quality: 1,
-            level: 1,
-            season: currentDate.season,
-            year: Number(currentDate.year)
-          }
+          // {
+          //   category: "art",
+          //   art: "cr",
+          //   type: "Summa",
+          //   quality: 1,
+          //   level: 1,
+          //   season: currentDate.season,
+          //   year: Number(currentDate.year)
+          // }
         ];
       }
     } else {
       res.system = {
         topics: [
-          {
-            category: "art",
-            art: "cr",
-            type: "Summa",
-            quality: 1,
-            level: 1,
-            season: currentDate.season,
-            year: Number(currentDate.year)
-          }
+          // {
+          //   category: "art",
+          //   art: "cr",
+          //   type: "Summa",
+          //   quality: 1,
+          //   level: 1,
+          //   season: currentDate.season,
+          //   year: Number(currentDate.year)
+          // }
         ]
       };
     }
