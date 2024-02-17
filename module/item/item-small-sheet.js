@@ -11,7 +11,7 @@ export class ArM5eSmallSheet extends ArM5eItemSheetNoDesc {
     return mergeObject(super.defaultOptions, {
       classes: ["arm5e", "sheet", "item"],
       width: 400,
-      height: 600
+      height: 602
     });
   }
 

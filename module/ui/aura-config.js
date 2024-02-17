@@ -8,7 +8,7 @@ export class AuraConfig extends FormApplication {
       title: "Aura Config",
       template: "systems/arm5e/templates/generic/aura-config.html",
       width: "320",
-      height: "470"
+      height: "475"
     });
   }
 

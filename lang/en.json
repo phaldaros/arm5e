@@ -238,7 +238,7 @@
   "arm5e.sheet.gold": "Gold",
   "arm5e.sheet.apprentice": "Apprentice",
   "arm5e.sheet.totalDamage": "Damage applied",
-
+  "arm5e.sheet.damageRoll": "Damage roll",
   "arm5e.sheet.penetration": "Penetration",
   "arm5e.sheet.penetrationOptions": "Penetration options",
   "arm5e.sheet.penetrationBonusArcanic": "Arcane link",
@@ -1003,6 +1003,7 @@
   "arm5e.dialog.button.exertSelf": "Exert self",
   "arm5e.dialog.woundCalculator": "Wound calculator",
   "arm5e.dialog.damageCalculator": "Damage calculator",
+  "arm5e.dialog.combatDamage": "Combat damage",
   "arm5e.dialog.powerUse": "Use power",
   "arm5e.dialog.hint.abilityOption": "Only alphanumeric characters.",
   "arm5e.dialog.delete-topic": "Delete topic",

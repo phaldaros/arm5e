@@ -229,7 +229,7 @@ async function getRollFormula(actor) {
         if (valueTech < valueForm) {
           total += 2 * valueTech + valueForm;
           msg += rollData.magic.techniqueLabel;
-          msg += " ( 2 x " + valueTech + ") + <br />";
+          msg += " ( 2 x " + valueTech + ") <br />";
           msg += rollData.magic.formLabel;
           msg += " (" + valueForm + ")";
         } else {
@@ -245,7 +245,7 @@ async function getRollFormula(actor) {
         msg += " (" + valueTech + ")";
 
         total += valueForm;
-        msg = newLineAdd(msg);
+        msg = newLine(msg);
         msg += rollData.magic.formLabel;
         msg += " (" + valueForm + ")";
       }
@@ -261,7 +261,7 @@ async function getRollFormula(actor) {
       // TODO NOW
       if (rollData.magic.masteryScore > 0) {
         total += rollData.magic.masteryScore;
-        msg = newLineAdd(msg);
+        msg = newLine(msg);
         msg += game.i18n.localize("arm5e.sheet.mastery") + ` (${rollData.magic.masteryScore})`;
       }
     }
@@ -277,7 +277,7 @@ async function getRollFormula(actor) {
     if (rollData.characteristic != "") {
       value = actorSystemData.characteristics[rollData.characteristic].value;
       total += parseInt(value);
-      msg = newLineAdd(msg);
+      msg = newLine(msg);
       let name = game.i18n.localize(ARM5E.character.characteristics[rollData.characteristic].label);
       if (rollData.type == "char") {
         rollData.label = name;
@@ -290,7 +290,7 @@ async function getRollFormula(actor) {
     if (rollData.ability.name != "") {
       value = rollData.ability.score;
       total += parseInt(value);
-      msg = newLineAdd(msg);
+      msg = newLine(msg);
       msg += rollData.label;
       msg += " (" + value + ")";
 
@@ -303,16 +303,16 @@ async function getRollFormula(actor) {
     if (rollData.environment.aura) {
       value = rollData.environment.aura.modifier;
       total = parseInt(total) + parseInt(value);
-      msg = newLineAdd(msg);
+      msg = newLine(msg);
       msg += "Aura";
-      msg += " (" + value + ")"; // Remove if not visible? Players can still do math...
+      msg += " (" + value + ")<br/>"; // Remove if not visible? Players can still do math...
     }
 
     if (rollData.magic.ritual === true) {
       value = actorSystemData.laboratory.abilitiesSelected.artesLib.value;
       value += actorSystemData.laboratory.abilitiesSelected.philosophy.value;
       total = parseInt(total) + parseInt(value);
-      msg = newLineAdd(msg);
+      msg = newLine(msg);
       msg =
         msg +
         game.i18n.localize("arm5e.skill.academic.artesLib") +
@@ -323,14 +323,14 @@ async function getRollFormula(actor) {
     if (rollData.combat.advantage != 0) {
       value = rollData.combat.advantage;
       total = parseInt(total) + parseInt(value);
-      msg = newLineAdd(msg);
+      msg = newLine(msg);
       msg += game.i18n.localize("arm5e.sheet.advantage");
       msg += " (" + value + ")";
     }
     if (rollData.modifier != 0) {
       value = rollData.modifier;
       total = parseInt(total) + parseInt(value);
-      msg = newLineAdd(msg);
+      msg = newLine(msg);
       msg += game.i18n.localize("arm5e.sheet.modifier");
       msg += " (" + value + ")";
     }
@@ -352,11 +352,11 @@ async function getRollFormula(actor) {
     }
     if (rollData.hasGenericField(1)) {
       total += rollData.getGenericFieldValue(1);
-      msg = newLineAdd(msg);
-      msg += rollData.getGenericFieldLabel(1) + " (" + rollData.getGenericFieldValue(1) + ")";
+      // msg = newLine(msg);
+      msg += rollData.getGenericFieldDetails(1);
     }
     if (rollData.hasGenericField(2)) {
-      msg = newLineAdd(msg);
+      // msg = newLine(msg);
       // combat exertion special case
       if (
         [ROLL_PROPERTIES.ATTACK.VAL, ROLL_PROPERTIES.DEFENSE.VAL].includes(rollData.type) &&
@@ -364,31 +364,42 @@ async function getRollFormula(actor) {
       ) {
         total += rollData.getGenericFieldValue(2) * 2;
         msg +=
-          rollData.getGenericFieldLabel(2) + " ( 2 x " + rollData.getGenericFieldValue(2) + ")";
+          rollData.getGenericFieldLabel(2) +
+          " ( 2 x " +
+          rollData.getGenericFieldValue(2) +
+          ") <br/>";
       } else {
         total += rollData.getGenericFieldValue(2);
-        msg += rollData.getGenericFieldLabel(2) + " (" + rollData.getGenericFieldValue(2) + ")";
+        msg += rollData.getGenericFieldDetails(2);
       }
     }
     if (rollData.hasGenericField(3)) {
       total += rollData.getGenericFieldValue(3);
-      msg = newLineAdd(msg);
-      msg += rollData.getGenericFieldLabel(3) + " (" + rollData.getGenericFieldValue(3) + ")";
+      // msg = newLine(msg);
+      msg += rollData.getGenericFieldDetails(3);
     }
     if (rollData.hasGenericField(4)) {
       total += rollData.getGenericFieldValue(4);
-      msg = newLineAdd(msg);
-      msg += rollData.getGenericFieldLabel(4) + " (" + rollData.getGenericFieldValue(4) + ")";
+      // msg = newLine(msg);
+      msg += rollData.getGenericFieldDetails(4);
     }
     if (rollData.hasGenericField(5)) {
       total += rollData.getGenericFieldValue(5);
-      msg = newLineAdd(msg);
-      msg += rollData.getGenericFieldLabel(5) + " (" + rollData.getGenericFieldValue(5) + ")";
+      // msg = newLine(msg);
+      msg += rollData.getGenericFieldDetails(5);
     }
+
+    if (rollData.hasGenericField(6)) {
+      total += rollData.getGenericFieldValue(6);
+      // msg = newLine(msg);
+      msg += rollData.getGenericFieldDetails(6);
+    }
+
     if (rollData.bonuses) {
       total += rollData.bonuses;
-      msg = newLineAdd(msg);
-      msg += game.i18n.localize("arm5e.sheet.bonuses.label") + " (" + rollData.bonuses + ")";
+      // msg = newLine(msg);
+      msg +=
+        "+" + game.i18n.localize("arm5e.sheet.bonuses.label") + " (" + rollData.bonuses + ")<br/>";
     }
     // TODO
     // if (actorData.roll.bonus > 0) {
@@ -400,22 +411,20 @@ async function getRollFormula(actor) {
     if (rollData.physicalCondition == true) {
       if (actorSystemData.fatigueTotal != 0) {
         total += actorSystemData.fatigueTotal;
-        msg = newLineAdd(msg);
-        msg += game.i18n.localize("arm5e.sheet.fatigue");
-        msg += " (" + actorSystemData.fatigueTotal + ")";
+        msg += "+" + game.i18n.localize("arm5e.sheet.fatigue");
+        msg += " (" + actorSystemData.fatigueTotal + ")<br/>";
       }
       if (actorSystemData.penalties.wounds.total != 0) {
         total += actorSystemData.penalties.wounds.total;
-        msg = newLineAdd(msg);
-        msg += game.i18n.localize("arm5e.sheet.wounds");
-        msg += " (" + actorSystemData.penalties.wounds.total + ")";
+        msg += "+" + game.i18n.localize("arm5e.sheet.wounds");
+        msg += " (" + actorSystemData.penalties.wounds.total + ")<br/>";
       }
     }
 
     for (let optBonus of rollData.optionalBonuses) {
       if (optBonus.active == true) {
         total += optBonus.bonus;
-        msg = newLineAdd(msg);
+        msg = newLine(msg);
         msg += `${optBonus.name} (${optBonus.bonus})`;
       }
     }
@@ -485,16 +494,16 @@ async function getRollFormula(actor) {
   }
 }
 
-function newLineAdd(msg) {
+function newLine(msg, operator = "+") {
   if (msg != "") {
-    msg += " + <br />";
+    msg += `<br />${operator} `;
   }
   return msg;
 }
 
 function newLineSub(msg) {
   if (msg != "") {
-    msg += " + <br />";
+    msg += " - <br />";
   }
   return msg;
 }
