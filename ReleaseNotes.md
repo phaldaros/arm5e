@@ -1,4 +1,4 @@
-## 2.2.4.5, Pralix, filia Tytalus
+## 2.2.4.6, Pralix, filia Tytalus
 
 ### Features & changes
 
@@ -7,6 +7,7 @@
   - Larger area to create new embedded documents
   - Possible to roll an ability, spell from their sheet.
 - Additional requisites on roll for spell and magic effects.
+- Rolling for damage
 
 ### Bug fixes
 

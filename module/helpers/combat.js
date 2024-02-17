@@ -179,3 +179,87 @@ export async function quickVitals(tokenName, actor) {
   ); // data, options
   const res = await vitals.render(true);
 }
+
+export async function combatDamage(selector, actor) {
+  const title = '<h2 class="ars-chat-title">' + game.i18n.localize("arm5e.sheet.damage") + " </h2>";
+  let damage = parseInt(selector.find('input[name$="modifier"]').val());
+  const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${damage})`;
+  let details = "";
+  const strenght = parseInt(selector.find('label[name$="strenght"]').attr("value") || 0);
+  const weapon = parseInt(selector.find('label[name$="weapon"]').attr("value") || 0);
+  const advantage = parseInt(selector.find('input[name$="advantage"]').val());
+  const messageStrenght = `${game.i18n.localize("arm5e.sheet.strength")} (${strenght})`;
+  const messageWeapon = `${game.i18n.localize("arm5e.sheet.damage")} (${weapon})`;
+  const messageAdvantage = `${game.i18n.localize("arm5e.sheet.advantage")} (${advantage})`;
+  damage += strenght + weapon + advantage;
+  details = ` ${messageStrenght}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`;
+
+  const messageDamage = `<h4 class="dice-total">${damage}</h4>`;
+  ChatMessage.create({
+    content: messageDamage,
+    flavor: title + putInFoldableLinkWithAnimation("arm5e.sheet.label.details", details),
+    speaker: ChatMessage.getSpeaker({
+      actor
+    })
+  });
+}
+
+export async function rolledDamage(soakData, actor) {
+  const dataset = {
+    roll: "option",
+    name: game.i18n.localize("arm5e.sheet.damageRoll"),
+    physicalcondition: false,
+    modifier: -soakData.modifier,
+    option1: soakData.damage,
+    txtoption1: game.i18n.localize("arm5e.sheet.damage"),
+    option4: soakData.prot,
+    txtoption4: game.i18n.localize("arm5e.sheet.protection"),
+    operator4: "-",
+    option5: soakData.stamina,
+    txtoption5: game.i18n.localize("arm5e.sheet.stamina"),
+    operator5: "-"
+  };
+
+  if (soakData.natRes) {
+    dataset.option2 = soakData.natRes;
+    dataset.txtoption2 = game.i18n.localize("arm5e.sheet.natRes");
+    dataset.operator2 = "-";
+  }
+  if (soakData.formRes) {
+    dataset.option3 = soakData.formRes;
+    dataset.txtoption3 = game.i18n.localize("arm5e.sheet.formRes");
+    dataset.operator3 = "-";
+  }
+
+  if (soakData.bonus) {
+    dataset.option6 = soakData.bonus;
+    dataset.txtoption6 = game.i18n.localize("arm5e.sheet.soakBonus");
+    dataset.operator6 = "-";
+  }
+
+  actor.rollData.init(dataset, actor);
+  let roll = await stressDie(actor, "option", 16, null, 1);
+  soakData.roll = roll.total - roll.offset;
+  soakData.damageToApply += soakData.roll;
+}
+
+export function buildSoakDataset(selector) {
+  const dataset = {};
+
+  dataset.modifier = parseInt(selector.find('input[name$="modifier"]').val());
+  dataset.damage = parseInt(selector.find('input[name$="damage"]').val());
+  dataset.natRes = parseInt(selector.find('select[name$="natRes"]').val() || 0);
+  dataset.formRes = parseInt(selector.find('select[name$="formRes"]').val() || 0);
+  dataset.prot = parseInt(selector.find('label[name$="prot"]').attr("value") || 0);
+  dataset.bonus = parseInt(selector.find('label[name$="soak"]').attr("value") || 0);
+  dataset.stamina = parseInt(selector.find('label[name$="stamina"]').attr("value") || 0);
+  dataset.damageToApply =
+    dataset.damage -
+    dataset.modifier -
+    dataset.prot -
+    dataset.natRes -
+    dataset.formRes -
+    dataset.stamina -
+    dataset.bonus;
+  return dataset;
+}

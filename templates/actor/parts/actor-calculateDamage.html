@@ -21,19 +21,18 @@
       <label class="resource-label">+</label>
     </div>
     <div class="flexrow flex-group-center">
-      <label class="resource-label">{{localize "arm5e.sheet.advantage" }}</label>
-      <input type="text" name="advantage" value="{{extraData.advantage}}" data-dtype="Number"
-        class="SelectedModifier" />
+      <label class="resource-label flex0">{{localize "arm5e.sheet.advantage" }}</label>
+      <input type="number" name="advantage" value="{{extraData.advantage}}" data-dtype="Number"
+        class="SelectedModifier resource-focus modifier" />
     </div>
 
     <div class="flexrow flex-group-center">
       <label class="resource-label">+</label>
     </div>
-
     <div class="flexrow flex-group-center">
-      <label class="resource-label">{{localize "arm5e.sheet.modifier" }}</label>
+      <label class="resource-label flex0">{{localize "arm5e.sheet.modifier" }}</label>
       <input type="number" name="modifier" value="{{extraData.modifier}}" data-dtype="Number"
-        class="SelectedModifier resource-focus" />
+        class="SelectedModifier resource-focus modifier" />
     </div>
     <!-- <div class="flexrow flex-group-center">
       <label class="resource-label">* {{localize "arm5e.combat.damage.ignored" }}</label>

@@ -292,6 +292,10 @@ export class ArM5eRollData {
     return this.generic.txtOption[idx - 1];
   }
 
+  getGenericFieldOperator(idx) {
+    return this.generic.operatorOpt[idx - 1];
+  }
+
   getGenericFieldValue(idx) {
     if (this.generic.operatorOpt[idx - 1] === "+") return Number(this.generic.option[idx - 1]);
     else {
@@ -299,24 +303,37 @@ export class ArM5eRollData {
     }
   }
 
+  getGenericFieldDetails(idx) {
+    return (
+      `${this.generic.operatorOpt[idx - 1]} ` +
+      this.getGenericFieldLabel(idx) +
+      " (" +
+      this.generic.option[idx - 1] +
+      `) <br/>`
+    );
+  }
+
   prepareRollFields(dataset) {
     if (dataset.modifier) {
       this.modifier = parseInt(this.modifier) + parseInt(dataset.modifier);
     }
     if (dataset.txtoption1) {
-      this.setGenericField(dataset.txtoption1, dataset.option1, 1);
+      this.setGenericField(dataset.txtoption1, dataset.option1, 1, dataset.operator1 ?? "+");
     }
     if (dataset.txtoption2) {
-      this.setGenericField(dataset.txtoption2, dataset.option2, 2);
+      this.setGenericField(dataset.txtoption2, dataset.option2, 2, dataset.operator2 ?? "+");
     }
     if (dataset.txtoption3) {
-      this.setGenericField(dataset.txtoption3, dataset.option3, 3);
+      this.setGenericField(dataset.txtoption3, dataset.option3, 3, dataset.operator3 ?? "+");
     }
     if (dataset.txtoption4) {
-      this.setGenericField(dataset.txtoption4, dataset.option4, 4);
+      this.setGenericField(dataset.txtoption4, dataset.option4, 4, dataset.operator4 ?? "+");
     }
     if (dataset.txtoption5) {
-      this.setGenericField(dataset.txtoption5, dataset.option5, 5);
+      this.setGenericField(dataset.txtoption5, dataset.option5, 5, dataset.operator5 ?? "+");
+    }
+    if (dataset.txtoption6) {
+      this.setGenericField(dataset.txtoption6, dataset.option6, 6, dataset.operator6 ?? "+");
     }
   }
 
@@ -381,9 +398,9 @@ export class ArM5eRollData {
     this.combat = { exertion: false, advantage: 0 };
 
     this.generic = {
-      option: [0, 0, 0, 0, 0],
-      txtOption: ["", "", "", "", ""],
-      operatorOpt: ["+", "+", "+", "+", "+"]
+      option: [0, 0, 0, 0, 0, 0],
+      txtOption: ["", "", "", "", "", ""],
+      operatorOpt: ["+", "+", "+", "+", "+", "+"]
     };
 
     this.environment = { aura: 0, year: "", season: "", seasonLabel: "" };

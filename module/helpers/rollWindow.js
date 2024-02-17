@@ -324,6 +324,7 @@ function getDialogData(dataset, html, actor) {
   return {
     title: game.i18n.localize(title),
     content: html,
+    render: addListenersDialog,
     buttons: {
       ...btns,
       ...getDebugButtonsIfNeeded(actor, callback)
