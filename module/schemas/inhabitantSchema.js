@@ -21,7 +21,7 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
       category: new fields.StringField({
         required: false,
         blank: false,
-        initial: "grogs",
+        initial: "turbula",
         choices: Object.keys(ARM5E.covenant.inhabitants)
       }),
       actorId: new fields.StringField({
@@ -69,7 +69,7 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
     let res = itemData;
     if (res.system === undefined) {
       res.system = {
-        category: "grogs"
+        category: "turbula"
       };
     }
     return res;

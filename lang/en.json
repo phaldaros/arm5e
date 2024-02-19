@@ -263,7 +263,7 @@
   "arm5e.sheet.teamsters": "Teamsters",
   "arm5e.sheet.laborers": "Laborers",
   "arm5e.sheet.servants": "Servants",
-  "arm5e.sheet.turbula": "Turbula",
+  "arm5e.sheet.turbula": "Turb",
 
   "arm5e.sheet.spring": "Spring",
   "arm5e.sheet.summer": "Summer",
@@ -557,6 +557,7 @@
   "arm5e.sheet.constructionPoints": "Build Points",
   "arm5e.sheet.library": "Library",
   "arm5e.sheet.blankBook": "Blank book",
+
   "arm5e.sheet.physicalBooks": "Physical books",
   "arm5e.sheet.laboratoryTexts": "Lab Texts",
   "arm5e.sheet.vis": "Vis",
@@ -1339,6 +1340,9 @@
   "arm5e.scriptorium.button": "Create activity",
   "arm5e.scriptorium.msg.dropCharacter": "Drop a character here.",
   "arm5e.scriptorium.msg.dropBook": "Drop a book here to fill the blanks.",
+  "arm5e.scriptorium.msg.appendTopic": "Append a topic to an existing book.",
+  "arm5e.scriptorium.msg.bookNotOwned": "You must own the book to write in it!",
+  "arm5e.scriptorium.msg.appendTopicTitle": "Append topic to the book: \"{title}\".",
   "arm5e.scriptorium.msg.noLanguage": "The reader doesn't know any language at a sufficient level",
   "arm5e.scriptorium.msg.whichItem": "Couldn't match any {item} known by the reader. Pick one if applicable.",
   "arm5e.scriptorium.msg.tooSkilled": "The reader is too skilled for that book.",
@@ -1358,6 +1362,7 @@
   "arm5e.scriptorium.msg.labText": "Laboratory texts are studied in a lab.",
   "arm5e.scriptorium.reading.activity": "Reading {title}",
   "arm5e.scriptorium.writing.activity": "Writing {title}",
+  "arm5e.scriptorium.msg.topicNoFound": "Impossible to find the book or the topic which was writen.",
 
   "arm5e.sanatorium.magicalHelp": "Magical help",
   "arm5e.sanatorium.mundaneHelp": "Mundane help",

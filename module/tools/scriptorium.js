@@ -69,7 +69,7 @@ export class ScriptoriumObject {
             season: this.season
           }
         ],
-        topicIndex: 0
+        topicIndex: -1
       }
     }
   };
@@ -90,7 +90,8 @@ export class Scriptorium extends FormApplication {
       dragDrop: [
         { dragSelector: null, dropSelector: ".drop-book" },
         { dragSelector: null, dropSelector: ".drop-reader" },
-        { dragSelector: null, dropSelector: ".drop-writer" }
+        { dragSelector: null, dropSelector: ".drop-writer" },
+        { dragSelector: null, dropSelector: ".append-book" }
       ],
       tabs: [
         {
@@ -118,11 +119,15 @@ export class Scriptorium extends FormApplication {
 
   async _onDrop(event) {
     const dropData = TextEditor.getDragEventData(event);
-    if (dropData.type == "Item" && event.currentTarget.dataset.drop === "book") {
+    if (dropData.type == "Item") {
       // if (this.item.system.activity === "teaching" || this.item.system.activity === "training") {
       const book = await Item.implementation.fromDropData(dropData);
-      if (book.type === "book") {
-        await this._setBook(book);
+      if (event.currentTarget.dataset.drop === "book") {
+        if (book.type === "book") {
+          await this._setReadingBook(book);
+        }
+      } else if (event.currentTarget.dataset.drop === "append-book") {
+        await this._setWritingBook(book);
       }
     } else if (dropData.type == "Actor") {
       if (event.currentTarget.dataset.drop === "reader") {
@@ -171,6 +176,10 @@ export class Scriptorium extends FormApplication {
       context.ui.disabledBook = "disabled";
     }
 
+    if (context.writing.book.uuid !== null) {
+      context.ui.canEditTitle = "readonly";
+    }
+
     let maxLevel = 99;
     const topicIndex = Number(context.reading.book.system.topicIndex);
     // for convenience
@@ -185,7 +194,8 @@ export class Scriptorium extends FormApplication {
     context.currentTopicNumber = context.topicIndex + 1 ?? 1;
     context.topicNum = context.reading.book.system.topics.length ?? 1;
     // new topic => writing
-    context.newTopicIndex = context.writing.book.system.topicIndex;
+
+    context.newTopicIndex = context.writing.book.system.topics.length - 1;
     const newTopic = context.writing.book.system.topics[context.newTopicIndex];
     context.writing.book.newTopic = newTopic;
 
@@ -562,6 +572,9 @@ export class Scriptorium extends FormApplication {
     html.find(".change-year").change(this._changeYear.bind(this));
     html.find(".book-topic-change").change(this._changeBookTopic.bind(this));
     html.find(".unlink-read-book").click(this._resetReadBook.bind(this));
+
+    html.find(".unlink-bookAppend").click(this._resetWriteBook.bind(this));
+
     html.find(".unlink-reader").click(this._resetReader.bind(this));
     html.find(".unlink-writer").click(this._resetWriter.bind(this));
     html.find(".create-reading-activity").click(this._createReadingDiaryEntry.bind(this));
@@ -632,14 +645,17 @@ export class Scriptorium extends FormApplication {
       type: "book",
       img: book.img,
       system: book.system,
-      _id: null
+      _id: book.id
     };
+    if (book.id) {
+      achievement.updateExisting = true;
+    }
 
     const extraData = {
       actorId: objectData.writing.writer.id,
       itemId: book.id,
       flags: 8,
-      data: { title: book.name, topic: topic }
+      data: { title: book.name, topic: topic, topicIndex: dataset.index }
     };
 
     const entryData = [
@@ -842,7 +858,23 @@ export class Scriptorium extends FormApplication {
       updateData: updatedData
     });
   }
-
+  async _resetWriteBook(event) {
+    const objectData = foundry.utils.expandObject(this.object);
+    const index = objectData.writing.book.system.topics.length - 1;
+    const singleTopic = objectData.writing.book.system.topics[index];
+    singleTopic.level = singleTopic.type === "Tractatus" ? 0 : singleTopic.level;
+    let updatedData = {
+      "writing.book.id": null,
+      "writing.book.uuid": null,
+      "writing.book.system.topics": [singleTopic],
+      "writing.book.system.topicIndex": 0
+    };
+    objectData.writing.book.system.topics = [];
+    await this.submit({
+      preventClose: true,
+      updateData: updatedData
+    });
+  }
   async _changeSeason(event) {
     await this.submit({
       preventClose: true,
@@ -857,7 +889,7 @@ export class Scriptorium extends FormApplication {
     });
   }
 
-  async _setBook(book) {
+  async _setReadingBook(book) {
     log(false, "set book info");
     let index = book.getFlag("arm5e", "currentBookTopic") ?? 0;
     book.system.topicIndex = index;
@@ -870,6 +902,29 @@ export class Scriptorium extends FormApplication {
       preventClose: true,
       updateData: {
         ["reading.book"]: { name: book.name, id: book.id, uuid: book.uuid, system: book.system }
+      }
+    });
+  }
+
+  async _setWritingBook(book) {
+    if (!book.isOwned) {
+      ui.notifications.info(game.i18n.localize("arm5e.scriptorium.msg.bookNotOwned"));
+      return;
+    }
+    const newTopicIndex = book.system.topics.length;
+    let newTopic =
+      this.object.writing.book.system.topics[this.object.writing.book.system.topics.length - 1];
+    // book.apps[this.appId] = this;
+    book.system.topics.push(newTopic);
+    book.system.topicIndex = book.system.topics.length - 1;
+    if (this.object.writing.writer.id) {
+      log(false, "writer present");
+    }
+
+    await this.submit({
+      preventClose: true,
+      updateData: {
+        ["writing.book"]: { name: book.name, id: book.id, uuid: book.uuid, system: book.system }
       }
     });
   }
@@ -920,6 +975,12 @@ export class Scriptorium extends FormApplication {
 
   async _updateObject(event, formData) {
     const expanded = expandObject(formData);
+
+    if (expanded.writing?.book?.system?.topics) {
+      const topics = this.object.writing.book.system.topics;
+      mergeObject(topics, expanded.writing.book.system.topics);
+      delete expanded.writing.book.system.topics;
+    }
     mergeObject(this.object, expanded, { recursive: true });
     this.render();
     // if (formData.season) {

@@ -52,7 +52,7 @@
   </li>
   {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
   {{> "systems/arm5e/templates/actor/parts/topicFilter.hbs" list="abilitiesTopics" visibility=ui.abilitiesFilterVisibility
-  topics=config.LOCALIZED_ABILITIES}}
+  topics=config.LOCALIZED_ABILITIES  topic-class="ability-key"}}
   <div id="topic-abilities" class="topic toggle-collapse">
     {{#each system.filteredMundaneTopics as |item id|}}
 

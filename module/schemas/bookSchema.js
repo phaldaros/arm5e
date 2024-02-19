@@ -148,69 +148,69 @@ export class BookSchema extends foundry.abstract.DataModel {
     return res;
   }
 
-  static migrateData(data) {
-    // console.log(`MigrateData book: ${JSON.stringify(data)}`);
+  // static migrateData(data) {
+  //   // console.log(`MigrateData book: ${JSON.stringify(data)}`);
 
-    if (data.topics && data.topics.length !== 0) {
-      data.topic = null;
-      return data;
-    }
-    if (data.topic) {
-      console.log(`DEBUG MigrateData monotopic book: ${JSON.stringify(data)}`);
-      if (data.quality > 0) {
-        data.topic.quality = data.quality;
-        data.quality = 0;
-      }
-      if (data.level > 0) {
-        data.topic.level = data.level;
-        data.level = 0;
-      }
-      if (data.type?.value !== undefined) {
-        if (data.type.value == "summa") {
-          data.topic.type = "Summa";
-        } else if (data.type.value == "tract") {
-          data.topic.type = "Tractatus";
-        } else {
-          data.topic.type = data.type.value;
-        }
-      } else if (data.type !== undefined && data.type != "") {
-        data.topic.type = data.type;
-        data.type = "";
-      }
-      if (data.ability != undefined && data.ability != "") {
-        data.topic.category = "ability";
-        data.ability = "";
-      }
-      // data.topics = [];
-      // data.topics.push(data.topic);
-    } else if (data.topic === undefined) {
-      console.log(`DEBUG MigrateData monotopic book V9: ${JSON.stringify(data)}`);
-      // V9 books
-      data.topic = {
-        quality: data.quality,
-        level: data.level,
-        // type: data.type,
-        art: data.art?.value ?? "an",
-        category: "art"
-      };
-      if (data.ability != undefined && data.ability != "") {
-        data.topic.category = "ability";
-      }
-      if (data.type?.value !== undefined) {
-        if (data.type.value == "summa") {
-          data.topic.type = "Summa";
-        } else if (data.type.value == "tract") {
-          data.topic.type = "Tractatus";
-        } else {
-          data.topic.type = data.type.value;
-        }
-      } else {
-        data.topic.type = data.type;
-      }
-    }
-    // log(false, `TYPE: ${data.topics}`);
-    return data;
-  }
+  //   if (data.topics && data.topics instanceof Array) {
+  //     data.topic = null;
+  //     return data;
+  //   }
+  //   if (data.topic) {
+  //     console.log(`DEBUG MigrateData monotopic book: ${JSON.stringify(data)}`);
+  //     if (data.quality > 0) {
+  //       data.topic.quality = data.quality;
+  //       data.quality = 0;
+  //     }
+  //     if (data.level > 0) {
+  //       data.topic.level = data.level;
+  //       data.level = 0;
+  //     }
+  //     if (data.type?.value !== undefined) {
+  //       if (data.type.value == "summa") {
+  //         data.topic.type = "Summa";
+  //       } else if (data.type.value == "tract") {
+  //         data.topic.type = "Tractatus";
+  //       } else {
+  //         data.topic.type = data.type.value;
+  //       }
+  //     } else if (data.type !== undefined && data.type != "") {
+  //       data.topic.type = data.type;
+  //       data.type = "";
+  //     }
+  //     if (data.ability != undefined && data.ability != "") {
+  //       data.topic.category = "ability";
+  //       data.ability = "";
+  //     }
+  //     // data.topics = [];
+  //     // data.topics.push(data.topic);
+  //   } else if (data.topic === undefined) {
+  //     console.log(`DEBUG MigrateData monotopic book V9: ${JSON.stringify(data)}`);
+  //     // V9 books
+  //     data.topic = {
+  //       quality: data.quality,
+  //       level: data.level,
+  //       // type: data.type,
+  //       art: data.art?.value ?? "an",
+  //       category: "art"
+  //     };
+  //     if (data.ability != undefined && data.ability != "") {
+  //       data.topic.category = "ability";
+  //     }
+  //     if (data.type?.value !== undefined) {
+  //       if (data.type.value == "summa") {
+  //         data.topic.type = "Summa";
+  //       } else if (data.type.value == "tract") {
+  //         data.topic.type = "Tractatus";
+  //       } else {
+  //         data.topic.type = data.type.value;
+  //       }
+  //     } else {
+  //       data.topic.type = data.type;
+  //     }
+  //   }
+  //   // log(false, `TYPE: ${data.topics}`);
+  //   return data;
+  // }
 
   async readBook(item, dataset) {
     const topic = this.topics[dataset.index];

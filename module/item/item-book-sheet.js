@@ -398,13 +398,10 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     if (!this.object.id) return;
     const expanded = expandObject(formData);
     const source = this.object.toObject();
-    if (expanded.system.topics?.length ?? 0 > 0) {
+    if (expanded.system?.topics) {
       const index = Number(Object.keys(expanded.system.topics)[0]);
-      if (expanded?.system?.topics) {
-        if (expanded.system.topics.length > 0)
-          mergeObject(source.system.topics, expanded.system.topics);
-        expanded.system.topics = source.system.topics;
-      }
+      mergeObject(source.system.topics, expanded.system.topics);
+      expanded.system.topics = source.system.topics;
 
       // manage readonly fields
       if (expanded.system.topics[index].category == "mastery") {

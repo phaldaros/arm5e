@@ -12,14 +12,14 @@
             name="topic"
             data-type="String"
             style="flex: 0 0 100px;   max-width:120px"
-            class="topic-filter"
+            class="topic-filter {{topic-class}}"
             data-list="{{list}}"
             data-category="bookTopics"
           >
             {{#with (lookup ui.filters.bookTopics list)}}
               {{#select topicFilter}}
                 <option value=""></option>
-                {{#each @root.topics as |topic key|}}
+                {{#each ../topics as |topic key|}}
                   <option value="{{key}}" {{topic.selection}}>{{topic.label}}</option>
                 {{/each}}
               {{/select}}
