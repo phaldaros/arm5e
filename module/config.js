@@ -2765,7 +2765,7 @@ ARM5E.lab.enchantment.enchantableTypes = {
   weapon: CONFIG.ISV10 ? "ITEM.TypeWeapon" : "TYPES.Item.weapon",
   armor: CONFIG.ISV10 ? "ITEM.TypeArmor" : "TYPES.Item.armor",
   book: CONFIG.ISV10 ? "ITEM.TypeBook" : "TYPES.Item.book"
-}; // TODO support books, "book"];
+};
 
 ARM5E.generic = {};
 ARM5E.generic.sourcesTypes = {

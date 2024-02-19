@@ -390,7 +390,8 @@
 
             <div class="scriptorium item-header resource">
               <label class="header-label">{{localize "arm5e.activity.book.title"}}</label>
-              <input type="text" name="writing.book.name" value="{{writing.book.name}}" data-dtype="String">
+              <input type="text" name="writing.book.name" value="{{writing.book.name}}" data-dtype="String"
+                {{ui.canEditTitle}}>
               <label class="header-label">{{localize "arm5e.sheet.authorship.author"}}</label>
               <input type="text" name="writing.book.system.topics.{{newTopicIndex}}.author"
                 value="{{writing.writer.name}}" data-dtype="String" readonly>
@@ -458,6 +459,17 @@
                 <label class="header-label">{{localize "arm5e.sheet.duration"}}:
                   {{writing.writer.duration}}</label>
               </div>
+              {{#unless writing.book.id }}
+                <div class="drop-box append-book" data-drop="append-book">
+                  <label>{{localize "arm5e.scriptorium.msg.appendTopic"}}</label>
+                </div>
+              {{else}}
+                <div class="padding12">
+                  <label>{{localize "arm5e.scriptorium.msg.appendTopicTitle" title=writing.book.name}}</label><a
+                    class="unlink-bookAppend" title="Break link to book"><i class="fas fa-link"
+                      style="font-size: 12pt;"></i></a>
+                </div>
+              {{/unless}}
             {{/unless}}
           </div>
           <ul>

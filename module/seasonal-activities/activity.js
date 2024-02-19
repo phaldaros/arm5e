@@ -29,7 +29,12 @@ class AgingActivity extends Activity {}
 
 class ProgressActivity extends Activity {}
 
-class BookActivity extends ProgressActivity {}
+class BookActivity extends ProgressActivity {
+  constructor(actorUuid, book, type) {
+    super(actorUuid, type);
+    this.book = book;
+  }
+}
 
 export class LabActivity extends Activity {
   constructor(labUuid, actorUuid, type) {

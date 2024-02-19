@@ -1,4 +1,4 @@
-## 2.2.4.6, Pralix, filia Tytalus
+## 2.2.4.7, Pralix, filia Tytalus
 
 ### Features & changes
 
@@ -8,6 +8,11 @@
   - Possible to roll an ability, spell from their sheet.
 - Additional requisites on roll for spell and magic effects.
 - Rolling for damage
+- Blank books
+  - new section in library tab with a list of physical books
+  - Default state of books created as enchantments
+- [Warning] Compatibility with mono-topic books from V9 has been removed, migrate any old data before updating.
+- It is now possible to write a new topic to an existing book.
 
 ### Bug fixes
 
@@ -17,6 +22,9 @@
   - New turbula section to replace grogs
   - dependants are again displayed in the Inhabitants section
   - Points are readonly for now and based on the role.
+- Confirmation of book topic deletion is taken into account again (ie: saying no will have an effect)
+- Fixed the book topic filter
+- Ability keys categories are again more distinguishable
 
 ## 2.2.4.4, Pralix, filia Guorna the Fetid
 

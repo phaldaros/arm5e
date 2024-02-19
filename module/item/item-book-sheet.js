@@ -151,12 +151,13 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     event.preventDefault();
     const dataset = getDataset(event);
     const index = Number(dataset.index);
+    let currentDate = game.settings.get("arm5e", "currentDate");
     const currentTopic = item.system.topics[index];
     let newTopic = {
-      author: currentTopic.author,
-      language: currentTopic.language,
-      year: currentTopic.year,
-      season: currentTopic.season,
+      author: currentTopic?.author ?? "",
+      language: currentTopic?.language ?? "",
+      year: currentDate.year,
+      season: currentDate.season,
       art: "cr",
       key: null,
       option: null,
@@ -186,8 +187,9 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     if (this.item.isOwned) {
       flavor = ArM5eActorSheet.getFlavor(this.item.actor.type);
     }
+
     if (game.settings.get("arm5e", "confirmDelete")) {
-      const confirm = await getConfirmation(
+      confirm = await getConfirmation(
         game.i18n.localize("arm5e.dialog.delete-topic"),
         game.i18n.localize("arm5e.dialog.delete-question"),
         flavor
@@ -396,18 +398,18 @@ export class ArM5eBookSheet extends ArM5eItemSheet {
     if (!this.object.id) return;
     const expanded = expandObject(formData);
     const source = this.object.toObject();
-    const index = Number(Object.keys(expanded.system.topics)[0]);
-    if (expanded?.system?.topics) {
+    if (expanded.system?.topics) {
+      const index = Number(Object.keys(expanded.system.topics)[0]);
       mergeObject(source.system.topics, expanded.system.topics);
       expanded.system.topics = source.system.topics;
-    }
 
-    // manage readonly fields
-    if (expanded.system.topics[index].category == "mastery") {
-      expanded.system.topics[index].type = "Tractatus";
-    } else if (expanded.system.topics[index].category == "labText") {
-      expanded.system.topics[index].labtextTitle = source.system.topics[index].labtextTitle;
-      expanded.system.topics[index].labtext = source.system.topics[index].labtext;
+      // manage readonly fields
+      if (expanded.system.topics[index].category == "mastery") {
+        expanded.system.topics[index].type = "Tractatus";
+      } else if (expanded.system.topics[index].category == "labText") {
+        expanded.system.topics[index].labtextTitle = source.system.topics[index].labtextTitle;
+        expanded.system.topics[index].labtext = source.system.topics[index].labtext;
+      }
     }
 
     return await super._updateObject(event, expanded);

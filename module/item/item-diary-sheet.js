@@ -966,6 +966,7 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     for (const achievement of this.item.system.achievements) {
       // if an id exists update it
       if (achievement._id) {
+        let [item] = await this.actor.updateEmbeddedDocuments("Item", [achievement], {});
       } else {
         let [item] = await this.actor.createEmbeddedDocuments("Item", [achievement], {});
 
@@ -1201,14 +1202,52 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
     const actor = this.actor;
     let updateData = [];
     if (this.item.system.achievements.length != 0) {
-      let items = await this.actor.deleteEmbeddedDocuments(
-        "Item",
-        this.item.system.achievements.map((e) => e._id),
-        {}
-      );
-      log(false, "Item deleted");
+      let items = this.item.system.achievements.filter((e) => !e.updateExisting).map((e) => e._id);
+      if (items.length > 0) {
+        await this.actor.deleteEmbeddedDocuments("Item", items, {});
+      }
     }
     switch (this.item.system.activity) {
+      case "writing": {
+        const dependency = this.item.system.externalIds[0];
+        const book = actor.items.get(dependency.itemId);
+        if (book) {
+          let topicToDelete = dependency.data.topic;
+          // find the last index that match the writen topic
+          const indexToDelete = this.item.system.achievements[0].system.topics.findLastIndex(
+            (e) => {
+              return (
+                e.category === topicToDelete.category &&
+                e.level === topicToDelete.level &&
+                e.quality === topicToDelete.quality &&
+                e.type === topicToDelete.type &&
+                e.key === topicToDelete.key &&
+                e.option === topicToDelete.option &&
+                e.art === topicToDelete.art &&
+                e.author === topicToDelete.author
+              );
+            }
+          );
+          if (indexToDelete >= 0) {
+            log(false, `Deleted topic : ${topicToDelete}`);
+            let topics = duplicate(book.system.topics);
+            topics.splice(indexToDelete, 1);
+            await this.actor.updateEmbeddedDocuments(
+              "Item",
+              [{ _id: book._id, system: { topics: topics }, "flags.arm5e.currentBookTopic": 0 }],
+              {}
+            );
+          } else {
+            ui.notifications.warn(game.i18n.localize("arm5e.scriptorium.msg.topicNoFound"));
+            return;
+          }
+        } else {
+          ui.notifications.warn(game.i18n.localize("arm5e.scriptorium.msg.topicNoFound"));
+          return;
+        }
+      }
+      // for (let toUpdate of this.item.system.achievements.filter((e) => e.updateExisting)) {
+      // }
       case "recovery":
         // delete the diary entry
         await this.actor.deleteEmbeddedDocuments("Item", [this.item.id], {});
@@ -1245,7 +1284,6 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
       case "training":
       case "teaching":
       case "reading":
-      case "writing":
       case "hermeticApp":
       case "childhood":
       case "laterLife":
