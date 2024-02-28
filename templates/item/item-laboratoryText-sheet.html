@@ -2,12 +2,19 @@
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
-      <label for="system.type" class="smallTitle" style="padding-left: 24px">{{localize "arm5e.sheet.type"}}</label>
-      <select {{noSelect}} class="width2" name="system.type" data-type="String">
-        {{#select system.type}} {{#each config.lab.labTextType as |type key|}}
-            <option value="{{key}}">{{localize type}}</option>
-          {{/each}} {{/select}}
-      </select>
+      <div class="flexrow">
+        <label for="system.type" class="smallTitle" style="padding-left: 24px">{{localize "arm5e.sheet.type"}}</label>
+        <select {{noSelect}} class="width2" name="system.type" data-type="String">
+          {{#select system.type}} {{#each config.lab.labTextType as |type key|}}
+              <option value="{{key}}">{{localize type}}</option>
+            {{/each}} {{/select}}
+        </select>
+        <div>
+          <label class="label-light" style="position: relative; bottom: 10px;">{{localize "Draft"}}</label>
+          <input type="checkbox" {{checked system.draft}} data-dtype="Boolean" {{noSelect}} name="system.draft"
+            style="position: relative; bottom: 5px;" />
+        </div>
+      </div>
       {{#if locked}}
         <i class="icon-Icon_Locked"></i>
       {{/if}}

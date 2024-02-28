@@ -430,7 +430,8 @@ export class LabTextSchema extends foundry.abstract.DataModel {
         required: false,
         blank: true,
         initial: ""
-      })
+      }),
+      draft: boolOption(false)
     };
   }
 

@@ -1306,6 +1306,10 @@ input[type="time"] {
   border-bottom: 0;
 }
 
+fieldset .arm5e {
+  font-family: "bookAntiquaBold";
+}
+
 .arm5e .sheet-header h2.covenantname input {
   width: 100%;
   margin: 0;

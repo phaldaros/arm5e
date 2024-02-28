@@ -664,6 +664,10 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
             if (item.system.type !== "spell") {
               break;
             }
+            if (item.system.draft && item.system.author !== this.actor.system.owner.value) {
+              ui.notifications.info(game.i18n.localize("arm5e.lab.planning.msg.draftLabText"));
+              return false;
+            }
           }
           case "magicalEffect":
           case "spell": {
@@ -736,14 +740,15 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
           case "item": {
           }
         }
-      } else {
-        if (item.isOwned && item.system.hasQuantity) {
-          if (!event.shiftKey) {
-            if (this.isItemDropAllowed(item)) {
-              return this._handleTransfer(item);
-            }
+      } else if (item.isOwned && item.system.hasQuantity) {
+        if (!event.shiftKey) {
+          if (this.isItemDropAllowed(item)) {
+            return this._handleTransfer(item);
           }
         }
+      } else {
+        const res = await super._onDrop(event);
+        return res;
       }
     } else {
       event.stopPropagation();
@@ -845,7 +850,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     } else if (["player", "npc", "beast"].includes(actor.type)) {
       updateData["system.owner.value"] = actor.name;
       updateData["system.owner.actorId"] = actor._id;
-      updateData["flags.arm5e.planning"] = await this._resetPlanning("inventSpell", true);
+      updateData["flags.arm5e.planning"] = await this._resetPlanning("none", true);
     }
     return updateData;
   }

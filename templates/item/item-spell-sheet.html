@@ -2,7 +2,16 @@
   <header class="sheet-header">
     <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     <div class="header-fields">
-      <h1 class="charname" style="font-size: 24pt; font-family: blackmoor">{{localize "arm5e.sheet.spell"}}</h1>
+      <h1 class="charname" style="font-size: 24pt; font-family: blackmoor">
+        <div class="flexrow">{{localize "arm5e.sheet.spell"}}
+          {{#if item.isOwned}}
+            <a class="create-labtext" data-flavor="{{ui.flavor}}" title="Create draft lab text"><i
+                class="icon-Icon_Details2"></i></a>
+          {{/if}}
+        </div>
+      </h1>
+
+
       <h1 class="charname">
         <div class="flexrow"><input name="name" type="text" title="{{item.name}}" value="{{item.name}}"
             placeholder="Name" />

@@ -1,4 +1,4 @@
-## 2.2.4.7, Pralix, filia Tytalus
+## 2.2.4.8, Pralix, filia Tytalus
 
 ### Features & changes
 
@@ -13,6 +13,8 @@
   - Default state of books created as enchantments
 - [Warning] Compatibility with mono-topic books from V9 has been removed, migrate any old data before updating.
 - It is now possible to write a new topic to an existing book.
+- Possible to generate a draft laboratory text from enchantments and spells
+- Translation of character's draft lab texts.
 
 ### Bug fixes
 
@@ -25,6 +27,8 @@
 - Confirmation of book topic deletion is taken into account again (ie: saying no will have an effect)
 - Fixed the book topic filter
 - Ability keys categories are again more distinguishable
+- Dropping items on the lab sheet is working again
+- Another round at fixing the lab owner setting, introducing the "None" activity category.
 
 ## 2.2.4.4, Pralix, filia Guorna the Fetid
 

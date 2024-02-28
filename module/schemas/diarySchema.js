@@ -112,13 +112,11 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
         }
       ),
       // Array of embedded document to add to the Actor on apply (with the exception of spells for now)
-      achievements: new fields.ArrayField(
-        new fields.ObjectField({
-          required: false,
-          nullable: false,
-          initial: []
-        })
-      ),
+      achievements: new fields.ArrayField(new fields.ObjectField(), {
+        required: false,
+        nullable: false,
+        initial: []
+      }),
       externalIds: new fields.ArrayField(
         new fields.SchemaField({
           actorId: new NullableDocumentIdField(),

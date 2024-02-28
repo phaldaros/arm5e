@@ -391,6 +391,7 @@ export class ArM5eItem extends Item {
   }
   async _preCreate(data, options, userId) {
     await super._preCreate(data, options, userId);
+
     // weird it did work in 284
     // if (data.img === undefined) {
     let toUpdate = false;
@@ -409,6 +410,7 @@ export class ArM5eItem extends Item {
       }
     }
     if (toUpdate) await this.updateSource(data);
+    return true;
   }
 
   async _updateIcon(key, value) {

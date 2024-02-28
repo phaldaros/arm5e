@@ -1212,34 +1212,45 @@ export class ArM5eItemDiarySheet extends ArM5eItemSheet {
         const dependency = this.item.system.externalIds[0];
         const book = actor.items.get(dependency.itemId);
         if (book) {
-          let topicToDelete = dependency.data.topic;
-          // find the last index that match the writen topic
-          const indexToDelete = this.item.system.achievements[0].system.topics.findLastIndex(
-            (e) => {
-              return (
-                e.category === topicToDelete.category &&
-                e.level === topicToDelete.level &&
-                e.quality === topicToDelete.quality &&
-                e.type === topicToDelete.type &&
-                e.key === topicToDelete.key &&
-                e.option === topicToDelete.option &&
-                e.art === topicToDelete.art &&
-                e.author === topicToDelete.author
+          if (dependency.data.topic) {
+            let topicToDelete = dependency.data.topic;
+            // find the last index that match the writen topic
+            const indexToDelete = this.item.system.achievements[0].system.topics.findLastIndex(
+              (e) => {
+                return (
+                  e.category === topicToDelete.category &&
+                  e.level === topicToDelete.level &&
+                  e.quality === topicToDelete.quality &&
+                  e.type === topicToDelete.type &&
+                  e.key === topicToDelete.key &&
+                  e.option === topicToDelete.option &&
+                  e.art === topicToDelete.art &&
+                  e.author === topicToDelete.author
+                );
+              }
+            );
+            if (indexToDelete >= 0) {
+              log(false, `Deleted topic : ${topicToDelete}`);
+              let topics = duplicate(book.system.topics);
+              topics.splice(indexToDelete, 1);
+              await this.actor.updateEmbeddedDocuments(
+                "Item",
+                [{ _id: book._id, system: { topics: topics }, "flags.arm5e.currentBookTopic": 0 }],
+                {}
               );
+            } else {
+              ui.notifications.warn(game.i18n.localize("arm5e.scriptorium.msg.topicNoFound"));
+              return;
             }
-          );
-          if (indexToDelete >= 0) {
-            log(false, `Deleted topic : ${topicToDelete}`);
+          } else if (dependency.data.topicNumber) {
+            //lab texts
             let topics = duplicate(book.system.topics);
-            topics.splice(indexToDelete, 1);
+            topics.splice(dependency.data.topicIndex, dependency.data.topicNumber);
             await this.actor.updateEmbeddedDocuments(
               "Item",
               [{ _id: book._id, system: { topics: topics }, "flags.arm5e.currentBookTopic": 0 }],
               {}
             );
-          } else {
-            ui.notifications.warn(game.i18n.localize("arm5e.scriptorium.msg.topicNoFound"));
-            return;
           }
         } else {
           ui.notifications.warn(game.i18n.localize("arm5e.scriptorium.msg.topicNoFound"));

@@ -93,6 +93,8 @@
   "TYPES.Item.mundaneBook": "Mundane book (deprecated)",
   "TYPES.Item.wound": "Wound",
 
+  "arm5e.sheet.labTexts": "Laboratory texts",
+
   "arm5e.system.dependencyWarning": "The system requires module {name} to be at least version {minimum}, the current version is {current}. You may encounter errors and bugs, please update",
 
   "arm5e.sheet.player": "Player",
@@ -339,6 +341,7 @@
   "arm5e.sheet.divider": "Divider",
   "arm5e.sheet.advantage": "Advantage",
   "arm5e.combat.damage.ignored": "Ignored on roll",
+  "arm5e.sheet.genericModifier": "{mod} modifier",
 
   "arm5e.sheet.yearBorn": "Year Born",
   "arm5e.sheet.apprenticeshipYears": "Apprenticeship",
@@ -865,6 +868,7 @@
   "arm5e.lab.planning.msg.visNeeded": "{num} pawns of Vis needed.",
   "arm5e.lab.planning.msg.chargesAvailable": "{num} charges available.",
   "arm5e.lab.planning.msg.tooMuchVis": "{num} pawns is more than twice the Magic theory's score",
+  "arm5e.lab.planning.msg.draftLabText": "This laboratory text is still in draft form, unless you are the author, it cannot be used until translated.",
 
   "arm5e.lab.planning.button.refresh": "Refresh",
   "arm5e.lab.planning.button.reset": "Reset",
@@ -1333,13 +1337,15 @@
 
   "arm5e.scriptorium.writer.title": "Writer",
   "arm5e.scriptorium.writer.name": "Writer's name",
-  "arm5e.scriptorium.writer.writingScore": "Writing score (Com + language)",
+  "arm5e.scriptorium.writer.writingScoreLabel": "Writing score (Com + language)",
+  "arm5e.scriptorium.writer.writingScoreLabel2": "Translating score (Language x 20) levels.",
   "arm5e.scriptorium.reader.title": "Reader",
   "arm5e.scriptorium.reader.name": "Reader's name",
   "arm5e.scriptorium.reader.languages": "Known languages",
   "arm5e.scriptorium.button": "Create activity",
   "arm5e.scriptorium.msg.dropCharacter": "Drop a character here.",
   "arm5e.scriptorium.msg.dropBook": "Drop a book here to fill the blanks.",
+  "arm5e.scriptorium.msg.dropLabText": "Drop a owned spell or draft laboratory text.",
   "arm5e.scriptorium.msg.appendTopic": "Append a topic to an existing book.",
   "arm5e.scriptorium.msg.bookNotOwned": "You must own the book to write in it!",
   "arm5e.scriptorium.msg.appendTopicTitle": "Append topic to the book: \"{title}\".",
@@ -1356,13 +1362,17 @@
   "arm5e.scriptorium.msg.cappedQuality": "This book has become an easy read. The quality is reduced to {item}",
   "arm5e.scriptorium.msg.diaryDescReading": "{name} spent the season reading \"{title}\" by {author},<br/> a {type} in {language} about {topic}",
   "arm5e.scriptorium.msg.diaryDescWriting": "{name} spent the season writing \"{title}\",<br/> a {type} in {language} about {topic}",
+  "arm5e.scriptorium.msg.diaryDescTranslating": "{name} spent the season translating the following laboratory texts in \"{title}\":<br/>{description}",
   "arm5e.scriptorium.msg.diaryTopic.art": "the {art} Hermetic Art",
   "arm5e.scriptorium.msg.diaryTopic.spell": "the mastery of the \"{spell}\" spell",
   "arm5e.scriptorium.msg.notMagus": "The reader is not a magus.",
   "arm5e.scriptorium.msg.labText": "Laboratory texts are studied in a lab.",
-  "arm5e.scriptorium.reading.activity": "Reading {title}",
-  "arm5e.scriptorium.writing.activity": "Writing {title}",
+  "arm5e.scriptorium.reading.activity": "Reading \"{title}\"",
+  "arm5e.scriptorium.writing.activity": "Writing \"{title}\"",
+  "arm5e.scriptorium.translating.activity": "Translating laboratory texts into \"{title}\"",
   "arm5e.scriptorium.msg.topicNoFound": "Impossible to find the book or the topic which was writen.",
+  "arm5e.scriptorium.msg.translationOnly": "Only possible to translate the writer's own draft laboratory texts.",
+  "arm5e.scriptorium.msg.tooManyLTLevels": "Too many levels of laboratory texts",
 
   "arm5e.sanatorium.magicalHelp": "Magical help",
   "arm5e.sanatorium.mundaneHelp": "Mundane help",
@@ -1408,6 +1418,7 @@
   "arm5e.hints.delete": "Delete {item}",
   "arm5e.hints.design": "Design {item}",
   "arm5e.hints.read": "Read {item}",
+  "arm5e.hints.createLabText": "Create draft laboratory text",
 
   "arm5e.sheet.label.details": "Details",
 
@@ -1467,5 +1478,6 @@
   "arm5e.generic.all": "All",
   "arm5e.generic.hidden": "Hidden",
   "arm5e.generic.locked": "Locked",
-  "arm5e.generic.params": "Parameters"
+  "arm5e.generic.params": "Parameters",
+  "arm5e.generic.total": "Total"
 }

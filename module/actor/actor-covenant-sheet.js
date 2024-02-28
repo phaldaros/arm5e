@@ -201,7 +201,7 @@ export class ArM5eCovenantActorSheet extends ArM5eActorSheet {
     if (type == "spell" || type == "magicalEffect" || type == "enchantment") {
       log(false, "Valid drop");
       // create a labText data:
-      return await super._onDropItemCreate(effectToLabText(foundry.utils.deepClone(itemData)));
+      return await super._onDropItemCreate(effectToLabText(foundry.utils.deepClone(item)));
     }
     // }
     const res = await super._onDropItem(event, data);
