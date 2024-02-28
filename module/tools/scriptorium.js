@@ -1,7 +1,10 @@
 import { ArM5ePCActor } from "../actor/actor.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
+import { computeLevel } from "../helpers/magic.js";
 import { getTopicDescription } from "../item/item-book-sheet.js";
+import { effectToLabText } from "../item/item-converter.js";
 import { ArM5eItem } from "../item/item.js";
+import { boolOption } from "../schemas/commonSchemas.js";
 import { debug, getDataset, log } from "../tools.js";
 
 export class ScriptoriumObject {
@@ -10,7 +13,7 @@ export class ScriptoriumObject {
   arts = CONFIG.ARM5E.magic.arts;
   techs = CONFIG.ARM5E.magic.techniques;
   forms = CONFIG.ARM5E.magic.forms;
-  bookTopics = CONFIG.ARM5E.books.categories;
+  bookTopics = deepClone(CONFIG.ARM5E.books.categories);
   bookTypes = CONFIG.ARM5E.books.types;
   year = game.settings.get("arm5e", "currentDate").year;
   season = game.settings.get("arm5e", "currentDate").season;
@@ -65,6 +68,7 @@ export class ScriptoriumObject {
             art: "",
             spellTech: "cr",
             spellForm: "an",
+            labtext: null,
             year: this.year,
             season: this.season
           }
@@ -73,6 +77,7 @@ export class ScriptoriumObject {
       }
     }
   };
+  labTexts = [];
 }
 
 export class Scriptorium extends FormApplication {
@@ -91,7 +96,8 @@ export class Scriptorium extends FormApplication {
         { dragSelector: null, dropSelector: ".drop-book" },
         { dragSelector: null, dropSelector: ".drop-reader" },
         { dragSelector: null, dropSelector: ".drop-writer" },
-        { dragSelector: null, dropSelector: ".append-book" }
+        { dragSelector: null, dropSelector: ".append-book" },
+        { dragSelector: null, dropSelector: ".add-labtext" }
       ],
       tabs: [
         {
@@ -121,13 +127,25 @@ export class Scriptorium extends FormApplication {
     const dropData = TextEditor.getDragEventData(event);
     if (dropData.type == "Item") {
       // if (this.item.system.activity === "teaching" || this.item.system.activity === "training") {
-      const book = await Item.implementation.fromDropData(dropData);
+
       if (event.currentTarget.dataset.drop === "book") {
+        const book = await Item.implementation.fromDropData(dropData);
         if (book.type === "book") {
           await this._setReadingBook(book);
         }
       } else if (event.currentTarget.dataset.drop === "append-book") {
-        await this._setWritingBook(book);
+        const book = await Item.implementation.fromDropData(dropData);
+        if (book.type === "book") {
+          await this._setWritingBook(book);
+        }
+      } else if (event.currentTarget.dataset.drop === "add-labtext") {
+        const text = await Item.implementation.fromDropData(dropData);
+        if (text.type == "laboratoryText") {
+          await this._addLabText(text);
+          // } else if (text.type == "spell") {
+          //   text = effectToLabText(text);
+          //   await this._addLabText(text);
+        }
       }
     } else if (dropData.type == "Actor") {
       if (event.currentTarget.dataset.drop === "reader") {
@@ -383,7 +401,6 @@ export class Scriptorium extends FormApplication {
       let writer = game.actors.get(context.writing.writer.id);
       const activeEffects = CONFIG.ISV10 ? writer.effects : writer.appliedEffects;
       context.writing.writer.writingBonus = 0;
-
       const writingEffects = ArM5eActiveEffect.findAllActiveEffectsWithTypeAndSubtypeFiltered(
         activeEffects,
         "activities",
@@ -415,9 +432,20 @@ export class Scriptorium extends FormApplication {
         if (!context.writing.writer.language) {
           context.writing.writer.language = context.writing.writer.languages[0].id;
         }
-        context.writing.writer.writingScore =
-          writer.items.get(context.writing.writer.language).system.finalScore +
-          writer.system.characteristics.com.value;
+        if (newTopic.category === "labText") {
+          context.writing.writer.writingScoreLabel = game.i18n.localize(
+            "arm5e.scriptorium.writer.writingScoreLabel2"
+          );
+          context.writing.writer.writingScore =
+            writer.items.get(context.writing.writer.language).system.finalScore * 20;
+        } else {
+          context.writing.writer.writingScoreLabel = game.i18n.localize(
+            "arm5e.scriptorium.writer.writingScoreLabel"
+          );
+          context.writing.writer.writingScore =
+            writer.items.get(context.writing.writer.language).system.finalScore +
+            writer.system.characteristics.com.value;
+        }
       } else {
         context.writing.writer.writingScore = 0;
       }
@@ -533,6 +561,13 @@ export class Scriptorium extends FormApplication {
           }
           break;
         }
+        case "labText": {
+          context.writing.labTextTotal = 0;
+          for (let txt of context.labTexts) {
+            context.writing.labTextTotal += txt.level;
+          }
+          break;
+        }
       }
       // quality bonus cannot be higher than twice the original bonus
       context.writing.book.system.topics[context.newTopicIndex].quality = Math.min(
@@ -575,15 +610,25 @@ export class Scriptorium extends FormApplication {
 
     html.find(".unlink-bookAppend").click(this._resetWriteBook.bind(this));
 
+    html.find(".remove-labText").click(this._removeLabText.bind(this));
+
     html.find(".unlink-reader").click(this._resetReader.bind(this));
     html.find(".unlink-writer").click(this._resetWriter.bind(this));
     html.find(".create-reading-activity").click(this._createReadingDiaryEntry.bind(this));
-    html.find(".create-writing-activity").click(this._createWritingDiaryEntry.bind(this));
+    html.find(".create-writing-activity").click(async (event) => {
+      const dataset = getDataset(event);
+      if (dataset.category == "labText") {
+        await this._createTranslatingDiaryEntry(event);
+      } else {
+        await this._createWritingDiaryEntry(event);
+      }
+    });
     html.find(".section-handle").click(this._handle_section.bind(this));
 
     html.find(".next-topic").click(async (event) => this._changeCurrentTopic(event, 1));
     html.find(".previous-topic").click(async (event) => this._changeCurrentTopic(event, -1));
   }
+
   async _changeCurrentTopic(event, offset) {
     event.preventDefault();
     const newIndex = Number(getDataset(event).index) + offset;
@@ -616,6 +661,104 @@ export class Scriptorium extends FormApplication {
     }
     // log(false, `DEBUG Flags: ${JSON.stringify(this.item.flags.arm5e.ui.sections.visibility)}`);
     classes.toggle("hide");
+  }
+
+  async _createTranslatingDiaryEntry(event) {
+    const objectData = foundry.utils.expandObject(this.object);
+    const writer = game.actors.get(objectData.writing.writer.id);
+
+    const writerData = objectData.writing.writer;
+    const book = deepClone(objectData.writing.book);
+    const dataset = event.currentTarget.dataset;
+    // create a safe copy of the topics
+    const bookTopics = book.system.topics;
+    // remove the placeholder topic
+    let [topicTemplate] = bookTopics.splice(dataset.index, 1);
+    const labTexts = objectData.labTexts;
+
+    let activityName = game.i18n.format("arm5e.scriptorium.translating.activity", {
+      title: book.name
+    });
+
+    // add a new topic for each lab text
+    let topics = [];
+    let description = "<ul>";
+    for (const e of labTexts) {
+      const labText = await fromUuid(e.uuid);
+      if (!labText) {
+        console.error(`Could not find labtext from uuid: ${e.uuid}`);
+        return;
+      }
+      const topic = deepClone(topicTemplate);
+      topic.author = writer.name;
+      topic.language = writer.items.get(writerData.language).name;
+      topic.labtextTitle = e.name;
+      labText.system.draft = false;
+      topic.labtext = labText.system.toObject(false);
+      topic.type = null;
+      topic.art = null;
+      topic.key = null;
+      topic.option = null;
+      topic.spellName = null;
+      description += `<li>"${labText.name}" : ${e.label} ${e.level}</li><br/>`;
+      topics.push(topic);
+    }
+    description += "</ul>";
+
+    const achievement = {
+      name: book.name,
+      type: "book",
+      img: book.img,
+      system: book.system,
+      _id: book.id
+    };
+    achievement.system.topics = bookTopics.concat(topics);
+
+    if (book.id) {
+      achievement.updateExisting = true;
+    }
+
+    const extraData = {
+      actorId: objectData.writing.writer.id,
+      itemId: book.id,
+      flags: 8,
+      data: {
+        title: book.name,
+        topicIndex: dataset.index,
+        topicNumber: topics.length
+      }
+    };
+
+    const entryData = [
+      {
+        name: activityName,
+        type: "diaryEntry",
+        system: {
+          cappedGain: false,
+          dates: [{ season: objectData.season, year: Number(objectData.year), applied: false }],
+          sourceQuality: 0,
+          activity: "writing",
+          done: false,
+          progress: {
+            abilities: [],
+            arts: [],
+            spells: [],
+            newSpells: []
+          },
+          optionKey: "standard",
+          duration: 1,
+          description: game.i18n.format("arm5e.scriptorium.msg.diaryDescTranslating", {
+            name: writer.name,
+            title: book.name,
+            description: description
+          }),
+          achievements: [achievement],
+          externalIds: [extraData]
+        }
+      }
+    ];
+    let entry = await writer.createEmbeddedDocuments("Item", entryData, {});
+    entry[0].sheet.render(true);
   }
   async _createWritingDiaryEntry(event) {
     const objectData = foundry.utils.expandObject(this.object);
@@ -929,6 +1072,41 @@ export class Scriptorium extends FormApplication {
     });
   }
 
+  async _addLabText(text) {
+    const writer = game.actors.get(this.object.writing.writer.id);
+    if (!text.system.draft || text.system.author != writer.name) {
+      ui.notifications.info(game.i18n.localize("arm5e.scriptorium.msg.translationOnly"));
+      return;
+    }
+    let labtexts = this.object.labTexts;
+    labtexts.push({
+      name: text.name,
+      uuid: text.uuid,
+      label: `${ArM5eItem.getTechLabel(text.system)}${ArM5eItem.getFormLabel(text.system)} `,
+      level: text.system.level,
+      img: text.img
+    });
+    await this.submit({
+      preventClose: true,
+      updateData: {
+        ["labTexts"]: labtexts
+      }
+    });
+  }
+
+  async _removeLabText(event) {
+    const dataset = getDataset(event);
+
+    let labtexts = duplicate(this.object.labTexts);
+    labtexts.splice(Number(dataset.index), 1);
+    await this.submit({
+      preventClose: true,
+      updateData: {
+        ["labTexts"]: labtexts
+      }
+    });
+  }
+
   async _setReader(reader) {
     log(false, "set reader info");
     let readerInfo = {
@@ -1012,6 +1190,7 @@ export class Scriptorium extends FormApplication {
       topicData.option = "";
       topicData.spellName = null;
       topicData.category = "ability";
+      topicData.labText = null;
     } else if (chosenTopic === "art") {
       // missing data, reset to default
       topicData.art = "cr";
@@ -1019,6 +1198,7 @@ export class Scriptorium extends FormApplication {
       topicData.option = "";
       topicData.spellName = null;
       topicData.category = "art";
+      topicData.labText = null;
     } else if (chosenTopic === "mastery") {
       topicData.art = null;
       topicData.key = null;
@@ -1026,7 +1206,13 @@ export class Scriptorium extends FormApplication {
       topicData.spellName = "Mastered spell";
       topicData.category = "mastery";
       topicData.type = "Tractatus";
-    } else {
+      topicData.labText = null;
+    } else if (chosenTopic === "labText") {
+      topicData.art = null;
+      topicData.key = null;
+      topicData.spellName = null;
+      topicData.option = "";
+      topicData.category = "labText";
       //TODO
     }
     await this.submit({
@@ -1108,6 +1294,15 @@ export class Scriptorium extends FormApplication {
           }
         }
 
+        break;
+      }
+      case "labText": {
+        if (context.writing.labTextTotal > context.writing.writer.writingScore) {
+          context.ui.writing.warning.push(
+            game.i18n.localize("arm5e.scriptorium.msg.tooManyLTLevels")
+          );
+          context.ui.writing.error = true;
+        }
         break;
       }
     }

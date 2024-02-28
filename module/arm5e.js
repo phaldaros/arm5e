@@ -484,7 +484,8 @@ Hooks.on("renderDialog", (dialog, html) => {
     "personality",
     "mundaneBook",
     "calendarCovenant",
-    "wound"
+    "wound",
+    "container"
   ]; //
   Array.from(html.find("#document-create option")).forEach((i) => {
     if (deprecatedTypes.includes(i.value)) {

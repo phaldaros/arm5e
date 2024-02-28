@@ -27,74 +27,76 @@
       </select>
     </div>
     {{> (lookup . "activitySheet") }}
-
-    <div class="flexrow flex01">
-      <div class="flexcol" style="margin-top: 10px; margin-right: 10px;">
-        <div class="padding4 flexrow flex-group-left">
-          <label class="section-handle header-label clickable" data-section="options"
-            data-category="planning">{{localize "arm5e.generic.options"}}</label>
-        </div>
-        <div class="foldable-section backSection {{@root.ui.sections.visibility.planning.options}}"
-          id="planning-options-{{@root.actor._id}}">
-          <div class="flexrow">
-            <div class="resource flexcol flex-center">
-              <label class="header-label ">{{localize "arm5e.skill.arcane.magicTheory"}}
-                {{localize "arm5e.sheet.speciality"}}</label>
-              <input class="flex01" title="{{system.owner.magicTheory.speciality}}" type="text"
-                value="{{system.owner.magicTheory.speciality}}" readonly style="max-width: 150px" />
-              <input type="checkbox" name="flags.arm5e.planning.magicThSpecApply" {{checked planning.magicThSpecApply
-                }} />
-            </div>
-            {{#if (eq planning.type "chargedItem")}}
+    {{#unless (eq planning.type "none")}}
+      <div class="flexrow flex01">
+        <div class="flexcol" style="margin-top: 10px; margin-right: 10px;">
+          <div class="padding4 flexrow flex-group-left">
+            <label class="section-handle header-label clickable" data-section="options"
+              data-category="planning">{{localize "arm5e.generic.options"}}</label>
+          </div>
+          <div class="foldable-section backSection {{@root.ui.sections.visibility.planning.options}}"
+            id="planning-options-{{@root.actor._id}}">
+            <div class="flexrow">
               <div class="resource flexcol flex-center">
-                <label class="header-label ">{{localize "arm5e.lab.option.oneCharge"}}</label>
-                <input type="checkbox" name="flags.arm5e.planning.oneCharge" {{checked planning.oneCharge}} />
+                <label class="header-label ">{{localize "arm5e.skill.arcane.magicTheory"}}
+                  {{localize "arm5e.sheet.speciality"}}</label>
+                <input class="flex01" title="{{system.owner.magicTheory.speciality}}" type="text"
+                  value="{{system.owner.magicTheory.speciality}}" readonly style="max-width: 150px" />
+                <input type="checkbox" name="flags.arm5e.planning.magicThSpecApply" {{checked planning.magicThSpecApply
+                  }} />
               </div>
-            {{/if}}
-            <div class="resource flexcol flex-center flex01">
-              <label class="header-label ">{{localize "arm5e.lab.distraction.label"}}
-              </label>
-              <select name="flags.arm5e.planning.distractions" data-dtype="String" style="max-height: 22px">
-                {{#select flags.arm5e.planning.distractions}}
-                  {{#each config.activities.distractions as |type key|}}
-                    <option value="{{key}}">{{localize type.label}}</option>
-                  {{/each}} {{/select}}
-              </select>
+              {{#if (eq planning.type "chargedItem")}}
+                <div class="resource flexcol flex-center">
+                  <label class="header-label ">{{localize "arm5e.lab.option.oneCharge"}}</label>
+                  <input type="checkbox" name="flags.arm5e.planning.oneCharge" {{checked planning.oneCharge}} />
+                </div>
+              {{/if}}
+              <div class="resource flexcol flex-center flex01">
+                <label class="header-label ">{{localize "arm5e.lab.distraction.label"}}
+                </label>
+                <select name="flags.arm5e.planning.distractions" data-dtype="String" style="max-height: 22px">
+                  {{#select flags.arm5e.planning.distractions}}
+                    {{#each config.activities.distractions as |type key|}}
+                      <option value="{{key}}">{{localize type.label}}</option>
+                    {{/each}} {{/select}}
+                </select>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="resource flex-group-center backSection" style="margin-right: 10px;
+      <div class="resource flex-group-center backSection" style="margin-right: 10px;
         margin-bottom: 5px; max-height: 160px;">
-      <label class="resource flex01"><u>{{localize "arm5e.generic.info"}}</u></label>
-      <div class="flexcol flex01">
-        <div class="flexrow flex01">
-          <div class="lab-total backSection flex-group-center ">
-            <label class="smallTitle" title="{{{planning.labTotal.label}}}">{{localize "arm5e.sheet.labTotal"}}</label>
-            <div class="resource-content flexrow flex-center flex-between margintop6">
-              <input type="number" name="labTotal" value={{planning.labTotal.score}} data-dtype="Number" readonly
-                style="font-size: 14pt;" />
+        <label class="resource flex01"><u>{{localize "arm5e.generic.info"}}</u></label>
+        <div class="flexcol flex01">
+          <div class="flexrow flex01">
+            <div class="lab-total backSection flex-group-center ">
+              <label class="smallTitle"
+                title="{{{planning.labTotal.label}}}">{{localize "arm5e.sheet.labTotal"}}</label>
+              <div class="resource-content flexrow flex-center flex-between margintop6">
+                <input type="number" name="labTotal" value={{planning.labTotal.score}} data-dtype="Number" readonly
+                  style="font-size: 14pt;" />
+              </div>
             </div>
-          </div>
-          <div class="backSection" style="margin-top: 10px; text-align: left;">
-            <ul>
-              {{#each planning.messages as |msg|}}
-                <li><label class="resource">{{{msg}}}</label></li>
-              {{/each}}
-            </ul>
-          </div>
-          <div class="flex-group-right flexcol flex0">
-            <button class="arm5e flex0 schedule" {{edition.schedule}}
-              style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.schedule"}}</button>
-            <button class="arm5e flex0 refresh"
-              style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.refresh"}}</button>
-            <button class="arm5e flex0 reset-planning"
-              style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.reset"}}</button>
+            <div class="backSection" style="margin-top: 10px; text-align: left;">
+              <ul>
+                {{#each planning.messages as |msg|}}
+                  <li><label class="resource">{{{msg}}}</label></li>
+                {{/each}}
+              </ul>
+            </div>
+            <div class="flex-group-right flexcol flex0">
+              <button class="arm5e flex0 schedule" {{edition.schedule}}
+                style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.schedule"}}</button>
+              <button class="arm5e flex0 refresh"
+                style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.refresh"}}</button>
+              <button class="arm5e flex0 reset-planning"
+                style="font-family: bookAntiquaBold">{{localize "arm5e.lab.planning.button.reset"}}</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    {{/unless}}
   </div>
   <div class="flexcol flex02">
     <div class="resource flex-group-center smallBackSection editable" style="max-height: 60px;">

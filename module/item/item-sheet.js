@@ -5,6 +5,7 @@ import { ArM5eActorSheet } from "../actor/actor-sheet.js";
 import { EnchantmentExtension } from "../schemas/enchantmentSchema.js";
 import { ArM5eItemEnchantmentSheet } from "./subsheet/enchant-extension-sheet.js";
 import { ARM5E } from "../config.js";
+import { effectToLabText } from "./item-converter.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -403,6 +404,33 @@ export class ArM5eItemSheet extends ItemSheet {
       const dataset = getDataset(event);
 
       await this.object.actor.sheet._onRoll(dataset);
+    });
+
+    html.find(".create-labtext").click(async (event) => {
+      if (!this.item.isOwned) return;
+      let confirm = await getConfirmation(
+        this.item.name,
+        game.i18n.localize("arm5e.hints.createLabText"),
+        ArM5eActorSheet.getFlavor(this.item.actor?.type)
+      );
+      if (confirm) {
+        const dataset = getDataset(event);
+        let effectData;
+        if (dataset.index) {
+          const enchant = foundry.utils.deepClone(
+            this.item.system.enchantments.effects[dataset.index]
+          );
+          enchant.system = enchant.system.toObject();
+          effectData = effectToLabText(enchant);
+          effectData.system.author = this.item.system.enchantments.author;
+        } else {
+          effectData = effectToLabText(this.item.toObject());
+          effectData.system.author = this.actor.name;
+        }
+        effectData.system.draft = true;
+
+        await this.actor.createEmbeddedDocuments("Item", [effectData]);
+      }
     });
   }
   async _changeAbilitykey(item, event) {

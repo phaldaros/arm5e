@@ -2522,6 +2522,15 @@ ARM5E.books.categories = {
 };
 
 ARM5E.activities.lab = {
+  none: {
+    label: "arm5e.generic.none",
+    enabled: "",
+    edition: {
+      aura: "",
+      spellField: "",
+      spellCombobox: ""
+    }
+  },
   inventSpell: {
     label: "arm5e.lab.activity.inventSpell",
     enabled: "",
