@@ -14,25 +14,28 @@ export class ArM5eActorProfiles {
     const dataset = getDataset(event);
     const config = ARM5E.ActorProfiles[dataset.key];
 
-    let items = [];
-    for (let ab of config.abilities) {
-      if (this.actor.hasSkill(ab.key)) {
-        continue;
+    let itemsCreate = [];
+    let itemsUpdate = [];
+    if (config.abilities) {
+      for (let ab of config.abilities) {
+        let ability = this.actor.getAbility(ab.key, ab.option);
+        if (ability) {
+          if (ab.inc && event.shiftKey) {
+            itemsUpdate.push({ _id: ability._id, "system.xp": ability.system.xp + ab.inc });
+          }
+        } else {
+          ability = await getAbilityFromCompendium(ab.key, ab.option);
+          if (ability == null) {
+            console.error("Wrong actor config");
+            return;
+          }
+          if (ab.xp) {
+            ability.system.xp = ab.xp;
+          }
+          itemsCreate.push(ability);
+        }
       }
-
-      let ability = await getAbilityFromCompendium(ab.key, ab.option);
-      if (ability == null) {
-        console.error("Wrong actor config");
-        continue;
-      }
-      // ability = ability.toObject();
-      if (ab.xp) {
-        ability.system.xp = ab.xp;
-      }
-
-      items.push(ability);
     }
-
     if (config.virtues) {
       for (let v of config.virtues) {
         if (this.actor.hasVirtue(v.index)) {
@@ -41,9 +44,9 @@ export class ArM5eActorProfiles {
         let virtue = await getItemFromCompendium("virtues", v.index);
         if (virtue == null) {
           console.error("Wrong actor config");
-          continue;
+          return;
         }
-        items.push(virtue.toObject());
+        itemsCreate.push(virtue.toObject());
       }
     }
 
@@ -55,12 +58,31 @@ export class ArM5eActorProfiles {
         let flaw = await getItemFromCompendium("flaws", f.index);
         if (flaw == null) {
           console.error("Wrong actor config");
-          continue;
+          return;
         }
-        items.push(flaw.toObject());
+        itemsCreate.push(flaw.toObject());
       }
     }
-
-    await this.actor.createEmbeddedDocuments("Item", items, {});
+    let actorUpdate = {};
+    if (config.arts) {
+      for (let a of config.arts) {
+        if (!this.actor._isMagus()) {
+          continue;
+        }
+        if (a.inc) {
+          if (Object.keys(ARM5E.magic.techniques).includes(a.key)) {
+            actorUpdate[`system.arts.techniques.${a.key}.xp`] =
+              this.actor.system.arts.techniques[a.key].xp + a.inc;
+          } else if (Object.keys(ARM5E.magic.forms).includes(a.key)) {
+            actorUpdate[`system.arts.forms.${a.key}.xp`] =
+              this.actor.system.arts.forms[a.key].xp + a.inc;
+          }
+        }
+      }
+    }
+    // TODO: one update
+    await this.actor.createEmbeddedDocuments("Item", itemsCreate); //, { temporary: true });
+    await this.actor.updateEmbeddedDocuments("Item", itemsUpdate, {});
+    await this.actor.update(actorUpdate);
   }
 }

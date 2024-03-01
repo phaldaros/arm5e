@@ -2978,74 +2978,94 @@ ARM5E.ActorProfiles = {
   martial: {
     label: "Martial",
     abilities: [
-      { key: "awareness", option: "" },
-      { key: "brawl", option: "" },
-      { key: "bows", option: "" },
-      { key: "trownWeapon", option: "" },
-      { key: "greatWeapon", option: "" },
-      { key: "singleWeapon", option: "" }
+      { key: "awareness", option: "", inc: 5 },
+      { key: "brawl", option: "", inc: 5 },
+      { key: "bows", option: "", inc: 5 },
+      { key: "trownWeapon", option: "", inc: 5 },
+      { key: "greatWeapon", option: "", inc: 5 },
+      { key: "singleWeapon", option: "", inc: 5 }
     ]
   },
   social: {
     label: "Social",
     abilities: [
-      { key: "carouse", option: "" },
-      { key: "charm", option: "" },
-      { key: "bows", option: "" },
-      { key: "etiquette", option: "" },
-      { key: "folkKen", option: "" },
-      { key: "leadership", option: "" }
+      { key: "carouse", option: "", inc: 5 },
+      { key: "charm", option: "", inc: 5 },
+      { key: "bows", option: "", inc: 5 },
+      { key: "etiquette", option: "", inc: 5 },
+      { key: "folkKen", option: "", inc: 5 },
+      { key: "leadership", option: "", inc: 5 }
     ]
   },
   rogue: {
     label: "Rogue",
     abilities: [
-      { key: "awareness", option: "" },
-      { key: "charm", option: "" },
-      { key: "guile", option: "" },
-      { key: "intrigue", option: "" },
-      { key: "folkKen", option: "" },
-      { key: "legerdemain", option: "" }
+      { key: "awareness", option: "", inc: 5 },
+      { key: "charm", option: "", inc: 5 },
+      { key: "guile", option: "", inc: 5 },
+      { key: "intrigue", option: "", inc: 5 },
+      { key: "folkKen", option: "", inc: 5 },
+      { key: "legerdemain", option: "", inc: 5 }
     ]
   },
   scholarMundane: {
     label: "Mundane scholar",
     abilities: [
-      { key: "profession", option: "Scribe" },
-      { key: "artesLib", option: "" },
-      { key: "philosophy", option: "" },
-      { key: "theology", option: "" },
-      { key: "law", option: "canonLaw" },
-      { key: "deadLanguage", option: "Latin" }
+      { key: "profession", option: "Scribe", inc: 5 },
+      { key: "artesLib", option: "", inc: 5 },
+      { key: "philosophy", option: "", inc: 5 },
+      { key: "theology", option: "", inc: 5 },
+      { key: "law", option: "canonLaw", inc: 5 },
+      { key: "deadLanguage", option: "Latin", inc: 5 }
     ]
   },
   scholarArcane: {
     label: "Arcane scholar",
     abilities: [
-      { key: "profession", option: "Scribe" },
-      { key: "artesLib", option: "" },
-      { key: "philosophy", option: "" },
-      { key: "dominionLore", option: "" },
-      { key: "faerieLore", option: "" },
-      { key: "infernalLore", option: "" },
-      { key: "magicLore", option: "" },
-      { key: "deadLanguage", option: "Latin" }
+      { key: "profession", option: "Scribe", inc: 5 },
+      { key: "artesLib", option: "", inc: 5 },
+      { key: "philosophy", option: "", inc: 5 },
+      { key: "dominionLore", option: "", inc: 5 },
+      { key: "faerieLore", option: "", inc: 5 },
+      { key: "infernalLore", option: "", inc: 5 },
+      { key: "magicLore", option: "", inc: 5 },
+      { key: "deadLanguage", option: "Latin", inc: 5 }
     ]
   },
   magus: {
     label: "Magus",
     abilities: [
       { key: "deadLanguage", option: "Latin", xp: 50 },
-      { key: "magicTheory", option: "", xp: 30 },
-      { key: "parma", option: "", xp: 5 },
-      { key: "artesLib", option: "", xp: 5 },
-      { key: "penetration", option: "" },
-      { key: "finesse", option: "" },
-      { key: "awareness", option: "" },
-      { key: "concentration", option: "" },
-      { key: "philosophy", option: "" },
-      { key: "hermeticCode", option: "" }
+      { key: "magicTheory", option: "", xp: 30, inc: 5 },
+      { key: "parma", option: "", xp: 5, inc: 5 },
+      { key: "artesLib", option: "", xp: 5, inc: 5 },
+      { key: "penetration", option: "", inc: 5 },
+      { key: "finesse", option: "", inc: 5 },
+      { key: "awareness", option: "", inc: 5 },
+      { key: "concentration", option: "", inc: 5 },
+      { key: "philosophy", option: "", inc: 5 },
+      { key: "hermeticCode", option: "", inc: 5 }
     ],
     virtues: [{ index: "the-gift" }]
+  },
+  masterMagic: {
+    label: "Arts mastery",
+    arts: [
+      { key: "cr", inc: 5 },
+      { key: "in", inc: 5 },
+      { key: "mu", inc: 5 },
+      { key: "pe", inc: 5 },
+      { key: "re", inc: 5 },
+      { key: "an", inc: 5 },
+      { key: "aq", inc: 5 },
+      { key: "au", inc: 5 },
+      { key: "co", inc: 5 },
+      { key: "he", inc: 5 },
+      { key: "ig", inc: 5 },
+      { key: "im", inc: 5 },
+      { key: "me", inc: 5 },
+      { key: "te", inc: 5 },
+      { key: "vi", inc: 5 }
+    ]
   }
 };

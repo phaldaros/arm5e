@@ -1764,6 +1764,10 @@ export class ArM5ePCActor extends Actor {
     return this.system.flaws.find((e) => e.system.indexKey == key) != undefined;
   }
 
+  getAbility(key, option = "") {
+    return this.system.abilities.find((e) => e.system.key == key && e.system.option == option);
+  }
+
   getAbilityStats(key, option = "") {
     const ability = this.system.abilities.find(
       (e) => e.system.key == key && e.system.option == option
