@@ -1,4 +1,4 @@
-## 2.2.4.8, Pralix, filia Tytalus
+## 2.2.4.9, Pralix, filia Tytalus
 
 ### Features & changes
 
@@ -15,6 +15,8 @@
 - It is now possible to write a new topic to an existing book.
 - Possible to generate a draft laboratory text from enchantments and spells
 - Translation of character's draft lab texts.
+- New default icon for writing activity
+- Improved actor profiles
 
 ### Bug fixes
 
