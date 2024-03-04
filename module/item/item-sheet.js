@@ -257,9 +257,15 @@ export class ArM5eItemSheet extends ItemSheet {
         };
       }
     } else if (itemData.type == "inhabitant") {
+      context.inhabitantCategory = deepClone(CONFIG.ARM5E.covenant.inhabitants);
       if (itemData.system.linked) {
-        context.canEdit = "readonly";
-        context.canSelect = "disabled";
+        if (["magi", "companions"].includes(itemData.system.category)) {
+          context.canEdit = "readonly";
+          context.canSelect = "disabled";
+        } else {
+          delete context.inhabitantCategory.magi;
+          delete context.inhabitantCategory.companions;
+        }
       }
     } else if (itemData.type == "labCovenant") {
       if (itemData.system.linked) {

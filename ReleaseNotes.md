@@ -1,4 +1,4 @@
-## 2.2.4.9, Pralix, filia Tytalus
+## 2.2.4.10, Pralix, filia Tytalus
 
 ### Features & changes
 
@@ -31,6 +31,7 @@
 - Ability keys categories are again more distinguishable
 - Dropping items on the lab sheet is working again
 - Another round at fixing the lab owner setting, introducing the "None" activity category.
+- Covenant inhabitants fixes
 
 ## 2.2.4.4, Pralix, filia Guorna the Fetid
 

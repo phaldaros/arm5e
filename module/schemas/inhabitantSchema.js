@@ -82,6 +82,14 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
       return CONFIG.INHABITANTS_DEFAULT_ICONS[item.system.category];
     }
   }
+
+  static migrateData(data) {
+    if (data.category === "grogs") {
+      data.category = "turbula";
+    }
+    return data;
+  }
+
   static migrate(data) {
     const updateData = {};
 
@@ -125,7 +133,7 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
           }
           break;
         case "habitantHabitants":
-          updateData["system.category"] = "grogs";
+          updateData["system.category"] = "servants";
           if (data.name === "") {
             updateData["name"] = "Grog name";
           }
@@ -143,7 +151,7 @@ export class InhabitantSchema extends foundry.abstract.DataModel {
           }
           break;
         default:
-          updateData["system.category"] = "turbula";
+          updateData["system.category"] = "servants";
           if (data.name === "") {
             updateData["name"] = "A grog";
           }

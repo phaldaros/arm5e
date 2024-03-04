@@ -1145,7 +1145,7 @@ export const migrateItemData = async function (item) {
           }
           break;
         case "habitantHabitants":
-          updateData["system.category"] = "grogs";
+          updateData["system.category"] = "servants";
           if (itemData.name === "") {
             updateData["name"] = "Grog name";
           }
@@ -1163,7 +1163,7 @@ export const migrateItemData = async function (item) {
           }
           break;
         default:
-          updateData["system.category"] = "grogs";
+          updateData["system.category"] = "servants";
           if (itemData.name === "") {
             updateData["name"] = "A grog";
           }
