@@ -1,4 +1,4 @@
-import { log } from "../tools.js";
+import { log, putInFoldableLinkWithAnimation } from "../tools.js";
 import { stressDie } from "../dice.js";
 
 // export function doubleAbility(actor) {
