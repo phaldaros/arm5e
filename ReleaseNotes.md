@@ -1,3 +1,9 @@
+## 2.2.4.11, Pralix, the Spider's bane
+
+### Bug fixes
+
+- Fix damage application error.
+
 ## 2.2.4.10, Pralix, filia Tytalus
 
 ### Features & changes
