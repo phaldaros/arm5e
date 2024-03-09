@@ -440,6 +440,14 @@ ARM5E.GENERAL_ABILITIES = {
     category: "general",
     selection: ""
   },
+  knowledge: {
+    mnemonic: "arm5e.skill.general.knowledge",
+    option: true,
+    category: "general",
+    selection: "",
+    optionPlaceholder: "arm5e.skill.options.knowledge",
+    optionDefault: "topicName"
+  },
   leadership: {
     mnemonic: "arm5e.skill.general.leadership",
     option: false,

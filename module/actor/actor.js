@@ -1049,7 +1049,7 @@ export class ArM5ePCActor extends Actor {
             break;
           case "servants":
           case "laborers":
-          case "teamster":
+          case "teamsters":
           case "dependants":
             habitants.push(item);
             break;

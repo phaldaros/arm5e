@@ -1,3 +1,17 @@
+## 2.2.4.12, Pralix, founder of a new Order
+
+### Features & changes
+
+- New general generic ability : Lore
+- NPCs now also have their library tab
+- Books topic on an ability will now have a dedicated field for the ability's name.
+
+### Bug fixes
+
+- Quality of writen tractati is computed properly
+- Missing translations added
+- Teamsters are again displayed in the covenant inhabitants.
+
 ## 2.2.4.11, Pralix, the Spider's bane
 
 ### Bug fixes

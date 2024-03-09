@@ -443,6 +443,7 @@
   "arm5e.skill.general.guile": "Guile",
   "arm5e.skill.general.hunt": "Hunt",
   "arm5e.skill.general.intrigue": "Intrigue",
+  "arm5e.skill.general.knowledge": "{option} lore",
   "arm5e.skill.general.leadership": "Leadership",
   "arm5e.skill.general.legerdemain": "Legerdemain",
   "arm5e.skill.general.livingLanguage": "Speak {option}",
@@ -501,6 +502,7 @@
   "arm5e.skill.mystery.cult": "Mystery Cult ({option}) Lore",
 
   "arm5e.skill.options.area": "Area's name",
+  "arm5e.skill.options.knowledge": "Topic",
   "arm5e.skill.options.craft": "Craft's name",
   "arm5e.skill.options.profession": "Prof's name",
   "arm5e.skill.options.language": "Language's name",

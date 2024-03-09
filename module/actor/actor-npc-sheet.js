@@ -36,6 +36,11 @@ export class ArM5eNPCActorSheet extends ArM5eActorSheet {
           initial: "lab"
         },
         {
+          navSelector: ".inventory-tabs",
+          contentSelector: ".inventory-body",
+          initial: "inventory"
+        },
+        {
           navSelector: ".config-tabs",
           contentSelector: ".config-body",
           initial: "config"

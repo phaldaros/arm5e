@@ -421,14 +421,15 @@ export function getTopicDescription(topic) {
   let desc;
   switch (topic.category) {
     case "ability":
-      const ab = CONFIG.ARM5E.ALL_ABILITIES[topic.key];
-      if (ab) {
-        desc = `"${game.i18n.format(ab.mnemonic, { option: topic.option })}"`;
-      } else {
-        desc = `"${game.i18.localize("arm5e.generic.unknown")} ${game.i18nlocalize(
-          "arm5e.sheet.bookTopic"
-        )}"`;
-      }
+      // const ab = CONFIG.ARM5E.ALL_ABILITIES[topic.key];
+      // if (ab) {
+      //   desc = `"${game.i18n.format(ab.mnemonic, { option: topic.option })}"`;
+      // } else {
+      //   desc = `"${game.i18.localize("arm5e.generic.unknown")} ${game.i18nlocalize(
+      //     "arm5e.sheet.bookTopic"
+      //   )}"`;
+      // }
+      desc = topic.name;
       break;
     case "art":
       desc = game.i18n.format("arm5e.scriptorium.msg.diaryTopic.art", {
