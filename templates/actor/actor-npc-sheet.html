@@ -266,7 +266,26 @@
         </div>
       {{/if}} {{!-- Inventory Tab --}}
       <div class="tab inventory" data-group="primary" data-tab="inventory">
-        {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}
+        <nav class="arm5eSubTabs inventory-tabs tabs" data-group="inventory-secondary">
+          <a class="item posRelative" data-tab="inventory" data-group="inventory-secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.inventory"}}
+          </a>
+          <a class="item posRelative" data-tab="library" data-group="inventory-secondary">
+            <div class="navItem-right-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+            <div class="navItem-left-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+            {{localize "arm5e.sheet.library"}}
+          </a>
+        </nav>
+        <section class="inventory-body">
+          <div class="tab" data-group="inventory-secondary" data-tab="inventory">
+            {{> "systems/arm5e/templates/actor/parts/actor-inventory.html" }}
+          </div>
+          <div class="tab" data-group="inventory-secondary" data-tab="library">
+            {{> "systems/arm5e/templates/actor/parts/actor-library.html"}}
+          </div>
+        </section>
       </div>
 
       {{!-- Diary Tab --}}

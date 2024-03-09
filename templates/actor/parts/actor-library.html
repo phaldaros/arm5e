@@ -63,8 +63,10 @@
           <span class="flexrow item-title width15">{{item.book}}</span>
 
           {{#if (eq item.category "ability")}}
-            <span class="flexrow bold">{{localize "arm5e.sheet.ability"}}:
-              {{localize (lookup (lookup @root.config.ALL_ABILITIES item.key) "mnemonic") option=item.option}}
+            <span class="flexrow bold">{{localize "arm5e.sheet.ability"}}: {{#if item.name.length}} {{item.name}}
+              {{else}}
+                {{localize (lookup (lookup @root.config.ALL_ABILITIES item.key) "mnemonic") option=item.option}}
+              {{/if}}
             </span>
           {{/if}}
           <div class="flexrow">

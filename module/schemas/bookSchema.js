@@ -57,7 +57,8 @@ export class BookSchema extends foundry.abstract.DataModel {
           art: new fields.StringField({ required: false, nullable: true, initial: "cr" }),
           key: new fields.StringField({ required: false, nullable: true, initial: null }),
           option: new fields.StringField({ required: false, nullable: true, initial: null }),
-          spellName: new fields.StringField({ required: false, nullable: true, initial: null }),
+          name: new fields.StringField({ required: false, nullable: true, initial: null }),
+          spellName: new fields.StringField({ required: false, nullable: true, initial: null }), // TODO merge in "name"
           spellTech: hermeticTechnique(),
           spellForm: hermeticForm(),
           labtext: new NullableEmbeddedDataField(LabTextSchema, {
@@ -65,7 +66,7 @@ export class BookSchema extends foundry.abstract.DataModel {
             nullable: true,
             initial: null
           }),
-          labtextTitle: new fields.StringField({ required: false, blank: true, initial: "" }),
+          labtextTitle: new fields.StringField({ required: false, blank: true, initial: "" }), // TODO merge in "name"
           quality: new fields.NumberField({
             required: false,
             nullable: false,

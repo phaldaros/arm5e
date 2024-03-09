@@ -64,6 +64,7 @@ export class ScriptoriumObject {
             level: 1,
             key: "",
             option: "",
+            name: "",
             spellName: "",
             art: "",
             spellTech: "cr",
@@ -322,21 +323,21 @@ export class Scriptorium extends FormApplication {
             // check if the ability is not found because of the option field
             filteredAbilities = filteredAbilities.filter((a) => a.system.key == currentTopic.key);
             if (filteredAbilities.length > 0) {
-              if (!context.reading.reader.ability) {
-                context.reading.reader.ability = filteredAbilities[0]._id;
-              }
-              context.reading.reader.abilities = filteredAbilities;
-              filteredAbilities[0].name = game.i18n.format(
-                CONFIG.ARM5E.LOCALIZED_ABILITIES[currentTopic.key].mnemonic,
-                { option: currentTopic.option }
-              );
-              if (filteredAbilities.length == 1) {
+              if (filteredAbilities.length > 1) {
                 context.ui.reading.warning.push(
                   game.i18n.format("arm5e.scriptorium.msg.whichItem", {
                     item: game.i18n.localize("arm5e.sheet.ability")
                   })
                 );
               }
+              // if (!context.reading.reader.ability) {
+              //   context.reading.reader.ability = filteredAbilities[0]._id.length ??
+              // }
+              context.reading.reader.abilities = filteredAbilities;
+              // filteredAbilities[0].name = game.i18n.format(
+              //   CONFIG.ARM5E.LOCALIZED_ABILITIES[currentTopic.key].mnemonic,
+              //   { option: currentTopic.option }
+              // );
             } else {
               context.ui.editItem = "disabled";
               context.ui.reading.warning.push(
@@ -483,16 +484,18 @@ export class Scriptorium extends FormApplication {
 
             context.writing.book.system.topics[context.newTopicIndex].key = ab.system.key;
             context.writing.book.system.topics[context.newTopicIndex].option = ab.system.option;
-            qualityBonus =
-              (context.writing.book.system.topics[context.newTopicIndex].maxLevel -
-                context.writing.book.system.topics[context.newTopicIndex].level) *
-              3;
-            // Adjust the level if it is above the max
-            context.writing.book.system.topics[context.newTopicIndex].level = Math.min(
-              context.writing.book.system.topics[context.newTopicIndex].level,
-              context.writing.book.system.topics[context.newTopicIndex].maxLevel
-            );
-            work = context.writing.book.system.topics[context.newTopicIndex].level * 5;
+            if (newTopic.type === "Summa") {
+              qualityBonus =
+                (context.writing.book.system.topics[context.newTopicIndex].maxLevel -
+                  context.writing.book.system.topics[context.newTopicIndex].level) *
+                3;
+              // Adjust the level if it is above the max
+              context.writing.book.system.topics[context.newTopicIndex].level = Math.min(
+                context.writing.book.system.topics[context.newTopicIndex].level,
+                context.writing.book.system.topics[context.newTopicIndex].maxLevel
+              );
+              work = context.writing.book.system.topics[context.newTopicIndex].level * 5;
+            }
           }
           log(false, `writer.ability: ${context.writing.writer.ability}`);
           break;
@@ -781,6 +784,9 @@ export class Scriptorium extends FormApplication {
       topic.spellName = spell.name;
       topic.spellTech = spell.system.technique.value;
       topic.spellForm = spell.system.form.value;
+    } else if (topic.category == "ability") {
+      const ability = writer.items.get(writerData.ability);
+      topic.name = ability.name;
     }
 
     const achievement = {
@@ -1189,6 +1195,7 @@ export class Scriptorium extends FormApplication {
       topicData.key = "awareness";
       topicData.option = "";
       topicData.spellName = null;
+      topicData.name = "";
       topicData.category = "ability";
       topicData.labText = null;
     } else if (chosenTopic === "art") {
@@ -1197,6 +1204,7 @@ export class Scriptorium extends FormApplication {
       topicData.key = null;
       topicData.option = "";
       topicData.spellName = null;
+      topicData.name = null;
       topicData.category = "art";
       topicData.labText = null;
     } else if (chosenTopic === "mastery") {
@@ -1204,6 +1212,7 @@ export class Scriptorium extends FormApplication {
       topicData.key = null;
       topicData.option = "";
       topicData.spellName = "Mastered spell";
+      topicData.name = null;
       topicData.category = "mastery";
       topicData.type = "Tractatus";
       topicData.labText = null;
@@ -1211,6 +1220,7 @@ export class Scriptorium extends FormApplication {
       topicData.art = null;
       topicData.key = null;
       topicData.spellName = null;
+      topicData.name = null;
       topicData.option = "";
       topicData.category = "labText";
       //TODO
@@ -1334,9 +1344,7 @@ export class Scriptorium extends FormApplication {
     }
 
     if (reader.name == currentTopic.author) {
-      context.ui.reading.warning.push(
-        game.i18n.localize("The reader seems to be the author of the book!")
-      );
+      context.ui.reading.warning.push(game.i18n.localize("arm5e.scriptorium.msg.readerIsAuthor"));
       context.ui.reading.error = true;
     }
 
