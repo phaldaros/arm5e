@@ -176,6 +176,15 @@ export class ItemSchema extends foundry.abstract.DataModel {
   hasQuantity() {
     return { name: "quantity", qty: this.quantity };
   }
+
+  sanitize() {
+    const res = this.toObject();
+
+    if (this.enchantments) {
+      res.enchantments = this.enchantments.sanitize();
+    }
+    return res;
+  }
 }
 export class ReputationSchema extends foundry.abstract.DataModel {
   // TODO remove in V11

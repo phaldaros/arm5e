@@ -277,12 +277,10 @@ export default class ArM5eActiveEffect extends ActiveEffect {
             if (effectOption[idx]) {
               subtype = game.i18n.format(subtype, { option: effectOption[idx] });
             }
-            descr +=
-              game.i18n.localize("arm5e.sheet.activeEffect.add") +
-              (c.value < 0 ? "" : "+") +
-              c.value +
-              " to " +
-              subtype;
+            descr += game.i18n.format("arm5e.sheet.activeEffect.add", {
+              score: (c.value < 0 ? "" : "+") + c.value,
+              value: subtype
+            });
             break;
           case CONST.ACTIVE_EFFECT_MODES.OVERRIDE:
             descr += ` = ${c.value}`;

@@ -535,6 +535,7 @@
   "arm5e.sheet.maintenance": "Maintenance",
   "arm5e.sheet.aesthetics": "Aesthetics",
   "arm5e.sheet.aestheticsMax": "Aesthetics' maximum",
+  "arm5e.sheet.auraMod": "Aura modifier",
   "arm5e.sheet.magicItems": "Magic Items",
   "arm5e.sheet.specialities": "Specialties",
   "arm5e.sheet.rooms": "Rooms",
@@ -1185,7 +1186,7 @@
   "arm5e.sheet.activeEffect.mode_3": "Downgrade",
   "arm5e.sheet.activeEffect.mode_4": "Upgrade",
   "arm5e.sheet.activeEffect.mode_5": "Override",
-  "arm5e.sheet.activeEffect.add": "Add ",
+  "arm5e.sheet.activeEffect.add": "Add {score} to {value}",
   "arm5e.sheet.activeEffect.multiply": "Multiply {type} by ",
 
   "arm5e.sheet.activeEffect.changeValue": "Effect Value",

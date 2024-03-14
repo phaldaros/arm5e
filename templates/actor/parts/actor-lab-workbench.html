@@ -111,7 +111,7 @@
     </div>
     {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.year" 
         name="flags.arm5e.planning.date.year" attributes="" classes="editable" value=planning.date.year type="number" dtype="Number"}}
-    {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.aura" 
+    {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.sheet.aura" hint=tooltip.aura
         name="flags.arm5e.planning.modifiers.aura" classes=classes.aura attributes=edition.aura value=planning.modifiers.aura type="number" dtype="Number"}}
     {{>"systems/arm5e/templates/generic/simpleFieldBacksection.html" label="arm5e.lab.planning.labQuality" 
         name="quality" attributes="readonly" value=system.generalQuality.total type="number" dtype="Number"}}

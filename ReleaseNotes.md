@@ -1,16 +1,23 @@
-## 2.2.4.12, Pralix, founder of a new Order
+## 2.2.4.13, Pralix, founder of a new Order
+
+### Dependencies updates
+
+- arm5e-compendia module minimum version 0.3.0
 
 ### Features & changes
 
 - New general generic ability : Lore
 - NPCs now also have their library tab
 - Books topic on an ability will now have a dedicated field for the ability's name.
+- New active effect: aura modifier for lab.
+- [meta] new method for datamodel schemas : sanitize
 
 ### Bug fixes
 
 - Quality of writen tractati is computed properly
 - Missing translations added
 - Teamsters are again displayed in the covenant inhabitants.
+- Lab size attribute is now computed properly.
 
 ## 2.2.4.11, Pralix, the Spider's bane
 

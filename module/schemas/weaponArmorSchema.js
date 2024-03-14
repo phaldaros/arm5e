@@ -86,6 +86,15 @@ export class ArmorSchema extends foundry.abstract.DataModel {
 
     return update;
   }
+
+  sanitize() {
+    const res = this.toObject();
+
+    if (this.enchantments) {
+      res.enchantments = this.enchantments.sanitize();
+    }
+    return res;
+  }
 }
 export class WeaponSchema extends foundry.abstract.DataModel {
   // TODO remove in V11
@@ -215,5 +224,13 @@ export class WeaponSchema extends foundry.abstract.DataModel {
     }
 
     return update;
+  }
+
+  sanitize() {
+    const res = this.toObject();
+    if (this.enchantments) {
+      res.enchantments = this.enchantments.sanitize();
+    }
+    return res;
   }
 }

@@ -647,4 +647,21 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     }
     return false;
   }
+
+  sanitize() {
+    const res = this.toObject();
+    let idx = 0;
+    for (const s of res.progress.newSpells) {
+      s.spellData.description = "";
+    }
+    for (const a of res.achievements) {
+      if (a.system.enchantments) {
+        for (let e of a.system.enchantments.effects) {
+          e.system.description = "";
+        }
+      }
+    }
+
+    return res;
+  }
 }
