@@ -435,6 +435,14 @@ export class LabTextSchema extends foundry.abstract.DataModel {
     };
   }
 
+  sanitize() {
+    const res = this.toObject();
+    if (this.type != "raw") {
+      res.description = "";
+    }
+    return res;
+  }
+
   static migrate(itemData) {
     // console.log(`Migrate book: ${JSON.stringify(itemData)}`);
     const updateData = migrateMagicalItem(itemData);

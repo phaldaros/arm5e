@@ -409,7 +409,7 @@ export class ArM5eItem extends Item {
         toUpdate = true;
       }
     }
-    if (toUpdate) await this.updateSource(data);
+    if (toUpdate) this.updateSource(data);
     return true;
   }
 

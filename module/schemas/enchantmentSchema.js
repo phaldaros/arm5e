@@ -169,6 +169,17 @@ export class EnchantmentExtension extends foundry.abstract.DataModel {
     updateData["system.enchantments.effects"] = effects;
     return updateData;
   }
+
+  sanitize() {
+    const res = this.toObject();
+    let idx = 0;
+    for (const effect of res.effects) {
+      effect.system = this.effects[idx].system.sanitize();
+      idx++;
+    }
+
+    return res;
+  }
 }
 
 export class EnchantmentSchema extends foundry.abstract.DataModel {
@@ -191,6 +202,12 @@ export class EnchantmentSchema extends foundry.abstract.DataModel {
   }
   static migrate(itemData) {
     return {};
+  }
+
+  sanitize() {
+    const res = this.toObject();
+    res.description = "";
+    return res;
   }
 }
 

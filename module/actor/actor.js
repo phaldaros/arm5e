@@ -65,6 +65,7 @@ export class ArM5ePCActor extends Actor {
       this.system.warping.bonus = 0;
       this.system.aesthetics.bonus = 0;
       this.system.aesthetics.max = 999;
+      this.system.auraBonus = 0;
 
       // create data keys for lab specialty
       this.system.specialty = {};
@@ -647,20 +648,20 @@ export class ArM5ePCActor extends Actor {
         }
       } else if (item.type === "diaryEntry") {
         if (!item.system.done) {
-          pendingXps +=
-            item.system.sourceQuality +
-            item.system.progress.abilities.reduce((previous, current, i) => {
-              return previous + current.xp;
-            }, 0) +
-            item.system.progress.arts.reduce((previous, current, i) => {
-              return previous + current.xp;
-            }, 0);
-          item.system.progress.spells.reduce((previous, current, i) => {
-            return previous + current.xp;
-          }, 0);
-          item.system.progress.newSpells.reduce((previous, current, i) => {
-            return previous + current.xp;
-          }, 0);
+          pendingXps += item.system.sourceQuality;
+          //    +
+          //   item.system.progress.abilities.reduce((previous, current, i) => {
+          //     return previous + current.xp;
+          //   }, 0) +
+          //   item.system.progress.arts.reduce((previous, current, i) => {
+          //     return previous + current.xp;
+          //   }, 0);
+          // item.system.progress.spells.reduce((previous, current, i) => {
+          //   return previous + current.xp;
+          // }, 0);
+          // item.system.progress.newSpells.reduce((previous, current, i) => {
+          //   return previous + current.xp;
+          // }, 0);
         }
         diaryEntries.push(item);
       } else if (item.type === "abilityFamiliar") {
@@ -1543,7 +1544,6 @@ export class ArM5ePCActor extends Actor {
   // set the proper default icon just before creation
   async _preCreate(data, options, userId) {
     await super._preCreate(data, options, userId);
-    log(false, `_preCreate: _id = ${this._id}`);
     let toUpdate = false;
     if (CONFIG.ARM5E.ActorDataModels[data.type]?.getDefault) {
       data = CONFIG.ARM5E.ActorDataModels[data.type].getDefault(data);
@@ -1559,8 +1559,6 @@ export class ArM5ePCActor extends Actor {
         toUpdate = true;
       }
     }
-
-    if (toUpdate) await this.updateSource(data);
 
     if (this.type == "laboratory") {
       let effectsData = this.effects.contents;
@@ -1596,9 +1594,13 @@ export class ArM5ePCActor extends Actor {
           effect.img = "icons/svg/aura.svg";
         }
         effectsData.push(effect);
-        const res = await this.effects.update(effectsData);
-        log(false, res);
+        // const res = await this.effects.update(effectsData);
+        data.effects = effectsData;
       }
+    }
+
+    if (toUpdate) {
+      this.updateSource(data);
     }
   }
 

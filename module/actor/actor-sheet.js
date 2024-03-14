@@ -221,7 +221,7 @@ export class ArM5eActorSheet extends ActorSheet {
     // }
 
     // Allow effect creation
-    context.datetime = context.datetime = game.settings.get("arm5e", "currentDate");
+    context.datetime = game.settings.get("arm5e", "currentDate");
     context.datetime.seasonLabel = game.i18n.localize(
       CONFIG.ARM5E.seasons[context.datetime.season].label
     );

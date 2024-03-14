@@ -1912,6 +1912,12 @@ export default {
         key: "system.aesthetics.max",
         mode: CONST.ACTIVE_EFFECT_MODES.DOWNGRADE,
         default: -1
+      },
+      auraMod: {
+        label: "arm5e.sheet.auraMod",
+        key: "system.auraBonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        default: 0
       }
     }
   },

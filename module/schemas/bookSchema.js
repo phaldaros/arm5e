@@ -113,6 +113,21 @@ export class BookSchema extends foundry.abstract.DataModel {
     };
   }
 
+  sanitize() {
+    const res = this.toObject();
+    let idx = 0;
+    for (const topic of res.topics) {
+      if (topic.category === "labText") {
+        topic.labtext = this.topics[idx].labtext.sanitize();
+      }
+      idx++;
+    }
+    if (this.enchantments) {
+      res.enchantments = this.enchantments.sanitize();
+    }
+    return res;
+  }
+
   static getDefault(itemData) {
     let res = itemData;
     let currentDate = game.settings.get("arm5e", "currentDate");
