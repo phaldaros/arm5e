@@ -1,8 +1,8 @@
-## 2.2.4.13, Pralix, founder of a new Order
+## 2.2.4.14, Pralix, founder of a new Order
 
 ### Dependencies updates
 
-- arm5e-compendia module minimum version 0.3.0
+- arm5e-compendia module minimum version 0.3.1
 
 ### Features & changes
 
@@ -11,6 +11,7 @@
 - Books topic on an ability will now have a dedicated field for the ability's name.
 - New active effect: aura modifier for lab.
 - [meta] new method for datamodel schemas : sanitize
+- Improved management of hidden effects in magic items
 
 ### Bug fixes
 
@@ -18,6 +19,8 @@
 - Missing translations added
 - Teamsters are again displayed in the covenant inhabitants.
 - Lab size attribute is now computed properly.
+- partial fix on pending xp
+- Edition of the generic lab modifier is again possible in the labTotals tab
 
 ## 2.2.4.11, Pralix, the Spider's bane
 

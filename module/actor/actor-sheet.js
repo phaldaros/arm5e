@@ -371,9 +371,6 @@ export class ArM5eActorSheet extends ActorSheet {
           context.system.labTotal.aura = lab.system.aura.computeMaxAuraModifier(
             this.actor.system.realms
           );
-        } else {
-          context.system.labTotal.quality = 0;
-          context.system.labTotal.aura = 0;
         }
 
         // hermetic filters

@@ -145,12 +145,14 @@ export class ArM5ePCActor extends Actor {
       this.system.stances.gestures = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.gestures);
       this.system.stances.voice = foundry.utils.deepClone(CONFIG.ARM5E.magic.stances.voice);
 
-      this.system.labTotal = {
-        modifier: 0,
-        quality: 0,
-        aura: 0,
-        applyFocus: false
-      };
+      if (!this.system.labTotal) {
+        this.system.labTotal = {
+          modifier: 0,
+          quality: 0,
+          aura: 0,
+          applyFocus: false
+        };
+      }
     }
 
     // For characters

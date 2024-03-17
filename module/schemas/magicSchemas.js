@@ -436,11 +436,14 @@ export class LabTextSchema extends foundry.abstract.DataModel {
   }
 
   sanitize() {
-    const res = this.toObject();
-    if (this.type != "raw") {
-      res.description = "";
+    return LabTextSchema.sanitizeData(this.toObject());
+  }
+
+  static sanitizeData(data) {
+    if (data.type != "raw") {
+      data.description = "";
     }
-    return res;
+    return data;
   }
 
   static migrate(itemData) {

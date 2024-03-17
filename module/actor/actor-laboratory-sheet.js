@@ -1,6 +1,11 @@
 import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
-import { PickRequisites, computeLevel, computeRawCastingTotal } from "../helpers/magic.js";
+import {
+  GetFilteredMagicalAttributes,
+  PickRequisites,
+  computeLevel,
+  computeRawCastingTotal
+} from "../helpers/magic.js";
 import { spellFormLabel, spellTechniqueLabel } from "../helpers/spells.js";
 import { resetOwnerFields } from "../item/item-converter.js";
 import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
@@ -103,7 +108,7 @@ export class ArM5eLaboratoryActorSheet extends ArM5eActorSheet {
     log(false, "GET WORKBENCH DATA");
     let context = await super.getData();
     let isValid = true;
-    context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
+    context = await GetFilteredMagicalAttributes(context);
 
     if (context.system.owner && context.system.owner.linked) {
       // Owner

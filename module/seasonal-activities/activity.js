@@ -2,8 +2,7 @@
 
 import { ARM5E } from "../config.js";
 import ArM5eActiveEffect from "../helpers/active-effects.js";
-import { computeRawCastingTotal } from "../helpers/magic.js";
-import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
+import { GetFilteredAspects, computeRawCastingTotal } from "../helpers/magic.js";
 import { EnchantmentExtension } from "../schemas/enchantmentSchema.js";
 import { error, getDataset, log } from "../tools.js";
 
@@ -563,7 +562,7 @@ export class MinorEnchantment extends LabActivity {
     );
     item = item.toObject();
 
-    result.ASPECTS = await ArM5eItemMagicSheet.GetFilteredAspects();
+    result.ASPECTS = await GetFilteredAspects();
 
     const first = Object.keys(result.ASPECTS)[0];
     const firstEffect = Object.keys(result.ASPECTS[first].effects)[0];

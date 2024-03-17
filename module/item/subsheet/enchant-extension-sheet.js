@@ -1,13 +1,16 @@
-import { ArM5eItemSheet } from "../item-sheet.js";
 import { getDataset, log } from "../../tools.js";
 import { ARM5E } from "../../config.js";
 import { ArM5eItem } from "../item.js";
 import { getConfirmation } from "../../constants/ui.js";
 import { ArM5eActorSheet } from "../../actor/actor-sheet.js";
 import { EnchantmentExtension, EnchantmentSchema } from "../../schemas/enchantmentSchema.js";
-import { PickRequisites, computeLevel } from "../../helpers/magic.js";
-import { spellFormLabel, spellTechniqueLabel } from "../../helpers/spells.js";
-import { ArM5eItemMagicSheet } from "../item-magic-sheet.js";
+import {
+  GetFilteredAspects,
+  GetFilteredMagicalAttributes,
+  PickRequisites,
+  computeLevel
+} from "../../helpers/magic.js";
+// import { ArM5eItemMagicSheet } from "../item-magic-sheet.js";
 /**
  */
 export class ArM5eItemEnchantmentSheet {
@@ -34,7 +37,7 @@ export class ArM5eItemEnchantmentSheet {
       };
       let enchantments = [];
       for (let idx = 0; idx < this.item.system.enchantments.effects.length; idx++) {
-        enchantments.push({ desc: "", attributes: "" });
+        enchantments.push({ desc: "", attributes: "", whole: "" });
       }
       usercache[this.item.id].sections.visibility.enchantments = enchantments;
     } else {
@@ -46,7 +49,7 @@ export class ArM5eItemEnchantmentSheet {
         if (ench) {
           enchantments[idx] = ench;
         } else {
-          enchantments[idx] = { desc: "", attributes: "" };
+          enchantments[idx] = { desc: "", attributes: "", whole: "" };
         }
       }
       let sections = {
@@ -79,7 +82,7 @@ export class ArM5eItemEnchantmentSheet {
     enchants.totalCapa = 0;
     enchants.states = duplicate(ARM5E.lab.enchantment.state);
 
-    context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
+    context = await GetFilteredMagicalAttributes(context);
 
     if (enchants.capacities.length > 1) {
       enchants.states["charged"].selection = "disabled";
@@ -96,17 +99,12 @@ export class ArM5eItemEnchantmentSheet {
       capa.total =
         ARM5E.lab.enchantment.materialBase[capa.materialBase].base *
         ARM5E.lab.enchantment.sizeMultiplier[capa.sizeMultiplier].mult;
-      if (enchants.capacityMode == "sum") {
-        enchants.totalCapa += capa.total;
-      } else if (capa.total > enchants.totalCapa) {
-        // Max mode
-        enchants.totalCapa = capa.total;
-      }
+
       if (capa.prepared) {
         enchants.prepared = true;
       }
     }
-    enchants.ASPECTS = await ArM5eItemMagicSheet.GetFilteredAspects();
+    enchants.ASPECTS = await GetFilteredAspects();
 
     if (enchants.aspects.length > 1) {
       enchants.states["charged"].selection = "disabled";
@@ -138,18 +136,29 @@ export class ArM5eItemEnchantmentSheet {
     }
     let idx = 0;
     let overcap = false;
+    enchants.visibleEnchant = 0;
+    enchants.visibleCapacities = 0;
     for (let e of enchants.effects) {
       e.system.level = computeLevel(e.system, "enchantment");
       e.details = ArM5eItem.GetEffectAttributesLabel(e);
       if (e.system.hidden && !context.isGM) {
         enchants.usedCapa = "??";
+        enchants.hasHiddenEnchants = true;
       } else {
+        e.visible = true;
+        enchants.visibleEnchant++;
         const capaIdx = enchants.capacities.findIndex((c) => {
           return e.receptacleId == c.id;
         });
         if (capaIdx >= 0) {
+          if (enchants.capacityMode == "sum") {
+            enchants.totalCapa += enchants.capacities[capaIdx].total;
+          } else if (enchants.capacities[capaIdx].total > enchants.totalCapa) {
+            // Max mode
+            enchants.totalCapa = enchants.capacities[capaIdx].total;
+          }
           enchants.capacities[capaIdx].used += Math.ceil(e.system.level / 10);
-
+          enchants.capacities[capaIdx].visible = true;
           enchants.usedCapa += Math.ceil(e.system.level / 10);
           if (!overcap && enchants.capacities[capaIdx].used > enchants.capacities[capaIdx].total) {
             enchants.invalidItem = true;
@@ -163,6 +172,19 @@ export class ArM5eItemEnchantmentSheet {
       e.visibility = context.ui.sections.visibility.enchantments[idx];
       idx++;
     }
+    enchants.visibleType = context.isGM;
+    if (enchants.visibleEnchant == 1 && enchants.charged) {
+      enchants.visibleType = true;
+    } else if (enchants.visibleEnchant > 1 && enchants.state !== "talisman") {
+      enchants.visibleType = true;
+    } else if (enchants.attunementVisible && enchants.state !== "talisman") {
+      enchants.visibleType = true;
+    }
+
+    enchants.visibleCapacities = enchants.capacities.reduce((previous, current) => {
+      if (current.visible) previous++;
+      return previous;
+    }, 0);
 
     enchants.addEffect = true;
     enchants.addCapa = true;
@@ -189,6 +211,7 @@ export class ArM5eItemEnchantmentSheet {
         enchants.minor = false;
         enchants.ui.minor = "disabled";
         enchants.addEffect = false;
+        enchants.talisman = false;
         break;
       case "talisman":
         if (!enchants.attuned) {
@@ -196,6 +219,7 @@ export class ArM5eItemEnchantmentSheet {
           enchants.invalidMsg.push("arm5e.enchantment.msg.noAttunment");
         }
         enchants.charged = false;
+        enchants.talisman = true;
         enchants.ui.charged = "disabled";
         enchants.minor = false;
         enchants.ui.minor = "disabled";
