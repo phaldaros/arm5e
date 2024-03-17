@@ -114,18 +114,20 @@ export class BookSchema extends foundry.abstract.DataModel {
   }
 
   sanitize() {
-    const res = this.toObject();
-    let idx = 0;
-    for (const topic of res.topics) {
+    return BookSchema.sanitizeData(this.toObject());
+  }
+
+  static sanitizeData(data) {
+    data.topics = data.topics instanceof Array ? data.topics : Object.values(data.topics);
+    for (const topic of data.topics) {
       if (topic.category === "labText") {
-        topic.labtext = this.topics[idx].labtext.sanitize();
+        topic.labtext = LabTextSchema.sanitizeData(topic.labtext);
       }
-      idx++;
     }
-    if (this.enchantments) {
-      res.enchantments = this.enchantments.sanitize();
+    if (data.enchantments) {
+      data.enchantments = EnchantmentExtension.sanitizeData(data.enchantments);
     }
-    return res;
+    return data;
   }
 
   static getDefault(itemData) {

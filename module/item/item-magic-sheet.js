@@ -3,7 +3,7 @@ import { log } from "../tools.js";
 import { ARM5E } from "../config.js";
 import { ArM5eItem } from "./item.js";
 import { ARM5E_DEFAULT_ICONS } from "../constants/ui.js";
-import { PickRequisites } from "../helpers/magic.js";
+import { GetFilteredMagicalAttributes, PickRequisites } from "../helpers/magic.js";
 /**
  * Extend the basic ArM5eItemSheet with some very simple modifications
  * @extends {ArM5eItemSheet}
@@ -36,7 +36,7 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     // editable, the items array, and the effects array.
     let context = await super.getData();
     context.system.localizedDesc = ArM5eItem.GetEffectAttributesLabel(this.item);
-    context = await ArM5eItemMagicSheet.GetFilteredMagicalAttributes(context);
+    context = await GetFilteredMagicalAttributes(context);
 
     if (context.flags && context.flags[CONFIG.ARM5E.SYSTEM_ID]?.readonly === "true") {
       context.noEdit = "readonly";
@@ -66,46 +66,6 @@ export class ArM5eItemMagicSheet extends ArM5eItemSheet {
     }
 
     return context;
-  }
-
-  static async GetFilteredMagicalAttributes(data) {
-    const filterBooks = Object.fromEntries(
-      Object.entries(await game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter")).filter(
-        ([key, f]) => f.value === true
-      )
-    );
-    // Filter to only the values configured in settings
-    data.ranges = Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.magic.ranges).filter(([key, val]) => {
-        return val.source in filterBooks;
-      })
-    );
-
-    data.targets = Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.magic.targets).filter(([key, val]) => {
-        return val.source in filterBooks;
-      })
-    );
-
-    data.durations = Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.magic.durations).filter(([key, val]) => {
-        return val.source in filterBooks;
-      })
-    );
-    return data;
-  }
-
-  static async GetFilteredAspects() {
-    const filterBooks = Object.fromEntries(
-      Object.entries(await game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter")).filter(
-        ([key, f]) => f.value === true
-      )
-    );
-    return Object.fromEntries(
-      Object.entries(CONFIG.ARM5E.ASPECTS).filter(([key, val]) => {
-        return val.src in filterBooks;
-      })
-    );
   }
 
   /* -------------------------------------------- */

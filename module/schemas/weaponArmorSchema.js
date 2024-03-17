@@ -88,12 +88,14 @@ export class ArmorSchema extends foundry.abstract.DataModel {
   }
 
   sanitize() {
-    const res = this.toObject();
+    return ArmorSchema.sanitizeData(this.toObject());
+  }
 
-    if (this.enchantments) {
-      res.enchantments = this.enchantments.sanitize();
+  static sanitizeData(data) {
+    if (data.enchantments) {
+      data.enchantments = EnchantmentExtension.sanitizeData(data.enchantments);
     }
-    return res;
+    return data;
   }
 }
 export class WeaponSchema extends foundry.abstract.DataModel {
@@ -227,10 +229,13 @@ export class WeaponSchema extends foundry.abstract.DataModel {
   }
 
   sanitize() {
-    const res = this.toObject();
-    if (this.enchantments) {
-      res.enchantments = this.enchantments.sanitize();
+    return WeaponSchema.sanitizeData(this.toObject());
+  }
+
+  static sanitizeData(data) {
+    if (data.enchantments) {
+      data.enchantments = EnchantmentExtension.sanitizeData(data.enchantments);
     }
-    return res;
+    return data;
   }
 }

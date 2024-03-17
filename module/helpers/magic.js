@@ -8,6 +8,46 @@ const VOICE_AND_GESTURES_ICONS = {
   gestures: "icons/skills/social/wave-halt-stop.webp"
 };
 
+export async function GetFilteredAspects() {
+  const filterBooks = Object.fromEntries(
+    Object.entries(await game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter")).filter(
+      ([key, f]) => f.value === true
+    )
+  );
+  return Object.fromEntries(
+    Object.entries(CONFIG.ARM5E.ASPECTS).filter(([key, val]) => {
+      return val.src in filterBooks;
+    })
+  );
+}
+
+export async function GetFilteredMagicalAttributes(data) {
+  const filterBooks = Object.fromEntries(
+    Object.entries(await game.settings.get(CONFIG.ARM5E.SYSTEM_ID, "sourcebookFilter")).filter(
+      ([key, f]) => f.value === true
+    )
+  );
+  // Filter to only the values configured in settings
+  data.ranges = Object.fromEntries(
+    Object.entries(CONFIG.ARM5E.magic.ranges).filter(([key, val]) => {
+      return val.source in filterBooks;
+    })
+  );
+
+  data.targets = Object.fromEntries(
+    Object.entries(CONFIG.ARM5E.magic.targets).filter(([key, val]) => {
+      return val.source in filterBooks;
+    })
+  );
+
+  data.durations = Object.fromEntries(
+    Object.entries(CONFIG.ARM5E.magic.durations).filter(([key, val]) => {
+      return val.source in filterBooks;
+    })
+  );
+  return data;
+}
+
 export async function PickRequisites(spelldata, flavor, editable) {
   spelldata.config = {
     magic: {

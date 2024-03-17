@@ -178,12 +178,14 @@ export class ItemSchema extends foundry.abstract.DataModel {
   }
 
   sanitize() {
-    const res = this.toObject();
+    return ItemSchema.sanitizeData(this.toObject());
+  }
 
-    if (this.enchantments) {
-      res.enchantments = this.enchantments.sanitize();
+  static sanitizeData(data) {
+    if (data.enchantments) {
+      data.enchantments = EnchantmentExtension.sanitizeData(data.enchantments);
     }
-    return res;
+    return data;
   }
 }
 export class ReputationSchema extends foundry.abstract.DataModel {

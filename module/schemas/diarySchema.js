@@ -2,6 +2,7 @@ import { ARM5E } from "../config.js";
 import { ACTIVITIES_DEFAULT_ICONS } from "../constants/ui.js";
 import { convertToNumber, log } from "../tools.js";
 import { nextDate } from "../tools/time.js";
+import { BookSchema } from "./bookSchema.js";
 import {
   boolOption,
   characteristicField,
@@ -11,7 +12,8 @@ import {
   XpField
 } from "./commonSchemas.js";
 import { SpellSchema, baseLevel } from "./magicSchemas.js";
-import { WoundSchema } from "./woundSchema.js";
+import { ItemSchema } from "./minorItemsSchemas.js";
+import { ArmorSchema, WeaponSchema } from "./weaponArmorSchema.js";
 const fields = foundry.data.fields;
 
 export class DiaryEntrySchema extends foundry.abstract.DataModel {
@@ -654,11 +656,21 @@ export class DiaryEntrySchema extends foundry.abstract.DataModel {
     for (const s of res.progress.newSpells) {
       s.spellData.description = "";
     }
+
     for (const a of res.achievements) {
-      if (a.system.enchantments) {
-        for (let e of a.system.enchantments.effects) {
-          e.system.description = "";
-        }
+      switch (a.type) {
+        case "item":
+          a.system = ItemSchema.sanitizeData(a.system);
+          break;
+        case "weapon":
+          a.system = WeaponSchema.sanitizeData(a.system);
+          break;
+        case "armor":
+          a.system = ArmorSchema.sanitizeData(a.system);
+          break;
+        case "book":
+          a.system = BookSchema.sanitizeData(a.system);
+          break;
       }
     }
 

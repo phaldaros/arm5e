@@ -6,7 +6,7 @@ import { labTextToEffect } from "../item/item-converter.js";
 import { ArM5eItem } from "../item/item.js";
 import { HERMETIC_FILTER } from "../constants/userdata.js";
 import { getConfirmation } from "../constants/ui.js";
-import { ArM5eItemMagicSheet } from "../item/item-magic-sheet.js";
+import { GetFilteredAspects } from "../helpers/magic.js";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -76,7 +76,7 @@ export class ArM5eMagicCodexSheet extends ArM5eActorSheet {
     context.system.filteredSpells = hermeticFilter(filters, context.system.spells);
     context.system.spellsCount = context.system.filteredSpells.length;
 
-    const filterBySettingAspects = await ArM5eItemMagicSheet.GetFilteredAspects();
+    const filterBySettingAspects = await GetFilteredAspects();
     const searchStr = context.ui.filters.aspects.searchString;
     if (searchStr && searchStr.length < 3) {
       context.system.filteredAspects = Object.values(filterBySettingAspects).map((e) => {

@@ -38,7 +38,7 @@ export class EnchantmentExtension extends foundry.abstract.DataModel {
         step: 1
       }),
       season: SeasonField(),
-      talisman: boolOption(),
+      attunementVisible: boolOption(true),
       preparedBy: new fields.StringField({
         required: false,
         blank: true,
@@ -171,14 +171,14 @@ export class EnchantmentExtension extends foundry.abstract.DataModel {
   }
 
   sanitize() {
-    const res = this.toObject();
-    let idx = 0;
-    for (const effect of res.effects) {
-      effect.system = this.effects[idx].system.sanitize();
-      idx++;
-    }
+    return EnchantmentExtension.sanitizeData(this.toObject());
+  }
 
-    return res;
+  static sanitizeData(data) {
+    for (const effect of data.effects) {
+      effect.system = EnchantmentSchema.sanitizeData(effect.system);
+    }
+    return data;
   }
 }
 
@@ -205,9 +205,12 @@ export class EnchantmentSchema extends foundry.abstract.DataModel {
   }
 
   sanitize() {
-    const res = this.toObject();
-    res.description = "";
-    return res;
+    return EnchantmentSchema.sanitizeData(this.toObject());
+  }
+
+  static sanitizeData(data) {
+    data.description = "";
+    return data;
   }
 }
 
