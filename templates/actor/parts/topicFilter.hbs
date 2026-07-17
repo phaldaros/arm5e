@@ -1,0 +1,110 @@
+<div class="backSection {{list}} {{visibility}}">
+  <li class="filter-item toggle-display flexrow" draggable="false" style="padding-bottom: 8px;">
+    <!--style=" {{lookup display list}}"-->
+    <div class="header-fields">
+      <div class="flexrow flex-between padding12x5">
+        <span class="flexrow">
+          <label for="topic" class="" style="padding-left: 10px">{{localize
+              "arm5e.sheet.bookTopic"
+            }}</label>
+          <select
+            name="topic"
+            data-type="String"
+            class="topic-filter {{topic-class}} textValue"
+            data-list="{{list}}"
+            data-category="bookTopics"
+          >
+            {{#with (lookup ui.filters.bookTopics list)}}
+              {{selectOptions ../topics selected=topicFilter labelAttr="label" blank=""}}
+            {{/with}}
+          </select>
+        </span>
+        <span class="flexrow">
+          <label for="typeFilter" class=" flex0" style="padding-left: 10px">{{localize
+              "arm5e.sheet.type"
+            }}</label>
+
+          <select
+            name="typeFilter"
+            data-type="String"
+            class="type-filter textValue"
+            data-list="{{list}}"
+            data-category="bookTopics"
+          >
+            {{#with (lookup ui.filters.bookTopics list)}}
+              {{selectOptions @root.config.books.types selected=typeFilter blank=""}}
+            {{/with}}
+          </select>
+        </span>
+        <span class="flexrow">
+          <label for="system.levelFilter" class="" style="padding-left: 12px">{{localize
+              "arm5e.sheet.level"
+            }}</label>
+          <select
+            name="levelOperator"
+            data-type="Number"
+            class="levelOperator-filter numValue"
+            data-list="{{list}}"
+            data-category="bookTopics"
+          >
+            {{#with (lookup ui.filters.bookTopics list)}}
+              {{selectOptions
+                @root.config.genericOptions.filterOperator
+                selected=levelOperator
+                nameAttr="key"
+                valueAttr="key"
+                labelAttr="label"
+              }}
+            {{/with}}
+          </select>
+          {{#with (lookup ui.filters.bookTopics list)}}
+            <input
+              type="number"
+              name="levelFilter"
+              value="{{levelFilter}}"
+              data-dtype="Number"
+              style="margin-right: 12px"
+              class="level-filter numValue"
+              data-list="{{../list}}"
+              data-category="bookTopics"
+            />
+          {{/with}}
+        </span>
+        <span class="flexrow">
+          <label for="system.levelFilter" class="" style="padding-left: 12px">{{localize
+              "arm5e.sheet.quality"
+            }}</label>
+          <select
+            name="qualityOperator"
+            data-type="Number"
+            class="qualityOperator-filter numValue"
+            data-list="{{list}}"
+            data-category="bookTopics"
+          >
+            {{#with (lookup ui.filters.bookTopics list)}}
+              {{selectOptions
+                @root.config.genericOptions.filterOperator
+                selected=qualityOperator
+                nameAttr="key"
+                valueAttr="key"
+                labelAttr="label"
+              }}
+            {{/with}}
+          </select>
+          {{#with (lookup ui.filters.bookTopics list)}}
+            <input
+              type="number"
+              name="qualityFilter"
+              value="{{qualityFilter}}"
+              data-dtype="Number"
+              style="margin-right: 12px"
+              class="quality-filter numValue"
+              data-list="{{../list}}"
+              data-category="bookTopics"
+            />
+          {{/with}}
+        </span>
+      </div>
+    </div>
+  </li>
+</div>

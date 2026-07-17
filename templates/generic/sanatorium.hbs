@@ -1,0 +1,145 @@
+<div class="{{ cssClass }} sanatorium" autocomplete="off">
+  <div class="flexrow flex-between marginsides32">
+    {{> (systemPath "templates/generic/parts/simpleFieldBacksection.hbs") label="arm5e.sheet.stamina" name="sta"
+    attributes="readonly" value=patient.system.characteristics.sta.value type="number" dtype="Number" classes="wide"}}
+    {{> (systemPath "templates/generic/parts/simpleFieldBacksection.hbs") label="arm5e.sanatorium.recoveryBonus"
+    name="recoveryBonus" attributes="readonly" value=modifiers.activeEffect type="number" dtype="Number" classes="wide"}}
+    {{> (systemPath "templates/generic/parts/simpleFieldBacksection.hbs") label="arm5e.sanatorium.mundaneHelp" 
+        name="modifiers.mundaneHelp" attributes="" value=modifiers.mundaneHelp type="number" dtype="Number" classes="wide select-on-focus change-mundane-help"}}
+    {{> (systemPath "templates/generic/parts/simpleFieldBacksection.hbs") label="arm5e.sanatorium.magicalHelp" 
+        name="modifiers.magicalHelp" attributes="" value=modifiers.magicalHelp type="number" dtype="Number" classes="wide select-on-focus change-magical-help"}}
+    {{> (systemPath "templates/generic/parts/simpleFieldBacksection.hbs") label="arm5e.sanatorium.labHealth" 
+        name="modifiers.labHealth" attributes="readonly" value=modifiers.labHealth type="number" dtype="Number" classes="wide"}}
+  </div>
+  <div class="marginsides32 marginbot6 margintop6">
+    {{> (systemPath "templates/generic/metalic-bar.html")  }}
+  </div>
+  <div class="sheet-body backSection marginsides32">
+    {{!-- tyle="min-height: 367px"> --}}
+    <div class="flexcol sanatorium-main-content">
+      <div class="resource-content flexrow flex-between sanatorium-top-fields">
+        <div class="resource-content flexrow flex-center flex-between margintop6">
+          <label
+            for="dayOfSeason"
+            class="smallTitle"
+            >{{localize "arm5e.sanatorium.dayOfSeason"}}</label
+          >
+
+          <input
+            type="number"
+            name="dayOfSeason"
+            {{dateChange}}
+            value="{{ dayOfSeason }}"
+            data-dtype="Number"
+            class="sanatorium change-available-days select-on-focus"
+          />
+        </div>
+        <div class="resource-content flexrow flex-center flex-between margintop6">
+          <label
+            class="smallTitle"
+            >{{localize "arm5e.sheet.season"}}</label
+          >
+          <input
+            type="text"
+            readonly
+            value="{{ curSeasonLabel }}"
+            data-dtype="String"
+            class="sanatorium change-season"
+          />
+        </div>
+        <div class="resource-content flexrow flex-center flex-between margintop6">
+          <label
+            for="curYear"
+            class="smallTitle"
+            >{{localize "arm5e.sheet.year"}}</label
+          >
+          <input
+            type="number"
+            name="curYear"
+            readonly
+            value="{{ curYear }}"
+            data-dtype="Number"
+            class="sanatorium change-year select-on-focus"
+          />
+        </div>
+      </div>
+      <div class="flexrow">
+        <div class="flexcol" style="padding-top: 16px; padding-bottom: 12px; max-height: 300px">
+          {{#each wounds }}
+          <div class="flexrow">
+            {{#each this}}
+            <img
+              class="{{ this.style }}"
+              src="{{ this.img }}"
+              title="{{ this.name }} +{{ this.bonus }}"
+              style="max-height: 48px; max-width: 48px; margin: 3px"
+            />
+            {{#if this.locked}}
+            <a
+              class=""
+              title="Locked"
+              style="position: relative; right: 14px; top: -14px; max-width: 0px"
+            >
+              <i class="ars-Icon_Locked_Small"></i>
+            </a>
+            {{/if}}
+            {{/each}}
+          </div>
+          {{/each}}
+        </div>
+        <div class="margintop18" style="min-height: 263px">
+          <label class="smallTitle">{{localize "arm5e.sanatorium.log"}}</label>
+          {{> (systemPath "templates/generic/ars-editor.hbs")
+            content=log
+            target="log"
+            button=false
+            editable=false
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div class="flex-center marginsides10" style="padding-top: 16px">
+        <label>{{ daysLeftLabel }}</label>
+        <div class="progressbar">
+          <div class="progressbar-inner" {{{progressbarStyle}}}></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flexrow marginsides32" style="align-items: stretch">
+    <button
+      class="sanatorium recovery-roll"
+      data-action="recoveryRoll"
+      style="font-size: 16pt"
+      {{canRoll}}
+    >
+      {{localize "arm5e.sanatorium.button.recovery"}}
+    </button>
+    <button
+      class="dialog-button long-label sanatorium fast-recovery"
+      data-action="fastRecovery"
+      style="font-size: 16pt"
+      {{#if (eq rollMode "none")}}{{else}}disabled{{/if}}
+      {{canRoll}}
+    >
+      {{localize "arm5e.sanatorium.button.fastRecovery"}}
+    </button>
+    <button
+      class="sanatorium overstrain-roll"
+      data-action="overstrainRoll"
+      style="font-size: 16pt"
+      {{canOverstrain}}
+    >
+      {{localize "arm5e.sanatorium.overstrain"}}
+    </button>
+    <button
+      class="sanatorium diary-entry"
+      data-action="createDiaryEntry"
+      style="font-size: 16pt"
+      {{diary}}
+    >
+      {{localize diaryLabel}}
+    </button>
+  </div>
+</div>

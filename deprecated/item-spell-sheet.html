@@ -1,0 +1,208 @@
+<form class="sheet-content flexcol" autocomplete="off">
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" data-tooltip="<img
+      class='img-tooltip'
+      src='{{ item.img }}'/>" data-tooltip-direction="CENTER" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="bigname" style="font-size: 24pt">
+        <div class="flexrow">{{localize "arm5e.sheet.spell"}}
+          {{#if noRoll}}
+            <a class="create-labtext" data-flavor="{{ui.flavor}}" title="Create draft lab text"><i
+                class="ars-Icon_Details2"></i></a>
+          {{/if}}
+        </div>
+      </h1>
+
+
+      <h1 class="bigname">
+        <div class="flexrow"><input name="name" type="text" title="{{item.name}}" value="{{item.name}}"
+            placeholder="Name" />
+          {{#if noRoll}}
+            <div class="flex0 padding10 "><a class="rollable" data-roll="spell" data-id="{{item._id}}"
+                data-modifier="{{ item.system.bonus }}" data-name="{{item.name}}" data-fatigue-on-use="1"
+                title='{{localize "arm5e.dialog.button.roll"}}'><img src="systems/arm5e/assets/dice.png"
+                  style="border: 0px; height:30px; min-height:30px; min-width: 30px;"></a>
+            </div>
+          {{/if}}
+        </div>
+      </h1>
+      {{#if locked}}
+        <i class="ars-Icon_Locked"></i>
+      {{/if}}
+      <div class="grid grid-2col">
+        <div class="resource flexcol flexrow">
+          <label for="system.technique.value" class="">{{localize "arm5e.sheet.technique"}}</label>
+          <select {{noSelect}} name="system.technique.value" data-type="String">
+            {{selectOptions config.magic.techniques selected=system.technique.value labelAttr="label"}}
+          </select>
+        </div>
+        <div class="resource flexcol flexrow">
+          <label for="system.form.value" class="">{{localize "arm5e.sheet.form"}}</label>
+          <select {{noSelect}} name="system.form.value" data-type="String" class="select-form">
+            {{selectOptions config.magic.forms selected=system.form.value labelAttr="label"}}
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-3col">
+        <div class="resource flexcol flex-center">
+          <label class="">{{localize "arm5e.sheet.Requisites"}}</label>
+          <label class="">{{ui.requisites}}</label>
+          <a class="item-control advanced-req" data-flavor="{{ui.flavor}}" title="Advanced Requistes"><i
+              class="fas fa-gavel fa-lg"></i></a>
+        </div>
+        <div class="resource flexcol flex-center">
+          <label class="">{{localize "arm5e.sheet.ritual"}}</label>
+          <input type="checkbox" {{noSelect}} name="system.ritual" {{checked system.ritual}} />
+        </div>
+        <div class="resource flexcol flex-center">
+          <label class="">{{localize "arm5e.sheet.level"}}</label>
+          <input class="design-level" type="number" readonly name="system.level" value="{{system.level}}"
+            data-dtype="Number" style="max-width: 60px;" />
+        </div>
+      </div>
+    </div>
+  </header>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item tabArrow flexrow" data-tab="description">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+    <a class="item tabArrow flexrow" data-tab="attributes">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.attributes"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+  </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Attributes Tab --}}
+    <div class="tab attributes" data-group="primary" data-tab="attributes" style="min-height: 266px">
+      <div class="flexrow">
+        <div class="resource">
+          <label class="">{{localize "arm5e.sheet.range"}}</label>
+          <select {{noSelect}} name="system.range.value" data-dtype="String" class="spell-attribute">
+            {{magicalAttributesHelper selection.ranges selected=system.range.value  labelAttr="label"}}
+          </select>
+        </div>
+        <div class="resource">
+          <label class="">{{localize "arm5e.sheet.duration"}}</label>
+          <select {{noSelect}} name="system.duration.value" data-dtype="String" class="spell-attribute">
+            {{magicalAttributesHelper selection.durations selected=system.duration.value  labelAttr="label"}}
+          </select>
+        </div>
+        <div class="resource">
+          <label class="">{{localize "arm5e.sheet.target"}}</label>
+          <select {{noSelect}} name="system.target.value" data-dtype="String" style="min-width: 95%"
+            class="spell-attribute">
+            {{magicalAttributesHelper selection.targets selected=system.target.value  labelAttr="label"}}
+          </select>
+        </div>
+      </div>
+
+      {{#if item.parent}} {{#if (ne item.parent.type "magicCodex")}}
+          <div class="flexrow">
+            <div class="resource">
+              <label class="">{{localize "arm5e.spell.applyFocus" }}</label>
+              <input type="checkbox" {{noSelect}} name="system.applyFocus" {{checked system.applyFocus}} />
+            </div>
+            <div class="resource">
+              <label class="">{{localize "arm5e.sheet.bonus.label"}}</label>
+              <input type="number" name="system.bonus" value="{{system.bonus}}" data-dtype="Number"
+                class="select-on-focus" />
+            </div>
+            <div class="resource">
+              <label class="">{{localize "arm5e.sheet.bonusDesc"}}</label>
+              <input type="text" {{noEdit}} name="system.bonusDesc" value="{{system.bonusDesc}}" data-dtype="String" />
+            </div>
+          </div>
+          <div class="resource flexrow">
+            <div class="flexrow">
+              <label class=" flex0">{{localize "arm5e.sheet.mastery"}}
+                <input type="number" class="modifier flex01" name="" value="{{system.finalScore}}" data-dtype="Number"
+                  readonly /></label>
+              <div class="ressource flex0" style="padding-top: 8px; padding-left: 8px; padding-right: 8px;">
+                <a class="item-control increase-score" title="Increase mastery"><i class="fas fa-plus"></i></a>
+                <a class="item-control decrease-score" title="Decrease mastery"><i class="fas fa-minus"></i></a>
+              </div>
+              <label class="flex01">{{localize "arm5e.sheet.experience"}}<input type="number"
+                  class="modifier select-on-focus" name="system.xp" value="{{system.xp}}" data-dtype="Number" /></label>
+              <label style="padding-top: 16px;"> / {{ system.xpNextLevel }} </label>
+            </div>
+            <div class="ressource">
+              <label class="">{{localize "arm5e.sheet.masteryAbilities"}}</label>
+              <input type="text" {{noEdit}} name="system.masteryAbilities" value="{{system.masteryAbilities}}"
+                data-dtype="String" />
+            </div>
+          </div>
+        {{/if}}
+      {{/if}}
+
+
+      <div class="resource flexrow">
+        <div class="resource">
+          <label class="">{{localize "arm5e.spell.effect.baseLevel"}}</label>
+          <input type="number" name="system.baseLevel" size="4" value="{{system.baseLevel}}"
+            class="select-on-focus modifier" data-dtype="Number" />
+        </div>
+        <div class="resource flexrow">
+          <div class="flexcol">
+            <label class="">{{localize "arm5e.sheet.general"}}</label>
+            <input type="checkbox" {{noSelect}} name="system.general" size="4" {{checked system.general}} />
+          </div>
+          {{#if system.general}}
+            <div class="flexrow">
+              <label class="">{{localize "arm5e.spell.effect.levelOffset"}}</label>
+              <input type="number" name="system.levelOffset" value="{{system.levelOffset}}" class="select-on-focus"
+                data-dtype="Number" style="max-width: 40px;" />
+            </div>
+          {{/if}}
+        </div>
+      </div>
+      <div class="resource">
+        <label class="">{{localize "arm5e.spell.effect.description"}}</label>
+        <input type="text" {{noEdit}} name="system.baseEffectDescription" value="{{system.baseEffectDescription}}"
+          data-dtype="String" />
+      </div>
+      <div class="flexrow">
+        <div class="resource flex-group-center">
+          <label class="">{{localize "arm5e.spell.targets.targetSize"}}</label>
+          <input type="number" {{noEdit}} name="system.targetSize" value="{{system.targetSize}}" class="select-on-focus"
+            data-dtype="Number" style="max-width: 70px;" />
+        </div>
+        <div class="resource flex-group-center">
+          <label class="">{{localize "arm5e.spell.targets.complexity"}}</label>
+          <input type="number" {{noEdit}} name="system.complexity" value="{{system.complexity}}" class="select-on-focus"
+            data-dtype="Number" style="max-width: 70px;" />
+        </div>
+        <div class="resource ">
+          <label class="">{{localize "arm5e.spell.targets.enhancingReq"}}</label>
+          <input type="number" {{noEdit}} name="system.enhancingRequisite" value="{{system.enhancingRequisite}}"
+            class="select-on-focus" data-dtype="Number" style="max-width: 70px;" />
+        </div>
+      </div>
+      <div class="resource flex-group-center">
+        <label class=""><b>{{localize "arm5e.spell.targets.baseSize.label" }}: </b></label>
+        {{#with (lookup config.magic.forms system.form.value)}}
+          <label class="label-light">{{localize baseSize}}</label>
+        {{/with}}
+      </div>
+    </div>
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      <div style="height: 235px">
+        {{> "systems/arm5e/templates/generic/ars-editor.hbs"
+          content=enrichedDescription
+          target="system.description"
+          editable=editable
+        }}
+      </div>
+      {{#if metagame.view }}
+        {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+        {{> "systems/arm5e/templates/generic/source.html" }}
+      {{/if}}
+    </div>
+  </section>
+</form>

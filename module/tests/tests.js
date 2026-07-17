@@ -1,0 +1,65 @@
+import { registerAbilityScoresTesting } from "./abilityScoreTesting.js";
+import { registerActorLinkTesting } from "./actorLinkTesting.js";
+import { registerDEBUGTest } from "./DEBUGTest.js";
+import { registerAdventuringTesting } from "./diaryAdventuringTest.js";
+import { registerApprenticeshipTesting } from "./diaryCharCreationTest.js";
+import { registerExposureTesting } from "./diaryExposureTest.js";
+import { registerTeachingTesting } from "./diaryTeachingTest.js";
+import { registerTrainingTesting } from "./diaryTrainingTest.js";
+import { registerVisTesting } from "./diaryVis.js";
+import { registerDialogTesting } from "./dialogTests.js";
+import { registerRollDialogTesting } from "./rollDialogTests.js";
+import { registerItemCreationTests } from "./itemCreationTests.js";
+import { registerInvestigationRollTesting } from "./investigationRollTests.js";
+import { registerLabActivityTesting } from "./labActivityTest.js";
+import { registerRecoveryTesting } from "./recoveryTests.js";
+import { registerMagicRollTesting } from "./rollMagicTests.js";
+import { registerOptionRollTesting } from "./rollOptionTests.js";
+import { registerRollTesting } from "./rollsTest.js";
+import { registerSheetDisplayTests } from "./sheetDisplayTests.js";
+import { registerStressDieTesting } from "./stressDieTesting.js";
+import { registerDiaryTesting } from "./testSchedule.js";
+import { registerScheduleIntegrationTesting } from "./scheduleIntegrationTests.js";
+import { registerQuickAppsIntegrationTesting } from "./quickAppsTests.js";
+import { registerLabExperimentationTesting } from "./labExperimentationTests.js";
+import { registerSanatoriumTesting } from "./sanatoriumTests.js";
+import { registerScriptoriumTesting } from "./scriptoriumTests.js";
+import {
+  registerPCSheetTests,
+  registerNPCSheetTests,
+  registerBeastSheetTests,
+  registerCovenantSheetTests
+} from "./actorSheetTests.js";
+
+export function registerTestSuites(quench) {
+  registerDEBUGTest(quench);
+  // registerRecoveryTesting(quench);
+  registerLabActivityTesting(quench);
+  registerInvestigationRollTesting(quench);
+  registerActorLinkTesting(quench);
+  registerDiaryTesting(quench);
+  registerScheduleIntegrationTesting(quench);
+  registerQuickAppsIntegrationTesting(quench);
+  registerLabExperimentationTesting(quench);
+  registerSanatoriumTesting(quench);
+  registerScriptoriumTesting(quench);
+  registerStressDieTesting(quench);
+  registerAbilityScoresTesting(quench);
+  registerRollTesting(quench);
+  registerOptionRollTesting(quench);
+  registerMagicRollTesting(quench);
+  registerSheetDisplayTests(quench);
+  registerItemCreationTests(quench);
+  registerPCSheetTests(quench);
+  registerNPCSheetTests(quench);
+  registerBeastSheetTests(quench);
+  registerCovenantSheetTests(quench);
+  registerAdventuringTesting(quench);
+  registerApprenticeshipTesting(quench);
+  registerTrainingTesting(quench);
+  registerTeachingTesting(quench);
+  registerExposureTesting(quench);
+  registerVisTesting(quench);
+  registerDialogTesting(quench);
+  registerRollDialogTesting(quench);
+}

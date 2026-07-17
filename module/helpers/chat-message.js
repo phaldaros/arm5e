@@ -1,0 +1,268 @@
+import { ARM5E } from "../config.js";
+
+import { log, putInFoldableLink, putInFoldableLinkWithAnimation } from "../tools/tools.js";
+import { SMSG_FIELDS } from "../tools/socket-messages.js";
+import { ArsRoll } from "./roll.js";
+import { ROLL_MODES } from "../ui/roll-window.js";
+
+export class Arm5eChatMessage extends ChatMessage {
+  static async handleSocketMessages(action, payload) {
+    const msgId = payload[SMSG_FIELDS.CHAT_MSG_ID];
+    if (!msgId) return;
+    switch (action) {
+      case "skipConfidence":
+        {
+          const msg = game.messages.get(msgId);
+          if (msg) {
+            if (msg.isAuthor || game.user.isGM) {
+              if (!msg.system.impact.applied) {
+                await msg.system._applyChatMessageUpdate(payload[SMSG_FIELDS.CHAT_MSG_DB_UPDATE]);
+                game.arm5e.socketHandler.acknowledgeMessage(payload[SMSG_FIELDS.ID]);
+              }
+            }
+          }
+        }
+
+        break;
+      case "useConfidence":
+      case "rollDefense":
+      case "rollSoak":
+      case "calculateDamage":
+      case "applyDamage":
+        {
+          const msg = game.messages.get(msgId);
+          if (msg) {
+            if (msg.isAuthor || game.user.isGM) {
+              if (!msg.system.impact.applied) {
+                await msg.system._applyChatMessageUpdate(payload[SMSG_FIELDS.CHAT_MSG_DB_UPDATE]);
+                game.arm5e.socketHandler.acknowledgeMessage(payload[SMSG_FIELDS.ID]);
+              }
+            }
+          }
+        }
+        break;
+      default:
+        console.error(`Unknown chat socket message: ${action}`);
+    }
+  }
+
+  /** @inheritDoc */
+  prepareDerivedData() {
+    // Create Roll instances for contained dice rolls
+    this.rolls = this.rolls.reduce((rolls, rollData) => {
+      try {
+        rolls.push(ArsRoll.fromData(rollData));
+      } catch (err) {
+        Hooks.onError("ChatMessage#rolls", err, { rollData, log: "error" });
+      }
+      return rolls;
+    }, []);
+  }
+
+  static getMessageOptions(rollProperties, msgOptions) {
+    let mode = CONFIG.ISV13
+      ? game.settings.get("core", "rollMode")
+      : game.settings.get("core", "messageMode");
+    const blindRollMode = Arm5eChatMessage.getChatRollModes().BLIND;
+    const privateRollMode = Arm5eChatMessage.getChatRollModes().PRIVATE;
+    // let showRolls = game.settings.get(ARM5E.SYSTEM_ID, "showRolls");
+    if (rollProperties.MODE & ROLL_MODES.PRIVATE && mode !== blindRollMode) {
+      mode = privateRollMode;
+    }
+    if (CONFIG.ISV13) {
+      msgOptions.rollMode = mode;
+    } else {
+      msgOptions.messageMode = mode;
+    }
+    return msgOptions;
+  }
+
+  static getChatRollModes() {
+    return CONFIG.ISV13
+      ? { PUBLIC: "publicroll", PRIVATE: "gmroll", BLIND: "blindroll", SELF: "selfroll" }
+      : {
+          PUBLIC: "public",
+          PRIVATE: "gm",
+          BLIND: "blind",
+          SELF: "self"
+        };
+  }
+
+  get actor() {
+    if (!this.speaker) return null;
+    let actor = null;
+
+    // Case 1 - Token actor
+    if (this.speaker.scene && this.speaker.token) {
+      const scene = game.scenes.get(this.speaker.scene);
+      const token = scene ? scene.tokens.get(this.speaker.token) : null;
+      actor = token?.actor;
+    }
+
+    // Case 2 - explicit actor
+    if (this.speaker.actor && !actor) {
+      actor = game.actors.get(this.speaker.actor);
+    }
+    return actor || null;
+  }
+
+  get originatorOrGM() {
+    return game.users.get(game.userId).isGM || this.actor?.isOwner;
+  }
+
+  async renderHTML(options) {
+    if (this.system.getFlavor) {
+      if (this.system.originalFlavor === "") {
+        this.system.originalFlavor = this.flavor;
+      }
+      this.flavor = this.system.getFlavor();
+    } else if (this.type === "base" && this.isRoll) {
+      // chat roll
+      this.rolls[0].total;
+      if (this.rolls.length === 1 && this.rolls[0].botchCheck) {
+        const botches = this.rolls[0].botches;
+        if (botches === 0) {
+          this.flavor += `<div class='flex-center' ><b style='text-align: center'>${game.i18n.format(
+            "arm5e.messages.die.noBotch",
+            { dicenum: this.rolls[0].botchDice }
+          )}</b></div>`;
+        } else if (botches === 1) {
+          this.flavor += `<div class='flex-center' ><b style='text-align: center'>${game.i18n.localize(
+            "arm5e.messages.die.botch"
+          )}</b></div>`;
+        } else {
+          this.flavor += `<div class='flex-center' ><b style='text-align: center'>${game.i18n.format(
+            "arm5e.messages.die.botches",
+            { num: botches }
+          )}</b></div>`;
+        }
+      }
+    }
+    let html = await super.renderHTML(options);
+    // html = `<header class="ars-chat-header"></header><div>${html.outerHTML}</div>`;
+
+    if (this.type === "base") return html;
+
+    let actor = this.actor;
+
+    if (this.isRoll) {
+      if (this.system.obfuscate) {
+        // obfuscate the first roll
+        const roll = html.getElementsByClassName("dice-roll")[0];
+        this.system.obfuscate(roll, actor);
+      }
+    }
+
+    if (actor !== null) {
+      // Actor still exists in the world
+
+      const metadata = html.querySelector(".message-metadata");
+      metadata.style["max-width"] = "fit-content";
+      const msgTitle = html.querySelector(".message-sender");
+      // const sender = msgTitle.textContent.replace("GameMaster", actor.tokenName);
+      const sender = actor.tokenName;
+      msgTitle.removeChild(msgTitle.firstChild);
+      msgTitle.classList.add("flexrow");
+      const imgDiv = document.createElement("div");
+      imgDiv.classList.add("moreInfo", "speaker-image", "flex01");
+      imgDiv.dataset.uuid = actor.uuid;
+      const imgEl = document.createElement("img");
+      imgEl.src = actor.tokenImage;
+      imgEl.title = actor.tokenName;
+      imgEl.width = 30;
+      imgEl.height = 30;
+      imgDiv.appendChild(imgEl);
+      msgTitle.appendChild(imgDiv);
+      const pEl = document.createElement("p");
+      pEl.classList.add("message-sender-text");
+      pEl.innerHTML = sender;
+      msgTitle.appendChild(pEl);
+
+      msgTitle.addEventListener("click", async (ev) => {
+        const target = $(ev.currentTarget.children[0]);
+        const uuid = target[0].dataset.uuid;
+        const actor = await fromUuid(uuid);
+        if (actor) {
+          actor.sheet.render(true);
+        }
+      });
+    }
+
+    // msgTitle.html(actorFace);
+
+    // if (!this.isRoll) return html;
+
+    const flavor = html.querySelector(".flavor-text");
+    if (flavor) {
+      flavor.append(this.addActionButtons(html));
+    }
+
+    // format any additional rolls
+    if (this.system.formatTargets) {
+      this.system.formatTargets(html);
+    }
+
+    if (this.system.addListeners) {
+      this.system.addListeners(html);
+    }
+
+    const originatorOrGM = this.originatorOrGM;
+
+    if (!originatorOrGM) {
+      html.querySelector(".clickable")?.remove();
+    }
+
+    return html;
+  }
+
+  addActionButtons(html) {
+    const btnContainer = document.createElement("div");
+    if (this.actor) {
+      btnContainer.classList.add("btn-container");
+      const btnArray = document.createElement("div");
+      btnArray.classList.add("flexrow");
+
+      let btnCnt = 0;
+      if (this.system.addActionButtons) {
+        btnCnt = this.system.addActionButtons(btnArray);
+      }
+      if (btnCnt) {
+        const actionHeader = document.createElement("h2");
+        actionHeader.classList.add("ars-chat-title");
+        actionHeader.innerHTML = game.i18n.localize("arm5e.sheet.actions");
+        btnContainer.appendChild(actionHeader);
+        btnContainer.appendChild(btnArray);
+      }
+    }
+    return btnContainer;
+  }
+
+  rollTotal(index = 0) {
+    return this.rolls[index].total;
+  }
+}
+
+/**
+ *
+ * @param content
+ * @param actor
+ * @param title
+ * @param flavor
+ * @param type
+ */
+export async function privateMessage(content, actor, title, flavor, type = "") {
+  let messageData = {
+    content: "",
+    flavor: content + putInFoldableLinkWithAnimation("arm5e.sheet.details", flavor),
+    speaker: ChatMessage.getSpeaker({
+      actor: actor
+    }),
+    type: "standard",
+    // roll: "0",
+    system: { label: title },
+    whisper: ChatMessage.getWhisperRecipients("gm"),
+    blind: true
+  };
+  ChatMessage.create(messageData);
+  // await roll.toMessage(messageData, { rollMode: CONST.DICE_ROLL_MODES.BLIND });
+}

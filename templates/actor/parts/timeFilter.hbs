@@ -1,0 +1,65 @@
+<div class="backSection {{list}} {{visibility}}">
+  <li class="filter-item toggle-display flexrow" draggable="false" style="padding-bottom: 8px;">
+    <!--style=" {{lookup display list}}"-->
+    <div class="header-fields">
+      <div class="flexrow flex-between padding12x5">
+        <span class="flex06">
+          <label for="typeFilter" class=" flex01" style="padding-left: 10px">{{localize
+              "arm5e.activity.eventType"
+            }}</label>
+          <select            
+            name="typeFilter"
+            data-type="String"
+            style="flex: 0 0 90px"
+            class="type-filter"
+            data-list="{{list}}"
+            data-category="events"
+          >
+            {{#with (lookup ui.filters.events list)}}
+              {{selectOptions
+                @root.config.activities.generic
+                selected=typeFilter
+                labelAttr="label"
+                blank=""
+                localize=true
+              }}
+            {{/with}}
+          </select>
+        </span>
+
+        <span class="flex03">
+          <label for="system.minYearFilter" class="">
+            {{localize "arm5e.time.minYear"}}</label>
+          {{#with (lookup ui.filters.events list)}}
+            <input
+              type="number"
+              name="minYearFilter"
+              value="{{minYearFilter}}"
+              data-dtype="Number"
+              style="margin-right: 4px; max-width:40px"
+              class="minyear-filter select-on-focus"
+              data-list="{{../list}}"
+              data-category="events"
+            />
+          {{/with}}
+        </span>
+        <span class="flex03">
+          <label for="system.maxYearFilter" class="">
+            {{localize "arm5e.time.maxYear"}}</label>
+          {{#with (lookup ui.filters.events list)}}
+            <input
+              type="number"
+              name="maxYearFilter"
+              value="{{maxYearFilter}}"
+              data-dtype="Number"
+              style="margin-right: 4px; max-width:40px"
+              class="maxyear-filter select-on-focus"
+              data-list="{{../list}}"
+              data-category="events"
+            />
+          {{/with}}
+        </span>
+      </div>
+    </div>
+  </li>
+</div>

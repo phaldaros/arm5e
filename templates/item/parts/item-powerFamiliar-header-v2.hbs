@@ -1,0 +1,29 @@
+<div class="sheet-header-part">
+  <div class="header-background">
+    <img src="{{systemPath}}assets/item/{{ flavor }}_header.png" />
+  </div>
+  <header class="sheet-header marginItemPart">
+    <img
+      class="item-img"
+      src="{{ item.img }}"
+      data-action="editImage"
+      data-edit="img"
+      data-tooltip="<img
+      class='img-tooltip'
+      src='{{ item.img }}'/>"
+      data-tooltip-direction="CENTER"
+      title="{{ item.name }}"
+    />
+    <div class="header-fields flexcol">
+      <h1 class="bigname">
+        <input name="name" type="text" value="{{ item.name }}" placeholder="Name" />
+      </h1>
+    </div>
+    {{#if editable}}
+    <a data-action="itemDeleteConfirm" title="{{localize 'arm5e.hints.delete' item=item.name}}"
+      ><i class="ars-Icon_Delete_Hand_Gesture item-delete-large"></i
+    ></a>
+    {{/if}}
+  </header>
+  <div class="marginItemPart">{{> (systemPath "templates/generic/metalic-bar.html") }}</div>
+</div>

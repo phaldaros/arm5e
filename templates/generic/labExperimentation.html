@@ -1,0 +1,69 @@
+<div class="{{cssClass}} scriptorium scriptorium-sheet" autocomplete="off">
+  <h1 class="scriptorium-title width: 100%;" text-align="center">{{localize "arm5e.rolltables.experimentation.title" }}
+  </h1>
+  <header class="flexcol marginsides32">
+    <div class="resource flexrow flex-group-center">
+      <label class="resource  flex0">{{localize "arm5e.sheet.name"}}</label>
+      <input type="text" class="resource flex03 select-on-focus" name="subject" value="{{subject}}"
+        style="max-width:300px;width:300px;">
+    </div>
+    <div class="resource flexrow flex-group-center">
+      <div class="resource-content flexrow flex-center">
+        <label for="season" class="">{{localize "arm5e.sheet.season"}}</label>
+        <select name="season" data-type="String" class="seasons">
+          {{selectOptions seasons selected=season localize=true labelAttr="label"}}
+        </select>
+      </div>
+      <div class="resource-content flexrow flex-center">
+        <label for="year" class="">{{localize "arm5e.sheet.year"}}</label>
+        <input type="number" name="year" value="{{year}}" data-dtype="Number" class="select-on-focus slim" />
+
+      </div>
+      <div class="resource-content flexrow flex-center" style="padding:10px">
+        <button class="create-journal"
+          data-action="createJournal">{{localize "arm5e.rolltables.experimentation.createJournal"}}</button>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div class="resource flexcol flex-center">
+        <label class="">{{localize "arm5e.rolltables.experimentation.riskModifier" }}</label>
+        <input type="number" class="select-on-focus slim" name="riskModifier" value="{{riskModifier}}" />
+      </div>
+
+      <div class="resource flexcol flex-center">
+        <label class="">{{localize "arm5e.sheet.aura" }}</label>
+        <input type="number" class="select-on-focus slim" name="aura" value="{{aura}}" />
+      </div>
+      <div class="resource flexcol flex-center">
+        <label class="">{{localize "arm5e.rolltables.experimentation.extraordinaryResults.discovery.short" }}</label>
+        <input type="checkbox" class="select-on-focus slim" name="discovery" {{checked discovery}} />
+      </div>
+    </div>
+    <div class="flexrow padding10">
+      <button class=" arm5e experimentation-roll" data-action="rollExperimentation"
+        style="font-family: bookAntika; margin:5px">
+        {{localize "arm5e.rolltables.experimentation.roll"}}
+      </button>
+      <button class="arm5e clear-all" data-action="clearAll" style="font-family: bookAntika; margin:5px">
+        {{localize "arm5e.generic.clear"}}
+      </button>
+    </div>
+  </header>
+
+  <div class="marginsides32">
+    {{> (systemPath "templates/generic/metalic-bar.html")  }}
+  </div>
+  {{!-- Sheet Body --}}
+
+  <section class="sheet-body marginsides32 padding10 backSection">
+    <h2>{{localize "arm5e.rolltables.experimentation.report.label" }}</h2>
+    <div style="height: 250px ; min-height: 250px;">
+      {{> (systemPath "templates/generic/ars-editor.hbs")
+        content=reportBody
+        target="reportBody"
+        editable=false
+      }}
+    </div>
+  </section>
+
+</div>

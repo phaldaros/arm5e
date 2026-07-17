@@ -1,0 +1,43 @@
+<form class="sheet-content flexcol" autocomplete="off">
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="bigname"><input name="name" type="text" value="{{item.name}}" placeholder="name" /></h1>
+      <div class="grid grid-col">
+        <div class="resource">
+          <label>{{localize "arm5e.sheet.focus"}}<input type="text" name="system.foco" value="{{system.foco}}"
+              data-dtype="String" /></label>
+        </div>
+        <div class="resource">
+          <label>{{localize "arm5e.sheet.speciality"}}<input type="text" name="system.speciality"
+              value="{{system.speciality}}" data-dtype="String" /></label>
+        </div>
+        <div class="resource">
+          <label>{{localize "arm5e.sheet.bonus.label"}}<input type="text" name="system.bonus" value="{{system.bonus}}"
+              data-dtype="Number" /></label>
+        </div>
+      </div>
+    </div>
+  </header>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item tabArrow flexrow" data-tab="description">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{> "systems/arm5e/templates/generic/ars-editor.hbs"
+        content=enrichedDescription
+        target="system.description"
+        editable=editable
+      }}
+    </div>
+  </section>
+</form>

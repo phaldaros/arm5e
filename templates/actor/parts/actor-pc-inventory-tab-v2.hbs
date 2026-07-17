@@ -1,0 +1,21 @@
+<div class="tab {{ tab.cssClass }} inventory" data-group="primary" data-tab="inventory">
+  <div class="flexcol">
+    {{> (systemPath "templates/generic/parts/ars-tab-navigation.hbs") tabs=subtabs}}
+    <section class="inventory-body">
+      <div
+        class="tab{{#if subtabs.inventory.active}} active{{/if}} item flexcol marginsides32"
+        data-group="inventory-secondary"
+        data-tab="inventory"
+      >
+        {{> (systemPath "templates/actor/parts/actor-inventory.html") }}
+      </div>
+      <div
+        class="tab{{#if subtabs.library.active}} active{{/if}} item flexcol marginsides32"
+        data-group="inventory-secondary"
+        data-tab="library"
+      >
+        {{> (systemPath "templates/actor/parts/actor-library.html")}}
+      </div>
+    </section>
+  </div>
+</div>

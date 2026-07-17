@@ -1,0 +1,18 @@
+<div class="backSection margintop18">
+    <div class="flexrow resource">
+        <div>
+            <label class="resource">{{localize "arm5e.sheet.edition.creationMode"}}</label>
+            <input type="checkbox" name="system.states.creationMode" {{checked system.states.creationMode}}>
+        </div>
+    </div>
+</div>
+<div class="backSection margintop18" style="min-height: 227px;">
+    <div class="characteristics grid grid-3col">
+        {{#each config.ActorProfiles as |prof key|}}
+            <div class="flexrow flex-group-center">
+                <button class="arm5e actor-profile" data-action="actorProfile"
+                    data-key="{{key}}">{{localize prof.label}}</button>
+            </div>
+        {{/each}}
+    </div>
+</div>

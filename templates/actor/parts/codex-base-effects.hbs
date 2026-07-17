@@ -1,0 +1,74 @@
+<li class="item flexrow item-header">
+  <!-- <div class="item-image"></div> -->
+  <div class="codex-name">
+    <span>{{localize "arm5e.sheet.base-effects"}} </span>
+    <span> ( {{ system.baseEffectCount }} )</span>
+  </div>
+  <div class="item-controls">
+    <a
+      class="item-control base-effect-create"
+      data-action="createBaseEffect"
+      title="Add Base effect"
+      data-technique="{{ system.techniqueFilter }}"
+      data-form="{{ system.formFilter }}"
+      ><i class="fas fa-plus"></i>{{localize "arm5e.sheet.action.Create"}}</a
+    >
+  </div>
+</li>
+{{> (systemPath "templates/generic/metalic-bar.html") }}
+{{#each system.filteredBaseEffects as |effect id|}}
+<li
+  class="item draggable spell-value flexrow flex-center"
+  data-name="{{ effect.system.name }}"
+  data-item-id="{{ effect.id }}"
+  data-item-type="{{ effect.type }}"
+  data-uuid="{{ effect.uuid }}"
+>
+  <div class="flexrow flex-center">
+    <span
+      class="flexrow spell-title design"
+      data-action="designEffect"
+      data-name="{{ effect.name }}"
+    >
+      {{ effect.name }} - {{ system.artsLabel }} {{ effect.system.baseLevel }}
+    </span>
+  </div>
+  {{#if effect.parent}}
+  <div class="item-controls">
+    <a
+      class="item-control alt-design"
+      data-action="alternateDesign"
+      title="{{localize 'arm5e.hints.design' item=(localize 'TYPES.Item.spell')}}"
+      ><i class="fa-xl fas fa-gavel"></i
+    ></a>
+    <a
+      class="item-control item-edit"
+      data-action="itemEdit"
+      title="{{localize 'arm5e.hints.edit' item=(localize 'TYPES.Item.baseEffect')}}"
+      ><i class="ars-Icon_Edit"></i
+    ></a>
+    <a
+      class="item-control item-delete"
+      data-action="itemDelete"
+      title="{{localize 'arm5e.hints.delete' item=(localize 'TYPES.Item.baseEffect')}}"
+      ><i class="ars-Icon_Delete_Hand_Gesture"></i
+    ></a>
+  </div>
+  {{else}}
+  <div class="item-controls">
+    <a
+      class="item-control item-view"
+      data-action="itemView"
+      title="{{localize 'arm5e.hints.view' item=(localize 'TYPES.Item.baseEffect')}}"
+      ><i class="ars-Icon_Read"></i
+    ></a>
+    <a
+      class="item-control item-clone"
+      data-action="itemClone"
+      title="{{localize 'arm5e.hints.clone' item=(localize 'TYPES.Item.baseEffect')}}"
+      ><i class="ars-Icon_Copy"></i
+    ></a>
+  </div>
+  {{/if}}
+</li>
+{{/each}}

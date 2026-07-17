@@ -1,0 +1,78 @@
+<form class="sheet-content flexcol" autocomplete="off">
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" data-tooltip="<img
+      class='img-tooltip'
+      src='{{ item.img }}'/>" data-tooltip-direction="CENTER" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="bigname" style="font-size: 24pt;">{{localize "arm5e.sheet.spell-design"}}</h1>
+      <h1 class="bigname">
+        <div class="flexrow"><input name="name" type="text" title="{{item.name}}" value="{{item.name}}"
+            placeholder="Name" />
+          {{#if noRoll}}
+            <div class="flex0 padding10 "><a class="rollable" data-roll="magic" data-id="{{item._id}}"
+                data-fatigue-on-use="1" title='{{localize "arm5e.dialog.button.roll"}}'><img
+                  src="systems/arm5e/assets/dice.png"
+                  style="border: 0px; height:30px; min-height:30px; min-width: 30px;"></a>
+            </div>
+          {{/if}}
+        </div>
+      </h1>
+      <div class="grid grid-2col">
+        <div class="resource flexcol flexrow">
+          <label for="system.technique.value" class="">{{localize "arm5e.sheet.technique"}}</label>
+          <select name="system.technique.value" data-type="String">
+            {{selectOptions config.magic.techniques selected=system.technique.value labelAttr="label"}}
+          </select>
+        </div>
+        <div class="resource flexcol flexrow">
+          <label for="system.form.value" class="">{{localize "arm5e.sheet.form"}}</label>
+          <select name="system.form.value" data-type="String">
+            {{selectOptions config.magic.forms selected=system.form.value labelAttr="label"}}
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-2col">
+        <div class="resource flexcol flex-center">
+          <label class="">{{localize "arm5e.sheet.Requisites"}}</label>
+          <label class="">{{ui.requisites}}</label>
+          <a class="item-control advanced-req" title="Advanced Requistes" data-flavor="{{ui.flavor}}"><i
+              class="fas fa-gavel fa-lg"></i></a>
+        </div>
+        <div class="resource flexcol flex-center">
+          <label class="">{{localize "arm5e.sheet.level"}}</label>
+          <input class="design-level" readonly type="number" name="system.level" value="{{system.level}}"
+            style="max-width: 60px;" data-dtype="Number" />
+        </div>
+      </div>
+    </div>
+  </header>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item tabArrow flexrow" data-tab="spell-design">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.attributes"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+    <a class="item tabArrow flexrow" data-tab="description">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Spell Design Tab --}}
+    <div class="tab spell-design" data-group="primary" data-tab="spell-design">
+      {{> "systems/arm5e/templates/item/parts/spell-design.html" }}
+    </div> {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{> "systems/arm5e/templates/generic/ars-editor.hbs"
+        content=enrichedDescription
+        target="system.description"
+        editable=editable
+      }}
+    </div>
+  </section>
+</form>

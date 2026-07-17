@@ -1,0 +1,55 @@
+<div class="{{cssClass}} scriptorium scriptorium-sheet" autocomplete="off">
+  <h1 class="scriptorium-title width: 100%;" text-align="center">Scriptorium</h1>
+  <header class="scriptorium-header flex0">
+    <div class="flexrow" style="margin-left: 32px; margin-right: 57px;">
+      <div class="resource-content flexrow flex-center flex-between margintop6">
+        <label for="season" class="smallTitle">{{localize "arm5e.sheet.season"}}</label>
+        <select name="season" data-type="String" class="change-season flex0 scriptorium seasons">
+          {{selectOptions seasons selected=season localize=true labelAttr="label"}}
+        </select>
+      </div>
+      <div class="resource-content flexrow flex-center flex-between margintop6">
+        <label for="year" class="smallTitle">{{localize "arm5e.sheet.year"}}</label>
+        <input type="number" name="year" value="{{year}}" data-dtype="Number"
+          class="scriptorium change-year select-on-focus" />
+      </div>
+    </div>
+  </header>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item tabArrow flexrow" data-tab="reading" data-group="primary">
+      <div class="navItem-right-ball"><img src="{{systemPath}}assets/bLeft.png" /></div>
+      {{localize "arm5e.activity.reading"}}
+      <div class="navItem-left-ball"><img src="{{systemPath}}assets/bRight.png" /></div>
+    </a>
+    <a class="item tabArrow flexrow" data-tab="writing" data-group="primary">
+      <div class="navItem-right-ball"><img src="{{systemPath}}assets/bLeft.png" /></div>
+      {{localize "arm5e.activity.writing"}}
+      <div class="navItem-left-ball"><img src="{{systemPath}}assets/bRight.png" /></div>
+    </a>
+    <a class="item tabArrow flexrow" data-tab="copying" data-group="primary">
+      <div class="navItem-right-ball"><img src="{{systemPath}}assets/bLeft.png" /></div>
+      {{localize "arm5e.activity.copying"}}
+      <div class="navItem-left-ball"><img src="{{systemPath}}assets/bRight.png" /></div>
+    </a>
+
+
+  </nav>
+  <div class="marginsides32">
+    {{> (systemPath "templates/generic/metalic-bar.html") }}
+  </div>
+  {{!-- Sheet Body --}}
+
+  <section class="sheet-body">
+    {{> (systemPath "templates/generic/parts/scriptorium-reading.html")  }}
+    <!-- ***********
+    *** WRITING ****
+    **************** -->
+    {{> (systemPath "templates/generic/parts/scriptorium-writing.html")  }}
+    <!-- ***********
+    *** COPYING ****
+    **************** -->
+    {{> (systemPath "templates/generic/parts/scriptorium-copying.html")  }}
+  </section>
+
+</div>

@@ -1,0 +1,43 @@
+{{#if ui.showProgress}}
+  <div>
+    <div style="position: absolute; right: -2300px">
+      <input type="hidden" name="system.sourceModifier" value="{{system.sourceModifier}}" data-dtype="Number" />
+    </div>
+    <div class="resource">
+      <label class="">{{localize "arm5e.sheet.sourceQuality"}} : </label>
+      {{#if ui.editSource}}
+        <input type="text" name="system.sourceQuality" value="{{system.sourceQuality}}" data-dtype="Number"
+          {{system.canEdit}} style="max-width: 50px;" />
+      {{else}}
+        {{#if system.done}}
+          <label class=""><b>{{system.sourceQuality}}</b></label>
+        {{else}}
+          {{#if ui.showBaseQuality}}
+            <label class=""> {{localize "arm5e.generic.base"}} ({{system.sourceQuality}})</label>
+          {{else}}
+            <label class=""> : {{localize "arm5e.generic.default"}} ({{system.sourceDefault}}) </label>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+      {{#if ui.bonusOptions}}
+        <label class=""> + </label>
+        <select class="progress-bonus" name="system.optionKey" data-dtype="String" {{@root.system.disabled}}>
+          {{selectOptions bonusOptions selected=system.optionKey labelAttr="selectLabel"}}
+        </select>
+      {{/if}}
+      {{#unless (or (eq system.sourceModifier 0) system.cappedGain)}}
+        <label class=""> + </label>
+        <label class=""> {{localize "arm5e.sheet.bonus.activeEffects"}}
+          ({{system.sourceModifier}})</label>
+      {{/unless}}
+      {{#unless system.cappedGain}}
+        <label class=""> = <b>{{totalQuality }}</b></label>
+      {{else}}
+        <label class=""> => <b>{{system.sourceQuality}} *</b></label>
+      {{/unless}}
+    </div>
+  </div>
+  {{> "systems/arm5e/templates/item/parts/activities.html" }}
+{{else}}
+  <div style="min-height: 226px;"></div>
+{{/if}}

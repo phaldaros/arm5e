@@ -1,0 +1,497 @@
+import { ARM5E } from "../config.js";
+
+import { log, error, slugify } from "../tools/tools.js";
+
+import { ACTIVE_EFFECTS_TYPES } from "../constants/activeEffectsTypes.js";
+import { textInput } from "../ui/dialogs.js";
+
+/**
+ * Extend the base ActiveEffectConfig sheet by limiting what can be edited
+ * @extends {ActiveEffectConfig}
+ */
+export class ArM5eActiveEffectConfig extends foundry.applications.sheets.ActiveEffectConfig {
+  static DEFAULT_OPTIONS = {
+    classes: ["arm5e", "arm5eLargeDialog"],
+    // classes: ["arm5e", "arm5eActiveEffect", "active-effect-sheet"],
+    window: {
+      contentClasses: ["standard-form"],
+      icon: "fa-solid fa-person-rays"
+    },
+    position: { width: 600, height: 700 },
+    form: {
+      // handler: ArM5eActiveEffectConfig.handleSubmit,
+      submitOnChange: true,
+      closeOnSubmit: false
+    },
+    actions: {
+      add: ArM5eActiveEffectConfig.addEffect,
+      option: ArM5eActiveEffectConfig.setOption,
+      deleteChange: ArM5eActiveEffectConfig.deleteChange
+    }
+  };
+
+  /** @override */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "details", icon: "fa-solid fa-book", cssClass: "item flexrow" },
+        { id: "changes", icon: "fa-solid fa-gears", cssClass: "item flexrow" }
+      ],
+      initial: "details",
+      labelPrefix: "EFFECT.TABS"
+    }
+  };
+
+  /** @override */
+  static PARTS = {
+    headerFlavor: { template: `systems/${ARM5E.SYSTEM_ID}/templates/generic/parts/largeDialog-header.hbs` },
+    header: {
+      template: `systems/${ARM5E.SYSTEM_ID}/templates/sheets/active-effect/header.hbs`,
+      classes: ["marginsides32"]
+    },
+    tabs: {
+      template: `systems/${ARM5E.SYSTEM_ID}/templates/generic/parts/ars-tab-navigation.hbs`,
+      classes: ["blueBar", "marginsides32"]
+    },
+    details: {
+      template: `systems/${ARM5E.SYSTEM_ID}/templates/sheets/active-effect/details.hbs`,
+      classes: ["flexrow"]
+    },
+    // duration: { template: `systems/${ARM5E.SYSTEM_ID}/templates/sheets/active-effect/duration.hbs` },
+    changes: {
+      template: `systems/${ARM5E.SYSTEM_ID}/templates/sheets/active-effect/changes.hbs`,
+      scrollable: [".changes-list"],
+      classes: ["flexrow"]
+    },
+    // footer: { template: "templates/generic/form-footer.hbs" }
+    footer: { template: `systems/${ARM5E.SYSTEM_ID}/templates/generic/parts/largeDialog-footer.hbs` }
+  };
+
+  // /** @inheritDoc */
+  // _onChangeForm(formConfig, event) {
+  //   super._onChangeForm(formConfig, event);
+  //   if (event.target.tagName === "COLOR-PICKER" && event.target.name.endsWith("tint")) {
+  //     this.submit({ updateData: { tint: event.target.value } });
+  //   }
+  // }
+
+  setFilter(filter, mod) {
+    this.filter = filter;
+  }
+
+  _getChangesData() {
+    const changes = CONFIG.ISV14 ? this.document.system?.changes : this.document.changes;
+    const clonedChanges = foundry.utils.deepClone(changes ?? []);
+    for (const change of clonedChanges) {
+      if (CONFIG.ISV14) {
+        if (typeof change?.type !== "string" || !change.type) {
+          const legacyMode = typeof change?.mode === "number" ? change.mode : undefined;
+          change.type = this._modeToType(legacyMode);
+        }
+      } else if (typeof change?.mode !== "number") {
+        change.mode = this._typeToMode(change?.type);
+      }
+    }
+    return clonedChanges;
+  }
+
+  _changesUpdateData(changesData) {
+    return CONFIG.ISV14 ? { "system.changes": changesData } : { changes: changesData };
+  }
+
+  _modeToType(mode) {
+    switch (Number(mode)) {
+      case 0:
+        return "custom";
+      case 1:
+        return "multiply";
+      case 2:
+        return "add";
+      case 3:
+        return "downgrade";
+      case 4:
+        return "upgrade";
+      case 5:
+        return "override";
+      default:
+        return "add";
+    }
+  }
+
+  _typeToMode(type) {
+    if (typeof type !== "string") return 2;
+    if (type === "custom") return 0;
+    if (type === "multiply") return 1;
+    if (type === "add") return 2;
+    if (type === "downgrade") return 3;
+    if (type === "upgrade") return 4;
+    if (type === "override") return 5;
+
+    const customMode = Number(/^custom\.(-?\d+)$/.exec(type)?.[1]);
+    return Number.isInteger(customMode) ? customMode : 2;
+  }
+
+  _getEffectChangeType(effect) {
+    if (typeof effect?.type === "string" && effect.type.length > 0) {
+      return effect.type;
+    }
+    if (typeof effect?.mode === "number") {
+      return this._modeToType(effect.mode);
+    }
+    return "add";
+  }
+
+  _getEffectChangeMode(effect) {
+    if (typeof effect?.mode === "number") return effect.mode;
+    if (typeof effect?.type === "string") return this._typeToMode(effect.type);
+    return 2;
+  }
+
+  _buildEffectChangeUpdate(effect, existingChange, key, value) {
+    const changeData = {
+      ...existingChange,
+      key,
+      value
+    };
+    if (CONFIG.ISV14) {
+      changeData.type = this._getEffectChangeType(effect);
+      delete changeData.mode;
+    } else {
+      changeData.mode = this._getEffectChangeMode(effect);
+      delete changeData.type;
+    }
+    return changeData;
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.data = context.document.toObject();
+    context.tabs = this._prepareTabs("primary");
+    const changesData = this._getChangesData();
+    if (this.filter) {
+      context.types = Object.fromEntries(
+        Object.entries(ACTIVE_EFFECTS_TYPES).filter(
+          ([k, v]) => v.category === this.filter || v.category === "none"
+        )
+      );
+    } else {
+      context.types = ACTIVE_EFFECTS_TYPES;
+    }
+
+    // context.data.ui = {
+    //   nameAttr: "name",
+    //   name: context.data.name,
+    //   img: context.data.img,
+    //   imgAttr: "img"
+    // };
+
+    context.flavor = "Inputs";
+    context.origin = context.document.sourceName;
+    context.isV14 = CONFIG.ISV14;
+    // first effect created, add null effect type and subtype (still needed?)
+    context.selectedTypes = this.document.getFlag(ARM5E.SYSTEM_ID, "type");
+    if (changesData.length > 0 && context.selectedTypes === null) {
+      context.selectedTypes = ["none"];
+    }
+    context.selectedSubtypes = this.document.getFlag(ARM5E.SYSTEM_ID, "subtype");
+    if (changesData.length > 0 && context.selectedSubtypes === null) {
+      context.selectedSubtypes = ["none"];
+    }
+
+    // get the data for all subtypes of the selected types
+    // replace #OPTION# in key if it applies
+    context.subtypes = [];
+    context.currentProperties = [];
+    context.options = this.document.getFlag(ARM5E.SYSTEM_ID, "option");
+    for (let idx = 0; idx < context.selectedTypes.length; idx++) {
+      let subTypes = [];
+      for (const [k, v] of Object.entries(context.types[context.selectedTypes[idx]].subtypes)) {
+        let subType = {
+          name: k,
+          ...v
+        };
+
+        let tmp = subType.key;
+        // option key replacement only done for abilities for now.
+        if (context.types[context.selectedTypes[idx]].category === "abilities") {
+          if (context.options[idx] !== null) {
+            tmp = tmp.replace("#OPTION#", context.options[idx]);
+          }
+        }
+        if (typeof v.default === "boolean") {
+          subType.isBool = true;
+        } else {
+          subType.isBool = false;
+        }
+
+        if (typeof v.default === "string") {
+          subType.isString = true;
+        } else {
+          subType.isString = false;
+        }
+
+        let withChoice = v.choice;
+        if (withChoice) {
+          subType.withChoice = true;
+        } else {
+          subType.withChoice = false;
+        }
+        subType.computedKey = tmp;
+
+        subType.modeStr = `arm5e.activeEffect.mode_${subType.mode}`;
+
+        subTypes.push(subType);
+        if (k === context.selectedSubtypes[idx]) {
+          context.currentProperties.push(subType);
+        }
+      }
+      context.subtypes.push(subTypes);
+    }
+
+    context.devMode = game.modules
+      .get("_dev-mode")
+      ?.api?.getPackageDebugValue(CONFIG.ARM5E.SYSTEM_ID);
+
+    context.isGM = game.user.isGM;
+    context.footer = "Inputs";
+    log(false, "Effect config sheet data");
+    log(false, context);
+    return context;
+  }
+  /** @override */
+
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+    // keep in mind that if your callback is a named function instead of an arrow function expression
+    // you'll need to use `bind(this)` to maintain context
+
+    // Inputs with class `.effect-type`
+    const changeTypes = this.element.querySelectorAll(".effect-type");
+    for (const input of changeTypes) {
+      input.addEventListener("change", async (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const index = parseInt(e.currentTarget.dataset.index);
+        await this._setType(e.currentTarget.selectedOptions[0].value, index);
+      });
+    }
+
+    const changeSubTypes = this.element.querySelectorAll(".effect-subtype");
+    for (const input of changeSubTypes) {
+      input.addEventListener("change", async (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const index = parseInt(e.currentTarget.dataset.index);
+        await this._setSubtype(e.currentTarget.selectedOptions[0].value, index);
+      });
+    }
+
+    const changeValues = this.element.querySelectorAll(".effect-value");
+    for (const input of changeValues) {
+      input.addEventListener("change", async (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const index = parseInt(e.currentTarget.dataset.index);
+        await this._setValue(e.currentTarget.value, index);
+      });
+    }
+  }
+
+  static async setOption(event, target) {
+    const index = parseInt(target.dataset.index);
+    await this._setOption(index);
+  }
+
+  static async deleteChange(event, target) {
+    const index = parseInt(target.dataset.index);
+    await this._deleteChange(index);
+  }
+
+  // _castType(type, value) {
+  //   const newVal = foundry.utils.getType(value);
+  // }
+
+  async _deleteChange(index) {
+    let arrayTypes = this.document.getFlag(ARM5E.SYSTEM_ID, "type");
+    let arraySubtypes = this.document.getFlag(ARM5E.SYSTEM_ID, "subtype");
+    let arrayOptions = this.document.getFlag(ARM5E.SYSTEM_ID, "option");
+    let changes = this._getChangesData();
+    arrayTypes.splice(index, 1);
+    arraySubtypes.splice(index, 1);
+    arrayOptions.splice(index, 1);
+    changes.splice(index, 1);
+    let updateFlags = {
+      ...this._changesUpdateData(changes),
+      flags: {
+        arm5e: {
+          type: arrayTypes,
+          subtype: arraySubtypes,
+          option: arrayOptions
+        }
+      }
+    };
+    await this.document.update(updateFlags);
+    this.render();
+  }
+
+  async _setValue(value, index) {
+    let arrayTypes = this.document.getFlag(ARM5E.SYSTEM_ID, "type");
+    let arraySubtypes = this.document.getFlag(ARM5E.SYSTEM_ID, "subtype");
+    let arrayOptions = this.document.getFlag(ARM5E.SYSTEM_ID, "option");
+    const effect = ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]];
+    let newKey = effect.key;
+    if (arrayOptions[index] !== null) {
+      newKey = newKey.replace("#OPTION#", arrayOptions[index]);
+    }
+
+    if (typeof effect.default === "boolean") {
+      value = true;
+    }
+    const changesData = this._getChangesData();
+    const existingChange = changesData[index] ?? {};
+    changesData[index] = this._buildEffectChangeUpdate(effect, existingChange, newKey, value);
+    let updateFlags = this._changesUpdateData(changesData);
+    await this.document.update(updateFlags);
+    this.render();
+  }
+
+  async _setType(value, index) {
+    let arrayTypes = this.document.getFlag(ARM5E.SYSTEM_ID, "type");
+    arrayTypes[index] = value;
+    // also update subtype
+    let arraySubtypes = this.document.getFlag(ARM5E.SYSTEM_ID, "subtype");
+    arraySubtypes[index] = Object.keys(ACTIVE_EFFECTS_TYPES[value].subtypes)[0];
+    let arrayOptions = this.document.getFlag(ARM5E.SYSTEM_ID, "option");
+    arrayOptions[index] = ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]].option || null;
+    const changesData = this._getChangesData();
+    const effect = ACTIVE_EFFECTS_TYPES[value].subtypes[arraySubtypes[index]];
+    const existingChange = changesData[index] ?? {};
+    changesData[index] = this._buildEffectChangeUpdate(
+      effect,
+      existingChange,
+      effect.key,
+      effect.default
+    );
+    let updateFlags = {
+      flags: {
+        arm5e: {
+          type: arrayTypes,
+          subtype: arraySubtypes,
+          option: arrayOptions
+        }
+      },
+      ...this._changesUpdateData(changesData)
+    };
+    await this.document.update(updateFlags);
+    this.render();
+  }
+
+  async _setSubtype(value, index) {
+    let arrayTypes = this.document.getFlag(ARM5E.SYSTEM_ID, "type");
+    let arraySubtypes = this.document.getFlag(ARM5E.SYSTEM_ID, "subtype");
+    let arrayOptions = this.document.getFlag(ARM5E.SYSTEM_ID, "option");
+    arraySubtypes[index] = value;
+    arrayOptions[index] =
+      ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].option || null;
+    let computedKey = ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value].key;
+    if (arrayOptions[index] !== null) {
+      computedKey = computedKey.replace("#OPTION#", arrayOptions[index]);
+    }
+    const changesData = this._getChangesData();
+    const effect = ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[value];
+    const existingChange = changesData[index] ?? {};
+    changesData[index] = this._buildEffectChangeUpdate(
+      effect,
+      existingChange,
+      computedKey,
+      ACTIVE_EFFECTS_TYPES[arrayTypes[index]].subtypes[arraySubtypes[index]].default
+    );
+    let update = {
+      flags: {
+        arm5e: {
+          type: arrayTypes,
+          subtype: arraySubtypes,
+          option: arrayOptions
+        }
+      },
+      ...this._changesUpdateData(changesData)
+    };
+
+    await this.document.update(update);
+    this.render();
+  }
+
+  static async addEffect(context) {
+    let arrayTypes = this.document.getFlag(ARM5E.SYSTEM_ID, "type");
+    let arraySubtypes = this.document.getFlag(ARM5E.SYSTEM_ID, "subtype");
+    let arrayOptions = this.document.getFlag(ARM5E.SYSTEM_ID, "option");
+    arrayTypes.push("none");
+    arraySubtypes.push("none");
+    arrayOptions.push(null);
+    const flags = {
+      arm5e: {
+        type: arrayTypes,
+        subtype: arraySubtypes,
+        option: arrayOptions
+      }
+    };
+    return this._addEffectChange(flags).then(() => this.render());
+  }
+
+  async _setOption(index) {
+    let arrayTypes = this.document.getFlag(ARM5E.SYSTEM_ID, "type");
+    const type = arrayTypes[index];
+    let arraySubtypes = this.document.getFlag(ARM5E.SYSTEM_ID, "subtype");
+    const subtype = arraySubtypes[index];
+    let arrayOptions = this.document.getFlag(ARM5E.SYSTEM_ID, "option");
+    let chosenOption = arrayOptions[index];
+    let dialogData = {
+      fieldName: "arm5e.sheet.skill.abilityOption",
+      placeholder: "arm5e.dialog.hint.abilityOption",
+      value: chosenOption
+    };
+    chosenOption = await textInput(
+      game.i18n.localize("arm5e.sheet.skill.abilityOption"),
+      "arm5e.sheet.skill.abilityOption",
+      "arm5e.dialog.hint.abilityOption",
+      chosenOption,
+      "",
+      [],
+      (value) => {
+        return value.length > 0;
+      }
+    );
+    if (!chosenOption) {
+      return;
+    }
+    // remove any non alphanumeric character
+    chosenOption = slugify(chosenOption, false);
+    if (!chosenOption) {
+      chosenOption = ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].default;
+    }
+    let computedKey = ACTIVE_EFFECTS_TYPES[type].subtypes[subtype].key;
+    let updateData = {};
+    arrayOptions[index] = chosenOption;
+    updateData[`flags.arm5e.option`] = arrayOptions;
+    const changesData = this._getChangesData();
+    changesData[index].key = computedKey.replace("#OPTION#", chosenOption);
+    Object.assign(updateData, this._changesUpdateData(changesData));
+    return await this.document.update(updateData);
+  }
+
+  async _addEffectChange(updateFlags) {
+    const changesData = this._getChangesData();
+    if (CONFIG.ISV14) {
+      changesData.push({ key: "", type: "add", value: "" });
+    } else {
+      changesData.push({ key: "", mode: 2, value: "" });
+    }
+    return await this.document.update({
+      ...this._changesUpdateData(changesData),
+      flags: updateFlags
+    });
+  }
+}

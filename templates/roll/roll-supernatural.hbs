@@ -1,0 +1,184 @@
+<div class="{{cssClass}} arm5e-roll" autocomplete="off">
+  {{log "THIS " this}}
+  <div class="roll-options">
+    <div class="flexrow flex-group-center" style="word-break: break-all;">
+      <label class="" style="font-size: 13pt; ">{{ rollInfo.label}}</label>
+    </div>
+    {{#if false}}
+      {{> (systemPath "templates/actor/parts/actor-voice-and-gestures.hbs") selection=rollInfo.selection id=_id}}
+    {{/if}}
+    <div class="flexrow flex-group-center">
+      {{#if rollInfo.magic.technique.active}}
+        <label class=" flex03">{{ rollInfo.magic.technique.label }} ({{
+          rollInfo.magic.technique.score}})</label>
+        {{#if rollInfo.magic.technique.specialty}}
+          <label class="label-light">{{localize "arm5e.sheet.speciality"}}
+            ({{rollInfo.magic.technique.specialty}})</label>
+          <input type="checkbox" class="formSpeciality" name="rollInfo.magic.technique.specApply" {{checked
+            rollInfo.magic.technique.specApply}} />
+        {{/if}}
+      {{/if}}
+      {{#if rollInfo.magic.form.active}}
+        <label class=" flex0"> + </label>
+        <label class=" flex03">{{ rollInfo.magic.form.label }} ({{ rollInfo.magic.form.score
+          }})</label>
+        {{#if rollInfo.magic.form.specialty}}
+          <label class="label-light">{{localize "arm5e.sheet.speciality"}}
+            ({{rollInfo.magic.form.specialty}})</label>
+          <input type="checkbox" class="formSpeciality" name="rollInfo.magic.form.specApply" {{checked
+            rollInfo.magic.form.specApply}} />
+        {{/if}}
+      {{/if}}
+      {{#if false}}
+        <a class="item-control advanced-req-roll flex0" title="Advanced Requistes" data-flavor="NPC"
+          data-type="{{rollInfo.type}}" data-itemId="{{rollInfo.itemId}}" data-actorId="{{_id}}"><i
+            class="fas fa-gavel fa-lg"></i></a>
+
+      {{/if}}
+    </div>
+    {{#if rollInfo.ability.active}}
+      <div class="flex-group-center">
+        <label class="" style="font-size: 12pt;">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="">{{rollInfo.ability.name}}</label>
+        <label class="label-light">{{localize "arm5e.sheet.speciality"}} ({{rollInfo.ability.speciality}})</label>
+        <input type="checkbox" class="abilitySpeciality" name="rollInfo.ability.specApply" {{checked
+          rollInfo.ability.specApply}} />
+      </div>
+    {{/if}}
+    {{#if rollInfo.modifier}}
+
+    {{/if}}
+    {{#if rollInfo.characteristic}}
+      <div class="flex-group-center">
+        <label class="" style="font-size: 12pt;">+</label>
+      </div>
+      <div class="flexrow flex-group-center">
+
+        <label class=" flex03">{{ localize rollInfo.characteristicLabel }} ({{
+          rollInfo.characteristicValue
+          }})</label>
+      </div>
+    {{/if}}
+    {{#unless (eq rollInfo.magic.bonus 0) }}
+      <div class="flexrow flex-group-center">
+        <label class="">+</label>
+      </div>
+      <div class="flexrow flex-group-center sub">
+        <label class="">{{ rollInfo.magic.bonusDesc }} : {{ rollInfo.magic.bonus }}</label>
+      </div>
+    {{/unless}}
+    {{#unless (eq rollInfo.magic.masteryScore 0) }}
+      <div class="flexrow flex-group-center">
+        <label class=" flex0"> + </label>
+        <label class=" flex03 ">{{localize "arm5e.sheet.mastery" }}
+          ({{ rollInfo.magic.masteryScore }})</label>
+      </div>
+    {{/unless}}
+
+
+    <div class="flex-group-center">
+      <label class="">+</label>
+    </div>
+  </div>
+  <div class="flexrow flex-group-center">
+    <label class=" flex02" style="padding-right: 10px;">{{localize "arm5e.sheet.modifier" }} </label>
+    <input type="number" name="rollInfo.modifier" value="{{rollInfo.modifier}}" data-dtype="Number"
+      class="SelectedModifier flex02 select-on-focus" style="width: 80px;" />
+  </div>
+  <div class=" flexrow flex-group-center">
+    <label class="">+</label>
+  </div>
+  {{#if rollInfo.environment.aura.visible}}
+    <div class=" flexrow flex-group-center">
+      <label class=" flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+      <input type="number" name="rollInfo.environment.aura.modifier"
+        value="{{rollInfo.environment.aura.modifier}}" data-dtype="Number"
+        class="SelectedAura flex02 select-on-focus" />
+    </div>
+  {{else}}
+    <div class=" flexrow flex-group-center">
+      <label class=" flex03 " style="padding-right: 10px;">{{localize "arm5e.sheet.levelAura"}} </label>
+      <input type="number" style="display: none" name="rollInfo.environment.aura.modifier"
+        value="{{rollInfo.environment.aura.modifier}}" data-dtype="Number"
+        class="SelectedAura flex02 select-on-focus" />
+      ???
+    </div>
+  {{/if}}
+  <div class="flexrow flex-group-center">
+    <label class="">+</label>
+  </div>
+  <div class="flexrow flex-group-center">
+    <label class=" flex05 ">{{localize "arm5e.spell.applyFocus" }}</label>
+    <input type="checkbox" name="system.applyFocus" {{checked rollInfo.magic.focus}} class="SelectedFocus flex01" />
+  </div>
+
+  {{#if (eq rollInfo.magic.ritual true)}}
+    <div class="flexrow flex-group-center">
+      <label class="">+</label>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="">{{localize system.config.character.magicAbilities.artesLib }} ({{
+        system.laboratory.abilitiesSelected.artesLib.value }}) + {{localize
+        system.config.character.magicAbilities.philosophy }} ({{ system.laboratory.abilitiesSelected.philosophy.value
+        }})</label>
+    </div>
+  {{/if}}
+  {{#unless (eq rollInfo.bonusesExtended 0) }}
+    <div class="flexrow flex-group-center">
+      <label class="">+</label>
+    </div>
+    <div class="flexrow flex-group-center clickable">
+      <label class=" " data-hidden="activeEffects">{{localize "arm5e.sheet.bonuses.label"}}
+        ({{ rollInfo.bonusesExtended
+        }})</label>
+    </div>
+    <div class="activeEffects hide">
+
+      {{#each rollInfo.activeEffects as |item id|}}
+        <div class="flexrow flex-group-center">
+          <label class="">+</label>
+        </div>
+        <div class="flexrow flex-group-center sub">
+          <label class="">{{ item.label }} {{numberFormat item.value decimals=0 sign=true}}</label>
+        </div>
+      {{/each}}
+    </div>
+  {{/unless}}
+  {{#each rollInfo.optionalBonuses as |optional|}}
+    <div class="flexrow flex-group-center sub">
+      <div class="modifier">+ </div>
+      <label class="">{{optional.name }} ({{ optional.bonus }})</label><input type="checkbox" name="{{optional.name}}"
+        {{checked optional.active}} class="SelectedOptional{{@index}} flex01" />
+    </div>
+  {{/each}}
+  <div class="flexrow flex-group-center">
+    {{#unless (eq system.fatigueTotal 0) }}
+      <div class="flexrow flex-group-center">
+        <label class="">+ {{localize "arm5e.sheet.fatigue.label"}} ({{ system.fatigueTotal }})</label>
+      </div>
+    {{/unless}}
+    {{#unless (eq system.penalties.wounds.total  0) }}
+      <div class="flexrow flex-group-center">
+        <label class="">+ {{localize "arm5e.sheet.wounds"}} ({{ system.penalties.wounds.total
+          }})</label>
+      </div>
+    {{/unless}}
+    {{#unless (eq system.combat.overload 0) }}
+      <div class="flexrow flex-group-center">
+        <label class="">- {{localize "arm5e.sheet.encumbrance"}} ({{ system.combat.overload }})</label>
+      </div>
+    {{/unless}}
+  </div>
+
+  <div class="flexcol flex-group-center">
+    <label class=""><img src="{{systemPath}}assets/icons/Icon_Details_option1.png" title="Penetration" width="24"
+        height="24" style="border :0px" /></label>
+  </div>
+  {{#if false}}
+    {{> (systemPath "templates/roll/parts/penetration-options.hbs") }}
+  {{/if}}
+  </div>
+
+</div>

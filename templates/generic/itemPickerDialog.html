@@ -1,0 +1,14 @@
+<form class="{{cssClass}} arm5e-prompt" autocomplete="off">
+  {{log this}}
+  {{> (systemPath "templates/item/parts/item-header.html") header="Inputs"}}
+  <div class="flexrow backSection" style="padding: 8px">
+    <ol style="width: 100%">
+      {{#each list}}
+        <li class="flexrow item flex-group-left">
+          {{> (systemPath "templates/generic/parts/list-item.hbs") item=this selected=this.selected }}
+      {{/each}}
+      </li>
+    </ol>
+  </div>
+  {{> (systemPath "templates/item/parts/item-footer.html") footer="Inputs"}}
+</form>

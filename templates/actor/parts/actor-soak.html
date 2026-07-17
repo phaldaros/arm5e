@@ -1,0 +1,75 @@
+<form class="{{cssClass}} arm5e-roll" autocomplete="off">
+  {{> (systemPath "templates/roll/parts/roll-header.hbs") header="Damage_Soak" }}
+  {{log "Roll Soak Form Data:" this}}
+  <div class="roll-options">
+    <div class="flexrow flex-group-center">
+      <label class=" flex0">{{localize "arm5e.damage.label" }}</label>
+      <input type="number" name="damage" value="{{damage}}" data-dtype="Number"
+        class="SelectedDamage select-on-focus modifier" />
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="">-</label>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class="" name="stamina"
+        value="{{actor.system.characteristics.sta.value}}">{{localize "arm5e.sheet.stamina" }} ({{ numberFormat
+        actor.system.characteristics.sta.value decimals=0
+        sign=true }})</label>
+    </div>
+    {{#if actor.system.bonuses.traits.soak}}
+      <div class="flexrow flex-group-center">
+        <label class="">-</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label>{{localize "arm5e.sheet.soakBonus" }}
+          ({{ numberFormat
+          actor.system.bonuses.traits.soak decimals=0 sign=true
+          }})</label>
+      </div>
+    {{/if}}
+    {{#if isMagus}}
+      <div class="flexrow flex-group-center">
+        <label class="">-</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="fit">{{localize "arm5e.sheet.formRes"}}</label>
+        <select name="formRes" data-type="String" style="max-width: fit-content;">
+          {{selectOptions selection.formRes selected=formRes labelAttr="label" blank="" }}
+        </select>
+      </div>
+    {{/if}}
+    {{#if hasResistance}}
+      <div class="flexrow flex-group-center">
+        <label class="">-</label>
+      </div>
+      <div class="flexrow flex-group-center">
+        <label class="fit">{{localize "arm5e.sheet.natRes"}}</label>
+        <select name="natRes" data-type="String" style="max-width: fit-content;">
+          {{selectOptions selection.natRes selected=natRes  labelAttr="label" blank="" }}
+        </select>
+      </div>
+    {{/if}}
+
+
+    <div class="flexrow flex-group-center">
+      <label class="">-</label>
+    </div>
+    <div class="flexrow flex-group-center">
+      <label>{{localize "arm5e.sheet.protection" }} ({{
+        numberFormat
+        actor.system.combat.prot decimals=0 sign=true
+        }})</label>
+    </div>
+
+    <div class="flexrow flex-group-center">
+      <label class="">-</label>
+    </div>
+
+    <div class="flexrow flex-group-center">
+      <label class=" flex0">{{localize "arm5e.sheet.modifier" }}</label>
+      <input type="number" name="modifier" value="{{modifier}}" data-dtype="Number"
+        class="SelectedModifier select-on-focus modifier" />
+    </div>
+  </div>
+  {{> (systemPath "templates/roll/parts/roll-footer.hbs") footer="Damage_Soak"}}
+</form>

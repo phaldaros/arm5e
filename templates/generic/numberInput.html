@@ -1,0 +1,17 @@
+<form class="{{cssClass}} arm5e-prompt" autocomplete="off">
+  {{> (systemPath "templates/roll/parts/roll-header.hbs") header="Inputs" }}
+  <div class="flexrow3 backSection marginsides32">
+    <div class="flex-center flexcol">
+      <label style="font-size: 16pt;">{{prompt}}</label>
+      {{#if help}}
+        <br />
+        <label>{{ help }}</label>
+      {{/if}}
+    </div>
+    <div class="flex-center ">
+      <input type="number" class="numberInput select-on-focus lean-input" name="inputField" value="{{value}}"
+        min="{{constraints.min}}" max="{{constraints.max}}" step="{{constraints.step}}" />
+    </div>
+  </div>
+  {{> (systemPath "templates/roll/parts/roll-footer.hbs") footer="Inputs"}}
+</form>

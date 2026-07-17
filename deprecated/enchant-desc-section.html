@@ -1,0 +1,37 @@
+<!-- DESCRIPTION -->
+<div class="padding4 drop-enchant">
+  <div class="padding4 flexrow flex-group-left">
+    <label class="section-handle clickable" data-action="toggleSectionCollapse" data-category="common"
+      data-section="item-description">{{localize "arm5e.sheet.description"}}</label>
+  </div>
+  <div class="foldable-section-small backSection item-description {{ui.sections.visibility.common.item-description}}"
+    id="common-item-description-{{@root.item._id}}">
+    <div class="flex-group-left" style="height: auto; overflow-y: auto;max-height: 210px;">
+      {{> "systems/arm5e/templates/generic/ars-editor.hbs"
+        content=enrichedDescription
+        target="system.description"
+        editable=editable
+      }}
+    </div>
+    <div class="padding4 flexrow">
+      <div class="resource">
+        <label class="">{{localize "arm5e.sheet.creator"}}</label>
+        <input type="text" {{noEdit}} name="system.enchantments.author" value="{{system.enchantments.author}}"
+          data-dtype="String" style="max-width: 200px;" />
+      </div>
+      <div class="flexrow">
+        <div class="resource">
+          <label class="">{{localize "arm5e.sheet.season"}}</label>
+          <select {{noSelect}} name="system.enchantments.season" data-dtype="String">
+            {{selectOptions config.seasons selected=system.enchantments.season labelAttr="label" localize=true }}
+          </select>
+        </div>
+        <div class="resource">
+          <label class="">{{localize "arm5e.sheet.year"}}</label>
+          <input type="number" {{noEdit}} name="system.enchantments.year" value="{{system.enchantments.year}}"
+            data-dtype="Number" class="select-on-focus" style="width:60px" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

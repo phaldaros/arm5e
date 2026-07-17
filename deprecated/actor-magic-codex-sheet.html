@@ -1,0 +1,118 @@
+<div class="{{cssClass}} mainCodex">
+  <div class="header-background">
+    <img src="systems/arm5e/assets/codex/header150.webp" />
+  </div>
+  <form class="sheet-content flexcol" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <h1 class="codex-title width: 100%;" text-align="center">Codex Hermeticum</h1>
+    <br />
+    <header class="sheet-header-codex">
+      <div class="">{{localize "arm5e.sheet.filters"}}</div>
+      <div class="header-fields">
+        <div class="flexrow flex-between">
+          <span class="codexname flexrow" style="padding-top: 4px">
+            <div class="resource flexrow">
+              <label for="system.technique.value" class="">{{localize "arm5e.sheet.withCompendium"}}</label>
+              <input type="checkbox" name="system.withCompendia" {{checked system.withCompendia}}>
+            </div>
+          </span>
+          <span class="codexname flexrow" style="padding-top: 4px">
+            <label for="techniqueFilter" class=""
+              style="padding-right: 10px; text-align: right;">{{localize "arm5e.sheet.technique"}}</label>
+            <select name="techniqueFilter" class="technique-filter textValue" data-type="String" data-list="filter"
+              data-category="hermetic" style="flex: 0 0 80px; font-size: 11pt">
+              {{selectOptions config.magic.techniques selected=ui.filters.hermetic.filter.techniqueFilter labelAttr="label" blank="" }}
+            </select>
+          </span>
+          <span class="codexname flexrow" style="padding-top: 4px">
+            <label for="formFilter" class=""
+              style="padding-right: 10px; text-align: right;">{{localize "arm5e.sheet.form"}}</label>
+            <select name="formFilter" data-type="String" class="form-filter textValue" data-list="filter"
+              data-category="hermetic" style="flex: 0 0 ; font-size: 11pt">
+              {{selectOptions config.magic.forms selected=ui.filters.hermetic.filter.formFilter labelAttr="label" blank="" }}
+            </select>
+          </span>
+          <span class="codexname flexrow" style="padding-top: 4px">
+            <label for="levelFilter" class="" style="padding-left: 24px">{{localize "arm5e.sheet.level"}}</label>
+            <select name="levelOperator" data-type="Number" data-list="filter" data-category="hermetic"
+              style="flex: 0 0; font-family: bookAntiqua" class="levelOperator-filter numValue">
+              {{selectOptions config.genericOptions.filterOperator selected=ui.filters.hermetic.filter.levelOperator
+                 nameAttr="key" valueAttr="key" labelAttr="label"}}
+            </select>
+            <input type="number" name="levelFilter" data-list="filter" data-category="hermetic"
+              value="{{ui.filters.hermetic.filter.levelFilter}}" data-dtype="Number" class="level-filter" />
+          </span>
+        </div>
+      </div>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="arm5eTabs arm5eTabsCOD sheet-tabs tabs" data-group="primary">
+      <a class="item tabArrow flexrow" data-tab="base-effects">
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        {{localize "arm5e.sheet.base-effects"}}
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      </a>
+      <a class="item tabArrow flexrow" data-tab="magical-effect">
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        {{localize "arm5e.sheet.magical-effects"}}
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      </a>
+      <a class="item tabArrow flexrow" data-tab="spells">
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        {{localize "arm5e.sheet.spells"}}
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      </a>
+      <a class="item tabArrow flexrow" data-tab="enchantments">
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        {{localize "arm5e.sheet.enchantments"}}
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      </a>
+      <a class="item tabArrow flexrow" data-tab="aspects">
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        {{localize "arm5e.enchantment.aspects"}}
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      </a>
+    </nav>
+    <div class="flexcol">
+      {{!-- Sheet Body --}}
+      <section class="sheet-body">
+        {{!-- Base effects Tab --}}
+        <div class="tab diary" data-group="primary" data-tab="base-effects">
+          <ol class="spell-list backSection margintop18" style="min-height: 380px; padding-right: 18px;">
+            {{> "systems/arm5e/templates/actor/parts/codex-base-effects.hbs" }}
+          </ol>
+        </div>
+        {{!--Magical Effect Tab --}}
+        <div class="tab spell-design" data-group="primary" data-tab="magical-effect">
+          <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+            {{> "systems/arm5e/templates/actor/parts/codex-magical-effects.hbs" }}
+          </ol>
+        </div>
+        {{!--Spells Tab --}}
+        <div class="tab spells" data-group="primary" data-tab="spells">
+          <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+            {{> "systems/arm5e/templates/actor/parts/codex-spells.hbs" }}
+          </ol>
+        </div>
+        {{!--Enchantments Tab --}}
+        <div class="tab enchantments" data-group="primary" data-tab="enchantments">
+          <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+            {{> "systems/arm5e/templates/actor/parts/codex-enchantments.hbs" }}
+          </ol>
+        </div>
+
+        {{!--Aspects Tab --}}
+        <div class="tab aspects" data-group="primary" data-tab="aspects">
+          <ol class="spell-list backSection margintop18" style="min-height: 380px;padding-right: 18px;">
+            {{> "systems/arm5e/templates/actor/parts/codex-aspects.hbs" }}
+          </ol>
+        </div>
+      </section>
+    </div>
+  </form>
+  <div class="footer-background">
+    <img src="systems/arm5e/assets/codex/footer.webp" />
+  </div>
+</div>

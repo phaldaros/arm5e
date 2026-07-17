@@ -1,0 +1,477 @@
+import { calculateWound, getDataset, getLastCombatMessageOfType, log } from "../tools/tools.js";
+import { createRoll, stressDie } from "./dice.js";
+import { Arm5eChatMessage } from "./chat-message.js";
+import { _applyImpact, ROLL_PROPERTIES } from "../ui/roll-window.js";
+import { getWoundStr } from "../config.js";
+
+import { ARM5E } from "../config.js";
+// export function doubleAbility(actor) {
+//   actor.rollInfo.ability.score *= 2;
+// }
+
+/**
+ *
+ * @param actor
+ * @param mode
+ * @param callback
+ */
+export async function exertSelf(actor, mode, callback) {
+  log(false, "Exert self in combat");
+
+  actor.rollInfo.combat.exertion = true;
+
+  await stressDie(actor, actor.rollInfo.type, callback, mode, -1);
+
+  await actor.loseFatigueLevel(1);
+}
+
+/**
+ *
+ * @param actor
+ */
+export function computeCombatStats(actor) {
+  return {
+    init:
+      actor.system.combat.init -
+      actor.system.combat.overload +
+      actor.system.characteristics.qik.value,
+    attack:
+      actor.system.combat.atk +
+      actor.system.combat.ability +
+      actor.system.characteristics.dex.value,
+    defense:
+      actor.system.combat.dfn +
+      actor.system.combat.ability +
+      actor.system.characteristics.qik.value,
+    damage: actor.system.combat.dam + actor.system.characteristics.str.value,
+    soak:
+      actor.system.combat.prot +
+      actor.system.characteristics.sta.value +
+      actor.system.bonuses.traits.soak
+  };
+}
+
+export class QuickCombat extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.ApplicationV2
+) {
+  constructor(data, options = {}) {
+    super(options);
+    this.object = data;
+    this.object.actor.apps[this.options.uniqueId] = this;
+  }
+
+  static DEFAULT_OPTIONS = {
+    id: "quick-combat",
+    classes: ["arm5e-dialog", "dialog"],
+    window: {
+      title: "arm5e.sheet.combat.label",
+      resizable: true
+    },
+    position: {
+      width: 260,
+      height: "auto"
+    },
+    tag: "form",
+    actions: {
+      roll: QuickCombat.roll,
+      soakDamage: QuickCombat.soakDamage,
+      computeDamage: QuickCombat.computeDamage
+    }
+  };
+
+  static PARTS = {
+    main: {
+      template: `systems/${ARM5E.SYSTEM_ID}/templates/generic/quick-combat.html`
+    }
+  };
+
+  async _prepareContext() {
+    let sys = {
+      combat: this.object.actor.system.combat,
+      characteristics: this.object.actor.system.characteristics
+    };
+    const context = {
+      name: this.object.name,
+      system: sys,
+      combat: computeCombatStats(this.object.actor)
+    };
+    // log(false, `QuickCombat: ${JSON.stringify(context)}`);
+    return context;
+  }
+
+  // async _onRender(context, options) {
+  //   this.object.actor.apps[this.options.uniqueId] = this;
+  // }
+
+  static async roll(event, target) {
+    const dataset = target.dataset;
+    await this.object.actor.sheet.roll(dataset);
+  }
+
+  static async soakDamage(event, target) {
+    const msg = await this.object.actor.sheet._onSoakDamage(target.dataset);
+    if (msg === null) return;
+    if (msg.system.impact.woundGravity) {
+      await this.object.actor.changeWound(
+        1,
+        CONFIG.ARM5E.recovery.rankMapping[msg.system.impact.woundGravity]
+      );
+    }
+    Arm5eChatMessage.create(msg.toObject());
+  }
+
+  static async computeDamage(event, target) {
+    await computeDamage(this.object.actor);
+  }
+
+  async close(options = {}) {
+    if (this.object?.actor?.apps?.[this.options.uniqueId] !== undefined) {
+      delete this.object.actor.apps[this.options.uniqueId];
+    }
+    return super.close(options);
+  }
+}
+
+/**
+ *
+ * @param actor
+ */
+export async function computeDamage(actor) {
+  const lastAttackMessage = getLastCombatMessageOfType("combatAttack");
+  const lastDefenseMessage = getLastCombatMessageOfType("combatDefense");
+  let attackScore = 0;
+  if (lastAttackMessage) {
+    attackScore = lastAttackMessage.rollTotal() > 0 ? lastAttackMessage.rollTotal() : 0;
+    attackScore += lastAttackMessage?.system.confidenceModifier;
+  }
+
+  let defenseScore = 0;
+  if (lastDefenseMessage) {
+    defenseScore = lastDefenseMessage.rollTotal() > 0 ? lastDefenseMessage.rollTotal() : 0;
+    defenseScore += lastDefenseMessage?.system.confidenceModifier;
+  }
+
+  const advantage = attackScore - defenseScore;
+  await actor.sheet._onCalculateDamage({ advantage, roll: "combatDamage" });
+}
+
+export class QuickVitals extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.ApplicationV2
+) {
+  constructor(data, options = {}) {
+    super(options);
+    this.object = data;
+    this.object.actor.apps[this.options.uniqueId] = this;
+  }
+
+  static DEFAULT_OPTIONS = {
+    id: "quick-vitals",
+    classes: ["arm5e-dialog", "dialog"],
+    window: {
+      title: "arm5e.sheet.vitals",
+      resizable: true
+    },
+    position: {
+      width: 260,
+      height: "auto"
+    },
+    tag: "form",
+    actions: {
+      rest: QuickVitals.rest,
+      addFatigue: QuickVitals.addFatigue,
+      removeFatigue: QuickVitals.removeFatigue,
+      addWound: QuickVitals.addWound,
+      recovery: QuickVitals.recovery
+    }
+  };
+
+  static PARTS = {
+    main: {
+      template: `systems/${ARM5E.SYSTEM_ID}/templates/generic/quick-vitals.html`
+    }
+  };
+
+  async _prepareContext() {
+    const context = {
+      name: this.object.name,
+      actor: this.object.actor,
+      woundCfg: CONFIG.ARM5E.character.wounds,
+      conscious: this.object.actor.system.fatigueCurrent < this.object.actor.system.fatigueMaxLevel
+    };
+    log(false, `Vitals: ${context}, Fatigue: ${context.actor.system.fatigueCurrent}`);
+    return context;
+  }
+
+  // async _onRender(context, options) {
+  //   this.object.actor.apps[this.options.uniqueId] = this;
+  // }
+
+  static async rest(event, target) {
+    await this.object.actor.rest();
+    this.render();
+  }
+
+  static async addFatigue(event, target) {
+    await this.object.actor.loseFatigueLevel(1, false);
+    this.render();
+  }
+
+  static async removeFatigue(event, target) {
+    await this.object.actor.recoverFatigueLevel(1);
+    this.render();
+  }
+
+  static async addWound(event, target) {
+    await this.object.actor.changeWound(1, target.dataset.type);
+    this.render();
+  }
+
+  static async recovery(event, target) {
+    await this.object.actor.sheet.render(true);
+    this.render();
+  }
+
+  async close(options = {}) {
+    if (this.object?.actor?.apps?.[this.options.uniqueId] !== undefined) {
+      delete this.object.actor.apps[this.options.uniqueId];
+    }
+    return super.close(options);
+  }
+}
+
+/**
+ *
+ * @param selector
+ * @param actor
+ */
+export async function combatDamage(selector, actor) {
+  const modifier = parseInt(selector.querySelector('input[name="modifier"]').value);
+  let damage = modifier;
+  actor.rollInfo.modifier = modifier;
+  const messageModifier = `${game.i18n.localize("arm5e.sheet.modifier")} (${damage})`;
+  let details = "";
+  const strength = actor.system.characteristics.str.value;
+  const weapon = actor.system.combat.dam;
+  const advantage = parseInt(selector.querySelector('input[name="advantage"]').value);
+  const formDam = selector.querySelector('select[name="formDamage"]').value || "";
+
+  const messageStrength = `${game.i18n.localize("arm5e.sheet.strength")} (${strength})`;
+  const messageWeapon = `${game.i18n.localize("arm5e.damage.label")} (${weapon})`;
+  const messageAdvantage = `${game.i18n.localize("arm5e.sheet.advantage")} (${advantage})`;
+  damage += strength + weapon + advantage;
+  details = ` ${messageStrength}<br/> ${messageWeapon}<br/> ${messageAdvantage}<br/> ${messageModifier}<br/>`;
+  let title = "";
+  const messageDamage = `<h4 class="dice-roll dice-total">${damage}</h4>`;
+  const messageData = {
+    type: "combatDamage",
+    content: messageDamage,
+    flavor: "",
+
+    speaker: ChatMessage.getSpeaker({
+      actor
+    }),
+    system: {
+      label: game.i18n.localize("arm5e.damage.label"),
+      roll: { details: details, type: actor.rollInfo.type },
+      confidence: {
+        allowed: false
+      },
+      rootMessage: actor.rollInfo.rootMessageUuid,
+      combat: { damageForm: formDam, damageTotal: damage }
+    }
+  };
+  const message = new Arm5eChatMessage(messageData);
+  message.system.enrichMessageData(actor);
+
+  return Arm5eChatMessage.create(message.toObject());
+}
+
+/**
+ *
+ * @param selector
+ * @param actor
+ */
+export function buildSoakDataset(selector, actor) {
+  const dataset = {};
+
+  dataset.modifier = parseInt(selector.querySelector('input[name="modifier"]').value);
+  dataset.damage = parseInt(selector.querySelector('input[name="damage"]').value);
+  let natRes = selector.querySelector('select[name="natRes"]')?.value;
+  let formRes = selector.querySelector('select[name="formRes"]')?.value;
+
+  dataset.natRes = actor.system.bonuses.resistance[natRes] || 0;
+  dataset.formRes = Math.ceil(actor.system.arts?.forms[formRes]?.finalScore / 5 || 0);
+  dataset.prot = actor.system.combat.prot;
+  dataset.bonus = actor.system.bonuses.traits.soak;
+  dataset.stamina = actor.system.characteristics.sta.value;
+  dataset.damageToApply =
+    dataset.damage -
+    dataset.modifier -
+    dataset.prot -
+    dataset.natRes -
+    dataset.formRes -
+    dataset.stamina -
+    dataset.bonus;
+  return dataset;
+}
+
+/**
+ *
+ * @param soakData
+ * @param actor
+ */
+export async function setWounds(soakData, actor) {
+  const woundInfo = getMessageDamageDetails(soakData, actor);
+  const roll = await createRoll(`${soakData.damageToApply}`, 1, 1, {
+    actor: actor,
+    deterministic: true
+  });
+
+  const messageData = await roll.toMessage(
+    {
+      type: "combatSoak",
+      // content: `<h4 class="dice-total">${woundInfo.messageWound}</h4>`,
+      flavor: game.i18n.format("arm5e.sheet.combat.flavor.soak", {
+        target: actor.name,
+        amount: soakData.damageToApply
+      }),
+      speaker: ChatMessage.getSpeaker({
+        actor
+      }),
+      system: {
+        label: game.i18n.localize("arm5e.sheet.soak"),
+        roll: { details: woundInfo.details, type: ROLL_PROPERTIES.COMBATSOAK.VAL },
+        confidence: {
+          allowed: false
+        },
+        impact: { woundGravity: woundInfo.typeOfWound, applied: true }
+      }
+    },
+    { create: false }
+  );
+
+  // if (woundInfo.typeOfWound) {
+  //   await actor.changeWound(1, CONFIG.ARM5E.recovery.rankMapping[woundInfo.typeOfWound]);
+  // }
+  const message = new Arm5eChatMessage(messageData);
+  message.system.enrichMessageData(actor);
+  return message;
+
+  // Arm5eChatMessage.create(message.toObject());
+}
+
+/**
+ *
+ * @param soakData
+ * @param actor
+ */
+function getMessageDamageDetails(soakData, actor) {
+  const size = actor?.system?.vitals?.siz?.value || 0;
+  const typeOfWound = calculateWound(soakData.damageToApply, size);
+  // if (typeOfWound === 0) {
+  //   ui.notifications.info(game.i18n.localize("arm5e.notification.notPossibleToCalculateWound"), {
+  //     permanent: true
+  //   });
+  //   return false;
+  // }
+  // if (typeOfWound === "none") {
+
+  // }
+  // here toggle dead status if applicable
+
+  const messageDamage = `${game.i18n.localize("arm5e.damage.label")} (${soakData.damage})`;
+  const messageStamina = `- ${game.i18n.localize("arm5e.sheet.stamina")} (${soakData.stamina})`;
+  let messageBonus = "";
+  if (soakData.bonus) {
+    messageBonus = `- ${game.i18n.localize("arm5e.sheet.soakBonus")} (${soakData.bonus})<br/> `;
+  }
+  const messageProt = `- ${game.i18n.localize("arm5e.sheet.protection")} (${soakData.prot})`;
+  let messageModifier = "";
+  if (soakData.modifier) {
+    messageModifier += `- ${game.i18n.localize("arm5e.sheet.modifier")} (${
+      soakData.modifier
+    })<br/>`;
+  }
+  if (soakData.natRes) {
+    messageModifier += `- ${game.i18n.localize("arm5e.sheet.natRes")} (${soakData.natRes})<br/>`;
+  }
+  if (soakData.formRes) {
+    messageModifier += `- ${game.i18n.localize("arm5e.sheet.formRes")} (${soakData.formRes})<br/>`;
+  }
+  if (soakData.roll) {
+    messageModifier += `- ${game.i18n.localize("arm5e.dialog.button.roll")} (${
+      soakData.roll
+    })<br/>`;
+  }
+  const messageTotal = `${game.i18n.localize("arm5e.sheet.totalDamage")} = ${
+    soakData.damageToApply
+  }`;
+  return {
+    typeOfWound: typeOfWound,
+    messageWound:
+      typeOfWound !== 0
+        ? game.i18n.format("arm5e.messages.woundResult", {
+            typeWound: game.i18n.localize(
+              `arm5e.messages.wound.${CONFIG.ARM5E.recovery.rankMapping[typeOfWound]}`
+            )
+          })
+        : game.i18n.localize("arm5e.messages.noWound"),
+    details: ` ${messageDamage}<br/> ${messageStamina}<br/> ${messageProt}<br/> ${messageBonus}${messageModifier}<b>${messageTotal}</b>`
+  };
+}
+
+/**
+ *
+ * @param actor
+ * @param roll
+ * @param message
+ */
+export async function damageRoll(actor, roll, message) {
+  const targetedTokens = game.user.targets; // getActorsFromTargetedTokens(actorCaster);
+  if (!targetedTokens) {
+    return;
+  }
+
+  const targets = [];
+  for (let tokenTarget of targetedTokens) {
+    targets.push(tokenTarget.actor.uuid);
+  }
+
+  message.updateSource({
+    "system..target": targets
+  });
+  await actor.update({ "system.states.pendingDamage": true });
+}
+
+/**
+ *
+ * @param actor
+ * @param roll
+ * @param message
+ */
+export async function soakRoll(actor, roll, message) {
+  const rollInfo = actor.rollInfo;
+
+  const damage = rollInfo.difficulty;
+  const details = `${game.i18n.localize("arm5e.damage.label")} (${damage}) -<br/>(${
+    message.system.roll.details
+  }  <br/>+ ${game.i18n.localize("arm5e.dialog.button.roll")} (${roll.total - roll.modifier}))
+  <br/><b>${game.i18n.localize("arm5e.sheet.totalDamage")} = ${damage - roll.total}</b>`;
+
+  const target = {
+    uuid: actor.uuid,
+    name: actor.name,
+    flavor: message.flavor,
+    details: details,
+    natRes: rollInfo.damage.natRes,
+    formRes: rollInfo.damage.formRes,
+    ignoreArmor: rollInfo.damage.ignoreArmor
+  };
+
+  const size = actor?.system?.vitals?.siz?.value || 0;
+  const typeOfWound = calculateWound(damage - roll.total, size);
+  message.updateSource({
+    "system.damage.target": target,
+    "system.impact": { applied: true, woundGravity: typeOfWound }
+  });
+}

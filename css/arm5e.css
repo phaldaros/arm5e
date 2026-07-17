@@ -1,29 +1,1706 @@
+/* Complete refactor: consolidated variables, grouped repeated rules, fixed grid-6col,
+   removed direct duplications, preserved selectors and component-specific rules.
+   
+   CSS Quality Notes:
+   - !important usage: Limited to 8 instances, all for overriding Foundry core styles (tabs, borders)
+   - z-index: Properly managed with --z-index-tooltip variable
+   - Opacity values: Contextual (0.3 for hidden, 0.5 for dimmed, 0.6 for animations) - no consolidation needed
+   - Magic numbers: Padding/spacing values are intentional for specific layouts
+   
+   Build Process: See zzz_copilot/BUILD_PROCESS.md for detailed recommendations on minification, 
+   tooling, and future considerations.
+*/
+
+/* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
 
-
-@font-face{
-  font-family: "Goudy Text MT";
-  src: url("../assets/fonts/goudy-text-mt.ttf");
-}
-
-@font-face{
-  font-family: "vinque";
-  src: url("../assets/fonts/vinque_rg.ttf");
-}
-
-@font-face{
+@font-face {
   font-family: "bookAntiqua";
-  src: url("../assets/fonts/book-antiqua.ttf");
+  src: url("../assets/fonts/book-antiqua.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }
-
-@font-face{
+@font-face {
   font-family: "bookAntiquaBold";
-  src: url("../assets/fonts/book-antiqua-bold.ttf");
+  src: url("../assets/fonts/book-antiqua-bold.ttf") format("truetype"),
+    url("../assets/fonts/book-antiqua-bold.woff2") format("woff2");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "blackmoor";
+  src: url("../assets/fonts/BlackmoorLetPlain.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "metamorphous";
+  src: url("../assets/fonts/Metamorphous/Metamorphous-Regular.ttf") format("truetype");
+  size-adjust: 80%;
+  font-weight: bolder;
+}
+@font-face {
+  font-family: "medievalSharp";
+  src: url("../assets/fonts/MedievalSharp/MedievalSharp-Regular.ttf") format("truetype");
+  size-adjust: 90%;
+}
+@font-face {
+  font-family: "grenzeGotisch";
+  src: url("../assets/fonts/Grenze_Gotisch/static/GrenzeGotisch-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "almendra";
+  src: url("../assets/fonts/Almendra/Almendra-Bold.ttf") format("truetype");
+  size-adjust: 90%;
+}
+@font-face {
+  font-family: "germaniaOne";
+  src: url("../assets/fonts/Germania_One/GermaniaOne-Regular.ttf") format("truetype");
+  size-adjust: 105%;
+}
+@font-face {
+  font-family: "bokor";
+  src: url("../assets/fonts/Bokor/Bokor-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "eagleLake";
+  src: url("../assets/fonts/Eagle_Lake/EagleLake-Regular.ttf") format("truetype");
+  size-adjust: 75%;
 }
 
-@font-face{
-  font-family: "blackmoor";
-  src: url("../assets/fonts/BlackmoorLetPlain.ttf") format('truetype');
+/* Basic tweaks */
+.arm5e,
+.system-arm5e,
+.application.arm5e {
+  /* Variables used by Foundry's global scrollbar rule */
+  --color-scrollbar: #dfd7c6; /* PLACEHOLDER_THUMB */
+  --color-scrollbar-track: #c7ae85; /* PLACEHOLDER_TRACK */
+
+  /* Local aliases if needed elsewhere */
+  --scrollbar-thumb: var(--color-scrollbar);
+  --scrollbar-thumb-hover: #444444; /* PLACEHOLDER_THUMB_HOVER */
+  --scrollbar-track: var(--color-scrollbar-track);
+}
+
+/* Firefox: beat generic '*' rules from other layers */
+.arm5e,
+.arm5e *,
+.system-arm5e,
+.system-arm5e *,
+.application.arm5e,
+.application.arm5e * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
+}
+
+/* WebKit/Blink */
+.arm5e ::-webkit-scrollbar,
+.system-arm5e ::-webkit-scrollbar,
+.application.arm5e ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.arm5e ::-webkit-scrollbar-track,
+.system-arm5e ::-webkit-scrollbar-track,
+.application.arm5e ::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+}
+
+.arm5e ::-webkit-scrollbar-thumb,
+.system-arm5e ::-webkit-scrollbar-thumb,
+.application.arm5e ::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar);
+  border: 1px solid var(--color-scrollbar-track);
+  border-radius: 6px;
+}
+
+.arm5e ::-webkit-scrollbar-thumb:hover,
+.system-arm5e ::-webkit-scrollbar-thumb:hover,
+.application.arm5e ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Theme variables */
+:root,
+.application.arm5e.themed.theme-light {
+  --font-book: "bookAntiqua", serif;
+  --font-book-bold: "bookAntiquaBold", serif;
+  --font-header: "blackmoor", serif;
+
+  --parchment: url("../assets/compendium/parchment.webp");
+  --dialog-bg: url("../assets/dialog/Dialog_Background.webp");
+  --dialog-bg-large: url("../assets/dialog/LargeDialog_Background.webp");
+  --chat-bg: url("../assets/chat/background.webp");
+  --chatinput-bg: url("../assets/chat/input.webp");
+
+  --arm5e-c-dark: #191813;
+  --arm5e-c-faint: #c9c7b8;
+  --arm5e-c-beige: #b5b3a4;
+  --arm5e-c-tan: #444444;
+  --arm5e-c-white: #ffffff;
+  --arm5e-c-black: #000000;
+  --arm5e-c-groove: #eeede0;
+
+  --border-main: #6f6c66;
+  --border-muted: #7a7971;
+  --border-warm: #8e7759;
+  --border-dark: #444;
+  --color-text-dark-primary: #191813;
+
+  --arm5e-c-hover-shadow: rgb(135 38 22);
+
+  --arm5e-c-conflict: rgb(135 38 22);
+  --arm5e-c-free: rgb(51 120 34);
+  --arm5e-c-busy: rgb(20 55 175);
+  --arm5e-c-muted: rgba(169, 159, 134, 0.5);
+  --arm5e-c-shadow: rgba(0, 0, 0, 0.15);
+
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-small: 4px;
+  --radius-md: 5px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --shadow-inset: inset 0px 2px 3px #bbb;
+  --shadow-card: 3px 3px 3px rgb(0 0 0 / 28%);
+
+  --font-size-8: 8pt;
+  --font-size-9: 9pt;
+  --font-size-10: 10pt;
+  --font-size-12: 12pt;
+  --font-size-14: 14pt;
+  --font-size-16: 16pt;
+  --font-size-20: 20pt;
+  --font-size-32: 32pt;
+  --z-index-tooltip: 9999;
+}
+
+/* Base typography & grouping to avoid repeated font-family declarations */
+.arm5e,
+.system-arm5e {
+  font-family: var(--font-book);
+}
+
+.arm5e h1,
+.arm5e h2,
+.arm5e h3,
+.arm5e h4,
+.arm5e .tabs .item,
+.arm5e .smallTitle,
+.arm5e .item-name {
+  color: var(--color-text-dark-primary);
+  font-weight: 500;
+  font-family: var(--font-header);
+}
+
+.arm5e .prosemirror h3 {
+  font-size: var(--font-size-20);
+}
+
+label,
+.arm5e .bold,
+.arm5e label,
+.template-item-box {
+  font-family: var(--font-book-bold);
+}
+
+/* Utility layout */
+.nowrap {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/* Utility backgrounds */
+.bg-parchment {
+  background: var(--parchment);
+}
+.bg-dialog {
+  background-image: var(--dialog-bg);
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+.bg-dialog-large {
+  background-image: var(--dialog-bg-large);
+  background-repeat: repeat-y;
+  background-size: auto;
+}
+
+/* ============================================
+   WINDOW & DIALOG CONTENT BASELINE
+   ============================================ */
+
+/* Base window-content for all applications */
+.window-app .window-content,
+.arm5e .window-content,
+.arm5e-config .window-content {
+  padding: 0;
+  border: 2px solid var(--border-main);
+  /* background: var(--parchment); */
+  background-image: var(--parchment);
+  color: var(--color-text-dark-primary);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Reserve scrollbar gutter on actor sheets (AppV1) to prevent header image reflow feedback loop */
+.arm5e.sheet.actor .window-content {
+  scrollbar-gutter: stable;
+}
+
+/* Limited sheet: content grows with window; window scrolls only when below min-height; footer stays pinned */
+.arm5e.sheet.actor .window-content [data-application-part="content"].limited-sheet {
+  flex: 1 1 auto;
+}
+
+.arm5e.sheet.actor .window-content [data-application-part="footer"] {
+  position: sticky;
+  bottom: 0;
+  flex-shrink: 0;
+}
+
+/* Dialog-specific window-content with background images */
+.arm5e-confirm .window-content,
+.arm5e-prompt .window-content,
+.arm5e-roll .window-content, /* for dialog */
+.window-content .arm5e-roll, /* for app roll */
+
+.arm5e-dialog .window-content {
+  padding: 0;
+  color: var(--color-text-dark-primary);
+  background: var(--dialog-bg);
+  background-image: var(--dialog-bg);
+  background-size: 100% auto; /* Scale width to 100%, height auto-adjusts */
+  background-repeat: repeat-y;
+  background-color: var(--color-text-dark-primary);
+  overflow: hidden;
+  gap: 0;
+}
+
+.roll-dialog .window-content {
+  gap: 0;
+  padding: 0;
+}
+
+/* .arm5e-confirm .window-content {
+  padding: 0;
+  color: var(--color-text-dark-primary);
+  background-image: var(--dialog-bg);
+  background-size: contain;
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  overflow-y: auto;
+  overflow-x: hidden;
+} */
+
+.arm5eLargeDialog .window-content {
+  padding: 0;
+  background-image: var(--dialog-bg-large);
+  background-size: contain;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.arm5e-prompt.aura-config {
+  background-size: contain;
+}
+
+.journal-sheet .window-content {
+  padding: 0;
+  overflow-x: hidden;
+  background: var(--parchment);
+  color: var(--arm5e-c-black);
+}
+
+/* Dialog footer/buttons bg */
+.arm5e-dialog .dialog-buttons,
+.arm5e .dialog-buttons {
+  background-color: var(--arm5e-c-muted);
+}
+.arm5e-roll .window-header,
+.arm5e-dialog .window-header {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Button font grouping */
+button.arm5e,
+/* button.create-folder,
+button.create-document,
+button.create-compendium, */
+.arm5e.button,
+.arm5e.button.ui,
+.arm5e .sanatorium.button,
+.arm5e .astrolab.button,
+.arm5e .scriptorium button {
+  font-family: var(--font-header);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+button.plain.icon.ars-Icon_magic-chest,
+button.create-button.create-entry.icon.ars-Icon_magic-chest {
+  font-family: "Ars Magica icons";
+  font-size: 16pt;
+}
+
+.arm5e .sanatorium.button,
+.arm5e .astrolab.button {
+  font-size: 13pt;
+  padding: 5px;
+  width: 140px;
+  margin: 5px;
+}
+
+/* Clickable/hovers deduplicated */
+.nav-arrow.clickable,
+.clickable,
+.book-topic,
+.design,
+.rollable,
+.rollable-aging,
+img.clickable {
+  cursor: pointer;
+}
+.nav-arrow.clickable:hover,
+.clickable:hover,
+.clickable:focus,
+.book-topic:hover,
+.design:hover,
+.design:focus,
+.rollable:hover,
+.rollable:focus,
+.rollable-aging:hover,
+.rollable-aging:focus,
+img.clickable:hover {
+  color: var(--arm5e-c-black);
+  text-shadow: 0 0 10px var(--arm5e-c-conflict);
+  /* box-shadow: 0 0 10px var(--accent-covenant); */
+}
+
+/* Chat/message */
+.system-arm5e .chat-message {
+  margin: 3px;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: var(--color-text-dark-primary);
+  background-image: var(--chat-bg);
+  background-repeat: repeat;
+  background-size: 100%;
+  border: 2px solid var(--border-main);
+  border-radius: 0;
+}
+.system-arm5e .chat-button {
+  width: 47%;
+  height: 25px;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Chat typography */
+.chat-message .message-header,
+.chat-message .message-content {
+  font-size: var(--font-size-12);
+}
+.chat-message .message-content {
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+  line-height: 20px;
+}
+
+/* header.ars-chat-header {
+  background-image: url("../assets/chat/header.webp");
+} */
+.chat-message .message-content .dice-total {
+  font-weight: bold;
+  margin: 0;
+  line-height: 25px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 2px #fff;
+  word-break: normal;
+  font-size: var(--font-size-20);
+}
+h2.dice-msg,
+h3.dice-msg {
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.system-arm5e .chat-input {
+  background-image: var(--chatinput-bg);
+  background-size: 100%;
+  color: var(--color-text-dark-primary);
+}
+
+/* Grid utilities (fixed grid-6col) */
+.grid {
+  display: grid;
+  gap: 16px;
+  margin: 10px 0;
+  padding: 0;
+}
+.grid-2col {
+  grid-column: span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-3col {
+  grid-column: span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-4col {
+  grid-column: span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.grid-5col {
+  grid-column: span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid-6col {
+  grid-column: span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.grid-7col {
+  grid-column: span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.grid-8col {
+  grid-column: span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.grid-9col {
+  grid-column: span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+.grid-10col {
+  grid-column: span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.grid-11col {
+  grid-column: span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+.grid-12col {
+  grid-column: span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.grid .nogap {
+  gap: 5px;
+}
+
+/* Flex shortcuts */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main & dialog backgrounds */
+.arm5e-prompt,
+.arm5e-dialog,
+.arm5eMain {
+  font-family: var(--font-book-bold);
+}
+.arm5eInfo,
+.arm5e-roll,
+.arm5eActiveEffect {
+  background-image: var(--dialog-bg);
+  background-repeat: repeat-y;
+  background-size: 100%;
+  font-family: var(--font-book-bold);
+  font-size: var(--font-size-12);
+  padding: 0px;
+  gap: 0px;
+}
+.arm5e-roll {
+  width: 420px;
+}
+
+/* Progressbar grouped */
+.arm5e .sanatorium .progressbar {
+  width: 400px;
+  height: 16px;
+  margin: 0 auto 10px;
+  padding: 0;
+  background-image: url("../assets/SmallGoldenEngravedBar.png");
+  background-size: 400px 16px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #aaa #bbb #fff #bbb;
+  box-shadow: var(--shadow-inset);
+  border-radius: var(--radius-small);
+  overflow: hidden;
+}
+
+.arm5e .sanatorium .progressbar-inner {
+  height: 100%;
+  background-color: var(--arm5e-c-conflict);
+  background-size: 18px 18px;
+  box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.5), inset -1px -1px 0 rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-small);
+}
+.arm5e .sanatorium .progressbar-red .progressbar-inner {
+  background-color: #f67;
+  width: 30%;
+}
+
+/* Inputs / selects grouped */
+.arm5e-prompt input[type="text"],
+.arm5e-prompt input[type="number"],
+.arm5e-dialog input[type="number"],
+.arm5e-dialog input[type="text"],
+.arm5e-roll input[type="number"],
+.arm5e-roll input[type="text"],
+.arm5e input[type="text"],
+.arm5e input[type="number"],
+.arm5e input[type="password"],
+.arm5e input[type="date"],
+.arm5e input[type="time"],
+.arm5e color-picker,
+.arm5e select,
+.arm5e-prompt select,
+.arm5e-dialog select,
+.arm5e-roll select {
+  width: calc(100% - 2px);
+  min-width: 25px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 3px;
+  margin: 3px;
+  color: var(--color-text-dark-primary);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  text-align: inherit;
+  line-height: inherit;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: var(--border-muted);
+  border-radius: var(--radius-sm);
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.arm5e color-picker {
+  line-height: 32px;
+  height: 32px;
+}
+
+.arm5e color-picker > input[type="text"] {
+  border-width: 0px;
+  background: transparent;
+}
+
+.arm5e document-tags .input-group {
+  background: transparent;
+}
+
+.arm5e select,
+.arm5e-prompt select,
+.arm5e-dialog select,
+.arm5e-roll select {
+  font-weight: 500;
+  width: auto;
+  min-width: fit-content;
+}
+
+/* In flex-column containers (e.g. sheet headers), selects would otherwise
+   stretch to full width via align-self:stretch. Constrain to content size. */
+.arm5e .sheet-header select {
+  align-self: flex-start;
+}
+
+.arm5e input[type="number"],
+.arm5e input[type="text"].numberformat,
+.arm5e-dialog input[type="number"],
+.arm5e-prompt input[type="number"],
+.arm5e-roll input[type="number"] {
+  text-align: center;
+  max-width: 70px;
+}
+
+.arm5e .lean,
+.arm5e input[type="text"].lean-input,
+.arm5e input[type="number"].lean-input,
+.arm5e select.lean-select {
+  font-weight: normal;
+  font-size: 9pt;
+}
+
+.arm5e select.lean-select {
+  min-width: 0px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+input:disabled:hover {
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: var(--border-muted);
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  outline: none;
+}
+
+.arm5e .sanatorium input[type="number"],
+.arm5e .sanatorium input[type="text"],
+.arm5e .calendar input[type="number"],
+.arm5e .calendar input[type="text"],
+.arm5e .astrolab input[type="text"],
+.arm5e .astrolab input[type="number"] {
+  font-family: var(--font-book);
+  font-weight: bold;
+  background: var(--arm5e-c-shadow);
+  height: 25px;
+  background-image: none;
+}
+.arm5e .scriptorium input[type="text"],
+.arm5e .scriptorium input[type="number"] {
+  font-family: var(--font-book);
+  font-weight: normal;
+  height: 13pt;
+  max-width: 190px;
+  background-image: none;
+}
+
+.arm5e .scriptorium select {
+  font-family: var(--font-book);
+  max-width: 220px;
+}
+.arm5e .sanatorium select,
+.arm5e .astrolab select {
+  font-weight: bold;
+  background: var(--arm5e-c-shadow);
+  height: 25px;
+  font-family: var(--font-book);
+}
+
+.arm5e select option {
+  background-image: var(--parchment);
+  background-color: rgb(218, 216, 204);
+}
+
+/* Checkbox unified */
+input[type="color"] {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--border-warm);
+  box-sizing: border-box;
+}
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 2rem;
+  border-radius: 0;
+  flex: 0 0 20px;
+  border: 1px solid var(--border-warm);
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+input[type="checkbox"]::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  /* padding: 1px; */
+  clip-path: polygon(0 20%, 0 60%, 29% 100%, 100% 29%, 100% 1%, 35% 61%);
+  transform: scale(0);
+  background-color: rgb(112, 15, 15);
+  flex-shrink: 0;
+}
+/* ::after overrides Foundry core's :checked::after which renders an orange/amber square */
+input[type="checkbox"]::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  clip-path: polygon(0 20%, 0 60%, 29% 100%, 100% 29%, 100% 1%, 35% 61%);
+  transform: scale(0);
+  background-color: rgb(112, 15, 15);
+  color: var(--arm5e-c-black);
+}
+input[type="checkbox"]:checked::after {
+  transform: scale(0); /* keep Foundry's orange square invisible; ::before handles the checkmark */
+}
+input[type="checkbox"].crossed::before {
+  clip-path: polygon(
+    11% 6%,
+    0% 20%,
+    30% 50%,
+    0 70%,
+    20% 100%,
+    48% 65%,
+    80% 100%,
+    100% 80%,
+    61% 49%,
+    98% 9%,
+    80% 4%,
+    45% 32%
+  );
+  background-color: rgb(0, 0, 0);
+  transform: scale(0);
+  flex-shrink: 0;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1.2);
+}
+
+.arm5e input[type="checkbox"].tiny-checkbox {
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  margin-top: 0px;
+  border: 1px solid black;
+}
+.arm5e input[type="checkbox"].tiny-checkbox::before {
+  width: 1rem;
+  height: 1rem;
+  transform: scale(0);
+  background-color: rgb(112, 15, 15);
+  position: absolute;
+  top: -5px;
+}
+input[type="checkbox"].tiny-checkbox:checked::before {
+  transform: scale(0.8);
+}
+
+/* Lists, items & images */
+.arm5e .items-list,
+.arm5e .effects-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  overflow-y: auto;
+}
+.arm5e .items-list .item .item-image,
+.message-header .item-image,
+.message-sender .speaker-image {
+  flex: 0 0 45px;
+  margin-right: 5px;
+  object-fit: contain;
+}
+.arm5e .items-list .item .item-image-tiny {
+  flex: 0 0 30px;
+}
+
+/* Repeated padding/margin utilities */
+.padding48 {
+  padding: 48px;
+}
+.padding12 {
+  padding: 12px;
+}
+.padding6 {
+  padding: 6px;
+}
+.padding4 {
+  padding: 4px;
+}
+.padding10 {
+  padding: 10px;
+}
+.padding2 {
+  padding: 2px;
+}
+.pl-0 {
+  padding-left: 0;
+}
+.margintop4 {
+  margin-top: 4px;
+}
+.margintop6 {
+  margin-top: 6px;
+}
+.margintop10 {
+  margin-top: 10px;
+}
+.marginbot4 {
+  margin-bottom: 4px;
+}
+.marginbot6 {
+  margin-bottom: 8px;
+}
+
+/* Border, gap, width, and height utilities */
+.border-0 {
+  border: 0;
+}
+.gap-0 {
+  gap: 0;
+}
+.max-w-70 {
+  max-width: 70px;
+}
+.h-14 {
+  height: 14px;
+}
+.dice-icon {
+  border: 0;
+  height: 14px;
+}
+.text-12pt {
+  font-size: 12pt;
+}
+.w-full {
+  width: 100%;
+}
+.flex-1 {
+  flex: 1;
+}
+
+/* Covenant sheet utilities */
+.covenant-label {
+  padding-top: 4px;
+  padding-left: 24px;
+}
+.covenant-input-sm {
+  flex: 0 0 65px;
+  text-align: center;
+}
+.covenant-input-md {
+  flex: 0 0 100px;
+}
+.covenant-input-lg {
+  flex: 0 0 120px;
+}
+.pt-4 {
+  padding-top: 4px;
+}
+.pt-5 {
+  padding-top: 5px;
+}
+
+/* Book sheet utilities */
+.book-control-spacing {
+  padding-left: 5px;
+  padding-top: 5px;
+}
+.book-control-spacing-alt {
+  padding-left: 5px;
+  padding-bottom: 5px;
+}
+.book-field-med {
+  width: 220px;
+  padding-top: 5px;
+}
+.book-icon-32 {
+  border: 0;
+  width: 32px;
+  height: 32px;
+}
+.book-nav-arrow {
+  height: 20px;
+}
+.book-center-nav {
+  text-align: center;
+  align-items: center;
+  display: flex;
+  max-width: fit-content;
+}
+.book-flex-center {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.book-scrollable {
+  height: auto;
+  overflow-y: auto;
+  max-height: 220px;
+}
+.book-dropbox {
+  height: 120px;
+  padding-top: 5px;
+}
+.max-w-fit {
+  max-width: fit-content;
+}
+.w-30pct {
+  width: 30%;
+}
+.w-35pct {
+  width: 35%;
+}
+.w-50pct {
+  width: 50%;
+}
+.w-60px {
+  width: 60px;
+}
+.max-w-44 {
+  max-width: 44px;
+}
+.max-w-200 {
+  max-width: 200px;
+}
+.max-w-25 {
+  max-width: 25px;
+}
+.pl-10 {
+  padding-left: 10px;
+}
+.min-h-25 {
+  min-height: 25px;
+}
+
+/* Toggle / fold transitions centralized */
+.toggle-collapse,
+.activeEffects,
+.penetration,
+.enchantment,
+.planning-options,
+.details {
+  transition: opacity 0.6s ease-in-out, max-height 0.6s ease-in-out;
+  opacity: 1;
+  max-height: 3800px;
+}
+.toggle-collapse.hide,
+.activeEffects.hide,
+.penetration.hide,
+.details.hide {
+  max-height: 0;
+  min-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.template-item-box {
+  min-width: 160px;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  background: rgba(188, 179, 155, 0.9);
+  font-family: var(--font-book-bold);
+  font-size: var(--font-size-14);
+  line-height: var(--font-size-16);
+  color: rgb(0 0 0 / 90%);
+  border-width: 0px 1px 1px 0px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  height: fit-content;
+}
+
+/* Tooltip / templates */
+body #tooltip.doc-picker-tooltip,
+body .locked-tooltip.doc-picker-tooltip,
+body #tooltip.covenant-tooltip,
+header #tooltip.img-tooltip,
+body .locked-tooltip.covenant-tooltip {
+  position: absolute;
+  width: max-content;
+  max-width: 320px;
+  padding: 8px;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.8), rgba(181, 179, 164, 0.7));
+  color: var(--arm5e-c-black);
+  font-family: var(--font-book-bold);
+  font-size: var(--font-size-12);
+  border-width: 0 1px 1px 0;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  z-index: var(--z-index-tooltip);
+  pointer-events: none;
+  overflow-wrap: break-word;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 500ms, opacity 500ms;
+  text-align: left;
+}
+
+body #tooltip.covenant-tooltip *,
+header #tooltip.img-tooltip *,
+header .locked-tooltip.img-tooltip *,
+body .locked-tooltip.covenant-tooltip *,
+body #tooltip.doc-picker-tooltip *,
+body .locked-tooltip.doc-picker-tooltip * {
+  color: var(--arm5e-c-black);
+}
+body #tooltip.active.covenant-tooltip,
+body #tooltip.active.doc-picker-tooltip,
+header #tooltip.active.img-tooltip,
+header .locked-tooltip.active.img-tooltip,
+body .locked-tooltip.active {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+/* Keep component-specific backgrounds (reduced duplication) */
+.arm5e .mainPlayer,
+.arm5e .mainNPC,
+.arm5e .mainLaboratory,
+.arm5e .actor-magic-codex,
+.arm5e .mainCovenant {
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+}
+
+/* ============================================
+   LAB, COVENANT, PC, NPC, BEAST: shared invisible-then-hover scrollbar
+   ============================================ */
+
+.arm5e.sheet.actor.actor-laboratory .window-content,
+.arm5e.sheet.actor.actor-covenant .window-content,
+.arm5e.sheet.actor.actor-pc .window-content,
+.arm5e.sheet.actor.actor-npc .window-content,
+.arm5e.sheet.actor.actor-beast .window-content {
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  scrollbar-gutter: stable;
+  scrollbar-color: transparent transparent; /* Firefox: invisible by default */
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: scrollbar-color 0.3s;
+}
+
+/* Per-sheet background images */
+.arm5e.sheet.actor.actor-laboratory .window-content {
+  background-image: url("../assets/Lab/background.webp");
+}
+.arm5e.sheet.actor.actor-covenant .window-content {
+  background-image: url("../assets/covenant/background.webp");
+}
+.arm5e.sheet.actor.actor-pc .window-content {
+  background-image: url("../assets/PC/background.webp");
+}
+.arm5e.sheet.actor.actor-npc .window-content,
+.arm5e.sheet.actor.actor-beast .window-content {
+  background-image: url("../assets/NPC/background.webp");
+}
+
+/* Firefox: per-sheet thumb colour on hover */
+.arm5e.sheet.actor.actor-laboratory .window-content:hover {
+  scrollbar-color: rgba(10, 50, 15, 1) transparent;
+}
+.arm5e.sheet.actor.actor-covenant .window-content:hover {
+  scrollbar-color: rgba(80, 10, 10, 1) transparent;
+}
+.arm5e.sheet.actor.actor-pc .window-content:hover {
+  scrollbar-color: rgba(10, 20, 80, 1) transparent;
+}
+.arm5e.sheet.actor.actor-npc .window-content:hover,
+.arm5e.sheet.actor.actor-beast .window-content:hover {
+  scrollbar-color: rgba(90, 60, 5, 1) transparent;
+}
+
+/* Webkit (Chrome/Edge): shared invisible scrollbar */
+.arm5e.sheet.actor.actor-laboratory .window-content::-webkit-scrollbar,
+.arm5e.sheet.actor.actor-covenant .window-content::-webkit-scrollbar,
+.arm5e.sheet.actor.actor-pc .window-content::-webkit-scrollbar,
+.arm5e.sheet.actor.actor-npc .window-content::-webkit-scrollbar,
+.arm5e.sheet.actor.actor-beast .window-content::-webkit-scrollbar {
+  width: 25px;
+}
+.arm5e.sheet.actor.actor-laboratory .window-content::-webkit-scrollbar-track,
+.arm5e.sheet.actor.actor-covenant .window-content::-webkit-scrollbar-track,
+.arm5e.sheet.actor.actor-pc .window-content::-webkit-scrollbar-track,
+.arm5e.sheet.actor.actor-npc .window-content::-webkit-scrollbar-track,
+.arm5e.sheet.actor.actor-beast .window-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.arm5e.sheet.actor.actor-laboratory .window-content::-webkit-scrollbar-thumb,
+.arm5e.sheet.actor.actor-covenant .window-content::-webkit-scrollbar-thumb,
+.arm5e.sheet.actor.actor-pc .window-content::-webkit-scrollbar-thumb,
+.arm5e.sheet.actor.actor-npc .window-content::-webkit-scrollbar-thumb,
+.arm5e.sheet.actor.actor-beast .window-content::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+/* Webkit: per-sheet thumb colour on hover */
+.arm5e.sheet.actor.actor-laboratory .window-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(10, 50, 15, 1);
+}
+.arm5e.sheet.actor.actor-covenant .window-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(80, 10, 10, 1);
+}
+.arm5e.sheet.actor.actor-pc .window-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(10, 20, 80, 1);
+}
+.arm5e.sheet.actor.actor-npc .window-content::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.actor.actor-beast .window-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(90, 60, 5, 1);
+}
+
+/* Extend header/footer decorative images into the scrollbar gutter so they
+   span the full visual width of the window. */
+.arm5e.sheet.actor.actor-laboratory .window-content .header-background,
+.arm5e.sheet.actor.actor-laboratory .window-content .footer-background,
+.arm5e.sheet.actor.actor-covenant .window-content .header-background,
+.arm5e.sheet.actor.actor-covenant .window-content .footer-background,
+.arm5e.sheet.actor.actor-pc .window-content .header-background,
+.arm5e.sheet.actor.actor-pc .window-content .footer-background,
+.arm5e.sheet.actor.actor-npc .window-content .header-background,
+.arm5e.sheet.actor.actor-npc .window-content .footer-background,
+.arm5e.sheet.actor.actor-beast .window-content .header-background,
+.arm5e.sheet.actor.actor-beast .window-content .footer-background {
+  width: calc(100% + 10px);
+}
+
+/* In AppV2 the planning PART fills the full remaining window height, making
+   Foundry's flexrow align-items: center visually push the three columns to
+   the middle. Pin them to the top instead. */
+.actor-laboratory .workbench {
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+/* Tab parts grow to fill remaining space, pushing the footer to the bottom. */
+.arm5e.sheet.actor.actor-covenant .window-content > .tab,
+.arm5e.sheet.actor.actor-pc .window-content > .tab,
+.arm5e.sheet.actor.actor-npc .window-content > .tab,
+.arm5e.sheet.actor.actor-beast .window-content > .tab {
+  flex: 1 1 auto;
+}
+
+.arm5e.sheet.actor.actor-magic-codex .window-content {
+  background-image: url("../assets/codex/background.webp");
+  background-size: contain;
+  scrollbar-gutter: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  gap: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   ITEM SHEETS (AppV2)
+   ============================================ */
+
+.arm5e.sheet.item .window-content {
+  background-size: 100% auto;
+  background-repeat: repeat-y;
+  scrollbar-gutter: stable;
+  scrollbar-color: transparent transparent;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: scrollbar-color 0.3s;
+}
+
+.arm5e.sheet.item .window-content:hover {
+  scrollbar-color: rgba(90, 60, 20, 1) transparent;
+}
+
+.arm5e.sheet.item .window-content::-webkit-scrollbar {
+  width: 25px;
+}
+.arm5e.sheet.item .window-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.arm5e.sheet.item .window-content::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+.arm5e.sheet.item .window-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(90, 60, 20, 1);
+}
+
+.arm5e.sheet.item.item-flavor-pc .window-content,
+.arm5e.sheet.item .window-content.item-flavor-pc {
+  background-image: url("../assets/item/PC_background.webp");
+}
+
+.arm5e.sheet.item.item-flavor-npc .window-content,
+.arm5e.sheet.item .window-content.item-flavor-npc {
+  background-image: url("../assets/item/NPC_background.webp");
+}
+
+.arm5e.sheet.item.item-flavor-covenant .window-content,
+.arm5e.sheet.item .window-content.item-flavor-covenant {
+  background-image: url("../assets/item/covenant_background.webp");
+}
+
+.arm5e.sheet.item.item-flavor-lab .window-content,
+.arm5e.sheet.item .window-content.item-flavor-lab {
+  background-image: url("../assets/item/Lab_background.webp");
+}
+
+.arm5e.sheet.item.item-flavor-codex .window-content,
+.arm5e.sheet.item .window-content.item-flavor-codex {
+  background-image: url("../assets/item/codex_background.webp");
+}
+
+.arm5e.sheet.item.item-flavor-neutral .window-content,
+.arm5e.sheet.item .window-content.item-flavor-neutral {
+  background-image: url("../assets/item/Neutral_background.webp");
+}
+
+.arm5e.sheet.item.item-flavor-pc .window-content:hover,
+.arm5e.sheet.item .window-content.item-flavor-pc:hover {
+  scrollbar-color: rgba(10, 20, 80, 1) transparent;
+}
+
+.arm5e.sheet.item.item-flavor-npc .window-content:hover,
+.arm5e.sheet.item .window-content.item-flavor-npc:hover {
+  scrollbar-color: rgba(90, 60, 5, 1) transparent;
+}
+
+.arm5e.sheet.item.item-flavor-covenant .window-content:hover,
+.arm5e.sheet.item .window-content.item-flavor-covenant:hover {
+  scrollbar-color: rgba(80, 10, 10, 1) transparent;
+}
+
+.arm5e.sheet.item.item-flavor-lab .window-content:hover,
+.arm5e.sheet.item .window-content.item-flavor-lab:hover {
+  scrollbar-color: rgba(10, 50, 15, 1) transparent;
+}
+
+.arm5e.sheet.item.item-flavor-codex .window-content:hover,
+.arm5e.sheet.item .window-content.item-flavor-codex:hover,
+.arm5e.sheet.item.item-flavor-neutral .window-content:hover,
+.arm5e.sheet.item .window-content.item-flavor-neutral:hover {
+  scrollbar-color: rgba(90, 60, 20, 1) transparent;
+}
+
+.arm5e.sheet.item.item-flavor-pc .window-content::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.item .window-content.item-flavor-pc::-webkit-scrollbar-thumb:hover {
+  background: rgba(10, 20, 80, 1);
+}
+
+.arm5e.sheet.item.item-flavor-npc .window-content::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.item .window-content.item-flavor-npc::-webkit-scrollbar-thumb:hover {
+  background: rgba(90, 60, 5, 1);
+}
+
+.arm5e.sheet.item.item-flavor-covenant .window-content::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.item .window-content.item-flavor-covenant::-webkit-scrollbar-thumb:hover {
+  background: rgba(80, 10, 10, 1);
+}
+
+.arm5e.sheet.item.item-flavor-lab .window-content::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.item .window-content.item-flavor-lab::-webkit-scrollbar-thumb:hover {
+  background: rgba(10, 50, 15, 1);
+}
+
+.arm5e.sheet.item.item-flavor-codex .window-content::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.item .window-content.item-flavor-codex::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.item.item-flavor-neutral .window-content::-webkit-scrollbar-thumb:hover,
+.arm5e.sheet.item .window-content.item-flavor-neutral::-webkit-scrollbar-thumb:hover {
+  background: rgba(90, 60, 20, 1);
+}
+
+/* Extend header/footer decorative images into the scrollbar gutter. */
+.arm5e.sheet.item .window-content .header-background,
+.arm5e.sheet.item .window-content .footer-background {
+  width: calc(100% + 10px);
+}
+
+.arm5e.sheet.item .window-content .header-background img,
+.arm5e.sheet.item .window-content .footer-background img {
+  width: 100%;
+  border: 0;
+}
+
+/* Item sheets can use different body part keys (description, effects, etc.).
+  Unlike actor sheets that sometimes target .window-content > .tab or fixed
+  content keys, keep this selector generic for any non-header/tabs/footer part. */
+.arm5e.sheet.item
+  .window-content
+  > [data-application-part]:not([data-application-part="header"]):not(
+    [data-application-part="tabs"]
+  ):not([data-application-part="footer"]) {
+  flex: 1 1 auto;
+}
+
+/* Footer stays pinned at the bottom of the window. */
+.arm5e.sheet.item .window-content [data-application-part="footer"] {
+  position: sticky;
+  bottom: 0;
+  flex-shrink: 0;
+}
+
+.item .sheet-body {
+  margin-left: 36px;
+  margin-right: 20px;
+}
+
+/* Component-specific exceptions retained where required by layout */
+.arm5e .sheet-content {
+  padding: 0 32px;
+  font-family: var(--font-book-bold);
+  font-size: var(--font-size-9);
+}
+.arm5e .editor-content {
+  font-family: var(--font-book);
+}
+
+.arm5e .prosemirror-readonly-content {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Tabs and bars */
+.arm5e .tabs {
+  height: 32px;
+  gap: 0px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+.arm5e .tabs .item {
+  font-family: var(--font-header);
+  font-size: 14pt;
+  justify-content: center;
+  height: 25px;
+}
+/* .arm5eTabs and .arm5eSubTabs are fully defined below with complete properties */
+
+.arm5e nav.tabs {
+  align-items: center;
+}
+
+.arm5e nav.tabs [data-tab] {
+  color: var(--arm5e-c-black);
+}
+
+nav.tabs [data-tab].active,
+nav.tabs [data-tab]:hover {
+  text-shadow: 0 0 10px var(--arm5e-c-hover-shadow);
+}
+
+.arm5eLargeDialog nav.sheet-tabs {
+  margin-left: 32px;
+  margin-right: 32px;
+  /* background-color: var(--arm5e-c-shadow); */
+}
+
+h4.message-sender {
+  font-family: var(--font-header);
+  font-size: 12pt;
+}
+p.defender-soak,
+p.message-sender-text {
+  padding-left: 5px;
+  font-family: var(--font-header);
+  font-size: 12pt;
+}
+
+/* Small adjustments and legacy selector preservation */
+p,
+p.nue,
+h4,
+h4.sound-name,
+label.fit,
+label.label-light,
+.label-medium,
+p.notes {
+  font-family: var(--font-book);
+  /* font-weight: 100; */
+  font-size: 9pt;
+}
+
+.notification p {
+  font-size: 11pt;
+}
+
+.journal-entry-page {
+  font-family: var(--font-book);
+  font-weight: 100;
+  font-size: 9pt;
+  color: var(--arm5e-c-black);
+}
+
+a.header-button.configure-sheet,
+a.header-button.configure-token,
+a.header-button.close {
+  font-size: 15px;
+}
+
+/* Preserve the remaining specific styles that were unique to a component (unchanged semantics) */
+/* calendar, scriptorium, astrolab, sanatorium and other retained rules kept for layout correctness */
+.calendar-sheet .schedule-years {
+  height: 424px;
+  overflow-y: scroll;
+}
+.calendar-sheet .calendar-years {
+  height: 300px;
+  overflow-y: scroll;
+}
+.calendar-season {
+  border: 1px solid var(--border-dark);
+  margin: 2px;
+}
+.calendar-season.conflict {
+  background-color: rgba(135, 38, 22, 0.5);
+}
+.calendar-season.current {
+  background-color: rgba(51, 120, 34, 0.5);
+}
+.calendar-season.busy {
+  background-color: rgba(20, 55, 175, 0.5);
+}
+.calendar-season.busy.future,
+.calendar-season.conflict.future,
+.calendar-season.current.future,
+.calendar-season.future {
+  border: 1px dashed #bbb;
+}
+.calendar-season.busy.today {
+  border: 4px outset rgba(20, 55, 175, 0.5);
+}
+.calendar-season.conflict.today {
+  border: 4px outset rgba(135, 38, 22, 0.5);
+}
+.calendar-season.current.today {
+  border: 4px outset rgba(51, 120, 34, 0.5);
+}
+.calendar-season.today {
+  border: 4px outset;
+}
+
+.arm5e.sanatorium-sheet .window-content {
+  background-image: url("../assets/sanatorium/Background_Sanatorium.webp");
+  background-repeat: repeat-y;
+}
+
+.arm5e.sanatorium-sheet .sheet-body.backSection.marginsides32 {
+  box-sizing: border-box;
+  width: calc(100% - 64px);
+  max-width: calc(100% - 64px);
+  min-width: 0;
+}
+
+.arm5e.sanatorium-sheet .sanatorium-main-content {
+  margin: 10px;
+}
+
+.arm5e.sanatorium-sheet .sanatorium-top-fields {
+  flex-wrap: nowrap;
+  gap: 0 8px;
+}
+
+.arm5e.sanatorium-sheet
+  .sanatorium-top-fields
+  > .resource-content.flexrow.flex-center.flex-between {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.arm5e.sanatorium-sheet .sanatorium-top-fields .smallTitle,
+.arm5e.sanatorium-sheet .sanatorium-top-fields input {
+  font-size: 14pt;
+}
+
+.arm5e.sanatorium-sheet .sanatorium-top-fields .change-year {
+  font-size: 18pt;
+}
+
+.arm5e.med-history .window-content {
+  background-image: url("../assets/sanatorium/Background_Sanatorium.webp");
+  background-repeat: repeat-y;
+  background-size: 100%;
+}
+
+/* ============================================
+   DOCUMENT PICKER DIALOG
+   ============================================ */
+
+.arm5e.document-picker .window-content {
+  padding: 0;
+  overflow: hidden;
+}
+
+.arm5e.document-picker .doc-picker-body {
+  padding: 4px 0;
+}
+
+.arm5e.document-picker .doc-picker-list {
+  padding: 0 4px;
+}
+
+.arm5e.document-picker .doc-picker-row {
+  margin: 1px 0;
+  border-radius: 3px;
+  transition: background-color 0.1s;
+}
+
+.arm5e.document-picker .doc-picker-row:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.arm5e.document-picker .doc-picker-row--selected {
+  background: rgba(100, 80, 20, 0.18);
+}
+
+.arm5e .sanatorium-title {
+  text-align: center;
+  font-family: var(--font-header);
+  font-size: 32pt;
+  height: 35px;
+  border: none;
+  margin-left: -64px;
+  color: var(--arm5e-c-conflict);
+}
+.arm5e .medhistory-title {
+  text-align: center;
+  font-family: var(--font-header);
+  font-size: 24pt;
+  height: 35px;
+  border: none;
+  margin-left: -64px;
+  color: var(--arm5e-c-conflict);
+}
+
+/* small utility classes preserved */
+.width4 {
+  flex-grow: 4;
+}
+.width3 {
+  flex-grow: 3;
+}
+.width2 {
+  flex-grow: 2;
+}
+.width15 {
+  flex-grow: 1.5;
+}
+.flex01 {
+  flex: 0.1;
+}
+.flex02 {
+  flex: 0.2;
+}
+.flex03 {
+  flex: 0.3;
+}
+.flex04 {
+  flex: 0.4;
+}
+.flex05 {
+  flex: 0.5;
+}
+
+/* keep V13 / arm5eV2 overrides */
+.arm5eV2 .effect-options {
+  font-family: var(--font-book-bold);
+  padding-left: 48px;
+  padding-right: 48px;
+  height: 120px;
+}
+.arm5eV2 .sheet-header .item-small-img {
+  flex: 0 0 64px;
+  height: 64px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+/* General settings fonts */
+
+.directory .action-buttons button {
+  display: flex;
+  align-items: center;
+}
+
+button.create-compendium {
+  font-family: var(--font-header);
+}
+
+a.item {
+  font-family: var(--font-header);
+  font-size: 18px;
+}
+
+label {
+  font-size: 14px;
+}
+
+label.fit {
+  max-width: fit-content;
+}
+
+label.error {
+  color: var(--arm5e-c-conflict);
+}
+
+h2.twilight-episode,
+h2.ars-chat-title {
+  font-family: var(--font-header);
+  font-size: 16pt;
+  font-weight: normal;
+  margin-top: 3px;
+}
+
+input[type="text"].effect-name {
+  font-weight: normal;
+  font-size: 14pt;
+}
+
+li.macro.inactive {
+  font-family: var(--font-header);
+}
+
+li .filter {
+  color: var(--arm5e-c-dark);
+}
+
+/* Removed redundant font-family from a, span.document-type, input, span.player-name - inherit from .arm5e */
+
+a.scene-name {
+  font-family: var(--font-header);
+  font-size: 18px;
+}
+
+span.player-name {
+  font-family: var(--font-book);
+}
+.arm5e span,
+.arm5e .window-content,
+.arm5e label,
+.aura-config label {
+  color: var(--arm5e-c-dark);
+}
+
+.arm5e h1.window-title {
+  font-family: var(--font-header);
+  font-size: 16pt;
+  font-weight: normal;
+  color: var(--color-text-light);
+}
+
+.arm5e .window-title i,
+.arm5e .control-label {
+  color: var(--color-text-light);
 }
 
 /* Global styles */
@@ -32,83 +1709,482 @@
 }
 
 .window-app {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-book), sans-serif;
 }
 
-.rollable:hover, .rollable:focus {
-  color: #000;
-  text-shadow: 0 0 10px red;
-  cursor: pointer;
+.dialog-content {
+  height: auto;
+  gap: 0; /* remove flex/grid gap */
+  margin-bottom: 0; /* remove gap above footer */
 }
 
-.grid,
-.grid-2col {
-  display: grid;
-  grid-column: span 2 / span 2;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin: 10px 0;
-  padding: 0;
+.dialog-form {
+  height: auto;
+  margin: 0; /* remove form default margins */
+  gap: 0; /* remove flex/grid gap */
+  display: block; /* prevent flex container gap */
 }
 
-.grid-3col {
-  grid-column: span 3 / span 3;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.arm5e .art-score input[type="number"] {
+  font-size: 14pt;
+  text-align: center;
 }
 
-.grid-4col {
-  grid-column: span 4 / span 4;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+.arm5e .drop-box {
+  text-align: center;
+  padding: 25px;
+  margin: 5px;
+  border: 3px;
+  border-style: dashed;
+  border-radius: var(--radius-xl);
+  border-color: rgb(161, 154, 154);
 }
 
-.grid-5col {
-  grid-column: span 5 / span 5;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+/* Removed duplicate window-app window-content block; consolidated baseline above applies */
+
+/*journal stuff */
+
+.system-arm5e .journal-entry-page h1 {
+  font-family: var(--font-header);
+  font-size: 24pt;
+  color: var(--arm5e-c-black);
 }
 
-.grid-6col {
-  grid-column: span 5 / span 5;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.system-arm5e .journal-entry-page h2 {
+  font-family: var(--font-header);
+  font-size: 16pt;
+  color: var(--arm5e-c-black);
 }
 
-.grid-7col {
-  grid-column: span 7 / span 7;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+.system-arm5e .journal-entry-page h3 {
+  font-family: var(--font-header);
+  font-size: 14pt;
+  color: var(--arm5e-c-black);
+  border-bottom: 1px solid var(--color-warm-3);
 }
 
-.grid-8col {
-  grid-column: span 8 / span 8;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+.system-arm5e .journal-entry-page h4 {
+  font-family: var(--font-header);
+  font-size: 14pt;
+  color: var(--arm5e-c-black);
+  border-bottom: 1px solid var(--color-warm-3);
 }
 
-.grid-9col {
-  grid-column: span 9 / span 9;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+.system-arm5e .journal-entry-page code,
+.system-arm5e .journal-entry-page code.block {
+  display: block;
+  padding: 0.5rem;
+  margin: initial;
+  color: black;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-.grid-10col {
-  grid-column: span 10 / span 10;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
+.journal-sheet .journal-sidebar {
+  background: var(--parchment);
+  color: var(--arm5e-c-black);
 }
 
-.grid-11col {
-  grid-column: span 11 / span 11;
-  grid-template-columns: repeat(11, minmax(0, 1fr));
+.journal-sidebar search {
+  background: black;
+  border-radius: var(--radius-sm);
+  opacity: 0.5;
 }
 
-.grid-12col {
-  grid-column: span 12 / span 12;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+.sheet.journal-entry .journal-entry-content {
+  flex: 1;
+  height: 100%;
+  background: var(--parchment);
+  border: 2px solid var(--arm5e-c-black);
+  border-radius: 6px 0 0 0;
+  color: var(--arm5e-c-black);
 }
+
+/* .journal-sheet .journal-header { */
+/* background: var(--parchment); */
+/* } */
+
+.journal-sheet .journal-header .title {
+  margin: 0;
+  background: rgba(0, 0, 0, 0.1);
+
+  font-size: var(--font-size-32);
+  font-family: var(--font-header);
+  color: var(--arm5e-c-black);
+  font-weight: 500;
+  height: 50px;
+  line-height: 50px;
+  border-radius: var(--radius-small);
+}
+
+/* Removed duplicate .journal-entry-page definition - consolidated above at line ~788 */
+/* Child selectors inherit font-family from parent */
+
+/* .journal-entry-page h4 {
+  font-size: 16pt;
+} */
+
+.theme-dark .journal-entry-page .editor.prosemirror {
+  /* font-size: 16px; */
+  background: var(--parchment);
+  color: var(--color-text-dark-primary);
+}
+
+.theme-light .journal-entry-page .editor.prosemirror {
+  font-size: 16px;
+  color: var(--color-text-light-primary);
+  background: var(--parchment);
+}
+
+.prosemirror menu,
+prose-mirror menu {
+  background: var(--parchment);
+}
+
+.arm5e .prosemirror menu button,
+prose-mirror menu button {
+  font-size: 10pt;
+  padding: 2px;
+  margin: 0px;
+}
+
+.arm5e prose-mirror > button.icon {
+  font-size: 10pt;
+  margin: 5px;
+}
+
+a.content-link,
+.arm5e .journal-entry-page a.content-link {
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+  word-break: break-all;
+  text-decoration: underline;
+  color: #6e98db;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  padding: 0px;
+}
+
+.arm5e a.content-link.broken,
+.arm5e .journal-entry-page a.content-link.broken {
+  color: #f05959;
+}
+
+a.content-link i.fa-file-lines {
+  display: none;
+}
+
+a.content-link i.fa-book-open {
+  display: none;
+}
+
+/* .compendium-directory h1 {
+  font-family: var(--font-header);
+  font-size: 18pt;
+  color: var(--arm5e-c-beige);
+} */
+
+.scriptorium.resource {
+  padding-top: 5px;
+}
+
+.scriptorium .drop-box {
+  text-align: center;
+  padding: 25px;
+  margin: 5px;
+  border: 3px;
+  border-style: dashed;
+  border-radius: var(--radius-xl);
+  border-color: rgb(161, 154, 154);
+}
+
+.arm5e-prompt .dialog-buttons,
+.arm5e-dialog .dialog-buttons,
+.arm5e-confirm .dialog-buttons,
+.arm5e-config .dialog-buttons,
+.arm5e .dialog-buttons {
+  /* background-color: rgb(169 159 134 / 50%); */
+  background-color: var(--arm5e-c-tan);
+}
+.arm5e .editor .editor-edit,
+.arm5e .window-content button {
+  font-family: var(--font-header);
+  font-size: 13pt;
+  background-image: radial-gradient(ellipse, rgba(255, 255, 255, 0.7), rgba(181, 179, 164, 0.2)),
+    url("../assets/buttons/light-brown-leather.webp");
+  /* background-size: 100% 100%, 200% 200%;
+  background-position: 0 0, var(--bg-pos-x, 0%) var(--bg-pos-y, 0%);
+  background-attachment: local; */
+
+  border-width: 0px;
+  border-style: groove;
+  border-color: rgb(69, 50, 2);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 5px var(--arm5e-c-beige), 2px 2px 4px rgba(0, 0, 0, 0.4);
+
+  color: var(--arm5e-c-black);
+  padding: 5px;
+  height: auto;
+  margin: 2px;
+}
+
+.arm5e-roll button.dialog-button,
+.arm5e-prompt button.dialog-button,
+.arm5e-dialog button.dialog-button,
+.arm5e-confirm button.dialog-button,
+.arm5e-config button.dialog-button,
+.arm5e .astrolab.button,
+.arm5e .scriptorium.button,
+.arm5e.document-picker button.dialog-button,
+/* .arm5e.arm5e-config .window-content button.dialog-button, */
+.arm5e .aura-config button {
+  font-family: var(--font-header);
+  font-size: 13pt;
+  background-image: url("../assets/buttons/forged_metal.webp");
+  border-width: 2px;
+  border-style: outset;
+  border-color: #000000;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 5px var(--arm5e-c-beige);
+  color: var(--arm5e-c-beige);
+  padding: 12px;
+  white-space: normal;
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  gap: 6px;
+  min-height: 36px;
+}
+
+.arm5e-roll button.dialog-button span,
+.arm5e-prompt button.dialog-button span,
+.arm5e-dialog button.dialog-button span,
+.arm5e-confirm button.dialog-button span,
+.arm5e.document-picker button.dialog-button span {
+  text-align: center;
+}
+
+.arm5e-config button.dialog-button span,
+.arm5e.document-picker button.dialog-button span {
+  color: var(--arm5e-c-beige);
+}
+
+.arm5e-dialog button.dialog-button.long-label {
+  font-size: 10pt;
+  line-height: 1;
+  padding: 5px;
+}
+
+.arm5e button:not(:disabled):hover {
+  box-shadow: 0 0 10px black, 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+.arm5e .astrolab.button:not(:disabled):hover,
+.arm5e-confirm button.dialog-button:not(:disabled):hover,
+.arm5e-dialog button.dialog-button:not(:disabled):hover,
+.arm5e-prompt button.dialog-button:not(:disabled):hover {
+  box-shadow: 0 0 10px var(--arm5e-c-beige);
+}
+
+.arm5e-roll button.dialog-button:disabled,
+.arm5e-prompt button.dialog-button:disabled,
+.arm5e-dialog button.dialog-button:disabled,
+.arm5e-confirm button.dialog-button:disabled,
+.arm5e-config button.dialog-button:disabled,
+.arm5e .astrolab.button:disabled,
+.arm5e .scriptorium.button:disabled,
+.arm5e button.sanatorium:disabled,
+.arm5e .aura-config button:disabled {
+  filter: grayscale(70%) brightness(-0.55);
+  box-shadow: none;
+  border-style: inset;
+  cursor: not-allowed;
+  opacity: 0.6;
+  height: auto;
+  margin: 2px;
+}
+
+.arm5e button.pm-dropdown {
+  font-family: var(--font-book);
+}
+
+.arm5e .editor .editor-edit {
+  font-size: 10pt;
+}
+
+.arm5e .editor.prosemirror .editor-container {
+  /* max-height: 300px; */
+  overflow-y: auto;
+}
+
+/* Removed redundant .arm5e .window-app .window-content override; baseline already sets display:flex */
+
+.arm5e {
+  --color-shadow-primary: rgb(200, 0, 0);
+}
+
+.arm5e .warning {
+  color: rgb(200, 0, 0);
+}
+
+h1.window-title,
+h4.window-title {
+  color: var(--color-text-light);
+  font-family: var(--font-header);
+  font-size: 16pt;
+}
+.arm5e-roll footer.form-footer,
+.arm5e-dialog footer.form-footer,
+.arm5e-confirm footer.form-footer {
+  background-color: var(--arm5e-c-tan);
+  gap: 1px;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Removed duplicate sanatorium/astrolab button styling; consolidated definition above applies */
+
+/* .arm5e-dialog.aura-config form > div {
+  margin: 10px 30px;
+} */
+
+.arm5e-dialog.aura-config input[type="number"] {
+  text-align: center;
+  flex: 0 0 60px;
+}
+
+.arm5e .sanatorium .improved {
+  box-shadow: 3px 3px 3px rgb(51 120 34 / 50%);
+}
+
+.arm5e .sanatorium .worsened {
+  box-shadow: 3px 3px 3px rgb(135 38 22 / 100%);
+}
+.arm5e .sanatorium .editor {
+  overflow-y: auto;
+  max-height: 300px;
+  font-family: var(--font-book);
+}
+
+.arm5e .wound .sheet-body .editor {
+  overflow-y: auto;
+  max-height: 160px;
+}
+
+.arm5e.button {
+  font-family: var(--font-header);
+  padding: 10px;
+}
+
+.arm5e.button.ui {
+  padding: 5px;
+}
+
+button.template-item {
+  padding: 3px;
+  text-align: center;
+  font-size: 9pt;
+  margin: 4px;
+  border-radius: var(--radius-md);
+  line-height: normal;
+}
+
+.arm5e .item-control {
+  padding-top: 4px;
+  text-align: center;
+  font-size: 9pt;
+}
+
+.hideme {
+  display: none;
+}
+
+.show-on-hover:hover + .hideme {
+  display: block;
+}
+
+/* Removed duplicate clickable/rollable hover blocks; consolidated canonical definition above uses var(--arm5e-c-conflict) */
+
+.hidden {
+  display: none;
+}
+
+/* Removed duplicate chat-message styling; canonical definition above uses CSS variables */
+.system-arm5e .dice-msg {
+  font-family: var(--font-book);
+  border-bottom: 0px;
+  text-align: center;
+}
+
+.system-arm5e .chat-button {
+  width: 47%;
+  align-items: center;
+  height: 25px;
+  margin-left: 2px;
+  margin-right: 2px;
+  font-size: 16px;
+  line-height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+p,
+.chat-message .details {
+  user-select: text;
+}
+
+.chat-message .message-header,
+.chat-message .message-content {
+  user-select: text;
+  font-family: var(--font-book);
+  font-size: var(--font-size-12);
+}
+
+.ars-chat-title {
+  font-family: var(--font-header);
+  border-bottom: 1px solid var(--border-warm);
+  line-height: 24px;
+  margin-bottom: 5px;
+  font-weight: normal;
+  font-size: 16pt;
+  color: var(--color-text-dark-secondary);
+}
+
+.chat-message .message-header .ars-chat-title {
+  font-family: var(--font-header);
+  border-bottom: 1px solid var(--border-warm);
+  font-weight: normal;
+}
+.arts-total-header {
+  height: 57px;
+  margin-left: 17px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-tertiary);
+  font-weight: bold;
+}
+.lab-total-char,
+.arts-total {
+  height: 28px;
+  background: rgba(0, 0, 0, 0.05);
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid var(--color-border-light-tertiary);
+  font-weight: bold;
+}
+/* Removed duplicate grid-*col definitions to avoid conflicts; using canonical definitions above */
 
 .flex-group-center,
 .flex-group-left,
 .flex-group-right {
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   text-align: center;
   padding: 5px;
@@ -116,136 +2192,672 @@
 }
 
 .flex-group-left {
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
   justify-content: flex-start;
   text-align: left;
 }
 
 .flex-group-right {
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
   justify-content: flex-end;
   text-align: right;
 }
 
-.flex-center {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  text-align: center;
-}
+/* Removed duplicate flex utility classes; consolidated canonical definitions above apply */
 
-.flex-between {
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.arm5eMain{
-  background-image: url("../assets/background.jpg");
+.arm5eMain {
+  background-image: url("../assets/background.webp");
   background-repeat: repeat-y;
-  background-size: contain;
-  font-family: "bookAntiquaBold";
+  background-size: 100%;
+  font-family: var(--font-book-bold);
   padding: 32px;
 }
 
-/* Styles limited to arm5e sheets */
+.arm5eInfo {
+  background-image: var(--dialog-bg);
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: var(--font-book-bold);
+  font-size: 12pt;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
 
-.arm5e .main{
-  background-image: url("../assets/background.jpg");
+.arm5eInfo img {
+  border: 0px;
+}
+
+/* .arm5e .section */
+
+.arm5e .calendar-sheet .sheet-body {
+  min-height: 519px;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-top: 20px;
+  padding-bottom: 0px;
+}
+
+.astrolab-sheet .sheet-body {
+  padding: 5px;
+  /* padding-top: 20px;
+  padding-bottom: 0px; */
+}
+
+/* .calendar-season {
+  border: 1px solid var(--border-dark);
+  margin: 2px;
+}
+
+.calendar-season.conflict {
+  background-color: rgb(135 38 22 / 50%);
+}
+
+.calendar-season.current {
+  background-color: rgb(51 120 34 / 50%);
+}
+
+.calendar-season.busy {
+  background-color: rgb(20 55 175/ 50%);
+}
+
+.calendar-season.busy.future,
+.calendar-season.conflict.future,
+.calendar-season.current.future,
+.calendar-season.future {
+  border: 1px dashed #bbb;
+}
+
+.calendar-season.busy.today {
+  border: 4px;
+  border-style: outset;
+  border-color: rgb(20 55 175/ 50%);
+}
+
+.calendar-season.conflict.today {
+  border: 4px;
+  border-style: outset;
+  border-color: rgb(135 38 22 / 50%);
+}
+
+.calendar-season.current.today {
+  border: 4px;
+  border-style: outset;
+  border-color: rgb(51 120 34 / 50%);
+}
+
+.calendar-season.today {
+  border: 4px;
+  border-style: outset;
+} */
+
+.schedule-update:disabled {
+  background: rgba(95, 95, 95, 0.25);
+}
+
+.calendar-field {
+  background: rgba(67, 49, 0, 0.25);
+  text-align: center;
+  margin: 12px;
+}
+
+.calendar-year {
+  /* background-color: rgb(236 222 187 / 60%); */
+  margin-top: 5px;
+  height: auto;
+}
+
+/* .arm5eInfo .footer-background,
+.arm5e-prompt .footer-background {
+  height: 50px;
+} */
+
+/* ============================================
+   DIALOG & WINDOW STYLES
+   ============================================ */
+
+/* Window-content rules consolidated at top of file */
+
+/* .pickAmount.arm5e-prompt,
+.arm5e-prompt.aging,
+.arm5e-prompt.vis-study,
+.set-option .arm5e-prompt,
+.aging-points .arm5e-prompt {
+  background-size: cover;
+} */
+
+.scriptorium .window-content {
+  background-image: url("../assets/scriptorium/Scriptorium_background.webp");
   background-repeat: repeat-y;
   background-size: contain;
-  font-family: "bookAntiquaBold";
+}
+
+.tab-header {
+  border: 0px !important; /* Override Foundry core tab border */
+  /* background-image: url("../assets/bSilver.png"); */
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  min-height: 32px;
+  margin-bottom: 12px !important; /* Override Foundry core margin */
+  position: relative;
+}
+
+.item-summary {
+  font-family: var(--font-book);
+  padding: 6px;
+  border-bottom: solid;
+  border-bottom-color: #bebcb8;
+  border-bottom-width: 1px;
+}
+
+/* ============================================
+   SCRIPTORIUM, ASTROLAB & CALENDAR STYLES
+   ============================================ */
+
+/* Shared astrolab/calendar background */
+.calendar-sheet .window-content,
+.astrolab-sheet .window-content {
+  background-image: url("../assets/astrolab/Astrolab_Background.webp");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  gap: 0px;
+}
+
+/* Astrolab-specific */
+.arm5e .astrolab .header-background {
+  height: 120px;
+  width: 100%;
+  margin: 0;
+}
+
+.arm5e .astrolab .footer-background {
+  height: 75px;
+  width: 100%;
+  margin: 0;
+  background-image: none;
+}
+
+.arm5e .astrolab .footer-background img {
+  border: 0;
+}
+
+.arm5e .astrolab-title {
+  text-align: center;
+  font-family: var(--font-header);
+  font-size: 32pt;
+  font-weight: 400;
+  height: 35px;
+  border: none;
+  color: #2d3b51;
+}
+
+/* Scriptorium-specific */
+.arm5e .scriptorium-title {
+  text-align: center;
+  font-family: var(--font-header);
+  font-size: 32pt;
+  height: 45px;
+  border: none;
+  color: #30512d;
+}
+
+/* ============================================
+   REQUISITE, ROLL & ACTIVE EFFECT DIALOGS
+   ============================================ */
+
+.arm5eRequisite {
+  font-size: 10pt;
+  background-repeat: repeat-y;
+  background-size: cover;
+  background-color: var(--arm5e-c-tan);
+  font-family: var(--font-book-bold);
+  width: 397px;
+  height: auto;
+}
+
+.arm5eRequisite .form-footer {
+  background-color: var(--arm5e-c-tan);
+}
+
+.arm5eRequisite .footer-background {
+  height: 45px;
+}
+
+.arm5eRequisite .footer-background img {
+  border: 0;
+}
+
+.effect-list {
+  overflow: auto;
+  /* max-height: 180px; */
+  height: 100%;
+}
+.read-book {
+  padding-right: 16px;
+  padding-left: 16px;
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+/* .stance {
+  max-width: 100px;
+} */
+
+/* Active Effect dialog */
+.arm5eActiveEffect {
+  background-image: var(--dialog-bg-large);
+  background-repeat: repeat-y;
+  background-size: cover;
+  font-family: var(--font-book-bold);
+}
+
+.arm5eActiveEffect .effect-options {
+  font-family: var(--font-book-bold);
+  padding-left: 48px;
+  padding-right: 48px;
+  height: auto;
+}
+
+.arm5e .arm5eActiveEffect .header-background {
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  width: 100%;
+}
+
+.arm5e .arm5eActiveEffect .footer-background {
+  height: 87px;
+  width: 100%;
+}
+
+/* .arm5e-roll {
+  background-repeat: repeat-y;
+  background-size: 100%;
+  font-family: "var(--font-book-bold)";
+  font-size: 11pt;
+}*/
+
+.arm5e-roll .roll-options {
+  font-family: var(--font-book-bold);
   padding-left: 32px;
   padding-right: 32px;
-  
-}
-.arm5e .header-background{
-  margin-left: -32px;
-  /*margin-top: -32px;*/
-  width: calc(100% + 64px);
-}
-.arm5e .footer-background{
-  margin-left: -32px;
-  margin-top: 16px;
-  width: calc(100% + 64px);
-}
-.arm5e .header-background img{
-  width: 100%;
-  border: 0px;
-}
-.arm5e .footer-background img{
-  width: 100%;
-  border: 0px;
+  background-size: cover;
 }
 
+/* Prevent long roll dialogs from cropping content: scroll after 800px. */
+.arm5e-roll .window-content,
+.window-content .arm5e-roll {
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
-.arm5e .sheet-header {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 280px;
-  flex: 0 0 280px;
-  overflow: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
+.arm5e-roll .roll-options .sub {
+  font-size: 14px;
+}
+
+/* arm5e-roll header-background img styles consolidated above */
+
+/* Styles limited to arm5e sheets */
+
+/* Ranges style */
+.arm5e input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/***** Track Styles *****/
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+.arm5e input[type="range"]::-webkit-slider-runnable-track,
+.arm5e input[type="range"]::-moz-range-track {
+  background: rgba(194, 183, 154, 0.8);
+  height: 0.5rem;
+}
+
+/******** Firefox ********/
+
+/***** Thumb Styles *****/
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+.arm5e input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  border: none;
+  border-radius: var(--radius-lg);
+  appearance: none;
+  outline: transparent;
+  outline-offset: 0;
+  /* Centers thumb on the track */
+  margin-top: -8px;
+  background-color: transparent;
+  background-image: url("../assets/ballSilver.png");
+  height: 20px;
+  width: 20px;
+}
+.arm5e input[type="range"]:focus::-moz-range-thumb,
+.arm5e input[type="range"]:focus::-webkit-slider-thumb {
+  border: 0px;
+  outline: transparent;
+  outline-offset: 0;
+}
+
+/***** Thumb Styles *****/
+/***** Firefox *****/
+.arm5e input[type="range"]::-moz-range-thumb {
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: var(--radius-lg); /*Removes default border-radius that FF applies*/
+  /* background-color: #5cd5eb; */
+  background-color: transparent;
+  background-image: url("../assets/ballBronze.png");
+  outline: transparent;
+  outline-offset: 0;
+  height: 20px;
+  width: 20px;
+}
+
+/* Duplicate base input block removed per consolidation */
+
+/* .arm5e input.one-line[type="text"] {
+  border-bottom: 1px solid #7a7971;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 1px solid #7a7971;
+} */
+
+input[type="text"].slim,
+input[type="number"].slim {
+  max-width: 50px;
+  text-align: center;
+}
+
+/* input[type="text"].select-on-focus {
+  max-width: 70px;
+  text-align: center;
+} */
+
+input[type="text"].wide {
+  max-width: none;
+  width: calc(100% - 2px);
+  text-align: center;
+  font-size: 9pt;
+}
+
+input[type="number"].summary {
+  background: var(--arm5e-c-shadow);
+  box-shadow: var(--shadow-card);
+}
+
+input[type="text"].editable,
+input[type="number"].editable {
+  background-color: rgb(208 182 130 / 50%);
+}
+
+input[type="text"].magic-total,
+input[type="text"].combat-total,
+input[type="text"].wound-level,
+input[type="number"].art-score,
+input[type="number"].design-level {
+  font-size: 13pt;
+  text-align: center;
+  background: var(--arm5e-c-shadow);
+  box-shadow: var(--shadow-card);
+}
+
+/* Removed duplicate input/select and sheet-content blocks; canonical definitions above apply */
+
+/* Preserve unique editor-container height rule */
+.arm5e .editor-container .editor-content {
+  height: fit-content;
+}
+
+/* Removed duplicate background image patterns; consolidated canonical definitions above apply */
+
+.arm5e .mainItem {
+  background-repeat: repeat-y;
+  background-size: contain;
+  font-family: var(--font-book-bold);
+}
+
+.arm5e .mainItem .header-background {
+  /* margin-left: -34px; */
+  text-align: center;
+  margin-top: 0px;
+}
+.arm5e .mainItem .footer-background {
+  text-align: center;
+  margin: 0;
+}
+
+/* ============================================
+   HEADER & FOOTER BACKGROUNDS
+   ============================================ */
+
+/* Base header background image styles */
+.arm5e .header-background img,
+.arm5e-prompt .header-background img,
+.arm5e-confirm .header-background img,
+.arm5eRequisite .header-background img,
+.arm5e .arm5eActiveEffect .header-background img,
+.arm5e-roll .header-background img,
+.arm5e .astrolab.header-background img {
+  width: 100%;
+  border: 0;
+}
+
+/* Base footer background styles */
+.arm5e-prompt .footer-background {
+  height: 55px;
+}
+
+.arm5e-prompt .footer-background img,
+.arm5e-dialog .footer-background img,
+.arm5e-confirm .footer-background img,
+.arm5e-roll .footer-background img,
+.arm5e .footer-background img {
+  width: 100%;
+  border: 0;
+  height: inherit;
+  display: block;
+  margin-bottom: 0;
+}
+
+/* ============================================
+   COMPONENT-SPECIFIC DIALOGS
+   ============================================ */
+
+.arm5e .header.scriptorium-header {
+  flex: 0 0 120px;
+  /*overflow: hidden;*/
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
   justify-content: flex-start;
   margin-bottom: 10px;
 }
+.arm5e .sheet-header {
+  /* flex: 0 0 240px; */
+  /*overflow: hidden;*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  /* margin-bottom: 5px; */
+}
+
+/* Override for large dialogs - must come after .arm5e .sheet-header */
+.arm5eLargeDialog .sheet-header {
+  /* flex: 0 0 100px; */
+  /*overflow: hidden;*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  /* margin-bottom: 5px; */
+}
+
+.arm5e .active-effect-config {
+  display: flex;
+}
+
+/* Active effect config: keep window-content bounded so the active tab can scroll */
+.active-effect-config.arm5e.arm5eLargeDialog .window-content {
+  overflow: hidden;
+}
+
+/* The active tab fills remaining space and scrolls its content */
+.active-effect-config.arm5e.arm5eLargeDialog .window-content .tab.active {
+  flex: 1;
+  overflow-y: auto;
+  align-items: flex-start; /* flexrow centers by default — start from top instead */
+}
+
+.active-effect-config.arm5e.arm5eLargeDialog .tab.changes ol {
+  display: flex;
+  flex-direction: column;
+  padding-right: 0.5rem;
+  align-items: flex-start;
+}
+
+li.effect-change {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%; /* force li to take full width of ol container */
+  gap: 3px;
+}
+
+.effect-change .type,
+.effect-change .key,
+.effect-change .mode,
+.effect-change .value {
+  min-width: 0; /* allows flex children to shrink properly */
+}
+
+/* .arm5e .mainItem .sheet-header {
+  margin-top: 100px;
+} */
 
 .arm5e .sheet-header-lab {
-  -ms-flex: 0 0 315px;
   flex: 0 0 315px;
 }
 
+.arm5e .checkbox-label {
+  position: relative;
+  bottom: 6px;
+}
+.arm5e .sheet-header-codex {
+  flex: 0 0 80px;
+  font-family: var(--font-header);
+  font-size: 18px;
+}
+
+/* Codex filter row: label + select must stay on one line.
+   Foundry's .flexrow > * { flex: 1 } forces flex-basis: 0% on every child,
+   including labels. Override with a higher-specificity scoped rule. */
+.arm5e .sheet-header-codex .codexname {
+  flex-wrap: nowrap;
+}
+.arm5e .sheet-header-codex .codexname > label {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.arm5e .codex-title {
+  text-align: center;
+  font-family: var(--font-header);
+  font-size: 35px;
+  height: 45px;
+  margin: 5px;
+  color: #581845;
+}
+
 .arm5e .sheet-header .profile-img {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 270px;
-  flex: 0 0 270px;
-  height: 270px;
+  flex: 0 0 150px;
+  height: 150px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-.arm5e .sheet-header .item-img{
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 200px;
-  flex: 0 0 200px;
-  height: 200px;
+
+.arm5e .profile-img {
+  flex: 0 0 150px;
+  height: 150px;
+  width: 150px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  object-fit: contain;
+}
+
+.arm5e .sheet-header .item-img {
+  flex: 0 0 100px;
+  height: 100px;
   margin-right: 16px;
   margin-bottom: 16px;
+  object-fit: contain;
+}
+
+.arm5e .sheet-header .item-img-medium {
+  flex: 0 0 100px;
+  height: 100px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  object-fit: contain;
+}
+
+.arm5e .sheet-header .item-small-img {
+  flex: 0 0 64px;
+  height: 64px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+img.tinyimg {
+  flex: 0 0 100px;
+  max-height: 32px;
+  max-width: 32px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  object-fit: contain;
 }
 
 .arm5e .sheet-header .header-fields {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
   flex: 1;
 }
 
-.arm5e .sheet-header h1.charname {
+.arm5e .sheet-header h1.bigname {
   height: 50px;
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
 }
 
-.arm5e .sheet-header h1.charname input {
-  width: 100%;
+.arm5e .sheet-header h2 input {
+  font-size: 13pt;
+}
+
+.arm5e .sheet-header h1.spellname {
+  height: 60px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+
+.arm5e .sheet-header h1.bigname .flexrow {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.arm5e .sheet-header h1.bigname .flexrow > .flex0 {
+  flex: 0 0 auto;
+}
+
+.arm5e h1.bigname input {
+  flex: 1;
+  min-width: 0;
+  width: auto;
   margin: 0;
-  /*padding-top: 30px;
-  line-height: 30;*/
-  /*font-family: "vinque";*/
-  font-family: "blackmoor";
+  /* padding-top: 30px; */
+  font-family: var(--font-header);
+  font-size: 18pt;
+  font-weight: 400;
+  height: 30px;
   /*letter-spacing: 1px;*/
 }
 
@@ -255,26 +2867,354 @@
   border-bottom: 0;
 }
 
-.arm5e .sheet-header h2.covenantname input {
+.aura-config fieldset {
+  font-family: var(--font-book-bold);
+  gap: 0px;
+  padding: 10px;
+}
+
+/* fielgr selector was a typo (non-existent element) — rule removed */
+
+.arm5e .sheet-header h2.codexname {
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+
+.arm5e .sheet-header h2.codexname input {
   width: 100%;
   margin: 0;
   /*padding-top: 25px;
   line-height: 50;*/
-  /*font-family: "vinque";*/
-  font-family: "blackmoor";
+  font-family: var(--font-header);
   /*letter-spacing: 1px;*/
 }
 
+.arm5e .diary-tabs {
+  font-family: var(--font-book);
+  font-size: 10pt;
+  text-align: center;
+  width: 100%;
+  /* background-image: url("../assets/player/bar.webp"); */
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.arm5e .spell-attribute option:disabled,
+.arm5e .ability-key option:disabled {
+  font-size: 11pt;
+  color: black;
+  font-style: italic;
+  font-weight: bold;
+  text-decoration: overline;
+}
+
+/* .arm5e .ability-key, */
+.arm5e .spell-attribute {
+  max-width: 100%;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+.arm5e-roll .ability-key,
+.arm5e .ability-key {
+  max-width: 250px;
+}
+
+.arm5e select.ability-key-slim {
+  flex: 0 0 auto;
+  width: 200px;
+  min-width: 0;
+  max-width: 200px;
+  height: auto;
+}
+
+.arm5e .ability-key-row {
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.arm5e .ability-key-field {
+  flex: 0 0 200px;
+  min-width: 0;
+}
+
+.arm5e .ability-option-field {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.arm5e .ability-option-field > .flexrow {
+  gap: 0.25rem;
+  align-items: flex-end;
+}
+
+.arm5e .ability-option-field input[type="text"] {
+  width: 100%;
+  min-width: 0;
+}
+
+.arm5e .ability-category {
+  font-size: 14pt;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
+  margin-left: 10px;
+  border-bottom: 2px solid #4a4a48;
+}
+
+.arm5e .sheet header.sheet-header .img-container img {
+  display: block;
+  height: 12px;
+  justify-content: center;
+}
+
+.arm5e .img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 40px;
+}
+
+.arm5e .img-container img {
+  height: 12px;
+}
+
+.arm5e .nav-arrow {
+  height: 20px;
+  width: 30px;
+  border: 0px;
+  max-width: 30px;
+}
+
+.section-title,
+.techLabel,
+.formLabel {
+  font-family: var(--font-header);
+  font-size: 14pt;
+  font-weight: normal;
+  align-items: center;
+}
+
+/* Removed duplicate toggle/collapse animation blocks; consolidated canonical definitions above apply */
+
+.template-section-handle,
+.section-handle {
+  background: var(--arm5e-c-shadow);
+  padding: 1px 4px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 1px solid var(--color-border-dark-tertiary);
+  border-bottom: 1px solid var(--color-border-dark-tertiary);
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+  width: fit-content;
+}
+
+div[class*="foldable-section"] {
+  opacity: 1;
+  max-height: 800px;
+  transition-property: opacity, max-height;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+/* Biography/secrets sections embed large ProseMirror content.
+ * Use ease-out and clip overflow to avoid a brief perceived 0-height stall on expand. */
+.arm5e .biography-section-handle + .foldable-section-medium,
+.arm5e .secrets-section-handle + .foldable-section-medium {
+  overflow: hidden;
+  transition-timing-function: ease-out;
+  transition-duration: 0.6s;
+  min-height: 210px;
+}
+
+/* For these sections, fully collapse in .hide and reopen from a known floor height. */
+.arm5e .biography-section-handle + .foldable-section-medium.hide,
+.arm5e .secrets-section-handle + .foldable-section-medium.hide {
+  min-height: 210px;
+}
+
+/* Item enchantments tab contains nested foldable sections (spell design + enchant attrs)
+ * that can exceed the generic cap; raise only while expanded and scoped to this tab. */
+.arm5e .tab[data-tab="enchantments"] div[class*="foldable-section"]:not(.hide) {
+  max-height: 12000px;
+}
+
+.enchantment,
+.enchantment-short,
+.planning-options,
+.planning-attributes,
+.planning-description,
+.item-description,
+.enchant-description,
+.details {
+  opacity: 1;
+  max-height: 3800px;
+  transition-property: opacity, max-height;
+  transition-duration: 0.6s;
+  transition-timing-function: ease-in-out;
+}
+
+/* Lab planning enchantment panes can exceed the generic cap and visually overlap
+ * following sections if max-height is too small during expanded state.
+ * Apply only while expanded so .hide collapse still works. */
+.arm5e .drop-enchant .enchantment:not(.hide) {
+  max-height: 12000px;
+}
+
+/* .planning-options.hide,
+.planning-attributes.hide, */
+.activeEffects.hide,
+.penetration.hide,
+.details.hide,
+.toggle-collapse.hide {
+  max-height: 0px;
+  min-height: 0px;
+  opacity: 0;
+  overflow: hidden;
+}
+/* .item-description.hide,
+.planning-description.hide, */
+.foldable-section-small.hide,
+.enchantment-short.hide {
+  max-height: 0px;
+  min-height: 60px;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.foldable-section-medium.hide {
+  max-height: 0px;
+  min-height: 210px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.foldable-section.hide,
+.enchantment.hide {
+  max-height: 0px;
+  min-height: 0px;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.topic.toggle-collapse.hide {
+  max-height: 0px;
+  min-height: 190px;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.arm5e .resource {
+  padding: 4px;
+}
+
+.lab-total.backSection {
+  margin-right: 10px;
+  margin-bottom: 5px;
+  max-height: 80px;
+  max-width: 100px;
+  font-size: 14pt;
+  background-color: rgb(236 222 187 / 50%);
+  border: 0px;
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-card);
+}
+
+.arm5e .progresses-list {
+  list-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.arm5e .diary-progress {
+  align-items: center;
+  padding: 3px 1px;
+  border-bottom: 1px solid var(--color-border-light-primary);
+}
+
 .arm5e .sheet-tabs {
-  -webkit-box-flex: 0;
-  -ms-flex: 0;
   flex: 0;
 }
 
-.arm5e .sheet-body,
-.arm5e .sheet-body .tab,
+.arm5e .sheet-body .editor,
 .arm5e .sheet-body .tab .editor {
+  height: -moz-available;
+  height: -webkit-fill-available;
+  min-height: 200px;
+  overflow-y: auto;
+  padding: 5px;
+}
+.description-editor {
+  min-height: 200px;
+}
+
+.arm5e .prosemirror-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1 1 auto;
+  user-select: text;
+}
+
+.arm5e .backSection:has(> .prosemirror-section) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  user-select: text;
+}
+
+.arm5e .prosemirror-editor-box {
+  height: 210px;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+.arm5e .extendable .prosemirror-editor-box {
+  height: auto;
+  min-height: 200px;
+  flex: 1 1 auto;
+}
+
+.arm5e .prosemirror-editor-box .editor,
+.arm5e .prosemirror-editor-box .editor.prosemirror {
   height: 100%;
+  overflow: visible;
+  padding: 0;
+}
+
+.arm5e .prosemirror-editor-box .editor-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.arm5e .prosemirror-editor-box .editor-content,
+.arm5e .prosemirror-editor-box prose-mirror {
+  height: 100%;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-left: 5px;
+}
+.arm5e .sheet-body .editor.prosemirror,
+.arm5e .sheet-body .tab .editor.prosemirror {
+  height: -moz-available;
+  height: -webkit-fill-available;
+  min-height: 200px;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.arm5e .diary-body {
+  padding-top: 7px;
+  height: 200px;
+  width: 100%;
+  overflow-y: auto;
 }
 
 .arm5e .tox .tox-editor-container {
@@ -285,236 +3225,677 @@
   padding: 0 8px;
 }
 
-.arm5e .resource-label {
+label.uppercase {
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.arm5eTabs{
-  border:0px !important;
+.checkbox-label {
+  padding-top: 7px;
+  height: auto;
+}
+
+.btn-container {
+  margin: 2px;
+  padding: 3px;
+}
+
+.flavor-bar-cov {
+  margin-bottom: 10px;
+  background-image: url("../assets/covenant/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  height: 2px;
+}
+
+.arm5eTabs {
+  border: 0px !important; /* Override Foundry core tab border */
+  /*
   background-image: url("../assets/bBronce.png");
   background-repeat: repeat-x;
   background-position-y: bottom;
-  min-height: 40px;
-  margin-bottom: 12px !important;
+  */
+  min-height: 36px;
+  overflow: visible;
+  /* Override Foundry core margin */
 }
 
-.arm5e .tabs {
-  height: 40px;
-  border-top: 1px solid #AAA;
-  border-bottom: 1px solid #AAA;
+.mainItem .arm5eTabs {
+  min-height: 36px;
+  margin-bottom: 0px !important; /* Override parent margin for nested tabs */
 }
 
-.arm5e .tabs .item {
-  /*line-height: 60px;*/
-  /*font-family: "vinque";*/
-  font-family: "blackmoor";
-  font-size: 16pt;
+.arm5eSubTabs {
+  border: 0px !important; /* Override Foundry core tab border */
+  /*
+  background-image: url("../assets/bBronce.png");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+  */
+  height: 20px;
+}
+
+.techLabel {
+  /* See grouped rule above with .section-title and .formLabel */
+  padding-top: 5px;
+}
+
+.blueBar,
+.arm5eTabsPC {
+  background-image: url("../assets/PC/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.brownBar,
+.arm5eTabsNPC {
+  background-image: url("../assets/NPC/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.greenBar,
+.arm5eTabsLAB {
+  background-image: url("../assets/Lab/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.redBar,
+.arm5eTabsCOV {
+  background-image: url("../assets/covenant/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.purpleBar,
+.arm5eTabsCOD {
+  background-image: url("../assets/codex/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.blackBar,
+.arm5eTabsNEUTRAL {
+  background-image: url("../assets/neutral/bar.webp");
+  background-repeat: repeat-x;
+  background-position-y: bottom;
+}
+
+.arm5eTabs .item,
+.arm5eSubTabs .item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 .arm5e .tabs .item.active {
   /*text-decoration: underline;*/
   text-shadow: none;
+  align-items: center;
+  gap: 5px;
 }
 
-.posRelative{
-  position: relative;
+.arm5e .tabs .item span,
+.arm5eTabs .item span {
+  flex: 0 0 auto;
 }
-.navItem-right-ball{
-  position: absolute;
+
+.navItem-right-ball {
+  /* position: absolute; */
   border: 0px;
   top: 0px;
-  left: -1px;
+  left: -15px;
   text-decoration: none;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
 }
-.navItem-right-ball img{
+
+img.art-icon {
+  display: block;
+  height: 30px;
+  width: 30px;
+}
+
+.navItem-right-ball img {
   border: 0px;
   width: 14px;
 }
-.navItem-left-ball{
-  position: absolute;
-  border: 0px;
-  top: 0px;
-  left: calc(100% - 14px);
-  text-decoration: none;
-}
-.navItem-left-ball img{
+
+.arm5eSubTabs .navItem-right-ball img {
+  padding-top: 0px;
   border: 0px;
   width: 14px;
 }
-.posRelative div{
+
+.navItem-left-ball {
+  /* position: absolute; */
+  border: 0px;
+  top: 0px;
+  right: -15px;
+  text-decoration: none;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.navItem-left-ball img {
+  border: 0px;
+  width: 14px;
+}
+
+.arm5eSubTabs .navItem-left-ball img {
+  padding-top: 0px;
+  border: 0px;
+  width: 14px;
+}
+
+/* Show/hide only decorative side balls around active tabs. */
+.arm5eTabs .item .navItem-left-ball,
+.arm5eTabs .item .navItem-right-ball,
+.arm5eSubTabs .item .navItem-left-ball,
+.arm5eSubTabs .item .navItem-right-ball {
   display: none;
 }
-.posRelative.active div{
-  display: block;
+
+.arm5eTabs .item.active .navItem-left-ball,
+.arm5eTabs .item.active .navItem-right-ball,
+.arm5eSubTabs .item.active .navItem-left-ball,
+.arm5eSubTabs .item.active .navItem-right-ball {
+  display: flex;
 }
 
 .arm5e .items-list {
   list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.arm5e .effects-list {
+  list-style: none;
   margin: 7px 0;
   padding: 0;
   overflow-y: auto;
-  min-height: 200px;
+  scrollbar-gutter: stable; /* Reserve scrollbar space to prevent layout shift */
+  min-height: 216px;
 }
 
-.arm5e .items-list .item-header {
+.filter-item {
+  background-image: unset;
+  border-bottom: 1px solid #232322;
+}
+
+/* .arm5e .items-list .item-header {
   font-weight: bold;
+} */
+
+.metalic-bar {
+  position: relative;
+  margin-bottom: 12px;
 }
 
-.item-header{
-  border:0px !important;
-  background-image: url("../assets/bSilver.png");
+.item-header {
+  border: 0px !important; /* Override Foundry core item header border */
   background-repeat: repeat-x;
   background-position-y: bottom;
-  min-height: 40px;
-  margin-bottom: 12px !important;
+  /* min-height: 40px; */
+  /* margin-bottom: 12px !important; */
   position: relative;
 }
 
-.item-right-ball{
+.item-right-ball {
   position: absolute;
   border: 0px;
-  top: 33px;
-  left: -1px;
-  text-decoration: none;
-}
-.item-right-ball img{
-  border: 0px;
-  width: 10px;
-}
-
-.item-left-ball{
-  position: absolute;
-  border: 0px;
-  top: 33px;
+  top: -4px;
   left: calc(100% - 10px);
   text-decoration: none;
 }
-.item-left-ball img{
+
+.right-ball {
+  position: absolute;
+  border: 0px;
+  top: 21px;
+  left: -1px;
+  text-decoration: none;
+}
+
+.left-ball {
+  /* position: absolute; */
+  border: 0px;
+  top: 21px;
+  left: 10px;
+  text-decoration: none;
+}
+
+.right-ball img,
+.item-right-ball img {
   border: 0px;
   width: 10px;
 }
 
-.arm5e .item-name{
-  /*font-family: "vinque";*/
-  font-family: "blackmoor";
+.item-left-ball {
+  position: absolute;
+  /* left: 10px; */
+  border: 0px;
+  top: -4px;
+  text-decoration: none;
+}
+
+.left-ball img,
+.item-left-ball img {
+  border: 0px;
+  width: 10px;
+}
+
+.arm5e .item-name {
+  font-family: var(--font-header);
+  margin-bottom: 4px;
+  font-size: 12pt;
+  /*font-weight: bold;*/
+}
+
+.arm5e .codex-name {
+  font-family: var(--font-header);
   margin-bottom: 6px;
-  font-size: 18px;
-  font-weight: bold;
+  padding-top: 5px;
+  font-size: 13pt;
+  text-align: center;
 }
 
 .arm5e .items-list .item {
-  height: 30px;
+  /*height: 30px;*/
   line-height: 24px;
   padding: 3px 0;
   /*border-bottom: 1px solid #BBB;*/
 }
 
-.arm5e .items-list .item .item-image {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 24px;
-  flex: 0 0 24px;
+.arm5e .items-list .item .item-image,
+.message-header .item-image,
+.message-sender .speaker-image {
+  flex: 0 0 45px;
   margin-right: 5px;
+  max-width: fit-content;
+  object-fit: contain;
+}
+
+.arm5e .items-list .item .item-image-tiny {
+  flex: 0 0 30px;
+  margin-right: 5px;
+  object-fit: contain;
+}
+
+.arm5e .vignette {
+  flex: 0 0 24px;
+  max-height: 25px;
+  margin: 2px;
+}
+
+.arm5e .wound-field {
+  max-width: 50px;
+  min-width: 50px;
+}
+
+.arm5e .wound-label {
+  max-width: 50px;
+  min-width: 50px;
+  font-size: 9pt;
 }
 
 .arm5e .items-list .item img {
   display: block;
 }
 
-.arm5e .items-list {
-  margin: 0;
+.arm5e .items-list .item-controls.header {
+  flex: 0 0 140px;
+  text-align: right;
+  margin-right: 8px;
 }
 
 .arm5e .items-list .item-controls {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 86px;
   flex: 0 0 86px;
   text-align: right;
   margin-right: 8px;
 }
 
-.arm5e .item-value{
+.arm5e .items-list .item-controlsFam {
+  flex: 0 0 43px;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.arm5e .item-value {
+  min-height: 56px;
+  height: auto;
+  border-bottom: 1px solid #bebcb8;
+  /* 2px solid #cba44b;*/
+}
+
+.arm5e .item-title {
+  font-family: var(--font-book-bold);
+  /*font-weight: bold;*/
+  font-size: 10pt;
+  padding-left: 20px;
+}
+.arm5e .item-attribute label {
+  font-family: var(--font-book-bold);
+  /*font-weight: bold;*/
+  font-size: 9pt;
+  padding-left: 20px;
+  flex-grow: 0;
+}
+
+.arm5e .spell-list .item img {
+  display: block;
+}
+
+.arm5e .spell-list {
+  margin: 0;
+  padding-left: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Codex V2 tabs are flex containers; force list bodies to fill available width. */
+.arm5e .actor-magic-codex .tab.flexrow {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.arm5e .spell-list .item-controls {
+  flex: 0 0 86px;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.arm5e .spell-value {
   min-height: 56px;
   border-bottom: 2px solid #cba44b;
 }
-.arm5e .item-title{
-  font-weight: bold;
-  font-size: 17px;
+
+.arm5e .spell-title {
+  /*font-weight: bold;*/
+  font-size: 10pt;
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+.arm5e .spell-desc {
+  font-size: 10px;
   padding-left: 20px;
 }
-.arm5e .link{
-  color: #000;
+
+/* Codex V2: the tab <div> IS the [data-application-part] element (Foundry sets the attribute
+   directly on the template root). So target .window-content > .tab, not a wrapper. */
+.actor-magic-codex .window-content > .tab {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* When any actor sheet is narrowed, allow the tabs nav to wrap onto multiple rows.
+   !important beats Foundry core flex-flow: row nowrap set on nav.tabs and
+   body.game .app .tabs at varying specificities. */
+.arm5e.sheet.actor [data-application-part="tabs"] {
+  flex: 0 0 auto;
+}
+.arm5e.sheet.actor [data-application-part="tabs"] nav {
+  flex-wrap: wrap;
+  height: auto;
+}
+
+.actor-magic-codex .window-content > .tab > .spell-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.arm5e .link {
+  color: var(--arm5e-c-black);
   cursor: pointer;
   text-decoration: none;
 }
-.arm5e .link:hover .link:focus{
-  color: #000;
+
+.arm5e .link:hover .link:focus {
+  color: var(--arm5e-c-black);
   text-shadow: 0 0 10px red;
   cursor: pointer;
 }
 
-.width4 {
-  flex-grow: 4;
-}
-.width3{
-  flex-grow: 3;
-}
-.width2{
-  flex-grow: 2;
-}
-.width15{
-  flex-grow: 1.5;
-}
-.flex01{
-  flex: 0.1;
-}
-.flex02{
-  flex: 0.2;
-}
-.flex03{
-  flex: 0.3;
-}
-.flex04{
-  flex: 0.4;
-}
-.flex05{
-  flex: 0.5;
-}
-.flex06{
-  flex: 0.6;
-}
-.flex07{
+/* Removed duplicate width/flex utility classes; canonical definitions above apply */
+
+.flex07 {
   flex: 0.7;
 }
-.flex08{
+
+.flex08 {
   flex: 0.8;
 }
 
-.arm5e .backSection{
-  background-color: rgb(226 199 130 / 50%);
+.arm5e .backSection {
+  background-color: rgb(236 222 187 / 50%);
+  /* rgb(226 199 130 / 50%); */
   border: 0px;
-  border-radius: 4px;
-  box-shadow: 3px 3px 3px rgb(0 0 0 / 28%);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-card);
+  width: 100%;
 }
-.arm5e .padding12{
-  padding: 12px;
+
+.arm5e .smallBackSection.wide {
+  min-width: 98px;
+  /* max-height: 60px; */
 }
-.arm5e .margintop6{
-  margin-top: 6px;
+
+.arm5e .smallBackSection.fit {
+  min-width: fit-content;
+  max-width: fit-content;
+  /* max-height: fit-content; */
 }
-.arm5e .marginbot6{
-  margin-bottom: 6px;
+
+.arm5e .smallBackSection.editable {
+  background-color: rgb(208 182 130 / 50%);
 }
-.arm5e .margintop18{
+.arm5e .smallBackSection {
+  background-color: rgb(236 222 187 / 50%);
+  /* rgb(226 199 130 / 50%); */
+  border: 0px;
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-card);
+  /* margin-right: 10px; */
+  margin-bottom: 5px;
+  max-height: 100px;
+}
+
+/* Removed duplicate padding/margin utility classes; canonical definitions above apply */
+
+.arm5e .padding12x5 {
+  padding: 5px 12px;
+}
+
+.arm5e-roll .modifier,
+.arm5e .modifier {
+  width: 35px;
+  max-width: 35px;
+  text-align: center;
+}
+
+/* .padding2 duplicate removed; see utilities section above */
+
+.arm5e .marginbot12 {
+  margin-bottom: 12px;
+}
+
+.arm5e .margintop18 {
   margin-top: 18px;
 }
-.arm5e .smallTitle{
-  /*font-family: "vinque";*/
-  font-family: "blackmoor";
-  margin-bottom: 6px;
-  font-size: 18px;
+
+.marginsides3 {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.marginsides6 {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.marginsides10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.marginsides16 {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.marginsides20 {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.marginsides24 {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.marginsides32 {
+  margin-left: 32px;
+  margin-right: 32px;
+}
+
+.marginItemPart {
+  margin-left: 36px;
+  margin-right: 20px;
+}
+.arm5e .smallTitle {
+  font-family: var(--font-header);
+  margin-bottom: 0px;
+  font-size: 12pt;
+}
+
+.arm5e .bold {
   font-weight: bold;
 }
-.arm5e .bold{
-  font-weight: bold;
+
+.arm5e .marginRight8 {
+  margin-right: 8px;
+}
+
+.arm5e .marginSide8 {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.arm5e .paddingSide18 {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+
+.arm5e .fontSize10 {
+  font-size: 10pt;
+}
+
+.arm5e .fontSize8 {
+  font-size: 8pt;
+}
+
+/* Removed duplicate covenant-tooltip styling; consolidated canonical definition above applies */
+
+body h3.covenant-tooltip {
+  font-family: var(--font-book-bold);
+  font-size: 15px;
+  color: var(--arm5e-c-black);
+}
+
+img.img-tooltip {
+  flex: 0 0 200px;
+  height: 200px;
+  object-fit: contain;
+
+  background-color: var(--arm5e-c-beige);
+}
+
+#tooltip.active.img-tooltip {
+  visibility: visible;
+  opacity: 1;
+  margin: 0px;
+  padding: 0px;
+  transition: opacity 500ms;
+  background-color: var(--arm5e-c-beige);
+}
+
+#tooltip.active.covenant-tooltip,
+.locked-tooltip.active {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+#template-content {
+  position: relative;
+  margin-top: 12px;
+  padding-right: 18px;
+  box-sizing: border-box;
+}
+
+#top-right-icon {
+  position: absolute;
+  top: -15px;
+  right: 2px;
+}
+
+.template-label {
+  text-align: center;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-style: solid;
+  border-width: 0px 1px 1px 0px;
+}
+
+select.template-select {
+  width: 100%;
+  min-width: 0;
+  max-width: 140px;
+}
+
+#template-content select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+select.textValue,
+select.charType,
+select.seasons,
+select.preps {
+  min-width: 120px;
+  max-width: 130px;
+}
+
+select.numValue {
+  min-width: 50px;
+  max-width: 50px;
+}
+
+/* dice stuff */
+li.roll.stressdieinternal.d10.exploded.min,
+li.roll.stressdie.d10.exploded.min {
+  color: #065d12;
+  filter: sepia(0.5) hue-rotate(60deg);
+}
+
+.ars-pause {
+  animation-duration: 20s;
+  opacity: 0.6;
 }

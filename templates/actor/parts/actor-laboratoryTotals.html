@@ -1,0 +1,100 @@
+<div class="characteristics grid backSection margintop18">
+  <header class="arts-total-header grid-6col flexrow flex-group-center">
+    <div class="techLabel">{{localize "arm5e.sheet.labTotal"}}</div>
+    {{#each system.arts.techniques as |technique key|}}
+      <div class="techLabel flexcol"><img src="{{systemPath}}assets/magic/{{key}}.png" class="art-icon"
+          {{{technique.ui.style}}} /><label>{{label}}</label>
+      </div>
+
+    {{/each}}
+  </header>
+  <ol class="form-list grid-6col">
+    {{#each system.arts.forms as |form key|}}
+
+      <li class="flexrow flex-group-center" style="padding-right: 10px; padding-left: 10px">
+
+        <div class="formLabel flexcol"><img src="{{systemPath}}assets/magic/{{key}}.png" class="art-icon"
+            {{{form.ui.style}}} /><label>{{label}}</label>
+        </div>
+        {{#each ../system.arts.techniques as |technique k2|}}
+          <div class="lab-total-char flexrow flex-group-center" {{{lookup (lookup ( lookup @root.system.labTotals key)
+            k2) 'ui' }}}>{{lookup (lookup ( lookup @root.system.labTotals key) k2) "total"}}</div>
+        {{/each}}
+      </li>
+    {{/each}}
+  </ol>
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="">{{localize "arm5e.spell.applyFocus" }}</label>
+      <input type="checkbox" name="system.labTotal.applyFocus" {{checked system.labTotal.applyFocus}} />
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="">{{localize "arm5e.sheet.aura" }}</label>
+      {{numberInput system.labTotal.aura name="system.labTotal.aura" step=1}}
+      <!-- <input
+        type="number"
+        name="system.labTotal.aura"
+        value="{{numberFormat system.labTotal.aura decimals=0 sign=true }}"
+      /> -->
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="">{{localize "arm5e.sheet.laboratory" }} {{localize "arm5e.sheet.quality" }}</label>
+      {{numberInput system.labTotal.quality name="system.labTotal.quality" step=1}}
+      <!-- <input
+        type="number"
+        name="system.labTotal.quality"
+        value="{{numberFormat system.labTotal.quality decimals=0 sign=true }}"
+      /> -->
+    </div>
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="">{{localize "arm5e.sheet.modifier" }}</label>
+      {{numberInput system.labTotal.modifier name="system.labTotal.modifier" step=1}}
+      <!-- <input
+        type="number"
+        name="system.labTotal.modifier"
+        value="{{numberFormat system.labTotal.modifier decimals=0 sign=true }}"
+      /> -->
+    </div>
+  </div>
+</div>
+<div class="backSection margintop18" style="padding-bottom: 1px">
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label class="smallTitle">{{localize "arm5e.sheet.labHelp"}}</label>
+    </div>
+
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="system.apprentice.name" class="bold">{{localize "arm5e.sheet.name"}}</label>
+      <input type="text" name="system.apprentice.name" value="{{system.apprentice.name }}" data-dtype="String" />
+    </div>
+
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="system.apprentice.age" class="bold">{{localize "arm5e.sheet.age"}}</label>
+      <input type="number" name="system.apprentice.age" value="{{system.apprentice.age }}" data-dtype="Number" />
+    </div>
+  </div>
+
+  <div class="characteristics grid grid-3col">
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="system.apprentice.int" class="bold">{{localize "arm5e.sheet.int"}}</label>
+      {{numberInput system.apprentice.int name="system.apprentice.int" step=1}}
+      <!-- <input
+        type="number"
+        name="system.apprentice.int"
+        value="{{numberFormat system.apprentice.int decimals=0 sign=true }}"
+        data-dtype="Number"
+      /> -->
+    </div>
+
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="system.apprentice.magicTheory" class="bold">{{localize "arm5e.skill.arcane.magicTheory"}}</label>
+      <input type="number" name="system.apprentice.magicTheory" value="{{system.apprentice.magicTheory }}"
+        data-dtype="Number" />
+    </div>
+
+    <div class="flexrow flex-group-center" style="border: 0px">
+      <label for="system.apprentice.years" class="bold">{{localize "arm5e.sheet.years"}}</label>
+      <input type="number" name="system.apprentice.years" value="{{system.apprentice.years }}" data-dtype="Number" />
+    </div>
+  </div>
+</div>

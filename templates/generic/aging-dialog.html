@@ -1,0 +1,24 @@
+<form class="{{cssClass}} arm5e-prompt aging" autocomplete="off">
+  {{> (systemPath "templates/roll/parts/roll-header.hbs") header="Aging"}}
+  <div class="flex-group-left backSection" style="padding: 25px; inline-size: 400px">
+    <div class="flexrow flex-group-center">
+      <!-- <div class="flexrow marginbot6" style="padding: 5px"> -->
+      <label class="" style="font-size: 16px">{{localize seasonLabel}} {{year}}</label>
+      <!-- </div> -->
+    </div>
+    <div class="flexrow flex-group-center">
+      <label class=""></label>
+    </div>
+    <div class="flexrow flex-group-center" style="padding: 5px">
+      <label>{{localize desc}}</label>
+    </div>
+    {{#if choice}}
+      <div class="flexrow marginbot6" style="padding: 5px">
+        <select class="SelectedCharacteristic" name="char" data-type="String">
+          {{selectOptions chars selected=char labelAttr=label localize=true}}
+        </select>
+      </div>
+    {{/if}}
+  </div>
+  {{> (systemPath "templates/roll/parts/roll-footer.hbs") footer="Aging"}}
+</form>

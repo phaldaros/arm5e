@@ -1,7 +1,27 @@
 # IDE
 .idea/
 .vs/
+foundry-config.yaml
+foundry
 
 # Node Modules
+package*.json
 node_modules/
 npm-debug.log
+jsconfig.json
+test.js
+.npmignore
+TODO.txt
+foundry.js
+packs/**
+.eslintrc.json
+website/UserGuide/.obsidian
+arm5e.lock
+CommitChangeNotes.md
+*.json.bak
+
+.vscode/settings.json
+*.code-workspace
+
+# copilot ramblings
+zzz_copilot/**

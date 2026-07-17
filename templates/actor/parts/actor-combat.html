@@ -1,161 +1,258 @@
-<div class="backSection padding12 margintop18">
+<div class="combat-section backSection padding12 margintop18">
   <div class="grid grid-4col">
-    <div class="flexrow flex-group-left" style="border:0px">
-      <label class="smallTitle">
-        <a class="link" href="/systems/arm5e/pdf/combat.pdf" target="_blank">
-          {{localize "arm5e.sheet.combat"}}
-        </a>
+    <div class="flexrow flex-group-left border-0">
+      <span class="section-title" title="{{localize 'arm5e.sheet.combatInstructions1'}}">
+        {{localize "arm5e.sheet.combat.label"}}
+      </span>
+
+    </div>
+    <div class="flexrow flex-group-center border-0">
+      <label>
+        {{localize "arm5e.sheet.combat.preparation"}}
       </label>
+      <select title="{{system.combat.itemList}}" class="preps" name="system.combatPreps.current" data-dtype="String">
+        {{selectOptions system.combatPreps.list selected=system.combatPreps.current labelAttr="name" }}
+      </select>
+    </div>
+    <div class="preps-controls flexcol">
+      <div><br /></div>
+      <div>
+        <a class="prep-create" data-action="prepCreate"
+          title='{{localize "arm5e.hints.create" item=(localize "arm5e.sheet.combat.preparation")}}'>
+          <i class="fas fa-plus"></i>{{localize "arm5e.sheet.action.Create"}}</a>
+        <a class="prep-delete" data-action="prepDelete"
+          title='{{localize "arm5e.hints.delete" item=(localize "arm5e.sheet.combat.preparation")}}'>
+          <i class="ars-Icon_Delete_Hand_Gesture"></i></a>
+      </div>
+      {{#unless system.combat.valid}}
+        <label class="error">
+          {{localize "arm5e.generic.invalid"}}
+        </label>
+      {{/unless}}
     </div>
 
-    <div class="flexrow flex-group-center" style="border:0px">
-      <br />
+    <div class="flexrow flex-group-center border-0">
+      <label class="item-title">{{localize "arm5e.sheet.encumbrance"}} </label>
+      <input type="number" name="system.combat.overload" readonly value="{{system.combat.overload }}"
+        data-dtype="Number" style="margin-left: 10px;" />
     </div>
-    <div class="flexrow flex-group-center" style="border:0px">
-      <br />
-    </div>
-
-    <div class="flexrow flex-group-center" style="border:0px">
-      <label class="item-title">{{localize "arm5e.sheet.weight"}}</label>
-      <input type="text" name="data.combat.weight" readonly value="{{actor.data.combat.weight }}" data-dtype="Number" />
-    </div>
-
   </div>
+  <div class="flexcol gap-0">
+    <div class="flexrow flex-group-left">
+      <div class="flexrow">
 
-  <div class="grid grid-2col " style="gap: 0px;">
-
-      <div class="flexrow flex-group-left">
-        <label class="item-title flex-group-left rollable"
-          data-roll="option"
-          data-option1="{{ data.characteristics.qik.value }}"  data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
-          data-option2="{{ data.combat.init }}"  data-txtoption2='{{ localize "arm5e.sheet.initiative" }}'
-          data-option3="{{ data.combat.overload }}"  data-txtoption3='{{ localize "arm5e.sheet.weight" }}'
-        >{{localize "arm5e.sheet.initiative"}}:</label>
-        <!-- quick + init - weight + stres die -->
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.quickness"}}</label>
-          <input type="text" name="data.qik" readonly value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.initiative"}}</label>
-          <input type="text" name="data.combat.init" readonly value="{{numberFormat actor.data.combat.init decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.weight"}}</label>
-          <input type="text" name="data.combat.overload" readonly value="{{numberFormat actor.data.combat.overload decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
+        <button class="arm5e rollable" data-action="roll" data-roll="init"
+          data-name='{{localize "arm5e.sheet.initiative"}}'>
+          <img src="{{systemPath}}assets/dice.png" class="flex0 dice-icon">
+          {{localize "arm5e.sheet.initiative"}}</button>
       </div>
-
-      <div class="flexrow flex-group-center"><br /></div>
-
-      <div class="flexrow flex-group-left">
-        <label class="item-title flex-group-left rollable"
-          data-roll="option"
-          data-option1="{{ data.characteristics.dex.value }}"  data-txtoption1='{{ localize "arm5e.sheet.dexterity" }}'
-          data-option2="{{ data.combat.ability }}"  data-txtoption2='{{localize "arm5e.sheet.ability"}}'
-          data-option3="{{ data.combat.atk }}"  data-txtoption3='{{localize "arm5e.sheet.attack"}}'
-        >{{localize "arm5e.sheet.attack"}}:</label>
-        <!-- dex + ability + weapon + stres die -->
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.dexterity"}}</label>
-          <input type="text" name="data.dex" readonly value="{{numberFormat data.characteristics.dex.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.ability"}}</label>
-          <input type="text" name="data.combat.ability" readonly value="{{numberFormat actor.data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.attack"}}</label>
-          <input type="text" name="data.combat.atk" readonly value="{{numberFormat actor.data.combat.atk decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
+      <!-- quick + init - encumb + stres die -->
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.quickness"}}</label>
+        <input type="text" readonly value="{{numberFormat system.characteristics.qik.value decimals=0 sign=true}}"
+          data-dtype="Number" disabled class="max-w-70" />
       </div>
-
-      <div class="flexrow flex-group-left">
-        <label class="item-title flex-group-left rollable"
-          data-roll="option"
-          data-option1="{{ data.characteristics.qik.value }}"  data-txtoption1='{{ localize "arm5e.sheet.quickness" }}'
-          data-option2="{{ data.combat.ability }}"  data-txtoption2='{{localize "arm5e.sheet.ability"}}'
-          data-option3="{{ data.combat.dfn }}"  data-txtoption3='{{localize "arm5e.sheet.attack"}}'
-        >{{localize "arm5e.sheet.defense"}}:</label>
-        <!-- quick + ability + weapon + stres die -->
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.quickness"}}</label>
-          <input type="text" name="data.qik" readonly value="{{numberFormat data.characteristics.qik.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.ability"}}</label>
-          <input type="text" name="data.combat.ability" readonly value="{{numberFormat actor.data.combat.ability decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.defense"}}</label>
-          <input type="text" name="data.combat.dfn" readonly value="{{numberFormat actor.data.combat.dfn decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
+      <div class="flex0 flex-group-center">
+        <label>+</label>
       </div>
-
-      <div class="flexrow flex-group-left">
-        <label class="item-title flex-group-left">{{localize "arm5e.sheet.damage"}}:</label>
-        <!-- str + weapon + attack ventage -->
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.strength"}}</label>
-          <input type="text" name="data.str" readonly value="{{numberFormat data.characteristics.str.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.damage"}}</label>
-          <input type="text" name="data.combat.dam" readonly value="{{numberFormat actor.data.combat.dam decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.attackAdvantage"}}</label>
-        </div>
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.initiative"}}</label>
+        <input type="text" name="system.combat.init" readonly
+          value="{{numberFormat system.combat.init decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
       </div>
-
-      <div class="flexrow flex-group-left">
-        <label class="item-title flex-group-left">{{localize "arm5e.sheet.soak"}}:</label>
-        <!-- str + weapon + attack ventage -->
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.stamina"}}</label>
-          <input type="text" name="data.sta" readonly value="{{numberFormat data.characteristics.sta.value decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
-        <div class="flexcol flex-group-center" style="flex: 0 0 20px">
-          <label class="item-title">+</label>
-        </div>
-        <div class="flexcol flex-group-center">
-          <label>{{localize "arm5e.sheet.protection"}}</label>
-          <input type="text" name="data.combat.prot" readonly value="{{numberFormat actor.data.combat.prot decimals=0 sign=true}}" data-dtype="Number" />
-        </div>
+      <div class="flex0 flex-group-center">
+        <label>-</label>
       </div>
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.encumbrance"}}</label>
+        <input type="text" name="system.combat.overload" readonly
+          value="{{numberFormat system.combat.overload decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
+      </div>
+      <div class="flex0 flex-group-center">
+        <label>=</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <input class="combat-total max-w-70 text-12pt" type="text" name="combat.init" readonly
+          value="{{numberFormat combat.init decimals=0 sign=true}}" data-dtype="Number" disabled />
+      </div>
+    </div>
 
+
+    <div class="flexrow flex-group-left">
+      <div class="flexrow">
+        <button class="arm5e rollable" data-action="roll" data-roll="attack"
+          data-name='{{localize "arm5e.sheet.attack"}}'>
+          <img src="{{systemPath}}assets/dice.png" class="flex0 dice-icon">
+          {{localize "arm5e.sheet.attack"}}</button>
+      </div>
+      <!-- dex + ability + weapon + stres die -->
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.dexterity"}}</label>
+        <input type="text" readonly value="{{numberFormat system.characteristics.dex.value decimals=0 sign=true}}"
+          data-dtype="Number" disabled class="max-w-70" />
+      </div>
+      <div class="flex0 flexcol flex-group-center">
+        <label>+</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.ability"}}</label>
+        <input type="text" name="system.combat.ability" readonly
+          value="{{numberFormat system.combat.ability decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
+      </div>
+      <div class="flex0 flexcol flex-group-center">
+        <label>+</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.attack"}}</label>
+        <input type="text" name="system.combat.atk" readonly
+          value="{{numberFormat system.combat.atk decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
+      </div>
+      <div class="flex0 flex-group-center">
+        <label>=</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <input class="combat-total max-w-70 text-12pt" type="text" name="combat.attack" readonly
+          value="{{numberFormat combat.attack decimals=0 sign=true}}" data-dtype="Number" disabled />
+      </div>
+    </div>
+
+    <div class="flexrow flex-group-left">
+      <div class="flexrow">
+        <button class="arm5e rollable" data-action="roll" data-roll="defense"
+          data-name='{{localize "arm5e.sheet.defense"}}'>
+          <img src="{{systemPath}}assets/dice.png" class="dice-icon">
+          {{localize "arm5e.sheet.defense"}}</button>
+      </div>
+      <!-- quick + ability + weapon + stres die -->
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.quickness"}}</label>
+        <input type="text" readonly value="{{numberFormat system.characteristics.qik.value decimals=0 sign=true}}"
+          data-dtype="Number" disabled class="max-w-70" />
+      </div>
+      <div class="flex0 flexcol flex-group-center">
+        <label>+</label>
+      </div>
+      <div class="flexcol flex-group-center padding2">
+        <label>{{localize "arm5e.sheet.ability"}}</label>
+        <input type="text" name="system.combat.ability" readonly
+          value="{{numberFormat system.combat.ability decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
+      </div>
+      <div class="flex0 flexcol flex-group-center">
+        <label>+</label>
+      </div>
+      <div class="flexcol flex-group-center padding2">
+        <label>{{localize "arm5e.sheet.defense"}}</label>
+        <input type="text" name="system.combat.dfn" readonly
+          value="{{numberFormat system.combat.dfn decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
+      </div>
+      <div class="flex0 flex-group-center">
+        <label>=</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <input class="combat-total max-w-70 text-12pt" type="text" name="combat.defense" readonly
+          value="{{numberFormat combat.defense decimals=0 sign=true}}" data-dtype="Number" disabled />
+      </div>
+    </div>
+
+    <div class="flexrow flex-group-left">
+      <div class="flexrow">
+        <!-- <img src="{{systemPath}}assets/icons/Icon_Hammer.png" class="flex0" style="border: 0px; height: 20px"> -->
+        <button class="arm5e clickable damage pl-0" data-action="calculateDamage" data-roll="combatDamage"><i
+            class="ars-Icon_Soak text-12pt"></i>{{localize "arm5e.damage.label"}}</button>
+
+      </div>
+      <!-- str + weapon + attack advantage -->
+      <div class="flexcol flex-group-center padding2">
+        <label>{{localize "arm5e.sheet.strength"}}</label>
+        <input type="text" readonly value="{{numberFormat system.characteristics.str.value decimals=0 sign=true}}"
+          data-dtype="Number" disabled class="max-w-70" />
+      </div>
+      <div class="flex0 flexcol flex-group-center">
+        <label>+</label>
+      </div>
+      <div class="flexcol flex-group-center padding2">
+        <label>{{localize "arm5e.damage.label"}}</label>
+        <input type="text" name="system.combat.dam" readonly
+          value="{{numberFormat system.combat.dam decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
+      </div>
+      <div class="flex0 flex-group-center">
+        <label>=</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <input class="combat-total max-w-70 text-12pt" type="text" name="combat.damage" readonly
+          value="{{numberFormat combat.damage decimals=0 sign=true}}" data-dtype="Number" disabled />
+      </div>
+      <div class="flex0 flexcol flex-group-center">
+        <label>+</label>
+      </div>
+      <div class="flexcol flex-group-center padding2">
+        <label>{{localize "arm5e.sheet.attackAdvantage"}}</label>
+      </div>
+    </div>
+
+    <div class="flexrow flex-group-left">
+      <div class="flexrow">
+        <button class="arm5e clickable soak-damage pl-0" data-action="soakDamage"
+          data-name='{{localize "arm5e.sheet.soak"}}' data-option1="{{ system.characteristics.sta.value }}"
+          data-txtoption1='{{ localize "arm5e.sheet.stamina" }}' data-option2="{{  system.combat.prot }}"
+          data-txtoption2='{{localize "arm5e.sheet.protection"}}'><i class="ars-Icon_Soak text-12pt"></i>
+          {{localize "arm5e.sheet.soak"}}</button>
+
+      </div>
+      <!-- sta + prot + damage -->
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.stamina"}}</label>
+        <input type="text" readonly value="{{numberFormat system.characteristics.sta.value decimals=0 sign=true}}"
+          data-dtype="Number" disabled class="max-w-70" />
+      </div>
+      <div class="flex0 flex-group-center">
+        <label>+</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <label>{{localize "arm5e.sheet.protection"}}</label>
+        <input type="text" name="system.combat.prot" readonly
+          value="{{numberFormat system.combat.prot decimals=0 sign=true}}" data-dtype="Number" disabled
+          class="max-w-70" />
+      </div>
+      {{#unless (eq system.bonuses.traits.soak 0)}}
+        <div class="flex0 flex-group-center">
+          <label>+</label>
+        </div>
+        <div class="flexcol flex-group-center">
+          <label>{{localize "arm5e.sheet.bonus.label"}}</label>
+          <input type="text" name="system.combat.prot" readonly
+            value="{{numberFormat system.bonuses.traits.soak decimals=0 sign=true}}" data-dtype="Number" disabled
+            class="max-w-70" />
+        </div>
+      {{/unless}}
+      <div class="flex0 flex-group-center">
+        <label>=</label>
+      </div>
+      <div class="flexcol flex-group-center">
+        <input class="combat-total max-w-70 text-12pt" type="text" name="combat.soak" readonly
+          value="{{numberFormat combat.soak decimals=0 sign=true}}" data-dtype="Number" disabled />
+      </div>
+      <div class="flex0 flex-group-center">
+        <label>vs</label>
+      </div>
+      <div class="flexcol flex-group-center padding2">
+        <label>{{localize "arm5e.damage.label"}}</label>
+      </div>
+    </div>
+
+    <!-- <div class="flex0 flexrow flex-group-left" style="width:200px; flex:0.2">
+      <span>
+        {{localize "arm5e.sheet.combatInstructions1"}}<br />
+        {{localize "arm5e.sheet.combatInstructions2"}}<br />
+        {{localize "arm5e.sheet.combatInstructions3"}}
+      </span>
+    </div> -->
   </div>
-
-  <div class="flexrow flex-group-left">
-    <span>
-      {{localize "arm5e.sheet.combatInstructions1"}}<br />
-      {{localize "arm5e.sheet.combatInstructions2"}}<br />
-      {{localize "arm5e.sheet.combatInstructions3"}}
-    </span>
-  </div>
-
 </div>

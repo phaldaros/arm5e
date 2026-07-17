@@ -1,0 +1,25 @@
+<div class="tab {{ tab.cssClass }} laboratory" data-group="primary" data-tab="laboratory">
+  <div class="flexcol">
+    {{> (systemPath "templates/generic/parts/ars-tab-navigation.hbs") tabs=subtabs}}
+    <div class="marginsides32">
+      {{> (systemPath "templates/generic/metalic-bar.html") }}
+    </div>
+    <section class="lab-body">
+      <div
+        class="tab{{#if subtabs.lab.active}} active{{/if}} item flexcol marginsides32"
+        data-group="lab-secondary"
+        data-tab="lab"
+      >
+        {{> (systemPath "templates/actor/parts/actor-laboratory-v2.html") }}
+        {{> (systemPath "templates/actor/parts/actor-familiar.html") }}
+      </div>
+      <div
+        class="tab{{#if subtabs.[lab-total].active}} active{{/if}} item flexcol marginsides32"
+        data-group="lab-secondary"
+        data-tab="lab-total"
+      >
+        {{> (systemPath "templates/actor/parts/actor-laboratoryTotals.html")}}
+      </div>
+    </section>
+  </div>
+</div>

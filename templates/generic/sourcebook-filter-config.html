@@ -1,0 +1,17 @@
+<div autocomplete="off" class="{{ cssClass }} arm5e-config" style="padding: 10px; max-height: 600px; overflow-y: auto;">
+    <h3 class="notes">{{localize "arm5e.config.sourcebookFilter" }}</h3>
+
+    <header class="table-header flexrow">
+        <label class="index">{{ localize "arm5e.config.sourcebooks" }}</label>
+    </header>
+    <!-- <section class="sheet-body" style="height: 800px"> -->
+    <ul class="filters-list">
+        {{#each sourcebooks as |book key|}}
+            <li class="filter form-group">
+                <label class="index">{{ localize book.label }}</label>
+                <input type="checkbox" name="{{key}}" {{checked book.display}} {{book.edit}} />
+            </li>
+        {{/each}}
+    </ul>
+    <!-- </section> -->
+</div>

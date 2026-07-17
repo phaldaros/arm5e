@@ -1,0 +1,78 @@
+<form class="sheet-content flexcol" autocomplete="off">
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" data-tooltip="<img
+      class='img-tooltip'
+      src='{{ item.img }}'/>" data-tooltip-direction="CENTER" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="bigname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+      <div class="grid grid-2col">
+        {{>"systems/arm5e/templates/item/parts/cost.hbs" classes="fit"}}
+        <div class="resource">
+          <label class="">{{localize "arm5e.sheet.weight"}}</label>
+          <input type="number" name="system.weight" value="{{system.weight}}" class="modifier select-on-focus"
+            data-dtype="Number" />
+        </div>
+        {{#if isGM}}
+          <div class="resource">
+            <label class="">{{localize "arm5e.sheet.state.label"}}</label>
+            <input type="text" value="{{localize (lookup config.lab.enchantment.receptacle.state system.state)}}"
+              data-dtype="String" readonly>
+          </div>
+          <div class="resource">
+            <img src="systems/arm5e/assets/icons/Icon_Details_option1.png" class="appraise"
+              title="{{localize 'arm5e.lab.enchantment.item.enable'}}"
+              style="border: 0px; width: 32px; height: 32px;" />
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </header>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item tabArrow flexrow" data-tab="description">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+    {{#if (ne system.state "inert")}}
+      <a class="item tabArrow flexrow" data-tab="enchantments">
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        {{localize "arm5e.sheet.attributes"}}
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      </a>
+      <a class="item tabArrow flexrow" data-tab="effects">
+        <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+        {{localize "arm5e.sheet.effects"}}
+        <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+      </a>
+    {{/if}}
+  </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Description Tab --}}
+    {{#if (eq system.state "inert")}}
+      <div class="tab" data-group="primary" data-tab="description">
+        {{> "systems/arm5e/templates/generic/ars-editor.hbs"
+          content=enrichedDescription
+          target="system.description"
+          editable=editable
+        }}
+      </div>
+    {{else }}
+      <div class="tab" data-group="primary" data-tab="description">
+        {{> "systems/arm5e/templates/item/parts/enchant-desc-section.html" }}
+        {{> "systems/arm5e/templates/item/parts/enchant-attributes-section.html" }}
+      </div> <!-- Description Tab END -->
+      {{> "systems/arm5e/templates/item/parts/enchant-extension.html" }}
+      {{!-- Effects Tab --}}
+      <div class="tab effects" data-group="primary" data-tab="effects" style="overflow-y: scroll">
+        {{> "systems/arm5e/templates/generic/active-effects-tab.hbs" }}
+      </div>
+    {{/if}}
+    {{#if metagame.view }}
+      {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+      {{> "systems/arm5e/templates/generic/source.html" }}
+    {{/if}}
+  </section>
+</form>

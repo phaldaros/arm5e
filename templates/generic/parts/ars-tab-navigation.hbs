@@ -1,0 +1,17 @@
+<div >
+    <nav class="arm5eTabs sheet-tabs tabs {{navClass}} {{#if verticalTabs}} vertical{{/if}} tabArrow flexrow"
+     aria-roledescription="{{localize "SHEETS.FormNavLabel"}}" {{#if navStyle}}style="{{navStyle}}"{{else}}style="margin-bottom:5px"{{/if}}>
+    {{#each tabs as |tab|}}
+        <a data-action="tab" data-group="{{tab.group}}" data-tab="{{tab.id}}"
+            {{#if tab.cssClass}}class="marginsides20 {{tab.cssClass}}"{{/if}}
+            {{#if tab.tooltip}}data-tooltip="{{tab.tooltip}}"{{/if}}>
+            <div class="navItem-left-ball"><img src="{{systemPath}}assets/bLeft.png" /></div>
+            {{#if tab.icon}}<div class="flex0"><i class="{{tab.icon}}" inert></i></div>{{/if}}
+            {{#if tab.label}}<span>{{localize tab.label}}</span>{{/if}}
+            {{#if tab.suffix}}<span>{{tab.suffix}}</span>{{/if}}
+            <div class="navItem-right-ball"><img src="{{systemPath}}assets/bRight.png" /></div>
+        </a>
+    {{/each}}
+
+    </nav>
+</div>

@@ -1,0 +1,83 @@
+<form class="sheet-content flexcol" autocomplete="off">
+  <header class="sheet-header">
+    <img class="item-img" src="{{item.img}}" data-edit="img" data-tooltip="<img
+      class='img-tooltip'
+      src='{{ item.img }}'/>" data-tooltip-direction="CENTER" title="{{item.name}}" />
+    <div class="header-fields">
+      <div class="flexrow">
+        <h1 class="bigname" style="font-size: 24pt;">
+          {{localize "arm5e.lab.enchantment.label"}}
+        </h1>
+      </div>
+
+      <h1 class="bigname"><input name="name" {{noEdit}} type="text" value="{{item.name}}" placeholder="Name" /></h1>
+
+      <div class="grid grid-2col">
+        <div class="resource flexcol flexrow">
+          <label for="system.technique.value" class="">{{localize "arm5e.sheet.technique"}}</label>
+          <select name="system.technique.value" {{noSelect}} data-type="String">
+            {{selectOptions config.magic.techniques selected=system.technique.value labelAttr="label"}}
+          </select>
+        </div>
+        <div class="resource flexcol flexrow">
+          <label for="system.form.value" class="">{{localize "arm5e.sheet.form"}}</label>
+          <select name="system.form.value" {{noSelect}} data-type="String">
+            {{selectOptions config.magic.forms selected=system.form.value labelAttr="label"}}
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-2col">
+
+        <div class="resource flexcol flex-center">
+          <div class="flex0">{{{masteryHint}}}</div>
+        </div>
+        <div class="resource flexcol flex-center">
+          <label class="">{{localize "arm5e.sheet.level"}}</label>
+          <input type="text" {{noEdit}} name="system.level" value="{{system.level}}" data-dtype="Number" />
+        </div>
+      </div>
+    </div>
+  </header>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="arm5eTabs sheet-tabs tabs" data-group="primary">
+    <a class="item tabArrow flexrow" data-tab="spell-design">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.attributes"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+    <a class="item tabArrow flexrow" data-tab="enchantment">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.lab.enchantment.label"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+    <a class="item tabArrow flexrow" data-tab="description">
+      <div class="navItem-left-ball"><img src="systems/arm5e/assets/bLeft.png" /></div>
+      {{localize "arm5e.sheet.description"}}
+      <div class="navItem-right-ball"><img src="systems/arm5e/assets/bRight.png" /></div>
+    </a>
+  </nav>
+  {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+  {{!-- Sheet Body --}}
+  <section class="sheet-body" style="min-height: 266px;">
+    {{!-- Spell Design Tab --}}
+    <div class="tab spell-design" data-group="primary" data-tab="spell-design">
+      {{> "systems/arm5e/templates/item/parts/spell-design.html" }}
+    </div> {{!-- Enchantment Tab --}}
+    <div class="tab enchantment" data-group="primary" data-tab="enchantment">
+      {{> "systems/arm5e/templates/item/parts/enchantment-attributes.html" container="enchantment" 
+       enchantData=this docId=@root.item._id expiryAllowed=true}}
+    </div>
+    {{!-- Description Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{> "systems/arm5e/templates/generic/ars-editor.hbs"
+        content=enrichedDescription
+        target="system.description"
+        editable=editable
+      }}
+      {{#if metagame.view }}
+        {{> "systems/arm5e/templates/generic/metalic-bar.html" }}
+        {{> "systems/arm5e/templates/generic/source.html" }}
+      {{/if}}
+    </div>
+  </section>
+</form>

@@ -1,0 +1,12 @@
+<div class="drop-spell resource" data-drop="spell">
+  <h2 class="flexrow flex01" style="font-size: 12pt;">
+    <input name="{{planning.namePrefix}}name" class="effect-name" title="{{planning.data.name}}" type="text"
+      value="{{planning.data.name}}" placeholder="Name" />
+  </h2>
+  <label class="resource flex01 padd">{{planning.label}}</label>
+  {{> (systemPath "templates/generic/metalic-bar.html") }}
+
+  {{> (systemPath "templates/item/parts/spell-design-alt.html") docId=@root.actor._id container="planning" 
+prefix=planning.namePrefix spelldata=planning.data visibility=@root.ui.sections.visibility.planning ritual=true noApplyFocus=true}}
+
+</div>

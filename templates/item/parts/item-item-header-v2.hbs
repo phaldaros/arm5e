@@ -1,0 +1,62 @@
+<div class="sheet-header-part">
+  <div class="header-background">
+    <img src="{{systemPath}}assets/item/{{ flavor }}_header.png" />
+  </div>
+  <header class="sheet-header marginItemPart">
+    <img
+      class="item-img"
+      src="{{ item.img }}"
+      data-action="editImage"
+      data-edit="img"
+      data-tooltip="<img
+      class='img-tooltip'
+      src='{{ item.img }}'/>"
+      data-tooltip-direction="CENTER"
+      title="{{ item.name }}"
+    />
+    <div class="header-fields flexcol">
+      <h1 class="bigname">
+        <div class="flexrow">
+          <input name="name" type="text" value="{{ item.name }}" title="{{ item.name }}" />
+          {{#if (and editable isOwned)}}
+          <div class="flex0 padding2">
+            <a
+              data-action="itemDeleteConfirm"
+              title="{{localize 'arm5e.hints.delete' item=item.name}}"
+            >
+              <i class="ars-Icon_Delete_Hand_Gesture item-delete-large"></i>
+            </a>
+          </div>
+          {{/if}}
+          {{#if isGM}}
+          <div class="flex0 padding2">
+            <a
+              data-action="enchantmentToggle"
+              title="{{localize 'arm5e.lab.enchantment.item.enable'}}"
+            >
+              <img
+                src="{{systemPath}}assets/icons/Icon_Details_option1.png"
+                style="border: 0px; width: 32px; height: 32px"
+              />
+            </a>
+          </div>
+          {{/if}}
+        </div>
+      </h1>
+      <div class="grid grid-2col">
+        {{> (systemPath "templates/item/parts/cost.hbs") classes='fit'}}
+        <div class="resource">
+          <label>{{localize 'arm5e.sheet.weight'}}</label>
+          <input
+            type="number"
+            name="system.weight"
+            value="{{ system.weight }}"
+            class="modifier select-on-focus"
+            data-dtype="Number"
+          />
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="marginItemPart">{{> (systemPath "templates/generic/metalic-bar.html") }}</div>
+</div>

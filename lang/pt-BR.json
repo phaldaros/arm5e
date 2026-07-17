@@ -1,0 +1,2160 @@
+{
+  "TYPES": {
+    "Actor": {
+      "beast": "Fera",
+      "covenant": "Concílio",
+      "laboratory": "Laboratório",
+      "magicCodex": "Códice Mágico",
+      "npc": "PdM",
+      "player": "Personagem do jogador"
+    },
+    "Item": {
+      "Might": "Potência",
+      "Mightfamiliar": "Potência de familiar",
+      "ability": "Habilidade",
+      "abilityFamiliar": "Habilidade de Familiar",
+      "armor": "Armadura",
+      "baseEffect": "Efeito base (interno)",
+      "book": "Livro",
+      "calendarCovenant": "Evento do calendário (interno)",
+      "diaryEntry": "Registro de Diário (Interno)",
+      "distinctive": "Característica de laboratório (obsoleto)",
+      "enchantment": "Encantamento",
+      "flaw": "Defeito",
+      "habitantCompanion": "Companheiro habitante (obsoleto)",
+      "habitantHorses": "Cavalos do concílio",
+      "habitantLivestock": "Gado do concílio",
+      "habitantMagi": "Magi habitante (obsoleto)",
+      "habitantSpecialists": "Especialista habitante (obsoleto)",
+      "hook": "Gancho",
+      "incomingSource": "Fonte de renda",
+      "inferiority": "Inferioridade",
+      "inhabitant": "Habitante do concílio",
+      "item": "Item",
+      "laboratoryText": "Texto de laboratório",
+      "magicItem": "Item Mágico (obsoleto)",
+      "magicalEffect": "Efeito Mágico",
+      "mundaneBook": "Livro mundano (obsoleto)",
+      "personalityTrait": "Traço de personalidade",
+      "possessionsCovenant": "Posses do concílio",
+      "power": "Poder",
+      "powerFamiliar": "Poder de Familiar",
+      "quality": "Qualidade",
+      "reputation": "Reputação",
+      "sanctumRoom": "Sala do Sanctum (obsoleto)",
+      "speciality": "Especialidade de laboratório (obsoleto)",
+      "spell": "Magia",
+      "supernaturalEffect": "Efeito sobrenatural",
+      "virtue": "Virtude",
+      "vis": "Vis",
+      "visSourcesCovenant": "Fontes de vis do concílio",
+      "visStockCovenant": "Estoques de vis do concílio (obsoleto)",
+      "weapon": "Arma",
+      "wound": "Ferimento"
+    }
+  },
+  "arm5e": {
+    "activeEffect": {
+      "add": "Adicionar {score} a(o) {value}",
+      "bonuses": {
+        "penetration": "Bônus de penetração"
+      },
+      "changeMode": "Mudar Modo",
+      "changeValue": "Valor do Efeito",
+      "info": {
+        "noedit": "Nota: Criação de efeito ativo é impossível se o item é possuído por um Ator, edite o efeito original e faça uma cópia no seu mundo para editar."
+      },
+      "mode_0": "Customizado",
+      "mode_1": "Multiplicar",
+      "mode_2": "Adicionar",
+      "mode_3": "Involuir",
+      "mode_4": "Evoluir",
+      "mode_5": "Sobrescrever",
+      "multiply": "Multiplicar {type} por ",
+      "new": "Novo efeito",
+      "section": {
+        "inactive": "Efeitos inativos",
+        "passive": "Efeitos passivos",
+        "temporary": "Efeitos temporários"
+      },
+      "subtypes": {
+        "agingMagi": "Envelhecendo para Magi",
+        "agingMundane": "Envelhecendo para Mundanos",
+        "attackRoll": "Rolagens de ataque",
+        "auraLevel": "Nível da aura",
+        "auraRealm": "Reino da aura",
+        "buildings": "Construções",
+        "combatRoll": "Rolagens de combate",
+        "consumables": "Consumíveis",
+        "defRoll": "Rolagens de defesa",
+        "fatigueRolls": "Modificador de testes de fadiga",
+        "fatigueTotal": "Total de fadiga",
+        "formMagicRoll": "Rolagens de magia formulaica",
+        "inhabitantPoints": "Pontos de habitantes",
+        "initRoll": "Rolagens de iniciativa",
+        "inventSpell": "Inventar magia",
+        "labText": "Textos de Lab.",
+        "laboratories": "Laboratórios",
+        "laborers": "Operários",
+        "labs": "Laboratórios",
+        "learnSpell": "Aprender magia",
+        "library": "Biblioteca",
+        "magicItems": "Encantamentos",
+        "magicResistance": "Resistência mágica",
+        "magicRoll": "Rolagens de magia",
+        "money": "Dinheiro",
+        "none": "Nenhum",
+        "provisions": "Provisões",
+        "ritualFatigueCancelled": "Níveis de fadiga ritual cancelados",
+        "servants": "Servos",
+        "specialists": "Especialistas",
+        "spellFatigueThreshold": "Limiar de fadiga de magia",
+        "spontDivider": "Divisor de magia esp.",
+        "spontDividerNoFatigue": "Divisor de magia esp. sem fadiga",
+        "spontMagicRoll": "Rolagens de magia espontânea",
+        "teamsters": "Transportadores",
+        "turbula": "Guardas",
+        "vis": "Vis",
+        "wages": "Salários",
+        "weapons": "Armas & Armaduras",
+        "woundsTotal": "Total de ferimentos",
+        "writingMaterials": "Materiais de escrita",
+        "xpcoeff": "Multiplicador de exp",
+        "xpmod": "Bônus de exp"
+      },
+      "type": {
+        "covenantBuildPoint": "Pontos de construção do concílio",
+        "covenantInhabitants": "Habitantes do concílio",
+        "covenantModifiers": "Modificadores do concílio",
+        "spellcasting": "Conjuração",
+        "yearlyExpenses": "Despesas do concílio",
+        "yearlySavings": {
+          "magic": "Redução de custos mágica",
+          "mundane": "Redução de custos mundana"
+        }
+      },
+      "types": {
+        "AlternateArtBonus": "Bônus p/ Artes Alternativas",
+        "AlternateArtXPBonus": "Bônus de EXP p/ Artes Alternativas",
+        "academicAbilitiesAffinity": "Afinidade c/ Hab. Acadêmicas (Exp)",
+        "academicAbilitiesBonus": "Bônus p/ Hab. Acadêmicas",
+        "academicAbilitiesXPBonus": "Bônus de EXP p/ Hab. Acadêmicas",
+        "affinityAlternateArt": "Afinidade c/ Artes Alternativas (Exp)",
+        "arcaneAbilitiesAffinity": "Afinidade c/ Hab. Arcanas (Exp)",
+        "arcaneAbilitiesBonus": "Bônus p/ Hab. Arcanas",
+        "arcaneAbilitiesXPBonus": "Bônus de EXP p/ Hab. Arcanas",
+        "arts": {
+          "affinity": "Afinidade com arte",
+          "deficiency": "Deficiência com arte"
+        },
+        "characteristicBoost": "Aumento da característica",
+        "characteristics": "Características",
+        "fatigue": "Fadiga",
+        "formMagicResistance": "Resistência mágica à forma",
+        "formResistance": "Resistência natural",
+        "generalAbilitiesAffinity": "Afinidade c/ Hab. Gerais (Exp)",
+        "generalAbilitiesBonus": "Bônus p/ Hab. Gerais",
+        "generalAbilitiesXPBonus": "Bônus de EXP p/ Hab. Gerais",
+        "labActivity": "Atividade de lab. do personagem",
+        "laboratoryAttr": "Características de Laboratório",
+        "laboratorySpec": "Especialidade de Laboratório",
+        "martialAbilitiesAffinity": "Afinidade c/ Hab. Marciais (Exp)",
+        "martialAbilitiesBonus": "Bônus p/ Hab. Marciais",
+        "martialAbilitiesXPBonus": "Bônus de EXP p/ Hab. Marciais",
+        "mysteryAbilitiesAffinity": "Afinidade c/ Hab. de Mistério (Exp)",
+        "mysteryAbilitiesBonus": "Bônusp/ Hab. Mistério",
+        "mysteryAbilitiesXPBonus": "Bônus de EXP p/ Hab. de Mistério",
+        "nullEffect": "Efeito nulo",
+        "optional": "Bônus opcional",
+        "qualityAbilityBoost": "Qualidade - Bônus de Habilidade",
+        "realmAlignment": "Alinhamento de Reino",
+        "realmSusceptibility": "Suscetibilidade do reino",
+        "roll": {
+          "optional": "Bônus de rolagem opcional"
+        },
+        "spellmastery": "Aperfeiçoamento de magia",
+        "supernaturalAbilitiesAffinity": "Afinidade c/ Hab. Sobrenaturais (Exp)",
+        "supernaturalAbilitiesBonus": "Bônus p/ Hab.Sobrenaturais",
+        "supernaturalAbilitiesXPBonus": "Bônus de EXP p/ Hab. Sobrenaturais",
+        "vitals": "Vitais",
+        "wounds": "Ferimentos"
+      }
+    },
+    "activity": {
+      "activity": "Atividade",
+      "adventuring": "Aventura",
+      "aging": "Envelhecer",
+      "apprenticeship": "Aprendizagem",
+      "book": {
+        "title": "Título"
+      },
+      "chargedItem": "Item efemêro",
+      "childhood": "Primeira infância",
+      "copying": "Copiando",
+      "current": "Estação {current} de {total}",
+      "desc": {
+        "visStudy": "Apartir do estudo de {amount} peões de {art} Vis, ganhou {xp} exp(s)."
+      },
+      "descItem": "{item} : ganhou {xp} exp(s)",
+      "diary": "Diário",
+      "drop": {
+        "teacher": "Solte um ator aqui para atuar como professor(a)/treinador(a)."
+      },
+      "eventType": "Tipo de Evento",
+      "exposure": "Exposição",
+      "inventSpell": "Inventar Magia",
+      "investigateItem": "Investigação de encantamento",
+      "label": "Atividades sazonais",
+      "laterLife": "Anos seguintes",
+      "laterLifeMagi": "Anos após o aprendizado",
+      "longevityRitual": "Ritual de longevidade",
+      "minorEnchantment": "Encantamento inferior",
+      "msg": {
+        "abilityMissing": "Essa habilidade não existe mais.",
+        "activityEndsInFuture": "Impossível aplicar. Esta atividade termina no futuro",
+        "activityStartsInFuture": "Impossível aplicar. Esta atividade começa no futuro",
+        "agingInWinter": "Envelhecimento normalmente ocorre no inverno ao menos que haja um efeito externo.",
+        "duplicates": "Esses são duplicados {param}",
+        "gainCapped": "A experiência ganha foi limitada a {param}, o estudante irá alcançar seu mestre.",
+        "missingMotherTongue": "Infância dever incluir uma língua viva no nível 5 (75xps).",
+        "noAbility": "Nenhuma habilidade restante",
+        "noArt": "Nenhuma arte restante",
+        "noEnoughVis": "Vis insuficiente em estoque.",
+        "noProgressItems": "Sem progresso para os itens selecionados.",
+        "noProgressPossible": "Não há progresso possível na data atual.",
+        "noSpell": "Nenhuma magia restante",
+        "noTeacher": "Nenhum professor(a) selecionado(a).",
+        "noTrainer": "Nenhum treinador(a) selecionado(a).",
+        "noYearOfBirth": "Não há data de nascimento definida para o personagem.",
+        "scheduleConflict": "Há um conflito no calendário.",
+        "selfTeaching": "Um personagem não pode lecionar para ele(a) mesmo(a)!",
+        "sourceQualityHalved": "Graças a recuperação de ferimentos, o total de estudo será dividido por 2.",
+        "spellMissing": "Essa magia não existe mais.",
+        "tooManyItems": "Itens demais para progredir, o máximo é {param}.",
+        "unappliedActivities": "Ainda há atividades agendadas não aplicadas antes desta.",
+        "uselessTeacher": "{param} não tem nada para ensinar esse personagem.",
+        "wrongOption": "A opção escolhida ({param}) não é válido com o atual progresso de itens.",
+        "wrongSingleItemXp": "Não mais que {param} XP pode ser atribuído a uma única habilidade, magia ou arte.",
+        "wrongTotalXp": "Experiência total ({param}) deve ser igual a qualidade da atividade.",
+        "wrongVisAmount": "Seleciona a quantidade correta de vis"
+      },
+      "newSpell": "Nova magia aprendida",
+      "newSpellName": "Nome da nova magia",
+      "options": {
+        "area": "Explorar região",
+        "forced": "Prática forçada",
+        "language": "Praticar língua",
+        "mastery": "Aperfeiçoar magia",
+        "singleStudent": "Estudante único",
+        "twoStudents": "Dois estudantes"
+      },
+      "pawnsNeeded": "Peões de vis necessários",
+      "practice": "Prática",
+      "progress": {
+        "masteries": "Aperfeiçoamentos"
+      },
+      "reading": "Leitura",
+      "readingArts": "Lendo sobre artes",
+      "recovery": "Recuperação",
+      "resource": "Rastreamento de recursos",
+      "roll": {
+        "aging": "Rolar para envelhecimento",
+        "investigate": "Rolar para investigar",
+        "investigationEnd": "Fim da investigação",
+        "visStudy": "Rolar para estudo de Vis"
+      },
+      "schedule": {
+        "label": "Agendar atividade"
+      },
+      "spellLearning": "Aprender magia",
+      "teacher": {
+        "label": "Professor",
+        "name": "Nome do professor",
+        "score": "Pontuação do professor"
+      },
+      "teaching": "Ensino",
+      "title": {
+        "adventuring": "Eventos do(a) {season} de {year}",
+        "apprenticeship": "Aprendizagem hermética",
+        "childhood": "Infância",
+        "exposure": "Exposição de {skills}",
+        "inventSpell": "Inventou uma magia",
+        "labinuse": "Laboratório em uso ({activity}) por {user}.",
+        "laterLife": "Anos após a primeira infância",
+        "laterLifeMagi": "Anos após o aprendizado",
+        "practice": "Prática de {skills}",
+        "recovery": "Recuperando de ferimentos",
+        "spellLearning": "Aprendeu uma magia",
+        "teaching": "Aprendendo {skills} com {teacher}",
+        "training": "Treinando {skills} com {teacher}",
+        "visStudy": "Estudo de {art} Vis"
+      },
+      "tracking": {
+        "addition": "{resource} adicionado ao inventário.",
+        "from": {
+          "generic": "{toActor} recebeu {resource} de {fromActor}.",
+          "vis": "{resource} colhido de {fromActor}.",
+          "visSource": "{resource} colhido de {fromActor}."
+        },
+        "removal": "{resource} removido do inventário.",
+        "resource": {
+          "vis": "{num} peão(s) de {art} Vis"
+        },
+        "to": {
+          "generic": "{fromActor} deu {resource} para {toActor}."
+        }
+      },
+      "training": "Treinamento",
+      "visStudy": "Estudo de vis",
+      "writing": "Escrita"
+    },
+    "aging": {
+      "crisis": {
+        "bedriddenMonth": "De cama por um mês.",
+        "bedriddenWeek": "De cama por uma semana.",
+        "criticalIllness": "Enfermidade crítica. Rolagem de Vigor, de Dificuldade 12 (ou ritual CrCo 35) para sobre viver.",
+        "label": "Crise de envelhecimento",
+        "majorIllness": "Enfermidade leve. Rolagem de Vigor, de Dificuldade 3 (ou ritual CrCo 20) para sobreviver.",
+        "medicalAssistance": "Asistência médica",
+        "minorIllness": "Enfermidade leve. Rolagem de Vigor, de Dificuldade 3 (ou ritual CrCo 20) para sobreviver.",
+        "seriousIllness": "Enfermidade leve. Rolagem de Vigor, de Dificuldade 3 (ou ritual CrCo 20) para sobreviver.",
+        "summary": "Resumo da crise",
+        "terminalIllness": "Enfermidade terminal. Ritual CrCo 40 para sobreviver.",
+        "tooltip": "Resolver crise de envelhecimento"
+      },
+      "manualEdit": "{name} perdeu um ponto em {char} ao envelhecer.",
+      "result0": "Como areia pela ampulheta, assim também passams as estações da vida...<br/>",
+      "result1": "{character} envelheceu 1 ano durante o inverno de {year}.<br/>",
+      "result2": "Sua aparência não mudou. <br/>",
+      "result3": "Isto resultou numa crise de saúde.<br/>",
+      "result4": "- Ganhou {num} ponto(s) de envelhecimento em {characteristic}.<br/>",
+      "result5": "- Perdeu um ponto em {characteristic}.<br/>",
+      "result6": "- Ganhou {num} pointo(s) de decrepitude.<br/>",
+      "result7": "- Ganhou {num} pointo(s) de Distorção devido a poção de longevidade.<br/>",
+      "resultTitle": "Outro ano se passou para {character}.",
+      "roll": {
+        "ComPrsPts": "1 Ponto de Envelhecimento em Com e Pre.",
+        "DexQikPts": "1 Ponto de Envelhecimento em Des e Rap.",
+        "IntPerPts": "1 Ponto de Envelhecimento em Int e Per.",
+        "PerPt": "1 Ponto de Envelhecimento em Per.",
+        "PrsPt": "1 Ponto de Envelhecimento em Pre.",
+        "QikPt": "1 Ponto de Envelhecimento em Rap.",
+        "StaPt": "1 Ponto de Envelhecimento em Vig.",
+        "StrStaPts": "1 Ponto de Envelhecimento em For e Vig.",
+        "anyAgingPt": "1 Ponto de Envelhecimento em qualquer Característica.",
+        "bronze": "Cordão Familiar de Bronze",
+        "crisis": "Ganha Pontos de Envelhecimento suficientes(em qualquer Característica) para alcançar o próximo nível de Decrepitude, e Crise.",
+        "label": "Rolagem de envelhecimento",
+        "noaging": "Sem envelhecimento aparente.",
+        "normal": "Idade aparente sobre um ano."
+      },
+      "rollback": {
+        "confirm": "Esta ação irá reverter o efeito de envelhecimento e deletar a entrada do diário. Tem certeza?",
+        "title": "Revertou efeito da rolagem de envelhecimento."
+      },
+      "summary": "Resumo de envelhecimento"
+    },
+    "astrolab": {
+      "nextSeason": "Próxima estação",
+      "prevSeason": "estação anterior",
+      "restAll": "Descansar todos",
+      "setWorldDate": "Definir data do mundo",
+      "trackResources": "Rastrear recursos",
+      "updateActors": "Atualizar atores"
+    },
+    "book": {
+      "dropLabtext": "Solte um texto de laboratório aqui",
+      "labText": {
+        "enchantment": "o encantamento \"{enchantment}\"",
+        "intro": "Texto de lab. sobre",
+        "spell": "a magia \"{spell}\""
+      },
+      "summaLong": "Summa de nível {level} e qualidade {quality} sobre",
+      "summaShort": "Summa L{level} Q{quality} ",
+      "tableContents": "Sumário",
+      "tractLong": "Tractatus de qualidade {quality} sobre",
+      "tractShort": "Tractatus Q{quality}"
+    },
+    "canvas": {
+      "buttons": {
+        "clearAura": "Limpar Aura",
+        "setAura": "Configurar Aura"
+      }
+    },
+    "chat": {
+      "contestOfMagic": "Contestação de Magia",
+      "contestOfMagicWith": "Concurso de magia com {name}",
+      "notifications": {
+        "notInitiator": "Não autorizado porque você não é o iniciador da rolagem. Pergunte a ele ou a um GM"
+      },
+      "otherMagicResistance": "Outra resistência mágica",
+      "totalMagicResistance": "Total de resistência mágica"
+    },
+    "combat": {
+      "damage": {
+        "ignored": "Ignorado na rolagem"
+      },
+      "targets": {
+        "multiple": "Vários alvos",
+        "none": "Nenhum destino selecionado",
+        "single": "Alvo único"
+      }
+    },
+    "config": {
+      "compendiaRef": "Referência de compêndio",
+      "currency": {
+        "name": "Moedas de prata"
+      },
+      "hint": {
+        "compendiaRef": "Selecione o modulo que servirá como referência para o conteúdo de compêndio do sistema"
+      },
+      "sourcebookFilter": "Filtro de livros",
+      "sourcebooks": "Livros de referência"
+    },
+    "covenant": {
+      "equipment": {
+        "any": "Tudo que precisarem",
+        "low": "Modesto",
+        "standard": "Normal",
+        "standardPlus": "Normal + uma peça valiosa"
+      },
+      "inhabitantsMod": {
+        "laborers": "Trabalhadores Mágicos",
+        "servants": "Servos Mágicos",
+        "teamsters": "Caminhoneiros Mágicos",
+        "turbula": "Guardas Mágicos"
+      },
+      "specialist": {
+        "books": "Bibliotecário",
+        "chamberlain": "Mordomo",
+        "other": "Outro",
+        "steward": "Intendente",
+        "teacher": "Professor",
+        "turbCaptain": "Capitão da Guarda"
+      },
+      "wages": {
+        "generous": "Salário generoso",
+        "lavish": "Salário exuberante",
+        "low": "Metade do salário",
+        "none": "Sem salário",
+        "normal": "Salário normal",
+        "pension": "Pensão"
+      }
+    },
+    "damage": {
+      "compute": "Calcular dano",
+      "damageflavor": "{amount} de dano a ser absorvido de {source}",
+      "form": "Formulário de Dano",
+      "ignoreArmor": "Ignorar armadura",
+      "label": "Dano",
+      "roll": "Rolagem de dano",
+      "soakFlavor": "Absorva {amount} dos danos de {source}",
+      "source": "Fonte de dano",
+      "sourcePlaceHolder": "Uma fonte de dano"
+    },
+    "dialog": {
+      "botch": {
+        "num": "Número de dados de falha:",
+        "title": "Checando falha crítica"
+      },
+      "button": {
+        "cancel": "Cancelar",
+        "exertSelf": "Tenacidade",
+        "no": "Não",
+        "noroll": "Sem rolagem",
+        "roll": "Rolar",
+        "rollbotch": "Role para falha crítica!",
+        "rollnobotch": "Falha crítica não verificada",
+        "save": "Salvar",
+        "simpledie": "Dado simples",
+        "stressdie": "Dado crítico",
+        "stressdieNoBotch": "Dado crítico sem falha crítica",
+        "yes": "Sim"
+      },
+      "chooseCovenant": "Escolha um concílio",
+      "combatDamage": "Dano de combate",
+      "confirmClearAura": "Você tem certeza que quer limpar a aura desta cena?",
+      "confirmTransfer-amount": "Qual quantidade você quer transferir? (Maxímo {max})",
+      "confirmTransfer-info": "Use SHIFT+arrastar para copiar itens.",
+      "confirmTransfer-question": "Tem certeza que você quer transferir o item \"{name}\"?",
+      "damageCalculator": "Calculadroa de dano",
+      "delete-question": "Você tem certeza que quer deletar esse item?",
+      "delete-topic": "Deletar tópico",
+      "design-effect-question": "Você quer inventar um efeito mágico baseado nesse efeito?",
+      "design-enchantment-question": "Você quer inventar um encantamento baseado nesse efeito?",
+      "design-spell-question": "Você quer inventar uma magia baseada nesse efeito?",
+      "enchant-question": "Você quer encantar esse item? (O original será destruído)",
+      "hint": {
+        "abilityOption": "Apenas caracteres alfanuméricos."
+      },
+      "magicItemUse": "Usar item mágico",
+      "noDocuments": "Nenhum documento encontrado.",
+      "pickActors": "Escolha atores",
+      "pickDocuments": "Escolha documentos",
+      "pickItems": "Escolha itens",
+      "powerUse": "Usar poder",
+      "roll": {
+        "exploding": {
+          "modifier": "Modificador atual",
+          "multiplier": "Modificador atual"
+        },
+        "explodingroll": "Dados explodiram! Role novamente!"
+      },
+      "rollback-question": "Você tem certeza que quer reverter essa atividade?",
+      "sure": "Você tem certeza?",
+      "title": {
+        "rolldie": "Rolar dado"
+      },
+      "woundCalculator": "Calculadora de ferimento"
+    },
+    "enchantment": {
+      "aspects": "Tamanhos & Materiais",
+      "attributes": "Parâmetros de encantamento",
+      "attuned": "Sintonizado",
+      "attunementVisible": "Sintonia visível",
+      "capacities": "Capacidades",
+      "capacity": {
+        "label": "Capacidade",
+        "maxMode": "Máximo",
+        "sumMode": "Soma",
+        "summary": "Usado/Total"
+      },
+      "invalidItem": "Encantamento inválido",
+      "msg": {
+        "capacityOverflow": "Capacidade muito pequena para os efeitos.",
+        "deleteChargesConfirm": "Isto irá redefinir o número de usos. Você tem certeza?",
+        "deleteEffectsConfirm": "Isto removerá todos os efeitos. Você tem certeza?",
+        "noAttunment": "Esse talismã não está sintonizado.",
+        "noCapacityPrepared": "Sem capacidade disponível para encantamento.",
+        "tooManyEffects": "Efeitos demais."
+      },
+      "receptacle": {
+        "desc": "Descrição do Receptáculo",
+        "label": "Receptáculo",
+        "name": "Nome do Receptáculo"
+      }
+    },
+    "feature": {
+      "inteligentBeast": "Besta inteligente",
+      "magicSystem": "Sistema de magia alternativa - EXPERIMENTAL",
+      "powers": "Poderes"
+    },
+    "generic": {
+      "abort": "Abortar",
+      "all": "Todos",
+      "always": "Sempre",
+      "base": "Base",
+      "begins": "Começa",
+      "cancelled": "Cancelado",
+      "clear": "Claro",
+      "config": "Configuração",
+      "confirm": "Confirmar",
+      "current": "Atual",
+      "custom": "Customizado",
+      "default": "Padrão",
+      "details": "Detalhes",
+      "difficulty": "Dificuldade",
+      "ends": "Termina",
+      "hidden": "Escondido",
+      "hours": "horas",
+      "hoursShort": "h.",
+      "info": "Informação",
+      "inherit": "Herdar",
+      "invalid": "Inválido",
+      "locked": "Trancado",
+      "minutes": "minutos",
+      "minutesShort": "min.",
+      "misc": "Variado",
+      "missed": "Perdido",
+      "modifier": "Modificador",
+      "modifiers": "Modificadores",
+      "multiplier": "Multiplicador",
+      "multipliers": "Multiplicadores",
+      "na": "N/A",
+      "needed": "Necessário(s)",
+      "never": "Nunca",
+      "no": "Não",
+      "none": "Nenhum",
+      "nothing": "Nada",
+      "numberOf": "Número de {thing}",
+      "once": "Uma vez",
+      "options": "Opçöes",
+      "orphans": "Orfãos",
+      "other": "Outro",
+      "params": "Paramêtros",
+      "pending": "Pendente",
+      "refresh": "Atualizar",
+      "special": "Especial",
+      "standard": "Padrão",
+      "summary": "Resumo",
+      "template": "Modelo",
+      "templates": "Modelos",
+      "total": "Total",
+      "unknown": "Desconhecido",
+      "update": "Atualizar",
+      "value": "Valor",
+      "versus": "Contra",
+      "yes": "Sim"
+    },
+    "hints": {
+      "add": "Adicionar {item}",
+      "clone": "Clonar {item}",
+      "copy": "Copiar {item}",
+      "create": "Criar {item}",
+      "createLabText": "Criar rascunho de texto de lab.",
+      "delete": "Deletar {item}",
+      "design": "Inventar {item}",
+      "edit": "Editar {item}",
+      "read": "Ler {item}",
+      "recover": "Recuperar-se de {item}",
+      "useMagicItem": "Ativar o efeito \"{name}\"",
+      "view": "Ver {item}"
+    },
+    "lab": {
+      "activity": {
+        "chargedEnchantment": "Item Efêmero",
+        "enchanting": "Encantador",
+        "inventSpell": "Invenção de magia",
+        "itemInvestigation": "Investigação de encantamento",
+        "label": "Atividade de Laboratório",
+        "longevityRitual": "Ritual de Longevidade",
+        "majorEnchantment": "Encantamento superior",
+        "minorEnchantment": "Encantamento inferior",
+        "openEnchantment": "Preparar encantamento",
+        "spellLearning": "Aprendizagem de magia",
+        "title": {
+          "longevityRitual": "Ritual de longevidade para {name}"
+        },
+        "visExtraction": "Extração de Vis"
+      },
+      "bonus": {
+        "activity": "Modificador de atividade",
+        "apprentice": "Aprendiz",
+        "aspects": "Bônus de forma e material",
+        "aspectsMax": "máximo de Teoria Mágica",
+        "aspectsVerditius": "Philosophiae (Verditius)",
+        "aura": "Aura",
+        "generic": "Modificador genérico",
+        "labQuality": "Qualidade de lab.",
+        "moreVisUsed": "Vis adicional usado",
+        "specialties": "Especialidades"
+      },
+      "distraction": {
+        "label": "Distrações",
+        "none": "Sem distrações",
+        "oneMonth": "Um mês",
+        "threeMonths": "Três meses",
+        "twoMonths": "Dois meses"
+      },
+      "enchantment": {
+        "effectFrequency": "Frequência do Efeito",
+        "envTrigger": "Ativação externa",
+        "item": {
+          "appraisal": "Avaliação",
+          "charges": "Usos",
+          "compounded": "Composto",
+          "enable": "Habilitar encantamento",
+          "expiry": {
+            "1y": "1 ano",
+            "70y": "70 anos",
+            "7y": "7 anos",
+            "label": "Validade do efeito",
+            "never": "Nunca"
+          },
+          "material": {
+            "base": "Material da Base",
+            "base1": "Tecido, vidro",
+            "base10": "Ouro",
+            "base12": "Pedras semipreciosas",
+            "base15": "Pedras preciosas",
+            "base2": "Madeira, couro",
+            "base20": "Pedras preciosas únicas",
+            "base3": "Ossos, pedras macias",
+            "base4": "Pedras duras",
+            "base5": "Metais comuns",
+            "base6": "Prata",
+            "bonus": "Bônus de Material",
+            "label": "Material"
+          },
+          "maxLevel": "Nível máximo",
+          "shape": {
+            "bonus": "Bônus de Forma",
+            "label": "Forma"
+          },
+          "size": {
+            "huge": "Enorme",
+            "huge-eg": "Enorme (barco, vagão, corpo humano, quarto pequeno)",
+            "label": "Tamanho",
+            "large": "Grande",
+            "large-eg": "Grande (cajado, escudo, capa, esqueleto)",
+            "medium": "Médio",
+            "medium-eg": "Médio (espada, túnica, botas, crânio)",
+            "small": "Pequeno",
+            "small-eg": "Pequeno (varinha, adaga, cinto, chapéu)",
+            "tiny": "Muito pequeno",
+            "tiny-eg": "Muito Pequeno (anel, bracelete, pingente, uma pedra preciosa)"
+          },
+          "state": {
+            "appraised": "Avaliado",
+            "attuned": "Sintonizado",
+            "charged": "Carregado",
+            "enchanted": "Encantado",
+            "freeForm": "Forma livre",
+            "inert": "Magicamente Inerte",
+            "lesser": "Encantamento inferior",
+            "major": "Encantamento superior",
+            "prepared": "Preparado"
+          },
+          "talisman": "Talismã"
+        },
+        "label": "Encantamento",
+        "linkTrigger": "Ativação conectada",
+        "maintainConc": "Manter concentração",
+        "penetration": "Penetração do Efeito",
+        "restrictedUse": "Limitar ativação",
+        "uses-per-day": "uso(s) por dia"
+      },
+      "option": {
+        "oneCharge": "Um uso por item"
+      },
+      "otherSubject": "Outro assunto",
+      "planning": {
+        "button": {
+          "refresh": "Atualizar",
+          "reset": "Redefinir",
+          "schedule": "Agendar"
+        },
+        "discoveredEffects": "Efeitos descobertos",
+        "investigation": {
+          "botched": "Falha crítica na investigação com {botches} falhas.",
+          "diaryTitle": "Investigação de \"{name}\"",
+          "foundEffect": "Novo efeito encontrado! : {effect}.",
+          "nothingFound": "Nada mais encontrado.",
+          "rolled": "Rolou {total} (die + {labTotal})"
+        },
+        "knownEffects": "Efeitos conhecidos",
+        "labQuality": "Qualidade de Lab.",
+        "labSpecTotal": "Especialidade de Lab.",
+        "label": "Planejamento",
+        "msg": {
+          "artDeficiency": "Devido à deficiência de Arte, divido por {divisor}",
+          "chargesAvailable": "{num} usos disponíveis.",
+          "draftLabText": "Esse texto de lab. ainda é um rascunho, ao menos que você seja o autor, ele não pode ser usado até ser traduzido.",
+          "dropItemToInvestigate": "Solte um encantamento para investigar",
+          "insufficientLabTotal": "Total de Laboratório {arts} insuficiente para extrair vis.",
+          "labTotalExcess": "Pontos de lab. excedentes: {points}.",
+          "labTotalTooLow": "O total do laboratório é muito baixo para criar um ritual de longevidade para outro.",
+          "longevityBonus": "Bônus de {bonus} para envelhecimento.",
+          "noOwner": "Esse lab. não tem dono. Planejamento não é possível.",
+          "notSkilledEnchant": "Habilidade insuficiente para encantar este item.",
+          "notSkilledInvent": "Habilidade insuficiente para inventar esta magia.",
+          "notSkilledLearn": "Habilidade insuficiente para aprender esta magia.",
+          "smallCapacity": "Tamanho pequeno demais ou material não é suficientemente nobre.",
+          "tooMuchVis": "{num} peões é mais que o dobro do nível de Teoria Mágica",
+          "unsupported": "Atividades multi-sazonais não disponíveis.",
+          "visExtracted": "{num} peões de Vim extraídos da aura.",
+          "visExtracted2": "Vim vis extraído da aura de {covenant}.",
+          "visExtracted3": "Sem aura para extrair vis!",
+          "visNeeded": "{num} peões) de Vis necessários.",
+          "waste": "Pontos de lab. restantes: {points}.",
+          "wounded": "Aviso: personagem está ferido ({penalty}), verifique se isto se aplica ao Total de Lab."
+        }
+      },
+      "ritualSubject": "Assunto do ritual",
+      "self": "Auto",
+      "specialty": {
+        "experimentation": "Experimentação",
+        "familiar": "Familiar",
+        "items": "Itens",
+        "label": "Especialidade do laboratório",
+        "longevityRituals": "Rituais de longevidade",
+        "spells": "Magias",
+        "texts": "Textos",
+        "visExtraction": "Extração de vis"
+      },
+      "upkeep": "Manutenção",
+      "usage": {
+        "heavy": "Pesado (3+ estações)",
+        "label": "Usos",
+        "light": "Leve (1 estação ou menos)",
+        "standard": "Médio (2 estações)"
+      },
+      "visCosts": {
+        "labStock": "Estoque de Vis do Laboratório",
+        "label": "Custo de Vis : {amount} peões de {tech} or {form} ",
+        "magusStock": "Estoque de Vis do Magus",
+        "vimOnly": "Custo de Vis : {amount} peões de Vim vis"
+      }
+    },
+    "magic": {
+      "arcaneConnection": {
+        "days": "Dura horas ou dias",
+        "decades": "Dura anos ou décadas",
+        "indefinitly": "Duração indefinida",
+        "months": "Dura semanas ou meses"
+      },
+      "sympathy": {
+        "strong": "Conexão forte",
+        "strong1": "Conexão muito forte",
+        "strong10": "Conexão superhipermegaforte",
+        "strong11": "Conexão MAIS FORTE!",
+        "strong12": "Conexão MUITO MAIS FORTE!",
+        "strong13": "TÁ DE BRINCADEIRA?!",
+        "strong2": "Conexão sólida",
+        "strong3": "Conexão ancestralmente forte",
+        "strong4": "Conexão astrologicamente perfeita",
+        "strong5": "Conexão ainda mais forte!",
+        "strong6": "Conexão mais forte ainda, é sério!",
+        "strong7": "Eu falei MAIS FORTE!",
+        "strong8": "Eu falei FORTE?",
+        "strong9": "Conexão fortepracaralho",
+        "strongHint": "Mapa astral, representação simbólica,...",
+        "weak": "Conexão fraca",
+        "weakHint": "Assinatura, nome de nascença, horoscopo de hoje,..."
+      }
+    },
+    "messages": {
+      "applyDamage": "Aplicar dano",
+      "die": {
+        "bonus": "Bônus",
+        "botch": "Uma falha crítica!",
+        "botches": "{num} falhas críticas!",
+        "divideBy": "Dividido por ",
+        "exploding": "Explodindo dado crítico!",
+        "noBotch": "Zero falhas de {dicenum} dados rolados!",
+        "warpGain": "Ganhou {num} ponto(s) de distorção"
+      },
+      "fatigueLost": "Perdeu {num} nível(is) de fadiga",
+      "noConf": "Pular uso de determinação",
+      "noWound": "Nenhum ferimento infligido",
+      "soak": "Mergulhe o rolo",
+      "useConf": "Usar ponto de determinação",
+      "wound": {
+        "dead": "fatal",
+        "heavy": "grave",
+        "incap": "incapacitante",
+        "light": "leve",
+        "medium": "médio"
+      },
+      "woundResult": "Recebeu um ferimento {typeWound}"
+    },
+    "notification": {
+      "codex": {
+        "enchant": "Você precisar de um ator Códice com encantamentos para encantar dessa maneira.",
+        "none": "Você não tem um Ator do tipo 'magicCodex' em seu mundo, algumas funcionalidades estarão desativadas/não funcionando, você pode importa um no compendium Magi",
+        "tooMany": "Você tem mais de um Ator do tipo 'magicCodex' no seu mundo, algumas funcionalidades são baseadas em um códice único, você pode querer deletar um (após integra-los se preciso)"
+      },
+      "confidencePromptPending": "Há um gasto de determinação pendente no chat. Resolva ou clique no ícone de status ao lado do nome do personagem.",
+      "crucible": {
+        "labTotal": {
+          "needed": "Total de Lab. necessário"
+        },
+        "no": {
+          "invest": {
+            "possible": "O tamanho e material do item não são suficientes para este nível de encantamento."
+          }
+        }
+      },
+      "damagePending": "Há uma jogada de dano pendente para este personagem. Você pode querer absorve-la antes de rolar outra coisa.",
+      "dead": "Este personagem está morto...",
+      "doubleAbility": "O personagem já tem esta habilidade",
+      "effectLinked": "Impossível deletar. Um efeito está vinculado a capacidade.",
+      "entityWithMultipleRealmAlignments": "Este personagem com Potência está alinhado com vários reinos. Verifique os efeitos ativos.",
+      "incapacited": "Este personagem está gravemente ferido, nenhuma ação é possível...",
+      "itemMoved": "O item \"{name}\" foi movido e não pode mais ser encontrado.",
+      "missingSpell": "Magia \"{spellName}\" não existe ou foi movida. Abortando.",
+      "noChargesLeft": "Sem usos restantes para o item mágico.",
+      "noConfidencePointsLeft": "{name} não tem pontos de determinação restantes",
+      "noEnoughVis": "{name} não tem peões de vis suficientes para realizar esta ação.",
+      "noLab": "Este personagem não possui um laboratório.",
+      "noMightPoints": "Pontos insuficientes no total de potência.",
+      "noOwner": "Este laboratório não possui um dono.",
+      "notMagus": "Esse personagem não é um magus/maga.",
+      "notPossibleToCalculateWound": "Não é possível calcular o ferimento (verifique o tamanho do personagem)",
+      "pendingCrisis": "Este personagem tem uma crise de envelhecimento pendente, nenhuma ação é possível... resolva a crise clicando na caveira ao lado do nome do personagem",
+      "pendingTwilight": "Este personagem tem um episódio de Crepúsculo pendente, nenhuma rolagem possível até ser resolvida. (Shift clique como GM para remover este status)",
+      "roll": {
+        "botchNum": "Por favor, entre o número de dados de falha."
+      },
+      "setDate": "A data atual foi definida para o(a) {season} de {year}",
+      "situationHasChanged": "A situação mudou, aplicar não é mais possível.",
+      "synchActors": "Todos atores foram sincronizados para o(a) {season} de {year}",
+      "unconscious": "Este personagem está inconsciente, nenhuma ação é possível...",
+      "valueMax": "O valor não pode ser superior a {max}. Configuração no máximo.",
+      "valueMin": "O valor não pode ser inferior a {min}. Configuração no mínimo."
+    },
+    "packs": {
+      "abilities": {
+        "name": "Habilidades"
+      }
+    },
+    "realm": {
+      "divine": "Divino",
+      "faeric": "Feérico",
+      "infernal": "Infernal",
+      "label": "Reino",
+      "magic": "Mágico",
+      "mundane": "Mundano",
+      "nightModifier": "Modificador Noturno",
+      "susceptible": {
+        "impact": "Devido à suscetibilidade a {realm}, dividido por {divisor}"
+      },
+      "visible": "Visível",
+      "visibleHint": "Mostrar ou esconder mod. de aura quando rolando"
+    },
+    "rolltables": {
+      "experimentation": {
+        "createJournal": "Criar diário",
+        "disaster": {
+          "1botch": "Todos no laboratório ganham Pontos de Distorção igual ao número de zeros na jogada de falha crítica. Os magi herméticos (e qualquer outra pessoa aberta às Artes Herméticas) devem rolar para Crepúsculo se ganharem dois ou mais; membros de outras tradições também podem sofrer efeitos graves, conforme determinado pela sua tradição. A estação está completamente perdida; veja Falha Completa. Se houver outros resultados e os magi optarem por não resistir ao Crepúsculo, eles entrarão no Crepúsculo antes que os efeitos ocorram e, assim, evitarão qualquer dano pessoal.",
+          "2botches": "Sua criação está destruída. Se for um projeto de estação única, isso equivale a um fracasso total.",
+          "3botches": "Seu laboratório ganha o Defeito Danificado.",
+          "4botches": "Explosão! Seu laboratório ganha o Defeito Destruído (em vez do Defeito Danificado), e qualquer pessoa no laboratório sofre dois Ferimentos Graves.",
+          "5botches": "O narrador da história escolhe uma das seguintes opções: <br/><ul><li>Um evento da história ameaça todo o concílio. Isso pode surgir imediatamente da explosão (um incêndio mundano, por exemplo) ou pode ser um efeito colateral persistente da magia descontrolada, causando uma história algum tempo depois.</li>.<li>A explosão destrói completamente o laboratório. A estrutura ganha os Defeitos Deformado e Instável, e todo o laboratório deve ser reconstruído do zero, em vez de ganhar o Defeito Destruído. Qualquer pessoa no laboratório sofre um Ferimento Incapacitante adicional.</li></ul>",
+          "avoid": "Você evita o desastre, mas desperdiça a estação.",
+          "covenantThreat": "Seu experimento sai pela culatra de tal forma que todo o concílio fica ameaçado, seja pelo fogo, pela convocação de uma grande ameaça ou por alguma outra calamidade inventada pelo narrador da história.",
+          "destroyedCreation": "Sua criação está destruída.",
+          "destroyedCreationPlus": "Sua criação foi destruída, assim como algum outro item valioso que você mantém em seu laboratório.",
+          "explosion": "Explosão! Seu equipamento de laboratório está arruinado e você deve lançar um dado simples para cada bem valioso que mantém em seu laboratório. Com 0, ele é destruído. Você sofre uma quantidade de dano igual a um dado simples + o nível da magia ou efeito que você estava trabalhando.",
+          "rollTwice": "Role mais duas vezes neste gráfico.",
+          "warping": "Você ganha Pontos de Distorção igual ao número de zeros na jogada de falha crítica. Role para Crepúsculo se você ganhar dois ou mais"
+        },
+        "discovery": {
+          "ability": {
+            "long": "Você ganha 15 pontos de experiência em alguma Habilidade relacionada ao experimento.",
+            "short": "Inspiração de Habilidade."
+          },
+          "art": {
+            "long": "Você ganha três pontos de experiência em uma das Artes usadas no experimento",
+            "short": "Visão artística."
+          },
+          "artPlus": {
+            "long": "Você ganha pontos de experiência suficientes para levar uma das Artes usadas no experimento para o próximo nível (ou três pontos de experiência, o que for maior).",
+            "short": "Visão principal da arte."
+          },
+          "magicTheory": {
+            "long": "Você ganha 15 pontos de experiência em Teoria da Magia",
+            "short": "Inspiração de Teoria Mágica."
+          },
+          "rollTwice": {
+            "long": "Role duas vezes e role novamente este resultado se ele for gerado novamente",
+            "short": "Role duas vezes."
+          }
+        },
+        "extraordinaryResults": {
+          "disaster": {
+            "long": "Você falha miseravelmente. Consulte a tabela a seguir para obter o resultado, dependendo do número de zeros lançados nos dados com falha crítica. Sofra o efeito para o número que você rolar e para todos os números menores, a menos que seja explicitamente informado o contrário. Por exemplo, uma explosão (3) também destrói a criação e inflige Pontos de Distorção ao magus.",
+            "short": "Desastre"
+          },
+          "discovery": {
+            "long": "Jogue um dado simples e adicione seu modificador de risco. Se você estiver engajado na Descoberta Arcana (veja página @@), você faz uma descoberta que avança seu projeto e ignora esta tabela.",
+            "short": "Descoberta"
+          },
+          "failure": {
+            "long": "Você não ganha nada com seus esforços e sua estação é desperdiçada. Se você estava trabalhando em um item familiar ou encantado, jogue um dado simples. Com 0, ele é destruído.",
+            "short": "Falha completa"
+          },
+          "main": {
+            "short": "Resultados Extraordinários"
+          },
+          "modifiedEffect": {
+            "long": "Jogue um dado simples e adicione seu modificador de risco. Se você estava investigando um item mágico, você alterou um ou mais de seus poderes.",
+            "short": "Efeito modificado"
+          },
+          "noBenefit": {
+            "long": "Sua experimentação não produz resultados. Você perde o benefício do dado extra e do modificador de risco – recalcule seu Total de Lab. sem esses modificadores. Se o seu novo Total de Lab. for muito baixo para ter sucesso no projeto, ele deverá ser abandonado.",
+            "short": "Sem benefício"
+          },
+          "none": {
+            "long": "Seu experimento funciona sem produzir efeitos indesejados.",
+            "short": "Sem efeitos extraordinários"
+          },
+          "rollTwice": {
+            "long": "",
+            "short": "Role duas vezes nesta mesa."
+          },
+          "sideEffect": {
+            "long": "Sua criação mágica adquire um efeito colateral. Jogue um dado simples e resolva os detalhes com o narrador da história.",
+            "short": "Efeito colateral"
+          },
+          "special": {
+            "long": "O narrador de história escolhe um dos seguintes: <br><ul><li>A criação requer vis bruto adicional. O magus deve gastar um número adicional de peões de vis que corresponda à Técnica ou Forma do projeto igual à magnitude do efeito (incluindo modificações) mais o modificador de risco. Se ele não conseguir fazer isso, seja porque não tem vis, ou porque não consegue lidar com vis suficiente em uma única estação, trate como uma Falha Completa. </li><li>O magus também cria uma magia, com a mesma Técnica e Forma do projeto, de qualquer nível que ele poderia criar em uma única estação. O feitiço é elaborado pelo guia de história ou grupo e não precisa ter uma conexão óbvia com o projeto. O magus sabe disso e pode escrever o Texto do Laboratório normalmente, permitindo que outros magi o criem também. É mais simples se este feitiço seguir todas as regras da Magia Hermética, mas isso não é essencial se a trupe estiver satisfeita com as complicações. Trate isso como Sem Efeitos Extraordinários para o projeto principal.</li><li>A criação é modificada de alguma forma que não necessariamente se enquadra nas categorias de Efeito Colateral ou Efeito Modificado, embora possa, se desejado. Isso permite que o guia da história introduza qualquer tipo de efeito sobrenatural – a criação pode até ser fortemente afetada por um reino diferente. O resultado pode ser positivo ou negativo do ponto de vista do magus, mas deve ser interessante para a trupe.  Um evento de história acontece. Isso pode ser qualquer coisa; pode ser usado como uma oportunidade para apresentar um enredo importante ou como uma distração breve e divertida. Não precisa acontecer imediatamente; a magia descontrolada pode colocar algo em movimento ou pode ser o resultado do uso da criação em um contexto específico, algum tempo depois. O evento da história pode ser basicamente positivo — o magus pode atrair a atenção de um familiar em potencial, por exemplo. A menos que o evento da história exija o contrário, trate isso como Sem Efeitos Extraordinários para o projeto em si.</li></ul>",
+            "short": "Evento especial ou história"
+          }
+        },
+        "insight": "Descoberta bem sucedida! Agora você pode tentar estabilizar com um modificador de risco de {risk}",
+        "modifiedEffect": {
+          "changed": {
+            "long": "O efeito real do seu experimento é alterado completamente, exceto que a Técnica e a Forma relevantes permanecem inalteradas e o nível permanece semelhante",
+            "short": "Efeito alterado."
+          },
+          "increased": {
+            "long": "O alcance, duração, alvo ou potência do feitiço ou efeito é aumentado",
+            "short": "Efeito aumentado"
+          },
+          "modified": {
+            "long": "O efeito real da sua experiência é modificado. Por exemplo, um feitiço como Maldição de Circe (página 131) transforma o alvo em uma cabra em vez de um porco.",
+            "short": "Efeito modificado."
+          },
+          "reduced": {
+            "long": "O feitiço ou efeito é reduzido em alcance, duração, alvo ou potência",
+            "short": "Efeito reduzido."
+          },
+          "restricted": {
+            "long": "O uso da magia ou efeito é restrito. Por exemplo, não funciona em determinadas circunstâncias, como quando está chovendo",
+            "short": "Efeito restrito."
+          }
+        },
+        "report": {
+          "label": "Relatório de experimentação",
+          "tableRoll": "Rolado na tabela \"{tablename}\" com: <br/><div style=\"align-text:center\">{formula} = {total}</div>",
+          "tableRoll2": "Rolado na tabela \"{tablename}\"."
+        },
+        "riskModifier": "Modificador de risco",
+        "roll": "Role para experimentação",
+        "sideEffect": {
+          "fatalFlaw": {
+            "long": "O feitiço tem uma falha fatal. Por exemplo, um feitiço de invisibilidade faz você brilhar",
+            "short": "Falha mortal."
+          },
+          "majorFlaw": {
+            "long": "O feitiço tem uma grande falha. Por exemplo, um feitiço de cura causa grande dor em seus alvos.",
+            "short": "Falha grave."
+          },
+          "majorSideBenefit": {
+            "long": "O feitiço tem um grande benefício colateral. Por exemplo, um feitiço que transforma você em um lobo também permite que você fale com todas as feras enquanto for um lobo.",
+            "short": "Grande benefício colateral."
+          },
+          "majorSideEffect": {
+            "long": "O feitiço tem um efeito colateral importante. Por exemplo, um feitiço de controle de plantas atrai todos os pássaros em 100 passos.",
+            "short": "Efeito colateral importante."
+          },
+          "minorFlaw": {
+            "long": "O efeito tem uma pequena falha. Por exemplo, uma magia que permite que você se comunique com animais faz com que você retenha alguns dos padrões de fala do animal por um tempo após o término da magia.",
+            "short": "Falha menor."
+          },
+          "minorSideBenefit": {
+            "long": "O feitiço tem um pequeno benefício colateral. Por exemplo, um feitiço de vento tem um cheiro agradável e deixa os insetos voadores desconfortáveis",
+            "short": "Benefício colateral menor"
+          },
+          "minorSideEffect": {
+            "long": "O feitiço tem um efeito colateral menor. Por exemplo, uma magia que controla um animal faz com que a grama cresça sob seus pés.",
+            "short": "Efeito colateral menor."
+          },
+          "sigil": {
+            "long": "Sua insignia é exagerada muitas vezes a sua força normal, tornando-se uma parte significativa do efeito.",
+            "short": "Insignia exagerada."
+          }
+        },
+        "subject": "Assunto do experimento",
+        "title": "Experimentação Arcana"
+      }
+    },
+    "sanatorium": {
+      "button": {
+        "endRecovery": "Fim da recuperação",
+        "endSeason": "Fim da estação",
+        "fastRecovery": "Recuperação rápida (rolagem automática)",
+        "recovery": "Rolar para recuperação",
+        "rollSingle": "Rolar recuperação de ferimento"
+      },
+      "dayOfSeason": "Dia da estação",
+      "daysAvailbable": "Dias disponíveis",
+      "daysLeft": "{days} dias restantes para próxima rolagem de recuperação",
+      "labHealth": "Ajuda do Sanctum",
+      "log": "Arquivo do Paciente",
+      "magicalHelp": "Ajuda mágica",
+      "medicalHistory": "Histórico médico",
+      "msg": {
+        "clearHistory": "Limpar histórico médico",
+        "incapDeath": "O paciente morre! (verificação de ferimento incapacitante falhada)",
+        "incapMustBeFirst": "Ferimentos incapacitantes devem ser tratados antes que ferimentos mais leves possam ser rolados individualmente.",
+        "logDay": "Periodo de recuperação, dia {day}",
+        "logDone": "Nada mais pode ser feito nesta estação.",
+        "logHealed": "Ferimento completamente curado em {days} dia(s)",
+        "logRoll": "Rolou {total} (Dado crítico + {mod})",
+        "logWound": "Ferimento {type} : ",
+        "logWoundBetter": "Melhora de ferimento em {days} dia(s)",
+        "logWoundStable": "Ferimento estabilizado",
+        "logWoundWorse": "Ferimento piora em {days} dia(s)",
+        "nextSeason": "Avançando para {season} de {year}.",
+        "noWoundsForOverstrain": "Não há ferimentos ativos para aplicar um teste de esforço excessivo.",
+        "notOpen": "Abra a janela do Sanatório primeiro e depois role a partir daqui.",
+        "overstrainNote": "Agravado por sobrecarga em {season} {year}.",
+        "overstrainStable": "A ferida estabiliza – sem piora devido ao esforço excessivo.",
+        "overstrainWorsened": "{name} piorou para {type} devido ao esforço excessivo!",
+        "patientDead": "O paciente está morto!",
+        "patientDied": "O paciente morreu!",
+        "patientHealthy": "O paciente está saudável!",
+        "penaltyAdviceHeavy": "O personagem pode falar, comer e se mover por curtas distâncias com tempo e assistência. Atividades produtivas (incluindo estudo, trabalho no Laboratório Hermético e trabalho artesanal) são impossíveis.",
+        "penaltyAdviceLight": "O personagem pode viajar e estudar normalmente, mas não pode realizar atividades extenuantes, incluindo lançar magias que custem Fadiga. O trabalho de laboratório hermético e o trabalho artesanal podem ser realizados normalmente.",
+        "penaltyAdviceMedium": "O personagem pode andar, desde que possa andar devagar e descansar frequentemente. Todas as tarifas de viagens de longa distância foram reduzidas pela metade. O personagem pode estudar, mas seu Total de Avanço é reduzido à metade se ele permanecer neste nível de penalidade por um mês ou mais da estação. O trabalho hermético de laboratório e o trabalho artesanal são impossíveis.",
+        "sunriseRoll": "Nascer do sol",
+        "sunsetRoll": "Pôr do sol",
+        "worstPenaltyNote": "A penalidade de ferimento de {penalty} foi mantida por {days} dias nesta estação."
+      },
+      "mundaneHelp": "Ajuda mundana",
+      "overstrain": "Verificação de sobrecarga",
+      "recoveryBonus": "Bônus de recuperação",
+      "viewMedicalHistory": "Ver histórico médico",
+      "woundRecovery": "Recuperação de feridas",
+      "woundsRecovery": "Recuperação de feridas"
+    },
+    "scriptorium": {
+      "button": {
+        "createActivity": "Criar atividade",
+        "selectBookToAppend": "Selecione um livro para anexar",
+        "selectBookToCopy": "Selecione um livro para copiar",
+        "selectBookToRead": "Selecione um livro para ler",
+        "selectReader": "Selecione o leitor",
+        "selectScribe": "Selecione o escriba",
+        "selectWriter": "Selecione o escritor"
+      },
+      "copying": {
+        "activity": "Copiando livro",
+        "finalQuality": "Qualidade final",
+        "scribeDescription": "Cópia feita por {scribe} no(a) {season} de {year}",
+        "writingScoreLabel": "Pontuação de escrita (Profissão: Escriba + 6)",
+        "writingScoreLabel2": "Pontuação de escrita (Profissão: Escriba x 60)"
+      },
+      "duration": "{num} estações para copiar tudo ({pts} pontos).",
+      "folio": "Texto de lab. de fólio",
+      "index": "Index",
+      "individualCopies": "Cópias individuais",
+      "languages": "Línguas conhecidas",
+      "msg": {
+        "actorNotAuthorized": "Você não está autorizado a agendar atividades com este ator.",
+        "appendTopic": "Adicione um tópico a um livro existente.",
+        "appendTopicTitle": "Anexe o tópico do livro: \"{title}\".",
+        "bookNoAccess": "Você não tem acesso a este livro.",
+        "bookNotOwned": "Você deve ser o dono do livro para escrever nele!",
+        "cappedQuality": "Esse livro se tornou uma leitura fácil. Qualidade reduzida para {item}",
+        "diaryDescCopying": "{name} copiou alguns tópicos dos seguintes livros:",
+        "diaryDescReading": "{name} passou a estação lendo \"{title}\" por {author},<br/> um {type} em {language} sobre {topic}",
+        "diaryDescTranslating": "{name} passou a estação traduzindo textos de laboratório em \"{title}\":<br/>{description}",
+        "diaryDescWriting": "{name} passou a estação escrevendo \"{title}\",<br/> um {type} em {language} sobre {topic}",
+        "diaryTopic": {
+          "art": "A {art} Arte Hermética",
+          "spell": "o aperfeiçoamento da magia \"{spell}\""
+        },
+        "dropBook": "Solte um livro aqui para preencher.",
+        "dropBookOrClick": "Deixe um livro aqui para preencher os espaços em branco ou clique para selecionar um de seus livros.",
+        "dropBookTopic": "Solte um livro e selecione um tipo de tópico.",
+        "dropCharacter": "Solte o personagem aqui.",
+        "dropLabText": "Solte uma magia autoral ou rascunho de texto de lab.",
+        "emptyBook": "O livro está vazio, você não pode aprender nada com ele.",
+        "error": "Ocorreu um erro inesperado no Scriptorium. Verifique o console do navegador (F12) para mais detalhes.",
+        "illiterate": "O leitor não sabe ler.",
+        "invalidLevel": "Nível inválido.",
+        "invalidQuality": "Quantidade inválida.",
+        "labText": "Textos de laboratório são estudados em um laboratório.",
+        "missingItem": "O leitor não tem {item}",
+        "missingSupernatural": "Habilidades Sobrenaturais não podem ser aprendidas do zero com livro.",
+        "noLanguage": "O leitor não conhece nenhuma língua com nível suficiente",
+        "noSimilarTopic": "Nenhum tópico de tipo similar neste livro",
+        "notMagus": "O leitor não é um magus.",
+        "readerIsAuthor": "O leitor é o autor do livro!",
+        "tooManyLTLevels": "Níveis demais de textos de laboratório",
+        "tooManyTractati": "O escritor já escreveu Tractati demais neste tópico.",
+        "tooSkilled": "O leitor é muito habilidoso para este livro.",
+        "topicNoFound": "Impossível encontrar o livro ou o tópico que foi escrito.",
+        "tractatusAlreadyRead": "O leitor já leu um Tractatus muito similar neste mesmo tópico com a mesma qualidade em \"{title}\"",
+        "translationOnly": "Só é possível traduzir os próprios rascunhos do autor.",
+        "unconfirmedLang": "Por favor, confirme se o escriba fala todas as línguas listadas.",
+        "unfamiliarTopic": "Tópico incomun ({topic}), qualquer cóica pode ser corrompida (Confirmar com narrador).",
+        "unfamiliarTopic2": "Confirme com o narrador se o escriba é talentoso o suficiente na habilidade relacionada.",
+        "whichItem": "Não conseguiu encontrar nenhum {item} conhecido pelo leitor. Selecione um se disponível."
+      },
+      "quickCopy": "Cópia rápida",
+      "reader": {
+        "name": "Nome do leitor",
+        "title": "Leitor"
+      },
+      "reading": {
+        "activity": "Lendo \"{title}\""
+      },
+      "scribe": {
+        "name": "Nome do escriba",
+        "title": "Escriba"
+      },
+      "translating": {
+        "activity": "Traduzindo textos de laboratório em \"{title}\""
+      },
+      "writer": {
+        "name": "Nome do escritor",
+        "noQualifyingArts": "O escritor não possui artes com nota 5 ou mais.",
+        "nothingToWrite": "O escritor não tem nada sobre o que escrever.",
+        "title": "Escritor",
+        "writingScoreLabel": "Pontuação do escritor (Com + Língua)",
+        "writingScoreLabel2": "Nível de pontuação de tradução (Língua x 20)."
+      },
+      "writing": {
+        "activity": "Escrevendo \"{title}\""
+      }
+    },
+    "sheet": {
+      "Requisites": "Requisitos",
+      "abilities": "Habilidades",
+      "ability": "Habilidade",
+      "action": {
+        "Add": "Adicionar",
+        "Create": "Criar",
+        "Delete": "Deletar",
+        "Edit": "Editar",
+        "Filter": "Filtrar",
+        "apply": "Aplicar",
+        "invest": "Investir",
+        "partialProgress": "Progresso parcial",
+        "reset": "Redefinir",
+        "rest": "Descansar",
+        "rollback": "Reverter",
+        "update": "Atualizar"
+      },
+      "actions": "Ações",
+      "actuals": "Atual",
+      "advanced": "Avançado",
+      "advantage": "Vantagem",
+      "aegisCovenant": "Aegis do Lar",
+      "aegisPenetration": "Penetração do Aegis",
+      "aesthetics": "Estética",
+      "aestheticsMax": "Estética máxima",
+      "age": "Idade",
+      "ageModifier": "Modificador de Idade",
+      "aging": "Envelhecimento",
+      "agingMagi": "Envelhecimento para Magi",
+      "agingMundane": "Envelhecimento para Mundano",
+      "agingPts": "Pontos de envelhecimento",
+      "agingStart": "Mod. de início de envelhecimento",
+      "apparentAge": "Idade aparente",
+      "apprentice": "Aprendiz",
+      "apprenticeship": "Concílio de Aprendizado",
+      "apprenticeshipYears": "Aprendizado",
+      "armor": "Armadura",
+      "art": "Arte",
+      "arts": "Artes",
+      "attack": "Ataque",
+      "attackAdvantage": "Vantagem de Ataque",
+      "attributes": "Atributos",
+      "aura": "Aura",
+      "auraCfg": "Configuração da aura",
+      "auraMod": "Modificador de aura",
+      "authorship": {
+        "author": "Autor",
+        "label": "Autoria",
+        "language": "Língua"
+      },
+      "autumn": "Outono",
+      "base-effects": "Efeitos Base",
+      "baseExpenditure": "Despesas (Antes da Redução de Custos)",
+      "baseSafety": "Segurança Base",
+      "basicLabTotal": {
+        "label": "Total de Lab. Básico"
+      },
+      "biography": "Biografia",
+      "birthName": "Nome de Batismo",
+      "birthplace": "Lugar de Origem",
+      "blankBook": "Livro em branco",
+      "bonus": {
+        "activeEffects": "Bônus de Efeito",
+        "label": "Bônus"
+      },
+      "bonusDesc": "Descrição do bônus",
+      "bonuses": {
+        "label": "Bônus"
+      },
+      "book": "Livro",
+      "bookTopic": "Tópico",
+      "bookTopics": "Tópicos",
+      "bookType": "Tipo de Livro",
+      "books": "Livros",
+      "boons": "Graças",
+      "bronze": "Bronze",
+      "buildings": "Construções",
+      "buildingsSumary": "1 libra p/ 10 pts de Habitantes (50% p/ ofício)",
+      "calendar": "Calendário",
+      "castingTotal": "Total de Conjuração",
+      "castingTotals": "Totais de Conjuração",
+      "charType": "Tipo",
+      "characteristic": "Característica",
+      "child": "Criança",
+      "com": "Com",
+      "combat": {
+        "defend": "Defender",
+        "flavor": {
+          "attack": "{attacker} ataca {target} com {weapon}.",
+          "damage": "{attacker} tenta infligir {amount} de dano.",
+          "damageWithTarget": "{attacker} tenta infligir {amount} de dano a {target}.",
+          "defense": "{defender} defende contra {attacker} com {weapon}.",
+          "defenseNoAttacker": "{defender} defende com {weapon}.",
+          "noWeapon": "sem arma",
+          "soak": "{target} absorve o dano."
+        },
+        "label": "Combate",
+        "preparation": "Preparação de combate",
+        "wound": "Ferimento de combate infligido por {attacker}"
+      },
+      "combatInstructions1": "Equipe armas e armaduras para ver o total.",
+      "combatInstructions2": "Se sua especialidade for com o escudo, marque-a no escudo e não na arma. Se não tiver o escudo equipado, o bônus de especialidade não se aplica.",
+      "combatInstructions3": "Crie um item 'montado' com a habilidade de montar e marque em seus atributos que se trata de um cavalo. Quando você o equipar, o cálculo será aplicado.",
+      "communication": "Comunicação",
+      "companion": "Companheiro",
+      "companions": "Companheiros",
+      "confidence": "Determinação",
+      "constructionPoints": "Pontos de Construção",
+      "consumables": "Consumíveis",
+      "consumablesSumary": "2 libras p/ 10 pts de Habitantes (20% p/ ofício)",
+      "cord": "Cordões",
+      "cost": "Custo",
+      "costSavings": "Reduções de Custos",
+      "costsSavings": "Reduções de Custo",
+      "count": "Contagem",
+      "covenant": "Concílio",
+      "covenantExternalRelations": "Concílio: Relações Externa",
+      "covenantResidents": "Concílio: Residentes",
+      "covenantResources": "Concílio: Recursos",
+      "covenantSite": "Concílio: Local",
+      "covenantSurroundings": "Concílio: Arredores",
+      "craftsmen": "Artesões",
+      "craftsmenSumary": "1 + (Habilidade / 2) libras p/ ano",
+      "creator": "Criador",
+      "cun": "Ins",
+      "cunning": "Instinto",
+      "currentYear": "Ano Atual",
+      "date": "Data",
+      "dazed": "Atordoado",
+      "dazedLvl": "Nível Atordoado",
+      "dead": "Morto",
+      "decrepitude": "Decrepitude",
+      "defaultCharacteristicForAbility": "Característica padrão",
+      "defense": "Defesa",
+      "dependants": "Dependentes",
+      "description": "Descrição",
+      "details": "Detalhes",
+      "determiningEffect": {
+        "label": "Perceber Efeito"
+      },
+      "dex": "Des",
+      "dexterity": "Destreza",
+      "diary": "Diário",
+      "dimensions": "Dimensões",
+      "divider": "Divisor",
+      "domusMagnus": "Domus Magna",
+      "duration": "Duração",
+      "economics": "Economia",
+      "edition": {
+        "creationMode": "Modo de criação"
+      },
+      "effect": "Efeito",
+      "effects": "Efeitos",
+      "effectsToggle": "Ativar",
+      "enchantment": "Encantamento",
+      "enchantments": "Encantamentos",
+      "encumbrance": "Fardo",
+      "entity": "Entidade",
+      "equipmentMaintenance": "Manutenção média p/ guarda",
+      "equipped": "Equipado",
+      "expenditure": "Despesas",
+      "expensive": "Caro",
+      "experience": "Experiência",
+      "experienceNext": "Próximo nível",
+      "experienceShort": "Exp",
+      "eyes": "Olhos",
+      "familiar": "Familiar",
+      "fastCastingSpeed": {
+        "label": "Velocidade de Magia Acelerada"
+      },
+      "fatigue": {
+        "add": "Adicione um nível de fadiga + SHIFT para longo prazo.",
+        "label": "Fadiga",
+        "overflow": "Estouro de fadiga",
+        "recover": "Recuperar um nível de fadiga + SHIFT para longo prazo.",
+        "roll": "Rolagem de fadiga"
+      },
+      "features": "Equipamentos",
+      "fieldOfWork": "Área de Atuação",
+      "filters": "Filtros",
+      "flaws": "Defeitos",
+      "fo": "Fo",
+      "focus": "Foco",
+      "form": "Forma",
+      "formRequisite": "Requisito de Forma",
+      "formRes": "Resistência de forma",
+      "formScore": "Pontuação da forma ({form})",
+      "forms": "Formas",
+      "foundationYear": "Ano de Fundação",
+      "free": "Gratuito",
+      "freeVirtues": "Virtudes Gratuitas",
+      "fresh": "Descansado",
+      "fullSet": "Conjunto Completo",
+      "gender": "Gênero",
+      "general": "Geral",
+      "generalQuality": "Qualidade Geral",
+      "genericModifier": "{mod} modificador",
+      "gift": {
+        "blatant": "Dom Manifesto",
+        "gentle": "Dom Gentil",
+        "normal": "Dom Normal"
+      },
+      "giftType": "Tipo de Dom",
+      "gold": "Ouro",
+      "governForm": "Tipo de Governo",
+      "grog": "Grogue",
+      "grogs": "Grogues",
+      "habitants": "Habitantes",
+      "hair": "Cabelo",
+      "handedness": "Mão Primária",
+      "health": "Saúde",
+      "healthy": "Saudável",
+      "heavy": "Grave",
+      "height": "Altura",
+      "hermetic": "Hermético",
+      "heroic": "Heróico",
+      "hooks": "Ganchos",
+      "horse": "Cavalo",
+      "horses": "Cavalos",
+      "house": "Casa",
+      "human": "Humano",
+      "impact": "Impacto",
+      "improvement": "Melhoria",
+      "incap": "Incapacitante",
+      "incoming": "Renda Atual",
+      "incomingSources": "Fontes de Renda",
+      "indexKey": "Index key",
+      "inexpensive": "Sem custo",
+      "inferiorities": "Defeitos",
+      "inflation": "Inflação",
+      "inflationSumary": "aumenta anualmente",
+      "inhabitants": "Habitantes",
+      "inhabitantsPoints": "Pontos de Habitantes",
+      "initials": "Inicial",
+      "initiations": "Iniciações",
+      "initiative": "Iniciativa",
+      "initiativeShort": "Iniciar",
+      "int": "Int",
+      "intelligence": "Inteligência",
+      "inventory": "Inventário",
+      "item": {
+        "enchantments": "Encantamentos"
+      },
+      "items": "Itens",
+      "job": "Responsabilidades",
+      "labHelp": "Assistente de laboratório",
+      "labText": {
+        "raw": "Bruto"
+      },
+      "labTexts": "Textos de laboratório",
+      "labTotal": "Total de Lab.",
+      "label": "Rótulo",
+      "laboratories": "Laboratórios",
+      "laboratoriesPoints": "Pontos de Laboratórios",
+      "laboratoriesSumary": "1 libra p/ 10 pts de Laboratório (20% p/ ofício)",
+      "laboratory": "Laboratório",
+      "laboratoryOutfitting": "Laboratório: Material",
+      "laboratoryStructure": "Laboratório: Estrutural",
+      "laboratorySupernatural": "Laboratório: Sobrenatural",
+      "laboratoryTexts": "Textos de Lab.",
+      "laborers": "Operários",
+      "laborersSumary": "1 libra p/ pessoa",
+      "level": "Nível",
+      "levelAura": "Nível de Aura",
+      "levelsRegio": "Níveis de Regio",
+      "library": "Biblioteca",
+      "light": "Leve",
+      "livestock": "Gado",
+      "load": "Carga",
+      "location": "Localização",
+      "longevityModifier": "Mod. de Ritual de Longevidade",
+      "longevityRitual": "Ritual de Longevidade",
+      "loyalty": "Lealdade",
+      "loyaltyModifiers": {
+        "equipment": "Equipamento",
+        "events": "Ações e eventos",
+        "familiarity": "Familiaridade",
+        "header": "Modificadores Situacionais para",
+        "livingConditions": "Condições de Vida",
+        "money": "Dinheiro",
+        "specialists": "Especialistas"
+      },
+      "loyaltyPoints": {
+        "actuals": "Pontos de Lealdade Atuais",
+        "base": "Pontos de Lealdade Base",
+        "modifiersTotal": "Modificadores Totais",
+        "predominant": "Lealdade Predominante"
+      },
+      "magic": {
+        "aura": "Aura",
+        "gestures": "Gestos",
+        "gesturesType": {
+          "bold": "Gestos vigorosos",
+          "exaggerated": "Gestos exagerados",
+          "motionless": "Sem gestos",
+          "subtle": "Gestos sutis"
+        },
+        "voice": "Voz",
+        "voiceType": {
+          "firm": "Voz firme",
+          "loud": "Voz alta",
+          "quiet": "Voz baixa",
+          "silent": "Silencioso"
+        }
+      },
+      "magicBooks": "Livros mágicos",
+      "magicItems": "Itens Mágicos",
+      "magicItemsSumary": "1 libra p/ magnitude",
+      "magicLabel": "Magia",
+      "magicResistance": {
+        "label": "Resistência Mágica"
+      },
+      "magicResistanceOverSpell": "Magia falhou em {target} por {total}",
+      "magicResistanceOverSpellWithNoTotal": "Magia falhou em {target}",
+      "magicSystem": "Sistema de Magia",
+      "magical-effects": "Efeitos Mágicos",
+      "magicalEffect": "Efeito mágico espontâneo",
+      "magicalEffects": "Efeitos mágicos espontâneos",
+      "magicqualities": "Qualidades Mágicas",
+      "magus": "Magus",
+      "maguss": "Magi",
+      "maintenance": "Manutenção",
+      "major": "Grande",
+      "mastery": "Aperfeiçoamento",
+      "masteryAbilities": "Aspectos aperfeiçoados",
+      "medium": "Médio",
+      "might": "Potência",
+      "minor": "Pequeno",
+      "modifier": "Modificador",
+      "modifiersLife": "Condição de Vida",
+      "modifiersLifeMagi": "Condição de Vida (Magi)",
+      "modifiersLifeMundane": "Condição de Vida (Mundanos)",
+      "money": "Dinheiro",
+      "mounted": "Montado",
+      "multipleCasting": {
+        "label": "Múltiplas Magias"
+      },
+      "mundane": "Mundano",
+      "mundaneBooks": "Livros mundanos",
+      "mystery": "Mistério",
+      "n-a": "N/A",
+      "name": "Nome",
+      "narrator": "Narrador",
+      "natRes": "Resistência natural",
+      "nationality": "Raça/Nacionalidade",
+      "naturalweapon": "Arma natural",
+      "naturalweapons": "Armas naturais",
+      "noMagicResistance": "Sem resistência mágica",
+      "none": "Nenhum",
+      "notEquippedWeapon": "Você não pode usar uma arma não equipada",
+      "notes": "Notas",
+      "noun": "Substantivo",
+      "nounRequisite": "Requisito de Substantivo",
+      "nouns": "Substantivos",
+      "npc": "NPC",
+      "npcgrogs": "Outros",
+      "npcs": "NPCs",
+      "number": "Número",
+      "occupiedSize": "Tamanho Ocupado",
+      "option": {
+        "none": "Nenhum"
+      },
+      "other": "Outro",
+      "owner": "Proprietário",
+      "page": "Página",
+      "parens": "Parens",
+      "parma": "Parma Magica",
+      "pawns": "Peões",
+      "penalty": "Penalidade",
+      "pendingExperience": "Experiência Restante",
+      "penetration": "Penetração",
+      "penetrationBonusArcanic": "Conexão arcana",
+      "penetrationBonusSympathic": "Conexão simpática",
+      "penetrationOptions": "Opções de penetração",
+      "per": "Per",
+      "perception": "Percepção",
+      "personality": "Traços de Personalidade",
+      "personalityFlaw": "Personalidade",
+      "personalityLab": "Personalidade",
+      "physicalBooks": "Livros físicos",
+      "physicalForm": "Forma Física",
+      "player": "Jogador",
+      "playername": "Nome do jogador",
+      "players": "Jogadores",
+      "points": "Pontos",
+      "pointsShort": "pts",
+      "possessions": "Possessões",
+      "power": "Poder",
+      "powerCost": "Potência {might} - 5 vezes o custo ({cost})",
+      "powerLevel": "5 vezes o custo ({res})",
+      "powers": "Poderes",
+      "pre": "Pre",
+      "presence": "Presença",
+      "priceless": "Inestimável",
+      "primus": "Primus",
+      "profession": "Título/Profissão",
+      "progress": "Progresso",
+      "properties": "Propriedades e Terra",
+      "protection": "Proteção",
+      "provisions": "Provisões",
+      "provisionsSumary": "5 libras p/ 10 pts de Habitantes(50% + 20% p/ ofício)",
+      "qik": "Rap",
+      "qualities": "Virtudes",
+      "quality": "Qualidade",
+      "quantity": "Quantidade",
+      "quickness": "Rapidez",
+      "range": "Alcance",
+      "rawVis": "Vis Bruto",
+      "refinement": "Refinamento",
+      "religion": "Religião",
+      "reputation": "Reputação",
+      "reputationType": {
+        "academic": "Acadêmico",
+        "ecclesiastic": "Eclesiástica",
+        "hermetic": "Hermética",
+        "infernal": "Infernal",
+        "local": "Local",
+        "persona": "Persona"
+      },
+      "ritual": "Ritual",
+      "rollFailed": "Falha na rolagem",
+      "rooms": "Cômodos",
+      "safety": "Segurança",
+      "saga": "Saga",
+      "sagaType": "Tipo de Saga",
+      "salubrity": "Salubridade",
+      "sanctum": "Sanctum",
+      "saving": "Reduções",
+      "scene": "Cena",
+      "score": "Pontuação",
+      "season": "Estação",
+      "seasons": "estações",
+      "secrets": "Segredos",
+      "security": "Segurança",
+      "servants": "Servos",
+      "setAbilities": "Crie habilidades para seu personagem com os valores abaixo. Isso permitirá que o cálculo correto seja feito. Se você não tiver a habilidade, ainda poderá criá-la com um valor zero",
+      "sigil": "Insignia Mística",
+      "silver": "Prata",
+      "size": "Tamanho",
+      "skill": {
+        "abilityKey": "Habilidade chave",
+        "abilityNoKey": "Habilidade customizada (legado)",
+        "abilityOption": "Opção de habilidade",
+        "affinity": "Afinidade",
+        "puissant": "Virtuoso"
+      },
+      "soak": "Absorção",
+      "soakBonus": "Bônus de absorção",
+      "soakRoll": "Rolagem de absorção",
+      "socialStatus": "Classe Social",
+      "socialStatusEastern": "Status Social (Cristandade Oriental)",
+      "socialStatusHibernia": "Status Social (Hibéria)",
+      "socialStatusIberia": "Estatuto Social (Ibéria)",
+      "socialStatusIslamic": "Status social (islâmico)",
+      "socialStatusJewish": "Status social (judeu)",
+      "socialStatusNorthAfrica": "Estatuto Social (Norte de África)",
+      "socialStatusPersia": "Status social (Pérsia)",
+      "socialStatusProvencal": "Status social (provençal)",
+      "socialStatusWestern": "Status Social (Cristandade Ocidental)",
+      "source": {
+        "A&A": "Art & Academe",
+        "AnM": "Ancient Magic",
+        "Ant": "Antagonists",
+        "App": "Apprentices",
+        "ArM5": "Livro Base",
+        "ArM5Def": "Edição Definitiva Ars",
+        "AtD": "Contra a Escuridão",
+        "BCoC": "The Broken Cov. of Cabelais",
+        "C&C": "The Cradle & The Crescent",
+        "C&G": "City & Guild",
+        "CI": "The Contested Isle",
+        "Ch": "The Church",
+        "Cov": "Covenants",
+        "Dies": "Dies Irae",
+        "F&F": "Faith and Flame",
+        "GotF": "Guardian of the Forest",
+        "Gr": "Grogs",
+        "HMRE": "Hedge Magic RE",
+        "HP": "Hermetic Projects",
+        "HoH:MC": "CdH: Cultos dos Mistérios",
+        "HoH:S": "CdH: Societates",
+        "HoH:TL": "CdH: Linhagens Legítimas",
+        "Hooks": "Hooks",
+        "L&L": "The Lion and The Lily",
+        "LH": "Legends of Hermes",
+        "LoM": "Lord of Men",
+        "LotN": "Terras do Nilo",
+        "ML": "Mythic Locations",
+        "MoH": "Magi of Hermes",
+        "RM": "Rival Magic",
+        "RoP:D": "RoP: The Divine",
+        "RoP:F": "RoP: Faerie",
+        "RoP:I": "RdP: Reino Infernal",
+        "RoP:M": "RdP: Reino Mágico",
+        "SemE": "Semita Errabunda",
+        "TME": "Transforming Mythic Europe",
+        "TMRE": "The Mysteries RE",
+        "TSE": "The Sundered Eagle",
+        "TTT": "Contos contados três vezes",
+        "ToME": "Tales of Mythic Europe",
+        "ToP": "Tales of Power",
+        "TtA": "Through the Aegis",
+        "custom": "Homebrew",
+        "label": "Fonte",
+        "others": "Outro"
+      },
+      "sourceQuality": "Qualidade",
+      "specialist": "Especialista",
+      "specialists": "Especialistas",
+      "specialistsSumary": "Habilidade libras por ano",
+      "specialities": "Especialidades",
+      "speciality": "Especialidade",
+      "specialityBonus": "Bônus de especialidade",
+      "specie": "Espécie",
+      "spell": "Magia",
+      "spell-design": "Criação de magia",
+      "spellFailed": "Magia falhou",
+      "spellLevel": "Nível de magia",
+      "spellOverMagicResistance": "Magia bem-sucedida em {target} por {total}",
+      "spellOverMagicResistanceWithNoTotal": "Magia bem-sucedida em {target}",
+      "spellTotal": "Total de conjuração",
+      "spells": "Magias",
+      "spontaneousMagic": "Magia espontânea",
+      "spring": "Primavera",
+      "sta": "Vig",
+      "stamina": "Vigor",
+      "standard": "Padrão",
+      "state": {
+        "label": "Estado"
+      },
+      "states": {
+        "confidencePrompt": "Solicitação de determinação pendente"
+      },
+      "story": "Narrativo",
+      "str": "For",
+      "strength": "Força",
+      "strengthNeeded": "Força necessária",
+      "summer": "Verão",
+      "sundry": "Diversos",
+      "sundrySumary": "Outras despesas excepcionais",
+      "supernatural": "Sobrenatural",
+      "tainted": "Impuro",
+      "target": "Alvo",
+      "targetLevel": "Nível alvo",
+      "targeting": {
+        "label": "Pontaria"
+      },
+      "teamsters": "Transportadores",
+      "tech": "Te",
+      "technique": "Técnica",
+      "techniqueRequisite": "Requisito de Técnica",
+      "techniques": "Técnicas",
+      "tired": "Cansado",
+      "tiredLvl": "Nível Cansado",
+      "tithes": "Tributos",
+      "tithesSumary": "Impostos e débitos",
+      "titles": "Títulos",
+      "topics": {
+        "abilities": "Tópico: Habilidades",
+        "arts": "Tópico: Artes herméticas",
+        "current": "Tópico {current} de {total}",
+        "labtexts": "Textos de lab.",
+        "masteries": "Tópico: Aperfeiçoamento de magia"
+      },
+      "totalDamage": "Dano aplicado",
+      "totalExpenditure": "Despesas Totais",
+      "totalHabitants": "Habitantes Totais",
+      "totalIncome": "Renda Total",
+      "totalPenetration": "Total de penetração",
+      "trainingRequired": "Treinamento Necessário",
+      "tribunal": "Tribunal",
+      "turbula": "Guardas",
+      "twilight": "Crepúsculo",
+      "twilightScars": "Cicatriz do Crepúsculo",
+      "type": "Tipo",
+      "typeAura": "Tipo de Aura",
+      "unconscious": "Inconsciente",
+      "upkeep": "Manutenção",
+      "uses": "Usos",
+      "usesLeft": "Usos restantes",
+      "verb": "Verbo",
+      "verbRequisite": "Requisito de Verbo",
+      "verbs": "Verbos",
+      "virtues": "Virtudes",
+      "virtuesFlaws": "Virtudes & Defeitos",
+      "vis": "Vis",
+      "visDesc": "Vis extraído da Fonte de Vis \"{name}\" do concílio \"{covenant}\".",
+      "visHarvest": "Colher vis",
+      "visLabel": "Rótulo de Vis",
+      "visLimit": {
+        "label": "Limite de Uso de Vis"
+      },
+      "visSources": "Fontes de Vis",
+      "visStock": "Estoque de Vis",
+      "vitals": "Vitais",
+      "wages": "Salários",
+      "wagesSumary": "2 libras p/ 10 pts de Habitantes",
+      "warping": "Distorção",
+      "wealth": "Riqueza",
+      "weaponExpert": "Arma Especialista",
+      "weapons": "Armas",
+      "weaponsPoints": "Pontos de Armas e Armaduras",
+      "weaponsSumary": "1 libra p/ 320 pts de Armas e Armadura (50% p/ ofício)",
+      "weary": "Fatigado",
+      "wearyLvl": "Nível Fatigado",
+      "weight": "Peso",
+      "whereabouts": "Localização",
+      "winded": "Ofegante",
+      "windedLvl": "Nível Ofegante",
+      "winter": "Inverno",
+      "withCompendium": "Incluir compêndios",
+      "wound": {
+        "fresh": "Tratamento não iniciado",
+        "gravity": "Gravidade",
+        "healed": "Curado",
+        "inflicted": "Inflingido",
+        "inrecovery": "Em recuperação",
+        "label": "Ferimento",
+        "recovery": "Tempo de recuperação"
+      },
+      "wounds": "Ferimentos",
+      "writingMaterials": "Materiais de Escrita",
+      "writingMaterialsSumary": "1 libra p/ Magus e Escriba (50% p/ ofício)",
+      "year": "Ano",
+      "yearBorn": "Ano de Nascimento",
+      "yearExpenditure": "Despesas Anuais",
+      "years": "Anos"
+    },
+    "skill": {
+      "academic": {
+        "artesLib": "Artes Liberales",
+        "civilCanonLaw": "Direito Civil & Canônico",
+        "commonLaw": "Lei Comum",
+        "deadLanguage": "Língua Morta: ({option})",
+        "generic": "Hab. Acadêmica ({option})",
+        "law": "Lei ({option})",
+        "medicine": "Medicina",
+        "philosophy": "Philosophiae",
+        "theology": "Teologia"
+      },
+      "arcane": {
+        "dominionLore": "Conhecer Reino",
+        "faerieLore": "Reino Feérico",
+        "finesse": "Finesse",
+        "generic": "Hab. Arcana ({option})",
+        "hermeticCode": "Código de Hermes",
+        "infernalLore": "Reino Infernal",
+        "magicLore": "Reino Mágico",
+        "magicTheory": "Teoria Mágica",
+        "parma": "Parma Magica",
+        "penetration": "Penetração"
+      },
+      "category": {
+        "academic": "Acadêmica",
+        "arcane": "Arcana",
+        "form": "Forma alternativa",
+        "general": "Geral",
+        "label": "Categoria",
+        "martial": "Marcial",
+        "mystery": "Mistério",
+        "supernatural": "Sobrenatural",
+        "technique": "Técnica alternativa"
+      },
+      "commonCases": {
+        "areaLore": "Conhecer (Região)",
+        "hermesLore": "Conhecer Ordem de Hermes",
+        "latin": "Latim",
+        "native": "Língua Nativa"
+      },
+      "form": {
+        "generic": "Forma ({option}) "
+      },
+      "general": {
+        "animalHandling": "Cuidar de Animais",
+        "areaLore": "Conhecer ({option})",
+        "athletics": "Atletismo",
+        "awareness": "Prontidão",
+        "bargain": "Barganha",
+        "brawl": "Briga",
+        "carouse": "Farrear",
+        "charm": "Charme",
+        "chirurgy": "Cirurgia",
+        "concentration": "Concentração",
+        "craft": "Ofício ({option})",
+        "etiquette": "Etiqueta",
+        "folkKen": "Empatia",
+        "guile": "Malícia",
+        "hunt": "Caçar",
+        "intrigue": "Intriga",
+        "knowledge": "Conhecer ({option})",
+        "leadership": "Liderança",
+        "legerdemain": "Jogo de Mãos",
+        "livingLanguage": "Língua Viva: ({option})",
+        "music": "Música",
+        "organizationLore": "Conhecer ({option})",
+        "profession": "Profissão ({option})",
+        "ride": "Cavalgar",
+        "stealth": "Furtividade",
+        "survival": "Sobrevivência",
+        "swim": "Nadar",
+        "teaching": "Lecionar"
+      },
+      "martial": {
+        "bows": "Arquearia",
+        "generic": "Hab. Marcial ({option})",
+        "greatWeapon": "Arma de Duas Mãos",
+        "singleWeapon": "Arma de Uma Mão",
+        "trownWeapon": "Arma de Arremesso"
+      },
+      "mystery": {
+        "cult": "Conhecimento ({option})",
+        "enigma": "Sabedoria Enigmática",
+        "faerieMagic": "Magia Feérica",
+        "heartbeast": "Fera Interior",
+        "verditiusMagic": "Encantamento Verditius"
+      },
+      "options": {
+        "academic": "Nome do tópico",
+        "arcane": "Nome da habilidade",
+        "area": "Nome da região",
+        "craft": "Nome do ofício",
+        "form": "Nome da Forma",
+        "knowledge": "Tópico",
+        "language": "Nome da língua",
+        "law": "Fórum legal",
+        "martial": "Tipo de arma",
+        "mysteryCult": "Nome do culto",
+        "organization": "Nome da org.",
+        "profession": "Nome da prof.",
+        "supernatural": "Nome da habilidade",
+        "technique": "Nome da Técnica",
+        "theology": "Religião"
+      },
+      "supernatural": {
+        "animalKen": "Empatia com Animais",
+        "dowsing": "Rabdomancia",
+        "enchantingMusic": "Música Cativante",
+        "entrancement": "Mesmerismo",
+        "generic": "Hab. Sobrenatural: {option}",
+        "magicSensitivity": "Sensitividade Mágica",
+        "premonitions": "Premonições",
+        "secondSight": "Percepção Mística",
+        "senseHolyAndUnholy": "Sentir O Sagrado e O Profano",
+        "shapeshifter": "Metamorfose",
+        "wildernessSense": "Sentir A Natureza"
+      },
+      "technique": {
+        "generic": "Técnica ({option}) "
+      }
+    },
+    "spell": {
+      "applyFocus": "Foco mágico",
+      "attributes": "Parâmetros do efeito",
+      "description": "Descrição do efeito",
+      "duration": {
+        "short": "DUR"
+      },
+      "durations": {
+        "40": "40 (Holy)",
+        "19year": "19 Years (Hyperbo.)",
+        "arcr": "Arcane Ring (Arithm.)",
+        "aura": "Aura (Fae)",
+        "bargain": "Barganha (Fae)",
+        "conc": "Concentração",
+        "condition": "Condition (Fae)",
+        "cursed": "Cursed (Malef.)",
+        "days": "Days (Astrology)",
+        "devotion": "Devotion (Holy)",
+        "diam": "Diâmetro",
+        "dream": "Dream (Dream)",
+        "event": "Event (Defixio)",
+        "faerie": "Faerie (Fae)",
+        "fast": "Fast (Holy)",
+        "fire": "Fogo (Feérico)",
+        "focus": "Focus (Faerie)",
+        "forsaken": "Forsaken (Malef.)",
+        "geas": "Geas (Faerie)",
+        "grace": "Grace (Holy)",
+        "held": "Held (Fae)",
+        "hidden": "Hidden (Fae)",
+        "hour+1": "Hour + 1 (Faerie)",
+        "hours": "Hours (Astrology)",
+        "if": "If (Faerie)",
+        "minutes": "Minutes (Astrology)",
+        "mm": "Midday/night (Faerie)",
+        "moment": "Momentânea",
+        "moon": "Lua",
+        "not": "Not (Faerie)",
+        "office": "Office (Holy)",
+        "perf": "Performance (Perf.)",
+        "recitation": "Recitation (Holy)",
+        "ring": "Anel",
+        "rune": "Rune (Runic)",
+        "sabbath": "Sabbath (Holy)",
+        "season": "Season (Faerie)",
+        "sign": "Signs (Astrology)",
+        "storm": "Storm (Atlantean)",
+        "sun": "Sol",
+        "symbol": "Symbol (Fae)",
+        "while": "Até Condição (Feérico)",
+        "year": "Ano",
+        "year+1": "Ano + 1 (Feérico)"
+      },
+      "effect": {
+        "baseLevel": "Nível base",
+        "description": "Efeito base",
+        "levelOffset": "Ajuste de nível"
+      },
+      "masteries": {
+        "penetration": "Penetração aperfeiçoada"
+      },
+      "masteryHint": "aperfeiçoado",
+      "range": {
+        "short": "ALC"
+      },
+      "ranges": {
+        "arc": "Conexão Arcana",
+        "communion": "Communion (Holy)",
+        "cross": "Crossroads (Fae/Malef.)",
+        "eye": "Olhar",
+        "ground": "Ground (R. of the wise)",
+        "line": "Line (Arithmetic)",
+        "network": "Road Network (Mercur.)",
+        "personal": "Pessoal",
+        "presence": "Presence (Fae/Holy)",
+        "prop": "Suporte (Feérico)",
+        "road": "Estrada (Feérico/Mercuriano)",
+        "sight": "Visão",
+        "symbol": "Symbol (Faerie)",
+        "touch": "Toque",
+        "unlimited": "Unlimited (Defixio)",
+        "veil": "Veil of Death (Canaan)",
+        "voice": "Voz",
+        "ww": "Water-way (Atlantean)"
+      },
+      "special": "Especial",
+      "target": {
+        "short": "ALV"
+      },
+      "targets": {
+        "baseSize": {
+          "an": "Tamanho +1 (pônei)",
+          "aq": "Lagoa de 5 metros de altura e 2 de profundidade",
+          "au": "Área de 100 metros de diâmetro",
+          "co": "Humano adulto, de Tamanho até +1",
+          "he": "Planta de aproximadamente 1 metro em todas as direções",
+          "ig": "Uma grande fogueira, ou a lareira de um grande salão",
+          "im": "Humano adulto (tamanho, barulho...)",
+          "label": "Tamanho base",
+          "me": "Mentes não tem tamanho",
+          "te": "Depende do material, de 10 metros cúbicos (areia, argila) para 1 pé cúbico (metais)",
+          "vi": "Magias e efeitos mágicos não possuem tamanho"
+        },
+        "bloodline": "Linhagem (Feérico)",
+        "bound": "Divisa",
+        "bw": "Body-of-Water (Atlant)",
+        "carc": "Arcane Circle (Arithm.)",
+        "circle": "Círculo",
+        "community": "Community (RotW)",
+        "complexity": "Complexidade",
+        "dominion": "Dominion (Faerie)",
+        "dream": "Dream (Dream)",
+        "enhancingReq": "Req. de Enc.",
+        "faith": "Faith (Holy)",
+        "flavor": "Flavor (Sensory)",
+        "group": "Grupo",
+        "hearing": "Audição (In)",
+        "ind": "Individual",
+        "inscription": "Inscription (Runic)",
+        "medium": "Medium (Faerie)",
+        "network": "Road Network (Mercu)",
+        "part": "Parte",
+        "passion": "Passion (Fae/Malef.)",
+        "road": "Road (Mercurian)",
+        "room": "Sala",
+        "scent": "Scent (Sensory)",
+        "sight": "Visão (In)",
+        "sin": "Sin (Holy)",
+        "smell": "Olfato (In)",
+        "sound": "Sound (Sensory)",
+        "spectacle": "Spectacle (Sensory)",
+        "struct": "Estrutura",
+        "subcats": {
+          "intMagic": "Magia Intellego"
+        },
+        "symbol": "Symbol (Faerie)",
+        "targetSize": "Tamanho do alvo",
+        "taste": "Paladar (In)",
+        "texture": "Texture (Sensory)",
+        "touch": "Tato (In)",
+        "unborn": "Unborn Child (Fert.)"
+      }
+    },
+    "system": {
+      "dependencyWarning": "O sistema exige o módulo {name} ter no mínimo a versão {minimum}, a versão atual é {current}. Você pode encontrar erros e bugs, por favor atualize"
+    },
+    "time": {
+      "maxYear": "Ano máximo",
+      "minYear": "Ano mínimo",
+      "troupeSchedule": "Calendário da trupe"
+    },
+    "twilight": {
+      "avoid": "Evitar",
+      "chat": {
+        "botchedControl": "Falha crítica no controle",
+        "botchedUnderstanding": "Falha crítica em entender",
+        "failedControl": "Falha no controle",
+        "failedUnderstanding": "Compreensão falhada",
+        "successControl": "Controle bem-sucedido",
+        "successUnderstanding": "Compreensão bem sucedida"
+      },
+      "complexity": "Role para a complexidade do crepúsculo",
+      "comprehension": {
+        "roll": "Tentativa de compreensão de Twilight"
+      },
+      "control": {
+        "avoid": "Evite Crepúsculo",
+        "question": "Você quer resistir a Crepúsculo?",
+        "roll": "Tentativa de controle de Twilight"
+      },
+      "diary": {
+        "botchedControl": "{name} falhou miseravelmente em controlar a onda de magia (força {str}) e ficou com uma grande dor de cabeça e alguma perda de memória.",
+        "duration": "Tempo gasto no Crepúsculo: {duration}",
+        "embraced": "{name} abraçou a onda de magia e entrou em Crepúsculo",
+        "failedControl": "{name} falhou em controlar a onda de magia (força {str}) e entrou em Crepúsculo",
+        "failedUnderstanding": "{name} não conseguiu compreender a experiência (complexidade: {complexity})",
+        "successControl": "{name} controlou com sucesso a onda de magia (força {str}) e evitou Crepúsculo",
+        "successUnderstanding": "{name} compreendeu a experiência (complexidade: {complexity})"
+      },
+      "durations": {
+        "day": "Um dia (24 horas)",
+        "decades": "{num} anos",
+        "diameter": "Diâmetro (2 min)",
+        "eternal": "Eterno: Crepúsculo Final",
+        "hours": "Duas horas",
+        "moments": "Momentos",
+        "moon": "Uma lua",
+        "season": "Uma estação",
+        "sevenYears": "Sete anos",
+        "sun": "Sol",
+        "year": "Um ano"
+      },
+      "embrace": "Abraçar",
+      "embraceTwilight": "Você quer abraçar o crepúsculo ou tentar evitá-lo?",
+      "episode": "Episódio Crepúsculo",
+      "notification": {
+        "GMOnly": "Apenas guia de história",
+        "continueWithDiary": "Diário aberto para tentar entender"
+      },
+      "reset": "Você deseja redefinir este episódio de Crepúsculo?",
+      "strength": "Role para obter força crepuscular",
+      "tooltips": {
+        "pendingComplexity": "Pendente na rolagem da complexidade de Crepúsculo (somente SG)",
+        "pendingControl": "Pendente na rolagem do controle de Crepúsculo",
+        "pendingStrength": "Teste de força de Crepúsculo pendente (somente SG)",
+        "pendingUnderstanding": "Aguardando a rolagem do entendimento de Crepúsculo",
+        "pendingUnderstanding2": "Pendente rolagem de compreensão de Crepúsculo via entrada no diário"
+      },
+      "vimModifier": "Modificador de pontuação Vim",
+      "warpingPoints": "Pontos de distorção ganhos",
+      "warpingScore": "Pontuação distorcida",
+      "warpingThreshold": "Limite de deformação"
+    }
+  }
+}
