@@ -32,7 +32,7 @@ export class ArM5eItemSheet extends ItemSheet {
     const data = super.getData();
 
 
-    if(data.item.type == "weapon"){
+    if(data.item.type == "weapon" && this.actor != null){
       let abilitiesSelect = {};
 
       const temp = { id: "", name: "N/A" };

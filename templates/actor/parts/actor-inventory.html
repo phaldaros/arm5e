@@ -18,8 +18,8 @@
   </li>
 {{#each actor.data.weapons as |item id|}}
   <li class="item item-value flexrow" data-item-id="{{item._id}}">
-      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span class="flexrow item-title">{{item.name}}</span>
         <label><span class="bold">{{localize "arm5e.sheet.initiative"}}:</span> {{item.data.init}}</label>
         <label><span class="bold">{{localize "arm5e.sheet.attack"}}:</span> {{item.data.atk}}</label>
@@ -49,8 +49,8 @@
 </li>
 {{#each actor.data.armor as |item id|}}
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
-    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
       <span class="flexrow item-title">{{item.name}}</span>
       <label><span class="bold">{{localize "arm5e.sheet.protection"}}:</span> {{item.data.prot}} (+{{ ../data.characteristics.sta.value }})</label>
       <label><span class="bold">{{localize "arm5e.sheet.weight"}}:</span> {{item.data.weight}}</label>
@@ -101,8 +101,8 @@
 </li>
 {{#each actor.data.books as |item id|}}
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
-    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
       <span class="flexrow item-title">{{item.name}}</span>
       <label><span class="bold">{{localize "arm5e.sheet.art"}}:</span> {{item.data.art.value}}</label>
       <label><span class="bold">{{localize "arm5e.sheet.type"}}:</span> {{item.data.type.value}}</label>
@@ -131,8 +131,8 @@
 </li>
 {{#each actor.data.vis as |item id|}}
 <li class="item item-value flexrow" data-item-id="{{item._id}}">
-  <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
   <div  class="flexrow flex-center">
+    <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
     <span class="flexrow item-title">{{item.name}}</span>
     <label><span class="bold">{{localize "arm5e.sheet.art"}}:</span> {{item.data.art.value}}</label>
     <label><span class="bold">{{localize "arm5e.sheet.pawns"}}:</span> {{item.data.pawns}}</label>

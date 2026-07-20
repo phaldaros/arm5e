@@ -60,6 +60,7 @@
   {{#each actor.data.incomingSources as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
       <div  class="flexrow flex-center">
+        <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
         <span  class="flexrow item-title width15">{{item.name}}</span>
         <span></span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type}} </span>

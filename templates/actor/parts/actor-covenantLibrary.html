@@ -13,8 +13,9 @@
   </li>
   {{#each actor.data.magicBooks as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
+    <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+      <span  class="flexrow item-title width15">{{item.name}}</span>
 
         <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type.value}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>
@@ -44,8 +45,9 @@
   </li>
   {{#each actor.data.laboratoryTexts as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})</span>
+    <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+      <span  class="flexrow item-title width15">{{item.name}} ( {{item.data.technique.value}} {{item.data.form.value}} - {{item.data.level}})</span>
       </div>  
       <div class="item-controls">
           <a class="item-control item-edit" title="Edit laboratoryText"><i class="fas fa-edit"></i></a>
@@ -70,8 +72,9 @@
   </li>
   {{#each actor.data.mundaneBooks as |item id|}}
   <li class="item item-value flexrow flex-center" data-attribute="{{id}}" data-item-id="{{item._id}}">
-      <div  class="flexrow flex-center">
-        <span  class="flexrow item-title width15">{{item.name}}</span>
+    <div  class="flexrow flex-center">
+      <div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
+      <span  class="flexrow item-title width15">{{item.name}}</span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.ability"}}: {{item.data.ability}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.type"}}: {{item.data.type.value}} </span>
         <span  class="flexrow bold">{{localize "arm5e.sheet.level"}}: {{item.data.level}} </span>

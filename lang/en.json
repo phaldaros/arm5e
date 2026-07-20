@@ -1,4 +1,8 @@
 {
+
+    "arm5e.sheet.covenant": "Covenant",
+    "arm5e.sheet.covenantName": "Covenant Name",
+
     "arm5e.sheet.player": "Player",
     "arm5e.sheet.npc": "NPC",
     "arm5e.sheet.laboratory": "Laboratory",
@@ -14,9 +18,9 @@
     "arm5e.sheet.virtuesFlaws": "Virtues & Flaws",
     "arm5e.sheet.arts": "Arts",
     "arm5e.sheet.art": "Art",
-    "arm5e.sheet.labarotary": "Laboratory",
+    "arm5e.sheet.laboratory": "Laboratory",
     "arm5e.sheet.inventory": "Inventory",
-    "arm5e.sheet.dairy": "Diary",
+    "arm5e.sheet.diary": "Diary",
     "arm5e.sheet.house": "House",
     "arm5e.sheet.domusMagnus": "Domus Magnus",
     "arm5e.sheet.primus": "Primus",
@@ -168,13 +172,16 @@
     "arm5e.sheet.expensive": "Expensive",
 
     "arm5e.sheet.free": "Free",
-    "arm5e.sheet.major": "Major",
-    "arm5e.sheet.minor": "Minor",
+    "arm5e.sheet.virtueMajor": "Major",
+    "arm5e.sheet.virtueMinor": "Minor",
+    "arm5e.sheet.flawMajor": "Major",
+    "arm5e.sheet.flawMinor": "Minor",
 
     "arm5e.sheet.type": "Type",
     "arm5e.sheet.impact": "Impact",
 
-    "arm5e.sheet.hermetic": "Hermetic",
+    "arm5e.sheet.virtueHermetic": "Hermetic",
+    "arm5e.sheet.flawHermetic": "Hermetic",
     "arm5e.sheet.socialStatus": "Social Status",
     "arm5e.sheet.supernatural": "Supernatural",
     "arm5e.sheet.general": "General",

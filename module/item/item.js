@@ -14,7 +14,7 @@ export class ArM5eItem extends Item {
     let actorData = this.actor ? this.actor.data : {};
     let data = itemData.data;
 
-    if(this.data.type == "weapon"){
+    if(this.data.type == "weapon" && this.actor != null){
       let abilitiesSelect = {};
 
       const temp = { id: "", name: "N/A" };
